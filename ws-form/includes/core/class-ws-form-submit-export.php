@@ -33,7 +33,7 @@
 				false,										// Get meta
 				false,										// Get expanded
 				false,										// Bypass user capability check
-				$clear_hidden_fields, 						// Clear hidden fields
+				$clear_hidden_fields 						// Clear hidden fields
 			);
 
 			return self::process_rows(array($submit), $bypass_user_capability_check, $clear_hidden_fields, $sanitize_rows);

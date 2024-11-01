@@ -267,32 +267,57 @@
 			// All link
 			$count_all = $ws_form_form->db_get_count_by_status();
 			if($count_all) {
-				$class = ($current === 'all' ? ' class="current"' :'');
-				$views['all'] = "<a href=\"{$all_url}\" {$class} >" . __('All', 'ws-form') . " <span class=\"count\">$count_all</span></a>";
+
+				$views['all'] = sprintf(
+
+					'<a href="%s"%s>%s <span class="count">%u</span></a>',
+					esc_attr(add_query_arg('ws-form-status', 'all', $all_url)),
+					($current === 'all' ? ' class="current"' :''),
+					__('All', 'ws-form'),
+					$count_all
+				);
 			}
 
 			// Draft link
 			$count_draft = $ws_form_form->db_get_count_by_status('draft');
 			if($count_draft) {
-				$draft_url = add_query_arg('ws-form-status', 'draft', $all_url);
-				$class = ($current === 'draft' ? ' class="current"' :'');
-				$views['draft'] = "<a href=\"{$draft_url}\" {$class} >" . __('Draft', 'ws-form') . " <span class=\"count\">$count_draft</span></a>";
+
+				$views['draft'] = sprintf(
+
+					'<a href="%s"%s>%s <span class="count">%u</span></a>',
+					esc_attr(add_query_arg('ws-form-status', 'draft', $all_url)),
+					($current === 'draft' ? ' class="current"' :''),
+					__('Draft', 'ws-form'),
+					$count_draft
+				);
 			}
 
 			// Published link
 			$count_publish = $ws_form_form->db_get_count_by_status('publish');
 			if($count_publish) {
-				$publish_url = add_query_arg('ws-form-status', 'publish', $all_url);
-				$class = ($current === 'publish' ? ' class="current"' :'');
-				$views['publish'] = "<a href=\"{$publish_url}\" {$class} >" . __('Published', 'ws-form') . " <span class=\"count\">$count_publish</span></a>";
+
+				$views['publish'] = sprintf(
+
+					'<a href="%s"%s>%s <span class="count">%u</span></a>',
+					esc_attr(add_query_arg('ws-form-status', 'publish', $all_url)),
+					($current === 'publish' ? ' class="current"' :''),
+					__('Published', 'ws-form'),
+					$count_publish
+				);
 			}
 
 			// Trashed link
 			$count_trash = $ws_form_form->db_get_count_by_status('trash');
 			if($count_trash) {
-				$trash_url = add_query_arg('ws-form-status', 'trash', $all_url);
-				$class = ($current === 'trash' ? ' class="current"' :'');
-				$views['trash'] = "<a href=\"{$trash_url}\" {$class} >" . __('Trash', 'ws-form') . " <span class=\"count\">$count_trash</span></a>";
+
+				$views['trash'] = sprintf(
+
+					'<a href="%s"%s>%s <span class="count">%u</span></a>',
+					esc_attr(add_query_arg('ws-form-status', 'trash', $all_url)),
+					($current === 'trash' ? ' class="current"' :''),
+					__('Trash', 'ws-form'),
+					$count_trash
+				);
 			}
 
 			return $views;

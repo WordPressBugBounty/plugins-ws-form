@@ -1644,7 +1644,7 @@
 								' AND %s %s "%s"',
 								esc_sql($field),
 								$operator,
-								esc_sql($value),
+								esc_sql($value)
 							);
 
 							break;

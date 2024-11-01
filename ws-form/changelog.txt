@@ -2,6 +2,10 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.9.245 - 10/31/2924 =
+* Bug Fix: Error fixed for discontinued versions of PHP
+* Bug Fix: CSS security fix
+
 = 1.9.244 - 08/21/2024 =
 * Bug Fix: ISO 8601 formatted date 'c'
 * Bug Fix: ITI phone number validation (For error -99)
