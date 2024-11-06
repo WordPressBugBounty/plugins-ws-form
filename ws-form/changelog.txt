@@ -2,7 +2,10 @@
 
 Some changes only applicable to WS Form PRO.
 
-= 1.9.245 - 10/31/2924 =
+= 1.9.246 - 11/05/2024 =
+* Added: #date_format variable
+
+= 1.9.245 - 10/31/2024 =
 * Bug Fix: Error fixed for discontinued versions of PHP
 * Bug Fix: CSS security fix
 

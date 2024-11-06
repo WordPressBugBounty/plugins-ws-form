@@ -285,6 +285,17 @@
 			// Get form
 			ws_this.get_form(function() {
 
+				// Check styler is enabled
+				if(typeof(ws_this.styler) === 'function') {
+
+					// Check if preview form ID matches form being rendered
+					if(parseInt(ws_this.get_query_var('wsf_preview_form_id'), 10) == ws_this.form.id) {
+
+						// Render styler
+						ws_this.styler(parseInt(ws_this.get_object_meta_value(ws_this.form, 'style_id', 0), 10));
+					}
+				}
+
 				// Initialize
 				ws_this.init();
 			});
@@ -294,6 +305,8 @@
 	// Configuration objects
 	$.WS_Form.configured = false;
 	$.WS_Form.css_rendered = false;
+	$.WS_Form.styler;
+	$.WS_Form.styler_rendered = false;
 	$.WS_Form.settings_plugin;
 	$.WS_Form.settings_form = null;
 	$.WS_Form.frameworks;
@@ -887,7 +900,7 @@
 		}
 
 		// Attributes
-		var attributes_array = [];
+		var attributes = '';
 
 		// Get current framework
 		var framework = this.get_framework();
@@ -899,8 +912,8 @@
 		// Is section repeatable?
 		if(section_repeatable && !this.is_admin) {
 
-			attributes_array.push('data-repeatable');
-			attributes_array.push('data-repeatable-index="' + this.esc_attr(section_repeatable_index) + '"');
+			attributes = this.attribute_modify(attributes, 'data-repeatable', '', true);
+			attributes = this.attribute_modify(attributes, 'data-repeatable-index', section_repeatable_index, true);
 		}
 
 		// Add any base classes
@@ -953,7 +966,7 @@
 
 					case 'change_blur' :
 
-						attributes_array.push('data-wsf-section-validated-class="' + class_validated_array.join(' ') + '"');
+						attributes = this.attribute_modify(attributes, 'data-wsf-section-validated-class', class_validated_array.join(' '), true);
 
 						break;
 				}
@@ -985,11 +998,28 @@
 
 			// Disabled
 			var disabled_section = this.get_object_meta_value(section, 'disabled_section', '');
-			if(disabled_section == 'on') { attributes_array.push('disabled aria-disabled="true"'); }
+			if(disabled_section == 'on') {
+
+				attributes = this.attribute_modify(attributes, 'disabled', '', true);
+				attributes = this.attribute_modify(attributes, 'aria-disabled', 'true', true);
+			}
 
 			// Hidden
 			var hidden_section = this.get_object_meta_value(section, 'hidden_section', '');
-			if(hidden_section == 'on') { attributes_array.push('style="display: none;" aria-live="polite" aria-hidden="true"'); }
+			if(hidden_section == 'on') {
+
+				attributes = this.attribute_modify(attributes, 'style', 'display: none;', true);
+				attributes = this.attribute_modify(attributes, 'aria-live', 'polite', true);
+				attributes = this.attribute_modify(attributes, 'aria-hidden', 'true', true);
+			}
+
+			// ARIA label
+			var aria_label = this.get_object_meta_value(section, 'aria_label', '');
+			if(aria_label == '') { aria_label = section.label; }
+			attributes = this.attribute_modify(attributes, 'aria-label', aria_label, true);
+
+			// Custom attributes
+			attributes = this.custom_attributes(attributes, section, 'section', section_repeatable_index);
 		}
 
 		// HTML
@@ -999,7 +1029,7 @@
 		var mask = framework_sections['mask_single'];
 		var mask_values = {
 
-			'attributes': ((attributes_array.length > 0) ? ' ' : '') + attributes_array.join(' '),
+			'attributes': (attributes ? ' ' : '') + attributes,
 			'class': class_array.join(' '),
 			'column_count' : $.WS_Form.settings_plugin.framework_column_count,
 			'data_id': section.id,
@@ -1012,6 +1042,42 @@
 		var section_html_parsed = this.comment_html(this.language('comment_section') + ': ' + section_label) + this.mask_parse(mask, mask_values) + this.comment_html(this.language('comment_section') + ': ' + section_label, true);
 
 		return section_html_parsed;
+	}
+
+	// Process custom attributes
+	$.WS_Form.prototype.custom_attributes = function(attributes, object, object_type, section_repeatable_index) {
+
+		var mask_field_attributes_custom = this.get_object_meta_value(object, 'custom_attributes', false);
+
+		if(
+			(mask_field_attributes_custom !== false) &&
+			(typeof(mask_field_attributes_custom) === 'object') &&
+			(mask_field_attributes_custom.length > 0)
+		) {
+
+			// If object is not a field then set object to false ready for parse_variables_process
+			if(object_type != 'field') { object = false; }
+
+			// Run through each custom attribute
+			for(var mask_field_attributes_custom_index in mask_field_attributes_custom) {
+
+				if(!mask_field_attributes_custom.hasOwnProperty(mask_field_attributes_custom_index)) { continue; }
+
+				// Get custom attribute name/value pair
+				var mask_field_attribute_custom = mask_field_attributes_custom[mask_field_attributes_custom_index];
+
+				// Check attribute name exists
+				if(mask_field_attribute_custom.custom_attribute_name == '') { continue; }
+
+				// Parse custom attribute value
+				mask_field_attribute_custom.custom_attribute_value = this.parse_variables_process(mask_field_attribute_custom.custom_attribute_value, section_repeatable_index, false, object).output;
+
+				// Build attribute (Only add value if one is specified)
+				attributes = this.attribute_modify(attributes, mask_field_attribute_custom.custom_attribute_name, mask_field_attribute_custom.custom_attribute_value, true);
+			}
+		}
+
+		return attributes;
 	}
 
 	// Get fields html
@@ -1425,6 +1491,11 @@
 			return_html = this.replace_all(return_html, '\n', '&#13;');	// Preserves new lines at beginning of textarea elements
 		}
 		return return_html;
+	}
+
+	$.WS_Form.prototype.esc_html_undo = function(value) {
+
+		return new DOMParser().parseFromString(value, 'text/html').documentElement.textContent;
 	}
 
 	// Escape attribute
@@ -2132,6 +2203,29 @@
 										parsed_variable = field_max_label;
 										break;
 								}
+
+								break;
+
+							case 'date_format' :
+
+								// Parse date
+								var date_input = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth).output;
+
+								// Parse date format
+								var date_format = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth).output;
+
+								// Get date
+								var parsed_variable_date = new Date(date_input);
+
+								// Check date
+								if(isNaN(parsed_variable_date.getTime())) {
+
+									this.error('error_parse_variable_syntax_error_date_format', date_input, 'error-parse-variables');
+									return this.parse_variables_process_error(this.language('error_parse_variable_syntax_error_date_format', date_input));
+								}
+
+								// Process date
+								parsed_variable = this.date_format(parsed_variable_date, date_format);
 
 								break;
 
@@ -5044,8 +5138,7 @@
 			if(class_field != '') { class_field_array.push(class_field); }
 
 			// Full width class for buttons
-			var class_field_full_button_remove = this.get_object_meta_value(field, 'class_field_full_button_remove', '');
-			if(!class_field_full_button_remove) {
+			if(!this.get_object_meta_value(field, 'class_field_full_button_remove', '')) {
 
 				var class_field_full_button = this.get_field_value_fallback(field.type, label_position, 'class_field_full_button', '', false, sub_type);
 				if(typeof(class_field_full_button) === 'object') {
@@ -5338,32 +5431,8 @@
 		// Attributes to inherit at a row level
 		var mask_values_row_attributes_source = '';
 
-		// Field - Attributes - Custom
-		var mask_field_attributes_custom = this.get_object_meta_value(field, 'custom_attributes', false);
-		if(
-			(mask_field_attributes_custom !== false) &&
-			(typeof(mask_field_attributes_custom) === 'object') &&
-			(mask_field_attributes_custom.length > 0)
-		) {
-
-			// Run through each custom attribute
-			for(var mask_field_attributes_custom_index in mask_field_attributes_custom) {
-
-				if(!mask_field_attributes_custom.hasOwnProperty(mask_field_attributes_custom_index)) { continue; }
-
-				// Get custom attribute name/value pair
-				var mask_field_attribute_custom = mask_field_attributes_custom[mask_field_attributes_custom_index];
-
-				// Check attribute name exists
-				if(mask_field_attribute_custom.custom_attribute_name == '') { continue; }
-
-				// Parse custom attribute value
-				mask_field_attribute_custom.custom_attribute_value = this.parse_variables_process(mask_field_attribute_custom.custom_attribute_value, section_repeatable_index, false, field).output;
-
-				// Build attribute (Only add value if one is specified)
-				mask_values_field['attributes'] = this.attribute_modify(mask_values_field['attributes'], mask_field_attribute_custom.custom_attribute_name, mask_field_attribute_custom.custom_attribute_value, true);
-			}
-		}
+		// Custom attributes
+		mask_values_field['attributes'] = this.custom_attributes(mask_values_field['attributes'], field, 'field', section_repeatable_index);
 
 		// Field - Attributes - Orientation
 		var orientation = this.get_object_meta_value(field, 'orientation', false);
@@ -6977,6 +7046,7 @@
 				break;
 
 			case 'd.m.Y' :
+			case 'j.n.Y' :
 
 				dm_to_md_date_separator = '.';
 				break;
@@ -7121,11 +7191,11 @@
 			case 'datetime-local' :
 			case 'date' :
 
+				// Convert to m/d/Y format for JavaScript Date class
 				switch(format_date) {
 
 					case 'd/m/Y' :
 
-						// Convert to m/d/Y format for JavaScript Date class
 						var date_time_array = (date.indexOf(' ') !== -1) ? [date.substring(0, date.indexOf(' ')), date.substring(date.indexOf(' ') + 1)] : [date];
 						var date_array = date_time_array[0].split('/');
 						date = date_array[1] + '/' + date_array[0] + '/' + date_array[2] + ((typeof(date_time_array[1]) !== 'undefined') ? ' ' + date_time_array[1] : '');
@@ -7133,15 +7203,14 @@
 
 					case 'd-m-Y' :
 
-						// Convert to d-m-Y format for JavaScript Date class
 						var date_time_array = (date.indexOf(' ') !== -1) ? [date.substring(0, date.indexOf(' ')), date.substring(date.indexOf(' ') + 1)] : [date];
 						var date_array = date_time_array.split('-');
 						date = date_array[1] + '/' + date_array[0] + '/' + date_array[2] + ((typeof(date_time_array[1]) !== 'undefined') ? ' ' + date_time_array[1] : '');
 						break;
 
 					case 'd.m.Y' :
+					case 'j.n.Y' :
 
-						// Convert to d.m.Y format for JavaScript Date class
 						var date_time_array = (date.indexOf(' ') !== -1) ? [date.substring(0, date.indexOf(' ')), date.substring(date.indexOf(' ') + 1)] : [date];
 						var date_array = date_time_array[0].split('.');
 						date = date_array[1] + '/' + date_array[0] + '/' + date_array[2] + ((typeof(date_time_array[1]) !== 'undefined') ? ' ' + date_time_array[1] : '');

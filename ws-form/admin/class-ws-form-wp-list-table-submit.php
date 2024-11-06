@@ -528,7 +528,7 @@
 			$all_url = remove_query_arg(array('ws-form-status', 'paged'));
 
 			// All link
-			$count_all = $ws_form_submit->db_get_count_by_status($this->form_id);
+			$count_all = $ws_form_form->db_get_count_by_status();
 			if($count_all) {
 
 				$views['all'] = sprintf(
@@ -542,7 +542,7 @@
 			}
 
 			// Draft link
-			$count_draft = $ws_form_submit->db_get_count_by_status($this->form_id, 'draft');
+			$count_draft = $ws_form_form->db_get_count_by_status('draft');
 			if($count_draft) {
 
 				$views['draft'] = sprintf(
@@ -550,13 +550,13 @@
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
 					esc_attr(add_query_arg('ws-form-status', 'draft', $all_url)),
 					($current === 'draft' ? ' class="current"' :''),
-					__('In Progress', 'ws-form'),
+					__('Draft', 'ws-form'),
 					$count_draft
 				);
 			}
 
 			// Published link
-			$count_publish = $ws_form_submit->db_get_count_by_status($this->form_id, 'publish');
+			$count_publish = $ws_form_form->db_get_count_by_status('publish');
 			if($count_publish) {
 
 				$views['publish'] = sprintf(
@@ -564,27 +564,13 @@
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
 					esc_attr(add_query_arg('ws-form-status', 'publish', $all_url)),
 					($current === 'publish' ? ' class="current"' :''),
-					__('Submitted', 'ws-form'),
+					__('Published', 'ws-form'),
 					$count_publish
 				);
 			}
 
-			// Spam link
-			$count_spam = $ws_form_submit->db_get_count_by_status($this->form_id, 'spam');
-			if($count_spam) {
-
-				$views['spam'] = sprintf(
-
-					'<a href="%s"%s>%s <span class="count">%u</span></a>',
-					esc_attr(add_query_arg('ws-form-status', 'spam', $all_url)),
-					($current === 'spam' ? ' class="current"' :''),
-					__('Spam', 'ws-form'),
-					$count_spam
-				);
-			}
-
 			// Trashed link
-			$count_trash = $ws_form_submit->db_get_count_by_status($this->form_id, 'trash');
+			$count_trash = $ws_form_form->db_get_count_by_status('trash');
 			if($count_trash) {
 
 				$views['trash'] = sprintf(

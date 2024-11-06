@@ -2577,6 +2577,29 @@
 
 											break;
 
+
+										case 'date_format' :
+
+											// Parse date
+											$date_input = self::parse_variables_process($variable_attribute_array[0], $form, $submit, $content_type, $scope, $section_repeatable_index, $section_row_number, $exclude_secure_nested_parse, $action_config, $depth + 1);
+
+											// Parse date format
+											$date_format = self::parse_variables_process($variable_attribute_array[1], $form, $submit, $content_type, $scope, $section_repeatable_index, $section_row_number, $exclude_secure_nested_parse, $action_config, $depth + 1);
+
+											// Get time
+											$time_input = strtotime($date_input);
+
+											// Check time
+											if($time_input === false) {
+
+												self::throw_error(sprintf(__('Syntax error, invalid input date: %s', 'ws-form'), $date_input));
+											}
+
+											// Process date
+											$parsed_variable = gmdate($date_format, $time_input);
+
+											break;
+
 										case 'field' :
 										case 'field_float' :
 										case 'field_date_format' :
@@ -2805,51 +2828,6 @@
 
 											// Format
 											$parsed_variable = number_format($num, $decimals, $decimal_separator, $thousands_separator);
-
-											break;
-
-										case 'date_format' :
-
-											// Get date
-											$date_input = $variable_attribute_array[0];
-
-													// Get date/time type
-													$input_type_datetime = self::get_object_meta_value($field, 'input_type_datetime', 'date');
-
-													// Get input date
-													$parsed_variable_date = self::get_date_by_type($parsed_variable, (object) $field);
-
-													// Ensure parsed_variable_date is a date
-													if($parsed_variable_date !== false) {
-
-														// Check for format
-														if(
-															isset($variable_attribute_array[2]) &&
-															($variable_attribute_array[2] != '')
-														) {
-
-															$format_date = $variable_attribute_array[2];
-
-														} else {
-
-															// Get date format
-															$format_date = self::get_object_meta_value($field, 'format_date_input', get_option('date_format'));
-														}
-
-														if(empty($format_date)) { $format_date = get_option('date_format'); }
-
-														// Check for offset
-														$seconds_offset = intval(self::parse_variables_process($variable_attribute_array[1], $form, $submit, $content_type, $scope, $section_repeatable_index, $section_row_number, $exclude_secure_nested_parse, $action_config, $depth + 1));
-
-														// Process date
-														$parsed_variable = gmdate($format_date, strtotime($parsed_variable_date) + $seconds_offset);
-													}
-
-											// Get format
-											$date_format = $variable_attribute_array[1];
-
-											// Format
-											$parsed_variable = gmdate($date_input, $date_format);
 
 											break;
 

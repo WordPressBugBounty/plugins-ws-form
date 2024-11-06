@@ -3891,6 +3891,7 @@
 					'error_parse_variable_syntax_error_self_ref'			=>	__('Syntax error, fields cannot contain references to themselves: %s', 'ws-form'),
 					'error_parse_variable_syntax_error_field_date_offset'	=>	__('Syntax error, field ID %s is not a date field', 'ws-form'),
 					'error_parse_variable_syntax_error_eval'				=>	__('Syntax error, field ID: %s', 'ws-form'),
+					'error_parse_variable_syntax_error_date_format'			=>	__('Syntax error, invalid input date: %s', 'ws-form'),
 				)
 			);
 
@@ -9749,6 +9750,32 @@
 							'usage' => array('client')
 						)
 					)
+				),
+
+				// Date
+				'date' 	=> array(
+
+					'label'		=> __('Date', 'ws-form'),
+
+					'variables'	=> array(
+
+						'date_format' => array(
+
+							'label' => __('Format a date string', 'ws-form'),
+							'attributes' => array(
+
+								array('id' => 'date', 'type' => 'string'),
+								array('id' => 'format', 'type' => 'string', 'required' => false, 'default' => get_option('date_format'))
+							),
+							'description' => sprintf(
+
+								__('Return a date formatted according to the PHP date function. The date supplied must be in a supported format such as ISO 8601, for example: %s. For field related date formatting, see: #field_date_format', 'ws-form'),
+								date('c')
+							),
+							'usage' => array('client', 'action'),
+							'repair_group' => 'field'
+						),
+					),
 				),
 
 				// Session storage
