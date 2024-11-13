@@ -2,6 +2,9 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.9.249 - 11/12/2024 =
+* Added: WordPress 6.7 compatibility testing
+
 = 1.9.248 - 11/06/2024 =
 * Bug Fix: Fix to submission view types
 
