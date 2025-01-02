@@ -7,7 +7,7 @@
 
 			// These are set here to avoid problems if someone has both plugins installed and migrates from basic to PRO without de-activating the basic edition first. This ensures the PRO options are set up.
 			$ws_form_edition = 'basic';
-			$ws_form_version = '1.10.1';
+			$ws_form_version = '1.10.2';
 
 			$run_version_check = true;
 
@@ -311,7 +311,7 @@
 				KEY label (label(191)),
 				KEY date_added (date_added),
 				KEY status (status),
-				KEY `default` (`default` DESC)
+				KEY `default` (`default`)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
