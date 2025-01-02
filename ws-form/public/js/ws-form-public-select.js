@@ -2,12 +2,25 @@
 
 	'use strict';
 
+	// Select
+	$.WS_Form.prototype.form_select = function() {
+
+		if(ws_form_settings.styler_enabled) {
+
+			// Add span for down arrow
+			$('select:not([multiple]):not([size]):not([data-wsf-select2])', this.form_canvas_obj).each(function () {
+
+				$(this).after('<span class="wsf-select-arrow"></span>');
+			});
+		}
+	}
+
 	// Select2
 	$.WS_Form.prototype.form_select2 = function(obj) {
 
-		if(typeof(obj) === 'undefined') { obj = $('[data-wsf-select2]', this.form_canvas_obj); }
-
 		var ws_this = this;
+
+		if(typeof(obj) === 'undefined') { obj = $('[data-wsf-select2]', this.form_canvas_obj); }
 
 		// Check Select2 is loaded
 		if(typeof(jQuery().select2) !== 'undefined') {

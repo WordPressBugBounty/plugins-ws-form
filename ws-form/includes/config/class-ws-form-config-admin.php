@@ -315,6 +315,13 @@
 
 									'label'			=>	__('Basic', 'ws-form'),
 									'meta_keys'	=>	array('label_render_off', 'hidden_section'),
+
+									'fieldsets'	=>	array(
+										array(
+											'label'		=>	__('Accessibility', 'ws-form'),
+											'meta_keys'	=>	array('aria_label')
+										),
+									)
 								),
 
 								// Tab: Advanced
@@ -341,6 +348,11 @@
 											'label'		=>	__('Validation', 'ws-form'),
 											'meta_keys'	=>	array('validate_inline')
 										),
+										array(
+											'label'		=>	__('Custom Attributes', 'ws-form'),
+											'meta_keys'	=>	array('custom_attributes')
+										),
+
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
 											'meta_keys'	=> array('breakpoint_sizes'),
@@ -611,7 +623,7 @@
 
 					// Section templates
 					'section_selector_import'			=>	__('Import Section', 'ws-form'),
-					'section_selector_drop_zone'		=>	sprintf('%s<br /><a href="%s" target="_blank">%s</a>', __('Drag a form JSON file here', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/section-library/', 'siderbar_toolbox'), __('Learn more', 'ws-form')),
+					'section_selector_drop_zone'		=>	sprintf('%s<br /><a href="%s" target="_blank">%s</a>', __('Drag a form JSON file here', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/section-library/', 'sidebar_toolbox'), __('Learn more', 'ws-form')),
 					'section_download'					=>	__('Export Section', 'ws-form'),
 					'section_delete'					=>	__('Delete Section', 'ws-form'),
 
@@ -713,27 +725,27 @@
 					'field_selector_upgrade'	=>	sprintf(
 
 						__('<a href="%s" target="_blank">Upgrade to PRO</a> for <a href="%s" target="_blank">55+ field types</a>, <a href="%s" target="_blank">conditional logic</a>, <a href="%s" target="_blank">calculated fields</a> and more!', 'ws-form'),
-						WS_Form_Common::get_plugin_website_url('', 'siderbar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase_category/field-types/', 'siderbar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'siderbar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/calculated-fields/', 'siderbar_toolbox')
+						WS_Form_Common::get_plugin_website_url('', 'sidebar_toolbox'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase_category/field-types/', 'sidebar_toolbox'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/calculated-fields/', 'sidebar_toolbox')
 					),
 
 					'section_selector_upgrade'	=>	sprintf(
 
 						__('<a href="%s" target="_blank">Upgrade to PRO</a> for <a href="%s" target="_blank">more sections</a>, <a href="%s" target="_blank">conditional logic</a>, <a href="%s" target="_blank">calculated fields</a> and more!', 'ws-form'),
-						WS_Form_Common::get_plugin_website_url('', 'siderbar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/section-library/', 'siderbar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'siderbar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/calculated-fields/', 'siderbar_toolbox')
+						WS_Form_Common::get_plugin_website_url('', 'sidebar_toolbox'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/section-library/', 'sidebar_toolbox'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/calculated-fields/', 'sidebar_toolbox')
 					),
 
 					'action_upgrade'			=>	sprintf(
 
 						__('<a href="%s" target="_blank">Upgrade to PRO</a> for <a href="%s" target="_blank">more actions</a> and the ability to run actions using <a href="%s" target="_blank">conditional logic</a>.', 'ws-form'),
 						WS_Form_Common::get_plugin_website_url('', 'siderbar_action'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase_category/actions/', 'siderbar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'siderbar_toolbox')
+						WS_Form_Common::get_plugin_website_url('/knowledgebase_category/actions/', 'sidebar_toolbox'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox')
 					),
 					// Sidebar - Expand / Contract
 					'data_sidebar_expand'					=>	__('Expand', 'ws-form'),
@@ -852,7 +864,7 @@
 					'usage_action'			=>	__('Actions', 'ws-form'),
 					'usage_datagrid'		=>	__('Data Grid', 'ws-form'),
 					'usage_texthelp'		=>	__('Text Help', 'ws-form'),
-					'usage_progresshelp'	=>	__('Progress Help', 'ws-form')
+					'usage_progresshelp'	=>	__('Progress Help', 'ws-form'),
 				)
 			);
 
@@ -871,6 +883,16 @@
 
 				$method = $buttons['method'];
 				$settings_form_admin['field']['buttons'][$key]['icon'] = self::get_icon_16_svg($method);
+			}
+
+			// Styler
+			if(WS_Form_Common::styler_enabled()) {
+
+				array_unshift($settings_form_admin['sidebars']['form']['meta']['fieldsets']['styling']['fieldsets'], array(
+
+					'label'		=>	__('Style', 'ws-form'),
+					'meta_keys'	=> array('style_id')
+				));
 			}
 
 			// Apply filter

@@ -8,6 +8,8 @@
 		public $table_name;
 		public $date_ranges;
 
+		public $counts_cache = false;
+
 		public function __construct() {
 
 			global $wpdb;
@@ -195,6 +197,51 @@
 				'count_view' => $count_view_total,
 				'count_save' => $count_save_total,
 				'count_submit' => $count_submit_total
+			);
+		}
+
+		// Get counts cached
+		public function db_get_counts_cached() {
+
+			self::db_check_form_id();
+
+			if($this->counts_cache === false) {
+
+				global $wpdb;
+
+				// Build count cache
+				$this->counts_cache = array();
+
+				// Get counts for each form
+				$sql = "SELECT form_id, SUM(count_view) AS count_view_total, SUM(count_save) AS count_save_total, SUM(count_submit) AS count_submit_total FROM {$this->table_name} GROUP BY form_id;";
+				$rows = $wpdb->get_results($sql);
+
+				if(is_null($rows)) {
+
+					return array(
+
+						'count_view' => 0,
+						'count_save' => 0,
+						'count_submit' => 0
+					);
+				}
+
+				foreach($rows as $row) {
+
+					$this->counts_cache[absint($row->form_id)] = array(
+
+						'count_view' => absint($row->count_view_total),
+						'count_save' => absint($row->count_save_total),
+						'count_submit' => absint($row->count_submit_total)
+					);
+				}
+			}
+
+			return isset($this->counts_cache[$this->form_id]) ? $this->counts_cache[$this->form_id] : array(
+
+				'count_view' => 0,
+				'count_save' => 0,
+				'count_submit' => 0
 			);
 		}
 

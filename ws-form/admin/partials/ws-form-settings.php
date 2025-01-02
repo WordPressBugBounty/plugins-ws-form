@@ -386,6 +386,7 @@
 			if($config['type'] == 'hidden') { continue; }
 
 			// Condition
+			$read_only = false;
 			if(isset($config['condition'])) {
 
 				$condition_result = true;
@@ -398,7 +399,7 @@
 						break;
 					}
 				}
-				if(!$condition_result) { continue; }
+				if(!$condition_result) { $read_only = true; }
 			}
 
 			// Minimum
@@ -420,7 +421,7 @@
 				$maximum = false;
 			}
 ?>
-<tr>
+<tr<?php if($read_only) { ?> class="wsf-read-only"<?php } ?>>
 <?php
 			if($config['label'] !== false) {
 ?>

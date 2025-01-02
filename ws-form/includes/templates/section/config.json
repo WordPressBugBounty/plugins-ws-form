@@ -150,7 +150,8 @@
 				"id"					:	"date-from-to",
 				"label" 				: 	"Date From / To",
 				"file_json"				:	"wsf-section-date-from-to.json",
-				"preview_url"			:	false
+				"preview_url"			:	false,
+				"pro_required"			:	true
 			},
 
 			{

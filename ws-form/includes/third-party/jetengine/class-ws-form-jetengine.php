@@ -1045,6 +1045,8 @@
 				case 'time' :
 				case 'datetime-local' :
 
+					if($meta_value == '') { return ''; }
+
 					$jetengine_field_settings = self::jetengine_get_field_settings($jetengine_field_name, $context);
 					if($jetengine_field_settings === false) { return ''; }
 

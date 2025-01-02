@@ -162,10 +162,10 @@
 </div>
 
 <!-- Submit export process -->
-<div id="wsf-form-submit-export-popup" class="wsf-form-popup-progress">
-	<div class="wsf-form-popup-progress-backdrop"></div>
-	<div class="wsf-form-popup-progress-inner"><img src="<?php WS_Form_Common::echo_esc_attr(WS_FORM_PLUGIN_DIR_URL . 'admin/images/loader.gif'); ?>" class="wsf-responsive" width="256" height="256" alt="<?php esc_html_e('Your export is being created...', 'ws-form'); ?>" /><p><?php esc_html_e('Your export is being created...', 'ws-form'); ?></p>
-		<div class="wsf-form-popup-progress-bar"><progress class="wsf-progress" max="100" value="0"></progress></div>
+<div id="wsf-submit-export-popup" class="wsf-popup-progress">
+	<div class="wsf-popup-progress-backdrop"></div>
+	<div class="wsf-popup-progress-inner"><img src="<?php WS_Form_Common::echo_esc_attr(WS_FORM_PLUGIN_DIR_URL . 'admin/images/loader.gif'); ?>" class="wsf-responsive" width="256" height="256" alt="<?php esc_html_e('Your export is being created...', 'ws-form'); ?>" /><p><?php esc_html_e('Your export is being created...', 'ws-form'); ?></p>
+		<div class="wsf-popup-progress-bar"><progress class="wsf-progress" max="100" value="0"></progress></div>
 	</div>
 </div>
 <!-- /Submit export process -->

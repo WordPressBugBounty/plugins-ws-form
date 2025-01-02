@@ -61,6 +61,7 @@
 			this.form_tab_group_index_set(index);
 		}
 
+
 		var framework_tabs = this.framework['tabs']['public'];
 
 		if(typeof(framework_tabs.event_js) !== 'undefined') {

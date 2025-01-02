@@ -269,11 +269,24 @@
 			this.form_obj = this.form_canvas_obj;
 		}
 
-		// Move wsf-form class to outer form tag
+		// Move attributes and classes to outer form tag
 		if(this.form_obj[0] != this.form_canvas_obj[0]) {
 
+			// Add wsf-form to form
 			if(!this.form_obj.hasClass('wsf-form')) { this.form_obj.addClass('wsf-form'); }
+
+			// Remove wsf-form from canvas
 			if(this.form_canvas_obj.hasClass('wsf-form')) { this.form_canvas_obj.removeClass('wsf-form'); }
+
+			// Move data-wsf-style-id from canvas to form
+			if(typeof(this.form_canvas_obj.attr('data-wsf-style-id')) !== 'undefined') {
+
+				// Add data-wsf-style-id to form
+				this.form_obj.attr('data-wsf-style-id', this.form_canvas_obj.attr('data-wsf-style-id'));
+
+				// Remove data-wsf-style-id from canvas
+				this.form_canvas_obj.removeAttr('data-wsf-style-id');
+			}
 		}
 
 		// Empty form canvas
@@ -284,17 +297,6 @@
 
 			// Get form
 			ws_this.get_form(function() {
-
-				// Check styler is enabled
-				if(typeof(ws_this.styler) === 'function') {
-
-					// Check if preview form ID matches form being rendered
-					if(parseInt(ws_this.get_query_var('wsf_preview_form_id'), 10) == ws_this.form.id) {
-
-						// Render styler
-						ws_this.styler(parseInt(ws_this.get_object_meta_value(ws_this.form, 'style_id', 0), 10));
-					}
-				}
 
 				// Initialize
 				ws_this.init();
@@ -408,13 +410,13 @@
 		$('#' + this.form_obj_id).attr('data-id', this.form_id);
 
 		if(
-			(typeof(wsf_form_json) === 'undefined') ||
-			(typeof(wsf_form_json[this.form_id]) === 'undefined')
+			(typeof(window.wsf_form_json) === 'undefined') ||
+			(typeof(window.wsf_form_json[this.form_id]) === 'undefined')
 		) {
 
 			// Get form from API
 			var ws_this = this;
-			this.api_call('form/' + this.form_id + '/full', 'GET', false, function(response) {
+			this.api_call('form/' + this.form_id + '/full/?wsf_fp=true', 'GET', false, function(response) {
 
 				// Store form data
 				ws_this.form = response.form;
@@ -436,7 +438,7 @@
 		} else {
 
 			// Get form from dom
-			this.form = wsf_form_json[this.form_id];
+			this.form = window.wsf_form_json[this.form_id];
 
 			// Build data cache
 			this.data_cache_build();
@@ -475,10 +477,17 @@
 
 		// Render form
 		this.form_render();
-	
+
 		// Timer - Duration
 		this.timer_duration = new Date() - this.timer_start;
 
+	}
+
+	// Get form style ID
+	$.WS_Form.prototype.get_form_style_id = function() {
+
+		var framework_id = this.is_admin ? 'ws-form' : $.WS_Form.settings_plugin.framework;
+		return $.WS_Form.frameworks.types[framework_id];
 	}
 
 	// Get current framework
@@ -1432,7 +1441,7 @@
 		// Add field types
 		for (var group_key in $.WS_Form.field_types) {
 
-	  		var group = $.WS_Form.field_types[group_key];
+			var group = $.WS_Form.field_types[group_key];
 			var types = group.types;
 
 			// Add field types
@@ -1595,17 +1604,13 @@
 
 		if(typeof(end) === 'undefined') { end = false; }
 
-		var comment_html = $.WS_Form.settings_plugin.comments_html ? ('<!-- ' + (end ? '/' : '') + string + " -->\n") + (end ? "\n" : '') : '';
-
-		return comment_html;
+		return ('<!-- ' + (end ? '/' : '') + string + " -->\n") + (end ? "\n" : '');
 	}
 
 	// HTML encode string
 	$.WS_Form.prototype.comment_css = function(string) {
 
-		var comment_css = $.WS_Form.settings_plugin.comments_css ? ("\t/* " + string + " */\n") : '';
-
-		return comment_css;
+		return ("\t/* " + string + " */\n");
 	}
 
 	// Get object value
@@ -2452,16 +2457,16 @@
 											case 'cart_price' :
 											case 'cart_total' :
 
-										 		var parsed_variable_total = 0;
+												var parsed_variable_total = 0;
 
-										 		// Get value, processing currency
-										 		for(var parsed_variable_index in parsed_variable) {
+												// Get value, processing currency
+												for(var parsed_variable_index in parsed_variable) {
 
 													if(!parsed_variable.hasOwnProperty(parsed_variable_index)) { continue; }
 													parsed_variable_total += this.get_number(parsed_variable[parsed_variable_index], 0, true);
-										 		}
+												}
 
-										 		// Round to e-commerce decimals setting (This removes floating point errors, e.g. 123.4500000000002)
+												// Round to e-commerce decimals setting (This removes floating point errors, e.g. 123.4500000000002)
 												var price_decimals = parseInt($.WS_Form.settings_plugin.price_decimals, 10);
 												parsed_variable = this.get_number(parsed_variable_total, 0, false, price_decimals);
 
@@ -2486,15 +2491,15 @@
 
 											default :
 
-										 		var parsed_variable_total = 0;
+												var parsed_variable_total = 0;
 
-										 		// Get value, ignoring currency
-										 		for(var parsed_variable_index in parsed_variable) {
+												// Get value, ignoring currency
+												for(var parsed_variable_index in parsed_variable) {
 
 													if(!parsed_variable.hasOwnProperty(parsed_variable_index)) { continue; }
 
 													parsed_variable_total += ws_this.get_number(parsed_variable[parsed_variable_index], 0, false);
-										 		}
+												}
 
 												parsed_variable = parsed_variable_total;
 										}
@@ -2721,7 +2726,7 @@
 
 							case 'query_var' :
 
-								parsed_variable = this.get_query_var(variable_attribute_array[0]);
+								parsed_variable = this.get_query_var(variable_attribute_array[0], variable_attribute_array[1]);
 								break;
 
 							case 'checkbox_label' :
@@ -4078,10 +4083,12 @@
 	}
 
 	// Get query variable
-	$.WS_Form.prototype.get_query_var = function(query_var) {
+	$.WS_Form.prototype.get_query_var = function(query_var, default_value) {
+
+		if(!default_value) { default_value = ''; }
 
 		var url = window.location.href;
-		if(!url) { return ''; }
+		if(!url) { return default_value; }
 
 		try {
 
@@ -4089,8 +4096,8 @@
 			var regex = new RegExp("[?&]" + query_var + "(=([^&#]*)|&|#|$)");
 			var results = regex.exec(url);
 
-			if (!results) return '';
-			if (!results[2]) return '';
+			if (!results) return default_value;
+			if (!results[2]) return default_value;
 
 			try {
 
@@ -4098,12 +4105,12 @@
 
 			} catch(e) {
 
-				return '';
+				return default_value;
 			}
 
 		} catch(e) {
 
-			return '';
+			return default_value;
 		}
 	}
 
@@ -5161,6 +5168,28 @@
 				}
 			}
 
+			// Checkbox and radio styles
+			switch(field.type) {
+
+				case 'checkbox' :
+				case 'radio' :
+
+					switch(this.get_object_meta_value(field, field.type + '_style', '')) {
+
+						case 'button' : class_field_array.push('wsf-button'); break;
+						case 'button-full' : class_field_array.push('wsf-button wsf-button-full'); break;
+						case 'switch' : class_field_array.push('wsf-switch'); break;
+						case 'color' : class_field_array.push('wsf-color'); break;
+						case 'color-circle' : class_field_array.push('wsf-color wsf-circle'); break;
+						case 'image' : class_field_array.push('wsf-image'); break;
+						case 'image-circle' : class_field_array.push('wsf-image wsf-circle'); break;
+						case 'image-responsive' : class_field_array.push('wsf-image wsf-responsive wsf-image-full'); break;
+						case 'image-circle-responsive' : class_field_array.push('wsf-image wsf-responsive wsf-image-full wsf-circle'); break;
+					}
+
+					break;
+			}
+
 
 			// Input group
 			if(
@@ -5416,7 +5445,7 @@
 		}
 
 		if(mask_field_attributes.length > 0) {
- 			var get_attributes_return = this.get_attributes(field, mask_field_attributes, false, section_repeatable_index);
+			var get_attributes_return = this.get_attributes(field, mask_field_attributes, false, section_repeatable_index);
 			mask_values_field['attributes'] += ' '  + get_attributes_return.attributes;
 			mask_field_attributes = get_attributes_return.mask_attributes;
 			attributes_values_field = get_attributes_return.attribute_values;
@@ -5463,7 +5492,7 @@
 		}
 
 		if(mask_field_label_attributes.length > 0) {
- 			var get_attributes_return = this.get_attributes(field, mask_field_label_attributes, false, section_repeatable_index);
+			var get_attributes_return = this.get_attributes(field, mask_field_label_attributes, false, section_repeatable_index);
 			mask_values_field_label['attributes'] += get_attributes_return.attributes;
 			mask_field_label_attributes = get_attributes_return.mask_attributes;
 		}
@@ -5678,11 +5707,11 @@
 				if(mask_values_group_label_render) {
 
 					var mask_values_group_label = $.extend(true, {}, mask_values_field);
-					mask_values_group_label['group_label'] = this.esc_html(data_group.label);
+					mask_values_group_label['group_label'] = data_group.label;
 					mask_values_group_label['label_row_id'] = this.form_id_prefix + 'label-' + field.id + '-group-' + data_group_index + repeatable_suffix;
 
 					// Parse group label mask to build group_label value
-					mask_values_group['group_label'] = this.mask_parse(mask_group_label, mask_values_group_label);
+					mask_values_group['group_label'] = this.parse_variables_process(this.mask_parse(mask_group_label, mask_values_group_label), section_repeatable_index).output;
 
 				} else {
 
@@ -5945,7 +5974,7 @@
 
 						var mask_row_attributes = ($.extend(true, [], this.get_field_value_fallback(field.type, label_position, 'mask_row_attributes', [], false, sub_type)));
 						if(mask_row_attributes.length > 0) {
-				 			var get_attributes_return = this.get_attributes(field, mask_row_attributes, extra_values, section_repeatable_index);
+							var get_attributes_return = this.get_attributes(field, mask_row_attributes, extra_values, section_repeatable_index);
 							mask_values_row['attributes'] += ' ' + get_attributes_return.attributes;
 						}
 
@@ -5993,7 +6022,7 @@
 						}
 
 						if(mask_row_label_attributes.length > 0) {
-				 			var get_attributes_return = this.get_attributes(field, mask_row_label_attributes, extra_values, section_repeatable_index);
+							var get_attributes_return = this.get_attributes(field, mask_row_label_attributes, extra_values, section_repeatable_index);
 							mask_values_row_label['attributes'] += ' ' + get_attributes_return.attributes;
 						}
 
@@ -6034,7 +6063,7 @@
 						}
 
 						if(mask_row_field_attributes.length > 0) {
-				 			var get_attributes_return = this.get_attributes(field, mask_row_field_attributes, extra_values, section_repeatable_index);
+							var get_attributes_return = this.get_attributes(field, mask_row_field_attributes, extra_values, section_repeatable_index);
 							mask_values_row_field['attributes'] += ' ' + get_attributes_return.attributes;
 						}
 						if(mask_values_row_field['attributes'] != '') { mask_values_row_field['attributes'] = ' ' + mask_values_row_field['attributes']; }
@@ -6195,10 +6224,10 @@
 			if(class_field != '') { extra_values['class'] += ' '  + class_field.trim(); }
 
 			// Process attributes
- 			var get_attributes_return = this.get_attributes(field, mask_field_attributes, extra_values, section_repeatable_index);
+			var get_attributes_return = this.get_attributes(field, mask_field_attributes, extra_values, section_repeatable_index);
 
- 			// Store as mask value
- 			if(get_attributes_return.attributes != '') { mask_values_field['attributes'] += ' ' + get_attributes_return.attributes; }
+			// Store as mask value
+			if(get_attributes_return.attributes != '') { mask_values_field['attributes'] += ' ' + get_attributes_return.attributes; }
 		}
 
 		// Field Label - Attributes
@@ -6211,10 +6240,10 @@
 			if(class_field_label_array !== false) { extra_values['class'] = class_field_label_array.join(' '); }
 
 			// Process attributes
- 			var get_attributes_return = this.get_attributes(field, mask_field_label_attributes, extra_values, section_repeatable_index);
+			var get_attributes_return = this.get_attributes(field, mask_field_label_attributes, extra_values, section_repeatable_index);
 
- 			// Store as mask value
- 			if(get_attributes_return.attributes != '') { mask_values_field_label['attributes'] += ' ' + get_attributes_return.attributes; }
+			// Store as mask value
+			if(get_attributes_return.attributes != '') { mask_values_field_label['attributes'] += ' ' + get_attributes_return.attributes; }
 
 		}
 
@@ -6942,9 +6971,9 @@
 
 		var arr_out = [];
 
-        for(var key in arr) {
+		for(var key in arr) {
 
-        	// Check array has property key
+			// Check array has property key
 			if(!arr.hasOwnProperty(key)) { continue; }
 
 			// Strip null values

@@ -59,6 +59,10 @@
 				$config['settings_form'] = self::get_settings_form_public();
 				$config['frameworks'] = self::get_frameworks();
 				$config['parse_variables'] = self::get_parse_variables();
+				// Styler
+				if(WS_Form_Common::styler_visible_public()) {
+					$config['styler'] = self::get_styler();
+				}
 			}
 
 			// Add generic settings (Shared between both admin and public, e.g. language)
@@ -107,6 +111,27 @@
 			include_once 'config/class-ws-form-config-admin.php';
 			$ws_form_config_admin = new WS_Form_Config_Admin();
 			return $ws_form_config_admin->get_patterns();
+		}
+
+		public static function get_styler() {
+
+			include_once 'config/class-ws-form-config-styler.php';
+			$ws_form_config_styler = new WS_Form_Config_Styler();
+			return $ws_form_config_styler->get_styler();
+		}
+
+		public static function get_skins($include_conversational = true) {
+
+			include_once 'config/class-ws-form-config-customize.php';
+			$ws_form_config_customize = new WS_Form_Config_Customize();
+			return $ws_form_config_customize->get_skins($include_conversational);
+		}
+
+		public static function get_customize() {
+
+			include_once 'config/class-ws-form-config-customize.php';
+			$ws_form_config_customize = new WS_Form_Config_Customize();
+			return $ws_form_config_customize->get_customize();
 		}
 		public static function get_settings_form_public() {
 
@@ -311,7 +336,7 @@
 							),
 							'label_inside'		=>	true,
 							'mappable'			=>	true,
-							'keyword'			=>	__('paragraph visual editor tinymce codemirror', 'ws-form'),
+							'keyword'			=>	__('paragraph visual editor tinymce codemirror area textarea', 'ws-form'),
 							'events'			=>	array(
 
 								'event'				=>	'change input',
@@ -320,7 +345,7 @@
 
 							// Fields
 							'mask_field'					=>	'#pre_label#pre_help<textarea id="#id" name="#name"#attributes>#value</textarea>#post_label#invalid_feedback#post_help',
-							'mask_field_attributes'			=>	array('class', 'disabled', 'readonly', 'required', 'min_length', 'max_length', 'min_length_words', 'max_length_words', 'input_mask', 'input_mask_validate', 'placeholder', 'spellcheck', 'cols', 'rows', 'aria_describedby', 'aria_labelledby', 'aria_label', 'custom_attributes', 'hidden_bypass', 'autocomplete', 'transform', 'inputmode'),
+							'mask_field_attributes'			=>	array('class', 'disabled', 'readonly', 'required', 'min_length', 'max_length', 'min_length_words', 'max_length_words', 'input_mask', 'input_mask_validate', 'placeholder', 'spellcheck', 'cols', 'rows', 'aria_describedby', 'aria_labelledby', 'aria_label', 'custom_attributes', 'hidden_bypass', 'autocomplete', 'transform', 'inputmode', 'field_sizing_content'),
 							'mask_field_label'				=>	'<label id="#label_id" for="#id"#attributes>#label</label>',
 							'mask_field_label_attributes'	=>	array('class'),
 
@@ -330,7 +355,7 @@
 								'basic'	=>	array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('label_render', 'required', 'hidden', 'default_value_textarea', 'placeholder', 'help_count_char_word_with_default', 'autocomplete', 'inputmode'),
+									'meta_keys'		=>	array('label_render', 'required', 'hidden', 'default_value_textarea', 'placeholder', 'help_count_char_word', 'autocomplete', 'inputmode'),
 
 									'fieldsets'		=>	array(
 
@@ -365,7 +390,7 @@
 
 										array(
 											'label'		=>	__('Style', 'ws-form'),
-											'meta_keys'	=>	array('label_position', 'label_column_width', 'help_position', 'class_single_vertical_align', 'rows', 'cols')
+											'meta_keys'	=>	array('label_position', 'label_column_width', 'help_position', 'class_single_vertical_align', 'rows', 'cols', 'field_sizing_content')
 										),
 
 										array(
@@ -873,7 +898,7 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'default_value_url', 'placeholder', 'help_count_char', 'autocomplete_url'),
+									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'default_value_url', 'placeholder_url', 'help_count_char', 'autocomplete_url'),
 
 									'fieldsets'	=>	array(
 
@@ -1050,7 +1075,7 @@
 
 										array(
 											'label'		=>	__('Style', 'ws-form'),
-											'meta_keys'	=>	array('label_position', 'label_column_width', 'help_position', 'class_single_vertical_align')
+											'meta_keys'	=>	array('label_position_no_inside', 'label_column_width', 'help_position', 'class_single_vertical_align')
 										),
 
 										array(
@@ -1129,7 +1154,7 @@
 							'mask_row_label'			=>	'<label id="#label_row_id" for="#row_id"#attributes>#row_field#checkbox_field_label#required</label>#invalid_feedback',
 							'mask_row_label_attributes'	=>	array('class'),
 							'mask_row_field'			=>	'<input type="checkbox" id="#row_id" name="#name" value="#checkbox_field_value"#attributes />',
-							'mask_row_field_attributes'	=>	array('class', 'default', 'disabled', 'required', 'aria_labelledby', 'hidden_bypass'),
+							'mask_row_field_attributes'	=>	array('class', 'default', 'disabled', 'required', 'aria_labelledby', 'hidden_bypass', 'checkbox_style'),
 							'mask_row_lookups'			=>	array('checkbox_field_value', 'checkbox_field_label', 'checkbox_field_parse_variable', 'checkbox_cascade_field_filter'),
 							'datagrid_column_value'		=>	'checkbox_field_value',
 							'mask_row_default' 			=>	' checked',
@@ -1146,7 +1171,7 @@
 								'basic'	=> array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render_off', 'hidden', 'select_all', 'select_all_label', 'default_value_checkbox', 'help'),
+									'meta_keys'	=>	array('label_render', 'hidden', 'select_all', 'select_all_label', 'default_value_checkbox', 'help'),
 
 									'fieldsets'	=>	array(
 
@@ -1181,7 +1206,7 @@
 
 										array(
 											'label'		=>	__('Style', 'ws-form'),
-											'meta_keys'	=>	array('label_position', 'label_column_width', 'help_position', 'class_single_vertical_align')
+											'meta_keys'	=>	array('label_position_no_inside', 'label_column_width', 'help_position', 'class_single_vertical_align', 'checkbox_style')
 										),
 
 										array(
@@ -1250,12 +1275,12 @@
 							'mask_group_label'			=>	'<legend>#group_label</legend>',
 
 							// Rows
-							'mask_row'					=>	'<div#attributes>#row_label</div>',
+							'mask_row'					=>	'<div data-row-radio#attributes>#row_label</div>',
 							'mask_row_attributes'		=>	array('class'),
 							'mask_row_label'			=>	'<label id="#label_row_id" for="#row_id" data-label-required-id="#label_id"#attributes>#row_field#radio_field_label</label>#invalid_feedback',
 							'mask_row_label_attributes'	=>	array('class'),
 							'mask_row_field'			=>	'<input type="radio" id="#row_id" name="#name" value="#radio_field_value"#attributes />',
-							'mask_row_field_attributes'	=>	array('class', 'default', 'disabled', 'required_row', 'aria_labelledby', 'hidden', 'hidden_bypass'),
+							'mask_row_field_attributes'	=>	array('class', 'default', 'disabled', 'required_row', 'aria_labelledby', 'hidden', 'hidden_bypass', 'radio_style'),
 							'mask_row_lookups'			=>	array('radio_field_value', 'radio_field_label', 'radio_field_parse_variable', 'radio_cascade_field_filter'),
 							'datagrid_column_value'		=>	'radio_field_value',
 							'mask_row_default' 			=>	' checked',
@@ -1310,7 +1335,7 @@
 
 										array(
 											'label'		=>	__('Style', 'ws-form'),
-											'meta_keys'	=>	array('label_position', 'label_column_width', 'help_position', 'class_single_vertical_align')
+											'meta_keys'	=>	array('label_position_no_inside', 'label_column_width', 'help_position', 'class_single_vertical_align', 'radio_style')
 										),
 
 										array(
@@ -2521,467 +2546,6 @@
 			return $field_types;
 		}
 
-		// Configuration - Skins
-		public static function get_skins() {
-
-			$skins = array(
-
-				'ws_form'			=>	array(
-
-					'label'				=>	WS_FORM_NAME_GENERIC,
-
-					'setting_id_prefix'	=>	'',
-
-					'defaults'			=>	array(
-
-						// Colors
-						'color_default'					=> '#000000',
-						'color_default_inverted' 		=> '#ffffff',
-						'color_default_light' 			=> '#767676',
-						'color_default_lighter' 		=> '#ceced2',
-						'color_default_lightest' 		=> '#efeff4',
-						'color_primary'					=> '#205493',
-						'color_secondary'				=> '#5b616b',
-						'color_success'					=> '#2e8540',
-						'color_information'				=> '#02bfe7',
-						'color_warning'					=> '#fdb81e',
-						'color_danger'					=> '#bb0000',
-						'color_form_background'			=> '',
-
-						// Typography
-						'font_family'					=> 'inherit',
-						'font_size' 					=> 16,
-						'font_size_large'				=> 18,
-						'font_size_small'				=> 14,
-						'font_weight'					=> 'inherit',
-						'line_height'					=> 1.4,
-
-						// Border
-						'border'						=> true,
-						'border_width'					=> 1,
-						'border_style'					=> 'solid',
-						'border_radius'					=> 4,
-
-						// Box shadow
-						'box_shadow'					=> true,
-						'box_shadow_width' 				=> 4,
-						'box_shadow_color_opacity'		=> 0.25,
-
-						// Transition
-						'transition'					=> true,
-						'transition_speed'				=> 200,
-						'transition_timing_function'	=> 'ease-in-out',
-
-						// Advanced
-						'grid_gutter'					=> 20,
-						'spacing'						=> 10,
-						'spacing_small'					=> 5,
-						'label_position_inside_mode'	=> 'move',
-						'label_column_inside_scale'		=> 0.9
-					)
-				)
-
-			);
-
-			foreach($skins as $skin_id => $skin) {
-
-				$defaults = $skins[$skin_id]['defaults'];
-
-				$skins[$skin_id]['defaults']['label_column_inside_offset'] = -(round(($defaults['font_size'] * $defaults['line_height']) / 2) + 10 - $defaults['border_width']);
-			}
-
-			// Apply filter
-			$skins = apply_filters('wsf_config_skins', $skins);
-
-			return $skins;
-		}
-
-		// Configuration - Customize
-		public static function get_customize() {
-
-			$customize	=	array(
-
-				'colors'	=>	array(
-
-					'heading'	=>	__('Colors', 'ws-form'),
-
-					'fields'	=>	array(
-
-						'color_default'	=> array(
-
-							'label'			=>	__('Default', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Labels, field values, and help text.', 'ws-form')
-						),
-
-						'color_default_inverted'	=> array(
-
-							'label'			=>	__('Inverted', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Field backgrounds and button text.', 'ws-form')
-						),
-
-						'color_default_light'	=> array(
-
-							'label'			=>	__('Light', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Placeholders and disabled field values.', 'ws-form')
-						),
-
-						'color_default_lighter'	=> array(
-
-							'label'			=>	__('Lighter', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Field borders and buttons.', 'ws-form')
-						),
-
-						'color_default_lightest'	=> array(
-
-							'label'			=>	__('Lightest', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Range slider backgrounds, progress bar backgrounds, and disabled field backgrounds.', 'ws-form')
-						),
-
-						'color_primary'	=> array(
-
-							'label'			=>	__('Primary', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Checkboxes, radios, range sliders, progress bars, and submit buttons.')
-						),
-
-						'color_secondary'	=> array(
-
-							'label'			=>	__('Secondary', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Secondary elements such as a reset button.', 'ws-form')
-						),
-
-						'color_success'	=> array(
-
-							'label'			=>	__('Success', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Completed progress bars, save buttons, and success messages.')
-						),
-
-						'color_information'	=> array(
-
-							'label'			=>	__('Information', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Information messages.', 'ws-form')
-						),
-
-						'color_warning'	=> array(
-
-							'label'			=>	__('Warning', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Warning messages.', 'ws-form')
-						),
-
-						'color_danger'	=> array(
-
-							'label'			=>	__('Danger', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Required field labels, invalid field borders, invalid feedback, remove repeatable section buttons, and danger messages.')
-						),
-
-						'color_form_background'	=> array(
-
-							'label'			=>	__('Form Background', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Leave blank for none.', 'ws-form')
-						)
-					)
-				),
-
-				'typography'	=>	array(
-
-					'heading'		=>	__('Typography', 'ws-form'),
-
-					'fields'		=>	array(
-
-						'font_family'	=> array(
-
-							'label'			=>	__('Font Family', 'ws-form'),
-							'type'			=>	'text',
-							'description'	=>	__('Font family used throughout the form.', 'ws-form')
-						),
-
-						'font_size'	=> array(
-
-							'label'			=>	__('Font Size', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Regular font size used on the form.', 'ws-form')
-						),
-
-						'font_size_large'	=> array(
-
-							'label'			=>	__('Font Size Large', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Font size used for section labels and fieldset legends.', 'ws-form')
-						),
-
-						'font_size_small'	=> array(
-
-							'label'			=>	__('Font Size Small', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Font size used for help text and invalid feedback text.', 'ws-form')
-						),
-
-						'font_weight'	=>	array(
-
-							'label'			=>	__('Font Weight', 'ws-form'),
-							'type'			=>	'select',
-							'choices'		=>	array(
-
-								'inherit'	=>	__('Inherit', 'ws-form'),
-								'normal'	=>	__('Normal', 'ws-form'),
-								'bold'		=>	__('Bold', 'ws-form'),
-								'100'		=>	'100',
-								'200'		=>	'200',
-								'300'		=>	'300',
-								'400'		=>	'400 (' . __('Normal', 'ws-form') . ')',
-								'500'		=>	'500',
-								'600'		=>	'600',
-								'700'		=>	'700 (' . __('Bold', 'ws-form') . ')',
-								'800'		=>	'800',
-								'900'		=>	'900'
-							),
-							'description'	=>	__('Font weight used throughout the form.', 'ws-form')
-						),
-
-
-						'line_height'	=> array(
-
-							'label'			=>	__('Line Height', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Line height used throughout form.', 'ws-form')
-						)
-					)
-				),
-
-				'borders'	=>	array(
-
-					'heading'		=>	__('Borders', 'ws-form'),
-
-					'fields'		=>	array(
-
-						'border'	=>	array(
-
-							'label'			=>	__('Enabled', 'ws-form'),
-							'type'			=>	'checkbox',
-							'description'	=>	__('When checked, borders will be shown.', 'ws-form')
-							),
-
-						'border_width'	=> array(
-
-							'label'			=>	__('Width', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Specify the width of borders used through the form. For example, borders around form fields.', 'ws-form')
-						),
-
-						'border_style'	=>	array(
-
-							'label'			=>	__('Style', 'ws-form'),
-							'type'			=>	'select',
-							'choices'		=>	array(
-
-								'dashed'	=>	__('Dashed', 'ws-form'),
-								'dotted'	=>	__('Dotted', 'ws-form'),
-								'double'	=>	__('Double', 'ws-form'),
-								'groove'	=>	__('Groove', 'ws-form'),
-								'inset'		=>	__('Inset', 'ws-form'),
-								'outset'	=>	__('Outset', 'ws-form'),
-								'ridge'		=>	__('Ridge', 'ws-form'),
-								'solid'		=>	__('Solid', 'ws-form')
-							),
-							'description'	=>	__('Border style used throughout the form.', 'ws-form')
-						),
-
-						'border_radius'	=> array(
-
-							'label'			=>	__('Radius', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Border radius used throughout the form.', 'ws-form')
-						)
-					)
-				),
-
-				'box_shadows'	=>	array(
-
-					'heading'		=>	__('Box Shadows', 'ws-form'),
-
-					'fields'		=>	array(
-
-						'box_shadow'	=>	array(
-
-							'label'			=>	__('Enabled', 'ws-form'),
-							'type'			=>	'checkbox',
-							'description'	=>	__('When checked, box shadows will be shown.', 'ws-form')
-							),
-
-						'box_shadow_width'	=> array(
-
-							'label'			=>	__('Width', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Specify the width of box shadows used through the form. For example, box shadows around focused form fields.', 'ws-form')
-						),
-
-						'box_shadow_color_opacity'	=> array(
-
-							'label'			=>	__('Opacity', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Specify the opacity of box shadows used through the form. (e.g. 0 is fully transparent and 1 is fully opaque)', 'ws-form')
-						)
-					)
-				),
-
-				'transitions'	=>	array(
-
-					'heading'	=>	__('Transitions', 'ws-form'),
-
-					'fields'	=>	array(
-
-						'transition'	=>	array(
-
-							'label'			=>	__('Enabled', 'ws-form'),
-							'type'			=>	'checkbox',
-							'description'	=>	__('When checked, transitions will be used on the form.', 'ws-form')
-						),
-
-						'transition_speed'	=> array(
-
-							'label'			=>	__('Speed', 'ws-form'),
-							'type'			=>	'number',
-							'help'			=>	__('Value in milliseconds.', 'ws-form'),
-							'description'	=>	__('Transition speed in milliseconds.', 'ws-form')
-						),
-
-						'transition_timing_function'	=>	array(
-
-							'label'			=>	__('Timing Function', 'ws-form'),
-							'type'			=>	'select',
-							'choices'		=>	array(
-
-								'ease'			=>	__('Ease', 'ws-form'),
-								'ease-in'		=>	__('Ease In', 'ws-form'),
-								'ease-in-out'	=>	__('Ease In Out', 'ws-form'),
-								'ease-out'		=>	__('Ease Out', 'ws-form'),
-								'linear'		=>	__('Linear', 'ws-form'),
-								'step-end'		=>	__('Step End', 'ws-form'),
-								'step-start'	=>	__('Step Start', 'ws-form')
-							),
-							'description'	=>	__('Speed curve of the transition effect.', 'ws-form')
-						)
-					)
-				),
-
-				'advanced'	=>	array(
-
-					'heading'	=>	__('Advanced', 'ws-form'),
-
-					'fields'	=>	array(
-
-						'grid_gutter'	=> array(
-
-							'label'			=>	__('Grid Gutter', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Sets the distance between form elements.', 'ws-form')
-						),
-
-						'spacing'	=> array(
-
-							'label'			=>	__('Spacing', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Spacing used for section legends, checkboxes, and radios', 'ws-form')
-						),
-
-						'spacing_small'	=> array(
-
-							'label'			=>	__('Spacing Small', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Spacing used for field labels, help text, invalid feedback, ratings, and section icons.', 'ws-form')
-						),
-
-						'label_position_inside_mode'	=>	array(
-
-							'label'			=>	__('Inside Label Behavior', 'ws-form'),
-							'type'			=>	'select',
-							'choices'		=>	array(
-
-								'move'			=>	__('Move', 'ws-form'),
-								'hide'			=>	__('Hide', 'ws-form')
-							),
-							'description'	=>	__('Select the behavior of the label if content is present in a field.', 'ws-form')
-						),
-
-						'label_column_inside_offset'	=>	array(
-
-							'label'			=>	__('Inside Label Vertical Offset', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('How many pixels to move the label vertically if content is present in a field.', 'ws-form')
-						),
-
-						'label_column_inside_scale'	=>	array(
-
-							'label'			=>	__('Inside Label Scale', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('What factor to scale the label by if content is present in a field.', 'ws-form')
-						)
-					)
-				),
-
-				'conversational'	=>	array(
-
-					'heading'	=>	__('Conversational', 'ws-form'),
-
-					'skin_ids'	=>	array('ws_form_conv'),
-
-					'fields'	=>	array(
-
-						'conversational_max_width'	=> array(
-
-							'label'			=>	__('Form Maximum Width', 'ws-form'),
-							'type'			=>	'text',
-							'description'	=>	__('Sets the max width of the conversational form.', 'ws-form')
-						),
-
-						'conversational_color_background'	=> array(
-
-							'label'			=>	__('Background Color', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Leave blank for none.', 'ws-form')
-						),
-
-						'conversational_color_background_nav'	=> array(
-
-							'label'			=>	__('Navigation Background Color', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Leave blank for none.', 'ws-form')
-						),
-
-						'conversational_color_foreground_nav'	=> array(
-
-							'label'			=>	__('Navigation Foreground Color', 'ws-form'),
-							'type'			=>	'color',
-							'description'	=>	__('Leave blank for none.', 'ws-form')
-						),
-
-						'conversational_opacity_section_inactive'	=> array(
-
-							'label'			=>	__('Inactive Section Opacity', 'ws-form'),
-							'type'			=>	'number',
-							'description'	=>	__('Leave blank for none.', 'ws-form')
-						)
-					)
-				)
-			);
-
-			// Apply filter
-			$customize = apply_filters('wsf_config_customize', $customize);
-
-			return $customize;
-		}
-
 		// Configuration - Options
 		public static function get_options($process_options = true) {
 
@@ -3013,7 +2577,14 @@
 									'help'				=>	__('Page template used for previewing forms.', 'ws-form'),
 									'options'			=>	array(),	// Populated below
 									'default'			=>	''
-								),
+								)
+							)
+						),
+
+						'debug'	=>	array(
+
+							'heading'		=>	__('Debug', 'ws-form'),
+							'fields'	=>	array(
 							)
 						),
 
@@ -3152,117 +2723,19 @@
 					'label'		=>	__('Advanced', 'ws-form'),
 					'groups'	=>	array(
 
-						'markup'	=>	array(
-
-							'heading'		=>	__('Markup', 'ws-form'),
-							'fields'	=>	array(
-
-								'framework'	=> array(
-
-									'label'			=>	__('Framework', 'ws-form'),
-									'type'			=>	'select',
-									'help'			=>	__('Framework used for rendering the front-end HTML.', 'ws-form'),
-									'options'		=>	array(),	// Populated below
-									'default'		=>	WS_FORM_DEFAULT_FRAMEWORK,
-									'button'		=>	'wsf-framework-detect',
-									'public'		=>	true,
-									'data_change'	=>	'reload'
-								),
-
-								'framework_column_count'	=> array(
-
-									'label'		=>	__('Column Count', 'ws-form'),
-									'type'		=>	'select_number',
-									'default'	=>	12,
-									'minimum'	=>	1,
-									'maximum'	=>	24,
-									'public'	=>	true,
-									'absint'	=>	true,
-									'help'		=>	__('We recommend leaving this setting at 12.', 'ws-form')
-								),
-
-								'css_layout'	=>	array(
-
-									'label'		=>	__('Framework CSS', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should the framework CSS be rendered?', 'ws-form'),
-									'default'	=>	true,
-									'public'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-
-								'css_skin'	=>	array(
-
-									'label'		=>	__('Skin CSS', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	sprintf(__('Should the skin CSS be rendered? <a href="%s">Click here</a> to customize the skin.', 'ws-form'), admin_url('customize.php?return=%2Fwp-admin%2Fadmin.php%3Fpage%3Dws-form-settings%26tab%3Dappearance')),
-									'default'	=>	true,
-									'public'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-
-								'comments_html'	=>	array(
-
-									'label'		=>	__('HTML Comments', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should HTML include comments?', 'ws-form'),
-									'default'	=>	false,
-									'public'	=>	true
-								),
-
-								'comments_css'	=>	array(
-
-									'label'		=>	__('CSS Comments', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should CSS include comments?', 'ws-form'),
-									'default'	=>	false,
-									'public'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-							)
-						),
-
 						'performance'	=>	array(
 
 							'heading'		=>	__('Performance', 'ws-form'),
 							'fields'	=>	array(
 
-								'css_compile'	=>	array(
-
-									'label'		=>	__('Compile CSS', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should CSS be precompiled? (Recommended)', 'ws-form'),
-									'default'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-
-								'css_inline'	=>	array(
-
-									'label'		=>	__('Inline CSS', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should CSS be rendered inline? (Recommended)', 'ws-form'),
-									'default'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-
-								'css_cache_duration'	=>	array(
-
-									'label'		=>	__('CSS Cache Duration', 'ws-form'),
-									'type'		=>	'number',
-									'help'		=>	__('Expires header duration in seconds for CSS.', 'ws-form'),
-									'default'	=>	WS_FORM_CSS_CACHE_DURATION_DEFAULT,
-									'public'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-
 								'enqueue_dynamic'	=>	array(
 
 									'label'		=>	__('Dynamic Enqueuing', 'ws-form'),
 									'type'		=>	'checkbox',
-									'help'		=>	__('Should WS Form dynamically enqueue form components? (Recommended)', 'ws-form'),
+									'help'		=>	__('Should WS Form dynamically enqueue CSS and JavaScript components? (Recommended)', 'ws-form'),
 									'default'	=>	true
-								)
-							)
+								),
+							),
 						),
 
 						'javascript'	=>	array(
@@ -3462,6 +2935,125 @@
 						),
 
 					)
+				),
+
+				// Styling
+				'styling'	=> array(
+
+					'label'		=>	__('Styling', 'ws-form'),
+					'groups'	=>	array(
+
+						'markup'	=>	array(
+
+							'heading'		=>	__('Markup', 'ws-form'),
+							'fields'	=>	array(
+
+								'framework'	=> array(
+
+									'label'			=>	__('Framework', 'ws-form'),
+									'type'			=>	'select',
+									'help'			=>	__('Framework used for rendering the front-end HTML.', 'ws-form'),
+									'options'		=>	array(),	// Populated below
+									'default'		=>	WS_FORM_DEFAULT_FRAMEWORK,
+									'button'		=>	'wsf-framework-detect',
+									'public'		=>	true,
+									'data_change'	=>	'reload'
+								),
+
+								'css_layout'	=>	array(
+
+									'label'		=>	__('Layout CSS', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	__('Should the layout CSS be rendered?', 'ws-form'),
+									'default'	=>	true,
+									'public'	=>	true,
+									'condition'	=>	array('framework' => 'ws-form')
+								),
+
+								(WS_Form_Common::styler_enabled() ? 'css_style' : 'css_skin')	=>	array(
+
+									'label'		=>	(WS_Form_Common::styler_enabled() ? __('Style CSS', 'ws-form') : __('Skin CSS', 'ws-form')),
+									'type'		=>	'checkbox',
+									'help'		=>	sprintf(
+
+										'%s <a href="%s">%s</a>',
+										__('Should the style CSS be rendered?', 'ws-form'),
+										WS_Form_Common::styler_enabled() ? WS_Form_Common::get_admin_url('ws-form-style') : admin_url('customize.php?return=%2Fwp-admin%2Fadmin.php%3Fpage%3Dws-form-settings%26tab%3Dappearance'),
+										WS_Form_Common::styler_enabled() ? __('View styles', 'ws-form') : __('Customize', 'ws-form'),
+									),
+									'default'	=>	true,
+									'public'	=>	true,
+									'condition'	=>	array('framework' => 'ws-form')
+								),
+/*
+								'comments_html'	=>	array(
+
+									'label'		=>	__('HTML Comments', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	__('Should HTML include comments?', 'ws-form'),
+									'default'	=>	false,
+									'public'	=>	true
+								),
+
+								'comments_css'	=>	array(
+
+									'label'		=>	__('CSS Comments', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	__('Should CSS include comments?', 'ws-form'),
+									'default'	=>	false,
+									'public'	=>	true,
+									'condition'	=>	array('framework' => 'ws-form')
+								),
+*/
+								'framework_column_count'	=> array(
+
+									'label'		=>	__('Column Count', 'ws-form'),
+									'type'		=>	'select_number',
+									'default'	=>	12,
+									'minimum'	=>	1,
+									'maximum'	=>	24,
+									'public'	=>	true,
+									'absint'	=>	true,
+									'help'		=>	__('We recommend leaving this setting at 12.', 'ws-form')
+								),
+							),
+						),
+
+						'performance'	=>	array(
+
+							'heading'		=>	__('Performance', 'ws-form'),
+							'fields'	=>	array(
+
+								'css_compile'	=>	array(
+
+									'label'		=>	__('Compile CSS', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	__('Should CSS be precompiled? (Recommended)', 'ws-form'),
+									'default'	=>	true,
+									'condition'	=>	array('framework' => 'ws-form')
+								),
+
+								'css_inline'	=>	array(
+
+									'label'		=>	__('Inline CSS', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	__('Should CSS be rendered inline? (Recommended)', 'ws-form'),
+									'default'	=>	true,
+									'condition'	=>	array('framework' => 'ws-form')
+								),
+
+								'css_cache_duration'	=>	array(
+
+									'label'		=>	__('CSS Cache Duration', 'ws-form'),
+									'type'		=>	'number',
+									'help'		=>	__('Expires header duration in seconds for CSS.', 'ws-form'),
+									'default'	=>	WS_FORM_CSS_CACHE_DURATION_DEFAULT,
+									'public'	=>	true,
+									'condition'	=>	array('framework' => 'ws-form')
+								),
+							)
+						),
+					),
 				),
 
 				// System
@@ -3780,7 +3372,7 @@
 			foreach($frameworks['types'] as $key => $framework) {
 
 				$name = $framework['name'];
-				$options['advanced']['groups']['markup']['fields']['framework']['options'][$key] = array('text' => $name);
+				$options['styling']['groups']['markup']['fields']['framework']['options'][$key] = array('text' => $name);
 			}
 
 			// Templates
@@ -3890,7 +3482,7 @@
 					'error_parse_variable_syntax_error_group_id'			=>	__('Syntax error, invalid tab ID: %s', 'ws-form'),
 					'error_parse_variable_syntax_error_self_ref'			=>	__('Syntax error, fields cannot contain references to themselves: %s', 'ws-form'),
 					'error_parse_variable_syntax_error_field_date_offset'	=>	__('Syntax error, field ID %s is not a date field', 'ws-form'),
-					'error_parse_variable_syntax_error_eval'				=>	__('Syntax error, field ID: %s', 'ws-form'),
+					'error_parse_variable_syntax_error_calc'				=>	__('Syntax error: field ID: %s', 'ws-form'),
 					'error_parse_variable_syntax_error_date_format'			=>	__('Syntax error, invalid input date: %s', 'ws-form'),
 				)
 			);
@@ -3967,21 +3559,33 @@
 			// Check cache
 			if(isset(self::$meta_keys[$public])) { return self::$meta_keys[$public]; }
 
+			// Label position options
 			$label_position = array(
 
 				array('value' => 'top', 'text' => __('Top', 'ws-form')),
 				array('value' => 'right', 'text' => __('Right', 'ws-form')),
 				array('value' => 'bottom', 'text' => __('Bottom', 'ws-form')),
 				array('value' => 'left', 'text' => __('Left', 'ws-form')),
-				array('value' => 'inside', 'text' => __('Inside', 'ws-form'))
+				array('value' => 'inside', 'text' => __('Inside', 'ws-form')),
 			);
 
+			// Lave position options (No inside)
+			$label_position_no_inside = array(
+
+				array('value' => 'top', 'text' => __('Top', 'ws-form')),
+				array('value' => 'right', 'text' => __('Right', 'ws-form')),
+				array('value' => 'bottom', 'text' => __('Bottom', 'ws-form')),
+				array('value' => 'left', 'text' => __('Left', 'ws-form')),
+			);
+
+			// Help position options
 			$help_position = array(
 
 				array('value' => 'top', 'text' => __('Top', 'ws-form')),
-				array('value' => 'bottom', 'text' => __('Bottom', 'ws-form'))
+				array('value' => 'bottom', 'text' => __('Bottom', 'ws-form')),
 			);
 
+			// Button type options
 			$button_types = array(
 
 				array('value' => '', 			'text' => __('Default', 'ws-form')),
@@ -3991,35 +3595,38 @@
 				array('value' => 'information', 'text' => __('Information', 'ws-form')),
 				array('value' => 'warning', 	'text' => __('Warning', 'ws-form')),
 				array('value' => 'danger', 		'text' => __('Danger', 'ws-form')),
-				array('value' => 'none', 		'text' => __('None', 'ws-form'))
+				array('value' => 'none', 		'text' => __('None', 'ws-form')),
 			);
 
+			// Message type options
 			$message_types = array(
 
 				array('value' => 'success', 	'text' => __('Success', 'ws-form')),
 				array('value' => 'information', 'text' => __('Information', 'ws-form')),
 				array('value' => 'warning', 	'text' => __('Warning', 'ws-form')),
 				array('value' => 'danger', 		'text' => __('Danger', 'ws-form')),
-				array('value' => 'none', 		'text' => __('None', 'ws-form'))
+				array('value' => 'none', 		'text' => __('None', 'ws-form')),
 			);
 
+			// Vertical align options
 			$vertical_align = array(
 
 				array('value' => '', 'text' => __('Top', 'ws-form')),
 				array('value' => 'middle', 'text' => __('Middle', 'ws-form')),
-				array('value' => 'bottom', 'text' => __('Bottom', 'ws-form'))
+				array('value' => 'bottom', 'text' => __('Bottom', 'ws-form')),
 			);
 
+			// Autocomplete options
 			$autocomplete_options = array(
 
 				array('value' => 'on'),
 				array('value' => 'off'),
 				array('value' => 'name', 'control_group' => 'text'),
-				array('value' => 'honorific-prefix', 'control_group' => 'text'),
+				array('value' => 'honorific-prefix', 'control_group' => 'text', 'description' => __('e.g. Mrs., Mr., Miss, Ms. or Dr.', 'ws-form')),
 				array('value' => 'given-name', 'control_group' => 'text'),
 				array('value' => 'additional-name', 'control_group' => 'text'),
-				array('value' => 'family-name', 'control_group' => 'text'),
-				array('value' => 'honorific-suffix', 'control_group' => 'text'),
+				array('value' => 'family-name', 'control_group' => 'text', 'description' => __('Surname or last name.', 'ws-form')),
+				array('value' => 'honorific-suffix', 'control_group' => 'text', 'description' => __('e.g. Jr., B.Sc. or PhD.', 'ws-form')),
 				array('value' => 'nickname', 'control_group' => 'text'),
 				array('value' => 'organization-title', 'control_group' => 'text'),
 				array('value' => 'username', 'control_group' => 'username'),
@@ -4028,13 +3635,13 @@
 				array('value' => 'one-time-code', 'control_group' => 'password'),
 				array('value' => 'organization', 'control_group' => 'text'),
 				array('value' => 'street-address', 'control_group' => 'multiline'),
-				array('value' => 'address-line1', 'control_group' => 'text'),
+				array('value' => 'address-line1', 'control_group' => 'text', 'description' => __('First line of the address', 'ws-form')),
 				array('value' => 'address-line2', 'control_group' => 'text'),
 				array('value' => 'address-line3', 'control_group' => 'text'),
 				array('value' => 'address-level4', 'control_group' => 'text'),
 				array('value' => 'address-level3', 'control_group' => 'text'),
-				array('value' => 'address-level2', 'control_group' => 'text'),
-				array('value' => 'address-level1', 'control_group' => 'text'),
+				array('value' => 'address-level2', 'control_group' => 'text', 'description' => __('e.g. City, town or village.', 'ws-form')),
+				array('value' => 'address-level1', 'control_group' => 'text', 'description' => __('e.g. State or province.', 'ws-form')),
 				array('value' => 'country', 'control_group' => 'text'),
 				array('value' => 'country-name', 'control_group' => 'text'),
 				array('value' => 'postal-code', 'control_group' => 'text'),
@@ -4067,9 +3674,10 @@
 				array('value' => 'tel-local-suffix', 'control_group' => 'text'),
 				array('value' => 'tel-extension', 'control_group' => 'text'),
 				array('value' => 'email', 'control_group' => 'username'),
-				array('value' => 'impp', 'control_group' => 'url')
+				array('value' => 'impp', 'control_group' => 'url', 'description' => __('URL for an instant messaging protocol endpoint', 'ws-form')),
 			);
 
+			// Autocomplete control group options
 			$autocomplete_control_groups = array(
 
 				// Control group: All
@@ -4085,13 +3693,13 @@
 				'autocomplete_password' => array('control_group_include' => array('password'), 'default' => 'new-password'),
 
 				// Control group: URL
-				'autocomplete_url' => array('control_group_include' => array('url')),
+				'autocomplete_url' => array('control_group_include' => array('url'), 'default' => 'url'),
 
 				// Control group: Email
-				'autocomplete_email' => array('control_group_include' => array('username')),
+				'autocomplete_email' => array('control_group_include' => array('username'), 'default' => 'email'),
 
 				// Control group: Tel
-				'autocomplete_tel' => array('control_group_include' => array('tel')),
+				'autocomplete_tel' => array('control_group_include' => array('tel'), 'default' => 'tel'),
 
 				// Control group: Number
 				'autocomplete_number' => array('control_group_include' => array('numeric')),
@@ -4109,7 +3717,7 @@
 				'autocomplete_range' => array('control_group_include' => array()),
 
 				// Control group: Color
-				'autocomplete_color' => array('control_group_include' => array())
+				'autocomplete_color' => array('control_group_include' => array()),
 			);
 
 			foreach($autocomplete_control_groups as $id => $autocomplete_control_group) {
@@ -4142,13 +3750,36 @@
 						}
 					}
 
-					array_push($$id, array('value' => $autocomplete_option['value'], 'text' => $autocomplete_option['value']));
+					$text = $autocomplete_option['value'];
+
+					if(!empty($autocomplete_option['description'])) {
+
+						$text .= sprintf(' (%s)', $autocomplete_option['description']);
+					}
+
+					array_push($$id, array('value' => $autocomplete_option['value'], 'text' => $text));
 				}
 			}
+
+			// Checkbox and radio styles
+			$checkbox_radio_style_options = array(
+
+				array('value' => '', 'text' => __('Normal', 'ws-form')),
+				array('value' => 'button', 'text' => __('Button', 'ws-form')),
+				array('value' => 'button-full', 'text' => __('Button (Full width)', 'ws-form')),
+				array('value' => 'switch', 'text' => __('Switch', 'ws-form')),
+				array('value' => 'color', 'text' => __('Swatch', 'ws-form')),
+				array('value' => 'color-circle', 'text' => __('Swatch (Circles)', 'ws-form')),
+				array('value' => 'image', 'text' => __('Image', 'ws-form')),
+				array('value' => 'image-circle', 'text' => __('Image (Circles)', 'ws-form')),
+				array('value' => 'image-responsive', 'text' => __('Image (Responsive)', 'ws-form')),
+				array('value' => 'image-circle-responsive', 'text' => __('Image (Circles + Responsive)', 'ws-form')),
+			);
 
  			// Check for unfiltered_html capability so we can provide alerts in admin
 			$capability_unfiltered_html = WS_Form_Common::can_user('unfiltered_html');
 
+			// Meta keys
 			$meta_keys = array(
 
 				// Forms
@@ -4600,6 +4231,28 @@
 							'meta_value'		=>	'on'
 						)
 					)
+				),
+
+				// Label position - No inside
+				'label_position_no_inside' => array(
+
+					'label'						=>	__('Label Position', 'ws-form'),
+					'type'						=>	'select',
+					'help'						=>	__('Select the position of the field label.', 'ws-form'),
+					'options'					=>	$label_position_no_inside,
+					'options_default'			=>	'label_position_form',
+					'options_framework_filter'	=>	'label_positions',
+					'default'					=>	'default',
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'label_render',
+							'meta_value'		=>	'on'
+						)
+					),
+					'key'						=>	'label_position'
 				),
 
 				// Label column width
@@ -5066,7 +4719,7 @@
 				),
 				'class_field_full_button_remove' => array(
 
-					'label'						=>	__('Remove Full Width Class', 'ws-form'),
+					'label'						=>	__('Remove Width', 'ws-form'),
 					'type'						=>	'checkbox',
 					'default'					=>	''
 				),
@@ -5928,7 +5581,13 @@
 
 					'label'						=>	__('Help Text', 'ws-form'),
 					'type'						=>	'textarea',
-					'help'						=>	__('Help text to show alongside this field. Use #character_count or #word_count to inject the current character or word count.', 'ws-form'),
+					'help'						=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						__('Help text to show alongside this field. Use #character_count or #word_count to inject the current character or word count.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/word-and-character-counts-in-help-text/'),
+						__('Learn more', 'ws-form')
+					),
 					'default'					=>	'',
 					'key'						=>	'help',
 					'variable_helper'			=>	true,
@@ -5939,7 +5598,13 @@
 
 					'label'						=>	__('Help Text', 'ws-form'),
 					'type'						=>	'textarea',
-					'help'						=>	__('Help text to show alongside this field. Use #character_count or #word_count to inject the current character or word count.', 'ws-form'),
+					'help'						=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						__('Help text to show alongside this field. Use #character_count or #word_count to inject the current character or word count.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/word-and-character-counts-in-help-text/'),
+						__('Learn more', 'ws-form')
+					),
 					'default'					=>	'#character_count #character_count_label / #word_count #word_count_label',
 					'key'						=>	'help',
 					'variable_helper'			=>	true,
@@ -6925,8 +6590,8 @@
 
 						array('text' => __('mm.dd.yyyy', 'ws-form'), 'value' => '(0[1-9]|1[012]).(0[1-9]|1[0-9]|2[0-9]|3[01]).[0-9]{4}'),
 						array('text' => __('dd.mm.yyyy', 'ws-form'), 'value' => '(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}'),
-						array('text' => __('mm/dd/yyyy', 'ws-form'), 'value' => '(0[1-9]|1[012])[\- \/.](0[1-9]|[12][0-9]|3[01])[\- \/.](19|20)\d\d'),
-						array('text' => __('dd/mm/yyyy', 'ws-form'), 'value' => '(0[1-9]|[12][0-9]|3[01])[\- \/.](0[1-9]|1[012])[\- \/.](19|20)\d\d'),
+						array('text' => __('mm/dd/yyyy', 'ws-form'), 'value' => '^(0?[1-9]|1[012])[\/](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$'),
+						array('text' => __('dd/mm/yyyy', 'ws-form'), 'value' => '^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/\-]\d{4}$'),
 						array('text' => __('yyyy-mm-dd', 'ws-form'), 'value' => '[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])'),
 						array('text' => __('hh:mm:ss', 'ws-form'), 'value' => '(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}'),
 						array('text' => __('yyyy-mm-ddThh:mm:ssZ', 'ws-form'), 'value' => '/([0-2][0-9]{3})\-([0-1][0-9])\-([0-3][0-9])T([0-5][0-9])\:([0-5][0-9])\:([0-5][0-9])(Z|([\-\+]([0-1][0-9])\:00))/')						
@@ -6965,6 +6630,19 @@
 							'meta_value'		=>	'dropzonejs'
 						)
 					),
+					'translate'					=>	true
+				),
+
+				'placeholder_url' => array(
+
+					'label'						=>	__('Placeholder', 'ws-form'),
+					'type'						=>	'text',
+					'help'						=>	__('Short hint that describes the expected value of the input field.', 'ws-form'),
+					'default'					=>	'https://',
+					'compatibility_id'			=>	'input-placeholder',
+					'variable_helper'			=>	true,
+					'key'						=>	'placeholder',
+					'field_part'				=>	'field_placeholder',
 					'translate'					=>	true
 				),
 
@@ -7213,6 +6891,24 @@
 
 					'mask'						=>	'required data-required aria-required="true"',
 					'mask_disregard_on_empty'	=>	true
+				),
+
+				'field_sizing_content' => array(
+
+					'label'						=>	__('Auto Grow', 'ws-form'),
+					'mask'						=>	'data-wsf-field-sizing-content',
+					'mask_disregard_on_empty'	=>	true,
+					'type'						=>	'checkbox',
+					'help'						=>	__('Expands text area height as users type.', 'ws-form'),
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'input_type_textarea',
+							'meta_value'		=>	''
+						)
+					)
 				),
 
 				'rows' => array(
@@ -7747,6 +7443,21 @@
 					)
 				),
 
+				'checkbox_style' => array(
+
+					'label'						=>	__('Style', 'ws-form'),
+					'type'						=>	'select',
+					'options'					=>	$checkbox_radio_style_options,
+					'default'					=>	'',
+					'help'						=>	sprintf(
+
+						'%s <a href="%s/" target="_blank">%s</a>',
+						__('Choose how to style each checkbox.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/style-checkboxes/'),
+						__('Learn more', 'ws-form'),
+					)
+				),
+
 				'checkbox_field_label' => array(
 
 					'label'						=>	__('Labels', 'ws-form'),
@@ -7883,6 +7594,21 @@
 							'meta_key'			=>	'checkbox_cascade',
 							'meta_value'		=>	'on'
 						)
+					)
+				),
+
+				'radio_style' => array(
+
+					'label'						=>	__('Style', 'ws-form'),
+					'type'						=>	'select',
+					'options'					=>	$checkbox_radio_style_options,
+					'default'					=>	'',
+					'help'						=>	sprintf(
+
+						'%s <a href="%s/" target="_blank">%s</a>',
+						__('Choose how to style each radio.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/style-radios/'),
+						__('Learn more', 'ws-form'),
 					)
 				),
 
@@ -8286,6 +8012,7 @@
 				'aria_label' => array(
 
 					'label'						=>	__('ARIA Label', 'ws-form'),
+					'type'						=>	'text',
 					'mask'						=>	'aria-label="#value"',
 					'mask_disregard_on_empty'	=>	true,
 					'mask_placeholder'			=>	'#label',
@@ -8320,6 +8047,24 @@
 
 			// Add data grid meta keys
 			$meta_keys = array_merge($meta_keys, self::get_meta_keys_data_grids());
+
+			// Styler
+			if(WS_Form_Common::styler_enabled() && is_admin()) {
+
+				// Style options
+				$ws_form_style = new WS_Form_Style();
+
+				// Style - Standard
+				$meta_keys['style_id'] = array(
+
+					'label'						=>	__('Style', 'ws-form'),
+					'type'						=>	'select',
+					'help'						=>	__('Choose which style to use for this form.', 'ws-form'),
+					'options'					=>	$ws_form_style->get_style_id_options(false),
+					'default'					=>	0
+				);
+
+			}
 
 			// Autocomplete
 			foreach($autocomplete_control_groups as $id => $autocomplete_control_group) {
@@ -8368,7 +8113,11 @@
 				$meta_keys['field_user_roles']['options'][] = array('value' => esc_attr($role), 'text' => esc_html(translate_user_role($role_config['name'])));
 
 				// If capabilities are specified, add them to the capabilities array
-				if(isset($role_config['capabilities'])) {
+				if(
+					isset($role_config['capabilities']) &&
+					is_array($role_config['capabilities']) &&
+					(count($role_config['capabilities']) > 0)
+				) {
 
 					$capabilities = array_merge($capabilities, array_keys($role_config['capabilities']));
 				}
@@ -10672,7 +10421,8 @@
 							'label' => __('Query String Parameter Value', 'ws-form'),
 							'attributes' => array(
 
-								array('id' => 'parameter')
+								array('id' => 'parameter'),
+								array('id' => 'default_value', 'required' => false, 'default' => '')
 							),
 							'description' => __('Returns the value of the supplied query string parameter.', 'ws-form'),
 							'usage' => array('client', 'action'),
@@ -11347,10 +11097,12 @@
 
 			// Third party script paths (Local and included with WS Form)
 			$select2_js_local = sprintf('%sshared/js/external/select2.full%s.js', WS_FORM_PLUGIN_DIR_URL, $min);
-			$select2_css_local = sprintf('%sshared/css/external/select2.min.css', WS_FORM_PLUGIN_DIR_URL, $min);
+			$select2_css_local = sprintf('%sshared/css/external/select2%s.css', WS_FORM_PLUGIN_DIR_URL, $min);
 			$inputmask_js_local = sprintf('%spublic/js/external/jquery.inputmask%s.js', WS_FORM_PLUGIN_DIR_URL, $min);
 			$intl_tel_input_js_local = sprintf('%spublic/js/external/intlTelInput%s.js', WS_FORM_PLUGIN_DIR_URL, $min);
 			$intl_tel_input_css_local = sprintf('%spublic/css/external/intlTelInput%s.css', WS_FORM_PLUGIN_DIR_URL, $min);
+			$coloris_js_local = sprintf('%spublic/js/external/coloris%s.js', WS_FORM_PLUGIN_DIR_URL, $min);
+			$coloris_css_local = sprintf('%spublic/css/external/coloris%s.css', WS_FORM_PLUGIN_DIR_URL, $min);
 
 			$external = array(
 
@@ -11363,7 +11115,11 @@
 
 				// International Telephone Input
 				'intl_tel_input_js' => array('js' => $intl_tel_input_js_local, 'version' => '17.0.9'),
-				'intl_tel_input_css' => array('js' => $intl_tel_input_css_local, 'version' => '17.0.9')
+				'intl_tel_input_css' => array('js' => $intl_tel_input_css_local, 'version' => '17.0.9'),
+
+				// Coloris
+				'coloris_js' => array('js' => ($coloris_js_local), 'version' => '0.24.0'),
+				'coloris_css' => array('js' => ($coloris_css_local ), 'version' => '0.24.0')
 			);
 
 			// Apply filter

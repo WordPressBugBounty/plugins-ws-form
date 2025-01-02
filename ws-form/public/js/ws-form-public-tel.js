@@ -21,7 +21,14 @@
 			if(!$('#wsf-intl-tel-input').length) {
 
 				var image_path = (ws_form_settings.url_plugin + 'public/images/external/');
-				$('body').append("<style id=\"wsf-intl-tel-input\">\n	.iti { width: 100%; }\n	.iti__flag { background-image: url(\"" + image_path + "flags.png\");}\n	.iti--allow-dropdown input, .iti--allow-dropdown input[type=tel], .iti--allow-dropdown input[type=text], .iti--separate-dial-code input, .iti--separate-dial-code input[type=tel], .iti--separate-dial-code input[type=text] {\n		padding-right: 6px;\n		padding-left: 52px;\n		margin-left: 0;\n	}\n	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {\n		.iti__flag { background-image: url(\"" + image_path + "flags@2x.png\"); }\n	}\n\n");
+				if(ws_form_settings.styler_enabled) {
+
+					$('body').append("<style id=\"wsf-intl-tel-input\">\n	.iti__flag { background-image: url(\"" + image_path + "flags.png\");}\n	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {\n		.iti__flag { background-image: url(\"" + image_path + "flags@2x.png\"); }\n	}\n\n");
+
+				} else {
+
+					$('body').append("<style id=\"wsf-intl-tel-input\">\n	.iti { width: 100%; }\n	.iti__flag { background-image: url(\"" + image_path + "flags.png\");}\n	.iti--allow-dropdown input, .iti--allow-dropdown input[type=tel], .iti--allow-dropdown input[type=text], .iti--separate-dial-code input, .iti--separate-dial-code input[type=tel], .iti--separate-dial-code input[type=text] {\n		padding-right: 6px;\n		padding-left: 52px;\n		margin-left: 0;\n	}\n	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {\n		.iti__flag { background-image: url(\"" + image_path + "flags@2x.png\"); }\n	}\n\n");
+				}
 			}
 
 			// Build config
@@ -29,9 +36,6 @@
 
 				utilsScript: (ws_form_settings.url_plugin + 'public/js/external/utils.js?ver=19.2.19')
 			}
-
-			// Get field wrapper
-			var field_wrapper_obj = ws_this.get_field_wrapper($(this));
 
 			// Get field ID
 			var field_id = ws_this.get_field_id($(this));
@@ -96,8 +100,11 @@
 			// Initialize intlTelInput
 			var iti = window.intlTelInput($(this)[0], config);
 
+			// Get field wrapper
+			var field_wrapper_obj = ws_this.get_field_wrapper($(this));
+
 			// Set flag container height (so invalid feedback does not break the styling)
-			$('.iti__flag-container', field_wrapper_obj).css({height:$('input[type="tel"]', field_wrapper_obj).outerHeight()});
+//			$('.iti__flag-container', field_wrapper_obj).css({height:$('input[type="tel"]', field_wrapper_obj).outerHeight()});
 
 			// Get invalid feedback object
 			var invalid_feedback_obj = ws_this.get_invalid_feedback_obj($(this));
@@ -129,7 +136,7 @@
 
 			if(validate_number) {
 
-				$(this).on('keyup change input', function() {
+				$(this).on('keyup change input paste', function() {
 
 					// Get iti instance
 					var iti = window.intlTelInputGlobals.getInstance($(this)[0]);
@@ -185,11 +192,11 @@
 
 		// Transform X calculation
 		var transform_x_padding_left = parseFloat($(input_obj).css('padding-left'));
-		var transform_x_iti_width = $('.iti__flag-container', field_wrapper_obj).width();
-		var transform_x = transform_x_iti_width - (transform_x_padding_left - transform_x_iti_width);
+		var transform_x_padding_right = parseFloat($(input_obj).css('padding-right'));
+		var transform_x = transform_x_padding_left - transform_x_padding_right;
 
 		// Set transform variable
-		field_wrapper_obj[0].style.setProperty('--wsf-tel-transform-x', (transform_x * -1) + 'px');
+		field_wrapper_obj[0].style.setProperty('--wsf-field-tel-transform-x', (transform_x * -1) + 'px');
 	}
 
 	$.WS_Form.prototype.form_tel_post = function(form_data) {

@@ -100,7 +100,6 @@
 			// WordPress core after_widget hook (always include)
 			echo $after_widget;		// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 		}
-
 	}
 
 	// Register the widget

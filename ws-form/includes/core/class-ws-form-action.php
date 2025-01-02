@@ -497,6 +497,12 @@
 			if(!is_array($errors)) { $errors = array($errors); }
 			if(!isset(self::$return_array['errors'])) { self::$return_array['errors'] = array(); }
 
+			// Sanitize errors
+			foreach($errors as $error_index => $error) {
+
+				$errors[$error_index] = sanitize_text_field($error);
+			}
+
 			// Add message to queue
 			self::$return_array['errors'] = array_merge(self::$return_array['errors'], $errors);
 
@@ -1899,13 +1905,24 @@
 			if($field_label === false) { $field_label = __('Fields', 'ws-form'); }
 			if($record_label === false) { $record_label = __('Records', 'ws-form'); }
 
-			// Colors
-			$color_form_background = WS_Form_Common::option_get('skin_color_form_background');
-			if($color_form_background == '') { $color_form_background = '#ffffff'; }
+			if(WS_Form_Common::styler_enabled()) {
 
-			$color_default = WS_Form_Common::option_get('skin_color_default');
-			$color_default_inverted = WS_Form_Common::option_get('skin_color_default_inverted');
-			$color_information = WS_Form_Common::option_get('skin_color_information');
+				// Colors
+				$color_form_background = WS_Form_Color::get_color_base_contrast();
+				$color_default = WS_Form_Color::get_color_base();
+				$color_default_inverted = WS_Form_Color::get_color_base_contrast();
+				$color_information = WS_Form_Color::get_color_info();
+
+			} else {
+
+				// Colors
+				$color_form_background = WS_Form_Common::option_get('skin_color_form_background');
+				if($color_form_background == '') { $color_form_background = '#ffffff'; }
+
+				$color_default = WS_Form_Common::option_get('skin_color_default');
+				$color_default_inverted = WS_Form_Common::option_get('skin_color_default_inverted');
+				$color_information = WS_Form_Common::option_get('skin_color_information');
+			}
 
 			$svg = sprintf('<svg class="wsf-responsive" viewBox="0 0 %u %u">', esc_attr($svg_width), esc_attr($svg_height));
 			$svg .= sprintf('<rect height="100%%" width="100%%" fill="%s"/>', esc_attr($color_form_background));

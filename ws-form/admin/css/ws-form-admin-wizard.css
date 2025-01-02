@@ -23,90 +23,90 @@
 }
 
 @media (max-width: 264px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 100%;
     max-width: 100%;
   }
 }
 
 @media (min-width: 265px) and (max-width: 516px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 50%;
     max-width: 50%;
   }
 }
 
 @media (min-width: 517px) and (max-width: 768px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 33.33333%;
     max-width: 33.33333%;
   }
 }
 
 @media (min-width: 769px) and (max-width: 1020px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 25%;
     max-width: 25%;
   }
 }
 
 @media (min-width: 1021px) and (max-width: 1272px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 20%;
     max-width: 20%;
   }
 }
 
 @media (min-width: 1273px) and (max-width: 1524px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 16.66667%;
     max-width: 16.66667%;
   }
 }
 
 @media (min-width: 1525px) and (max-width: 1776px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 14.28571%;
     max-width: 14.28571%;
   }
 }
 
 @media (min-width: 1777px) and (max-width: 2028px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 12.5%;
     max-width: 12.5%;
   }
 }
 
 @media (min-width: 2029px) and (max-width: 2280px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 11.11111%;
     max-width: 11.11111%;
   }
 }
 
 @media (min-width: 2281px) and (max-width: 2532px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 10%;
     max-width: 10%;
   }
 }
 
 @media (min-width: 2533px) and (max-width: 2784px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 9.09091%;
     max-width: 9.09091%;
   }
 }
 
 @media (min-width: 2785px) {
-  #wsf-form-add .wsf-templates > li {
+  #wsf-template-add .wsf-templates > li {
     flex: 0 0 8.33333%;
     max-width: 8.33333%;
   }
 }
 
-.wsf-templates > li.wsf-pro-required .wsf-template:after {
+.wsf-templates > li.wsf-pro-required .wsf-template::after {
   background-color: #002e5f;
   color: #ffffff;
   content: 'PRO';
@@ -126,7 +126,7 @@
   opacity: .5;
 }
 
-.wsf-templates > li.wsf-pro-required .wsf-template:hover:after {
+.wsf-templates > li.wsf-pro-required .wsf-template:hover::after {
   background-color: #ffffff;
   color: #002e5f;
 }
@@ -263,7 +263,7 @@
   border-color: #002e5f;
 }
 
-.wsf-templates > li .wsf-template:hover:after {
+.wsf-templates > li .wsf-template:hover::after {
   background-color: #ffffff;
   color: #002e5f;
 }

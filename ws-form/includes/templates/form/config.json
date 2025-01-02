@@ -611,6 +611,13 @@
 			},
 
 			{
+				"id"					:	"points-allocation",
+				"label" 				: 	"Points Allocation",
+				"file_json"				:	"wsf-form-points-allocation.json",
+				"preview_url"			:	true
+			},
+
+			{
 				"id"					:	"survey",
 				"label" 				: 	"Survey",
 				"file_json"				:	"wsf-form-survey.json",

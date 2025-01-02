@@ -1,4 +1,5 @@
 <?php
+
 	/**
 	 * WS Form LITE
 	 *
@@ -10,7 +11,7 @@
 	 * Plugin Name:       WS Form LITE
 	 * Plugin URI:        https://wsform.com/
 	 * Description:       Build Better WordPress Forms
-	 * Version:           1.9.249
+	 * Version:           1.10.0
 	 * Requires at least: 5.3
 	 * Requires PHP:      5.6
 	 * Author:            WS Form
@@ -36,7 +37,7 @@
 
 		// Constants
 		define('WS_FORM_NAME', 'ws-form');
-		define('WS_FORM_VERSION', '1.9.249');
+		define('WS_FORM_VERSION', '1.10.0');
 		define('WS_FORM_NAME_GENERIC', 'WS Form');
 		define('WS_FORM_NAME_PRESENTABLE', 'WS Form LITE');
 		define('WS_FORM_EDITION', 'basic');
@@ -128,6 +129,8 @@
 		define('WS_FORM_SUBMIT_EXPORT_TMP_DIR', 'submit/export/tmp');
 
 		define('WS_FORM_DROPZONEJS_IMAGE_SIZE', 'thumbnail');
+
+		define('WS_FORM_STYLER', true);
 	}
 
 	function activate_ws_form() {

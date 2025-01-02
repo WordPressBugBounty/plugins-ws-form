@@ -116,7 +116,7 @@
 			try {
 
 				// Get form object from file
-				$form_object = WS_Form_Common::get_form_object_from_post_file();
+				$form_object = WS_Form_Common::get_object_from_post_file();
 
 				// Reset form
 				$ws_form_form->db_import_reset();
@@ -132,6 +132,9 @@
 
 				// Update checksum
 				$ws_form_form->db_checksum();
+
+				// Resolve styles (Fixes older imports that don't have the style_id meta key set)
+				$ws_form_form->db_style_resolve();
 
 				// Describe transaction for history
 				$history = ($form_id > 0) ? array(
@@ -179,7 +182,7 @@
 
 			try {
 
-				// Put form as array
+				// Put form as object
 				$ws_form_form->db_update_from_object($form_object, false);
 
 				// Describe transaction for history
@@ -215,7 +218,7 @@
 
 			try {
 
-				// Put form as array
+				// Put form as object
 				// 4th 'true' attribute ensures existing meta data is replaced otherwise old meta data such as breakpoints may remain
 				$ws_form_form->db_update_from_object($form_object, true, false, true);
 

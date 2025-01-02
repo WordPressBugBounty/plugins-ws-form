@@ -4,6 +4,7 @@
 
 		public $slug       = 'ws_form_divi';
 		public $vb_support = 'on';
+		public $icon_path  = '';
 
 		public function init() {
 

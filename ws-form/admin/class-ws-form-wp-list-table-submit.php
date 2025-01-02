@@ -126,7 +126,7 @@
 			if(isset($item->viewed) && !$item->viewed) { $class_array[] = 'wsf-submit-not-viewed'; }
 			$class = implode(' ', $class_array);
 
-			echo '<tr' . (($class != '') ? ' class="' . $class . '"' : '') . '>';
+			echo '<tr' . (($class != '') ? ' class="' . esc_attr($class) . '"' : '') . '>';
 			$this->single_row_columns( $item );
 			echo '</tr>';
 		}
@@ -488,7 +488,7 @@
 
 			// Spam level indicator
 			$spam_level = isset($item->spam_level) ? $item->spam_level : null;
-			$spam_level_indicator = is_null($spam_level) ? '' : '<span class="wsf-spam-level" style="background:' . WS_Form_Common::get_green_to_red_rgb($spam_level, 0, WS_FORM_SPAM_LEVEL_MAX) . '" title="' . sprintf(__('Spam level: %u%%', 'ws-form'), round($spam_level)) . '"></span>';
+			$spam_level_indicator = is_null($spam_level) ? '' : '<span class="wsf-spam-level" style="background:' . WS_Form_Color::get_green_to_red_rgb($spam_level, 0, WS_FORM_SPAM_LEVEL_MAX) . '" title="' . sprintf(__('Spam level: %u%%', 'ws-form'), round($spam_level)) . '"></span>';
 
 			// Build title
 			$ws_form_submit = New WS_Form_Submit();
@@ -757,7 +757,17 @@
 			// Select form
 			$ws_form_form = New WS_Form_Form();
 			$ws_form_form->db_count_update_all();
-			$forms = $ws_form_form->db_read_all('', "NOT (status = 'trash') AND count_submit > 0", 'label ASC', '', '', false);
+			$forms = $ws_form_form->db_read_all(
+
+				'',
+				(
+					($this->form_id > 0) ? sprintf("(NOT (status = 'trash') AND count_submit > 0) OR (id = %u)", $this->form_id) : "NOT (status = 'trash') AND count_submit > 0"
+				),
+				'label ASC',
+				'',
+				'',
+				false
+			);
 
 			if($forms) {
 ?>

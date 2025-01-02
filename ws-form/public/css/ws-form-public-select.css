@@ -1,0 +1,105 @@
+.wsf-form select.wsf-field[size], .wsf-form select.wsf-field.wsf-field[multiple]:not([size]) {
+  height: auto;
+}
+
+.wsf-form select.wsf-field:not([multiple]):not([size]) {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  margin: 0;
+}
+
+.wsf-form select.wsf-field[data-wsf-select2]:not([multiple]):not([size]) {
+  -webkit-padding-end: var(--wsf-field-select-padding-right);
+  padding-inline-end: var(--wsf-field-select-padding-right);
+}
+
+.wsf-form select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]) + span.wsf-select-arrow {
+  border-color: var(--wsf-field-select-arrow-color) transparent transparent transparent;
+  border-style: solid;
+  border-width: var(--wsf-field-select-arrow-height) calc(var(--wsf-field-select-arrow-width) / 2) 0 calc(var(--wsf-field-select-arrow-width) / 2);
+  display: inline-block;
+  margin-left: calc(-1 * var(--wsf-field-select-arrow-width));
+  position: relative;
+  pointer-events: none;
+  right: var(--wsf-field-padding-horizontal);
+  top: -1px;
+  vertical-align: middle;
+  width: 0;
+}
+
+.wsf-form select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]):hover:not(:focus) + span {
+  color: var(--wsf-field-color-hover);
+}
+
+.wsf-form select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]):focus + span {
+  color: var(--wsf-field-color-focus);
+}
+
+.wsf-form select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]):disabled {
+  border-color: var(--wsf-field-border-color-disabled);
+}
+
+.wsf-form select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]):disabled + span {
+  color: var(--wsf-field-color-disabled);
+}
+
+.wsf-form select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2])::-ms-expand {
+  display: none;
+}
+
+.wsf-form select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]):-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+.wsf-form select.wsf-field optgroup {
+  font-weight: bold;
+}
+
+.wsf-form select.wsf-field option {
+  font-family: var(--wsf-field-font-family);
+  font-size: var(--wsf-field-font-size);
+  font-weight: var(--wsf-field-font-weight);
+}
+
+.wsf-form select.wsf-field option:disabled {
+  color: var(--wsf-field-color-disabled);
+}
+
+.wsf-form.wsf-validated select.wsf-field:invalid:not([multiple]):not([size]):invalid {
+  border-color: var(--wsf-field-border-color-invalid);
+}
+
+.wsf-form.wsf-rtl select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]) + span.wsf-select-arrow {
+  margin-right: calc(-1 * var(--wsf-field-select-arrow-width));
+  right: calc(-1 * var(--wsf-field-padding-horizontal));
+}
+
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]) + span.wsf-select-arrow {
+  border-color: var(--wsf-field-select-arrow-color-alt) transparent transparent transparent;
+}
+
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]):hover:not(:focus) + span {
+  color: var(--wsf-field-color-hover-alt);
+}
+
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]):focus + span {
+  color: var(--wsf-field-color-focus-alt);
+}
+
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]):disabled {
+  border-color: var(--wsf-field-border-color-disabled-alt);
+}
+
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]):disabled + span {
+  color: var(--wsf-field-color-disabled-alt);
+}
+
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] select.wsf-field option:disabled {
+  color: var(--wsf-field-color-disabled-alt);
+}
+
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated select.wsf-field:invalid:not([multiple]):not([size]):invalid {
+  border-color: var(--wsf-field-border-color-invalid-alt);
+}

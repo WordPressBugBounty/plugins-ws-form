@@ -164,7 +164,10 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/ws-form-css/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_ws_form_css'), 'permission_callback' => function () { return true; }));
 
-			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/ws-form-css-skin/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_ws_form_css_skin'), 'permission_callback' => function () { return true; }));
+			if(WS_Form_Common::customizer_enabled()) {
+
+				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/ws-form-css-skin/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_ws_form_css_skin'), 'permission_callback' => function () { return true; }));
+			}
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/ws-form-css-conversational/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_ws_form_css_conversational'), 'permission_callback' => function () { return true; }));
 
@@ -185,6 +188,28 @@
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/review-nag/dismiss/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_review_nag_dismiss'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/shortcode/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_review_nag_dismiss'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/styler/(?P<helper_styler>[a-z]+)/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_styler'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
+
+			// API - Style
+			if(WS_Form_Common::styler_enabled()) {
+
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'api/class-ws-form-api-style.php';
+				$plugin_api_style = new WS_Form_API_Style();
+
+				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/', array('methods' => 'GET', 'callback' => array($plugin_api_style, 'api_get'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_form_style'); }));
+
+				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/css/', array('methods' => 'GET', 'callback' => array($plugin_api_style, 'api_get_css'), 'permission_callback' => function () { return true; }));
+
+				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/put/', array('methods' => 'POST', 'callback' => array($plugin_api_style, 'api_put'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form_style'); }));
+
+				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/upload/json/', array('methods' => 'POST', 'callback' => array($plugin_api_style, 'api_post_upload_json'), 'permission_callback' => function () { return WS_Form_Common::can_user('import_form_style'); }));
+
+				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/upload/json/', array('methods' => 'POST', 'callback' => array($plugin_api_style, 'api_post_upload_json'), 'permission_callback' => function () { return WS_Form_Common::can_user('import_form_style'); }));
+
+				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/css-variables/csv/', array('methods' => 'GET', 'callback' => array($plugin_api_style, 'api_get_css_variables_csv'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_form_style'); }));
+
+				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/css-variables/json/', array('methods' => 'GET', 'callback' => array($plugin_api_style, 'api_get_css_variables_json'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_form_style'); }));
+			}
 
 			// API - Form
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'api/class-ws-form-api-form.php';
@@ -339,5 +364,18 @@
 
 			// Run action to run additional no cache code
 			do_action('wsf_api_no_cache');
+		}
+
+		// CSS Cache Header
+		public function api_css_header() {
+
+			// Content type
+			header("Content-type: text/css; charset: UTF-8");
+
+			// Caching
+			$css_cache_duration = 	WS_Form_Common::option_get('css_cache_duration', 86400);
+			header("Pragma: public");
+			header("Cache-Control: maxage=" . $css_cache_duration);
+			header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $css_cache_duration) . ' GMT');
 		}
 	}

@@ -76,7 +76,7 @@
 				$ws_form_template->read();
 
 				// Create sections from template
-				$label = $ws_form_section->db_create_from_form_object($ws_form_template->form_object, $next_sibling_id);
+				$label = $ws_form_section->db_create_from_form_object($ws_form_template->object, $next_sibling_id);
 
 				// Describe transaction for history
 				$history = array(
@@ -171,7 +171,7 @@
 			try {
 
 				// Get form object from file
-				$form_object = WS_Form_Common::get_form_object_from_post_file();
+				$form_object = WS_Form_Common::get_object_from_post_file();
 
 				// Create sections from template
 				$label = $ws_form_section->db_create_from_form_object($form_object, $next_sibling_id);

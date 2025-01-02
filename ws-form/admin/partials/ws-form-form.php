@@ -104,7 +104,7 @@
 			wsf_obj.tooltips();
 			wsf_obj.wp_list_table_form();
 
-			$('#wsf-form-table h1').html('<?php esc_html_e('Drop file to upload', 'ws-form'); ?>');
+			$('#wsf-form-table h1').html('<?php esc_html_e('Drop file to import', 'ws-form'); ?>');
 		});
 
 	})(jQuery);

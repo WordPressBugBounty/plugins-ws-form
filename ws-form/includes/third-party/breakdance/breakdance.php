@@ -6,7 +6,7 @@
 
 			if(isset($_GET) && isset($_GET['breakdance_iframe'])) {	// phpcs:ignore WordPress.Security.NonceVerification
 
-				// Set visual builder scripts to enqueue
+				// Visual builder enqueues
 				do_action('wsf_enqueue_visual_builder');
 			}
 		});

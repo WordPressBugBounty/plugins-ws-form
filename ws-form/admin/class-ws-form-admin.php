@@ -29,9 +29,6 @@
 		// Deregister scripts
 		private $deregister_scripts = array();
 
-		// Customize enabled
-		private $customize_enabled;
-
 		// Hooks
 		private $hook_suffix_form = false;
 		private $hook_suffix_form_add = false;
@@ -43,11 +40,14 @@
 		private $hook_suffix_form_migrate = false;
 		private $hook_suffix_form_upgrade = false;
 		private $hook_suffix_form_add_ons = false;
+		private $hook_suffix_form_style = false;
+		private $hook_suffix_form_style_add = false;
 		private $hook_suffix_customize = false;
 
 		// Table views
 		private $ws_form_wp_list_table_form_obj;
 		private $ws_form_wp_list_table_submit_obj;
+		private $ws_form_wp_list_table_style_obj;
 
 		// Initialize the class and set its properties.
 		public function __construct() {
@@ -56,7 +56,6 @@
 			$this->version = WS_FORM_VERSION;
 			$this->user_meta_hidden_columns = 'managews-form_page_ws-form-submitcolumnshidden';	// AJAX function is in helper API
 			$this->intro = WS_Form_Common::option_get('intro', false);
-			$this->customize_enabled = (WS_Form_Common::option_get('framework', 'ws-form') === 'ws-form');
 
 			// Activator to check for edition and version changes
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-activator.php';
@@ -81,7 +80,7 @@
 					wp_enqueue_style($this->plugin_name . '-layout', WS_Form_Common::get_api_path('helper/ws-form-css-admin', sprintf('_wpnonce=%s', wp_create_nonce('wp_rest'))), array(), $this->version . '.' . WS_FORM_EDITION, 'all');
 
 					// CSS - Template
-					wp_enqueue_style($this->plugin_name . '-template', sprintf('%sadmin/css/ws-form-admin-template%s.css', WS_FORM_PLUGIN_DIR_URL, $min), array(), $this->version, 'all');
+//					wp_enqueue_style($this->plugin_name . '-template', sprintf('%sadmin/css/ws-form-admin-template%s.css', WS_FORM_PLUGIN_DIR_URL, $min), array(), $this->version, 'all');
 
 					$is_ws_form_page = true;
 
@@ -125,7 +124,7 @@
 
 					break;
 
-				// Form - Submissions
+				// Submissions
 				case $this->hook_suffix_form_submit :	
 
 					// CSS - jQuery UI
@@ -135,13 +134,35 @@
 
 					break;
 
-				// Form - Settings
+				// Settings
 				case $this->hook_suffix_form_settings :
 
 					$is_ws_form_page = true;
 
 					break;
 
+				// Style - List
+				case $this->hook_suffix_form_style :
+
+					// CSS - Framework
+					wp_enqueue_style($this->plugin_name . '-layout', WS_Form_Common::get_api_path('helper/ws-form-css-admin', sprintf('_wpnonce=%s', wp_create_nonce('wp_rest'))), array(), $this->version . '.' . WS_FORM_EDITION, 'all');
+
+					$is_ws_form_page = true;
+
+					break;
+
+				// Style - Add
+				case $this->hook_suffix_form_style_add : 		
+
+					// CSS - Framework
+					wp_enqueue_style($this->plugin_name . '-layout', WS_Form_Common::get_api_path('helper/ws-form-css-admin', sprintf('_wpnonce=%s', wp_create_nonce('wp_rest'))), array(), $this->version . '.' . WS_FORM_EDITION, 'all');
+
+					// CSS - Template
+					wp_enqueue_style($this->plugin_name . '-template', sprintf('%sadmin/css/ws-form-admin-template%s.css', WS_FORM_PLUGIN_DIR_URL, $min), array(), $this->version, 'all');
+
+					$is_ws_form_page = true;
+
+					break;
 				// WordPress Posts
 				case 'post.php' : 
 				case 'post-new.php' :
@@ -276,7 +297,15 @@
 
 				// Shortcode
 				'shortcode'						=> WS_FORM_SHORTCODE,
+
 			);
+
+			// Add default style ID
+			if(WS_Form_Common::styler_enabled()) {
+
+				$ws_form_style = new WS_Form_Style();
+				$ws_form_settings['style_id_default'] = $ws_form_style->get_style_id_default();
+			}
 
 			// Form class
 			wp_register_script($this->plugin_name . '-form-common', sprintf('%sshared/js/ws-form%s.js', WS_FORM_PLUGIN_DIR_URL, $min), array('jquery'), $this->version, true);
@@ -385,6 +414,33 @@
 
 					break;
 
+				// WS Form - Form Styles
+				case $this->hook_suffix_form_style :
+
+					// WS Form
+					wp_enqueue_script($this->plugin_name . '-form-common');
+					wp_localize_script($this->plugin_name . '-form-common', 'ws_form_settings', $ws_form_settings);
+					wp_enqueue_script($this->plugin_name);
+
+					$this->ws_form_hook = $hook;
+
+					break;
+
+				// WS Form - Add Form Style
+				case $this->hook_suffix_form_style_add :
+
+					// jQuery UI
+					wp_enqueue_script('jquery-ui-tabs');
+
+					// WS Form
+					wp_enqueue_script($this->plugin_name . '-form-common');
+					wp_localize_script($this->plugin_name . '-form-common', 'ws_form_settings', $ws_form_settings);
+					wp_enqueue_script($this->plugin_name);
+
+					$this->ws_form_hook = $hook;
+
+					break;
+
 				// WS Form - Migrate
 				case $this->hook_suffix_form_migrate :
 
@@ -433,11 +489,8 @@
 						// Create public instance
 						$ws_form_public = new WS_Form_Public();
 
-						// Set visual builder scripts to enqueue
+						// Visual builder enqueues
 						do_action('wsf_enqueue_visual_builder');
-
-						// Enqueue scripts
-						$ws_form_public->enqueue();
 
 						// Add public footer to speed up loading of config
 						$ws_form_public->wsf_form_json[0] = true;
@@ -682,7 +735,7 @@
 <!-- WS Form - Modal - Feedback - Header -->
 <div class="wsf-modal-title"><?php
 
-	echo WS_Form_Common::get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 ?><h2><?php esc_html_e('Feedback', 'ws-form'); ?></h2></div>
 <div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"></div>
@@ -779,11 +832,8 @@
 		// Customize register
 		public function customize_register($wp_customize) {
 
-			if(
-				$this->customize_enabled &&
-				WS_Form_Common::can_user('customize') &&
-				WS_Form_Common::can_user('read_form')
-			) {
+			if(WS_Form_Common::customizer_visible()) {
+
 				new WS_Form_Customize($wp_customize);
 			}
 		}
@@ -794,7 +844,7 @@
 			// Build add form button
 ?><a href="#" class="button wsf-button-add-form"><span class="wsf-button-add-form-icon"><?php
 
-	echo WS_Form_Common::get_admin_icon('#888888', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_get_admin_icon('#888888', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 ?></span><?php WS_Form_Common::echo_esc_html(sprintf(
 
@@ -908,7 +958,7 @@
 <!-- WS Form - Modal - Add Form - Header -->
 <div class="wsf-modal-title"><?php
 
-	echo WS_Form_Common::get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 ?><h2><?php
 
@@ -1045,8 +1095,8 @@
 			$this->hook_suffix_form_add = add_submenu_page(
 
 				$this->plugin_name,
-				__('Add New', 'ws-form'),
-				__('Add New', 'ws-form'),
+				__('Add Form', 'ws-form'),
+				__('Add Form', 'ws-form'),
 				'create_form',
 				$this->plugin_name . '-add',
 				array($this, 'admin_page_form_add')
@@ -1062,10 +1112,7 @@
 				$this->plugin_name . '-submit',
 				array($this, 'admin_page_form_submit')
 			);
-
 			add_action('load-' . $this->hook_suffix_form_submit, array($this, 'ws_form_wp_list_table_submit_options'));
-			add_filter('default_hidden_columns', array($this, 'ws_form_default_hidden_columns'), 10, 2); 
-			add_filter('screen_settings', array($this, 'screen_settings_submit'), 10, 2);
 
 			// Forms - Edit (Hidden)
 			$this->hook_suffix_form_edit = add_submenu_page(
@@ -1078,18 +1125,46 @@
 				array($this, 'admin_page_form_edit')
 			);
 
-			// Customize
-			$page = WS_Form_Common::get_query_var('page');
-			$id = absint(WS_Form_Common::get_query_var('id'));
-			if(($page === 'ws-form-edit') && ($id > 0)) {
+			// Styler
+			if(WS_Form_Common::styler_visible_admin()) {
 
-				$customize_url = WS_Form_Common::get_customize_url('ws_form', $id);
+				// Styler
+				$this->hook_suffix_form_style = add_submenu_page(
 
-			} else {
+					$this->plugin_name,
+					__('Styles', 'ws-form'),
+					__('Styles', 'ws-form'),
+					'read_form_style',
+					$this->plugin_name . '-style',
+					array($this, 'admin_page_form_style')
+				);
+				add_action('load-' . $this->hook_suffix_form_style, array($this, 'ws_form_wp_list_table_style_options'));
 
-				$customize_url = WS_Form_Common::get_customize_url('ws_form');
+				// Styler - Add
+				$this->hook_suffix_form_style_add = add_submenu_page(
+
+					$this->plugin_name,
+					__('Add Style', 'ws-form'),
+					__('Add Style', 'ws-form'),
+					'create_form',
+					$this->plugin_name . '-style-add',
+					array($this, 'admin_page_form_style_add')
+				);
 			}
-			if($this->customize_enabled) {
+
+			// Customizer - Legacy
+			if(WS_Form_Common::customizer_visible()) {
+
+				$page = WS_Form_Common::get_query_var('page');
+				$id = absint(WS_Form_Common::get_query_var('id'));
+				if(($page === 'ws-form-edit') && ($id > 0)) {
+
+					$customize_url = WS_Form_Common::get_customize_url('ws_form', $id);
+
+				} else {
+
+					$customize_url = WS_Form_Common::get_customize_url('ws_form');
+				}
 
 				$this->hook_suffix_customize = add_submenu_page(
 
@@ -1132,9 +1207,12 @@
 				$this->plugin_name . '-add-ons',
 				array($this, 'admin_page_add_ons')
 			);
+
+			add_filter('default_hidden_columns', array($this, 'ws_form_default_hidden_columns'), 10, 2); 
+			add_filter('screen_settings', array($this, 'screen_settings_submit'), 10, 2);
 		}
 
-		public function screen_settings_submit($current, $screen){
+		public function screen_settings_submit($current, $screen) {
 
 			if(!in_array($screen->id, array($this->hook_suffix_form, $this->hook_suffix_form_submit))) { return $current; }
 
@@ -1208,8 +1286,22 @@
 				'option' => 'ws_form_submissions_per_page'
 			));
 
-			// Create forms object (List of forms)
+			// Create submissions object (List of submissions)
 			$this->ws_form_wp_list_table_submit_obj = new WS_Form_WP_List_Table_Submit();
+		}
+
+		// Style screen options
+		public function ws_form_wp_list_table_style_options() {
+
+			add_screen_option('per_page', array(
+
+				'label' => __('Styles per page:', 'ws-form'),
+				'default' => 20,
+				'option' => 'ws_form_styles_per_page'
+			));
+
+			// Create styles object (List of styles)
+			$this->ws_form_wp_list_table_style_obj = new WS_Form_WP_List_Table_Style();
 		}
 
 		// Set screen option
@@ -1232,7 +1324,16 @@
 			return $status;
 		}
 
-		// Gutenberg Editor Block
+		// Block editor
+		public function enqueue_block_assets() {
+
+			if(is_admin()) {
+
+				// Visual builder enqueues
+				do_action('wsf_enqueue_visual_builder');
+			}
+		}
+
 		public function enqueue_block_editor_assets() {
 
 			// Get forms from API
@@ -1514,6 +1615,42 @@
 
 					break;
 	
+				// Styles
+				case 'ws-form-style' :
+
+					if(!WS_Form_Common::can_user('read_form_style')) { break; }
+
+					// Read style ID and action
+					$style_id = absint(WS_Form_Common::get_query_var_nonce('id', '', false, false, true, 'POST'));
+					$action = WS_Form_Common::get_query_var_nonce('action', '', false, false, true, 'POST');
+					if($action == '-1') { $action = WS_Form_Common::get_query_var_nonce('action2'); }
+
+					// Process action
+					switch($action) {
+
+						case 'wsf-add-template' : 			self::form_style_add_template(WS_Form_Common::get_query_var_nonce('id')); break;
+						case 'wsf-clone' :                  self::form_style_clone($style_id); break;
+						case 'wsf-delete' :                 self::form_style_delete($style_id); self::redirect('ws-form-style', false, self::get_filter_query()); break;
+						case 'wsf-export' :                 self::form_style_export($style_id); break;
+						case 'wsf-restore' :                self::form_style_restore($style_id); self::redirect('ws-form-style', false); break;
+						case 'wsf-default' :                self::form_style_default($style_id); self::redirect('ws-form-style', false); break;
+						case 'wsf-default-conv' :           self::form_style_default_conv($style_id); self::redirect('ws-form-style', false); break;
+						case 'wsf-reset' :                  self::form_style_reset($style_id); self::redirect('ws-form-style', false); break;
+						case 'wsf-bulk-delete' :            self::form_style_bulk('delete'); break;
+						case 'wsf-bulk-restore' :           self::form_style_bulk('restore'); break;
+						case '-1':
+
+							// Check for delete_all
+							if(WS_Form_Common::get_query_var_nonce('delete_all') != '') {
+
+								// Empty trash
+								if(WS_Form_Common::get_query_var_nonce('delete_all')) { self::form_style_trash_delete(); }
+							}
+							break;
+					}
+
+					break;
+
 				// Settings
 				case 'ws-form-settings' :
 
@@ -1998,10 +2135,129 @@
 			self::redirect('ws-form-submit', $this->form_id, self::get_filter_query());
 		}
 
+		// Style - Create from template
+		public function form_style_add_template($id) {
+
+			$ws_form_style = New WS_Form_Style();
+			$ws_form_style->db_create_from_template($id);
+
+			if($ws_form_style->id > 0) {
+
+				// Redirect
+				self::redirect('ws-form-style', $ws_form_form->id);
+			}
+		}
+
+		// Style - Clone
+		public function form_style_clone($id) {
+
+			$ws_form_style = New WS_Form_Style();
+			$ws_form_style->id = $id;
+			$ws_form_style->db_clone();
+
+			if($ws_form_style->id > 0) { self::redirect('ws-form-style', false, self::get_filter_query()); }
+		}
+
+		// Style - Delete
+		public function form_style_delete($id) {
+
+			$ws_form_style = New WS_Form_Style();
+			$ws_form_style->id = $id;
+			$ws_form_style->db_delete();
+
+			// No redirect here in case it is called by bulk loop
+		}
+
+		// Style - Export
+		public function form_style_export($id) {
+
+			$ws_form_style = New WS_Form_Style();
+			$ws_form_style->id = $id;
+			$ws_form_style->db_download_json();
+
+			// No redirect here in case it is called by bulk loop
+		}
+
+		// Style - Restore
+		public function form_style_restore($id) {
+
+			$ws_form_style = New WS_Form_Style();
+			$ws_form_style->id = $id;
+			$ws_form_style->db_restore();
+
+			// No redirect here in case it is called by bulk loop
+		}
+
+		// Style - Default
+		public function form_style_default($id) {
+
+			$ws_form_style = New WS_Form_Style();
+			$ws_form_style->id = $id;
+			$ws_form_style->db_default();
+
+			if($ws_form_style->id > 0) { self::redirect('ws-form-style', false, self::get_filter_query()); }
+		}
+
+		// Style - Default - Conversational
+		public function form_style_default_conv($id) {
+
+			$ws_form_style = New WS_Form_Style();
+			$ws_form_style->id = $id;
+			$ws_form_style->db_default_conv();
+
+			if($ws_form_style->id > 0) { self::redirect('ws-form-style', false, self::get_filter_query()); }
+		}
+
+		// Style - Reset
+		public function form_style_reset($id) {
+
+			$ws_form_style = New WS_Form_Style();
+			$ws_form_style->id = $id;
+			$ws_form_style->db_reset();
+
+			// No redirect here in case it is called by bulk loop
+		}
+
+		// Style - Bulk
+		public function form_style_bulk($method = '') {
+
+			$ids = WS_Form_Common::get_query_var_nonce('bulk-ids');
+
+			if(!$ids || (count($ids) == 0)) { return false; }
+
+			switch($method) {
+
+				case 'delete' :
+
+					foreach ($ids as $id) { self::form_style_delete($id); }
+					self::redirect('ws-form-style', false, self::get_filter_query());
+					break;
+
+				case 'restore' :
+
+					foreach ($ids as $id) { self::form_style_estore($id); }
+					self::redirect('ws-form-style', false);
+					break;
+			}
+		}
+
+		// Style - Empty trash
+		public function form_style_trash_delete() {
+
+			$ws_form_style = New WS_Form_Style();
+			$ws_form_style->db_trash_delete();
+
+			// Redirect
+			self::redirect('ws-form-style', false, self::get_filter_query());
+		}
+
 		public function settings_update_fields($fields, $max_uploads, $max_upload_size) {
 
 			// Update
 			foreach(array_reverse($fields) as $field => $attributes) {
+
+				// Check for false (Hidden setting)
+				if($attributes === false) { continue; }
 
 				// Hidden values
 				if($attributes['type'] === 'hidden') { continue; }
@@ -2288,7 +2544,7 @@
 
 							'id'     => WS_FORM_NAME . '-forms',
 							'parent' => WS_FORM_NAME . '-node',
-							'title'  => esc_attr__('All Forms', 'ws-form'),
+							'title'  => esc_attr__('Forms', 'ws-form'),
 							'href'   => WS_Form_Common::get_admin_url('ws-form')
 						)
 					);
@@ -2304,7 +2560,7 @@
 
 						'id'     => WS_FORM_NAME . '-add-form',
 						'parent' => WS_FORM_NAME . '-node',
-						'title'  => esc_attr__('Add New', 'ws-form'),
+						'title'  => esc_attr__('Add Form', 'ws-form'),
 						'href'   => WS_Form_Common::get_admin_url('ws-form-add')
 					)
 				);
@@ -2347,6 +2603,18 @@
 		public function admin_page_form_delete() {
 
 			include_once 'partials/ws-form-form-delete.php';
+		}
+
+		// Admin page - Style
+		public function admin_page_form_style() {
+
+			include_once 'partials/ws-form-form-style.php';
+		}
+
+		// Admin page - Style - Add
+		public function admin_page_form_style_add() {
+
+			include_once 'partials/ws-form-form-style-add.php';
 		}
 
 		// Admin page - Settings

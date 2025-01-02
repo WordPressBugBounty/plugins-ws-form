@@ -2,8 +2,6 @@
 
 	class WS_Form_WP_List_Table_Form extends WP_List_Table {
 
-		private $form_to_page_array;
-
 		// Construct
 	    public function __construct() {
 
@@ -47,7 +45,7 @@
 		// Get sortable columns
 		public function get_sortable_columns() {
 
-			$sortable_columns = array(
+			return array(
 
 				'media'				=> array('status', true),		// Used 'media' as opposed to 'status' because WordPress considers that a special keyword and excludes it from the screen options column checkboxes
 				'title'				=> array('label', true),		// Used 'title' as opposed to 'label' because WordPress considers that a special keyword and excludes it from the screen options column checkboxes
@@ -55,15 +53,6 @@
 				'count_submit'		=> array('count_submit', true),
 				'shortcode'			=> array('id', true)
 			);
-
-			$current = WS_Form_Common::get_query_var('ws-form-status', 'all');
-
-			if($current == 'all') {
-
-				$column['status'] = array('status', true);
-			}
-
-			return $sortable_columns;
 		}
 
 		// Column - Default
@@ -139,6 +128,11 @@
 					}
 
 					$actions['preview'] = sprintf('<a href="%s" target="_blank">%s</a>', WS_Form_Common::get_preview_url($id), __('Preview', 'ws-form'));
+
+					if(WS_Form_Common::styler_enabled() && WS_Form_Common::can_user('edit_form_style')) {
+
+						$actions['style'] = sprintf('<a href="%s" target="_blank">%s</a>', WS_Form_Common::get_preview_url($id, false, false, true), __('Style', 'ws-form'));
+					}
 
 					if(WS_Form_Common::can_user('export_form')) {
 

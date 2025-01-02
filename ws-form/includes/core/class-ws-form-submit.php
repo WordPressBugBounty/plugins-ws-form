@@ -45,6 +45,8 @@
 
 		public $field_types;
 
+		public $field_object_cache = array();
+
 		public $file_objects = array();
 
 		public $submit_fields = false;
@@ -57,6 +59,9 @@
 		public $keys_fields = false;
 		public $keys_ecommerce = false;
 		public $keys_tracking = false;
+
+		public $form_count_submit_cache = false;
+		public $form_count_submit_unread_cache = false;
 
 		const DB_INSERT = 'form_id,date_added,date_updated,date_expire,user_id,hash,token,token_validated,duration,count_submit,status,actions,section_repeatable,preview,spam_level,starred,viewed,encrypted';
 		const DB_UPDATE = 'form_id,date_added,date_updated,date_expire,user_id,hash,token,token_validated,duration,count_submit,status,actions,section_repeatable,preview,spam_level,starred,viewed,encrypted';
@@ -232,7 +237,12 @@
 			// User capability check
 			WS_Form_Common::user_must('read_submission', $bypass_user_capability_check);
 
-			if($expand_user && isset($submit_object->user_id) && ($submit_object->user_id > 0)) {
+			if(
+				!$bypass_user_capability_check &&	// Do not expand user data if this is a public request
+				$expand_user &&
+				isset($submit_object->user_id) &&
+				($submit_object->user_id > 0)
+			) {
 
 				$user = get_user_by('ID', $submit_object->user_id);
 				if($user !== false) {
@@ -1015,8 +1025,6 @@
 				$meta_array = $ws_form_submit_meta->db_read_all($bypass_user_capability_check, $submit_encrypted);
 			}
 
-			$field_cache = array();
-
 			// Process meta data
 			foreach($meta_array as $index => $meta) {
 
@@ -1030,10 +1038,10 @@
 				if($field_id > 0) {
 
 					// Load field data to cache
-					if(isset($field_cache[$field_id])) {
+					if(isset($this->field_object_cache[$field_id])) {
 
 						// Use cached version
-						$field_object = $field_cache[$field_id];
+						$field_object = $this->field_object_cache[$field_id];
 
 					} else {
 
@@ -1041,7 +1049,7 @@
 						$ws_form_field = New WS_Form_Field();
 						$ws_form_field->id = $field_id;
 						$field_object = $ws_form_field->db_read(true, $bypass_user_capability_check);
-						$field_cache[$field_id] = $field_object;
+						$this->field_object_cache[$field_id] = $field_object;
 					}
 
 					// If field no longer exists, just return the value
@@ -1183,47 +1191,65 @@
 		}
 
 		// Get number for form submissions
-		public function db_get_count_submit($bypass_user_capability_check = false) {
+		public function db_get_count_submit_cached($bypass_user_capability_check = false) {
+
+			self::db_check_form_id();
 
 			// User capability check
 			WS_Form_Common::user_must('read_submission', $bypass_user_capability_check);
 
-			// Check form ID
-			self::db_check_form_id();
+			// Check cache
+			if($this->form_count_submit_cache === false) {
 
-			global $wpdb;
+				global $wpdb;
 
-			// Get total number for form submissions
-			$sql = $wpdb->prepare(
+				// Build cache
+				$this->form_count_submit_cache = array();
 
-				"SELECT COUNT(id) AS count_submit FROM {$this->table_name} WHERE form_id = %d AND NOT (status = 'trash');",
-				$this->form_id
-			);
+				// Get total number of form submissions
+				$sql = "SELECT form_id, COUNT(id) AS count_submit FROM {$this->table_name} WHERE NOT (status = 'trash') GROUP BY form_id;";
+				$rows = $wpdb->get_results($sql);
 
-			$count_submit = $wpdb->get_var($sql);
-			if(!is_null($count_submit)) { return absint($count_submit); } else { return 0; }
+				if(is_null($rows)) { return 0; }
+
+				foreach($rows as $row) {
+
+					$this->form_count_submit_cache[absint($row->form_id)] = absint($row->count_submit);
+				}
+			}
+
+			return isset($this->form_count_submit_cache[$this->form_id]) ? $this->form_count_submit_cache[$this->form_id] : 0;
 		}
 
 		// Get number for form submissions unread
-		public function db_get_count_submit_unread($bypass_user_capability_check = false) {
+		public function db_get_count_submit_unread_cached($bypass_user_capability_check = false) {
+
+			self::db_check_form_id();
 
 			// User capability check
 			WS_Form_Common::user_must('read_submission', $bypass_user_capability_check);
 
-			// Check form ID
-			self::db_check_form_id();
+			// Check cache
+			if($this->form_count_submit_unread_cache === false) {
 
-			global $wpdb;
+				global $wpdb;
 
-			// Get total number for form submissions that are unread
-			$sql = $wpdb->prepare(
+				// Build cache
+				$this->form_count_submit_unread_cache = array();
 
-				"SELECT COUNT(id) AS count_submit_unread FROM {$this->table_name} WHERE form_id = %d AND viewed = 0 AND status IN ('publish', 'draft');",
-				$this->form_id
-			);
+				// Get total number of form submissions that are unread
+				$sql = "SELECT form_id, COUNT(id) AS count_submit_unread FROM {$this->table_name} WHERE viewed = 0 AND status IN ('publish', 'draft') GROUP BY form_id;";
+				$rows = $wpdb->get_results($sql);
 
-			$count_submit_unread = $wpdb->get_var($sql);
-			if(!is_null($count_submit_unread)) { return absint($count_submit_unread); } else { return 0; }
+				if(is_null($rows)) { return 0; }
+
+				foreach($rows as $row) {
+
+					$this->form_count_submit_unread_cache[absint($row->form_id)] = absint($row->count_submit_unread);
+				}
+			}
+
+			return isset($this->form_count_submit_unread_cache[$this->form_id]) ? $this->form_count_submit_unread_cache[$this->form_id] : 0;
 		}
 
 		// Restore
@@ -2180,36 +2206,41 @@
 
 			// Get form ID
 			$this->form_id = absint(WS_Form_Common::get_query_var_nonce('wsf_form_id', 0));
-			self::db_check_form_id();
+
+			// If form ID is not specified then we should stop processing
+			if($this->form_id === 0) { exit; }
 
 			// Get hash
 			$this->hash = WS_Form_Common::get_query_var_nonce('wsf_hash', '');
 
 			// If hash found, look for form submission
-			if($this->hash != '') {
+			if(
+				($this->hash != '') &&
+				WS_Form_Common::check_submit_hash($this->hash)
+			) {
+				try {
 
-				// Check hash
-				if(!WS_Form_Common::check_submit_hash($this->hash)) {
+					// Read submit by hash
+					$this->db_read_by_hash(true, true, true, true);
 
-					parent::db_throw_error(__('Invalid hash ID (setup_from_post).', 'ws-form'));
-				}
+					// Reset spam level
+					$this->spam_level = null;
 
-				// Read submit by hash
-				$this->db_read_by_hash(true, true, true, true);
+					// Clear meta data
+					$submit_clear_meta_filter_keys = apply_filters('wsf_submit_clear_meta_filter_keys', array());
+					foreach($this->meta as $key => $value) {
 
-				// Reset spam level
-				$this->spam_level = null;
+						if(!in_array($key, $submit_clear_meta_filter_keys)) {
 
-				// Clear meta data
-				$submit_clear_meta_filter_keys = apply_filters('wsf_submit_clear_meta_filter_keys', array());
-				foreach($this->meta as $key => $value) {
-
-					if(!in_array($key, $submit_clear_meta_filter_keys)) {
-
-						unset($this->meta[$key]);
+							unset($this->meta[$key]);
+						}
 					}
+					$this->meta_protected = array();
+
+				} catch(Exception $e) {
+
+					$this->hash = '';
 				}
-				$this->meta_protected = array();
 			}
 
 			if($this->hash == '') {
@@ -2453,7 +2484,14 @@
 							}
 
 							// Process reCAPTCHA
-							self::db_captcha_process($field_id, $section_repeatable_index, $recaptcha_secret_key, WS_FORM_RECAPTCHA_ENDPOINT, WS_FORM_RECAPTCHA_QUERY_VAR);
+							try {
+
+								self::db_captcha_process($field_id, $section_repeatable_index, $recaptcha_secret_key, WS_FORM_RECAPTCHA_ENDPOINT, WS_FORM_RECAPTCHA_QUERY_VAR);
+
+							} catch (Exception $e) {
+
+								self::db_throw_error_field_invalid_feedback($field_id, $section_repeatable_index, $e->getMessage());
+							}
 						}
 
 						break;
@@ -2473,7 +2511,14 @@
 							}
 
 							// Process hCaptcha
-							self::db_captcha_process($field_id, $section_repeatable_index, $hcaptcha_secret_key, WS_FORM_HCAPTCHA_ENDPOINT, WS_FORM_HCAPTCHA_QUERY_VAR);
+							try {
+
+								self::db_captcha_process($field_id, $section_repeatable_index, $hcaptcha_secret_key, WS_FORM_HCAPTCHA_ENDPOINT, WS_FORM_HCAPTCHA_QUERY_VAR);
+
+							} catch (Exception $e) {
+
+								self::db_throw_error_field_invalid_feedback($field_id, $section_repeatable_index, $e->getMessage());
+							}
 						}
 
 						break;
@@ -2493,27 +2538,14 @@
 							}
 
 							// Process Turnstile
-							self::db_captcha_process($field_id, $section_repeatable_index, $turnstile_secret_key, WS_FORM_TURNSTILE_ENDPOINT, WS_FORM_TURNSTILE_QUERY_VAR);
-						}
+							try {
 
-						break;
+								self::db_captcha_process($field_id, $section_repeatable_index, $turnstile_secret_key, WS_FORM_TURNSTILE_ENDPOINT, WS_FORM_TURNSTILE_QUERY_VAR);
 
-					case 'captchafox' :
+							} catch (Exception $e) {
 
-						// Only process if form is being submitted
-						if($form_submit) {
-
-							// Get Turnstile secret
-							$captchafox_secret_key = WS_Form_Common::get_object_meta_value($field, 'captchafox_secret_key', '');
-
-							// If field setting is blank, check global setting
-							if(empty($captchafox_secret_key)) {
-
-								$captchafox_secret_key = WS_Form_Common::option_get('captchafox_secret_key', '');
+								self::db_throw_error_field_invalid_feedback($field_id, $section_repeatable_index, $e->getMessage());
 							}
-
-							// Process Turnstile
-							self::db_captcha_process($field_id, $section_repeatable_index, $captchafox_secret_key, WS_FORM_CAPTCHAFOX_ENDPOINT, WS_FORM_CAPTCHAFOX_QUERY_VAR);
 						}
 
 						break;

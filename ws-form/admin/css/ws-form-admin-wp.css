@@ -4,7 +4,7 @@
   width: 15px;
   height: 20px;
   background-repeat: no-repeat;
-  padding: 0px 5px;
+  padding: 0 5px;
 }
 
 .block-editor-inserter__preview .wsf-block-form-add-preview svg {
@@ -141,7 +141,7 @@
   margin-bottom: 6px;
 }
 
-.wsf-modal-content form .wsf-form-add-modal-field-wrapper {
+.wsf-modal-content form .wsf-template-add-modal-field-wrapper {
   margin-bottom: 16px;
 }
 

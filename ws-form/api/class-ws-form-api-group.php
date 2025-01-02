@@ -123,7 +123,7 @@
 			try {
 
 				// Get form object from file
-				$form_object = WS_Form_Common::get_form_object_from_post_file();
+				$form_object = WS_Form_Common::get_object_from_post_file();
 
 				// Update group
 				$label = $ws_form_group->db_create_from_form_object($form_object);

@@ -75,6 +75,11 @@
 
 			$rows = array();
 
+			// Get keys
+			$keys_fixed = $this->ws_form_submit->get_keys_fixed($bypass_user_capability_check);
+			$keys_ecommerce = $this->ws_form_submit->get_keys_ecommerce($bypass_user_capability_check);
+			$keys_tracking = $this->ws_form_submit->get_keys_tracking($bypass_user_capability_check);
+
 			// Get field data
 			$this->ws_form_submit->db_get_submit_fields($bypass_user_capability_check);
 
@@ -97,7 +102,7 @@
 				$row = array();
 
 				// Fixed fields
-				foreach($this->ws_form_submit->get_keys_fixed($bypass_user_capability_check) as $key => $value) {
+				foreach($keys_fixed as $key => $value) {
 
 					switch($key) {
 
@@ -113,18 +118,22 @@
 
 						case 'user_first_name' :
 
-							$row[$key] = isset($submit_object->user) ? $submit_object->user->first_name : '';
+							$row[$key] = (isset($submit_object->user) && !$bypass_user_capability_check) ? $submit_object->user->first_name : '';
 							break;
 
 						case 'user_last_name' :
 
-							$row[$key] = isset($submit_object->user) ? $submit_object->user->last_name : '';
+							$row[$key] = (isset($submit_object->user) && !$bypass_user_capability_check) ? $submit_object->user->last_name : '';
+							break;
+
+						case 'user_id' :
+
+							$row[$key] = (isset($submit_object->user_id) && !$bypass_user_capability_check) ? $submit_object->{$key} : 0;
 							break;
 
 						case 'id' :
 						case 'status' :
 						case 'status_full' :
-						case 'user_id' :
 						case 'duration' :
 
 							$row[$key] = isset($submit_object->{$key}) ? $submit_object->{$key} : '';

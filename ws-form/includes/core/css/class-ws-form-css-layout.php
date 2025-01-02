@@ -193,6 +193,6 @@
 			$css_return .= "}\n\n";
 
 			// $css_return is already escaped. Further escaping will break any base64 SVG elements.
-			echo $css_return;	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+			WS_Form_Common::echo_esc_css($css_return);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 		}
 	}

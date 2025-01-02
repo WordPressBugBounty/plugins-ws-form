@@ -118,7 +118,7 @@
 				'term_id',
 				'name',
 				'slug',
-				'menu_order',
+				'term_order',
 
 			))) { return self::error(__('Invalid order by method'), $field_id, $this, $api_request); }
 
@@ -674,7 +674,7 @@
 						array('value' => 'term_id', 'text' => 'ID'),
 						array('value' => 'name', 'text' => 'Name'),
 						array('value' => 'slug', 'text' => 'Slug'),
-						array('value' => 'menu_order', 'text' => 'Menu Order')
+						array('value' => 'term_order', 'text' => 'Term Order')
 					)
 				),
 

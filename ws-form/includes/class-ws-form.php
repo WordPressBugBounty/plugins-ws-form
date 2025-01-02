@@ -62,8 +62,11 @@ final class WS_Form {
 		// The class responsible for defining internationalization functionality of the plugin
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-i18n.php';
 
-		// The class responsible for customizing
-		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-customize.php';
+		if(WS_Form_Common::customizer_enabled()) {
+
+			// The class responsible for customizing
+			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-customize.php';
+		}
 
 		// The classes responsible for populating WP List Tables
 		if(is_admin()) {
@@ -71,6 +74,7 @@ final class WS_Form {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'admin/class-ws-form-wp-list-table-form.php';
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'admin/class-ws-form-wp-list-table-submit.php';
+			require_once WS_FORM_PLUGIN_DIR_PATH . 'admin/class-ws-form-wp-list-table-style.php';
 		}
 
 		// The class responsible for defining all actions that occur in the admin area
@@ -81,6 +85,7 @@ final class WS_Form {
 
 		// The class responsible for managing form previews
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'public/class-ws-form-preview.php';
+
 		// The class responsible for the widget
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-widget.php';
 
@@ -89,6 +94,10 @@ final class WS_Form {
 
 		// Cron
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-cron.php';
+
+		// Color
+		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-color.php';
+
 
 		// Object classes
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-meta.php';
@@ -101,6 +110,11 @@ final class WS_Form {
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-submit-export.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-template.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-css.php';
+
+		if(WS_Form_Common::styler_enabled()) {
+
+			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-style.php';
+		}
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-form-stat.php';
 
 		// Actions
@@ -241,7 +255,8 @@ final class WS_Form {
 
 		$plugin_i18n = new WS_Form_i18n();
 
-		$this->loader->add_action('init', $plugin_i18n, 'load_plugin_textdomain');
+		// Set priority to 0 to ensure it runs before register_widget is called otherwise it knocks out translations
+		$this->loader->add_action('init', $plugin_i18n, 'load_plugin_textdomain', 0);
 	}
 
 	/**
@@ -287,6 +302,7 @@ final class WS_Form {
 		$this->loader->add_filter('plugin_action_links_' . WS_FORM_PLUGIN_BASENAME, $plugin_admin, 'plugin_action_links');
 
 		// Blocks
+		$this->loader->add_action('enqueue_block_assets', $plugin_admin, 'enqueue_block_assets');
 		$this->loader->add_action('enqueue_block_editor_assets', $plugin_admin, 'enqueue_block_editor_assets');
 
  		if(WS_Form_Common::version_compare($wp_version, '5.8') >= 0) {

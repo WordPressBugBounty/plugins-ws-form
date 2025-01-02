@@ -7,7 +7,7 @@
 
 		var ws_this = this;
 
-		$('[data-type="radio"]:not([data-radio-validation-init])', this.form_canvas_obj).each(function() {
+		$('[data-type="radio"]:not([data-radio-validation-init]),[data-type="price_radio"]:not([data-radio-validation-init])', this.form_canvas_obj).each(function() {
 
 			// Get radios
 			var radios = $('input[type="radio"]', $(this));

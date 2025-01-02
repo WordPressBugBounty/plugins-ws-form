@@ -325,8 +325,11 @@
 					$email_attachment_paths[] = $email_attachment['path'];
 				}
 
-				// Add error handler
+				// Error handler - WordPress core
 				add_action('wp_mail_failed', array($this, 'wp_mail_error_handler'), 10, 1);
+
+				// Error handler - Postmark (Required because the Postmark plugin doesn't use wp_mail_failed action)
+				add_action('postmark_error', array($this, 'wp_mail_error_handler_postmark'), 10, 2);
 
 				// Run wp_mail
 				$wp_mail_return = wp_mail($email_to, $email_subject, $email_message, $email_headers, $email_attachment_paths);
@@ -404,6 +407,29 @@
 				}
 
 				$this->wp_mail_error_message = implode(' ', $error_messages);
+			}
+		}
+
+		public function wp_mail_error_handler_postmark($response, $headers) {
+
+			if(
+				is_array($response) &&
+				isset($response['body'])
+			) {
+				$body_decoded = json_decode($response['body']);
+
+				if(
+					is_object($body_decoded) &&
+					property_exists($body_decoded, 'ErrorCode') &&
+					property_exists($body_decoded, 'Message')
+				) {
+					$this->wp_mail_error_message = sprintf(
+
+						__('Postmark error %s: %s', 'ws-form'),
+						$body_decoded->ErrorCode,
+						$body_decoded->Message
+					);
+				}
 			}
 		}
 

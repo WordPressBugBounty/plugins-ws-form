@@ -72,12 +72,6 @@
 	margin-inline-start: 10em;
 }
 
-.wsf-form .minicolors-theme-bootstrap .minicolors-swatch {
-	cursor: pointer;
-	height: 32px;
-	width: 32px;
-}
-
 .wsf-form input[type=text] ~ .dropzone {
 	background-color: #fff;
 	border: 1px dashed #ced4da;

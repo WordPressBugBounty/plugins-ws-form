@@ -29,6 +29,13 @@
 <a data-action="wsf-preview" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_attr(WS_Form_Common::get_preview_url($form_id)); ?>" target="wsf-preview-<?php WS_Form_Common::echo_esc_attr($form_id); ?>"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview', 'ws-form'); ?></a>
 <?php
 
+	// Style
+	if(WS_Form_Common::styler_visible_admin()) {
+?>
+<a data-action="wsf-style" class="wsf-button wsf-button-small" href="#" target="wsf-style-<?php WS_Form_Common::echo_esc_attr($form_id); ?>"><?php WS_Form_Common::render_icon_16_svg('style'); ?> <?php esc_html_e('Style', 'ws-form'); ?></a>
+<?php
+	}
+
 	// Submissions
 	if(WS_Form_Common::can_user('read_submission')) {
 ?>
@@ -86,7 +93,7 @@
 
 <label class="screen-reader-text" id="title-prompt-text" for="title"><?php esc_html_e('Form Label', 'ws-form'); ?></label>
 <input type="text" id="title" class="wsf-field" placeholder="<?php esc_html_e('Form Label', 'ws-form'); ?>" data-action="wsf-form-label" name="form_label" size="30" value="" spellcheck="true" autocomplete="off" />
-<button data-action="wsf-label-save" class="wsf-button wsf-button-small wsf-button-information"><?php esc_html_e('Save', 'ws-form'); ?></button>
+<button data-action="wsf-label-save" class="wsf-button wsf-button-small wsf-button-primary"><?php esc_html_e('Save', 'ws-form'); ?></button>
 
 </div>
 </div>
@@ -132,11 +139,11 @@
 
 <div class="wsf-modal-title"><?php
 
-	echo WS_Form_Common::get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 ?><h2><?php
 
-	echo __('Variables', 'ws-form');	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_esc_html(__('Variables', 'ws-form'));	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 ?></h2></div>
 
@@ -153,7 +160,7 @@
 
 <input id="wsf-variable-helper-search-input" class="wsf-field" type="search" placeholder="<?php
 
-	echo __('Variable search...', 'ws-form');	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_esc_html(__('Variable search...', 'ws-form'));	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 ?>" />
 
@@ -165,7 +172,7 @@
 	
 <p><?php
 
-	echo __('No results', 'ws-form');	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_esc_html(__('No results', 'ws-form'));	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 ?>
 </div>

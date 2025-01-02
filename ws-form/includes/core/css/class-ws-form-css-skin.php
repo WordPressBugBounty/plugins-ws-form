@@ -1,5 +1,6 @@
 <?php
 
+	// Legacy
 	class WS_Form_CSS_Skin extends WS_Form_CSS {
 
 		// Render
@@ -62,7 +63,7 @@
 	text-size-adjust: 100%;
 }
 
-.wsf-form *, .wsf-form *:before, .wsf-form *:after {
+.wsf-form *, .wsf-form *::before, .wsf-form *::after {
 	box-sizing: inherit;
 }
 
@@ -225,7 +226,7 @@
 	padding: 0;
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps > li > a:before {
+.wsf-form ul.wsf-group-tabs.wsf-steps > li > a::before {
 	background-color: <?php self::e($this->color_primary); ?>;
 	border: <?php self::e($this->border_width . $uom . ' ' . $this->border_style . ' ' . $this->color_primary); ?>;
 	border-radius: 50%;
@@ -244,12 +245,12 @@
 	width: <?php self::e($input_height . $uom); ?>;
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-success > li > a:before {
+.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-success > li > a::before {
 	background-color: <?php self::e($this->color_success); ?>;
 	border: <?php self::e($this->border_width . $uom . ' ' . $this->border_style . ' ' . $this->color_success); ?>;
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps > li > a:after {
+.wsf-form ul.wsf-group-tabs.wsf-steps > li > a::after {
 	background-color: <?php self::e($this->color_primary); ?>;
 	content: '';
 	height: <?php self::e($this->border_width . $uom); ?>;
@@ -263,25 +264,25 @@
 	z-index: -2;
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-success > li > a:after {
+.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-success > li > a::after {
 	background-color: <?php self::e($this->color_success); ?>;
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps > li:first-child > a:after {
+.wsf-form ul.wsf-group-tabs.wsf-steps > li:first-child > a::after {
 	content: none;
 }
 
 .wsf-form ul.wsf-group-tabs.wsf-steps > li > a:not(.wsf-tab-disabled):focus:before {
 	border-color: <?php self::e($this->focus_border_color); ?>;
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_primary, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_primary, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 
 .wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-success > li > a:not(.wsf-tab-disabled):focus:before {
 	border-color: <?php self::e($this->color_success); ?>;
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_success, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_success, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 
@@ -300,22 +301,22 @@
 	background-color: transparent;
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps > li.wsf-tab-active > a:before {
+.wsf-form ul.wsf-group-tabs.wsf-steps > li.wsf-tab-active > a::before {
 	background-color: <?php self::e($this->color_default_inverted); ?>;
 	color: <?php self::e($this->color_primary); ?>;
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-success > li.wsf-tab-active > a:before {
+.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-success > li.wsf-tab-active > a::before {
 	color: <?php self::e($this->color_success); ?>;
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps > li.wsf-tab-active ~ li > a:before {
+.wsf-form ul.wsf-group-tabs.wsf-steps > li.wsf-tab-active ~ li > a::before {
 	background-color: <?php self::e($this->color_default_inverted); ?>;
 	border-color: <?php self::e($this->border_color); ?>;
 	color: <?php self::e($this->color_default); ?>;
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps > li.wsf-tab-active ~ li > a:after {
+.wsf-form ul.wsf-group-tabs.wsf-steps > li.wsf-tab-active ~ li > a::after {
 	background-color: <?php self::e($this->border_color); ?>;
 }
 
@@ -323,15 +324,15 @@
 	display: none;
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-checks > li > a:before {
+.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-checks > li > a::before {
 	content: '\2713';
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-checks > li.wsf-tab-active > a:before {
+.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-checks > li.wsf-tab-active > a::before {
 	content: counter(step);
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-checks > li.wsf-tab-active ~ li > a:before {
+.wsf-form ul.wsf-group-tabs.wsf-steps.wsf-steps-checks > li.wsf-tab-active ~ li > a::before {
 	content: counter(step);
 }
 
@@ -347,7 +348,7 @@
 	margin-inline-end: 0;
 }
 
-.wsf-form-canvas.wsf-vertical ul.wsf-group-tabs.wsf-steps > li > a:after {
+.wsf-form-canvas.wsf-vertical ul.wsf-group-tabs.wsf-steps > li > a::after {
 	height: 100%;
 	left: <?php self::e(($input_height / 2) . $uom); ?>;
 	top: -50%;
@@ -358,7 +359,7 @@
 	text-align: left;
 }
 
-.wsf-form-canvas.wsf-vertical ul.wsf-group-tabs.wsf-steps > li > a:before {
+.wsf-form-canvas.wsf-vertical ul.wsf-group-tabs.wsf-steps > li > a::before {
 	display: inline-block;
 	margin-bottom: 0;
 	-webkit-margin-end: <?php self::e($this->spacing . $uom); ?>;
@@ -727,7 +728,7 @@ textarea.wsf-field:focus {
 	border-color: <?php self::e($this->focus_border_color); ?>;
 <?php } ?>
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_primary, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_primary, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 <?php if ($this->focus_color != $this->color) { ?>
 	color: <?php self::e($this->focus_color); ?>;
@@ -904,7 +905,7 @@ input[type=checkbox].wsf-field + label.wsf-label {
 <?php } ?>
 }
 
-input[type=checkbox].wsf-field + label.wsf-label:before {
+input[type=checkbox].wsf-field + label.wsf-label::before {
 	background-color: <?php self::e($this->background_color); ?>;
 <?php if ($this->border) { ?>
 	border: <?php self::e($this->border_width . $uom . ' ' . $this->border_style . ' ' . $this->border_color); ?>;
@@ -925,7 +926,7 @@ input[type=checkbox].wsf-field + label.wsf-label:before {
 	width: <?php self::e($checkbox_size . $uom); ?>;
 }
 
-input[type=checkbox].wsf-field + label.wsf-label:after {
+input[type=checkbox].wsf-field + label.wsf-label::after {
 	content: '';
 	cursor: pointer;
 	display: inline-block;
@@ -943,7 +944,7 @@ input[type=checkbox].wsf-field + label.wsf-label + .wsf-invalid-feedback {
 }
 
 <?php if ($this->hover) { ?>
-input[type=checkbox].wsf-field:enabled:hover + label.wsf-label:before {
+input[type=checkbox].wsf-field:enabled:hover + label.wsf-label::before {
 <?php if ($this->hover_background_color != $this->background_color) { ?>
 	background-color: <?php self::e($this->hover_background_color); ?>;
 <?php } ?>
@@ -954,7 +955,7 @@ input[type=checkbox].wsf-field:enabled:hover + label.wsf-label:before {
 <?php } ?>
 
 <?php if ($this->focus) { ?>
-input[type=checkbox].wsf-field:focus + label.wsf-label:before {
+input[type=checkbox].wsf-field:focus + label.wsf-label::before {
 <?php if ($this->focus_background_color != $this->background_color) { ?>
 	background-color: <?php self::e($this->focus_background_color); ?>;
 <?php } ?>
@@ -962,7 +963,7 @@ input[type=checkbox].wsf-field:focus + label.wsf-label:before {
 	border-color: <?php self::e($this->focus_border_color); ?>;
 <?php } ?>
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_primary, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_primary, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -973,7 +974,7 @@ input[type=checkbox].wsf-field:disabled + label.wsf-label {
 <?php } ?>
 }
 
-input[type=checkbox].wsf-field:disabled + label.wsf-label:before {
+input[type=checkbox].wsf-field:disabled + label.wsf-label::before {
 <?php if ($this->disabled_background_color != $this->background_color) { ?>
 	background-color: <?php self::e($this->disabled_background_color); ?>;
 <?php } ?>
@@ -985,23 +986,23 @@ input[type=checkbox].wsf-field:disabled + label.wsf-label:before {
 	cursor: not-allowed;
 }
 
-input[type=checkbox].wsf-field:disabled + label.wsf-label:after {
+input[type=checkbox].wsf-field:disabled + label.wsf-label::after {
 	cursor: not-allowed;
 }
 
-input[type=checkbox].wsf-field:checked + label.wsf-label:before {
+input[type=checkbox].wsf-field:checked + label.wsf-label::before {
 	background-color: <?php self::e($this->checked_color); ?>;
 	border-color: <?php self::e($this->checked_color); ?>;
 }
 
-input[type=checkbox].wsf-field:checked + label.wsf-label:after {
+input[type=checkbox].wsf-field:checked + label.wsf-label::after {
 	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='<?php self::c($this->background_color); ?>' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e");
 	background-position: 50%;
 	background-size: 50%;
 	background-repeat: no-repeat;
 }
 
-input[type=checkbox].wsf-field:checked:disabled + label.wsf-label:before {
+input[type=checkbox].wsf-field:checked:disabled + label.wsf-label::before {
 	opacity: .5;
 }
 
@@ -1036,7 +1037,7 @@ input[type=radio].wsf-field + label.wsf-label {
 <?php } ?>
 }
 
-input[type=radio].wsf-field + label.wsf-label:before {
+input[type=radio].wsf-field + label.wsf-label::before {
 	background-color: <?php self::e($this->background_color); ?>;
 <?php if ($this->border) { ?>
 	border: <?php self::e($this->border_width . $uom . ' ' . $this->border_style . ' ' . $this->border_color); ?>;
@@ -1055,7 +1056,7 @@ input[type=radio].wsf-field + label.wsf-label:before {
 	width: <?php self::e($radio_size . $uom); ?>;
 }
 
-input[type=radio].wsf-field + label.wsf-label:after {
+input[type=radio].wsf-field + label.wsf-label::after {
 	content: '';
 	cursor: pointer;
 	display: inline-block;
@@ -1073,7 +1074,7 @@ input[type=radio].wsf-field + label.wsf-label + .wsf-invalid-feedback {
 }
 
 <?php if ($this->hover) { ?>
-input[type=radio].wsf-field:enabled:hover + label.wsf-label:before {
+input[type=radio].wsf-field:enabled:hover + label.wsf-label::before {
 <?php if ($this->hover_background_color != $this->background_color) { ?>
 	background-color: <?php self::e($this->hover_background_color); ?>;
 <?php } ?>
@@ -1084,7 +1085,7 @@ input[type=radio].wsf-field:enabled:hover + label.wsf-label:before {
 <?php } ?>
 
 <?php if ($this->focus) { ?>
-input[type=radio].wsf-field:focus + label.wsf-label:before {
+input[type=radio].wsf-field:focus + label.wsf-label::before {
 <?php if ($this->focus_background_color != $this->background_color) { ?>
 	background-color: <?php self::e($this->focus_background_color); ?>;
 <?php } ?>
@@ -1092,7 +1093,7 @@ input[type=radio].wsf-field:focus + label.wsf-label:before {
 	border-color: <?php self::e($this->focus_border_color); ?>;
 <?php } ?>
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_primary, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_primary, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -1103,7 +1104,7 @@ input[type=radio].wsf-field:disabled + label.wsf-label {
 <?php } ?>
 }
 
-input[type=radio].wsf-field:disabled + label.wsf-label:before {
+input[type=radio].wsf-field:disabled + label.wsf-label::before {
 <?php if ($this->disabled_background_color != $this->background_color) { ?>
 	background-color: <?php self::e($this->disabled_background_color); ?>;
 <?php } ?>
@@ -1115,23 +1116,23 @@ input[type=radio].wsf-field:disabled + label.wsf-label:before {
 	cursor: not-allowed;
 }
 
-input[type=radio].wsf-field:disabled + label.wsf-label:after {
+input[type=radio].wsf-field:disabled + label.wsf-label::after {
 	cursor: not-allowed;
 }
 
-input[type=radio].wsf-field:checked + label.wsf-label:before {
+input[type=radio].wsf-field:checked + label.wsf-label::before {
 	background-color: <?php self::e($this->checked_color); ?>;
 	border-color: <?php self::e($this->checked_color); ?>;
 }
 
-input[type=radio].wsf-field:checked + label.wsf-label:after {
+input[type=radio].wsf-field:checked + label.wsf-label::after {
 	background-image: url('data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 8 8"%3e%3ccircle r="2" fill="<?php self::c($this->background_color); ?>"/%3e%3c/svg%3e');
 	background-position: 50%;
 	background-size: contain;
 	background-repeat: no-repeat;
 }
 
-input[type=radio].wsf-field:checked:disabled + label.wsf-label:before {
+input[type=radio].wsf-field:checked:disabled + label.wsf-label::before {
 	opacity: .5;
 }
 
@@ -1147,15 +1148,15 @@ input[type=radio].wsf-field.wsf-switch + label.wsf-label {
 	position: relative;
 }
 
-input[type=checkbox].wsf-field.wsf-switch + label.wsf-label:before,
-input[type=radio].wsf-field.wsf-switch + label.wsf-label:before {
+input[type=checkbox].wsf-field.wsf-switch + label.wsf-label::before,
+input[type=radio].wsf-field.wsf-switch + label.wsf-label::before {
 	border-radius: <?php self::e(($checkbox_size / 2) + ($this->border_width * 2) . $uom); ?>;
 	position: absolute;
 	width: <?php self::e((($checkbox_size * 2) - ($this->border_width * 4)) . $uom); ?>;
 }
 
-input[type=checkbox].wsf-field.wsf-switch + label.wsf-label:after,
-input[type=radio].wsf-field.wsf-switch + label.wsf-label:after {
+input[type=checkbox].wsf-field.wsf-switch + label.wsf-label::after,
+input[type=radio].wsf-field.wsf-switch + label.wsf-label::after {
 	background-color: <?php self::e($this->border_color); ?>;
 	border-radius: 50%;
 	height: <?php self::e(($checkbox_size - ($this->border_width * 4)) . $uom); ?>;
@@ -1168,8 +1169,8 @@ input[type=radio].wsf-field.wsf-switch + label.wsf-label:after {
 }
 
 <?php if ($this->hover) { ?>
-input[type=checkbox].wsf-field.wsf-switch:enabled:hover + label.wsf-label:after,
-input[type=radio].wsf-field.wsf-switch:enabled:hover + label.wsf-label:after {
+input[type=checkbox].wsf-field.wsf-switch:enabled:hover + label.wsf-label::after,
+input[type=radio].wsf-field.wsf-switch:enabled:hover + label.wsf-label::after {
 <?php if ($this->hover_border_color != $this->border_color) { ?>
 	border-color: <?php self::e($this->hover_border_color); ?>
 <?php } ?>
@@ -1177,16 +1178,16 @@ input[type=radio].wsf-field.wsf-switch:enabled:hover + label.wsf-label:after {
 <?php } ?>
 
 <?php if ($this->focus) { ?>
-input[type=checkbox].wsf-field.wsf-switch:focus + label.wsf-label:after,
-input[type=radio].wsf-field.wsf-switch:focus + label.wsf-label:after {
+input[type=checkbox].wsf-field.wsf-switch:focus + label.wsf-label::after,
+input[type=radio].wsf-field.wsf-switch:focus + label.wsf-label::after {
 <?php if ($this->focus_border_color != $this->border_color) { ?>
 	border-color: <?php self::e($this->focus_border_color); ?>;
 <?php } ?>
 }
 <?php } ?>
 
-input[type=checkbox].wsf-field.wsf-switch:disabled + label.wsf-label:after,
-input[type=radio].wsf-field.wsf-switch:disabled + label.wsf-label:after {
+input[type=checkbox].wsf-field.wsf-switch:disabled + label.wsf-label::after,
+input[type=radio].wsf-field.wsf-switch:disabled + label.wsf-label::after {
 <?php if ($this->border) { ?>
 <?php if ($this->disabled_border_color != $this->border_color) { ?>
 	border-color: <?php self::e($this->disabled_border_color); ?>;
@@ -1194,13 +1195,13 @@ input[type=radio].wsf-field.wsf-switch:disabled + label.wsf-label:after {
 <?php } ?>
 }
 
-input[type=checkbox].wsf-field.wsf-switch:checked + label.wsf-label:before,
-input[type=radio].wsf-field.wsf-switch:checked + label.wsf-label:before {
+input[type=checkbox].wsf-field.wsf-switch:checked + label.wsf-label::before,
+input[type=radio].wsf-field.wsf-switch:checked + label.wsf-label::before {
 	background-color: <?php self::e($this->checked_color); ?>;
 }
 
-input[type=checkbox].wsf-field.wsf-switch:checked + label.wsf-label:after,
-input[type=radio].wsf-field.wsf-switch:checked + label.wsf-label:after {
+input[type=checkbox].wsf-field.wsf-switch:checked + label.wsf-label::after,
+input[type=radio].wsf-field.wsf-switch:checked + label.wsf-label::after {
 	background-color: <?php self::e($this->background_color); ?>;
 	background-image: none;
 	border-color: <?php self::e($this->background_color); ?>;
@@ -1240,8 +1241,8 @@ input[type=radio].wsf-field.wsf-button + label.wsf-label {
   	vertical-align: middle;
 }
 
-input[type=checkbox].wsf-field.wsf-button + label.wsf-label:after,
-input[type=radio].wsf-field.wsf-button + label.wsf-label:after {
+input[type=checkbox].wsf-field.wsf-button + label.wsf-label::after,
+input[type=radio].wsf-field.wsf-button + label.wsf-label::after {
 	display: none;
 }
 
@@ -1250,8 +1251,8 @@ input[type=radio].wsf-field.wsf-button.wsf-button-full + label.wsf-label {
 	display: block;
 }
 
-input[type=checkbox].wsf-field.wsf-button + label.wsf-label:before,
-input[type=radio].wsf-field.wsf-button + label.wsf-label:before {
+input[type=checkbox].wsf-field.wsf-button + label.wsf-label::before,
+input[type=radio].wsf-field.wsf-button + label.wsf-label::before {
 	display: none;
 }
 
@@ -1259,7 +1260,7 @@ input[type=radio].wsf-field.wsf-button + label.wsf-label:before {
 input[type=checkbox].wsf-field.wsf-button:focus + label.wsf-label,
 input[type=radio].wsf-field.wsf-button:focus + label.wsf-label {
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->border_color, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->border_color, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -1281,7 +1282,7 @@ input[type=radio].wsf-field.wsf-button:checked + label.wsf-label {
 input[type=checkbox].wsf-field.wsf-button:checked:focus + label.wsf-label,
 input[type=radio].wsf-field.wsf-button:checked:focus + label.wsf-label {
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_primary, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_primary, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -1299,13 +1300,13 @@ input[type=radio].wsf-field.wsf-color + label.wsf-label {
 	position: relative;
 }
 
-input[type=checkbox].wsf-field.wsf-color + label.wsf-label:before,
-input[type=radio].wsf-field.wsf-color + label.wsf-label:before {
+input[type=checkbox].wsf-field.wsf-color + label.wsf-label::before,
+input[type=radio].wsf-field.wsf-color + label.wsf-label::before {
 	display: none;
 }
 
-input[type=checkbox].wsf-field.wsf-color + label.wsf-label:after,
-input[type=radio].wsf-field.wsf-color + label.wsf-label:after {
+input[type=checkbox].wsf-field.wsf-color + label.wsf-label::after,
+input[type=radio].wsf-field.wsf-color + label.wsf-label::after {
 	display: none;
 }
 
@@ -1354,7 +1355,7 @@ input[type=radio].wsf-field.wsf-color:focus + label.wsf-label > span {
 	border-color: <?php self::e($this->focus_border_color); ?>;
 <?php } ?>
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_primary, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_primary, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -1378,13 +1379,13 @@ input[type=radio].wsf-field.wsf-image + label.wsf-label {
 	position: relative;
 }
 
-input[type=checkbox].wsf-field.wsf-image + label.wsf-label:before,
-input[type=radio].wsf-field.wsf-image + label.wsf-label:before {
+input[type=checkbox].wsf-field.wsf-image + label.wsf-label::before,
+input[type=radio].wsf-field.wsf-image + label.wsf-label::before {
 	display: none;
 }
 
-input[type=checkbox].wsf-field.wsf-image + label.wsf-label:after,
-input[type=radio].wsf-field.wsf-image + label.wsf-label:after {
+input[type=checkbox].wsf-field.wsf-image + label.wsf-label::after,
+input[type=radio].wsf-field.wsf-image + label.wsf-label::after {
 	display: none;
 }
 
@@ -1444,7 +1445,7 @@ input[type=radio].wsf-field.wsf-image:focus + label.wsf-label > img {
 	border-color: <?php self::e($this->focus_border_color); ?>;
 <?php } ?>
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_primary, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_primary, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -1550,7 +1551,7 @@ input[type=radio].wsf-field.wsf-image:checked + label.wsf-label > img {
 .wsf-validated input[type=url].wsf-field:invalid:focus,
 .wsf-validated select.wsf-field:invalid:focus,
 .wsf-validated textarea.wsf-field:invalid:focus {
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->error_border_color, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->error_border_color, $this->box_shadow_color_opacity)); ?>;
 }
 <?php } ?>
 <?php } ?>
@@ -1574,8 +1575,8 @@ input[type=radio].wsf-field.wsf-image:checked + label.wsf-label > img {
 
 <?php if ($this->border) { ?>
 <?php if ($this->error_border_color != $this->border_color) { ?>
-.wsf-validated input[type=checkbox].wsf-field:invalid + label.wsf-label:before,
-.wsf-validated input[type=radio].wsf-field:invalid + label.wsf-label:before {
+.wsf-validated input[type=checkbox].wsf-field:invalid + label.wsf-label::before,
+.wsf-validated input[type=radio].wsf-field:invalid + label.wsf-label::before {
 	border-color: <?php self::e($this->error_border_color); ?>;
 }
 <?php } ?>
@@ -1583,9 +1584,9 @@ input[type=radio].wsf-field.wsf-image:checked + label.wsf-label > img {
 
 <?php if ($this->focus) { ?>
 <?php if ($this->box_shadow) { ?>
-.wsf-validated input[type=checkbox].wsf-field:invalid:focus + label.wsf-label:before,
-.wsf-validated input[type=radio].wsf-field:invalid:focus + label.wsf-label:before {
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->error_border_color, $this->box_shadow_color_opacity)); ?>;
+.wsf-validated input[type=checkbox].wsf-field:invalid:focus + label.wsf-label::before,
+.wsf-validated input[type=radio].wsf-field:invalid:focus + label.wsf-label::before {
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->error_border_color, $this->box_shadow_color_opacity)); ?>;
 }
 <?php } ?>
 <?php } ?>
@@ -1727,7 +1728,7 @@ button.wsf-button:active {
 	background-color: <?php self::e($this->color_default_lighter_dark_20); ?>;
 	border-color: <?php self::e($this->color_default_lighter_dark_20); ?>;
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->border_color, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->border_color, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 <?php } ?>
 	outline: 0;
@@ -1757,7 +1758,7 @@ button.wsf-button.wsf-button-primary:active {
 	background-color: <?php self::e($this->color_primary_dark_20); ?>;
 	border-color: <?php self::e($this->color_primary_dark_20); ?>;
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_primary, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_primary, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -1786,7 +1787,7 @@ button.wsf-button.wsf-button-secondary:active {
 	background-color: <?php self::e($this->color_secondary_dark_20); ?>;
 	border-color: <?php self::e($this->color_secondary_dark_20); ?>;
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_secondary, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_secondary, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -1815,7 +1816,7 @@ button.wsf-button.wsf-button-success:active {
 	background-color: <?php self::e($this->color_success_dark_20); ?>;
 	border-color: <?php self::e($this->color_success_dark_20); ?>;
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_success, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_success, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -1844,7 +1845,7 @@ button.wsf-button.wsf-button-information:active {
 	background-color: <?php self::e($this->color_information_dark_20); ?>;
 	border-color: <?php self::e($this->color_information_dark_20); ?>;
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_information, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_information, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -1873,7 +1874,7 @@ button.wsf-button.wsf-button-warning:active {
 	background-color: <?php self::e($this->color_warning_dark_20); ?>;
 	border-color: <?php self::e($this->color_warning_dark_20); ?>;
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_warning, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_warning, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -1902,7 +1903,7 @@ button.wsf-button.wsf-button-danger:active {
 	background-color: <?php self::e($this->color_danger_dark_20); ?>;
 	border-color: <?php self::e($this->color_danger_dark_20); ?>;
 <?php if ($this->box_shadow) { ?>
-	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Common::hex_to_rgba($this->color_danger, $this->box_shadow_color_opacity)); ?>;
+	box-shadow: 0 0 0 <?php self::e($this->box_shadow_width . $uom); ?> <?php self::e(WS_Form_Color::hex_color_to_rgba_color($this->color_danger, $this->box_shadow_color_opacity)); ?>;
 <?php } ?>
 }
 <?php } ?>
@@ -2226,7 +2227,7 @@ button.wsf-button:disabled {
 
 		case 'move' :
 ?>
-	transform: translate(var(--wsf-tel-transform-x), <?php self::e($this->label_column_inside_offset . $uom); ?>) scale(<?php self::e($this->label_column_inside_scale); ?>);
+	transform: translate(var(--wsf-field-tel-transform-x), <?php self::e($this->label_column_inside_offset . $uom); ?>) scale(<?php self::e($this->label_column_inside_scale); ?>);
 <?php
 			break;
 	}
@@ -2261,12 +2262,12 @@ button.wsf-button:disabled {
 <?php } ?>
 }
 
-.wsf-form ul.wsf-group-tabs.wsf-steps > li > a:after {
+.wsf-form ul.wsf-group-tabs.wsf-steps > li > a::after {
 	left: auto;
 	right: -50%;
 }
 
-.wsf-form-canvas.wsf-vertical ul.wsf-group-tabs.wsf-steps > li > a:after {
+.wsf-form-canvas.wsf-vertical ul.wsf-group-tabs.wsf-steps > li > a::after {
 	left: auto;
 	right: <?php self::e(($input_height / 2) . $uom); ?>;
 }
@@ -2330,28 +2331,28 @@ select.wsf-field:not([multiple]):not([size]) {
 }
 
 
-input[type=checkbox].wsf-field + label.wsf-label:before {
+input[type=checkbox].wsf-field + label.wsf-label::before {
 	left: auto;
 	right: 0;
 }
 
-input[type=checkbox].wsf-field + label.wsf-label:after {
+input[type=checkbox].wsf-field + label.wsf-label::after {
 	left: auto;
 	right: 0;
 }
 
-input[type=radio].wsf-field + label.wsf-label:before {
+input[type=radio].wsf-field + label.wsf-label::before {
 	left: auto;
 	right: 0;
 }
 
-input[type=radio].wsf-field + label.wsf-label:after {
+input[type=radio].wsf-field + label.wsf-label::after {
 	left: auto;
 	right: 0;
 }
 
-input[type=checkbox].wsf-field.wsf-switch + label.wsf-label:after,
-input[type=radio].wsf-field.wsf-switch + label.wsf-label:after {
+input[type=checkbox].wsf-field.wsf-switch + label.wsf-label::after,
+input[type=radio].wsf-field.wsf-switch + label.wsf-label::after {
 	left: auto;
 	right: <?php self::e(($this->border_width * 2). $uom); ?>;
 <?php if ($this->transition) { ?>
@@ -2359,8 +2360,8 @@ input[type=radio].wsf-field.wsf-switch + label.wsf-label:after {
 <?php } ?>
 }
 
-input[type=checkbox].wsf-field.wsf-switch:checked + label.wsf-label:after,
-input[type=radio].wsf-field.wsf-switch:checked + label.wsf-label:after {
+input[type=checkbox].wsf-field.wsf-switch:checked + label.wsf-label::after,
+input[type=radio].wsf-field.wsf-switch:checked + label.wsf-label::after {
 	left: auto;
 	right: <?php self::e(($checkbox_size - ($this->border_width * 2)) . $uom); ?>
 }
@@ -2380,7 +2381,7 @@ input[type=radio].wsf-field.wsf-switch:checked + label.wsf-label:after {
 /* Fix: RTL for DropzoneJS */
 .dz-hidden-input {
 	left: auto;
-	right: 0px;
+	right: 0;
 }
 
 /* Fix: Elementor for TinyMCE buttons */

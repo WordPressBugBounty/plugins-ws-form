@@ -9,8 +9,8 @@
 			// Disable debug
 			add_filter('wsf_debug_enabled', function($debug_render) { return false; }, 10, 1);
 
-			// Enqueue all WS Form scripts
-			add_action('wp_enqueue_scripts', function() { do_action('wsf_enqueue_core'); });
+			// Visual builder enqueues
+			add_action('wp_enqueue_scripts', function() { do_action('wsf_enqueue_visual_builder'); });
 		}
 	});
 

@@ -78,6 +78,44 @@
 				)
 			);
 
+			// Styler
+			if(WS_Form_Common::styler_visible_public()) {
+
+				// Additional language strings for the public styler feature
+				$language_extra = array(
+
+					'styler_logo'						=>	WS_FORM_NAME_PRESENTABLE,
+					'styler_search_placeholder'			=>	__('Setting search...', 'ws-form'),
+					'styler_undo'						=>	__('Undo', 'ws-form'),
+					'styler_undo_confirm'				=>	__('Are you sure you want to undo the changes made to this style?', 'ws-form'),
+					'styler_pick_color'					=>	__('Pick color', 'ws-form'),
+					'styler_save'						=>	__('Save', 'ws-form'),
+					'styler_import'						=>	__('Import', 'ws-form'),
+					'styler_export'						=>	__('Export', 'ws-form'),
+					'styler_loading'					=>	__('Loading...', 'ws-form'),
+					'styler_id'							=>	__('ID', 'ws-form'),
+					'styler_scheme'						=>	__('Scheme', 'ws-form'),
+					'styler_scheme_base'				=>	__('Base', 'ws-form'),
+					'styler_scheme_alt'					=>	__('Alt', 'ws-form'),
+					'styler_scheme_both'				=>	__('Both', 'ws-form'),
+					'styler_settings'					=>	__('Settings', 'ws-form'),
+					'styler_support'					=>	__('Support', 'ws-form'),
+					'styler_label'						=>	__('Name', 'ws-form'),
+					'styler_label_placeholder'			=>	__('Style name', 'ws-form'),
+					'styler_close'						=>	__('Close', 'ws-form'),
+					'styler_alt'						=>	__('Alt', 'ws-form'),
+					'styler_alt_auto'					=>	__('Auto', 'ws-form'),
+					'styler_alt_title'					=>	__('Create alternative color', 'ws-form'),
+					'styler_copy'						=>	__('Copy', 'ws-form'),
+				);
+
+				// Add to language array
+				foreach($language_extra as $key => $value) {
+
+					$settings_form_public['language'][$key] = $value;
+				}
+			}
+
 			// Apply filter
 			$settings_form_public = apply_filters('wsf_config_settings_form_public', $settings_form_public);
 

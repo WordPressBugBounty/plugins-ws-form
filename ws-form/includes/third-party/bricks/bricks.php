@@ -26,7 +26,7 @@
 					// Create public instance
 					$ws_form_public = new WS_Form_Public();
 
-					// Set visual builder scripts to enqueue
+					// Visual builder enqueues
 					do_action('wsf_enqueue_visual_builder');
 
 					// Enqueue scripts

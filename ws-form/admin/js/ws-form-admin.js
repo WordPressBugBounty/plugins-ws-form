@@ -41,6 +41,9 @@
 
 		// Variable modal
 		this.variable_helper_modal();
+
+		// Styler preview URL
+		this.set_preview_url_styler();
 	}
 
 	// One time init for partials (Not edit)
@@ -556,11 +559,19 @@
 			return false;
 		}
 
-		// Get object type
-		var object = (obj === null) ? 'form' : $.WS_Form.this.get_object_type(obj);
+		switch(obj) {
 
-		// Get object ID
-		var object_id = (obj === null) ? $.WS_Form.this.form_id : obj.attr('data-id');
+			case 'style' :
+
+				var object = 'style';
+				var object_id = 0;
+				break;
+
+			default :
+
+				var object = (obj === null) ? 'form' : $.WS_Form.this.get_object_type(obj);
+				var object_id = (obj === null) ? $.WS_Form.this.form_id : obj.attr('data-id');
+		}
 
 		// Confirm upload
 		if((object === 'form') && show_confirm && !confirm($.WS_Form.this.language(object + '_import_confirm'))) {
@@ -577,8 +588,18 @@
 
 		// Create form data
 		var data = new FormData();
-		data.append('id', this.form_id);
-		data.append(object + '_id', object_id);
+
+		switch(object) {
+
+			case 'style' :
+				break;
+
+			default :
+
+				data.append('id', this.form_id);
+				data.append(object + '_id', object_id);
+		}
+
 		data.append('file', files[0]);
 		data.append(ws_form_settings.wsf_nonce_field_name, ws_form_settings.wsf_nonce);
 
@@ -614,7 +635,17 @@
 		status_bar.populate(files[0].name, files[0].size);
 
 		// Build URL
-		var url = ws_form_settings.url_ajax + object + '/' + object_id + '/upload/json';
+		switch(object) {
+
+			case 'style' :
+
+				var url = ws_form_settings.url_ajax + 'style/upload/json';
+				break;
+
+			default :
+
+				var url = ws_form_settings.url_ajax + object + '/' + object_id + '/upload/json';
+		}
 
 		var jqXHR = $.ajax({
 
@@ -2064,6 +2095,7 @@
 	$.WS_Form.prototype.get_object_type = function(obj) {
 
 		if(obj.hasClass('wsf-form')) { return('form'); }
+		if(obj.hasClass('wsf-form-style')) { return('style'); }
 		if(obj.hasClass('wsf-group-tab')) { return('group'); }
 		if(obj.hasClass('wsf-group')) { return('group'); }
 		if(obj.hasClass('wsf-section')) { return('section'); }
@@ -2533,6 +2565,9 @@
 
 					this.form.label = this.object_data_scratch.label;
 					this.form.meta = this.object_data_scratch.meta;
+
+					// Set preview URL for style button
+					this.set_preview_url_styler();
 
 					break;
 
@@ -4517,6 +4552,10 @@
 					// Render section (Simulate using new object data)
 					var section_id = obj.attr('data-id');
 					$('.wsf-section[data-id="' + $.WS_Form.this.esc_selector(section_id) + '"] .wsf-section-label input').val($.WS_Form.this.object_data_scratch['label']);
+
+					// Render placeholders
+					$.WS_Form.this.sidebar_placeholders_init(obj_outer);
+
 					break;
 
 				case 'field' :
@@ -6067,9 +6106,15 @@
 				if(!keyword_array.hasOwnProperty(keyword_array_index)) { continue; }
 
 				var keyword = keyword_array[keyword_array_index];
+
+				// Trim keyword
 				keyword = keyword.trim();
 
-				search_array.find(function(search_array_config) {
+				for(var search_array_index in search_array) {
+
+					if(!search_array.hasOwnProperty(search_array_index)) { continue; }
+
+					var search_array_config = search_array[search_array_index];
 
 					var score = 0;
 
@@ -6091,15 +6136,11 @@
 							types_matched[search_array_config.type] += score;
 						}
 					}
-				});
+				};
 			}
 
-			// Order by score
-			function types_matched_compare(a, b) {
-
-				return (a == b) ? 0 : ((a < b) ? -1 : 1);
-			}
-			types_matched.sort(types_matched_compare);
+			// Sort by score descending
+			var types_matched = Object.fromEntries(Object.entries(types_matched).sort(([, a], [, b]) => b - a));
 
 			// Hide all
 			$('#wsf-form-field-selector li.wsf-field-selector-group').hide();
@@ -6619,16 +6660,6 @@
 				$.WS_Form.this.init_ui();
 			}
 		});
-	}
-
-	$.WS_Form.prototype.template_api_response = function(response) {
-
-		if(typeof(response.data) !== 'undefined') {
-
-			$.WS_Form.templates_section = response.data;
-
-			$.WS_Form.this.sidebar_section_select_init();
-		}
 	}
 
 	$.WS_Form.prototype.sidebar_section_select_html = function() {
@@ -13899,11 +13930,11 @@
 		this.api_call('helper/setup-push/', 'POST', params, success_callback, error_callback);
 	}
 
-	// Template
-	$.WS_Form.prototype.template = function() {
+	// Template - Form
+	$.WS_Form.prototype.template_form = function() {
 
 		// Tabs (Run initially to avoid jolt in tabs)
-		$('#wsf-form-add').tabs({
+		$('#wsf-template-add').tabs({
 
 			activate: function(e, ui) {
 
@@ -13914,7 +13945,7 @@
 				if(action_id === undefined) { return; }
 
 				// Populate templates
-				$.WS_Form.this.templates_populate(action_id);
+				$.WS_Form.this.template_form_populate(action_id);
 			}
 		});
 
@@ -13927,7 +13958,7 @@
 			$(window).scrollTop(0);
 
 			// Show loading message (Avoids double clicks)
-			$.WS_Form.this.templates_loading_on();
+			$.WS_Form.this.template_form_loading_on();
 
 			$('#ws-form-action').val('wsf-add-blank');
 			$('#ws-form-action-do').trigger('submit');
@@ -13940,7 +13971,7 @@
 			$(window).scrollTop(0);
 
 			// Show loading message (Avoids double clicks)
-			$.WS_Form.this.templates_loading_on();
+			$.WS_Form.this.template_form_loading_on();
 
 			var id = $(this).attr('data-id');
 
@@ -13950,14 +13981,14 @@
 		});
 
 		// Modal - Close
-		$('[data-action="wsf-close"]', $('#wsf-form-add-modal')).on('click', function() {
+		$('[data-action="wsf-close"]', $('#wsf-template-add-modal')).on('click', function() {
 
 			// Close modal
-			$.WS_Form.this.form_add_modal_close();
+			$.WS_Form.this.template_form_add_modal_close();
 		});
 
 		// Click event - Add from action
-		$('[data-action="wsf-form-add-modal-submit"]', $('#wsf-form-add-modal')).on('click', function() {
+		$('[data-action="wsf-template-add-modal-submit"]', $('#wsf-template-add-modal')).on('click', function() {
 
 			// Scroll to top of page
 			$(window).scrollTop(0);
@@ -13966,12 +13997,12 @@
 			$.WS_Form.this.loader_on();
 
 			// Close modal
-			$('#wsf-form-add-modal').hide();
-			$('#wsf-form-add-modal-backdrop').hide();
+			$('#wsf-template-add-modal').hide();
+			$('#wsf-template-add-modal-backdrop').hide();
 			$(document).off('keydown');
 
 			// Show loading message (Avoids double clicks)
-			$.WS_Form.this.templates_loading_on();
+			$.WS_Form.this.template_form_loading_on();
 
 			// Set values
 			$('#ws-form-id').val($(this).attr('data-id'));
@@ -13983,7 +14014,7 @@
 			$('#ws-form-action-do [data-form-add-modal-pass-through]').remove();
 
 			// Pass through modal fields
-			var form_fields = $('input, select, textarea', '#wsf-form-add-modal-form');
+			var form_fields = $('input, select, textarea', '#wsf-template-add-modal-form');
 			form_fields.each(function() {
 
 				$('#ws-form-action-do').append('<input type="hidden" data-form-add-modal-pass-through name="' + $(this).attr('name') + '" value="' + $(this).val() + '" />');
@@ -14057,7 +14088,7 @@
 
 				var field = fields[field_index];
 
-				form_html += '<div class="wsf-form-add-modal-field-wrapper">';
+				form_html += '<div class="wsf-template-add-modal-field-wrapper">';
 
 				if(field.label) {
 
@@ -14093,14 +14124,14 @@
 			}
 
 			// Set modal title
-			$('#wsf-form-add-modal .wsf-modal-title h2').html(modal_form.label);
+			$('#wsf-template-add-modal .wsf-modal-title h2').html(modal_form.label);
 
 			// Set modal form
-			$('#wsf-form-add-modal-form').html(form_html);
+			$('#wsf-template-add-modal-form').html(form_html);
 
 			// Show modal
-			$('#wsf-form-add-modal-backdrop').show();
-			$('#wsf-form-add-modal').show();
+			$('#wsf-template-add-modal-backdrop').show();
+			$('#wsf-template-add-modal').show();
 
 			// Escape key
 			$(document).on('keydown', function(e) {
@@ -14110,12 +14141,12 @@
 				if(keyCode === 27) { 
 
 					// Close modal
-					$.WS_Form.this.form_add_modal_close();
+					$.WS_Form.this.template_form_add_modal_close();
 				}
 			});
 
 			// Get form fields
-			var form_fields = $('input, select, textarea', '#wsf-form-add-modal-form');
+			var form_fields = $('input, select, textarea', '#wsf-template-add-modal-form');
 
 			// Validation
 			form_fields.on('change input paste', function() {
@@ -14147,7 +14178,7 @@
 						$.WS_Form.this.loader_off();
 
 						// Hide modal
-						$.WS_Form.this.form_add_modal_close();
+						$.WS_Form.this.template_form_add_modal_close();
 
 						// Throw error
 						$.WS_Form.this.error('error_action_list_sub_get');
@@ -14175,14 +14206,14 @@
 		});
 
 		// Click modal backdrop
-		$(document).on('click', '#wsf-form-add-modal-backdrop', function(e) {
+		$(document).on('click', '#wsf-template-add-modal-backdrop', function(e) {
 
 			// Close modal
-			$.WS_Form.this.form_add_modal_close();
+			$.WS_Form.this.template_form_add_modal_close();
 		});
 
 		// Action API method events
-		var action_obj = $('#wsf-form-add');
+		var action_obj = $('#wsf-template-add');
 		this.api_reload_init(action_obj, function(obj, action_id, action_api_method) {
 
 			switch(action_api_method) {
@@ -14190,7 +14221,7 @@
 				case 'lists_fetch' :
 
 					// Populate templates
-					$.WS_Form.this.templates_populate(action_id);
+					$.WS_Form.this.template_form_populate(action_id);
 					break;
 			}
 
@@ -14204,21 +14235,21 @@
 	}
 
 	// Close modal
-	$.WS_Form.prototype.form_add_modal_close = function() {
+	$.WS_Form.prototype.template_form_add_modal_close = function() {
 
-		$('#wsf-form-add-modal').hide();
-		$('#wsf-form-add-modal-backdrop').hide();
+		$('#wsf-template-add-modal').hide();
+		$('#wsf-template-add-modal-backdrop').hide();
 		$(document).keydown = null;
 	}
 
 	// Template - Show loading div
-	$.WS_Form.prototype.templates_loading_on = function(action_id) {
+	$.WS_Form.prototype.template_form_loading_on = function(action_id) {
 
-		$('#wsf-form-add-loading').show();
+		$('#wsf-template-add-loading').show();
 	}
 
 	// Templates - Populate
-	$.WS_Form.prototype.templates_populate = function(action_id) {
+	$.WS_Form.prototype.template_form_populate = function(action_id) {
 
 		// Loader on
 		$.WS_Form.this.loader_on();
@@ -14280,7 +14311,7 @@
 			$('[data-action="wsf-add-template-action"]', template_templates_obj).on('click', function() {
 
 				// Show loading message (Avoids double clicks)
-				$.WS_Form.this.templates_loading_on();
+				$.WS_Form.this.template_form_loading_on();
 
 				var action_id = $(this).attr('data-action-id');
 				var list_id = $(this).attr('data-list-id');
@@ -14294,6 +14325,61 @@
 			// Loader off
 			$.WS_Form.this.loader_off();
 		});
+	}
+
+	$.WS_Form.prototype.template_api_response = function(response) {
+
+		if(typeof(response.data) !== 'undefined') {
+
+			$.WS_Form.templates_section = response.data;
+
+			$.WS_Form.this.sidebar_section_select_init();
+		}
+	}
+
+	// Template - Style
+	$.WS_Form.prototype.template_style = function() {
+
+		// Tabs (Run initially to avoid jolt in tabs)
+		$('#wsf-template-add').tabs({
+
+			activate: function(e, ui) {
+
+				var action_populated = ui.newPanel.attr('data-populated');
+				if(action_populated === 'true') { return; }
+
+				var action_id = ui.newPanel.attr('data-action-id');
+				if(action_id === undefined) { return; }
+			}
+		});
+
+		// Click event - Add from template
+		$('li:not(.wsf-pro-required) [data-action="wsf-add-template"]').on('click', function() {
+
+			// Scroll to top of page
+			$(window).scrollTop(0);
+
+			// Show loading message (Avoids double clicks)
+			$.WS_Form.this.template_style_loading_on();
+
+			var id = $(this).attr('data-id');
+
+			$('#ws-style-action').val('wsf-add-template');
+			$('#ws-style-id').val(id);
+			$('#ws-style-action-do').trigger('submit');
+		});
+
+		// Get configuration
+		this.get_configuration(function() {
+
+			$.WS_Form.this.loader_off();
+		});
+	}
+
+	// Template - Show loading div
+	$.WS_Form.prototype.template_style_loading_on = function(action_id) {
+
+		$('#wsf-template-add-loading').show();
 	}
 
 	// WP List Table - Form
@@ -14505,6 +14591,235 @@
 		});
 
 		this.clipboard(form_table_obj, 'shortcode_copied', 'table');
+	}
+
+
+	// WP List Table - Style
+	$.WS_Form.prototype.wp_list_table_style = function() {
+
+		this.style_id = 0;
+
+		var style_list_table_obj = $('#wsf-style-list-table');
+
+		// Style actions
+		$('[data-action="wsf-clone"], [data-action="wsf-delete"], [data-action="wsf-export"], [data-action="wsf-restore"]', style_list_table_obj).on('click', function() {
+
+			$('#wsf-action').val($(this).attr('data-action'));
+			$('#wsf-id').val($(this).attr('data-id'));
+			$('#wsf-action-do').trigger('submit');
+		});
+
+		$('[data-action="wsf-default"]', style_list_table_obj).on('click', function() {
+
+			if(confirm($.WS_Form.this.language('styler_default_confirm'))) {
+
+				$('#wsf-action').val($(this).attr('data-action'));
+				$('#wsf-id').val($(this).attr('data-id'));
+				$('#wsf-action-do').trigger('submit');
+			}
+		});
+
+		$('[data-action="wsf-default-conv"]', style_list_table_obj).on('click', function() {
+
+			if(confirm($.WS_Form.this.language('styler_default_conv_confirm'))) {
+
+				$('#wsf-action').val($(this).attr('data-action'));
+				$('#wsf-id').val($(this).attr('data-id'));
+				$('#wsf-action-do').trigger('submit');
+			}
+		});
+
+		$('[data-action="wsf-reset"]', style_list_table_obj).on('click', function() {
+
+			if(confirm($.WS_Form.this.language('styler_reset_confirm'))) {
+
+				$('#wsf-action').val($(this).attr('data-action'));
+				$('#wsf-id').val($(this).attr('data-id'));
+				$('#wsf-action-do').trigger('submit');
+			}
+		});
+
+		// Style upload
+		$('table.wp-list-table', style_list_table_obj).wrap('<div id="wsf-style-table"></div>');
+		var style_table_obj = $('#wsf-style-table');
+		style_table_obj.append('<div class="wsf-object-upload-json-window"><div class="wsf-object-upload-json-window-content"><h1></h1><div class="wsf-uploads"></div></div></div>');
+
+		// Drag enter
+		style_table_obj.on('dragenter', function (e) {
+
+			e.stopPropagation();
+			e.preventDefault();
+
+			// Check dragged object is a file
+			if(!$.WS_Form.this.drag_is_file(e)) { return; }
+
+			$('.wsf-object-upload-json-window', $(this)).show();
+		});
+
+		// Drag over
+		$('.wsf-object-upload-json-window', style_table_obj).on('dragover', function (e) {
+
+			e.stopPropagation();
+			e.preventDefault();
+		});
+
+		// Drop
+		$('.wsf-object-upload-json-window', style_table_obj).on('drop', function (e) {
+
+			e.preventDefault();
+
+			var files = e.originalEvent.dataTransfer.files;
+
+			$.WS_Form.this.object_upload_json(files, $(this), 'style', function() {
+
+				location.reload();
+
+			}, function() {
+
+				$('.wsf-object-upload-json-window', style_table_obj).hide();
+			});
+		});
+
+		// Drag leave
+		$('.wsf-object-upload-json-window', style_table_obj).on('dragleave', function (e) {
+
+			$('.wsf-object-upload-json-window', style_table_obj).hide();
+		});
+
+		// Upload
+		$('[data-action-button="wsf-style-upload"]').on('click', function(e) {
+
+			// Click file input
+			$('#wsf-object-upload-file').val('').trigger('click');
+		});
+
+		$('#wsf-object-upload-file').on('change', function() {
+
+			var files = $('#wsf-object-upload-file').prop("files");
+
+			if(files.length > 0) {
+
+				var style_upload_window = $('> .wsf-object-upload-json-window', $.WS_Form.this.upload_obj);
+				style_upload_window.show();
+				$.WS_Form.this.object_upload_json(files, style_upload_window, 'style', function() {
+
+					location.reload();
+
+				}, function() {
+
+					$('> .wsf-object-upload-json-window', $.WS_Form.this.upload_obj).hide();
+				});
+			}
+		});
+
+		// Toggle status
+		$('[data-action-ajax="wsf-style-status"]', style_table_obj).on('click', function() {
+
+			var style_id = $(this).attr('data-id');
+			var status = $(this).is(':checked');
+
+			// Loader on
+			$.WS_Form.this.loader_on();
+
+			var status_label_obj = $('#wsf-status-' + style_id + '-label');
+
+			if(status) {
+
+				// Set title
+				status_label_obj.attr('title', $.WS_Form.this.language('publish'))
+
+				// Publish
+				$.WS_Form.this.api_call('style/' + style_id + '/publish/', 'POST', false, function(response) {
+
+					// Loader off
+					$.WS_Form.this.loader_off();
+				});
+
+			} else {
+
+				// Set title
+				status_label_obj.attr('title', $.WS_Form.this.language('draft'));
+
+				// Draft
+				$.WS_Form.this.api_call('style/' + style_id + '/draft/', 'POST', false, function(response) {
+
+					// Loader off
+					$.WS_Form.this.loader_off();
+				});
+			}
+		});
+
+		// Prevent default on server side functions (Stops page jumping)
+		$('[data-action="wsf-clone"], [data-action="wsf-delete"], [data-action="wsf-export"], [data-action="wsf-default"], [data-action="wsf-default-conv"], [data-action="wsf-reset"], [data-action="wsf-restore"]', style_table_obj).on('click', function(e) {
+
+			e.preventDefault();
+		});
+
+		// Get style locations
+		$('[data-action-ajax="wsf-style-locate"]', style_table_obj).on('click', function(e) {
+
+			e.preventDefault();
+
+			// Remember button object
+			var location_button_obj = $(this);
+
+			// Blur link so hover does not get stuck
+			location_button_obj.trigger('blur');
+
+			// Get style ID
+			var style_id = $(this).attr('data-id');
+
+			// Loader on
+			$.WS_Form.this.loader_on();
+
+			// Get locations
+			$.WS_Form.this.api_call('style/' + style_id + '/locations/', 'GET', false, function(response) {
+
+				// Loader off
+				$.WS_Form.this.loader_off();
+
+				var style_location_array = [];
+
+				if(typeof(response[style_id]) !== 'undefined') {
+
+					// Render each form the style was found
+					for(var style_location_id in response[style_id]) {
+
+						if(!response[style_id].hasOwnProperty(style_location_id)) { continue; }
+
+						var style_location = response[style_id][style_location_id];
+						var style_location_id = style_location.id;
+						var style_location_type = style_location.type;
+						var style_location_type_name = style_location.type_name;
+						var style_location_title = style_location.title;
+
+						style_location_array.push($.WS_Form.this.esc_html(style_location_type_name) + ': ' + '<a href="post.php?post=' + style_location_id + '&post_type=' + style_location_type + '&action=edit">' + $.WS_Form.this.esc_html(style_location_title) + '</a>');
+					}
+				}
+
+				if(style_location_array.length == 0) {
+
+					var location_html = '<div class="wsf-helper">' + $.WS_Form.this.language('style_location_not_found') + '</div>';
+
+				} else {
+
+					var location_html = '<div class="wsf-helper">' + $.WS_Form.this.language('style_location_found', '<span class="ws-style-location">' + style_location_array.join(', </span><span class="wsf-style-location">'), false) + '</div>';
+				}
+
+				var row_actions_obj = location_button_obj.closest('.row-actions');
+				var td_obj = location_button_obj.closest('td');
+				var style_locations_obj = $('.wsf-style-locations', td_obj);
+
+				if(style_locations_obj.length) {
+
+					style_locations_obj.html(location_html);
+
+				} else {
+
+					row_actions_obj.before('<div class="wsf-style-locations">' + location_html + '</div>');
+				}
+			});
+		});
 	}
 
 	// Clipboard copying
@@ -14887,12 +15202,12 @@
 					var hash = response.hash;
 
 					// Get popup object
-					var popup_obj = $('#wsf-form-submit-export-popup');
+					var popup_obj = $('#wsf-submit-export-popup');
 
 					if(complete) {
 
 						// Set progress bar value
-						$('.wsf-form-popup-progress-bar progress', popup_obj).val(100);
+						$('.wsf-popup-progress-bar progress', popup_obj).val(100);
 
 						// Hide popup
 						setTimeout(function() {
@@ -14916,13 +15231,13 @@
 						var progress = Math.round((records_total ? (response.records_processed / records_total) : 0) * 100, 0);
 
 						// Hide text
-						$('.wsf-form-popup-progress-inner p', popup_obj).hide();
+						$('.wsf-popup-progress-inner p', popup_obj).hide();
 
 						// Show progress bar
-						$('.wsf-form-popup-progress-bar', popup_obj).show();
+						$('.wsf-popup-progress-bar', popup_obj).show();
 
 						// Set progress bar value
-						$('.wsf-form-popup-progress-bar progress', popup_obj).val(progress);
+						$('.wsf-popup-progress-bar progress', popup_obj).val(progress);
 
 						// Process next page
 						$.WS_Form.this.submit_export_do(data, page + 1, hash, records_total);
@@ -14950,13 +15265,13 @@
 	$.WS_Form.prototype.submit_export_popup_show = function() {
 
 		// Get popup object
-		var popup_obj = $('#wsf-form-submit-export-popup');
+		var popup_obj = $('#wsf-submit-export-popup');
 
 		// Show text
-		$('.wsf-form-popup-progress-inner p', popup_obj).show();
+		$('.wsf-popup-progress-inner p', popup_obj).show();
 
 		// Hide progress bar
-		$('.wsf-form-popup-progress-bar', popup_obj).hide();
+		$('.wsf-popup-progress-bar', popup_obj).hide();
 
 		// Show popup
 		popup_obj.show();
@@ -14965,7 +15280,7 @@
 	// Submit export popup - Hide
 	$.WS_Form.prototype.submit_export_popup_hide = function() {
 
-		$('#wsf-form-submit-export-popup').hide();
+		$('#wsf-submit-export-popup').hide();
 	}
 
 	// Remove hidden form elements we don't need
@@ -17626,6 +17941,60 @@
 		return field_type_meta;
 	}
 
+	$.WS_Form.prototype.set_preview_url_styler = function() {
+
+		// Get style ID
+		var style_id = this.get_object_meta_value(this.form, 'style_id', 0);
+
+		if(style_id == 0) {
+
+			style_id = ws_form_settings.style_id_default;
+		}
+
+		$('[data-action="wsf-style"]').attr('href', this.get_preview_url(this.form.id, false, style_id, false, false));
+	}
+
+
+	$.WS_Form.prototype.get_preview_url = function(form_id, template_id, style_id, conversational, submit_hash) {
+
+		if(typeof(form_id) === 'undefined') { form_id = 0; }
+		if(typeof(template_id) === 'undefined') { template_id = 'styler'; }
+		if(typeof(conversational) === 'undefined') { conversational = false; }
+		if(typeof(submit_hash) === 'undefined') { submit_hash = false; }
+
+		// Get site URL
+		var url = ws_form_settings.url_site;
+
+		// Form ID
+		var query_args = [];
+		query_args.push('wsf_preview' + (conversational ? '_conversational' : '') + '_form_id=' + parseInt(form_id, 10));
+
+		// Template ID
+		if(template_id) {
+
+			query_args.push('wsf_preview_template_id=' + template_id);
+		}
+
+		// Style ID
+		query_args.push('wsf_preview_styler=true');
+
+		// Submit hash
+		if(submit_hash) {
+
+			query_args.push('wsf_submit_hash=' + submit_hash);
+		}
+
+		// Random 
+		var characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+		var rand_string = '';
+		for(var i = 0; i < 12; ++i) { rand_string += characters.charAt(Math.floor(Math.random() * characters.length)); }
+
+
+		query_args.push('wsf_rand=' + rand_string);
+
+		return url + '?' + query_args.join('&');
+	}
+
 	// Sidebar - Support - Open
 	window.sidebar_support_open = function(ws_this, obj_form, obj_button) {
 
@@ -17773,8 +18142,8 @@
 	// Method - Field - Clone
 	window.wsf_field_clone = function(ws_this, obj_field, obj_button) {
 
-		// Process form sidebar as a cancel event
-		ws_this.object_cancel(obj_field);
+		// Save changes on any open objects
+		ws_this.object_save_changes();
 
 		// Clone object
 		ws_this.field_put_clone(obj_field);

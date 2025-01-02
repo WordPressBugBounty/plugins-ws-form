@@ -3,12 +3,12 @@ Contributors: westguard
 Tags: form, contact form, form builder, forms, custom form
 Requires at least: 5.3
 Tested up to: 6.7
-Stable tag: 1.9.249
+Stable tag: 1.10.0
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Form builder for WordPress: Rapidly build professional, mobile friendly, accessible WordPress forms.
+Form builder for WordPress: Rapidly build professional, stylish, mobile friendly, accessible WordPress forms.
 
 == Description ==
 
@@ -16,7 +16,7 @@ Form builder for WordPress: Rapidly build professional, mobile friendly, accessi
 
 WS Form LITE is a powerful contact form builder plugin for WordPress.
 
-Create professional, mobile friendly, accessible forms. WS Form LITE comes complete with features other form builder plugins charge a premium for.
+Create professional, stylish, mobile friendly, accessible forms. WS Form LITE comes complete with features other form builder plugins charge a premium for including unlimited forms submission and styles as well as submission exporting and comprehensive anti-spam features. 
 
 Choose from single click templates or build your own WordPress form using the unique drag and drop form editor.
 
@@ -24,10 +24,10 @@ Choose from single click templates or build your own WordPress form using the un
 
 * [Unlimited Forms](https://wsform.com/knowledgebase/creating-a-form/?utm_source=wp_plugins&utm_medium=readme)
 * [Unlimited Submissions](https://wsform.com/knowledgebase/submissions/?utm_source=wp_plugins&utm_medium=readme) (View, Edit and CSV Export)
+* [Unlimited Styles](https://wsform.com/knowledgebase/styles/?utm_source=wp_plugins&utm_medium=readme)
 * [Accessibility Friendly](https://wsform.com/knowledgebase/accessibility-and-web-forms/?utm_source=wp_plugins&utm_medium=readme)
 * [Clean HTML 5 Code](https://wsform.com/knowledgebase/responsive-forms/?utm_source=wp_plugins&utm_medium=readme)
 * [Cloudflare Turnstile Captcha](https://wsform.com/knowledgebase/cloudflare-turnstile/?utm_source=wp_plugins&utm_medium=readme)
-* [Customize Appearance](https://wsform.com/knowledgebase/customize-appearance/?utm_source=wp_plugins&utm_medium=readme)
 * [Data Sources](https://wsform.com/knowledgebase/data-sources/?utm_source=wp_plugins&utm_medium=readme)
 * [Drag and Drop Layout Editor](https://wsform.com/knowledgebase/the-layout-editor/?utm_source=wp_plugins&utm_medium=readme)
 * [Framework Friendly (Bootstrap, Foundation)](https://wsform.com/knowledgebase/responsive-forms/?utm_source=wp_plugins&utm_medium=readme)
@@ -41,6 +41,7 @@ Choose from single click templates or build your own WordPress form using the un
 * [Section Library](https://wsform.com/knowledgebase/section-library/?utm_source=wp_plugins&utm_medium=readme)
 * [Send Unlimited Emails](https://wsform.com/knowledgebase/send-email/?utm_source=wp_plugins&utm_medium=readme)
 * [Single Click Templates](https://wsform.com/templates/?utm_source=wp_plugins&utm_medium=readme)
+* [Styler](https://https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme)]
 * [Variables](https://wsform.com/knowledgebase/variables/?utm_source=wp_plugins&utm_medium=readme)
 
 = Page Builder Compatibility =
@@ -209,7 +210,8 @@ WS Form includes the following third party components:
 * [Intl-Tel-Input](https://intl-tel-input.com/) - Used for international telephone input
 * [IntroJs](https://introjs.com) - Used for tutorial feature.
 * [Select2](https://select2.org) - Used for AJAX select dropdowns
-* [CanIUse.com](https://caniuse.com) - Used for linking to field and field attribute compatibility pages 
+* [CanIUse.com](https://caniuse.com) - Used for linking to field and field attribute compatibility pages
+* [Coloris](https://coloris.js.org/) - Used for the color picker in the styler
 
 = External Services =
 

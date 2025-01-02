@@ -2,6 +2,47 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.0 - 01/02/2025 =
+* Important installation notes: https://wsform.com/knowledgebase/upgrade-notes-for-1-10-x/
+* Added: New form styles (See: https://wsform.com/knowledgebase/styles/)
+* Added: New form styler (See: https://wsform.com/knowledgebase/styler/)
+* Added: Accessibility improvement: autocomplete attributes now default for password, URL, email and phone fields
+* Added: Accessibility improvement: autocomplete attributes completed in form and section templates
+* Added: Accessibility improvement: Checkbox field now defaults to label on
+* Added: Accessibility improvement: Removed character / word count help text from textarea by default
+* Added: Accessibility improvement: URL field now contains https:// placeholder
+* Added: Accessibility improvement: Color contrast improvements throughout
+* Added: Accessibility improvement: Coloris color picker
+* Added: Accessibility improvement: ARIA label on section fieldsets
+* Added: Accessibility improvement: Dark / light color themes
+* Added: Auto grow setting for Text Area field
+* Added: Checkbox and radio styling setting (button, switch, swatch and image)
+* Added: Email allow / deny feature now processed client-side
+* Added: Improved Dutch translations
+* Added: Increased generated password size to 24 characters
+* Added: Form saved on field clone
+* Added: Support for j.n.Y date format
+* Added: Submission export performance improvements
+* Added: Descriptive form limit error message on form submit
+* Added: Select2 upgraded to version 4.0.13
+* Added: WordPress 6.7 compatibility testing
+* Added: Author ID added as column in Posts data source
+* Added: Points allocation form template
+* Added: Repeater level custom attachment title, excerpt, content and alt text
+* Added: Updated logo in conversastion template
+* Added: Postmark API error handling in Send Email action
+* Added: #query_var default value parameter
+* Added: Limit submissions per logged in user
+* Added: Invalid captcha responses no longer throw a PHP exception
+* Added: Phone field ITI validation triggered on paste event
+* Added: Additional checks when determining capabilities for conditional logic
+* Bug Fix: Loader functionality on form reload
+* Bug Fix: Translation issue related to widgets_init / load_plugin_textdomain
+* Bug Fix: Escaping when using #text
+* Bug Fix: Price radio invalid feedback text location
+* Bug Fix: Order by in terms data source for term order
+* Bug Fix: Form calc clean method for hidden fields
+
 = 1.9.249 - 11/12/2024 =
 * Added: WordPress 6.7 compatibility testing
 
@@ -13,10 +54,14 @@ Some changes only applicable to WS Form PRO.
 
 = 1.9.246 - 11/05/2024 =
 * Added: #date_format variable
-
-= 1.9.245 - 10/31/2024 =
-* Bug Fix: Error fixed for discontinued versions of PHP
 * Bug Fix: CSS security fix
+
+= 1.9.245 - 08/29/2024 =
+* Added: Form statistics performance improvements
+* Added: Copy to clipboard action in conditional logic
+* Added: Divi reCAPTCHA patch
+* Bug Fix: Search action capabilities fix
+* Bug Fix: JetEngine blank date fix for timestamps
 
 = 1.9.244 - 08/21/2024 =
 * Bug Fix: ISO 8601 formatted date 'c'
@@ -2001,7 +2046,7 @@ Some changes only applicable to WS Form PRO.
 
 = 1.8.21 =
 * Added: WS Form Oxygen element
-* Added: Improvements to JavaScript ws_form_init() function (Reinitializes all forms)
+* Added: Improvements to JavaScript wsf_form_init() function (Reinitializes all forms)
 * Added: Improved Beaver Builder, Elementor form initialization
 * Added: Improved Gutenberg block functionality
 * Added: Note that field deduplication does not work with encryption

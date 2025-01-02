@@ -178,6 +178,12 @@
 		this.turnstiles = [];
 		this.turnstiles_default = [];
 
+		// Set style ID if not set (Used by site builders that don't have form object available when rendering)
+		if(this.form.meta.style_id && typeof(this.form_obj.attr('data-wsf-style-id')) === 'undefined') {
+
+			this.form_obj.attr('data-wsf-style-id', this.form.meta.style_id);
+		}
+
 		// Initialize framework
 		this.form_framework();
 
@@ -194,6 +200,9 @@
 
 		// Client side form validation
 		this.form_validation();
+
+		// Select
+		if(typeof(this.form_select) === 'function') { this.form_select(); }
 
 		// Select min max
 		if(typeof(this.form_select_min_max) === 'function') { this.form_select_min_max(); }
@@ -227,6 +236,9 @@
 		// Turnstile
 		if(typeof(this.form_turnstile) === 'function') { this.form_turnstile(); }
 
+		// Email
+		if(typeof(this.form_email) === 'function') { this.form_email(); }
+
 		// Label
 		this.form_label();
 
@@ -251,12 +263,18 @@
 		// Accessibility
 		this.form_accessibility();
 
+
 		// Trigger rendered event
 		this.trigger('rendered');
 
-
 		// Set data-wsf-rendered attribute
 		this.form_obj.attr('data-wsf-rendered', '');
+
+		// Styler (Runs here to ensure this.conversational is set)
+		if(typeof(this.styler) === 'function') { this.styler() };
+
+		// Styler scheme (Runs here to ensure this.conversational is set)
+		if(typeof(this.styler_scheme) === 'function') { this.styler_scheme(!this.visual_editor, true); }
 	}
 
 
@@ -320,7 +338,7 @@
 		this.trigger('reset-before');
 
 		// Unmark as validated
-		this.form_obj.removeClass(this.class_validated);
+		this.form_canvas_obj.removeClass(this.class_validated);
 
 		// HTML form reset
 		this.form_obj[0].reset();
@@ -345,7 +363,7 @@
 		this.trigger('clear-before');
 
 		// Unmark as validated
-		this.form_obj.removeClass(this.class_validated);
+		this.form_canvas_obj.removeClass(this.class_validated);
 
 		// Clear fields
 		for(var key in this.field_data_cache) {
@@ -416,9 +434,9 @@
 
 							$(this).val('').trigger(trigger);
 
-							if($(this).hasClass('minicolors-input')) {
+							if(typeof(Coloris) !== 'undefined') {
 
-								$(this).minicolors('value', '');
+								$(this)[0].dispatchEvent(new Event('input', { bubbles: true }));
 							}
 						}
 					});
@@ -540,6 +558,7 @@
 		// Empty form object
 		this.form_canvas_obj.empty();
 
+
 		// Build form
 		this.form_build();
 	}
@@ -638,6 +657,90 @@
 		}
 	}
 
+
+	// Form email
+	$.WS_Form.prototype.form_email = function() {
+
+		var ws_this = this;
+
+		// Regular file fields
+		$('inputa[type="email"]:not([data-init-email])', this.form_canvas_obj).each(function() {
+
+	 		// Get field data
+			var field = ws_this.get_field($(this));
+
+			// Check for allow / deny
+			var field_allow_deny = ws_this.get_object_meta_value(field, 'allow_deny', '');
+			var field_allow_deny_values = ws_this.get_object_meta_value(field, 'allow_deny_values', []);
+			if(
+				(field_allow_deny !== '') &&
+				(['allow', 'deny'].indexOf(field_allow_deny) !== -1) &&
+				(typeof(field_allow_deny_values) === 'object')
+			) {
+
+				// Initial check
+				ws_this.form_email_allow_deny($(this));
+
+				// Event handler
+				$(this).on('change', function() {
+
+					ws_this.form_email_allow_deny($(this));
+				});
+			}
+
+			// Set attribute so this field is not initialized again
+			$(this).attr('data-init-email', '');
+		});
+	}
+
+	$.WS_Form.prototype.form_email_allow_deny = function(obj) {
+
+		// Get field value
+		var field_value = obj.val();
+		if(field_value == '') { return; }
+
+ 		// Get field data
+		var field = this.get_field(obj);
+
+		// Check for allow / deny
+		var field_allow_deny = this.get_object_meta_value(field, 'allow_deny', '');
+
+		// Values
+		var field_allow_deny_values = this.get_object_meta_value(field, 'allow_deny_values', []);
+
+		// Default value
+		var field_value_allowed = (field_allow_deny === 'deny');
+
+		// Execute hooks and pass form_valid to them
+		for(var field_allow_deny_values_index in field_allow_deny_values) {
+
+			if(!field_allow_deny_values.hasOwnProperty(field_allow_deny_values_index)) { continue; }
+
+			var row = field_allow_deny_values[field_allow_deny_values_index];
+
+			var field_allow_deny_value = row.allow_deny_value;
+			var field_allow_deny_regex = new RegExp(field_allow_deny_value.replace('*', '.*') + '$');
+			if (field_allow_deny_regex.test(field_value)) {
+
+				field_value_allowed = (field_allow_deny === 'allow');
+			}
+		}
+
+		if(!field_value_allowed) {
+
+			// Get message
+			var allow_deny_message = this.get_object_meta_value(field, 'allow_deny_message', '');
+			if(!allow_deny_message) { allow_deny_message = this.language('email_allow_deny_message'); }
+
+			// Set invalid feedback
+			this.set_invalid_feedback(obj, allow_deny_message);
+
+		} else {
+
+			// Reset invalid feedback
+			this.set_invalid_feedback(obj, '');
+		}
+	}
 
 	// Form navigation
 	$.WS_Form.prototype.form_navigation = function() {
@@ -1101,8 +1204,11 @@
 			// Get prefix object
 			var prefix_obj = $('.wsf-input-group-prepend', $(this));
 
-			// Check if a prefix exists
-			if(prefix_obj.length) {
+			// Check if ITI enabled on field
+			var iti_obj = $('.iti', $(this));
+
+			// Check if a prefix exists and it is not an ITI enabled field (ITI changes the DOM structure)
+			if(prefix_obj.length && !iti_obj.length) {
 
 				// Get label object
 				var label_obj = $('label', $(this));
@@ -1585,7 +1691,7 @@
 		}
 
 		// Mark form as validated
-		this.form_obj.addClass(this.class_validated);
+		this.form_canvas_obj.addClass(this.class_validated);
 
 		// Check validity of form
 		if(this.form_validate(this.form_obj)) {
@@ -2209,10 +2315,14 @@
 					var val_new = field_clear ? '' : $(this).prop('defaultValue');
 					var trigger = $(this).val() !== val_new;
 					$(this).val(val_new);
-					if($(this).hasClass('minicolors-input')) {
-						$(this).minicolors('value', {color: val_new});
+					if(trigger) {
+						$(this).trigger('change');
+
+						if(typeof(Coloris) !== 'undefined') {
+
+							$(this)[0].dispatchEvent(new Event('input', { bubbles: true }));
+						}
 					}
-					if(trigger) { $(this).trigger('change'); }
 				});
 				break;
 
@@ -2645,7 +2755,7 @@
 			})
 
 			// Add locked class to form
-			this.form_obj.addClass(class_lock + (cursor ? ' wsf-form-post-lock-' + cursor : ''));
+			this.form_canvas_obj.addClass(class_lock + (cursor ? ' wsf-form-post-lock-' + cursor : ''));
 
 			// Lock form
 			this.form_post_locked = true;
@@ -2666,7 +2776,7 @@
 
 		var class_lock = this.get_form_post_lock_class(button_selector);
 
-		if(!this.form_obj.hasClass(class_lock)) { return; }
+		if(!this.form_canvas_obj.hasClass(class_lock)) { return; }
 
 		var ws_this = this;
 
@@ -2676,7 +2786,7 @@
 			ws_this.form_ecommerce_calculate_enabled = true;
 
 			// Remove locked class from form
-			ws_this.form_obj.removeClass(class_lock + (cursor ? ' wsf-form-post-lock-' + cursor : ''));
+			ws_this.form_canvas_obj.removeClass(class_lock + (cursor ? ' wsf-form-post-lock-' + cursor : ''));
 
 			// Get buttons
 			var button_objs = ws_this.get_form_post_lock_button_objs(button_selector);
@@ -2780,7 +2890,6 @@
 			) &&
 			(ws_form_settings.wsf_nonce)
 		) {
-
 			params.append(ws_form_settings.wsf_nonce_field_name, ws_form_settings.wsf_nonce);
 		}
 
@@ -3114,7 +3223,7 @@
 				}
 
 				// Mark form as validated
-				this.form_obj.addClass(this.class_validated);
+				this.form_canvas_obj.addClass(this.class_validated);
 
 				// Process accessibility
 				this.form_accessibility();
@@ -3289,13 +3398,11 @@
 
 			case 'color' :
 
-				if(obj.hasClass('minicolors-input')) {
+				obj.attr('data-value-old', function() { return $(this).val(); }).val(value).filter(function() { return $(this).val() !== $(this).attr('data-value-old') }).trigger('change').removeAttr('data-value-old');
 
-					obj.attr('data-value-old', function() { return $(this).val(); }).minicolors('value', {color: value}).filter(function() { return $(this).val() !== $(this).attr('data-value-old') }).trigger('change').removeAttr('data-value-old');
+				if(typeof(Coloris) !== 'undefined') {
 
-				} else {
-
-					obj.attr('data-value-old', function() { return $(this).val(); }).val(value).filter(function() { return $(this).val() !== $(this).attr('data-value-old') }).trigger('change').removeAttr('data-value-old');
+					obj[0].dispatchEvent(new Event('input', { bubbles: true }));
 				}
 
 				break;
@@ -3444,6 +3551,19 @@
 		message_div.attr('role', 'alert');
 		message_div.attr('data-wsf-message', '');
 		message_div.attr('data-wsf-instance-id', this.form_instance_id);
+
+		// Add style ID
+		if(typeof(this.form_canvas_obj.attr('data-wsf-style-id')) !== 'undefined') {
+
+			message_div.attr('data-wsf-style-id', this.form_canvas_obj.attr('data-wsf-style-id'));
+
+			// Check if styler is present
+			if($('#wsf-styler').length) {
+
+				// Inherit modified styles
+				message_div.attr('style', this.form_canvas_obj.attr('style'));
+			}
+		}
 
 		// Hide form?
 		if(form_hide) {
@@ -3718,7 +3838,7 @@
 			var forms = $('.wsf-form', container);
 		}
 
-		if(!$('.wsf-form').length) { return; }
+		if(!forms.length) { return; }
 
 		// Get highest instance ID
 		var set_instance_id = 0;
@@ -3789,7 +3909,7 @@
 				// Render
 				ws_form.render({
 
-					'obj' :			'#' + id,
+					'obj' :			$(this),
 					'form_id':		form_id
 				});
 			}

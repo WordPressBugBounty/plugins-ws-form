@@ -27,11 +27,17 @@
 		// Debug
 		public $debug = false;
 
+		// Styler
+		public $styler = false;
+
 		// JSON
 		public $wsf_form_json = array();
 
 		// Footer JS
 		public $footer_js = '';
+
+		// Style IDs to render
+		public $style_ids = array();
 
 		// Deregister scripts
 		private $deregister_scripts = array();
@@ -42,18 +48,49 @@
 		// CSS
 		public $ws_form_css;
 
-		// Enqueuing
+		// Style
+		public $ws_form_style;
+
+		// Default style ID
+		public $style_id_default = 0;
+
+		// Enqueuing - CSS
 		public $enqueue_css_layout = false;
 		public $enqueue_css_skin = false;
 		public $enqueue_css_debug = false;
+		public $enqueue_css_styler = false;
+		public $enqueue_css_style = false;
 		public $enqueue_css_conversational = false;
 		public $enqueue_css_loader = false;
 		public $enqueue_css_custom = false;
 
-		public $enqueue_js_form_common = false;
-		public $enqueue_js_form_public = false;
-		public $enqueue_js_form_debug = false;
-		public $enqueue_js_form_conversational = false;
+		// Enqueuing - CSS - V2
+		public $enqueue_css_base = false;
+		public $enqueue_css_button = false;
+		public $enqueue_css_checkbox = false;
+		public $enqueue_css_color = false;
+		public $enqueue_css_datetime = false;
+		public $enqueue_css_file = false;
+		public $enqueue_css_legal = false;
+		public $enqueue_css_meter = false;
+		public $enqueue_css_number = false;
+		public $enqueue_css_password = false;
+		public $enqueue_css_progress = false;
+		public $enqueue_css_radio = false;
+		public $enqueue_css_range = false;
+		public $enqueue_css_select = false;
+		public $enqueue_css_signature = false;
+		public $enqueue_css_tel = false;
+		public $enqueue_css_tab = false;
+		public $enqueue_css_textarea = false;
+
+		// Enqueuing - JS
+		public $enqueue_js_common = false;
+		public $enqueue_js_public = false;
+		public $enqueue_js_debug = false;
+		public $enqueue_js_styler = false;
+		public $enqueue_js_styler_scheme = false;
+		public $enqueue_js_conversational = false;
 		public $enqueue_js_wp_media = false;
 		public $enqueue_js_wp_editor = false;
 		public $enqueue_js_wp_html_editor = false;
@@ -74,8 +111,7 @@
 		public $enqueue_js_checkbox = false;
 		public $enqueue_js_color = false;
 		public $enqueue_js_conditional = false;
-		public $enqueue_js_conversational = false;
-		public $enqueue_js_date = false;
+		public $enqueue_js_datetime = false;
 		public $enqueue_js_date_translate = false;
 		public $enqueue_js_ecommerce = false;
 		public $enqueue_js_file = false;
@@ -99,18 +135,43 @@
 
 		public $enqueue_js_custom = false;
 
-		// Enqueued
+		// Enqueued CSS
 		public $enqueued_css_layout = false;
 		public $enqueued_css_skin = false;
 		public $enqueued_css_debug = false;
+		public $enqueued_css_styler = false;
+		public $enqueued_css_style = array();
 		public $enqueued_css_conversational = false;
 		public $enqueued_css_loader = false;
 		public $enqueued_css_custom = false;
 
-		public $enqueued_js_form_common = false;
-		public $enqueued_js_form_public = false;
-		public $enqueued_js_form_debug = false;
-		public $enqueued_js_form_conversational = false;
+		// Enqueued - CSS - V2
+		public $enqueued_css_base = false;
+		public $enqueued_css_button = false;
+		public $enqueued_css_checkbox = false;
+		public $enqueued_css_color = false;
+		public $enqueued_css_datetime = false;
+		public $enqueued_css_file = false;
+		public $enqueued_css_legal = false;
+		public $enqueued_css_meter = false;
+		public $enqueued_css_number = false;
+		public $enqueued_css_password = false;
+		public $enqueued_css_progress = false;
+		public $enqueued_css_radio = false;
+		public $enqueued_css_range = false;
+		public $enqueued_css_select = false;
+		public $enqueued_css_signature = false;
+		public $enqueued_css_tel = false;
+		public $enqueued_css_tab = false;
+		public $enqueued_css_textarea = false;
+
+		// Enqueued JS
+		public $enqueued_js_common = false;
+		public $enqueued_js_public = false;
+		public $enqueued_js_debug = false;
+		public $enqueued_js_styler = false;
+		public $enqueued_js_styler_scheme = false;
+		public $enqueued_js_conversational = false;
 		public $enqueued_js_wp_media = false;
 		public $enqueued_js_wp_editor = false;
 		public $enqueued_js_wp_html_editor = false;
@@ -131,8 +192,7 @@
 		public $enqueued_js_checkbox = false;
 		public $enqueued_js_color = false;
 		public $enqueued_js_conditional = false;
-		public $enqueued_js_conversational = false;
-		public $enqueued_js_date = false;
+		public $enqueued_js_datetime = false;
 		public $enqueued_js_date_translate = false;
 		public $enqueued_js_ecommerce = false;
 		public $enqueued_js_file = false;
@@ -161,7 +221,8 @@
 		public $enqueued_core = false;
 
 		// Public dependencies
-		public $public_dependencies;
+		public $public_dependencies_js;
+		public $public_dependencies_css;
 
 		// Config filtering
 		public $field_types = array();
@@ -176,7 +237,11 @@
 			$this->acf_activated = class_exists('ACF');
 			$this->ws_form_css = new WS_Form_CSS();
 			$this->ws_form_css->init();
-			$this->public_dependencies = array($this->plugin_name . '-form-common');
+
+			if(WS_Form_Common::styler_enabled()) {
+
+				$this->ws_form_style = new WS_Form_Style();
+			}
 
 			add_action('wsf_enqueue_all', array($this, 'enqueue_all'), 10, 0);
 			add_action('wsf_enqueue_visual_builder', array($this, 'enqueue_visual_builder'), 10, 0);
@@ -195,90 +260,153 @@
 
 		public function enqueue_core() {
 
-			if(!$this->enqueued_core) {
+			// JavaScript
 
-				// Set filters to true
-				add_filter('wsf_enqueue_css_layout', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_css_skin', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_form_common', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_form_public', function($enqueue) { return true; }, 99999, 1);
+			// Core
+			add_filter('wsf_enqueue_js_common', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_public', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_loader', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_custom', function($enqueue) { return true; }, 99999, 1);
 
-				// Custom
-				add_filter('wsf_enqueue_css_custom', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_custom', function($enqueue) { return true; }, 99999, 1);
+			// CSS
 
-				// Process enqueues
-				self::enqueue();
+			// Core
+			add_filter('wsf_enqueue_css_layout', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_skin', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_loader', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_custom', function($enqueue) { return true; }, 99999, 1);
 
-				$this->enqueued_core = true;
-			}
+			// Process enqueues
+			self::enqueue();
+
+			$this->enqueued_core = true;
 		}
 
 		public function enqueue_visual_builder() {
 
-			if(!$this->enqueued_visual_builder) {
+			if(WS_Form_Common::styler_enabled()) {
 
-				// Core
-				add_filter('wsf_enqueue_css_layout', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_css_skin', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_form_common', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_form_public', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_sortable', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_select2', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_input_mask', function($enqueue) { return true; }, 99999, 1);
-
-				// Disable debug
-				add_filter('wsf_enqueue_js_form_debug', function($enqueue) { return false; }, 99999, 1);
-
-				// Field types
-				add_filter('wsf_enqueue_js_captcha', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_checkbox', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_select', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_radio', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_tab', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_tel', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_intl_tel_input', function($enqueue) { return true; }, 99999, 1);
-				// Custom
-				add_filter('wsf_enqueue_css_custom', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_custom', function($enqueue) { return true; }, 99999, 1);
-
-				// Process enqueues
-				self::enqueue();
-
-				$this->enqueued_visual_builder = true;
+				// Load all styles
+				$this->style_ids = $this->ws_form_style->get_style_ids();
 			}
+
+			// JavaScript
+
+			// Core
+			add_filter('wsf_enqueue_js_common', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_public', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_sortable', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_select2', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_input_mask', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_loader', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_custom', function($enqueue) { return true; }, 99999, 1);
+
+			// Disable debug
+			add_filter('wsf_enqueue_js_debug', function($enqueue) { return false; }, 99999, 1);
+
+			if(WS_Form_Common::styler_enabled()) {
+
+				// Disable styler
+				add_filter('wsf_enqueue_js_styler', function($enqueue) { return false; }, 99999, 1);
+			}
+
+			// Field types
+			add_filter('wsf_enqueue_js_captcha', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_checkbox', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_select', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_radio', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_tab', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_tel', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_intl_tel_input', function($enqueue) { return true; }, 99999, 1);
+			// CSS
+
+			// Core
+			add_filter('wsf_enqueue_css_skin', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_style', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_layout', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_loader', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_custom', function($enqueue) { return true; }, 99999, 1);
+
+			// Field types
+			add_filter('wsf_enqueue_css_base', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_button', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_checkbox', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_color', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_datetime', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_file', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_legal', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_meter', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_number', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_password', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_progress', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_radio', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_range', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_select', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_signature', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_tab', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_tel', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_textarea', function($enqueue) { return true; }, 99999, 1);
+
+			// Process enqueues
+			self::enqueue();
+
+			$this->enqueued_visual_builder = true;
 		}
 
 		public function enqueue_all() {
 
-			if(!$this->enqueued_all) {
+			// JavaScript
 
-				// Core
-				add_filter('wsf_enqueue_css_layout', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_css_skin', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_form_common', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_form_public', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_sortable', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_select2', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_input_mask', function($enqueue) { return true; }, 99999, 1);
+			// Core
+			add_filter('wsf_enqueue_js_common', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_public', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_sortable', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_select2', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_input_mask', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_loader', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_custom', function($enqueue) { return true; }, 99999, 1);
 
-				// Field types
-				add_filter('wsf_enqueue_js_captcha', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_checkbox', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_radio', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_select', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_tab', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_tel', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_intl_tel_input', function($enqueue) { return true; }, 99999, 1);
-				// Custom
-				add_filter('wsf_enqueue_css_custom', function($enqueue) { return true; }, 99999, 1);
-				add_filter('wsf_enqueue_js_custom', function($enqueue) { return true; }, 99999, 1);
+			// Field types
+			add_filter('wsf_enqueue_js_captcha', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_checkbox', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_select', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_radio', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_tab', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_tel', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_js_intl_tel_input', function($enqueue) { return true; }, 99999, 1);
+			// CSS
 
-				// Process enqueues
-				self::enqueue();
+			// Core
+			add_filter('wsf_enqueue_css_skin', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_style', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_layout', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_loader', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_custom', function($enqueue) { return true; }, 99999, 1);
 
-				$this->enqueued_all = true;
-			}
+			// Field types
+			add_filter('wsf_enqueue_css_base', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_button', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_checkbox', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_color', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_datetime', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_file', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_legal', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_meter', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_number', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_password', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_progress', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_radio', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_range', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_select', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_signature', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_tab', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_tel', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_textarea', function($enqueue) { return true; }, 99999, 1);
+
+			// Process enqueues
+			self::enqueue();
+
+			$this->enqueued_all = true;
 		}
 
 		public function init() {
@@ -345,7 +473,7 @@
 				try {
 					
 					$ws_form_template->read();
-					$form_object = $ws_form_template->form_object;
+					$form_object = $ws_form_template->object;
 
 					// Change meta data
 					$form_object->meta->class_form_wrapper = 'wsf-demo';
@@ -383,7 +511,7 @@
 
 						} else {
 
-							$form_object = $ws_form_form->db_read(true, true, false, true);
+							$form_object = $ws_form_form->db_read(true, true, false, true, false, $preview);
 						}
 
 					} catch(Exception $e) { return $e->getMessage(); }
@@ -453,14 +581,42 @@
 			if(WS_Form_Common::is_rest_request()) { return; }
 
 			// Enqueue WS Form
-			$this->enqueue_js_form_common = true;
-			$this->enqueue_js_form_public = true;
+			$this->enqueue_js_common = true;
+			$this->enqueue_js_public = true;
+			$this->enqueue_js_custom = true;
+
+			$this->enqueue_css_base = true;
 			$this->enqueue_css_layout = true;
 			$this->enqueue_css_skin = true;
-
-			// Enqueue custom
-			$this->enqueue_js_custom = true;
+			$this->enqueue_css_style = true;
 			$this->enqueue_css_custom = true;
+
+			// Enqueue styler
+			$this->styler_visible_public = WS_Form_Common::styler_visible_public();
+			if($this->styler_visible_public) {
+
+				// Styler
+				$this->enqueue_js_styler = true;
+				$this->enqueue_css_styler = true;
+
+				// Coloris
+				$this->enqueue_js_color_picker = true;
+
+				// Color
+				$this->enqueue_js_color = true;
+			}
+
+			if(WS_Form_Common::styler_enabled()) {
+
+				// Get form style ID
+				$style_id = $this->ws_form_style->get_style_id_from_form_object($form_object, $this->conversational);
+
+				// Add style to be rendered
+				if(!in_array($style_id, $this->style_ids)) {
+
+					$this->style_ids[] = $style_id;
+				}
+			}
 
 			// Apply restrictions
 			$ws_form_form = new WS_Form_Form();
@@ -476,6 +632,7 @@
 			if(count($groups) > 1) {
 
 				$this->enqueue_js_tab = true;
+				$this->enqueue_css_tab = true;
 			}
 
 			foreach($groups as $group_key => $group) {
@@ -544,6 +701,9 @@
 									case 'select' :
 									case 'price_select' :
 
+										$this->enqueue_js_select = true;
+										$this->enqueue_css_select = true;
+
 										// E-commerce
 										if($field_type === 'price_select') {
 
@@ -551,24 +711,14 @@
 										}
 
 										// Select2 AJAX
-										$select2 = (WS_Form_Common::get_object_meta_value($field, 'select2', '') === 'on');
-
-										if(
-											$select2 ||
-											WS_Form_Common::get_object_meta_value($field, 'select_min', '') ||
-											WS_Form_Common::get_object_meta_value($field, 'select_max', '')
-										) {
-											$this->enqueue_js_select = true;
-										}
-
-										if($select2) {
+										if(WS_Form_Common::get_object_meta_value($field, 'select2', '') === 'on') {
 
 											if(!$cascade && WS_Form_Common::get_object_meta_value($field, 'select2_ajax', '')) {
 
 												$data_grid_clear = true;
 											}
 
-											// Enqueue select
+											// Enqueue JS
 											$this->enqueue_js_select2 = true;
 										}
 
@@ -593,6 +743,9 @@
 											$this->enqueue_js_checkbox = true;
 										}
 
+										// Enqueue CSS
+										$this->enqueue_css_checkbox = true;
+
 										break;
 
 									// Radio
@@ -600,6 +753,7 @@
 									case 'price_radio' :
 
 										$this->enqueue_js_radio = true;
+										$this->enqueue_css_radio = true;
 
 										if($field_type === 'price_radio') {
 
@@ -669,17 +823,33 @@
 
 								break;
 
+							// Buttons
+							case 'button' :
+							case 'clear' :
+							case 'section_add' :
+							case 'section_delete' :
+							case 'section_down' :
+							case 'section_up' :
+							case 'reset' :
+							case 'save' :
+							case 'submit' :
+							case 'tab_next' :
+							case 'tab_previous' :
+
+								$this->enqueue_css_button = true;
+								break;
+
 							// Telephone
 							case 'tel' :
 
-								$intl_tel_input = WS_Form_Common::get_object_meta_value($field, 'intl_tel_input', '');
-								if($intl_tel_input) {
+								// International telephone input
+								if(WS_Form_Common::get_object_meta_value($field, 'intl_tel_input', '')) {
 
 									$this->enqueue_js_intl_tel_input = true;
 									$this->enqueue_js_tel = true;
+									$this->enqueue_css_tel = true;
 
-									$intl_tel_input_initial_country = WS_Form_Common::get_object_meta_value($field, 'intl_tel_input_initial_country', '');
-									if($intl_tel_input_initial_country) {
+									if(WS_Form_Common::get_object_meta_value($field, 'intl_tel_input_initial_country', '')) {
 
 										$this->enqueue_js_geo = true;
 									}
@@ -705,6 +875,8 @@
 									$this->enqueue_js_wp_media = true;
 								}
 
+								$this->enqueue_css_textarea = true;
+
 								break;
 
 							// Captcha
@@ -715,7 +887,7 @@
 								$this->enqueue_js_captcha = true;
 						}
 
-						do_action('wsf_form_pre_process_field', $field);
+						do_action('wsf_form_pre_process_field', $field, $this);
 
 						$field = null;
 					}
@@ -727,6 +899,9 @@
 
 		// Enqueue
 		public function enqueue() {
+
+			$this->public_dependencies_js = array($this->plugin_name . '-common');
+			$this->public_dependencies_css = array($this->plugin_name . '-base');
 
 			if(apply_filters('wsf_public_enqueue', true)) {
 
@@ -757,7 +932,7 @@
 			$dependencies_base = apply_filters('wsf_enqueue_js_dependencies', array('jquery'));
 
 			// JS - Input Mask - 5.0.3
-			if(!$this->enqueued_js_input_mask && apply_filters('wsf_enqueue_js_input_mask', $this->enqueue_js_input_mask)) {
+			if(apply_filters('wsf_enqueue_js_input_mask', $this->enqueue_js_input_mask)) {
 
 				// External - Input Mask Bundle
 				$dependencies = apply_filters('wsf_enqueue_js_input_mask_dependencies', $dependencies_base);
@@ -766,7 +941,7 @@
 			}
 
 			// JS - International telephone input - Version 17.0.13
-			if(!$this->enqueued_js_intl_tel_input && apply_filters('wsf_enqueue_js_intl_tel_input', $this->enqueue_js_intl_tel_input)) {
+			if(apply_filters('wsf_enqueue_js_intl_tel_input', $this->enqueue_js_intl_tel_input)) {
 
 				// External - International telephone input - JS
 				$dependencies = apply_filters('wsf_enqueue_js_intl_tel_input_dependencies', $dependencies_base);
@@ -777,12 +952,24 @@
 
 				$this->enqueued_js_intl_tel_input = true;
 			}
+
+			// JS - Color picker - Version 0.24.0
+			if(apply_filters('wsf_enqueue_js_color_picker', $this->enqueue_js_color_picker)) {
+
+				// External - Color picker - JS
+				$dependencies = apply_filters('wsf_enqueue_js_color_picker_dependencies', $dependencies_base);
+				wp_enqueue_script($this->plugin_name . '-external-color-picker', $external['coloris_js']['js'], $dependencies, $external['coloris_js']['version'], $enqueue_args);
+
+				// External - Color picker - CSS
+				wp_enqueue_style($this->plugin_name . '-external-color-picker', $external['coloris_css']['js'], array(), $external['coloris_css']['version'], 'all');
+
+				$this->enqueued_js_color_picker = true;
+			}
 			// If a textarea exists in a form that requires wp_editor or wp_code_editor, enqueue the scripts
 			global $wp_version;
 
 			// WP Editor
 			if(
-				!$this->enqueued_js_wp_editor && 
 				apply_filters('wsf_enqueue_js_wp_editor', $this->enqueue_js_wp_editor) &&
 				(WS_Form_Common::version_compare($wp_version, '4.8') >= 0) &&
 				user_can_richedit()
@@ -790,7 +977,6 @@
 
 				// Media for 'Add Media' button
 				if(
-					!$this->enqueued_js_wp_editor && 
 					apply_filters('wsf_enqueue_js_wp_media', $this->enqueue_js_wp_media) &&
 					WS_Form_Common::can_user('upload_files')
 				) {
@@ -807,7 +993,6 @@
 
 			// WP HTML Editor
 			if(
-				!$this->enqueued_js_wp_html_editor && 
 				apply_filters('wsf_enqueue_js_wp_html_editor', $this->enqueue_js_wp_html_editor) &&
 				(WS_Form_Common::version_compare($wp_version, '4.9') >= 0) &&
 				(!is_user_logged_in() || (wp_get_current_user()->syntax_highlighting))
@@ -840,54 +1025,94 @@
 			$upload_dir_base_url = WS_Form_Common::get_upload_dir_base_url();
 
 			// JS - Common
-			if(!$this->enqueued_js_form_common && apply_filters('wsf_enqueue_js_form_common', $this->enqueue_js_form_common)) {
+			if(!$this->enqueued_js_common && apply_filters('wsf_enqueue_js_common', $this->enqueue_js_common)) {
 
 				// Enqueued scripts settings
-				$ws_form_settings = self::localization_object($this->debug);
+				$ws_form_settings = self::localization_object();
 
 				// WS Form script - Common
-				$dependencies = apply_filters('wsf_enqueue_js_form_common_dependencies', $dependencies_base);
-				wp_register_script($this->plugin_name . '-form-common', sprintf('%sshared/js/ws-form%s.js', WS_FORM_PLUGIN_DIR_URL, $min), $dependencies, $this->version, $enqueue_args);
-				wp_localize_script($this->plugin_name . '-form-common', 'ws_form_settings', $ws_form_settings);
-				wp_enqueue_script($this->plugin_name . '-form-common');
+				$dependencies = apply_filters('wsf_enqueue_js_common_dependencies', $dependencies_base);
+				$dependencies = apply_filters('wsf_enqueue_js_form_common_dependencies', $dependencies_base);	// Legacy
 
-				$this->enqueued_js_form_common = true;
+				wp_register_script(
+
+					$this->plugin_name . '-common',
+					sprintf('%sshared/js/ws-form%s.js', WS_FORM_PLUGIN_DIR_URL, $min), $dependencies,
+					$this->version,
+					$enqueue_args
+				);
+
+				wp_localize_script(
+
+					$this->plugin_name . '-common',
+					'ws_form_settings',
+					$ws_form_settings
+				);
+
+				wp_enqueue_script(
+
+					$this->plugin_name . '-common'
+				);
+
+				$this->enqueued_js_common = true;
 			}
 
-			// JS - Analytics
-			self::enqueue_internal_do('public-analytics', 'common', 'analytics', 'analytics');
+			// Base
+			self::enqueue_internal_css('base', false);
 
-			// JS - Captcha
-			self::enqueue_internal_do('public-captcha', 'common', 'captcha', 'captcha');
+			// Analytics
+			self::enqueue_internal_js('analytics');
 
-			// JS - Cascade
-			self::enqueue_internal_do('public-cascade', 'common', 'cascade', 'cascade');
+			// Button
+			self::enqueue_internal_css('button');
 
-			// JS - Checkbox
-			self::enqueue_internal_do('public-checkbox', 'common', 'checkbox', 'checkbox');
+			// Captcha
+			self::enqueue_internal_js('captcha');
 
-			// JS - Radio
-			self::enqueue_internal_do('public-radio', 'common', 'radio', 'radio');
+			// Cascade
+			self::enqueue_internal_js('cascade');
 
-			// JS - Select
-			self::enqueue_internal_do('public-select', 'common', 'select', 'select');
+			// Checkbox
+			self::enqueue_internal_js('checkbox');
+			self::enqueue_internal_css('checkbox');
 
-			// JS - Tab
-			self::enqueue_internal_do('public-tab', 'common', 'tab', 'tab');
+			// Number
+			self::enqueue_internal_css('number');
 
-			// JS - Tab
-			self::enqueue_internal_do('public-tel', 'common', 'tel', 'tel');
+			// Radio
+			self::enqueue_internal_js('radio');
+			self::enqueue_internal_css('radio');
 
-			// JS - Tab
-			self::enqueue_internal_do('public-textarea', 'common', 'textarea', 'textarea');
+			// Select
+			self::enqueue_internal_js('select');
+			self::enqueue_internal_css('select');
 
-			// JS - Tracking
-			self::enqueue_internal_do('public-tracking', 'common', 'tracking', 'tracking');
+			// Tab
+			self::enqueue_internal_js('tab');
+			self::enqueue_internal_css('tab');
 
-			// JS - Public
-			self::enqueue_internal_do('public', true, 'form-public', 'form_public');
+			// Tab
+			self::enqueue_internal_js('tel');
+			self::enqueue_internal_css('tel');
+
+			// Tab
+			self::enqueue_internal_js('textarea');
+			self::enqueue_internal_css('textarea');
+
+			// Tracking
+			self::enqueue_internal_js('tracking');
+
+			// Color
+			self::enqueue_internal_js('color');
+			self::enqueue_internal_css('color');
+			// Public
+			self::enqueue_internal_js('public', true);
+			// Styler
+			self::enqueue_internal_js('styler', 'public');
+			self::enqueue_internal_css('styler');
+
 			// CSS - Layout
-			if(!$this->enqueued_css_layout && apply_filters('wsf_enqueue_css_layout', $this->enqueue_css_layout)) {
+			if(apply_filters('wsf_enqueue_css_layout', $this->enqueue_css_layout)) {
 
 				if(WS_Form_Common::is_block_editor()) {
 
@@ -907,15 +1132,16 @@
 
 						if($this->customizer || ($this->css_inline && !is_admin())) {
 
-							add_action('wp_footer', function() {
+							if(!$this->enqueued_css_layout) {
 
-								// Output public CSS
-								$css = $this->ws_form_css->get_layout(null, $this->customizer, is_rtl());
+								add_action('wp_footer', function() {
 
-								// Output is already escaped
-								echo $this->ws_form_css->inline($css);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+									// Output public CSS
+									$css = $this->ws_form_css->get_layout(null, $this->customizer, is_rtl());
+									WS_Form_Common::echo_esc_css_inline($css);
 
-							}, 100);
+								}, 100);
+							}
 
 						} else {
 
@@ -930,7 +1156,7 @@
 			}
 
 			// CSS - Skin
-			if(!$this->enqueued_css_skin && apply_filters('wsf_enqueue_css_skin', $this->enqueue_css_skin)) {
+			if(WS_Form_Common::customizer_enabled() && apply_filters('wsf_enqueue_css_skin', $this->enqueue_css_skin)) {
 
 				if(WS_Form_Common::is_block_editor()) {
 
@@ -949,15 +1175,16 @@
 
 						if($this->customizer || ($this->css_inline && !is_admin())) {
 
-							add_action('wp_footer', function() {
+							if(!$this->enqueued_css_skin) {
 
-								// Output public CSS
-								$css_skin = $this->ws_form_css->get_skin(null, $this->customizer, is_rtl());
+								add_action('wp_footer', function() {
 
-								// Output is already escaped
-								echo $this->ws_form_css->inline($css_skin);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+									// Output skin CSS
+									$css_skin = $this->ws_form_css->get_skin(null, $this->customizer, is_rtl());
+									WS_Form_Common::echo_esc_css_inline($css_skin);
 
-							}, 100);
+								}, 100);
+							}
 
 						} else {
 
@@ -973,9 +1200,82 @@
 				$this->enqueued_css_skin = true;
 			}
 
+			// CSS - Style
+			if(WS_Form_Common::styler_enabled() && apply_filters('wsf_enqueue_css_style', $this->enqueue_css_style)) {
+
+				foreach($this->style_ids as $style_id) {
+
+					$enqueue_id = sprintf(
+
+						'%s-style-%u',
+						esc_attr($this->plugin_name),
+						esc_attr($style_id)
+					);
+
+					if(WS_Form_Common::is_block_editor()) {
+
+						// If we are in the block editor, we enqueue the style CSS using WS Form framework
+						wp_enqueue_style($enqueue_id, WS_Form_Common::get_api_path(sprintf(
+
+							'style/%u/css/?wsf_block_editor=true',
+							$style_id
+
+						)), array(), $this->version, 'all');
+
+					} elseif($this->enqueue_js_styler) {
+
+						// If we are using the styler, ensure the alt classes are force to render
+						if(!isset($this->enqueued_css_style[$style_id])) {
+
+							add_action('wp_footer', function() use ($style_id) {
+
+								// Output style CSS
+								$this->ws_form_style->id = $style_id;
+								$css_style = $this->ws_form_style->get_css_vars_markup(true, true, false, true, true, false);
+								WS_Form_Common::echo_esc_css_inline($css_style);
+
+							}, 100);
+						}
+
+					} else {
+
+						if(
+							(
+								WS_Form_Common::option_get('css_style', true) &&
+								(WS_Form_Common::option_get('framework', 'ws-form') == 'ws-form')
+							) ||
+							$this->conversational
+						) {
+
+							if($this->css_inline && !is_admin()) {
+
+								if(!isset($this->enqueued_css_style[$style_id])) {
+
+									add_action('wp_footer', function() use ($style_id) {
+
+										// Output style CSS
+										$this->ws_form_css->style_id = $style_id;
+										$css_style = $this->ws_form_css->get_style(null, true, is_rtl());
+										WS_Form_Common::echo_esc_css_inline($css_style);
+
+									}, 100);
+								}
+
+							} else {
+
+								$css_compile = WS_Form_Common::option_get('css_compile', false);
+
+								wp_enqueue_style($enqueue_id, $css_compile ? sprintf('%s/ws-form/%s/public.style.%u%s.css', $upload_dir_base_url, WS_FORM_CSS_FILE_PATH, $style_id, $min) : WS_Form_Common::get_api_path(sprintf('style/%u/css/', $style_id)), array(), $this->version, 'all');
+							}
+						}
+					}
+
+					$this->enqueued_css_style[$style_id] = true;
+				}
+			}
 
  			// JS - Custom
-			if(!$this->enqueued_js_custom && apply_filters('wsf_enqueue_js_custom', $this->enqueue_js_custom)) {
+			if(apply_filters('wsf_enqueue_js_custom', $this->enqueue_js_custom)) {
 
 				do_action('wsf_enqueue_scripts', $enqueue_args);
 
@@ -983,7 +1283,7 @@
 			}
 
  			// CSS - Custom
-			if(!$this->enqueued_css_custom && apply_filters('wsf_enqueue_css_custom', $this->enqueue_css_custom)) {
+			if(apply_filters('wsf_enqueue_css_custom', $this->enqueue_css_custom)) {
 
 				do_action('wsf_enqueue_styles');
 
@@ -993,55 +1293,129 @@
 			do_action('wsf_enqueue_internal');
 		}
 
-		// Enqueue and internal script
-		public function enqueue_internal_do($script, $dependency = 'common', $script_id = false, $prop = false) {
+		// Enqueue internal script
+		public function enqueue_internal_js($script, $dependency = 'common') {
 
-			// Check attributes
-			if($script_id === false) { $script_id = $script; }
-			if($prop === false) { $prop = $script; }
-			$prop_enqueued = sprintf('enqueued_js_%s', $prop);
+			// Minified scripts?
+			$min = SCRIPT_DEBUG ? '' : '.min';
+
+			// ID
+			$id = sprintf('%s-%s', $this->plugin_name, $script);
+
+			// JavaScript
+			$prop = str_replace('-', '_', $script);
 			$prop_enqueue = sprintf('enqueue_js_%s', $prop);
+			$prop_enqueued = sprintf('enqueued_js_%s', $prop);
 			$hook_name = sprintf('wsf_enqueue_js_%s', $prop);
+
+			// Prefix with public
+			if($script !== 'public') {
+
+				$script = sprintf('public-%s', $script);
+			}
 
 			// Check if already enqueued
 			if(
-				$this->{$prop_enqueued} ||
-				!apply_filters($hook_name, $this->{$prop_enqueue})
+				property_exists($this, $prop_enqueue) &&
+				property_exists($this, $prop_enqueued) &&
+				apply_filters($hook_name, $this->{$prop_enqueue})
 			) {
-				return;
+
+				// Add script to dependencies for public
+				if(
+					($dependency !== true) &&
+					!in_array($id, $this->public_dependencies_js)
+				) {
+					$this->public_dependencies_js[] = $id;
+				}
+
+				// Determine dependency
+				$dependency_js = ($dependency !== false) ? (($dependency === true) ? $this->public_dependencies_js : array(sprintf('%s-%s', $this->plugin_name, $dependency))) : array();
+
+				// Enqueue JavaScript
+				wp_enqueue_script(
+
+					$id,
+					sprintf('%spublic/js/ws-form-%s%s.js', WS_FORM_PLUGIN_DIR_URL, $script, $min),
+					$dependency_js,
+					$this->version,
+					WS_Form_Common::get_enqueue_args()
+				);
+
+				// Set enqueued
+				$this->{$prop_enqueued} = true;
+
+				do_action(sprintf('wsf_enqueue_js_%s', $script));
+			}
+		}
+
+		// Enqueue internal CSS
+		public function enqueue_internal_css($script, $dependency = 'base', $styler_required = true) {
+
+			// Check if styler should be enabled
+			if($styler_required) {
+
+				// Ensure CSS style should be rendered
+				if(
+					!WS_Form_Common::option_get('css_style') ||
+					!WS_Form_Common::styler_enabled()
+				) {
+					return;
+				}
+
+			} else {
+
+				// Ensure CSS skin should be rendered
+				if(!WS_Form_Common::option_get('css_skin')) {
+
+					return;
+				}
 			}
 
 			// Minified scripts?
 			$min = SCRIPT_DEBUG ? '' : '.min';
 
-			// RTL?
-			$rtl = is_rtl() ? '.rtl' : '';
+			// ID
+			$id = sprintf('%s-%s', $this->plugin_name, $script);
 
-			// Get enqueue args
-			$enqueue_args = WS_Form_Common::get_enqueue_args();
+			// CSS
+			$prop = str_replace('-', '_', $script);
+			$prop_enqueue = sprintf('enqueue_css_%s', $prop);
+			$prop_enqueued = sprintf('enqueued_css_%s', $prop);
+			$hook_name = sprintf('wsf_enqueue_css_%s', $prop);
 
-			// Script ID
-			$script_id_full = sprintf('%s-%s', $this->plugin_name, $script_id);
+			// Check if already enqueued
+			if(
+				property_exists($this, $prop_enqueue) &&
+				property_exists($this, $prop_enqueued) &&
+				apply_filters($hook_name, $this->{$prop_enqueue})
+			) {
+				// Add script to dependencies for public
+				if(
+					($dependency !== true) &&
+					!in_array($id, $this->public_dependencies_css)
+				) {
+					$this->public_dependencies_css[] = $id;
+				}
 
-			// Add script to dependencies for public
-			if($dependency !== true) {
+				// Determine dependency
+				$dependency_css = ($dependency !== false) ? (($dependency === true) ? $this->public_dependencies_css : array(sprintf('%s-base', $this->plugin_name))) : array();
 
-				$this->public_dependencies[] = $script_id_full;
+				// Enqueue CSS (All require base dependency)
+				wp_enqueue_style(
+
+					$id,
+					sprintf('%spublic/css/ws-form-public-%s%s.css', WS_FORM_PLUGIN_DIR_URL, $script, $min),
+					$dependency_css,
+					$this->version,
+					'all'
+				);
+
+				// Set enqueued
+				$this->{$prop_enqueued} = true;
+
+				do_action(sprintf('wsf_enqueue_css_%s', $script));
 			}
-
-			// Enqueue
-			wp_enqueue_script(
-
-				$script_id_full,
-				sprintf('%spublic/js/ws-form-%s%s.js', WS_FORM_PLUGIN_DIR_URL, $script, $min),
-				($dependency === true) ? $this->public_dependencies : array(sprintf('%s-form-%s', $this->plugin_name, $dependency)),
-				$this->version,
-				$enqueue_args
-			);
-
-			$this->{$prop_enqueued} = true;
-
-			do_action(sprintf('wsf_enqueue_%s', $script));
 		}
 
 		// WP print scripts
@@ -1073,7 +1447,7 @@
 
 			global $wp_scripts, $wp_styles;
 
-			echo '<table><thead><tr><th>Handle</th><th>URL</th><th>Dependencies</th></thead><tbody>';	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+?><table><thead><tr><th>Handle</th><th>URL</th><th>Dependencies</th></thead><tbody><?php
 
 			foreach($wp_scripts->registered as $registered) {
 
@@ -1086,7 +1460,7 @@
 				);
 			}
 
-			echo '</tbody></table>';	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+?></tbody></table><?php
 		}
 
 		// Form - Divi - AJAX - Form
@@ -1168,17 +1542,39 @@
 			// Form attribute - class
 			$form_attr_class = ($class === false) ? '' : ' ' . $class;
 
+			// RTL
+			if(is_rtl()) { $form_attr_class .= ' wsf-rtl'; }
+
+			// Style attributes
+			if(WS_Form_Common::styler_enabled()) {
+
+				// Style ID
+				$style_id = $this->ws_form_style->get_style_id_from_form_object($form_object, $this->conversational);
+				$form_attributes .= sprintf(
+
+					' data-wsf-style-id="%u"',
+					esc_attr($style_id)
+				);
+
+				// Styler ALT
+				$this->ws_form_style->id = $style_id;
+				if($this->ws_form_style->has_alt()) {
+
+					$form_attributes .= ' data-wsf-style-has-alt';
+				}
+			}			
+
 			// Form wrapper
 			switch($element) {
 
 				case 'form' :
 
-					$return_value = sprintf('<form action="%s" class="wsf-form wsf-form-canvas%s" id="%s"%s data-id="%u"%s method="%s"%s></form>', esc_attr($form_action), esc_attr($form_attr_class), esc_attr($form_attr_id), $form_attr_data_custom_id, esc_attr($form_id), $form_attr_data_instance_id, esc_attr($form_method), $form_attributes);
+					$return_value = sprintf('<form action="%s" class="wsf-form wsf-form-canvas%s" id="%s"%s data-id="%u" %s  method="%s"%s></form>', esc_attr($form_action), esc_attr($form_attr_class), esc_attr($form_attr_id), $form_attr_data_custom_id, esc_attr($form_id), $form_attr_data_instance_id, esc_attr($form_method), $form_attributes);
 					break;
 
 				default :
 
-					$return_value = sprintf('<%1$s class="wsf-form wsf-form-canvas%2$s" id="%3$s"%4$s data-id="%5$u"%6$s%7$s></%1$s>', $element, esc_attr($form_attr_class), esc_attr($form_attr_id), $form_attr_data_custom_id, esc_attr($form_id), $form_attr_data_instance_id, $form_attributes);
+					$return_value = sprintf('<%1$s class="wsf-form wsf-form-canvas%2$s" id="%3$s"%4$s data-id="%5$u" %6$s%7$s></%1$s>', $element, esc_attr($form_attr_class), esc_attr($form_attr_id), $form_attr_data_custom_id, esc_attr($form_id), $form_attr_data_instance_id, $form_attributes);
 					break;
 			}
 
@@ -1217,7 +1613,7 @@
 			return $return_value;
 		}
 
-		public function localization_object($debug = false) {
+		public function localization_object() {
 
 			global $post, $wp_version;
 
@@ -1255,6 +1651,17 @@
 				'url_plugin'			=> WS_FORM_PLUGIN_DIR_URL,
 				// Should framework CSS be rendered? (WS Form framework only)
 				'css_framework'			=> WS_Form_Common::option_get('css_framework', true),
+
+				// Styler
+				'styler_enabled'		=> WS_Form_Common::styler_enabled(),	
+				'styler_visible_public'	=> WS_Form_Common::styler_visible_public(),
+
+				// Scheme
+				'scheme'				=> WS_Form_Common::option_get('scheme', 'light'),
+				'scheme_auto'			=> WS_Form_Common::option_get('scheme_auto', 'on'),
+
+				// Conversational?
+				'conversational'		=> $this->conversational,
 
 				// Max upload size
 				'max_upload_size'		=> absint(WS_Form_Common::option_get('max_upload_size', 0)),

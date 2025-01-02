@@ -237,7 +237,7 @@
 				'DECIMAL',
 				'SIGNED',
 				'TIME',
-				'UNSIGNEd'
+				'UNSIGNED'
 
 			))) { return self::error(__('Invalid meta type'), $field_id, $this, $api_request); }
 
@@ -275,6 +275,7 @@
 					case 'excerpt' : $label = __('Excerpt', 'ws-form'); break;
 					case 'content' : $label = __('Content', 'ws-form'); break;
 					case 'featured_image' : $label = __('Featured Image', 'ws-form'); break;
+					case 'author_id' : $label = __('Author ID', 'ws-form'); break;
 					case 'terms' : $label = __('Terms', 'ws-form'); break;
 					default : $label = __('Unknown', 'ws-form');
 				}
@@ -647,6 +648,7 @@
 							case 'permalink' : $column_value = get_permalink($post_id); break;
 							case 'excerpt' : $column_value = $post->post_excerpt; break;
 							case 'content' : $column_value = $post->post_content; break;
+							case 'author_id' : $column_value = $post->post_author; break;
 
 							case 'featured_image' : 
 
@@ -1325,6 +1327,7 @@
 						array('value' => 'excerpt', 'text' => __('Excerpt', 'ws-form')),
 						array('value' => 'content', 'text' => __('Content', 'ws-form')),
 						array('value' => 'featured_image', 'text' => __('Featured Image', 'ws-form')),
+						array('value' => 'author_id', 'text' => __('Author ID', 'ws-form')),
 						array('value' => 'terms', 'text' => __('Terms', 'ws-form')),
 					),
 					'options_blank'				=>	__('Select...', 'ws-form')
