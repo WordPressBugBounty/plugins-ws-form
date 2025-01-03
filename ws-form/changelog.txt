@@ -2,6 +2,9 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.3 - 01/02/2025 =
+* Added: InstaWP staging install support
+
 = 1.10.2 - 01/02/2025 =
 * Bug Fix: Removed descending index for style table to avoid incompatibility issues with some storage engines
 

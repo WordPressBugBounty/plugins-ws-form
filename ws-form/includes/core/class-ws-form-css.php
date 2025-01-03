@@ -188,7 +188,7 @@
 
 					// Get styles
 					$ws_form_style = new WS_Form_Style();
-					$ws_form_style->check_initialized();
+					$ws_form_style->check_initialized(true);
 					$styles = $ws_form_style->db_read_all('', "NOT (status = 'trash')");
 
 					foreach($styles as $style) {

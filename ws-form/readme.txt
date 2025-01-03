@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: form, contact form, form builder, forms, custom form
 Requires at least: 5.3
 Tested up to: 6.7
-Stable tag: 1.10.2
+Stable tag: 1.10.3
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -19,6 +19,12 @@ WS Form LITE is a powerful contact form builder plugin for WordPress.
 Create professional, stylish, mobile friendly, accessible forms. WS Form LITE comes complete with features other form builder plugins charge a premium for including unlimited forms submission and styles as well as submission exporting and comprehensive anti-spam features. 
 
 Choose from single click templates or build your own WordPress form using the unique drag and drop form editor.
+
+= Create Beautiful Forms with Ease =
+
+WS Form LITE includes an incredibly powerful and intuitive [form styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme), enabling you to design stunning forms directly within WordPress. Whether you’re looking to match your website’s branding or create completely custom designs, WS Form’s Styler gives you full control over the appearance of your forms—no coding required!
+
+https://youtu.be/ZsTBBsdQxFQ
 
 = Included Features =
 
@@ -57,23 +63,11 @@ Add forms to your website using your favorite WordPress page builder:
 * [Gutenberg](https://wsform.com/knowledgebase/gutenberg-block/?utm_source=wp_plugins&utm_medium=readme)
 * [Oxygen](https://wsform.com/knowledgebase/oxygen-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
 
-= Theme / Framework Support =
-
-WS Form is compatible with all WordPress themes, and also outputs native HTML for the following front-end frameworks:
-
-* [Bootstrap 5+](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
-* [Bootstrap 4.1-4.5.x](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
-* [Bootstrap 4.0](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
-* [Bootstrap 3.x](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
-* [Foundation 6.4+](https://wsform.com/knowledgebase/building-wordpress-forms-for-foundation/?utm_source=wp_plugins&utm_medium=readme)
-* [Foundation 6.0-6.3.1](https://wsform.com/knowledgebase/building-wordpress-forms-for-foundation/?utm_source=wp_plugins&utm_medium=readme)
-* [Foundation 5.x](https://wsform.com/knowledgebase/building-wordpress-forms-for-foundation/?utm_source=wp_plugins&utm_medium=readme)
-
 = Upgrade to PRO =
 
 This plugin is the free LITE edition of [WS Form PRO](https://wsform.com/?utm_source=wp_plugins&utm_medium=readme).
 
-https://vimeo.com/475187549
+https://youtu.be/T9A98c9WHNE
 
 The PRO edition comes with unrivaled additional features:
 
@@ -164,6 +158,18 @@ The PRO edition comes with unrivaled additional features:
 * [Meta Box](https://wsform.com/knowledgebase/build-a-wordpress-form-with-the-meta-box-plugin/?utm_source=wp_plugins&utm_medium=readme)
 * [Pods](https://wsform.com/knowledgebase/build-a-wordpress-form-with-the-pods-plugin/?utm_source=wp_plugins&utm_medium=readme)
 * [Toolset](https://wsform.com/knowledgebase/build-a-wordpress-form-with-the-toolset-plugin/?utm_source=wp_plugins&utm_medium=readme)
+
+= Theme / Framework Support =
+
+WS Form is compatible with all WordPress themes, and also outputs native HTML for the following front-end frameworks:
+
+* [Bootstrap 5+](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
+* [Bootstrap 4.1-4.5.x](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
+* [Bootstrap 4.0](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
+* [Bootstrap 3.x](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
+* [Foundation 6.4+](https://wsform.com/knowledgebase/building-wordpress-forms-for-foundation/?utm_source=wp_plugins&utm_medium=readme)
+* [Foundation 6.0-6.3.1](https://wsform.com/knowledgebase/building-wordpress-forms-for-foundation/?utm_source=wp_plugins&utm_medium=readme)
+* [Foundation 5.x](https://wsform.com/knowledgebase/building-wordpress-forms-for-foundation/?utm_source=wp_plugins&utm_medium=readme)
 
 = Performance =
 
@@ -263,6 +269,7 @@ This endpoint is called when the preset option is selected for a select, checkbo
 2. Welcome Screen
 3. Contact Form Submissions
 4. Example Front-End Form
+5. Styler
 
 == Installation ==
 

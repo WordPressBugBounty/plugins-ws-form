@@ -286,15 +286,15 @@
 			$form_meta = New WS_Form_Meta();
 			$form_meta->object = 'style';
 			$form_meta->parent_id = $this->id;
-			$form_meta->db_update_from_object($meta_data_object, true);
+			$form_meta->db_update_from_object($meta_data_object, true, $bypass_user_capability_check);
 
 			// Update checksum
-			self::db_checksum();
+			self::db_checksum($bypass_user_capability_check);
 
 			// Publish
 			if($this->publish_auto) {
 
-				self::db_publish();
+				self::db_publish($bypass_user_capability_check);
 			}
 
 			// Run action
@@ -435,7 +435,7 @@
 			$style_object = self::db_read(true, $bypass_user_capability_check);
 
 			// Update checksum
-			self::db_checksum();
+			self::db_checksum($bypass_user_capability_check);
 
 			// Set checksums
 			$style_object->checksum = $this->checksum;
@@ -913,14 +913,14 @@
 		}
 
 		// Get checksum of current style and store it to database
-		public function db_checksum() {
+		public function db_checksum($bypass_user_capability_check = false) {
 
 			global $wpdb;
 
 			self::db_check_id();
 
 			// Get style data
-			$style_object = self::db_read();
+			$style_object = self::db_read(true, $bypass_user_capability_check);
 
 			// Remove any variables that change each time checksum calculated or don't affect the public style
 			unset($style_object->checksum);
