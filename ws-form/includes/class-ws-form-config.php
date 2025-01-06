@@ -1075,7 +1075,7 @@
 
 										array(
 											'label'		=>	__('Style', 'ws-form'),
-											'meta_keys'	=>	array('label_position_no_inside', 'label_column_width', 'help_position', 'class_single_vertical_align')
+											'meta_keys'	=>	array('label_position', 'label_column_width', 'help_position', 'class_single_vertical_align')
 										),
 
 										array(

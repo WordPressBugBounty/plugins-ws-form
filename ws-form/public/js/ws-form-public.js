@@ -2755,7 +2755,7 @@
 			})
 
 			// Add locked class to form
-			this.form_canvas_obj.addClass(class_lock + (cursor ? ' wsf-form-post-lock-' + cursor : ''));
+			this.form_obj.addClass(class_lock + (cursor ? ' wsf-form-post-lock-' + cursor : ''));
 
 			// Lock form
 			this.form_post_locked = true;
@@ -2776,7 +2776,7 @@
 
 		var class_lock = this.get_form_post_lock_class(button_selector);
 
-		if(!this.form_canvas_obj.hasClass(class_lock)) { return; }
+		if(!this.form_obj.hasClass(class_lock)) { return; }
 
 		var ws_this = this;
 
@@ -2786,7 +2786,7 @@
 			ws_this.form_ecommerce_calculate_enabled = true;
 
 			// Remove locked class from form
-			ws_this.form_canvas_obj.removeClass(class_lock + (cursor ? ' wsf-form-post-lock-' + cursor : ''));
+			ws_this.form_obj.removeClass(class_lock + (cursor ? ' wsf-form-post-lock-' + cursor : ''));
 
 			// Get buttons
 			var button_objs = ws_this.get_form_post_lock_button_objs(button_selector);

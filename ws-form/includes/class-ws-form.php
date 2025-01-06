@@ -62,12 +62,6 @@ final class WS_Form {
 		// The class responsible for defining internationalization functionality of the plugin
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-i18n.php';
 
-		if(WS_Form_Common::customizer_enabled()) {
-
-			// The class responsible for customizing
-			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-customize.php';
-		}
-
 		// The classes responsible for populating WP List Tables
 		if(is_admin()) {
 
@@ -110,11 +104,7 @@ final class WS_Form {
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-submit-export.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-template.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-css.php';
-
-		if(WS_Form_Common::styler_enabled()) {
-
-			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-style.php';
-		}
+		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-style.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-form-stat.php';
 
 		// Actions

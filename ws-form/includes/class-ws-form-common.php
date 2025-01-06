@@ -4976,7 +4976,7 @@
 		// Sanitize CSS value
 		public static function sanitize_css_value($css_value, $pattern_match = false) {
 
-			if(empty($css_value)) { return ''; }
+			if($css_value == '') { return ''; }
 
 			// Strip tags
 			$css_value = wp_strip_all_tags($css_value);

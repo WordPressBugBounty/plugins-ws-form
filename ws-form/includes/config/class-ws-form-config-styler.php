@@ -2081,7 +2081,7 @@
 								// Typography
 								'typography' => array(
 
-									'label' => __('Typograpy', 'ws-form'),
+									'label' => __('Typography', 'ws-form'),
 
 									'meta' => self::get_styler_typography_meta('field_button', 'field-button')
 								),

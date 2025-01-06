@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-.wsf-form input[type=text].wsf-field ~ canvas:hover:enabled:not(:focus):not(:invalid) {
+.wsf-form input[type=text].wsf-field ~ canvas:hover:enabled:not(:focus) {
   background-color: #ffffff;
   border: var(--wsf-field-border-width) var(--wsf-field-border-style) var(--wsf-field-border-color-hover);
 }

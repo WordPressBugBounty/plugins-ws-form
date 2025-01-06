@@ -834,6 +834,9 @@
 
 			if(WS_Form_Common::customizer_visible()) {
 
+				// The class responsible for customizing
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-customize.php';
+
 				new WS_Form_Customize($wp_customize);
 			}
 		}

@@ -124,10 +124,9 @@
 				// Inside resize
 				ws_this.form_tel_inside_resize(this, field_wrapper_obj, label_obj);
 
-				this.addEventListener('countrychange', function() {
+				$(this).on('countrychange', function() {
 
 					ws_this.form_tel_inside_resize(this, field_wrapper_obj, label_obj);
-
 				});
 			}
 
@@ -136,53 +135,58 @@
 
 			if(validate_number) {
 
-				$(this).on('keyup change input paste', function() {
+				$(this).on('keyup change input paste countrychange', function() {
 
-					// Get iti instance
-					var iti = window.intlTelInputGlobals.getInstance($(this)[0]);
-
-					// Check if valid
-					if(
-						($(this).val() == '') ||
-						iti.isValidNumber()
-					) {
-
-						// Reset feedback
-						ws_this.set_invalid_feedback($(this), '');
-
-					} else {
-
-						// Get field ID
-						var field_id = ws_this.get_field_id($(this));
-
-						// Get field
-						var field = ws_this.field_data_cache[field_id];
-
-						// Config - Allow dropdown
-						var intl_tel_input_errors = [
-
-							ws_this.get_object_meta_value(field, 'intl_tel_input_label_number', ws_this.language('iti_number')),
-							ws_this.get_object_meta_value(field, 'intl_tel_input_label_country_code', ws_this.language('iti_country_code')),
-							ws_this.get_object_meta_value(field, 'intl_tel_input_label_short', ws_this.language('iti_short')),
-							ws_this.get_object_meta_value(field, 'intl_tel_input_label_long', ws_this.language('iti_long')),
-							ws_this.get_object_meta_value(field, 'intl_tel_input_label_number', ws_this.language('iti_number'))
-						];
-
-						// Get error number
-						var error_code = iti.getValidationError();
-
-						// Get invalid feedback
-						var invalid_feedback = (typeof(intl_tel_input_errors[error_code]) !== 'undefined') ? intl_tel_input_errors[error_code] : ws_this.language('iti_number');
-
-						// Invalid feedback
-						ws_this.set_invalid_feedback($(this), invalid_feedback);
-					}
+					ws_this.form_tel_validate($(this));
 				});
 			}
 
 			// Fire real time form validation
 			ws_this.form_validate_real_time_process(false, false);
 		});
+	}
+
+	$.WS_Form.prototype.form_tel_validate = function(obj) {
+
+		// Get iti instance
+		var iti = window.intlTelInputGlobals.getInstance(obj[0]);
+
+		// Check if valid
+		if(
+			(obj.val() == '') ||
+			iti.isValidNumber()
+		) {
+
+			// Reset feedback
+			this.set_invalid_feedback(obj, '');
+
+		} else {
+
+			// Get field ID
+			var field_id = this.get_field_id(obj);
+
+			// Get field
+			var field = this.field_data_cache[field_id];
+
+			// Config - Allow dropdown
+			var intl_tel_input_errors = [
+
+				this.get_object_meta_value(field, 'intl_tel_input_label_number', this.language('iti_number')),
+				this.get_object_meta_value(field, 'intl_tel_input_label_country_code', this.language('iti_country_code')),
+				this.get_object_meta_value(field, 'intl_tel_input_label_short', this.language('iti_short')),
+				this.get_object_meta_value(field, 'intl_tel_input_label_long', this.language('iti_long')),
+				this.get_object_meta_value(field, 'intl_tel_input_label_number', this.language('iti_number'))
+			];
+
+			// Get error number
+			var error_code = iti.getValidationError();
+
+			// Get invalid feedback
+			var invalid_feedback = (typeof(intl_tel_input_errors[error_code]) !== 'undefined') ? intl_tel_input_errors[error_code] : this.language('iti_number');
+
+			// Invalid feedback
+			this.set_invalid_feedback(obj, invalid_feedback);
+		}
 	}
 
 	$.WS_Form.prototype.form_tel_inside_resize = function(input_obj, field_wrapper_obj, label_obj) {

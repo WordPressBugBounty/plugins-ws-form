@@ -2,6 +2,20 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.6 - 01/06/2025 =
+* Bug Fix: Customize publish button issue when wsf_styler_enabled filter set to true
+
+= 1.10.5 - 01/05/2025 =
+* Added: Improvements to style preview templates
+* Changed: Date/time field day padding reduced to improve size on mobile
+* Changed: CSS value sanitization now accepts zero without unit
+* Bug Fix: WooCommerce form locking
+* Bug Fix: wsf_styler_enabled filter hook
+* Bug Fix: Checkbox and radio disabled opacity
+
+= 1.10.4 - 01/04/2025 =
+* Bug Fix: Remove width setting on buttons
+
 = 1.10.3 - 01/02/2025 =
 * Added: InstaWP staging install support
 
@@ -38,7 +52,7 @@ Some changes only applicable to WS Form PRO.
 * Added: Author ID added as column in Posts data source
 * Added: Points allocation form template
 * Added: Repeater level custom attachment title, excerpt, content and alt text
-* Added: Updated logo in conversastion template
+* Added: Updated logo in conversation template
 * Added: Postmark API error handling in Send Email action
 * Added: #query_var default value parameter
 * Added: Limit submissions per logged in user

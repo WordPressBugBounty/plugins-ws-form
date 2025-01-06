@@ -43,9 +43,9 @@
 				if(WS_Form_Common::customizer_enabled()) {
 
 					self::build_public_css();
-
-					return $response;
 				}
+
+				return $response;
 			});
 		}
 

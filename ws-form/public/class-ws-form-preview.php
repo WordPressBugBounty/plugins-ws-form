@@ -12,7 +12,7 @@
 		public function __construct() {
 
 			// Get form_id
-			$this->form_id = absint(WS_Form_Common::get_query_var('wsf_preview_form_id'));
+			$this->form_id = $this->form_id = ((isset($_GET) && isset($_GET['wsf_preview_form_id'])) ? absint($_GET['wsf_preview_form_id']) : 0);	// phpcs:ignore WordPress.Security.NonceVerification
 			if($this->form_id === 0) { return false; }
 
 			if(!WS_Form_Common::can_user('edit_form')) { return false; }
@@ -22,7 +22,6 @@
 			$ws_form_form->id = $this->form_id;
 			$form_object = $ws_form_form->db_read(false, false, false, false, false, true);
 			$this->form_label = $form_object->label;
-
 			// Clear filters (Prevents bugs in other plugins affecting our output)
 			remove_all_filters('the_content');
 			remove_all_filters('get_the_excerpt');

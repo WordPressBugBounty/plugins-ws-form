@@ -8695,7 +8695,7 @@
 		// Support attributes
 		var row_default = ((typeof(meta_key_config.row_default) !== 'undefined') ? meta_key_config.row_default : false);
 		var row_disabled = read_only ? false : ((typeof(meta_key_config.row_disabled) !== 'undefined') ? meta_key_config.row_disabled : false);
-		var row_required = read_only ? false : ((typeof(meta_key_config.row_required) !== 'undefined') ? meta_key_config.row_required : false);
+		var row_required = ((typeof(meta_key_config.row_required) !== 'undefined') ? meta_key_config.row_required : false);
 		var row_hidden = read_only ? false : ((typeof(meta_key_config.row_hidden) !== 'undefined') ? meta_key_config.row_hidden : false);
 
 		// Group settings

@@ -158,6 +158,9 @@
 			// Get ACF default value
 			$default_value = isset($acf_field_object['default_value']) ? $acf_field_object['default_value'] : '';
 
+			// Check if required
+			$required = isset($acf_field_object['required']) ? ($acf_field_object['required'] == 1) : false;
+
 			// Run through choices
 			$rows = array();
 			$row_index = 1;
@@ -177,7 +180,8 @@
 						$value,
 						$text
 					),
-					'default'	=> (!empty($default_value) && ($default_value === $value)) ? 'on' : ''
+					'default'	=> (!empty($default_value) && ($default_value === $value)) ? 'on' : '',
+					'required'	=> $required ? 'on' : ''
 				);
 			}
 

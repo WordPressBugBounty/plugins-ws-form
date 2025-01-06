@@ -59,6 +59,11 @@
   opacity: .5;
 }
 
+.wsf-form input[type=checkbox].wsf-field:disabled + label.wsf-label {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
 .wsf-form input[type=checkbox].wsf-field.wsf-button, .wsf-form input[type=checkbox].wsf-field.wsf-switch, .wsf-form input[type=checkbox].wsf-field.wsf-swatch {
   background: none;
   border: none;
