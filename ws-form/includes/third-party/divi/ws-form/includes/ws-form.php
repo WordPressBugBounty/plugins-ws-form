@@ -29,8 +29,8 @@
 
 			} else {
 
-				// Visual builder enqueues
-				do_action('wsf_enqueue_visual_builder');
+				// Core enqueues
+				do_action('wsf_enqueue_core');
 			}
 		}
 	}

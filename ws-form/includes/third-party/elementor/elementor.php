@@ -9,8 +9,8 @@
 			// Disable debug
 			add_filter('wsf_debug_enabled', function($debug_render) { return false; }, 10, 1);
 
-			// Visual builder enqueues
-			add_action('wp_enqueue_scripts', function() { do_action('wsf_enqueue_visual_builder'); });
+			// Core enqueues
+			add_action('wp_enqueue_scripts', function() { do_action('wsf_enqueue_core'); });
 		}
 	});
 

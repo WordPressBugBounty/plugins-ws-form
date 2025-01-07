@@ -2,6 +2,9 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.7 - 01/07/2025 =
+* Added: Improved compatibility of new form components with visual builders
+
 = 1.10.6 - 01/06/2025 =
 * Bug Fix: Customize publish button issue when wsf_styler_enabled filter set to true
 

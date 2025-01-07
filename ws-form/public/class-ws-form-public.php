@@ -260,6 +260,12 @@
 
 		public function enqueue_core() {
 
+			if(WS_Form_Common::styler_enabled()) {
+
+				// Load all styles
+				$this->style_ids = $this->ws_form_style->get_style_ids();
+			}
+
 			// JavaScript
 
 			// Core
@@ -268,11 +274,18 @@
 			add_filter('wsf_enqueue_js_loader', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_js_custom', function($enqueue) { return true; }, 99999, 1);
 
+			if(WS_Form_Common::styler_enabled()) {
+
+				// Disable styler
+				add_filter('wsf_enqueue_js_styler', function($enqueue) { return false; }, 99999, 1);
+			}
+
 			// CSS
 
 			// Core
-			add_filter('wsf_enqueue_css_layout', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_skin', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_style', function($enqueue) { return true; }, 99999, 1);
+			add_filter('wsf_enqueue_css_layout', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_loader', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_custom', function($enqueue) { return true; }, 99999, 1);
 
