@@ -37,10 +37,10 @@
   border-bottom-right-radius: 0 !important;
 }
 
-.wsf-form .wsf-label-position-inside .iti input.wsf-field[placeholder]:focus + label,
-.wsf-form .wsf-label-position-inside .iti input.wsf-field[placeholder]:not(:placeholder-shown) + label,
-.wsf-form .wsf-label-position-inside .iti input.wsf-field[placeholder]:focus + .wsf-input-group-append + label,
-.wsf-form .wsf-label-position-inside:not(.wsf-label-position-inside-hide) .iti input.wsf-field[placeholder]:not(:placeholder-shown) + .wsf-input-group-append + label {
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside .iti input.wsf-field[placeholder]:focus + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside .iti input.wsf-field[placeholder]:focus + .wsf-input-group-append + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside .iti input.wsf-field[placeholder]:not(:placeholder-shown) + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside .iti input.wsf-field[placeholder]:not(:placeholder-shown) + .wsf-input-group-append + label {
   -webkit-transform: translate(var(--wsf-field-tel-transform-x), var(--wsf-field-label-inside-offset)) scale(var(--wsf-field-label-inside-scale));
           transform: translate(var(--wsf-field-tel-transform-x), var(--wsf-field-label-inside-offset)) scale(var(--wsf-field-label-inside-scale));
 }

@@ -169,7 +169,8 @@ body.wsf-styler-panel-left-pin.wsf-styler-rtl, body.wsf-styler-panel-right-pin:n
   padding: var(--wsf-styler-panel-padding-vertical) var(--wsf-styler-panel-padding-horizontal);
 }
 
-#wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input {
+#wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input,
+#wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel select {
   background-color: #ffffff;
   border: 1px solid #ceced2;
   color: #000000;
@@ -187,7 +188,11 @@ body.wsf-styler-panel-left-pin.wsf-styler-rtl, body.wsf-styler-panel-right-pin:n
   width: 100%;
 }
 
-#wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input:focus, #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input:focus-visible, #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input:focus-within, #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input:hover {
+#wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input:focus, #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input:focus-visible, #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input:focus-within, #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input:hover,
+#wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel select:focus,
+#wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel select:focus-visible,
+#wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel select:focus-within,
+#wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel select:hover {
   background-color: #ffffff;
   border: 1px solid #ceced2;
   color: #000000;
@@ -230,28 +235,6 @@ body.wsf-styler-panel-left-pin.wsf-styler-rtl, body.wsf-styler-panel-right-pin:n
 #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel input[type="checkbox"] + label {
   display: inline-block;
   margin-left: 8px;
-}
-
-#wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel select {
-  appearance: auto;
-  -moz-appearance: auto;
-  -webkit-appearance: auto;
-  background: none;
-  border: none;
-  color: #000000;
-  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 14px;
-  font-variant: normal;
-  font-weight: normal;
-  letter-spacing: normal;
-  line-height: 1.4;
-  margin: 0;
-  outline: 0;
-  padding: 0;
-  text-decoration: none;
-  text-transform: none;
-  vertical-align: top;
-  width: 100%;
 }
 
 #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel header {

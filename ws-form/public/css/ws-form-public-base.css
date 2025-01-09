@@ -408,16 +408,16 @@
   width: auto;
 }
 
-.wsf-form .wsf-label-position-inside select.wsf-field ~ label,
-.wsf-form .wsf-label-position-inside input.wsf-field[placeholder]:focus + label,
-.wsf-form .wsf-label-position-inside input.wsf-field[placeholder]:not(:placeholder-shown) + label,
-.wsf-form .wsf-label-position-inside textarea.wsf-field[placeholder]:focus + label,
-.wsf-form .wsf-label-position-inside textarea.wsf-field[placeholder]:not(:placeholder-shown) + label,
-.wsf-form .wsf-label-position-inside select.wsf-field + .wsf-input-group-append + label,
-.wsf-form .wsf-label-position-inside input.wsf-field[placeholder]:focus + .wsf-input-group-append + label,
-.wsf-form .wsf-label-position-inside input.wsf-field[placeholder]:not(:placeholder-shown) + .wsf-input-group-append + label,
-.wsf-form .wsf-label-position-inside textarea.wsf-field[placeholder]:focus + .wsf-input-group-append + label,
-.wsf-form .wsf-label-position-inside:not(.wsf-label-position-inside-hide) textarea.wsf-field[placeholder]:not(:placeholder-shown) + .wsf-input-group-append + label {
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside select.wsf-field ~ label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside input.wsf-field[placeholder]:focus + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside input.wsf-field[placeholder]:not(:placeholder-shown) + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside textarea.wsf-field[placeholder]:focus + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside textarea.wsf-field[placeholder]:not(:placeholder-shown) + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside select.wsf-field + .wsf-input-group-append + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside input.wsf-field[placeholder]:focus + .wsf-input-group-append + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside input.wsf-field[placeholder]:not(:placeholder-shown) + .wsf-input-group-append + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside textarea.wsf-field[placeholder]:focus + .wsf-input-group-append + label,
+.wsf-form:not(.wsf-label-position-inside-hide) .wsf-label-position-inside textarea.wsf-field[placeholder]:not(:placeholder-shown) + .wsf-input-group-append + label {
   background-color: var(--wsf-field-color-background);
   display: block;
   -webkit-margin-start: calc(-1 * var(--wsf-field-font-size) / 4);
@@ -428,7 +428,16 @@
           transform: translate(0, var(--wsf-field-label-inside-offset)) scale(var(--wsf-field-label-inside-scale));
 }
 
-.wsf-form .wsf-label-position-inside.wsf-label-position-inside-hide textarea.wsf-field[placeholder]:not(:placeholder-shown) + .wsf-input-group-append + label {
+.wsf-form.wsf-label-position-inside-hide .wsf-label-position-inside select.wsf-field ~ label,
+.wsf-form.wsf-label-position-inside-hide .wsf-label-position-inside input.wsf-field[placeholder]:focus + label,
+.wsf-form.wsf-label-position-inside-hide .wsf-label-position-inside input.wsf-field[placeholder]:not(:placeholder-shown) + label,
+.wsf-form.wsf-label-position-inside-hide .wsf-label-position-inside textarea.wsf-field[placeholder]:focus + label,
+.wsf-form.wsf-label-position-inside-hide .wsf-label-position-inside textarea.wsf-field[placeholder]:not(:placeholder-shown) + label,
+.wsf-form.wsf-label-position-inside-hide .wsf-label-position-inside select.wsf-field + .wsf-input-group-append + label,
+.wsf-form.wsf-label-position-inside-hide .wsf-label-position-inside input.wsf-field[placeholder]:focus + .wsf-input-group-append + label,
+.wsf-form.wsf-label-position-inside-hide .wsf-label-position-inside input.wsf-field[placeholder]:not(:placeholder-shown) + .wsf-input-group-append + label,
+.wsf-form.wsf-label-position-inside-hide .wsf-label-position-inside textarea.wsf-field[placeholder]:focus + .wsf-input-group-append + label,
+.wsf-form.wsf-label-position-inside-hide .wsf-label-position-inside textarea.wsf-field[placeholder]:not(:placeholder-shown) + .wsf-input-group-append + label {
   display: none;
 }
 

@@ -1817,10 +1817,10 @@
 					$fill = esc_attr($fill);
 				}
 
-				$svg .= '<text fill="' . esc_attr($form_color_base) . '" class="wsf-template-color-caption"><tspan x="' . $current_x . '" y="' . $y - 10 . '" text-anchor="middle" font-size="6px">' . esc_html($title) . '</tspan></text>';
+				$svg .= '<text fill="' . esc_attr($form_color_base) . '" class="wsf-template-color-caption"><tspan x="' . $current_x . '" y="' . ($y - 10) . '" text-anchor="middle" font-size="6px">' . esc_html($title) . '</tspan></text>';
 
 				$svg .= '<circle cx="' . $current_x . '" cy="' . $y . '" r="' . $radius . '" fill="' . $fill . '" stroke="' . esc_attr($form_color_base) . '" stroke-width="1" title="' . esc_attr($title) . '"/>';
-				$current_x += $circle_width + $gap; // Move to the center of the next disc
+				$current_x += ($circle_width + $gap); // Move to the center of the next disc
 			}
 
 			$svg .= '</g>';
@@ -1882,7 +1882,7 @@
 							' L' . $x2_outer . ',' . $y2_outer .
 							' A' . $outer_radius . ',' . $outer_radius . ' 0 ' . $large_arc_flag . ',0 ' . $x1_outer . ',' . $y1_outer .
 							' Z" fill="' . $fill . '" title="' . esc_attr($title) . '"/>';
-					
+
 					$inner_radius = $outer_radius; // Move to the next ring
 				}
 

@@ -5,6 +5,8 @@
 	// Styler
 	$.WS_Form.prototype.styler = function() {
 
+		if($.WS_Form.styler_rendered) { return; }
+
 		// Get style ID
 		var style_id = parseInt(this.get_object_meta_value(this.form, this.conversational ? 'style_id_conv' : 'style_id', 0), 10);
 
@@ -436,7 +438,6 @@
 
 				default :
 
-
 					styler_html += '<label for="' + this.esc_attr(id) + '">' + this.esc_html(meta_config.label) + '</label>';
 					styler_html += '<input class="wsf-styler-setting-meta" type="text" id="' + this.esc_attr(id) + '" name="' + this.esc_attr(meta_key) + '" data-wsf-styler-setting-type="' + meta_config.type + '" value="' + this.esc_attr(meta_value) + '" />';
 			}
@@ -655,8 +656,6 @@
 		// Add to undos object
 		this.styler_undos.push({meta_key: meta_key, meta_value: value});
 
-		// <svg height="10" width="10" viewBox="0 0 16 16"><path fill="#000" d="M8.18 5.47c-.06-.17-.12-.36-.17-.57-.06.2-.11.39-.17.57-.05.18-.11.33-.16.46L6.62 8.8h2.77L8.33 5.91c-.05-.13-.1-.28-.16-.45Z"/><path fill="#000" d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8Zm2.99 12.09c-.14 0-.25-.04-.34-.1a.63.63 0 0 1-.2-.26L9.8 9.96H6.21l-.65 1.77c-.03.09-.1.18-.19.25-.09.08-.21.11-.34.11H3.78l3.4-8.68h1.65l3.41 8.68h-1.25Z"/></svg>
-
 		styler_html += '</div>';
 
 		// Bottom row
@@ -712,9 +711,9 @@
 
 				// Bounds
 				var bounds_attributes = [];
-				if(styler_var.px_min) { bounds_attributes.push('data-wsf-styler-px-min="' + styler_var.px_min + '"'); }
-				if(styler_var.px_max) { bounds_attributes.push('data-wsf-styler-px-max="' + styler_var.px_max + '"'); }
-				if(styler_var.px_step) { bounds_attributes.push('data-wsf-styler-px-step="' + styler_var.px_step + '"'); }
+				if(typeof(styler_var.px_min) !== 'undefined') { bounds_attributes.push('data-wsf-styler-px-min="' + styler_var.px_min + '"'); }
+				if(typeof(styler_var.px_max) !== 'undefined') { bounds_attributes.push('data-wsf-styler-px-max="' + styler_var.px_max + '"'); }
+				if(typeof(styler_var.px_step) !== 'undefined') { bounds_attributes.push('data-wsf-styler-px-step="' + styler_var.px_step + '"'); }
 
 				// Range slider
 				styler_html += '<input type="range" id="' + this.esc_attr(meta_key_attribute) + '-range" class="wsf-styler-var-size-range"' + (bounds_attributes ? ' ' + bounds_attributes.join(' ') : '') + '>';
@@ -728,6 +727,30 @@
 
 				// Input (Checkbox)
 				styler_html += '<input type="checkbox" id="' + this.esc_attr(meta_key_attribute) + '" class="wsf-styler-var-input wsf-styler-var-input-checkbox" data-checkbox' + (group_focus_selector ? ' data-wsf-styler-group-focus-selector="' + this.esc_attr(group_focus_selector) + '"' : '') + '>';
+
+				break;
+
+			case 'select' :
+
+				// Select
+				styler_html += '<select id="' + this.esc_attr(meta_key_attribute) + '" class="wsf-styler-var-input wsf-styler-var-input-select" data-select' + (group_focus_selector ? ' data-wsf-styler-group-focus-selector="' + this.esc_attr(group_focus_selector) + '"' : '') + ' data-wsf-styler-var="' + this.esc_attr(css_var) + '" data-wsf-styler-meta-key="' + this.esc_attr(meta_key) + '">';
+
+				// Get options
+				if(styler_var.options) {
+
+					for(var option_index in styler_var.options) {
+
+						if(!styler_var.options.hasOwnProperty(option_index)) { continue; }
+
+						var option = styler_var.options[option_index];
+
+						var option_selected = (value == option.value);
+
+						styler_html += '<option value="' + this.esc_attr(option.value) + '"' + (option_selected ? ' selected' : '') + '>' + this.esc_html(option.text) + '</option>';
+					}
+				}
+
+				styler_html += '</select>';
 
 				break;
 
@@ -1096,6 +1119,20 @@
 
 					break;
 
+				case 'select' :
+
+					// Get select
+					var obj_select = ws_this.styler_get_select($(this));
+
+					// Checkbox change
+					obj_select.on('change', function() {
+
+						// Update CSS var
+						ws_this.styler_var_set($(this));
+					})
+
+					break;
+
 				default :
 
 					// Input input or change event
@@ -1198,19 +1235,25 @@
 			// Get undo value
 			var styler_var_undo = $(this).attr('data-wsf-styler-var-undo');
 
-			if(styler_var_undo) {
+			if(styler_var_undo != '') {
 
-				var styler_var_obj_input = ws_this.styler_get_input($(this));
-
-				switch(styler_var_obj_input.attr('type')) {
+				switch(ws_this.styler_get_type($(this))) {
 
 					case 'checkbox' :
 
+						var styler_var_obj_input = ws_this.styler_get_input($(this));
 						styler_var_obj_input.prop('checked', (styler_var_undo == '1')).trigger('change');
+						break;
+
+					case 'select' :
+
+						var styler_var_obj_select = ws_this.styler_get_select($(this));
+						styler_var_obj_select.val(styler_var_undo).trigger('change');
 						break;
 
 					default :
 
+						var styler_var_obj_input = ws_this.styler_get_input($(this));
 						styler_var_obj_input.val(styler_var_undo).trigger('change');
 				}
 			}
@@ -1237,7 +1280,7 @@
 			var meta_key = styler_undo.meta_key;
 			var meta_value = styler_undo.meta_value;
 
-			$('input[data-wsf-styler-meta-key="' + meta_key + '"]', styler_obj).val(meta_value).trigger('change');
+			$('[data-wsf-styler-meta-key="' + meta_key + '"]', styler_obj).val(meta_value).trigger('change');
 		}
 	}
 
@@ -1591,6 +1634,21 @@
 			});
 		}
 
+		// Check for inside display mode
+		switch(meta_key) {
+
+			case 'field_label_inside_mode' :
+
+				if(value == 'hide') {
+
+					this.form_obj.addClass('wsf-label-position-inside-hide');
+
+				} else {
+
+					this.form_obj.removeClass('wsf-label-position-inside-hide');
+				}
+		}
+
 		// Change made
 		this.styler_change_made();
 	}
@@ -1647,6 +1705,14 @@
 		return $('input.wsf-styler-var-input', obj_wrapper);
 	}
 
+	// Styler - Get select
+	$.WS_Form.prototype.styler_get_select = function(obj) {
+
+		var obj_wrapper = this.styler_get_column(obj);
+
+		return $('select.wsf-styler-var-input', obj_wrapper);
+	}
+
 	// Styler - Get hidden input
 	$.WS_Form.prototype.styler_get_input_hidden = function(obj) {
 
@@ -1677,7 +1743,7 @@
 
 					if(this.styler_rule) { return false; }
 
-					if (rule.selectorText === '[data-wsf-style-id="' + this.styler_style_id + '"]') {
+					if (rule.selectorText === ':where([data-wsf-style-id="' + this.styler_style_id + '"])') {
 
 						this.styler_rule = rule;
 					}

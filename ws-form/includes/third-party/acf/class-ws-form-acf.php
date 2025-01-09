@@ -3,7 +3,7 @@
 	class WS_Form_ACF {
 
 		// Get fields all
-		public static function acf_get_fields_all($acf_get_field_groups_filter = array(), $choices_filter = false, $raw = false, $traverse = false, $has_fields = false) {
+		public static function acf_get_fields_all($acf_get_field_groups_filter = array(), $choices_filter = false, $raw = false, $traverse = false, $has_fields = false, $option_fields = false) {
 
 			if($acf_get_field_groups_filter === false) { $acf_get_field_groups_filter = array(); }
 
@@ -17,6 +17,55 @@
 
 			// Process each ACF field group
 			foreach($acf_field_groups as $acf_field_group) {
+
+				// Option field filtering
+				if(
+					isset($acf_field_group['location']) &&
+					is_array($acf_field_group['location'])
+				) {
+					$acf_field_group_exclude = false; 
+
+					foreach($acf_field_group['location'] as $locations) {
+
+						if(is_array($locations)) {
+
+							foreach($locations as $location) {
+
+								if(
+									isset($location['param']) &&
+									is_string($location['param'])
+								) {
+									if($option_fields) {
+
+										if($location['param'] == 'options_page') {
+
+											$acf_field_group_exclude = false;
+											break 2;
+
+										} else {
+
+											$acf_field_group_exclude = true;
+										}
+
+									} else {
+
+										if($location['param'] == 'options_page') {
+
+											$acf_field_group_exclude = true;
+
+										} else {
+
+											$acf_field_group_exclude = false;
+											break 2;
+										}
+									}
+								}
+							}
+						}
+					}
+
+					if($acf_field_group_exclude) { continue; }
+				}
 
 				// Get fields
 				$acf_fields = acf_get_fields($acf_field_group);

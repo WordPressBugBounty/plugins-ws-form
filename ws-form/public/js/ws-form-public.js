@@ -1191,12 +1191,32 @@
 		}
 	}
 
+	// Get CSS var
+	$.WS_Form.prototype.get_css_var = function(css_var, default_value) {
+
+		if(typeof(default_value) === 'undefined') { default_value = ''; }
+
+		var computed_style = getComputedStyle(this.form_obj[0]);
+		if(!computed_style) { return default_value; }
+
+		var property_value = computed_style.getPropertyValue(css_var);
+		if(typeof(property_value) === 'undefined') { return default_value; }
+
+		return property_value.trim();
+	}
+
 	// Addition styling for labels
 	$.WS_Form.prototype.form_label = function(obj) {
 
 		if(typeof(obj) === 'undefined') { obj = this.form_canvas_obj; }
 
 		var ws_this = this;
+
+		// Check for move or hide method
+		if(this.get_css_var('--wsf-field-label-inside-mode', 'move') == 'hide') {
+
+			this.form_obj.addClass('wsf-label-position-inside-hide');
+		}
 
 		// Find all fields with inside label positioning
 		$('.wsf-label-position-inside:not([wsf-label-position-inside-init]):visible', obj).each(function() {

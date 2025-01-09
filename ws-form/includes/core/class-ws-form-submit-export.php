@@ -77,8 +77,6 @@
 
 			// Get keys
 			$keys_fixed = $this->ws_form_submit->get_keys_fixed($bypass_user_capability_check);
-			$keys_ecommerce = $this->ws_form_submit->get_keys_ecommerce($bypass_user_capability_check);
-			$keys_tracking = $this->ws_form_submit->get_keys_tracking($bypass_user_capability_check);
 
 			// Get field data
 			$this->ws_form_submit->db_get_submit_fields($bypass_user_capability_check);

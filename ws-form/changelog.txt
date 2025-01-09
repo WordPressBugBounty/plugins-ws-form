@@ -2,6 +2,13 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.8 - 01/08/2024 =
+* Added: Inside label position behavior setting to styler
+* Added: ACF fields now exclude option assign fields by default
+* Added: Message styling added to LITE edition
+* Bug Fix: Removed PHP warning in version prior to 8.0 related to style template SVG's
+* Bug Fix: Submission export for LITE edition
+
 = 1.10.7 - 01/07/2025 =
 * Added: Improved compatibility of new form components with visual builders
 

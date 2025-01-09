@@ -1027,6 +1027,8 @@
 												'var' => '--wsf-field-label-inside-offset',
 												'type' => 'size',
 												'default' => '-20px',
+												'px_min' => -40,
+												'px_max' => 0,
 												'legacy_v1_option_key' => 'skin_label_column_inside_offset',
 												'legacy_v1_suffix' => 'px'
 											),
@@ -2332,6 +2334,241 @@
 							),
 						),
 
+						'message' => array(
+
+							'label' => __('Message', 'ws-form'),
+
+							'group_focus_selector' => '.wsf-field-wrapper[data-type=message]',
+
+							'children' => array(
+
+								// Type: Base
+								'base' => array(
+
+									'label' => __('Base', 'ws-form'),
+
+									'meta' => array(
+
+										'field_message_color_background' => array(
+
+											'label' => __('Background Color', 'ws-form'),
+											'var' => '--wsf-field-message-color-background',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-neutral-light-80)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_color' => array(
+
+											'label' => __('Text Color', 'ws-form'),
+											'var' => '--wsf-field-message-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-base)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_anchor_color' => array(
+
+											'label' => __('Anchor Color', 'ws-form'),
+											'var' => '--wsf-field-message-anchor-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-base)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_border_color' => array(
+
+											'label' => __('Border Color', 'ws-form'),
+											'var' => '--wsf-field-message-border-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-neutral-light-60)',
+											'default_alt_auto' => false,
+										),
+									),
+								),
+
+								// Type: Success
+								'success' => array(
+
+									'label' => __('Success', 'ws-form'),
+
+									'meta' => array(
+
+										'field_message_success_color_background' => array(
+
+											'label' => __('Background Color', 'ws-form'),
+											'var' => '--wsf-field-message-success-color-background',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-success-light-80)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_success_color' => array(
+
+											'label' => __('Text Color', 'ws-form'),
+											'var' => '--wsf-field-message-success-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-success-dark-40)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_success_anchor_color' => array(
+
+											'label' => __('Anchor Color', 'ws-form'),
+											'var' => '--wsf-field-message-success-anchor-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-success-dark-60)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_success_border_color' => array(
+
+											'label' => __('Border Color', 'ws-form'),
+											'var' => '--wsf-field-message-success-border-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-success-light-40)',
+											'default_alt_auto' => false,
+										),
+									),
+								),
+
+								// Type: Information
+								'information' => array(
+
+									'label' => __('Information', 'ws-form'),
+
+									'meta' => array(
+
+										'field_message_information_color_background' => array(
+
+											'label' => __('Background Color', 'ws-form'),
+											'var' => '--wsf-field-message-info-color-background',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-info-light-80)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_information_color' => array(
+
+											'label' => __('Text Color', 'ws-form'),
+											'var' => '--wsf-field-message-info-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-info-dark-40)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_information_anchor_color' => array(
+
+											'label' => __('Anchor Color', 'ws-form'),
+											'var' => '--wsf-field-message-info-anchor-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-info-dark-60)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_information_border_color' => array(
+
+											'label' => __('Border Color', 'ws-form'),
+											'var' => '--wsf-field-message-info-border-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-info-light-40)',
+											'default_alt_auto' => false,
+										),
+									),
+								),
+
+								// Type: Warning
+								'warning' => array(
+
+									'label' => __('Warning', 'ws-form'),
+
+									'meta' => array(
+
+		 								'field_message_warning_color_background' => array(
+
+											'label' => __('Background Color', 'ws-form'),
+											'var' => '--wsf-field-message-warning-color-background',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-warning-light-80)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_warning_color' => array(
+
+											'label' => __('Text Color', 'ws-form'),
+											'var' => '--wsf-field-message-warning-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-warning-dark-40)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_warning_anchor_color' => array(
+
+											'label' => __('Anchor Color', 'ws-form'),
+											'var' => '--wsf-field-message-warning-anchor-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-warning-dark-60)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_warning_border_color' => array(
+
+											'label' => __('Border Color', 'ws-form'),
+											'var' => '--wsf-field-message-warning-border-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-warning-light-40)',
+											'default_alt_auto' => false,
+										),
+									),
+								),
+
+								// Type: Danger
+								'danger' => array(
+
+									'label' => __('Danger', 'ws-form'),
+
+									'meta' => array(
+
+										// Type: Danger
+										'field_message_danger_color_background' => array(
+
+											'label' => __('Background Color', 'ws-form'),
+											'var' => '--wsf-field-message-danger-color-background',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-danger-light-80)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_danger_color' => array(
+
+											'label' => __('Text Color', 'ws-form'),
+											'var' => '--wsf-field-message-danger-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-danger-dark-40)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_danger_anchor_color' => array(
+
+											'label' => __('Anchor Color', 'ws-form'),
+											'var' => '--wsf-field-message-danger-anchor-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-danger-dark-60)',
+											'default_alt_auto' => false,
+										),
+
+										'field_message_danger_border_color' => array(
+
+											'label' => __('Border Color', 'ws-form'),
+											'var' => '--wsf-field-message-danger-border-color',
+											'type' => 'color',
+											'default' => 'var(--wsf-form-color-danger-light-40)',
+											'default_alt_auto' => false,
+										),
+									),
+								),
+							),
+						),
 						'radio' => array(
 
 							'label' => __('Radio', 'ws-form'),
