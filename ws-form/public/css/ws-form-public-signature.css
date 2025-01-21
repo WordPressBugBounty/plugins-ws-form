@@ -1,5 +1,5 @@
 .wsf-form input[type=text].wsf-field ~ canvas {
-  background-color: #ffffff;
+  background-color: var(--wsf-field-signature-color-background, #ffffff);
   border: var(--wsf-field-border);
   border-radius: var(--wsf-field-border-radius);
   cursor: crosshair;
@@ -7,12 +7,12 @@
 }
 
 .wsf-form input[type=text].wsf-field ~ canvas:hover:enabled:not(:focus) {
-  background-color: #ffffff;
+  background-color: var(--wsf-field-signature-color-background, #ffffff);
   border: var(--wsf-field-border-width) var(--wsf-field-border-style) var(--wsf-field-border-color-hover);
 }
 
 .wsf-form input[type=text].wsf-field ~ canvas:focus {
-  background-color: #ffffff;
+  background-color: var(--wsf-field-signature-color-background, #ffffff);
   border: var(--wsf-field-border-width) var(--wsf-field-border-style) var(--wsf-field-border-color-focus);
   box-shadow: var(--wsf-field-box-shadow);
   color: var(--wsf-field-color-focus);

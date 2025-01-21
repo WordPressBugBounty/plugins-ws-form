@@ -189,15 +189,18 @@
 					// Get styles
 					$ws_form_style = new WS_Form_Style();
 					$ws_form_style->check_initialized(true);
-					$styles = $ws_form_style->db_read_all('', "NOT (status = 'trash')");
+					$styles = $ws_form_style->db_read_all('', "NOT (status = 'trash')", '', '', '', true);
 
-					foreach($styles as $style) {
+					if(is_array($styles)) {
 
-						// Set style ID
-						$this->style_id = $style['id'];
+						foreach($styles as $style) {
 
-						// Build style CSS
-						self::build_public_css_set('get_style', sprintf('style.%s', $this->style_id), $dir);
+							// Set style ID
+							$this->style_id = $style['id'];
+
+							// Build style CSS
+							self::build_public_css_set('get_style', sprintf('style.%s', $this->style_id), $dir);
+						}
 					}
 
 					// Reset style ID

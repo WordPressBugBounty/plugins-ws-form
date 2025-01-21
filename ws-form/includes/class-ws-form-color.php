@@ -9,8 +9,10 @@
 
 			// Global settings - Theme
 			$palette_theme = self::get_palette_global_settings_color_palette('theme');
-			if(!empty($palette_theme)) {
-
+			if(
+				!empty($palette_theme) &&
+				(count($palette_theme) > 0)
+			) {
 				$palette = $palette_theme;
 			}
 

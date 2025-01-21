@@ -677,28 +677,28 @@
 		// Check form_id
 		public function db_check_form_id() {
 
-			if(absint($this->form_id) === 0) { parent::db_throw_error(__('Invalid form ID', 'ws-form')); }
+			if(absint($this->form_id) === 0) { parent::db_throw_error(__('Invalid form ID (WS_Form_Field | db_check_form_id)', 'ws-form')); }
 			return true;
 		}
 
 		// Check section_id
 		public function db_check_section_id() {
 
-			if(absint($this->section_id) === 0) { parent::db_throw_error(__('Invalid section ID', 'ws-form')); }
+			if(absint($this->section_id) === 0) { parent::db_throw_error(__('Invalid section ID (WS_Form_Field | db_check_section_id)', 'ws-form')); }
 			return true;
 		}
 
 		// Check section_id from
 		public function db_check_section_id_from() {
 
-			if(absint($this->section_id_from) === 0) { parent::db_throw_error(__('Invalid section ID (From)', 'ws-form')); }
+			if(absint($this->section_id_from) === 0) { parent::db_throw_error(__('Invalid section ID (WS_Form_Field | db_check_section_id_from)', 'ws-form')); }
 			return true;
 		}
 
 		// Check id
 		public function db_check_id() {
 
-			if(absint($this->id) === 0) { parent::db_throw_error(__('Invalid field ID', 'ws-form')); }
+			if(absint($this->id) === 0) { parent::db_throw_error(__('Invalid field ID (WS_Form_Field | db_check_id)', 'ws-form')); }
 		}
 
 		// Check type

@@ -6,29 +6,43 @@
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
-  border-radius: 50%;
   background-color: var(--wsf-field-radio-color-background);
+  border-radius: 50%;
   border: var(--wsf-field-border);
   bottom: auto;
+  display: block;
   height: var(--wsf-field-radio-size);
   margin: 0;
   opacity: 1;
   padding: 0;
   position: absolute;
+  text-align: left;
   top: auto;
   vertical-align: middle;
   width: var(--wsf-field-radio-size);
 }
 
 .wsf-form input[type=radio].wsf-field:checked::after {
+  background: none;
   background-color: var(--wsf-field-radio-checked-color);
+  border: none;
   border-radius: 50%;
   content: "";
-  position: absolute;
-  width: var(--wsf-field-radio-checked-size);
+  display: block;
   height: var(--wsf-field-radio-checked-size);
-  -webkit-transform: translate(calc((var(--wsf-field-radio-size) - var(--wsf-field-radio-checked-size) - (var(--wsf-field-border-width) * 2)) / 2), calc((var(--wsf-field-radio-size) - var(--wsf-field-radio-checked-size) - (var(--wsf-field-border-width) * 2)) / 2));
-          transform: translate(calc((var(--wsf-field-radio-size) - var(--wsf-field-radio-checked-size) - (var(--wsf-field-border-width) * 2)) / 2), calc((var(--wsf-field-radio-size) - var(--wsf-field-radio-checked-size) - (var(--wsf-field-border-width) * 2)) / 2));
+  left: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  -webkit-transform: translate(calc( ( var(--wsf-field-radio-size) - var(--wsf-field-radio-checked-size) - (var(--wsf-field-border-width) * 2)  ) / 2), calc( ( var(--wsf-field-radio-size) - var(--wsf-field-radio-checked-size) - (var(--wsf-field-border-width) * 2)  ) / 2));
+          transform: translate(calc( ( var(--wsf-field-radio-size) - var(--wsf-field-radio-checked-size) - (var(--wsf-field-border-width) * 2)  ) / 2), calc( ( var(--wsf-field-radio-size) - var(--wsf-field-radio-checked-size) - (var(--wsf-field-border-width) * 2)  ) / 2));
+  transition: none;
+  width: var(--wsf-field-radio-checked-size);
+}
+
+.wsf-form input[type=radio].wsf-field::before {
+  display: none !important;
 }
 
 .wsf-form input[type=radio].wsf-field + label.wsf-label {
@@ -56,6 +70,43 @@
 .wsf-form input[type=radio].wsf-field:disabled + label.wsf-label {
   cursor: not-allowed;
   opacity: .5;
+}
+
+.wsf-form input[type=radio].wsf-field.wsf-circle:not(.wsf-color):not(.wsf-image) {
+  display: none;
+}
+
+.wsf-form input[type=radio].wsf-field.wsf-circle:not(.wsf-color):not(.wsf-image) + label.wsf-label {
+  aspect-ratio: 1;
+  background-color: var(--wsf-field-radio-circle-color-background);
+  border: 1px solid #000;
+  border-radius: 50%;
+  color: var(--wsf-field-radio-circle-color);
+  cursor: pointer;
+  font-family: var(--wsf-field-radio-circle-font-family);
+  font-size: var(--wsf-field-radio-circle-font-size);
+  font-weight: var(--wsf-field-radio-circle-font-weight);
+  line-height: var(--wsf-field-radio-circle-line-height);
+  height: calc((var(--wsf-field-radio-circle-padding-vertical) * 2) + var(--wsf-field-radio-circle-font-size));
+  line-height: 1;
+  margin: 0;
+  padding: var(--wsf-field-radio-circle-padding-vertical) 0;
+  text-align: center;
+}
+
+.wsf-form input[type=radio].wsf-field.wsf-circle:not(.wsf-color):not(.wsf-image):disabled + label.wsf-label {
+  background-color: var(--wsf-field-radio-circle-color-background-disabled);
+  color: var(--wsf-field-radio-circle-color-disabled);
+}
+
+.wsf-form input[type=radio].wsf-field.wsf-circle:not(.wsf-color):not(.wsf-image):hover + label.wsf-label {
+  background-color: var(--wsf-field-radio-circle-color-background-hover);
+  color: var(--wsf-field-radio-circle-color-hover);
+}
+
+.wsf-form input[type=radio].wsf-field.wsf-circle:not(.wsf-color):not(.wsf-image):checked + label.wsf-label {
+  background: var(--wsf-field-radio-checked-circle-color-background);
+  color: var(--wsf-field-radio-checked-circle-color);
 }
 
 .wsf-form input[type=radio].wsf-field.wsf-button, .wsf-form input[type=radio].wsf-field.wsf-switch, .wsf-form input[type=radio].wsf-field.wsf-swatch {
@@ -116,21 +167,6 @@
 .wsf-form input[type=radio].wsf-field.wsf-button:focus + label.wsf-label::before, .wsf-form input[type=radio].wsf-field.wsf-switch:focus + label.wsf-label::before, .wsf-form input[type=radio].wsf-field.wsf-swatch:focus + label.wsf-label::before {
   border-color: var(--wsf-field-border-color-focus);
   box-shadow: var(--wsf-field-box-shadow);
-}
-
-.wsf-form input[type=radio].wsf-field.wsf-button:disabled + label.wsf-label, .wsf-form input[type=radio].wsf-field.wsf-switch:disabled + label.wsf-label, .wsf-form input[type=radio].wsf-field.wsf-swatch:disabled + label.wsf-label {
-  color: var(--wsf-field-color-disabled);
-}
-
-.wsf-form input[type=radio].wsf-field.wsf-button:disabled + label.wsf-label::before, .wsf-form input[type=radio].wsf-field.wsf-switch:disabled + label.wsf-label::before, .wsf-form input[type=radio].wsf-field.wsf-swatch:disabled + label.wsf-label::before {
-  background-color: var(--wsf-field-color-background-disabled);
-  border-color: var(--wsf-field-border-color-disabled);
-  cursor: not-allowed;
-  opacity: .5;
-}
-
-.wsf-form input[type=radio].wsf-field.wsf-button:disabled + label.wsf-label::after, .wsf-form input[type=radio].wsf-field.wsf-switch:disabled + label.wsf-label::after, .wsf-form input[type=radio].wsf-field.wsf-swatch:disabled + label.wsf-label::after {
-  cursor: not-allowed;
 }
 
 .wsf-form input[type=radio].wsf-field.wsf-button + label.wsf-label {

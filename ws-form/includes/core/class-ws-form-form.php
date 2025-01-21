@@ -1998,7 +1998,7 @@
 		// Check id
 		public function db_check_id() {
 
-			if(absint($this->id) === 0) { parent::db_throw_error(__('Invalid form ID', 'ws-form')); }
+			if(absint($this->id) === 0) { parent::db_throw_error(__('Invalid form ID (WS_Form_Form | db_check_id)', 'ws-form')); }
 			return true;
 		}
 

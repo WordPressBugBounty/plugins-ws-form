@@ -2549,6 +2549,16 @@
 						}
 
 						break;
+
+					case 'url' :
+
+						$field_value = sanitize_url($field_value);
+						break;
+
+					case 'tel' :
+
+						$field_value = WS_Form_Common::sanitize_tel($field_value);
+						break;
 				}
 
 				// Handle required fields
@@ -3721,14 +3731,14 @@
 		// Check form id
 		public function db_check_form_id() {
 
-			if(absint($this->form_id) === 0) { parent::db_throw_error(__('Invalid form ID.', 'ws-form')); }
+			if(absint($this->form_id) === 0) { parent::db_throw_error(__('Invalid form ID (WS_Form_Submit | db_check_form_id)', 'ws-form')); }
 			return true;
 		}
 
 		// Check id
 		public function db_check_id() {
 
-			if(absint($this->id) === 0) { parent::db_throw_error(__('Invalid submit ID.', 'ws-form')); }
+			if(absint($this->id) === 0) { parent::db_throw_error(__('Invalid submit ID (WS_Form_Submit | db_check_id)', 'ws-form')); }
 			return true;
 		}
 	}

@@ -920,7 +920,7 @@
 
 								'field_border_color_disabled' => array(
 
-									'label' => __('Color - Disabled', 'ws-form'),
+									'label' => __('Disabled', 'ws-form'),
 									'var' => '--wsf-field-border-color-disabled',
 									'type' => 'color',
 									'default' => 'var(--wsf-form-color-neutral-light-60)',
@@ -928,7 +928,7 @@
 
 								'field_border_color_invalid' => array(
 
-									'label' => __('Color - Invalid', 'ws-form'),
+									'label' => __('Invalid', 'ws-form'),
 									'var' => '--wsf-field-border-color-invalid',
 									'type' => 'color',
 									'default' => 'var(--wsf-form-color-danger)',
@@ -2130,6 +2130,22 @@
 									),
 								),
 
+								'border' => array(
+
+									'label' => __('Border Style', 'ws-form'),
+
+									'meta' => array(
+
+										'field_checkbox_border_radius' => array(
+
+											'label' => __('Radius', 'ws-form'),
+											'var' => '--wsf-field-checkbox-border-radius',
+											'type' => 'size',
+											'default' => 'var(--wsf-field-border-radius)',
+										),
+									),
+								),
+
 								'gap' => array(
 
 									'label' => __('Gap', 'ws-form'),
@@ -2166,6 +2182,30 @@
 											'var' => '--wsf-field-checkbox-size',
 											'type' => 'calc',
 											'default' => 'calc(var(--wsf-field-font-size) * var(--wsf-field-line-height))',
+										),
+
+										'field_checkbox_check_width' => array(
+
+											'label' => __('Check - Width', 'ws-form'),
+											'var' => '--wsf-field-checkbox-check-width',
+											'type' => 'calc',
+											'default' => 'calc(var(--wsf-field-checkbox-size) / 3.3)',
+										),
+
+										'field_checkbox_check_height' => array(
+
+											'label' => __('Check - Height', 'ws-form'),
+											'var' => '--wsf-field-checkbox-check-height',
+											'type' => 'calc',
+											'default' => 'calc(var(--wsf-field-checkbox-size) / 1.6)',
+										),
+
+										'field_checkbox_check_size' => array(
+
+											'label' => __('Check - Size', 'ws-form'),
+											'var' => '--wsf-field-checkbox-check-size',
+											'type' => 'calc',
+											'default' => 'calc(var(--wsf-field-checkbox-size) / 6)',
 										),
 									),
 								),
@@ -2695,6 +2735,167 @@
 											),
 										),
 
+										'circle' => array(
+
+											'label' => __('Circle', 'ws-form'),
+
+											'children' => array(
+
+												'color_background' => array(
+
+													'label' => __('Background Color', 'ws-form'),
+
+													'meta' => array(
+
+														'field_radio_circle_color_background' => array(
+
+															'label' => __('Default', 'ws-form'),
+															'var' => '--wsf-field-radio-circle-color-background',
+															'type' => 'color',
+															'default' => 'var(--wsf-form-color-base-contrast)',
+														),
+
+														'field_radio_circle_color_background_hover' => array(
+
+															'label' => __('Hover', 'ws-form'),
+															'var' => '--wsf-field-radio-circle-color-background-hover',
+															'type' => 'color',
+															'default' => 'var(--wsf-form-color-neutral-light-60)',
+														),
+
+														'field_radio_checked_circle_color_background' => array(
+
+															'label' => __('Checked', 'ws-form'),
+															'var' => '--wsf-field-radio-checked-circle-color-background',
+															'type' => 'color',
+															'default' => 'var(--wsf-form-color-accent)',
+														),
+
+														'field_radio_circle_color_background_disabled' => array(
+
+															'label' => __('Disabled', 'ws-form'),
+															'var' => '--wsf-field-radio-color-background-disabled',
+															'type' => 'color',
+															'default' => 'var(--wsf-form-color-neutral-light-60)',
+														),
+													),
+												),
+
+												'color_text' => array(
+
+													'label' => __('Text Color', 'ws-form'),
+
+													'meta' => array(
+
+														'field_radio_circle_color' => array(
+
+															'label' => __('Default', 'ws-form'),
+															'var' => '--wsf-field-radio-circle-color',
+															'type' => 'color',
+															'default' => 'var(--wsf-form-color-base)',
+														),
+
+														'field_radio_circle_color_hover' => array(
+
+															'label' => __('Hover', 'ws-form'),
+															'var' => '--wsf-field-radio-circle-color-hover',
+															'type' => 'color',
+															'default' => 'var(--wsf-form-color-base)',
+														),
+
+														'field_radio_checked_circle_color' => array(
+
+															'label' => __('Checked', 'ws-form'),
+															'var' => '--wsf-field-radio-checked-circle-color',
+															'type' => 'color',
+															'default' => 'var(--wsf-form-color-base-contrast)',
+														),
+
+														'field_radio_circle_color_disabled' => array(
+
+															'label' => __('Disabled', 'ws-form'),
+															'var' => '--wsf-field-radio-color-disabled',
+															'type' => 'color',
+															'default' => 'var(--wsf-form-color-neutral)',
+														),
+													),
+												),
+
+												'size' => array(
+
+													'label' => __('Size', 'ws-form'),
+
+													'meta' => array(
+
+														'field_radio_circle_padding_vertical' => array(
+
+															'label' => __('Padding', 'ws-form'),
+															'var' => '--wsf-field-radio-circle-padding-vertical',
+															'type' => 'size',
+															'default' => 'var(--wsf-field-padding-vertical)'
+														),
+													),
+												),
+
+												'typography' => array(
+
+													'label' => __('Typography', 'ws-form'),
+
+													'meta' => self::get_styler_typography_meta('field_radio_circle', 'field-radio-circle'),
+												),
+											),
+										),
+
+										'image' => array(
+
+											'label' => __('Image', 'ws-form'),
+
+											'meta' => array(
+
+												'field_radio_checked_image_border_color' => array(
+
+													'label' => __('Checked - Border', 'ws-form'),
+													'var' => '--wsf-field-radio-checked-image-border-color',
+													'type' => 'color',
+													'default' => 'var(--wsf-form-color-primary)'
+												),
+
+												'field_radio_checked_image_box_shadow_color' => array(
+
+													'label' => __('Checked - Box', 'ws-form'),
+													'var' => '--wsf-field-radio-checked-image-box-shadow-color',
+													'type' => 'color',
+													'default' => 'var(--wsf-form-color-base-contrast)',
+													'default_alt' => 'var(--wsf-form-color-base-contrast)',
+												),
+											),
+										),
+
+										'swatch' => array(
+
+											'label' => __('Swatch', 'ws-form'),
+
+											'meta' => array(
+
+												'field_radio_checked_swatch_border_color' => array(
+
+													'label' => __('Checked - Border', 'ws-form'),
+													'var' => '--wsf-field-radio-checked-swatch-border-color',
+													'type' => 'color',
+													'default' => 'var(--wsf-form-color-primary)'
+												),
+
+												'field_radio_checked_swatch_box_shadow_color' => array(
+
+													'label' => __('Checked - Box', 'ws-form'),
+													'var' => '--wsf-field-radio-checked-swatch-box-shadow-color',
+													'type' => 'color',
+													'default' => 'var(--wsf-form-color-base-contrast)',
+													'default_alt' => 'var(--wsf-form-color-base-contrast)',
+												),
+											),
+										),
+
 										'switch' => array(
 
 											'label' => __('Switch', 'ws-form'),
@@ -2755,56 +2956,6 @@
 															'default' => 'var(--wsf-form-color-base-contrast)',
 														),
 													),
-												),
-											),
-										),
-
-										'swatch' => array(
-
-											'label' => __('Swatch', 'ws-form'),
-
-											'meta' => array(
-
-												'field_radio_checked_swatch_border_color' => array(
-
-													'label' => __('Checked - Border', 'ws-form'),
-													'var' => '--wsf-field-radio-checked-swatch-border-color',
-													'type' => 'color',
-													'default' => 'var(--wsf-form-color-primary)'
-												),
-
-												'field_radio_checked_swatch_box_shadow_color' => array(
-
-													'label' => __('Checked - Box', 'ws-form'),
-													'var' => '--wsf-field-radio-checked-swatch-box-shadow-color',
-													'type' => 'color',
-													'default' => 'var(--wsf-form-color-base-contrast)',
-													'default_alt' => 'var(--wsf-form-color-base-contrast)',
-												),
-											),
-										),
-
-										'image' => array(
-
-											'label' => __('Image', 'ws-form'),
-
-											'meta' => array(
-
-												'field_radio_checked_image_border_color' => array(
-
-													'label' => __('Checked - Border', 'ws-form'),
-													'var' => '--wsf-field-radio-checked-image-border-color',
-													'type' => 'color',
-													'default' => 'var(--wsf-form-color-primary)'
-												),
-
-												'field_radio_checked_image_box_shadow_color' => array(
-
-													'label' => __('Checked - Box', 'ws-form'),
-													'var' => '--wsf-field-radio-checked-image-box-shadow-color',
-													'type' => 'color',
-													'default' => 'var(--wsf-form-color-base-contrast)',
-													'default_alt' => 'var(--wsf-form-color-base-contrast)',
 												),
 											),
 										),
@@ -2921,18 +3072,18 @@
 													),
 												),
 
-												'typography' => array(
-
-													'label' => __('Typography', 'ws-form'),
-
-													'meta' => self::get_styler_typography_meta('field_select_select2_choice', 'field-select-select2-choice', 'var(--wsf-form-font-size-small)'),
-												),
-
 												'gap' => array(
 
 													'label' => __('Gap', 'ws-form'),
 
 													'meta' => self::get_styler_gap_meta('field_select_select2_choice', 'field-select-select2-choice'),
+												),
+
+												'typography' => array(
+
+													'label' => __('Typography', 'ws-form'),
+
+													'meta' => self::get_styler_typography_meta('field_select_select2_choice', 'field-select-select2-choice', 'var(--wsf-form-font-size-small)'),
 												),
 											),
 										),
@@ -3025,7 +3176,6 @@
 								),
 							),
 						),
-
 						'texteditor' => array(
 
 							'label' => __('Text Editor', 'ws-form'),

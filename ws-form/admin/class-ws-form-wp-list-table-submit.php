@@ -263,12 +263,12 @@
 
 				case 'email' :
 
-					$value = implode($submit_delimiter_row, array_map(function($email) { return sprintf('<a href="mailto:%1$s">%1$s</a>', esc_attr($email)); }, $values_array));
+					$value = implode($submit_delimiter_row, array_map(function($email) { return sprintf('<a href="mailto:%s">%s</a>', esc_attr($email), esc_html($email)); }, $values_array));
 					break;
 
 				case 'url' :
 
-					$value = implode($submit_delimiter_row, array_map(function($url) { return sprintf('<a href="%1$s" target="_blank">%1$s</a>', esc_attr($url)); }, $values_array));
+					$value = implode($submit_delimiter_row, array_map(function($url) { return sprintf('<a href="%s" target="_blank">%s</a>', esc_attr($url), esc_html($url)); }, $values_array));
 					break;
 
 				case 'rating' :
@@ -314,7 +314,7 @@
 
 						if($range >= 1 && (($max - $min) >= 1)) {
 
-							$value = sprintf('<progress class="wsf-progress wsf-progress-small" min="%2$s" max="%3$s" value="%1$s"></progress><div class="wsf-helper">%1$s</div>', esc_attr($range), esc_attr($min), esc_attr($max));
+							$value = sprintf('<progress class="wsf-progress wsf-progress-small" min="%d" max="%d" value="%d"></progress><div class="wsf-helper">%d</div>', esc_attr($min), esc_attr($max), esc_attr($range), esc_html($range));
 
 						} else {
 
@@ -329,7 +329,7 @@
 
 				case 'color' :
 
-					$value = implode($submit_delimiter_row, array_map(function($color) { return sprintf('<span class="wsf-submit-color-sample" style="background:%1$s"></span><span class="wsf-submit-color">%1$s</span>', $color); }, $values_array));
+					$value = implode($submit_delimiter_row, array_map(function($color) { return sprintf('<span class="wsf-submit-color-sample" style="background:%s"></span><span class="wsf-submit-color">%s</span>', esc_attr($color), esc_html($color)); }, $values_array));
 
 					break;
 

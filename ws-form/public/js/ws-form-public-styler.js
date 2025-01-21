@@ -137,14 +137,34 @@
 
 		if(!palette) { return; }
 
+		var css_var_regex = /var\((--[\w-]+)\)/;
+
 		// Process palette
 		for(var palette_index in palette) {
 
 			if(!palette.hasOwnProperty(palette_index)) { continue; }
 
 			var swatch = palette[palette_index];
+			if(!swatch.color) { continue; }
 
-			this.styler_coloris_swatches.push(swatch.color);
+			// Check color for var
+			var match = swatch.color.match(css_var_regex);
+
+			if(match) {
+
+				var var_name = match[1];
+
+				var computed_style = getComputedStyle(document.documentElement);
+
+				if(computed_style) {
+
+					this.styler_coloris_swatches.push(computed_style.getPropertyValue(var_name).trim());
+				}
+
+			} else {
+
+				this.styler_coloris_swatches.push(swatch.color);
+			}
 		}
 	}
 
@@ -975,19 +995,25 @@
 					$('.wsf-styler-var-color-preview', $(this)).on('click', function() {
 
 						// Get Coloris obj
-						var obj_input = ws_this.styler_get_input_hidden($(this));
+						var obj_input_hidden = ws_this.styler_get_input_hidden($(this));
+
+						// Get input
+						var obj_input = ws_this.styler_get_input($(this));
+
+						// Reset Coloris color
+						ws_this.styler_coloris_set(obj_input);
 
 						// Group focus selector
-						ws_this.styler_group_focus_selector(ws_this.styler_get_input($(this)));
+						ws_this.styler_group_focus_selector(obj_input);
 
 						// Set swatches
-						args_coloris.swatches = ws_this.styler_args_coloris_swatches(obj_input);
+						args_coloris.swatches = ws_this.styler_args_coloris_swatches(obj_input_hidden);
 
 						// Configure Coloris component
-						Coloris.setInstance('#' + obj_input.attr('id'), args_coloris);
+						Coloris.setInstance('#' + obj_input_hidden.attr('id'), args_coloris);
 
 						// Click Coloris to activate it
-						obj_input[0].dispatchEvent(new Event('click', { bubbles: true }));
+						obj_input_hidden[0].dispatchEvent(new Event('click', { bubbles: true }));
 					});
 
 					// Create alternative color

@@ -740,21 +740,21 @@
 		// Check form_id
 		public function db_check_form_id() {
 
-			if(absint($this->form_id) === 0) { parent::db_throw_error(__('Invalid form ID', 'ws-form')); }
+			if(absint($this->form_id) === 0) { parent::db_throw_error(__('Invalid form ID (WS_Form_Section | db_check_form_id)', 'ws-form')); }
 			return true;
 		}
 
 		// Check form_id
 		public function db_check_group_id() {
 
-			if(absint($this->group_id) === 0) { parent::db_throw_error(__('Invalid group ID', 'ws-form')); }
+			if(absint($this->group_id) === 0) { parent::db_throw_error(__('Invalid group ID (WS_Form_Section | db_check_group_id)', 'ws-form')); }
 			return true;
 		}
 
 		// Check id
 		public function db_check_id() {
 
-			if(absint($this->id) === 0) { parent::db_throw_error(__('Invalid section ID', 'ws-form')); }
+			if(absint($this->id) === 0) { parent::db_throw_error(__('Invalid section ID (WS_Form_Section | db_check_id)', 'ws-form')); }
 			return true;
 		}
 

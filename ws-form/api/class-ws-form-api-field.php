@@ -475,11 +475,11 @@
 
 			// Get form ID
 			$form_id = self::api_get_form_id($parameters);
-			if($form_id === 0) { parent::api_throw_error(__('Invalid form ID.', 'ws-form')); }
+			if($form_id === 0) { parent::api_throw_error(__('Invalid form ID (WS_Form_API_Field | api_select_ajax)', 'ws-form')); }
 
 			// Get field ID
 			$field_id = self::api_get_id($parameters);
-			if($field_id === 0) { parent::api_throw_error(__('Invalid field ID.', 'ws-form')); }
+			if($field_id === 0) { parent::api_throw_error(__('Invalid field ID (WS_Form_API_Field | api_select_ajax)', 'ws-form')); }
 
 			// Get field
 			$field = self::api_field_get($form_id, $field_id);
@@ -717,22 +717,22 @@
 
 			// Get form ID
 			$form_id = self::api_get_form_id($parameters);
-			if($form_id === 0) { parent::api_throw_error(__('Invalid form ID.', 'ws-form')); }
+			if($form_id === 0) { parent::api_throw_error(__('Invalid form ID (WS_Form_API_Field | api_cascade)', 'ws-form')); }
 
 			// Get field ID
 			$field_id = self::api_get_id($parameters);
-			if($field_id === 0) { parent::api_throw_error(__('Invalid field ID.', 'ws-form')); }
+			if($field_id === 0) { parent::api_throw_error(__('Invalid field ID (WS_Form_API_Field | api_cascade)', 'ws-form')); }
 
 			// Get field
 			$field = self::api_field_get($form_id, $field_id);
 
 			// Get field type
-			if(!isset($field->type)) { parent::api_throw_error(__('Invalid field type.', 'ws-form')); }
+			if(!isset($field->type)) { parent::api_throw_error(__('Invalid field type (WS_Form_API_Field | api_cascade)', 'ws-form')); }
 			$field_type = $field->type;
 
 			// Get lookup value
 			$value = json_decode(WS_Form_Common::get_query_var_nonce('value'));
-			if(is_null($value)) { parent::api_throw_error(__('Invalid input value.', 'ws-form')); }
+			if(is_null($value)) { parent::api_throw_error(__('Invalid input value (WS_Form_API_Field | api_cascade)', 'ws-form')); }
 			if(!is_array($value)) { $value = array($value); }
 
 			// Get default value

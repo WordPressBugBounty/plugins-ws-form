@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: form, contact form, form builder, forms, custom form
 Requires at least: 5.3
 Tested up to: 6.7
-Stable tag: 1.10.8
+Stable tag: 1.10.13
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,13 +12,11 @@ Form builder for WordPress: Rapidly build professional, stylish, mobile friendly
 
 == Description ==
 
-= Contact Form Builder Plugin for WordPress =
+= Create Professional, Mobile-Friendly, Accessible Forms for WordPress – For Free! =
 
-WS Form LITE is a powerful contact form builder plugin for WordPress.
+WS Form LITE is a powerful, feature-rich form builder that lets you create fully styled, responsive, and accessible forms. Unlike other plugins, WS Form LITE includes premium-quality features at no cost, such as unlimited forms, customizable styling, submission exporting, and robust anti-spam protection. Perfect for websites of all sizes, WS Form LITE empowers you to build smarter forms with ease.
 
-Create professional, stylish, mobile friendly, accessible forms. WS Form LITE comes complete with features other form builder plugins charge a premium for including unlimited forms submission and styles as well as submission exporting and comprehensive anti-spam features. 
-
-Choose from single click templates or build your own WordPress form using the unique drag and drop form editor.
+Choose from single click templates or build your own form for WordPress using the unique drag and drop form editor.
 
 = Create Beautiful Forms with Ease =
 

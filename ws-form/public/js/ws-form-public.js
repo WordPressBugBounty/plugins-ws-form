@@ -1039,18 +1039,19 @@
 	}
 
 	// Get invalid feedback object
-	$.WS_Form.prototype.get_invalid_feedback_obj = function(obj) {
+	$.WS_Form.prototype.get_invalid_feedback_obj = function(obj, object_row_id) {
 
-		return $('#' + this.get_invalid_feedback_id(obj));
+		return $('#' + this.get_invalid_feedback_id(obj, object_row_id));
 	}
 
 	// Get invalid feedback ID
-	$.WS_Form.prototype.get_invalid_feedback_id = function(obj) {
+	$.WS_Form.prototype.get_invalid_feedback_id = function(obj, object_row_id) {
 
 		var field_id = this.get_field_id(obj);
 		var section_repeatable_suffix = this.get_section_repeatable_suffix(obj);
+		var row_suffix = (object_row_id ? '-row-' + object_row_id : '');
 
-		return this.form_id_prefix + 'invalid-feedback-' + field_id + section_repeatable_suffix;
+		return this.form_id_prefix + 'invalid-feedback-' + field_id + row_suffix + section_repeatable_suffix;
 	}
 
 	// Get invalid feedback from object
@@ -1072,8 +1073,16 @@
 		// Check for object row ID
 		if(this.is_not_number(object_row_id)) { object_row_id = 0; }
 
+		// Check if object_row_id is an object
+		if(
+			(typeof(object_row_id) === 'object') &&
+			(typeof(object_row_id[0]) !== 'undefined')
+		) {
+			object_row_id = object_row_id[0];
+		}
+
 		// Get invalid feedback obj
-		var invalid_feedback_obj = this.get_invalid_feedback_obj(obj);
+		var invalid_feedback_obj = this.get_invalid_feedback_obj(obj, object_row_id);
 
 		// Get section ID
 		var section_id = this.get_section_id(obj);

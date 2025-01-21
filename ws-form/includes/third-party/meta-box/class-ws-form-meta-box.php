@@ -1576,7 +1576,17 @@
 
 			} else {
 
-				$time = strtotime(WS_Form_Common::get_date_by_type($meta_box_field_values, $field_object, 'Y-m-d'));
+				switch($meta_box_field_type) {
+
+					case 'time' :
+
+						$time = strtotime(WS_Form_Common::get_date_by_type($meta_box_field_values, $field_object, 'H:i:s'));
+						break;
+
+					default :
+
+						$time = strtotime(WS_Form_Common::get_date_by_type($meta_box_field_values, $field_object, 'Y-m-d'));
+				}
 			}
 
 			// Get formats

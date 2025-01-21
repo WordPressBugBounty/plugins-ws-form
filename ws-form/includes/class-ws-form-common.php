@@ -236,7 +236,7 @@
 		}
 
 		// Get plugin option key value
-		public static function option_get($key, $default = false, $default_set = false, $enable_cache = true, $use_default_if_blank = false) {
+		public static function option_get($key, $default = false, $default_set = false, $enable_cache = true, $use_default_if_blank = false, $bypass_filter = false) {
 
 			// Get option name
 			$option_name_return = self::get_options($key, $enable_cache);
@@ -263,7 +263,7 @@
 				$value = $default;
 			}
 
-			return apply_filters('wsf_option_get', $value, $key);
+			return $bypass_filter ? $value : apply_filters('wsf_option_get', $value, $key);
 		}
 
 		// Set plugin option key value
@@ -1035,10 +1035,10 @@
 		// Is styler enabled?
 		public static function styler_enabled() {
 
-			return apply_filters(
+			return (
 
-				'wsf_styler_enabled',
-				WS_FORM_STYLER
+				apply_filters('wsf_styler_enabled', WS_FORM_STYLER) &&
+				(self::option_get('framework', 'ws-form', false, true, false, true) === 'ws-form')
 			);
 		}
 
@@ -1047,7 +1047,6 @@
 
 			return (
 				self::styler_enabled() &&
-				(self::option_get('framework', 'ws-form') === 'ws-form') &&
 				self::can_user('read_form_style')
 			);
 		}
@@ -4973,6 +4972,37 @@
 			return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : '';
 		}
 
+		// Sanitize phone numbers
+		public static function sanitize_tel($tel) {
+
+			// Check for malicious patterns
+			$patterns = [
+
+				'/javascript:/i',
+				'/data:/i',
+				'/<script.*?>.*?<\/script>/i',
+				'/<.*?>/i',
+				'/(onerror|onload)=/i',
+				'/(SELECT|INSERT|DELETE|UPDATE|DROP|UNION)/i',
+				'/[\|\;\&\`]/',
+				'/[\x00-\x1F\x7F]/',
+			];
+
+			foreach ($patterns as $pattern) {
+
+				if (preg_match($pattern, $tel)) {
+
+					return '';
+				}
+			}
+
+			// Strip characters
+		    $tel = preg_replace('/[^0-9+\-\(\)\. \/\,\;xext\*\# ]/i', '', $tel);
+
+		    // Trim
+		    return rtrim($tel, ',; ');
+		}
+
 		// Sanitize CSS value
 		public static function sanitize_css_value($css_value, $pattern_match = false) {
 
@@ -5100,7 +5130,7 @@
 			if(
 				(absint($form_id) === 0)
 			) {
-				self::throw_error(__('Invalid form ID', 'ws-form'));
+				self::throw_error(__('Invalid form ID (WS_Form_Common | check_form_id)', 'ws-form'));
 			}
 
 			return true;

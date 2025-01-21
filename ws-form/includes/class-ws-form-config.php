@@ -3767,13 +3767,14 @@
 				array('value' => '', 'text' => __('Normal', 'ws-form')),
 				array('value' => 'button', 'text' => __('Button', 'ws-form')),
 				array('value' => 'button-full', 'text' => __('Button (Full width)', 'ws-form')),
-				array('value' => 'switch', 'text' => __('Switch', 'ws-form')),
-				array('value' => 'color', 'text' => __('Swatch', 'ws-form')),
-				array('value' => 'color-circle', 'text' => __('Swatch (Circles)', 'ws-form')),
+				array('value' => 'circle', 'text' => __('Circles', 'ws-form')),
 				array('value' => 'image', 'text' => __('Image', 'ws-form')),
 				array('value' => 'image-circle', 'text' => __('Image (Circles)', 'ws-form')),
 				array('value' => 'image-responsive', 'text' => __('Image (Responsive)', 'ws-form')),
 				array('value' => 'image-circle-responsive', 'text' => __('Image (Circles + Responsive)', 'ws-form')),
+				array('value' => 'color', 'text' => __('Swatch', 'ws-form')),
+				array('value' => 'color-circle', 'text' => __('Swatch (Circles)', 'ws-form')),
+				array('value' => 'switch', 'text' => __('Switch', 'ws-form')),
 			);
 
  			// Check for unfiltered_html capability so we can provide alerts in admin

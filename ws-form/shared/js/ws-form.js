@@ -5178,13 +5178,14 @@
 
 						case 'button' : class_field_array.push('wsf-button'); break;
 						case 'button-full' : class_field_array.push('wsf-button wsf-button-full'); break;
-						case 'switch' : class_field_array.push('wsf-switch'); break;
 						case 'color' : class_field_array.push('wsf-color'); break;
 						case 'color-circle' : class_field_array.push('wsf-color wsf-circle'); break;
+						case 'circle' : class_field_array.push('wsf-circle'); break;
 						case 'image' : class_field_array.push('wsf-image'); break;
 						case 'image-circle' : class_field_array.push('wsf-image wsf-circle'); break;
 						case 'image-responsive' : class_field_array.push('wsf-image wsf-responsive wsf-image-full'); break;
 						case 'image-circle-responsive' : class_field_array.push('wsf-image wsf-responsive wsf-image-full wsf-circle'); break;
+						case 'switch' : class_field_array.push('wsf-switch'); break;
 					}
 
 					break;

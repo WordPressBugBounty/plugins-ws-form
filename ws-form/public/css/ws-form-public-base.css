@@ -169,6 +169,7 @@
   font-size: var(--wsf-field-font-size);
   font-style: var(--wsf-field-font-style);
   font-weight: var(--wsf-field-font-weight);
+  height: auto;
   letter-spacing: var(--wsf-field-letter-spacing);
   line-height: var(--wsf-field-line-height);
   margin: 0;
@@ -313,7 +314,7 @@
 }
 
 .wsf-form .wsf-invalid-feedback {
-  background-color: var(--wsf-field-invalid-background-color);
+  background-color: var(--wsf-field-invalid-feedback-color-background);
   color: var(--wsf-field-invalid-feedback-color);
   font-family: var(--wsf-field-invalid-feedback-font-family);
   font-size: var(--wsf-field-invalid-feedback-font-size);
@@ -712,7 +713,7 @@
 .wsf-form.wsf-rtl .wsf-label-position-inside textarea.wsf-field[placeholder] + label,
 .wsf-form.wsf-rtl .wsf-label-position-inside textarea.wsf-field[placeholder] + .wsf-input-group-append + label {
   left: auto;
-  right: calc((var(--wsf-form-grid-gap) / 2) + var(--wsf-field-padding-horizontal + var(--wsf-field-border-width)));
+  right: calc((var(--wsf-form-grid-gap) / 2) + var(--wsf-field-padding-horizontal) + var(--wsf-field-border-width));
 }
 
 .wsf-form.wsf-validated input[type=email].wsf-field:invalid,
@@ -721,7 +722,14 @@
 .wsf-form.wsf-validated input[type=text].wsf-field:invalid,
 .wsf-form.wsf-validated input[type=url].wsf-field:invalid,
 .wsf-form.wsf-validated select.wsf-field:invalid,
-.wsf-form.wsf-validated textarea.wsf-field:invalid {
+.wsf-form.wsf-validated textarea.wsf-field:invalid,
+.wsf-form .wsf-validated input[type=email].wsf-field:invalid,
+.wsf-form .wsf-validated input[type=number].wsf-field:invalid,
+.wsf-form .wsf-validated input[type=tel].wsf-field:invalid,
+.wsf-form .wsf-validated input[type=text].wsf-field:invalid,
+.wsf-form .wsf-validated input[type=url].wsf-field:invalid,
+.wsf-form .wsf-validated select.wsf-field:invalid,
+.wsf-form .wsf-validated textarea.wsf-field:invalid {
   background-color: var(--wsf-field-color-background-invalid);
   border-color: var(--wsf-field-border-color-invalid);
 }
@@ -732,7 +740,14 @@
 .wsf-form.wsf-validated input[type=text].wsf-field:invalid:focus:not(:hover),
 .wsf-form.wsf-validated input[type=url].wsf-field:invalid:focus:not(:hover),
 .wsf-form.wsf-validated select.wsf-field:invalid:focus:not(:hover),
-.wsf-form.wsf-validated textarea.wsf-field:invalid:focus:not(:hover) {
+.wsf-form.wsf-validated textarea.wsf-field:invalid:focus:not(:hover),
+.wsf-form .wsf-validated input[type=email].wsf-field:invalid:focus:not(:hover),
+.wsf-form .wsf-validated input[type=number].wsf-field:invalid:focus:not(:hover),
+.wsf-form .wsf-validated input[type=tel].wsf-field:invalid:focus:not(:hover),
+.wsf-form .wsf-validated input[type=text].wsf-field:invalid:focus:not(:hover),
+.wsf-form .wsf-validated input[type=url].wsf-field:invalid:focus:not(:hover),
+.wsf-form .wsf-validated select.wsf-field:invalid:focus:not(:hover),
+.wsf-form .wsf-validated textarea.wsf-field:invalid:focus:not(:hover) {
   box-shadow: var(--wsf-field-box-shadow);
 }
 
@@ -742,7 +757,14 @@
 .wsf-form.wsf-validated input[type=text].wsf-field:-moz-ui-invalid,
 .wsf-form.wsf-validated input[type=url].wsf-field:-moz-ui-invalid,
 .wsf-form.wsf-validated select.wsf-field:-moz-ui-invalid,
-.wsf-form.wsf-validated textarea.wsf-field:-moz-ui-invalid {
+.wsf-form.wsf-validated textarea.wsf-field:-moz-ui-invalid,
+.wsf-form .wsf-validated input[type=email].wsf-field:-moz-ui-invalid,
+.wsf-form .wsf-validated input[type=number].wsf-field:-moz-ui-invalid,
+.wsf-form .wsf-validated input[type=tel].wsf-field:-moz-ui-invalid,
+.wsf-form .wsf-validated input[type=text].wsf-field:-moz-ui-invalid,
+.wsf-form .wsf-validated input[type=url].wsf-field:-moz-ui-invalid,
+.wsf-form .wsf-validated select.wsf-field:-moz-ui-invalid,
+.wsf-form .wsf-validated textarea.wsf-field:-moz-ui-invalid {
   box-shadow: none;
 }
 

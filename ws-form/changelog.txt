@@ -2,7 +2,36 @@
 
 Some changes only applicable to WS Form PRO.
 
-= 1.10.8 - 01/08/2024 =
+= 1.10.13 - 01/20/2025 =
+* Added: Improvement to Coloris color picker to ensure it updates if vars entered
+* Added: Added height auto on fields to overcome third party CSS fixing heights
+* Added: Improved input sanitization of URL and tel fields
+* Bug Fix: WordPress media selector disable in visual editor enqueuing to avoid conflicts with ACF
+
+= 1.10.12 - 01/15/2025 =
+* Added: Improvements to checkbox and radio field overrides to avoid third party CSS issues
+* Bug Fix: Framework fix in visual editors
+
+= 1.10.11 - 01/14/2025 =
+* Added: Improvements to CSS overrides for checkbox and radio fields
+* Added: Set custom validity on data grid rows in conditional logic
+* Bug Fix: CSS fixes for Bootstrap 5
+
+= 1.10.10 - 01/13/2025 =
+* Added: Circle style option for radio fields
+* Added: Border radius style setting for checkboxes (inherits field border radius by default)
+* Added: Styler palette now resolves CSS variables to colors from theme palettes
+* Added: Improvements to styler LITE and PRO preview templates
+* Bug Fix: Invalid feedback styling for field level validation
+* Bug Fix: Meta Box time field population
+* Bug Fix: Checkmark positioning in checkbox fields related to border width
+
+= 1.10.9 - 01/10/2025 =
+* Added: Background color styler setting added for signature field
+* Added: Persistent debug and styler CSS enqueuing
+* Bug Fix: Action disabling if all actions disabled with conditional logic
+
+= 1.10.8 - 01/08/2025 =
 * Added: Inside label position behavior setting to styler
 * Added: ACF fields now exclude option assign fields by default
 * Added: Message styling added to LITE edition

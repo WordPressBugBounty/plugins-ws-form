@@ -314,15 +314,6 @@
 			add_filter('wsf_enqueue_js_loader', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_js_custom', function($enqueue) { return true; }, 99999, 1);
 
-			// Disable debug
-			add_filter('wsf_enqueue_js_debug', function($enqueue) { return false; }, 99999, 1);
-
-			if(WS_Form_Common::styler_enabled()) {
-
-				// Disable styler
-				add_filter('wsf_enqueue_js_styler', function($enqueue) { return false; }, 99999, 1);
-			}
-
 			// Field types
 			add_filter('wsf_enqueue_js_captcha', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_js_checkbox', function($enqueue) { return true; }, 99999, 1);
@@ -359,6 +350,15 @@
 			add_filter('wsf_enqueue_css_tab', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_tel', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_textarea', function($enqueue) { return true; }, 99999, 1);
+
+			// Intentionally disabled
+			add_filter('wsf_enqueue_js_debug', function($enqueue) { return false; }, 99999, 1);
+			add_filter('wsf_enqueue_js_wp_media', function($enqueue) { return false; }, 99999, 1);
+
+			if(WS_Form_Common::styler_enabled()) {
+
+				add_filter('wsf_enqueue_js_styler', function($enqueue) { return false; }, 99999, 1);
+			}
 
 			// Process enqueues
 			self::enqueue();
@@ -1122,7 +1122,7 @@
 			self::enqueue_internal_js('public', true);
 			// Styler
 			self::enqueue_internal_js('styler', 'public');
-			self::enqueue_internal_css('styler');
+			self::enqueue_internal_css('styler', false, false, true);
 
 			// CSS - Layout
 			if(apply_filters('wsf_enqueue_css_layout', $this->enqueue_css_layout)) {
@@ -1363,25 +1363,28 @@
 		}
 
 		// Enqueue internal CSS
-		public function enqueue_internal_css($script, $dependency = 'base', $styler_required = true) {
+		public function enqueue_internal_css($script, $dependency = 'base', $styler_required = true, $bypass_options = false) {
 
 			// Check if styler should be enabled
-			if($styler_required) {
+			if(!$bypass_options) {
 
-				// Ensure CSS style should be rendered
-				if(
-					!WS_Form_Common::option_get('css_style') ||
-					!WS_Form_Common::styler_enabled()
-				) {
-					return;
-				}
+				if($styler_required) {
 
-			} else {
+					// Ensure CSS style should be rendered
+					if(
+						!WS_Form_Common::option_get('css_style') ||
+						!WS_Form_Common::styler_enabled()
+					) {
+						return;
+					}
 
-				// Ensure CSS skin should be rendered
-				if(!WS_Form_Common::option_get('css_skin')) {
+				} else {
 
-					return;
+					// Ensure CSS skin should be rendered
+					if(!WS_Form_Common::option_get('css_skin')) {
+
+						return;
+					}
 				}
 			}
 

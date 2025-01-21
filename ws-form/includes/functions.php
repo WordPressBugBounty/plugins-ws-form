@@ -27,7 +27,7 @@
 		$form_id = absint($form_id);
 
 		// Check form ID
-		if($form_id === 0) { throw new Exception('Invalid form ID'); }
+		if($form_id === 0) { throw new Exception('Invalid form ID (wsf_form_get_object)'); }
 
 		// Create new form instance
 		$ws_form_form = new WS_Form_Form();
@@ -52,7 +52,7 @@
 		$form_id = absint($form_id);
 
 		// Check form ID
-		if($form_id === 0) { throw new Exception('Invalid form ID'); }
+		if($form_id === 0) { throw new Exception('Invalid form ID (wsf_form_get_label_by_id)'); }
 
 		// Create new form instance
 		$ws_form_form = new WS_Form_Form();
@@ -84,7 +84,7 @@
 		$form_id = absint($form_id);
 
 		// Check form ID
-		if($form_id === 0) { throw new Exception('Invalid form ID'); }
+		if($form_id === 0) { throw new Exception('Invalid form ID (wsf_form_get_count_submit_by_id)'); }
 
 		// Create new form stat instance
 		$ws_form_form_stat = new WS_Form_Form_Stat();
