@@ -2,9 +2,15 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.15 - 01/22/2025 =
+* Bug Fix: Submission unread bubble escaping
+* Bug Fix: Client-side wpautop now checks for non-string input
+
 = 1.10.14 - 01/21/2025 =
 * Added: Changes made to form populate sidebar ready for Salesforce add-on improvements
-* Added: Improved output escaping of URL, email and tel fields in submission table
+* Added: URL, email and tel outputs no longer anchored if invalid
+* Added: Improved escaping throughout
+* Added: Changed randomness of debug console hostname generator
 
 = 1.10.13 - 01/20/2025 =
 * Added: Improvement to Coloris color picker to ensure it updates if vars entered

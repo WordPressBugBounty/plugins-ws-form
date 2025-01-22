@@ -3534,6 +3534,7 @@
 
 	$.WS_Form.prototype.wpautop = function(i, br) {
 
+		if(typeof(i) !== 'string') { return ''; }
 		if(typeof(br) === 'undefined') { br = true; }
 
 		var pre_tags = new Map;

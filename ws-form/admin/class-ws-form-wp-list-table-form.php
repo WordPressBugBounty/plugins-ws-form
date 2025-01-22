@@ -200,7 +200,7 @@
 			$count_submit = $item['count_submit'];
 
 			// Build title
-			$title = $count_submit;
+			$title = absint($count_submit);
 
 			$disable_count_submit_unread = WS_Form_Common::option_get('disable_count_submit_unread', false);
 
@@ -216,7 +216,7 @@
 
 			if(WS_Form_Common::can_user('read_submission')) {
 
-				$title = sprintf('<a href="%s">%s</a>', esc_url($url_submissions), esc_html($title));
+				$title = sprintf('<a href="%s">%s</a>', esc_url($url_submissions), $title);
 			}
 
 			// Actions
