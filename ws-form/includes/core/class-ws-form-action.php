@@ -731,16 +731,16 @@
 				// Action ID
 				'form_populate_action_id'	=> array(
 
-					'label'						=>	__('Action To Populate From', 'ws-form'),
-					'type'						=>	'select',
-					'help'						=>	sprintf(
+					'label'							=>	__('Action to Populate From', 'ws-form'),
+					'type'							=>	'select',
+					'help'							=>	sprintf(
 
 						/* translators: %s = WS Form */
 						__('Select which action to populate this form with.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
 					),
-					'options'					=>	array(),
+					'options'						=>	array(),
 					'options_action_api_repopulate'	=>	true,
 					'condition'						=>	array(
 
@@ -780,9 +780,9 @@
 
 						array(
 
-							'logic'			=>	'!=',
-							'meta_key'		=>	'form_populate_action_id',
-							'meta_value'	=>	'',
+							'logic'				=>	'!=',
+							'meta_key'			=>	'form_populate_action_id',
+							'meta_value'		=>	'',
 							'logic_previous'	=>	'&&'
 						)
 					)
@@ -1926,7 +1926,7 @@
 
 			$svg = sprintf('<svg class="wsf-responsive" viewBox="0 0 %u %u">', esc_attr($svg_width), esc_attr($svg_height));
 			$svg .= sprintf('<rect height="100%%" width="100%%" fill="%s"/>', esc_attr($color_form_background));
-			$svg .= sprintf('<text fill="%s" class="wsf-template-title"><tspan x="%u" y="16">%s</tspan></text>', $color_default, (is_rtl() ? esc_attr($svg_width - 5) : 5), htmlentities($label));
+			$svg .= sprintf('<text fill="%s" class="wsf-template-title"><tspan x="%u" y="16">%s</tspan></text>', $color_default, (is_rtl() ? esc_attr($svg_width - 5) : 5), esc_html($label));
 
 			$svg .= self::$actions[$action_id]->get_svg_logo_color($list_id);
 

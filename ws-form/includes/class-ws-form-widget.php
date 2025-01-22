@@ -59,7 +59,7 @@
 			} else {
 ?>
 <p><?php esc_html_e("You haven't created any forms yet.", 'ws-form'); ?></p>
-<p><a href="<?php WS_Form_Common::echo_esc_attr(WS_Form_Common::get_admin_url('ws-form-add')); ?>"><?php esc_html_e('Click here to create a form', 'ws-form'); ?></a></p>
+<p><a href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_admin_url('ws-form-add')); ?>"><?php esc_html_e('Click here to create a form', 'ws-form'); ?></a></p>
 <?php
 			}
 		}

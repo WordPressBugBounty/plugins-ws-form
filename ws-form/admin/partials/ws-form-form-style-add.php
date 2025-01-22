@@ -48,7 +48,7 @@
 
 		$action_id = isset($template_category->action_id) ? $template_category->action_id : false;
 
-?><li><a href="<?php WS_Form_Common::echo_esc_attr(sprintf('#wsf_template_category_%s', $template_category->id)); ?>"><?php WS_Form_Common::echo_esc_html($template_category->label); ?><?php
+?><li><a href="<?php WS_Form_Common::echo_esc_url(sprintf('#wsf_template_category_%s', $template_category->id)); ?>"><?php WS_Form_Common::echo_esc_html($template_category->label); ?><?php
 
 		if(($action_id !== false) && ($template_category->reload)) {
 

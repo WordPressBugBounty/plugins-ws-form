@@ -88,7 +88,7 @@
 			// Title
 			if(WS_Form_Common::can_user('edit_form')) {
 
-				$title = sprintf('<strong><a href="%s">%s</a></strong>', $url_edit, esc_html($item['label']));
+				$title = sprintf('<strong><a href="%s">%s</a></strong>', esc_url($url_edit), esc_html($item['label']));
 
 			} else {
 
@@ -114,7 +114,7 @@
 
 					if(WS_Form_Common::can_user('edit_form')) {
 
-						$actions['edit'] = 	sprintf('<a href="%s">%s</a>', $url_edit, __('Edit', 'ws-form'));
+						$actions['edit'] = 	sprintf('<a href="%s">%s</a>', esc_url($url_edit), __('Edit', 'ws-form'));
 					}
 
 					if(WS_Form_Common::can_user('create_form')) {
@@ -127,11 +127,11 @@
 						$actions['trash'] = sprintf('<a href="#" data-action="wsf-delete" data-id="%u">%s</a>', $id, __('Trash', 'ws-form'));
 					}
 
-					$actions['preview'] = sprintf('<a href="%s" target="_blank">%s</a>', WS_Form_Common::get_preview_url($id), __('Preview', 'ws-form'));
+					$actions['preview'] = sprintf('<a href="%s" target="_blank">%s</a>', esc_url(WS_Form_Common::get_preview_url($id)), __('Preview', 'ws-form'));
 
 					if(WS_Form_Common::styler_enabled() && WS_Form_Common::can_user('edit_form_style')) {
 
-						$actions['style'] = sprintf('<a href="%s" target="_blank">%s</a>', WS_Form_Common::get_preview_url($id, false, false, true), __('Style', 'ws-form'));
+						$actions['style'] = sprintf('<a href="%s" target="_blank">%s</a>', esc_url(WS_Form_Common::get_preview_url($id, false, false, true)), __('Style', 'ws-form'));
 					}
 
 					if(WS_Form_Common::can_user('export_form')) {
@@ -216,7 +216,7 @@
 
 			if(WS_Form_Common::can_user('read_submission')) {
 
-				$title = sprintf('<a href="%s">%s</a>', $url_submissions, $title);
+				$title = sprintf('<a href="%s">%s</a>', esc_url($url_submissions), esc_html($title));
 			}
 
 			// Actions
@@ -225,12 +225,12 @@
 
 				if(WS_Form_Common::can_user('read_submission')) {
 
-					$actions['view'] = sprintf('<a href="%s">%s</a>', $url_submissions, __('View', 'ws-form'));
+					$actions['view'] = sprintf('<a href="%s">%s</a>', esc_url($url_submissions), __('View', 'ws-form'));
 				}
 
 				if(WS_Form_Common::can_user('export_submission')) {
 
-					$actions['export'] = sprintf('<a href="%s">%s</a>', $url_submissions, __('Export', 'ws-form'));
+					$actions['export'] = sprintf('<a href="%s">%s</a>', esc_url($url_submissions), __('Export', 'ws-form'));
 				}
 			}
 
@@ -243,7 +243,7 @@
 			$id = absint($item['id']);
 
 			// Title
-			$title = sprintf('<div class="wsf-shortcode"><code data-action="wsf-clipboard"%s>%s</code></div>',WS_Form_Common::tooltip(__('Click to Copy', 'ws-form'), 'left'), htmlentities(WS_Form_Common::shortcode($id)));
+			$title = sprintf('<div class="wsf-shortcode"><code data-action="wsf-clipboard"%s>%s</code></div>',WS_Form_Common::tooltip(__('Click to Copy', 'ws-form'), 'left'), esc_html(WS_Form_Common::shortcode($id)));
 
 			return $title;
 		}
@@ -265,7 +265,7 @@
 				$views['all'] = sprintf(
 
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
-					esc_attr(add_query_arg('ws-form-status', 'all', $all_url)),
+					esc_url(add_query_arg('ws-form-status', 'all', $all_url)),
 					($current === 'all' ? ' class="current"' :''),
 					__('All', 'ws-form'),
 					$count_all
@@ -279,7 +279,7 @@
 				$views['draft'] = sprintf(
 
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
-					esc_attr(add_query_arg('ws-form-status', 'draft', $all_url)),
+					esc_url(add_query_arg('ws-form-status', 'draft', $all_url)),
 					($current === 'draft' ? ' class="current"' :''),
 					__('Draft', 'ws-form'),
 					$count_draft
@@ -293,7 +293,7 @@
 				$views['publish'] = sprintf(
 
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
-					esc_attr(add_query_arg('ws-form-status', 'publish', $all_url)),
+					esc_url(add_query_arg('ws-form-status', 'publish', $all_url)),
 					($current === 'publish' ? ' class="current"' :''),
 					__('Published', 'ws-form'),
 					$count_publish
@@ -307,7 +307,7 @@
 				$views['trash'] = sprintf(
 
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
-					esc_attr(add_query_arg('ws-form-status', 'trash', $all_url)),
+					esc_url(add_query_arg('ws-form-status', 'trash', $all_url)),
 					($current === 'trash' ? ' class="current"' :''),
 					__('Trash', 'ws-form'),
 					$count_trash

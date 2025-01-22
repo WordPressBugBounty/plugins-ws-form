@@ -14,7 +14,7 @@
 		public $record_count = false;
 
 		// Construct
-	    public function __construct() {
+		public function __construct() {
 
 			parent::__construct(array(
 
@@ -61,13 +61,13 @@
 					}
 				}
 			}
-	    }
+		}
 
-	    // Get columns
+		// Get columns
 		public function get_columns() {
 
 			// Initial columns
-  		  	$columns = [
+			$columns = [
 
 				'cb'			=> '<input type="checkbox" />',
 				'media'			=> '<div class="wsf-starred wsf-starred-header">' . WS_Form_Config::get_icon_16_svg('rating') . '</div>',
@@ -243,7 +243,7 @@
 							// Build lookup URL
 							$latlon_lookup_url = WS_Form_Common::mask_parse($latlon_lookup_url_mask, $latlon_lookup_url_mask_values);
 
-							$value = '<a href="' . esc_attr($latlon_lookup_url) . '" target="_blank">' . esc_html($value) . '</a>';
+							$value = sprintf('<a href="%s" target="_blank">%s</a>', esc_url($latlon_lookup_url), esc_html($value));
 
 						} else {
 
@@ -256,20 +256,58 @@
 
 					break;
 
+
+				case 'url' :
+
+					$value = implode($submit_delimiter_row, array_map(function($value) {
+
+						$value_url = WS_Form_Common::get_url($value);
+						return !empty($value_url) ? sprintf(
+
+							'<a href="%s" target="_blank">%s</a>',
+							esc_url($value),
+							esc_html($value)
+
+						) : esc_html($value);
+
+					}, $values_array));
+
+					break;
+
 				case 'tel' :
 
-					$value = implode($submit_delimiter_row, array_map(function($tel) { return sprintf('<a href="tel:%s">%s</a>', esc_attr(WS_Form_Common::get_tel($tel)), esc_html($tel)); }, $values_array));
+					$value = implode($submit_delimiter_row, array_map(function($value) {
+
+						$value_tel = WS_Form_Common::get_tel($value);
+						return !empty($value_tel) ? sprintf(
+
+							'<a href="%s">%s</a>',
+							(!empty($value_tel) ? esc_url('tel:' . $value_tel) : ''),
+							esc_html($value)
+
+						) : esc_html($value);
+
+					}, $values_array));
+
 					break;
 
 				case 'email' :
 
-					$value = implode($submit_delimiter_row, array_map(function($email) { return sprintf('<a href="mailto:%s">%s</a>', esc_attr($email), esc_html($email)); }, $values_array));
+					$value = implode($submit_delimiter_row, array_map(function($value) {
+
+						$value_email = WS_Form_Common::get_email($value);
+						return !empty($value_email) ? sprintf(
+
+							'<a href="%s">%s</a>',
+							(!empty($value_email) ? esc_url('mailto:' . $value_email) : ''),
+							esc_html($value)
+
+						) : esc_html($value);
+
+					}, $values_array));
+
 					break;
 
-				case 'url' :
-
-					$value = implode($submit_delimiter_row, array_map(function($url) { return sprintf('<a href="%s" target="_blank">%s</a>', esc_attr($url), esc_html($url)); }, $values_array));
-					break;
 
 				case 'rating' :
 
@@ -385,7 +423,7 @@
 			$icon = isset($file_types[$type]) ? $file_types[$type]['icon'] : $file_types['default']['icon'];
 
 			// Download
-			$return_html = sprintf('<a download="%1$s" href="%2$s" title="%1$s">%3$s</a>', esc_attr($name), esc_attr($url), WS_Form_Config::get_icon_16_svg($icon));
+			$return_html = sprintf('<a download="%1$s" href="%2$s" title="%1$s">%3$s</a>', esc_attr($name), esc_url($url), WS_Form_Config::get_icon_16_svg($icon));
 
 			return $return_html;
 		}
@@ -534,7 +572,7 @@
 				$views['all'] = sprintf(
 
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
-					esc_attr(add_query_arg('ws-form-status', 'all', $all_url)),
+					esc_url(add_query_arg('ws-form-status', 'all', $all_url)),
 					($current === 'all' ? ' class="current"' :''),
 					__('All', 'ws-form'),
 					$count_all
@@ -548,7 +586,7 @@
 				$views['draft'] = sprintf(
 
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
-					esc_attr(add_query_arg('ws-form-status', 'draft', $all_url)),
+					esc_url(add_query_arg('ws-form-status', 'draft', $all_url)),
 					($current === 'draft' ? ' class="current"' :''),
 					__('In Progress', 'ws-form'),
 					$count_draft
@@ -562,7 +600,7 @@
 				$views['publish'] = sprintf(
 
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
-					esc_attr(add_query_arg('ws-form-status', 'publish', $all_url)),
+					esc_url(add_query_arg('ws-form-status', 'publish', $all_url)),
 					($current === 'publish' ? ' class="current"' :''),
 					__('Submitted', 'ws-form'),
 					$count_publish
@@ -576,7 +614,7 @@
 				$views['spam'] = sprintf(
 
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
-					esc_attr(add_query_arg('ws-form-status', 'spam', $all_url)),
+					esc_url(add_query_arg('ws-form-status', 'spam', $all_url)),
 					($current === 'spam' ? ' class="current"' :''),
 					__('Spam', 'ws-form'),
 					$count_spam
@@ -590,7 +628,7 @@
 				$views['trash'] = sprintf(
 
 					'<a href="%s"%s>%s <span class="count">%u</span></a>',
-					esc_attr(add_query_arg('ws-form-status', 'trash', $all_url)),
+					esc_url(add_query_arg('ws-form-status', 'trash', $all_url)),
 					($current === 'trash' ? ' class="current"' :''),
 					__('Trash', 'ws-form'),
 					$count_trash
@@ -818,9 +856,9 @@
 		// Set primary column
 		public function list_table_primary_column($default, $screen) {
 
-		    if($screen === 'ws-form_page_ws-form-submit') { $default = 'id'; }
+			if($screen === 'ws-form_page_ws-form-submit') { $default = 'id'; }
 
-		    return $default;
+			return $default;
 		}
 
 		// Get record count

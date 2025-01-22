@@ -171,7 +171,7 @@
 </div>
 
 <button class="wsf-welcome-button" data-action="wsf-try-again"><?php esc_html_e('Try Again', 'ws-form'); ?></button>
-<a href="<?php WS_Form_Common::echo_esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/installation-troubleshooting/')); ?>" target="_blank" class="wsf-welcome-button"><?php esc_html_e('Help', 'ws-form'); ?></a>
+<a href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/installation-troubleshooting/')); ?>" target="_blank" class="wsf-welcome-button"><?php esc_html_e('Help', 'ws-form'); ?></a>
 
 </div>
 <!-- /Slide 6 - API Error -->

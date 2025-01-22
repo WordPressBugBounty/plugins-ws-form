@@ -3094,8 +3094,8 @@
 									'help'		=>	sprintf(
 
 										'<p><strong style="color: #bb0000;">%s:</strong> %s</p>',
-										esc_html(__('Caution', 'ws-form')),
-										esc_html(__('If you enable this setting and uninstall the plugin this data cannot be recovered.'))
+										esc_html__('Caution', 'ws-form'),
+										esc_html__('If you enable this setting and uninstall the plugin this data cannot be recovered.')
 									)
 								),
 
@@ -3107,8 +3107,8 @@
 									'help'		=>	sprintf(
 
 										'<p><strong style="color: #bb0000;">%s:</strong> %s</p>',
-										esc_html(__('Caution', 'ws-form')),
-										esc_html(__('If you enable this setting and uninstall the plugin this data cannot be recovered.'))
+										esc_html__('Caution', 'ws-form'),
+										esc_html__('If you enable this setting and uninstall the plugin this data cannot be recovered.')
 									)
 								)
 							)
@@ -3134,9 +3134,9 @@
 									'help'		=>	sprintf(
 
 										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(__('reCAPTCHA site key.', 'ws-form')),
+										esc_html__('reCAPTCHA site key.', 'ws-form'),
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/')),
-										esc_html(__('Learn more', 'ws-form'))
+										esc_html__('Learn more', 'ws-form')
 									),
 									'public'	=>	true,
 									'default'	=>	''
@@ -3149,9 +3149,9 @@
 									'help'		=>	sprintf(
 
 										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(__('reCAPTCHA secret key.', 'ws-form')),
+										esc_html__('reCAPTCHA secret key.', 'ws-form'),
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/')),
-										esc_html(__('Learn more', 'ws-form'))
+										esc_html__('Learn more', 'ws-form')
 									),
 									'default'	=>	''
 								)
@@ -3169,9 +3169,9 @@
 									'type'		=>	'key',
 									'help'		=>	sprintf(
 										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(__('hCaptcha site key.', 'ws-form')),
+										esc_html__('hCaptcha site key.', 'ws-form'),
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/')),
-										esc_html(__('Learn more', 'ws-form'))
+										esc_html__('Learn more', 'ws-form')
 									),
 									'public'	=>	true,
 									'default'	=>	''
@@ -3183,9 +3183,9 @@
 									'type'		=>	'key',
 									'help'		=>	sprintf(
 										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(__('hCaptcha secret key.', 'ws-form')),
+										esc_html__('hCaptcha secret key.', 'ws-form'),
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/')),
-										esc_html(__('Learn more', 'ws-form'))
+										esc_html__('Learn more', 'ws-form')
 									),
 									'default'	=>	''
 								)
@@ -3203,9 +3203,9 @@
 									'type'		=>	'key',
 									'help'		=>	sprintf(
 										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(__('Turnstile site key.', 'ws-form')),
+										esc_html__('Turnstile site key.', 'ws-form'),
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
-										esc_html(__('Learn more', 'ws-form'))
+										esc_html__('Learn more', 'ws-form')
 									),
 									'public'	=>	true,
 									'default'	=>	''
@@ -3217,9 +3217,9 @@
 									'type'		=>	'key',
 									'help'		=>	sprintf(
 										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(__('Turnstile secret key.', 'ws-form')),
+										esc_html__('Turnstile secret key.', 'ws-form'),
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
-										esc_html(__('Learn more', 'ws-form'))
+										esc_html__('Learn more', 'ws-form')
 									),
 									'default'	=>	''
 								)

@@ -1596,10 +1596,22 @@
 			return $array['meta']->{$meta_key};
 		}
 
-		// Get numbers from string
-		public static function get_tel($phone) {
+		// Get URL from string
+		public static function get_url($url_input) {
 
-			return preg_replace('/[^+\d]+/', '', $phone);
+			return (filter_var($url_input, FILTER_VALIDATE_URL) ? $url_input : '');
+		}
+
+		// Get tel from string
+		public static function get_tel($tel_input) {
+
+			return preg_replace('/[^+\d]+/', '', $tel_input);
+		}
+
+		// Get email address from string
+		public static function get_email($email_input) {
+
+			return (filter_var($email_input, FILTER_VALIDATE_EMAIL) ? $email_input : '');
 		}
 
 		// Get string from any type of input
@@ -2071,7 +2083,7 @@
 										case 'post_var' :
 
 											$parsed_variable = self::get_query_var($variable_attribute_array[0], $variable_attribute_array[1]);
-											if($content_type == 'text/html') { $parsed_variable = htmlentities($parsed_variable); }
+											if($content_type == 'text/html') { $parsed_variable = esc_html($parsed_variable); }
 											break;
 
 										case 'email_submission' :
@@ -2152,7 +2164,7 @@
 										case 'cookie_get' :
 
 											// Get cookie value
-											$parsed_variable = htmlentities(self::cookie_get_raw($variable_attribute_array[0]));
+											$parsed_variable = esc_html(self::cookie_get_raw($variable_attribute_array[0]));
 
 											break;
 
@@ -2624,7 +2636,7 @@
 
 											$parsed_variable = gmdate($variable_attribute_array[0], strtotime($parse_variable_value) + $seconds_offset);
 
-											if($content_type == 'text/html') { $parsed_variable = htmlentities($parsed_variable); }
+											if($content_type == 'text/html') { $parsed_variable = esc_html($parsed_variable); }
 
 											break;
 
@@ -2637,7 +2649,7 @@
 
 											$parsed_variable = !empty($submit_date_added) ? get_date_from_gmt($submit_date_added, $date_format) : '';
 
-											if($content_type == 'text/html') { $parsed_variable = htmlentities($parsed_variable); }
+											if($content_type == 'text/html') { $parsed_variable = esc_html($parsed_variable); }
 
 											break;
 
@@ -2666,7 +2678,7 @@
 
 											$parsed_variable = gmdate($variable_attribute_array[0], current_time('timestamp') + $seconds_offset);
 
-											if($content_type == 'text/html') { $parsed_variable = htmlentities($parsed_variable); }
+											if($content_type == 'text/html') { $parsed_variable = esc_html($parsed_variable); }
 
 											break;
 
@@ -2930,10 +2942,10 @@
 					// Build submit admin URL and link
 					if($form_id && $submit_id) {
 
-						$submit_admin_url = get_admin_url(null, 'admin.php?page=ws-form-submit&id=' . $form_id . '#' . $submit_id);
+						$submit_admin_url = esc_url(get_admin_url(null, 'admin.php?page=ws-form-submit&id=' . $form_id . '#' . $submit_id));
 
 						$variables['submit_admin_url'] = $submit_admin_url;
-						$variables['submit_admin_link'] = sprintf('<a href="%1$s" target="_blank">%1$s</a>', $submit_admin_url);
+						$variables['submit_admin_link'] = sprintf('<a href="%s" target="_blank">%s</a>', esc_url($submit_admin_url), esc_html($submit_admin_url));
 					}
 
 					// Build submit URL and link
@@ -3188,33 +3200,54 @@
 			// HTML encode values
 			if($content_type == 'text/html' && !is_array($value)) {
 
-				if($html_encode) { $value = htmlentities($value); }
+				if($html_encode) { $value = esc_html($value); }
 
 				switch($type) {
 
 					case 'url' :
 
-						$value = sprintf('<a href="%1$s" target="_blank">%1$s</a>', $value);
+						$value_url = WS_Form_Common::get_url($value);
+						$value = !empty($value_url) ? sprintf(
+
+							'<a href="%s" target="_blank">%s</a>',
+							esc_url($value_url),
+							esc_html($value)
+
+						) : esc_html($value);
+
 						break;
 
 					case 'tel' :
 
-						$value = sprintf('<a href="tel:%1$s">%1$s</a>', $value);
+						$value_tel = WS_Form_Common::get_tel($value);
+						$value = !empty($value_tel) ? sprintf(
+
+							'<a href="%s">%s</a>',
+							esc_url('tel:' . $value_tel),
+							esc_html($value)
+
+						) : esc_html($value);
+
 						break;
 
 					case 'email' :
 
-						if(filter_var($value, FILTER_VALIDATE_EMAIL)) {
+						$value_email = WS_Form_Common::get_email($value);
+						$value = !empty($value_email) ? sprintf(
 
-							$value = sprintf('<a href="mailto:%1$s">%1$s</a>', $value);
-						}
+							'<a href="%s">%s</a>',
+							esc_url('mailto:' . $value_email),
+							esc_html($value)
+
+						) : esc_html($value);
+
 						break;
 
 					case 'ip' :
 
 						// Get lookup URL mask
 						$ip_lookup_url_mask = self::option_get('ip_lookup_url_mask');
-						if(empty($ip_lookup_url_mask)) { $value = htmlentities($value); break; }
+						if(empty($ip_lookup_url_mask)) { $value = esc_html($value); break; }
 
 						// Split IP (IP can be comma separated if proxy in use)
 						$ip_array = explode(',', $value);
@@ -3234,7 +3267,7 @@
 							// Build lookup URL
 							$ip_lookup_url = self::mask_parse($ip_lookup_url_mask, $ip_lookup_url_mask_values);
 
-							$value_array[] = '<a href="' . $ip_lookup_url . '" target="_blank">' . htmlentities($ip) . '</a>';
+							$value_array[] = sprintf('<a href="%s" target="_blank">%s</a>', esc_url($ip_lookup_url), esc_html($ip));
 						}
 
 						$value = implode('<br />', $value_array);
@@ -3247,7 +3280,7 @@
 
 							// Get lookup URL mask
 							$latlon_lookup_url_mask = self::option_get('latlon_lookup_url_mask');
-							if(empty($latlon_lookup_url_mask)) { $value = htmlentities($value); break; }
+							if(empty($latlon_lookup_url_mask)) { $value = esc_html($value); break; }
 
 							// Get #value for mask
 							$latlon_lookup_url_mask_values = array('value' => $value);
@@ -3255,7 +3288,7 @@
 							// Build lookup URL
 							$latlon_lookup_url = self::mask_parse($latlon_lookup_url_mask, $latlon_lookup_url_mask_values);
 
-							$value = '<a href="' . $latlon_lookup_url . '" target="_blank">' . htmlentities($value) . '</a>';
+							$value = sprintf('<a href="%s" target="_blank">%s</a>', esc_url($latlon_lookup_url), esc_html($value));
 
 						} else {
 
@@ -3389,7 +3422,7 @@
 							// Build lookup URL
 							$latlon_lookup_url = self::mask_parse($latlon_lookup_url_mask, $latlon_lookup_url_mask_values);
 
-							$value = '<a href="' . $latlon_lookup_url . '" target="_blank">' . htmlentities($value) . '</a>';
+							$value = sprintf('<a href="%s" target="_blank">%s</a>', esc_url($latlon_lookup_url), esc_html($value));
 						}
 
 					} else {
@@ -3484,7 +3517,7 @@
 
 							case 'text/html' :
 
-								$groups_html .= $group_label_join . ($render_label ? '<h2>' . htmlentities($group->label) . "</h2>\n" : '');
+								$groups_html .= $group_label_join . ($render_label ? '<h2>' . esc_html($group->label) . "</h2>\n" : '');
 								$group_label_join = "<hr style=\"margin: 20px 0\" />\n";
 								break;
 
@@ -3704,7 +3737,7 @@
 								// WPAutoP?
 								if($wpautop) { $value = wpautop($value); }
 
-								$fields_html .= '<div class="wsf-field">' . ($render_label ? ('<strong>' . htmlentities($label) . '</strong><br />') : '') . $value . "</div>\n";
+								$fields_html .= '<div class="wsf-field">' . ($render_label ? ('<strong>' . esc_html($label) . '</strong><br />') : '') . $value . "</div>\n";
 								break;
 
 							default :
@@ -3736,7 +3769,7 @@
 
 							case 'text/html' :
 
-								$sections_html .= $render_label ? '<h3>' . htmlentities($section->label) . "</h3>\n" : '';
+								$sections_html .= $render_label ? '<h3>' . esc_html($section->label) . "</h3>\n" : '';
 								break;
 
 							default :
@@ -4313,7 +4346,7 @@
 
 				$system_report_html .= '<tbody>';
 
-				$system_report_html .= '<tr><th colspan="2"><h2>' . htmlentities($group['label']) . '</h2></th></tr>';
+				$system_report_html .= '<tr><th colspan="2"><h2>' . esc_html($group['label']) . '</h2></th></tr>';
 
 				foreach($group['variables'] as $item_id => $item) {
 
@@ -4330,7 +4363,7 @@
 					}
 
 					// Label
-					$system_report_html .= '><td><b>' . htmlentities($item['label']);
+					$system_report_html .= '><td><b>' . esc_html($item['label']);
 					if(isset($item['min'])) { $system_report_html .= ' (Min: ' . $item['min'] . ')'; }
 					$system_report_html .= '</b></td>';
 
@@ -4997,10 +5030,10 @@
 			}
 
 			// Strip characters
-		    $tel = preg_replace('/[^0-9+\-\(\)\. \/\,\;xext\*\# ]/i', '', $tel);
+			$tel = preg_replace('/[^0-9+\-\(\)\. \/\,\;xext\*\# ]/i', '', $tel);
 
-		    // Trim
-		    return rtrim($tel, ',; ');
+			// Trim
+			return rtrim($tel, ',; ');
 		}
 
 		// Sanitize CSS value
@@ -5031,19 +5064,19 @@
 
 			if(empty($input)) { return $input; }
 
-		    // Count the number of open and close parentheses
-		    $open_count = substr_count($input, '(');
-		    $close_count = substr_count($input, ')');
+			// Count the number of open and close parentheses
+			$open_count = substr_count($input, '(');
+			$close_count = substr_count($input, ')');
 
-		    // Determine how many closing parentheses are needed
-		    $missing_closing = $open_count - $close_count;
+			// Determine how many closing parentheses are needed
+			$missing_closing = $open_count - $close_count;
 
-		    // If there are missing closing parentheses, append them
-		    if ($missing_closing > 0) {
-		        $input .= str_repeat(')', $missing_closing);
-		    }
+			// If there are missing closing parentheses, append them
+			if ($missing_closing > 0) {
+				$input .= str_repeat(')', $missing_closing);
+			}
 
-		    return $input;
+			return $input;
 		}
 
 		// Escape CSS output

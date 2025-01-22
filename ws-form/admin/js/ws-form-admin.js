@@ -196,7 +196,7 @@
 
 					setTimeout(function() {
 
-						$('.introjs-tooltiptext').append('&nbsp;<a href="' + ws_this.esc_attr(url) + '" class="introjs-button" role="button" target="_blank">' + ws_this.language('intro_learn_more') + '</a>');
+						$('.introjs-tooltiptext').append('&nbsp;<a href="' + ws_this.esc_url(url) + '" class="introjs-button" role="button" target="_blank">' + ws_this.language('intro_learn_more') + '</a>');
 						$('.introjs-tooltiptext').append('<div data-action="wsf-intro-skip" class="wsf-intro-skip">' + ws_this.language('intro_skip') + '</div>');
 
 						$('[data-action="wsf-intro-skip"]', $('.introjs-tooltiptext')).on('click', function() {
@@ -3065,7 +3065,7 @@
 
 				var fieldset = fieldsets[key];
 
-				sidebar_html_tabs += '<li><a href="#wsf-' + this.esc_attr(object + '-' + key) + '" data-wsf-tab-key="' + this.esc_attr(key) + '">' + fieldset['label'] + '</a></li>';
+				sidebar_html_tabs += '<li><a href="' + this.esc_url('#wsf-' + object + '-' + key) + '" data-wsf-tab-key="' + this.esc_attr(key) + '">' + this.esc_html(fieldset['label']) + '</a></li>';
 
 				tab_count++;
 			}
@@ -3244,7 +3244,7 @@
 					// Field options - Compatibility
 					if((typeof(meta_key_config['compatibility_url']) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility && !repeater) {
 
-						meta_key_options.push('<li><a class="wsf-compatibility" href="' + this.esc_attr(meta_key_config['compatibility_url']) + '" target="_blank"' + this.tooltip(this.language('attribute_compatibility'), 'top-right') + ' tabindex="-1">' + this.svg('markup') + '</a></li>');
+						meta_key_options.push('<li><a class="wsf-compatibility" href="' + this.esc_url(meta_key_config['compatibility_url']) + '" target="_blank"' + this.tooltip(this.language('attribute_compatibility'), 'top-right') + ' tabindex="-1">' + this.svg('markup') + '</a></li>');
 					}
 
 					// Field options - Calc
@@ -4430,7 +4430,7 @@
 
 				// Knowledge base URL
 				var kb_url = this.get_plugin_website_url('/knowledgebase/form-settings/', 'sidebar');
-				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_attr(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 
 				// Build ID html
 				var sidebar_field_id_html = ($.WS_Form.settings_plugin.helper_field_id) ? '<code data-action="wsf-clipboard"' + this.tooltip(this.language('clipboard'), 'left') + '>[' + ws_form_settings.shortcode + ' id="' + this.form_id + '"]</code>' : '';
@@ -4445,7 +4445,7 @@
 
 				// Knowledge base URL
 				var kb_url = this.get_plugin_website_url('/knowledgebase/tabs/', 'sidebar');
-				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_attr(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 
 				// Build ID html
 				var sidebar_field_id_html = ($.WS_Form.settings_plugin.helper_field_id) ? '<code>' + this.language('id') + ': ' + object_id + '</code>' : '';
@@ -4460,7 +4460,7 @@
 
 				// Knowledge base URL
 				var kb_url = this.get_plugin_website_url('/knowledgebase/sections/', 'sidebar');
-				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_attr(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 
 				// Build ID html
 				var sidebar_field_id_html = ($.WS_Form.settings_plugin.helper_field_id) ? '<code>' + this.language('id') + ': ' + object_id + '</code>' : '';
@@ -4476,13 +4476,13 @@
 				if((typeof(object_meta['kb_url']) !== 'undefined')) {
 
 					var kb_url = this.get_plugin_website_url(object_meta['kb_url'], 'sidebar');
-					var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_attr(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+					var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 				}
 
 				// Build compatibility icon HTML
 				if((typeof(object_meta['compatibility_url']) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility) {
 
-					var sidebar_compatibility_html = '<a class="wsf-compatibility" href="' + this.esc_attr(object_meta['compatibility_url']) + '" target="_blank"' + this.tooltip(this.language('field_compatibility'), 'bottom-center') +  ' tabindex="-1">' + this.svg('markup-circle') + '</a>';
+					var sidebar_compatibility_html = '<a class="wsf-compatibility" href="' + this.esc_url(object_meta['compatibility_url']) + '" target="_blank"' + this.tooltip(this.language('field_compatibility'), 'bottom-center') +  ' tabindex="-1">' + this.svg('markup-circle') + '</a>';
 				}
 
 				// Build ID html
@@ -6287,7 +6287,7 @@
 				if((typeof(field_type.kb_url) !== 'undefined')) {
 
 					var kb_url = this.get_plugin_website_url(field_type.kb_url, 'field_select');
-					field_select_html_fields += '<li class="wsf-field-wrapper' + (pro_required ? ' wsf-pro-required' : '') + '" data-type="' + this.esc_attr(type) + '">' + (pro_required ? '<a href="' + this.esc_attr(kb_url) + '" target="_blank">' : '') + '<div class="wsf-field-inner"><div class="wsf-field-label">' + field_type.icon + '</div><div class="wsf-field-type">' + field_type.label + '</div></div>' + (pro_required ? '</a>' : '') + '</li>';
+					field_select_html_fields += '<li class="wsf-field-wrapper' + (pro_required ? ' wsf-pro-required' : '') + '" data-type="' + this.esc_attr(type) + '">' + (pro_required ? '<a href="' + this.esc_url(kb_url) + '" target="_blank">' : '') + '<div class="wsf-field-inner"><div class="wsf-field-label">' + field_type.icon + '</div><div class="wsf-field-type">' + field_type.label + '</div></div>' + (pro_required ? '</a>' : '') + '</li>';
 
 				} else {
 
@@ -7012,6 +7012,12 @@
 	$.WS_Form.prototype.sidebar_condition_process = function(obj_sidebar_outer, obj, initial_run) {
 
 		if(this.sidebar_conditions.length == 0) { return true; }
+
+		// Prevent API call errors to the wrong list ID if the action is changed in the form populate sidebar
+		if(obj.attr('data-meta-key') == 'form_populate_action_id') {
+
+			$('[data-meta-key="form_populate_list_id"]', obj_sidebar_outer).val('');
+		}
 
 		var condition_result_array = [];
 
@@ -8606,7 +8612,7 @@
 			var group_label = group.label;
 
 			return_html += '<li class="wsf-data-grid-group-tab' + ((group_count == 1) ? ' ui-state-active' : '') + '">';
-			return_html += '<a href="#wsf-data-grid-group-' + this.esc_attr(group_index) + '">' + this.esc_html(group_label) + '</a>';
+			return_html += '<a href="' + this.esc_url('#wsf-data-grid-group-' + group_index) + '">' + this.esc_html(group_label) + '</a>';
 
 			if(!read_only && group_count > 1) {
 				return_html += '<div data-action="wsf-data-grid-group-delete"' + this.tooltip(this.language('data_grid_group_delete'), 'top-center') + '>' + this.svg('delete-circle') + '</div>';
@@ -8642,7 +8648,7 @@
 		// Compatibility
 		if((typeof(meta_key_config.compatibility_url) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility) {
 
-			li_array.push('<li><div class="wsf-data-grid-compatibility"' + this.tooltip(this.language('field_compatibility'), 'bottom-right') + '><a class="wsf-compatibility" href="' + this.esc_attr(meta_key_config.compatibility_url) + '" target="_blank" tabindex="-1">' + this.svg('markup') + '</a></div></li>');
+			li_array.push('<li><div class="wsf-data-grid-compatibility"' + this.tooltip(this.language('field_compatibility'), 'bottom-right') + '><a class="wsf-compatibility" href="' + this.esc_url(meta_key_config.compatibility_url) + '" target="_blank" tabindex="-1">' + this.svg('markup') + '</a></div></li>');
 		}
 
 		// Variable helper
@@ -9310,7 +9316,7 @@
 							button: {
 								text: 'Use this image'
 							},
-   							multiple: false
+							multiple: false
 						});
 
 						// When an image is selected, run a callback.
@@ -12399,7 +12405,7 @@
 
 			if(sidebar_url) {
 
-				var sidebar_button_html = '<li data-action-sidebar="' + this.esc_attr(id) + '"' + this.tooltip(sidebar_label, 'bottom-center') + ' class="wsf-pro-required"><a href="' + this.get_plugin_website_url(sidebar_url, 'nav') + '" target="_blank" title="' + this.esc_attr(sidebar_label) + '">' + this.svg(sidebar_icon) + '</a></li>';
+				var sidebar_button_html = '<li data-action-sidebar="' + this.esc_attr(id) + '"' + this.tooltip(sidebar_label, 'bottom-center') + ' class="wsf-pro-required"><a href="' + this.esc_url(this.get_plugin_website_url(sidebar_url, 'nav')) + '" target="_blank" title="' + this.esc_attr(sidebar_label) + '">' + this.svg(sidebar_icon) + '</a></li>';
 
 			} else {
 
@@ -12418,7 +12424,7 @@
 		if((typeof(sidebar_config.kb_url) !== 'undefined')) {
 
 			var kb_url = this.get_plugin_website_url(sidebar_config.kb_url, 'sidebar');
-			var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_attr(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-right') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+			var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-right') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 		}
 
 		// Build logo HTML
@@ -15591,19 +15597,23 @@
 
 							switch(field_type_id) {
 
-								case 'email' :
+								case 'url' :
 
-									field_html = '<a href="mailto:' + this.esc_attr(value) + '">' + this.esc_html(value) + '</a>';
+									var value_url = this.get_url(value);
+									field_html = (value_url ? ('<a href="' + this.esc_url(value) + '" target="_blank">' + this.esc_html(value) + '</a>') : this.esc_html(value));
 									break;
 
 								case 'tel' :
 
-									field_html = '<a href="tel:' + this.esc_attr(this.get_tel(value)) + '">' + this.esc_html(value) + '</a>';
+									var value_tel = this.get_tel(value);
+									field_html = (value_tel ? ('<a href="' + this.esc_url('tel:' + value_tel) + '">' + this.esc_html(value) + '</a>') : this.esc_html(value));
+
 									break;
 
-								case 'url' :
+								case 'email' :
 
-									field_html = '<a href="' + this.esc_attr(value) + '" target="_blank">' + this.esc_html(value) + '</a>';
+									var value_email = this.get_email(value);
+									field_html = (value_email ? ('<a href="' + this.esc_url('mailto:' + value) + '">' + this.esc_html(value) + '</a>') : this.esc_html(value));
 									break;
 
 								case 'textarea' :
@@ -16642,7 +16652,7 @@
 		if((typeof(sidebar_config.kb_url) !== 'undefined')) {
 
 			var kb_url = ws_this.get_plugin_website_url(sidebar_config.kb_url, 'sidebar');
-			var sidebar_kb_html = '<a class="wsf-kb-url" href="' + ws_this.esc_attr(kb_url) + '" target="_blank"' + ws_this.tooltip(ws_this.language('field_kb_url'), 'bottom-right') + ' tabindex="-1">' + ws_this.svg('question-circle') + '</a>';
+			var sidebar_kb_html = '<a class="wsf-kb-url" href="' + ws_this.esc_url(kb_url) + '" target="_blank"' + ws_this.tooltip(ws_this.language('field_kb_url'), 'bottom-right') + ' tabindex="-1">' + ws_this.svg('question-circle') + '</a>';
 		}
 
 		obj_outer.html(ws_this.sidebar_title(ws_this.svg(sidebar_config.icon), sidebar_config.label, '', sidebar_kb_html, '', true));
@@ -16854,10 +16864,24 @@
 		return bytes;
 	}
 
-	// Extract numbers from telephone number
+	// Get URL from string
+	$.WS_Form.prototype.get_url = function(url_input) {
+
+		var url_pattern = /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3})|localhost)(:\d{1,5})?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[a-z\d_-]*)?$/i;
+		return url_pattern.test(url_input) ? url_input : '';
+	}
+
+	// Get tel from string
 	$.WS_Form.prototype.get_tel = function(tel_input) {
 	
 		return tel_input.replace(/[^+\d]+/g, "");
+	}
+
+	// Get email from string
+	$.WS_Form.prototype.get_email = function(email_input) {
+
+		var email_pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		return email_pattern.test(email_input) ? email_input : '';
 	}
 
 	// Insert text into an input
@@ -16873,7 +16897,7 @@
 				// Insert text
 				tinymce.activeEditor.execCommand('mceInsertContent', false, text);
 
-   				break;
+				break;
 
 			case 'html_editor' :
 
@@ -16888,7 +16912,7 @@
 				var code_editor_textarea = code_editor.getTextArea();
 				$(code_editor_textarea).val(code_editor_value).trigger('keyup');
 
-   				break;
+				break;
 		
 			default :
 
@@ -16980,7 +17004,7 @@
 					tinymce.activeEditor.selection.setCursorLocation(node.firstChild, function_name.length - 1);
 				}
 
-   				break;
+				break;
 
 			case 'html_editor' :
 
@@ -17001,11 +17025,11 @@
 				code_editor.focus();
 				code_editor_doc.setCursor(code_editor_cursor);
 
-   				break;
+				break;
 
-   			default :
+			default :
 
-   				// Insert
+				// Insert
 				var caret_position_start = input[0].selectionStart;
 				var caret_position_end = input[0].selectionEnd;
 				var input_val = input.val();
@@ -17039,7 +17063,7 @@
 				range.deleteContents();
 				tinymce.activeEditor.focus();
 
-   				break;
+				break;
 
 			case 'html_editor' :
 
@@ -17053,9 +17077,9 @@
 				code_editor.focus();
 				code_editor_doc.setCursor(code_editor_cursor_start);
 
-   				break;
+				break;
 
-   			default :
+			default :
 
 				var caret_position = input[0].selectionStart;
 				var input_val = input.val();
@@ -17080,7 +17104,7 @@
 				tinymce.activeEditor.setContent('');
 				tinymce.activeEditor.focus();
 
-   				break;
+				break;
 
 			case 'html_editor' :
 
@@ -17092,9 +17116,9 @@
 				var code_editor_textarea = code_editor.getTextArea();
 				$(code_editor_textarea).val('').trigger('keyup');
 
-   				break;
+				break;
 
-   			default :
+			default :
 
 				input.val('');
 				input.focus();
@@ -17441,7 +17465,7 @@
 				modal_obj.css('left', offset_left_new + 'px');
 			});
 		});
-  	}
+	}
 
 	// Variable helper modal - Show tab
 	$.WS_Form.prototype.variable_helper_modal_tab_show = function(group_id) {
@@ -17788,7 +17812,7 @@
 			var kb_url = this.get_plugin_website_url('/knowledgebase/' + variable.kb_slug + '/', 'variable_helper');
 
 			// Add icon
-			tab_content_html += '<a class="wsf-vh-var-kb-url" href="' + this.esc_attr(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'left') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+			tab_content_html += '<a class="wsf-vh-var-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'left') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 		}
 
 		// Help - Knowledge base category
@@ -17798,7 +17822,7 @@
 			var kb_category_url = this.get_plugin_website_url('/knowledgebase_category/' + variable.kb_category_slug + '/', 'variable_helper');
 
 			// Add icon
-			tab_content_html += '<a class="wsf-vh-var-kb-url" href="' + this.esc_attr(kb_category_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'left') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+			tab_content_html += '<a class="wsf-vh-var-kb-url" href="' + this.esc_url(kb_category_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'left') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 		}
 
 		// Usage

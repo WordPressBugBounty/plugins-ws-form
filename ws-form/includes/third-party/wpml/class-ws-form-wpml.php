@@ -69,8 +69,8 @@
 				'kind_slug' => self::get_package_kind_slug(),
 				'name' => self::get_package_name($form_id),
 				'title' => self::get_package_title($form_label),
-				'edit_link' => WS_Form_Common::get_admin_url('ws-form-edit', $form_id),
-				'view_link' => WS_Form_Common::get_preview_url($form_id)
+				'edit_link' => esc_url(WS_Form_Common::get_admin_url('ws-form-edit', $form_id)),
+				'view_link' => esc_url(WS_Form_Common::get_preview_url($form_id))
 			);
 		}
 

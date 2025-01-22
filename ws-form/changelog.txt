@@ -2,6 +2,10 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.14 - 01/21/2025 =
+* Added: Changes made to form populate sidebar ready for Salesforce add-on improvements
+* Added: Improved output escaping of URL, email and tel fields in submission table
+
 = 1.10.13 - 01/20/2025 =
 * Added: Improvement to Coloris color picker to ensure it updates if vars entered
 * Added: Added height auto on fields to overcome third party CSS fixing heights

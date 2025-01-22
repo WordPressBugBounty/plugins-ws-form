@@ -297,7 +297,7 @@
 									}
 
 									// Parse SVG
-									$svg = str_replace('#label', htmlentities($template->label), $svg);
+									$svg = str_replace('#label', esc_html($template->label), $svg);
 
 									// Set SVG
 									$config_object->template_categories[$template_category_index]->templates[$template_index]->svg = $svg;
@@ -350,7 +350,7 @@
 									$svg = $ws_form_style->get_svg_from_style_object($object, false, $svg_width, $svg_height);
 
 									// Parse SVG
-									$svg = str_replace('#label', htmlentities($template->label), $svg);
+									$svg = str_replace('#label', esc_html($template->label), $svg);
 
 									// Set SVG
 									$config_object->template_categories[$template_category_index]->templates[$template_index]->svg = $svg;
@@ -768,7 +768,7 @@
 <?php
 					if($template->pro_required) {
 ?>
-	<a class="wsf-button wsf-button-primary wsf-button-full" href="<?php WS_Form_Common::echo_esc_attr(WS_Form_Common::get_plugin_website_url('', 'add_form')); ?>" target="_blank"><?php esc_html_e('Upgrade to PRO', 'ws-form'); ?></a>
+	<a class="wsf-button wsf-button-primary wsf-button-full" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_plugin_website_url('', 'add_form')); ?>" target="_blank"><?php esc_html_e('Upgrade to PRO', 'ws-form'); ?></a>
 <?php
 					} else {
 
@@ -789,7 +789,7 @@
 
 					if($template->preview_url !== false) {
 ?>
-	<a class="wsf-preview" href="<?php WS_Form_Common::echo_esc_attr($template->preview_url); ?>" target="_blank"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview Template', 'ws-form'); ?></a>
+	<a class="wsf-preview" href="<?php WS_Form_Common::echo_esc_url($template->preview_url); ?>" target="_blank"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview Template', 'ws-form'); ?></a>
 <?php
 					}
 ?>

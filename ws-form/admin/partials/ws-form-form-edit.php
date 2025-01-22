@@ -26,7 +26,7 @@
 
 	// Preview
 ?>
-<a data-action="wsf-preview" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_attr(WS_Form_Common::get_preview_url($form_id)); ?>" target="wsf-preview-<?php WS_Form_Common::echo_esc_attr($form_id); ?>"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview', 'ws-form'); ?></a>
+<a data-action="wsf-preview" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_preview_url($form_id)); ?>" target="wsf-preview-<?php WS_Form_Common::echo_esc_attr($form_id); ?>"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview', 'ws-form'); ?></a>
 <?php
 
 	// Style
@@ -39,7 +39,7 @@
 	// Submissions
 	if(WS_Form_Common::can_user('read_submission')) {
 ?>
-<a data-action="wsf-submission" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_attr(admin_url('admin.php?page=ws-form-submit&id=' . $form_id)); ?>"><?php WS_Form_Common::render_icon_16_svg('table'); ?> <?php esc_html_e('Submissions', 'ws-form'); ?></a>
+<a data-action="wsf-submission" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_url(admin_url('admin.php?page=ws-form-submit&id=' . $form_id)); ?>"><?php WS_Form_Common::render_icon_16_svg('table'); ?> <?php esc_html_e('Submissions', 'ws-form'); ?></a>
 <?php
 	}
 

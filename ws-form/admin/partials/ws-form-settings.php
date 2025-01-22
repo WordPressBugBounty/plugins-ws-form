@@ -57,7 +57,7 @@
 	// Render tabs
 	foreach($options as $tab => $fields) {
 ?>
-<a href="<?php WS_Form_Common::echo_esc_attr(admin_url('admin.php?page=ws-form-settings&tab=' . $tab)); ?>" class="nav-tab<?php if($tab_current == $tab) { ?> nav-tab-active<?php } ?>"><?php WS_Form_Common::echo_esc_html($fields['label']); ?></a>
+<a href="<?php WS_Form_Common::echo_esc_url(admin_url('admin.php?page=ws-form-settings&tab=' . $tab)); ?>" class="nav-tab<?php if($tab_current == $tab) { ?> nav-tab-active<?php } ?>"><?php WS_Form_Common::echo_esc_html($fields['label']); ?></a>
 <?php
 
 	}

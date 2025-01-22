@@ -20,11 +20,11 @@
 		// User capability check
 		if(WS_Form_Common::can_user('edit_form')) {
 ?>
-<a class="wsf-button wsf-button-small wsf-button-information" href="<?php WS_Form_Common::echo_esc_attr(admin_url('admin.php?page=ws-form-edit&id=' . $form_id)); ?>"><?php WS_Form_Common::render_icon_16_svg('edit'); ?> <?php esc_html_e('Edit', 'ws-form'); ?></a>
+<a class="wsf-button wsf-button-small wsf-button-information" href="<?php WS_Form_Common::echo_esc_url(admin_url('admin.php?page=ws-form-edit&id=' . $form_id)); ?>"><?php WS_Form_Common::render_icon_16_svg('edit'); ?> <?php esc_html_e('Edit', 'ws-form'); ?></a>
 <?php
 		}
 ?>
-<a class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_attr(WS_Form_Common::get_preview_url($form_id)); ?>" target="_blank"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview', 'ws-form'); ?></a>
+<a class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_preview_url($form_id)); ?>" target="_blank"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview', 'ws-form'); ?></a>
 <?php
 
 		if($this->ws_form_wp_list_table_submit_obj->record_count() > 0) {

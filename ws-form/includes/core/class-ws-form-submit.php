@@ -3648,7 +3648,7 @@
 			// Parse email template
 			$mask_values = array(
 
-				'email_subject' => htmlentities($email_subject),
+				'email_subject' => esc_html($email_subject),
 				'email_title' => __('Form Submission Error', 'ws-form'),
 				'email_message' => $email_message
 			);

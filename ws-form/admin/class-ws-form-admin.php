@@ -757,7 +757,7 @@
 		/* translators: %s = WS Form PRO */
 		esc_html__("I'm upgrading to %s", 'ws-form'),
 
-		sprintf('<a href="%s" target="_blank">WS Form PRO</a>', WS_Form_Common::get_plugin_website_url('', 'plugins_deactivate'))
+		sprintf('<a href="%s" target="_blank">WS Form PRO</a>', esc_url(WS_Form_Common::get_plugin_website_url('', 'plugins_deactivate')))
 	);
 
 ?></label>
@@ -772,7 +772,7 @@
 	echo sprintf(	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 		' <a href="%s" target="_blank">%s</a>',
-		WS_Form_Common::get_plugin_website_url('/support/', 'plugins_deactivate'),
+		esc_url(WS_Form_Common::get_plugin_website_url('/support/', 'plugins_deactivate')),
 		esc_html__('Get Support', 'ws-form')
 	);
 
@@ -1003,7 +1003,7 @@
 	} else {
 ?>
 <p><?php esc_html_e("You haven't created any forms yet.", 'ws-form'); ?></p>
-<p><a href="<?php WS_Form_Common::echo_esc_attr(WS_Form_Common::get_admin_url('ws-form-add')); ?>"><?php esc_html_e('Click here to create a form', 'ws-form'); ?></a></p>
+<p><a href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_admin_url('ws-form-add')); ?>"><?php esc_html_e('Click here to create a form', 'ws-form'); ?></a></p>
 <?php
 	}
 ?>
@@ -1382,8 +1382,8 @@
 					'form_element_id_label'		=> __('ID (Optional)', 'ws-form'),
 					'id'						=> __('ID', 'ws-form'),
 					'add'						=> __('Add New', 'ws-form'),
-					'url_add'					=> WS_Form_Common::get_admin_url('ws-form-add'),
-					'form_action'				=> WS_Form_Common::get_api_path() . 'submit'
+					'url_add'					=> esc_url(WS_Form_Common::get_admin_url('ws-form-add')),
+					'form_action'				=> esc_url(WS_Form_Common::get_api_path() . 'submit')
 				),
 
 				'forms'						=> $forms
@@ -1779,7 +1779,6 @@
 						empty($setup) &&
 						(WS_Form_Common::get_query_var('skip_welcome') == '')
 					) {
-
 						wp_redirect(WS_Form_Common::get_admin_url('ws-form-welcome'));
 					}
 				}
@@ -2394,9 +2393,9 @@
 		public function plugin_action_links($links) {
 
 			// Upgrade to PRO
-			array_unshift($links, sprintf('<a href="%s">%s</a>', WS_Form_Common::get_admin_url('ws-form-upgrade'), __('Upgrade to PRO', 'ws-form')));
+			array_unshift($links, sprintf('<a href="%s">%s</a>', esc_url(WS_Form_Common::get_admin_url('ws-form-upgrade')), __('Upgrade to PRO', 'ws-form')));
 			// Settings
-			array_unshift($links, sprintf('<a href="%s">%s</a>', WS_Form_Common::get_admin_url('ws-form-settings'), __('Settings', 'ws-form')));
+			array_unshift($links, sprintf('<a href="%s">%s</a>', esc_url(WS_Form_Common::get_admin_url('ws-form-settings')), __('Settings', 'ws-form')));
 
 			return $links;
 		}
@@ -2417,12 +2416,12 @@
 			// Add item
 			if(WS_Form_Common::can_user('read_form')) {
 
-				$url = WS_Form_Common::get_admin_url('ws-form');
-				$items[] = sprintf('<a class="wsf-dashboard-glance-count" href="%s">%s</a>', $url, $text) . "\n";
+				$url = esc_url(WS_Form_Common::get_admin_url('ws-form'));
+				$items[] = sprintf('<a class="wsf-dashboard-glance-count" href="%s">%s</a>', esc_url($url), esc_html($text)) . "\n";
 
 			} else {
 
-				$items[] = sprintf('<span class="wsf-dashboard-glance-count">%1</span>', $text) . "\n";
+				$items[] = sprintf('<span class="wsf-dashboard-glance-count">%s/span>', esc_html($text)) . "\n";
 			}
 
 			return $items;
@@ -2447,7 +2446,7 @@
 						'id'     => WS_FORM_NAME . '-new-form',
 						'parent' => 'new-content',
 						'title'  => WS_FORM_NAME_GENERIC,
-						'href'   => WS_Form_Common::get_admin_url('ws-form-add')
+						'href'   => esc_url(WS_Form_Common::get_admin_url('ws-form-add'))
 					)
 				);
 			}
@@ -2462,7 +2461,7 @@
 	
 					'id'    => WS_FORM_NAME . '-node',
 					'title' => sprintf('<span class="ab-icon">%s</span><span class="ab-label">WS Form</span>', WS_Form_Common::get_admin_icon('#a0a5aa', false)),
-					'href'  => WS_Form_Common::get_admin_url('ws-form')
+					'href'  => esc_url(WS_Form_Common::get_admin_url('ws-form'))
 				)
 			);
 
@@ -2482,7 +2481,7 @@
 						'id'     => WS_FORM_NAME . '-node-' . $form_id,
 						'parent' => WS_FORM_NAME . '-node',
 						'title'  => esc_attr($form['label']),
-						'href'   => WS_Form_Common::can_user('edit_form') ? WS_Form_Common::get_admin_url('ws-form-edit', $form_id) : ''
+						'href'   => WS_Form_Common::can_user('edit_form') ? esc_url(WS_Form_Common::get_admin_url('ws-form-edit', $form_id)) : ''
 					)
 				);
 
@@ -2496,7 +2495,7 @@
 							'id'     => WS_FORM_NAME . '-node-' . $form_id . '-edit',
 							'parent' => WS_FORM_NAME . '-node-' . $form_id,
 							'title'  => esc_attr__('Edit', 'ws-form'),
-							'href'   => WS_Form_Common::get_admin_url('ws-form-edit', $form_id)
+							'href'   => esc_url(WS_Form_Common::get_admin_url('ws-form-edit', $form_id))
 						)
 					);
 				}
@@ -2511,7 +2510,7 @@
 							'id'     => WS_FORM_NAME . '-node-' . $form_id . '-submit',
 							'parent' => WS_FORM_NAME . '-node-' . $form_id,
 							'title'  => esc_attr__('Submissions', 'ws-form'),
-							'href'   => WS_Form_Common::get_admin_url('ws-form-submit', $form_id)
+							'href'   => esc_url(WS_Form_Common::get_admin_url('ws-form-submit', $form_id))
 						)
 					);
 				}
@@ -2526,7 +2525,7 @@
 							'id'     => WS_FORM_NAME . '-node-' . $form_id . '-preview',
 							'parent' => WS_FORM_NAME . '-node-' . $form_id,
 							'title'  => esc_attr__('Preview', 'ws-form'),
-							'href'   => WS_Form_Common::get_preview_url($form_id),
+							'href'   => esc_url(WS_Form_Common::get_preview_url($form_id)),
 							'meta'   => array(
 
 								'target' => '_blank'
@@ -2548,7 +2547,7 @@
 							'id'     => WS_FORM_NAME . '-forms',
 							'parent' => WS_FORM_NAME . '-node',
 							'title'  => esc_attr__('Forms', 'ws-form'),
-							'href'   => WS_Form_Common::get_admin_url('ws-form')
+							'href'   => esc_url(WS_Form_Common::get_admin_url('ws-form'))
 						)
 					);
 				}
@@ -2564,7 +2563,7 @@
 						'id'     => WS_FORM_NAME . '-add-form',
 						'parent' => WS_FORM_NAME . '-node',
 						'title'  => esc_attr__('Add Form', 'ws-form'),
-						'href'   => WS_Form_Common::get_admin_url('ws-form-add')
+						'href'   => esc_url(WS_Form_Common::get_admin_url('ws-form-add'))
 					)
 				);
 			}

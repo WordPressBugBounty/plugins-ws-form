@@ -1528,6 +1528,72 @@
 		return return_html;
 	}
 
+	// Escape URL with support for relative paths
+	$.WS_Form.prototype.esc_url = function (url) {
+
+		try {
+			// Decode URL to catch encoded exploits
+			url = decodeURIComponent(url);
+
+			// Allow literal hash like "#wsf-something-0"
+			if (/^#[a-zA-Z0-9\-]+$/.test(url)) {
+				return url;
+			}
+
+			// Extract the hash if present
+			var hash = '';
+			var hash_index = url.indexOf('#');
+			if (hash_index !== -1) {
+				hash = url.substring(hash_index); // Save the hash
+				url = url.substring(0, hash_index); // Remove the hash from the URL for further processing
+			}
+
+			// Add a default scheme if none is provided, but handle schemes like "tel:"
+			if (!/^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(url)) {
+				url = 'https://' + url;
+			}
+
+			// Parse the URL
+			var url_parsed = new URL(url);
+
+			// Allowed schemes
+			var schemes_valid = ['http', 'https', 'ftp', 'mailto', 'tel'];
+
+			// Check if the scheme is valid
+			if (!schemes_valid.includes(url_parsed.protocol.replace(':', ''))) {
+				return '';
+			}
+
+			// Disallowed patterns
+			var disallowed_patterns = [
+				/javascript:/i,   // Block "javascript:" scheme
+				/data:/i,         // Block "data:" scheme
+				/vbscript:/i,     // Block "vbscript:" scheme
+				/file:/i,         // Block "file:" scheme
+				/<.*?>/i,         // Block HTML/XSS
+				/%00/i,           // Block null bytes
+				/(\.\.\/|\.\\)/i, // Block path traversal
+				/(redirect|url|next)=http/i, // Block untrusted redirects
+				/(%25)+/i         // Block double-encoding
+			];
+
+			// Check for disallowed patterns in the URL
+			for (var pattern of disallowed_patterns) {
+				if (pattern.test(url)) {
+					return '';
+				}
+			}
+
+			// Reconstruct the URL to ensure it's properly formatted, appending the hash if present
+			return url_parsed.toString() + hash;
+
+		} catch (e) {
+
+			// If URL is invalid or cannot be parsed, return an empty string
+			return '';
+		}
+	};
+
 	// Escape selector
 	$.WS_Form.prototype.esc_selector = function(value) {
 
