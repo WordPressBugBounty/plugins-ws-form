@@ -2,6 +2,9 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.26 - 03/08/2025 =
+* Added: Legacy support for invalid feedback fields in layout CSS file
+
 = 1.10.25 - 03/08/2025 =
 * Bug Fix: Coloris fix for LITE
 

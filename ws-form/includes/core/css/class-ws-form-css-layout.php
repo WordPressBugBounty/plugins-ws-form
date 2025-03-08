@@ -21,8 +21,24 @@
 			$columns = absint(WS_Form_Common::option_get('framework_column_count', 0));
 			if($columns == 0) { $columns = 12; }
 
+			// Invalid Feedback (Legacy)
+			$css_return = ".wsf-invalid-feedback,\n";
+			$css_return .= "[data-select-min-max], \n";
+			$css_return .= "[data-checkbox-min-max] {\n";
+			$css_return .= "\tdisplay: none;\n";
+			$css_return .= "}\n\n";
+
+			$css_return .= ".wsf-validated .wsf-field:invalid ~ .wsf-invalid-feedback,\n";
+			$css_return .= ".wsf-validated .wsf-field.wsf-invalid ~ .wsf-invalid-feedback,\n";
+			$css_return .= ".wsf-validated [role=\"radiogroup\"][data-wsf-invalid] ~ .wsf-invalid-feedback,\n";
+			$css_return .= ".wsf-validated [data-select-min-max]:invalid ~ .wsf-invalid-feedback,\n";
+			$css_return .= ".wsf-validated [data-checkbox-min-max]:invalid ~ .wsf-invalid-feedback,\n";
+			$css_return .= ".wsf-validated .wsf-input-group:has(.iti .wsf-field:invalid) ~ .wsf-invalid-feedback {\n";
+			$css_return .= "\tdisplay: block;\n";
+			$css_return .= "}\n\n";
+
 			// Grid
-			$css_return = ".wsf-grid {\n";
+			$css_return .= ".wsf-grid {\n";
 
 			$css_return .= "\tdisplay: -webkit-box;\n";
 			$css_return .= "\tdisplay: -ms-flexbox;\n";
