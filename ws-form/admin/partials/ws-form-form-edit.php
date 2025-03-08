@@ -255,11 +255,7 @@
 
 			wsf_obj.menu_highlight();
 
-			wsf_obj.render({
-
-				'obj' : 	'#wsf-form',
-				'form_id':	<?php WS_Form_Common::echo_esc_attr($form_id); ?>
-			});
+			wsf_obj.render({'obj':'#wsf-form','form_id':<?php WS_Form_Common::echo_esc_attr($form_id); ?>});
 		});
 
 	})(jQuery);

@@ -111,7 +111,12 @@
 
 			} catch (Exception $e) {
 
-				parent::error(sprintf(__('Error submitting to Human Presence: %s', 'ws-form'), $e->getMessage()));
+				parent::error(sprintf(
+
+					// translators = %s = error message */
+					__('Error submitting to Human Presence: %s', 'ws-form'),
+					$e->getMessage()
+				));
 			}
 
 			// Read validation failed
@@ -169,7 +174,13 @@
 
 			if(!self::plugin_installed()) {
 
-				$instructions_array[] = '<li>' . sprintf(__('Install and activate the <a href="%s" target="_blank">Human Presence plugin</a>.', 'ws-form'), 'https://www.humanpresence.io/anti-spam-wordpress-plugin/') . '</li>';
+				$instructions_array[] = '<li>' . sprintf(
+
+					/* translators: %s = Human Presence plugin installation URL */
+					__('Install and activate the <a href="%s" target="_blank">Human Presence plugin</a>.', 'ws-form'),
+					'https://www.humanpresence.io/anti-spam-wordpress-plugin/'
+
+				) . '</li>';
 
 			} else {
 

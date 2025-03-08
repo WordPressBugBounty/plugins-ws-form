@@ -353,7 +353,12 @@
 				$ws_form_field->sort_index = $ws_form_field->db_object_sort_index_get($ws_form_field->table_name, 'section_id', $ws_form_field->section_id, $next_sibling_id);
 
 				// Rename
-				$ws_form_field->label = sprintf(__('%s (Copy)', 'ws-form'), $ws_form_field->label);
+				$ws_form_field->label = sprintf(
+
+					'%s (%s)', 
+					$ws_form_field->label,
+					__('Copy', 'ws-form')
+				);
 
 				// Clone
 				$ws_form_field->id = $ws_form_field->db_clone();

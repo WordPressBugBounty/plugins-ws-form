@@ -90,10 +90,18 @@
 			$.WS_Form.settings_form.language['draft'] = '<?php esc_html_e('Draft', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['publish'] = '<?php esc_html_e('Published', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['form_location_not_found'] = '<?php esc_html_e('Form not found in content', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['form_location_found'] = '<?php esc_html_e('Form found in %s', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['form_location_found'] = '<?php
+
+				/* translators: %s = Form location(s) */
+				esc_html_e('Form found in %s', 'ws-form');
+			?>';
 			$.WS_Form.settings_form.language['shortcode_copied'] = '<?php esc_html_e('Shortcode copied', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['error_server'] = '<?php esc_html_e('500 Server error response from server.', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['error_bad_request_message'] = '<?php esc_html_e('400 Bad request response from server: %s', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['error_bad_request_message'] = '<?php
+
+				/* translators: %s = Error message */
+				esc_html_e('400 Bad request response from server: %s', 'ws-form');
+			?>';
 			$.WS_Form.settings_form.language['dismiss'] = '<?php esc_html_e('Dismiss', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['importing'] = '<?php esc_html_e('Importing ...', 'ws-form'); ?>';
 

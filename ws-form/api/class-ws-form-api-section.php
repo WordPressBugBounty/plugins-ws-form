@@ -293,7 +293,12 @@
 				$ws_form_section->sort_index = $ws_form_section->db_object_sort_index_get($ws_form_section->table_name, 'group_id', $ws_form_section->group_id, $next_sibling_id);
 
 				// Rename
-				$ws_form_section->label = sprintf(__('%s (Copy)', 'ws-form'), $ws_form_section->label);
+				$ws_form_section->label = sprintf(
+
+					'%s (%s)',
+					$ws_form_section->label,
+					__('Copy', 'ws-form')
+				);
 
 				// Clone
 				$ws_form_section->id = $ws_form_section->db_clone();

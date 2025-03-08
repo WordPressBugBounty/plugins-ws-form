@@ -1317,6 +1317,15 @@
 						// Remember field type
 						$form_field_type_lookup[$ws_form_field->id] = $list_field['type'];
 
+						// Get field ID
+						$list_field_id = isset($list_field['id']) ? $list_field['id'] : false;
+
+						// Store for field repair
+						if($list_field_id !== false) {
+
+							$ws_form_form->new_lookup['field'][$list_field_id] = $ws_form_field->id;
+						}
+
 						// Read field
 						$field = $ws_form_field->db_read();
 
@@ -1659,7 +1668,10 @@
 			$ws_form_meta->parent_id = $form_id;
 			$ws_form_meta->db_update_from_array($meta);
 
-			// Re-calculate form checksum
+			// Fix data - Meta
+			$ws_form_form->db_meta_repair();
+
+			// Set checksum
 			$ws_form_form->db_checksum();
 
 			return true;

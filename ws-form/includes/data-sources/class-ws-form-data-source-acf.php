@@ -159,7 +159,7 @@
 			$default_value = isset($acf_field_object['default_value']) ? $acf_field_object['default_value'] : '';
 
 			// Check if required
-			$required = isset($acf_field_object['required']) ? ($acf_field_object['required'] == 1) : false;
+			$required = (count($choices) == 1) ? (isset($acf_field_object['required']) ? ($acf_field_object['required'] == 1) : false) : false;
 
 			// Run through choices
 			$rows = array();

@@ -111,6 +111,7 @@
 		public $enqueue_js_checkbox = false;
 		public $enqueue_js_color = false;
 		public $enqueue_js_conditional = false;
+		public $enqueue_js_consent = false;
 		public $enqueue_js_datetime = false;
 		public $enqueue_js_date_translate = false;
 		public $enqueue_js_ecommerce = false;
@@ -128,6 +129,7 @@
 		public $enqueue_js_section_repeatable = false;
 		public $enqueue_js_select = false;
 		public $enqueue_js_signature = false;
+		public $enqueue_js_ssn = false;
 		public $enqueue_js_tab = false;
 		public $enqueue_js_tel = false;
 		public $enqueue_js_textarea = false;
@@ -192,6 +194,7 @@
 		public $enqueued_js_checkbox = false;
 		public $enqueued_js_color = false;
 		public $enqueued_js_conditional = false;
+		public $enqueued_js_consent = false;
 		public $enqueued_js_datetime = false;
 		public $enqueued_js_date_translate = false;
 		public $enqueued_js_ecommerce = false;
@@ -209,6 +212,7 @@
 		public $enqueued_js_section_repeatable = false;
 		public $enqueued_js_select = false;
 		public $enqueued_js_signature = false;
+		public $enqueued_js_ssn = false;
 		public $enqueued_js_tab = false;
 		public $enqueued_js_tel = false;
 		public $enqueued_js_textarea = false;
@@ -898,6 +902,7 @@
 							case 'turnstile' :
 
 								$this->enqueue_js_captcha = true;
+								break;
 						}
 
 						do_action('wsf_form_pre_process_field', $field, $this);
@@ -1118,6 +1123,7 @@
 			// Color
 			self::enqueue_internal_js('color');
 			self::enqueue_internal_css('color');
+
 			// Public
 			self::enqueue_internal_js('public', true);
 			// Styler

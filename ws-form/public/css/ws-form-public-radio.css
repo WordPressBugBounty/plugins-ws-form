@@ -447,11 +447,13 @@
   margin-inline-start: calc(var(--wsf-field-radio-size) * 10);
 }
 
-.wsf-form.wsf-validated input[type=radio].wsf-field:invalid {
+.wsf-form.wsf-validated input[type=radio].wsf-field:invalid,
+.wsf-form .wsf-validated input[type=radio].wsf-field:invalid {
   border-color: var(--wsf-field-border-color-invalid);
 }
 
-.wsf-form.wsf-validated input[type=radio].wsf-field:invalid:focus {
+.wsf-form.wsf-validated input[type=radio].wsf-field:invalid:focus,
+.wsf-form .wsf-validated input[type=radio].wsf-field:invalid:focus {
   box-shadow: var(--wsf-field-box-shadow);
 }
 
@@ -706,6 +708,7 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] input[type=radio].w
   border-color: var(--wsf-field-radio-checked-image-border-color-alt);
 }
 
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=radio].wsf-field:invalid + label.wsf-label::before {
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=radio].wsf-field:invalid + label.wsf-label::before,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=radio].wsf-field:invalid + label.wsf-label::before {
   border-color: var(--wsf-field-border-color-invalid-alt);
 }

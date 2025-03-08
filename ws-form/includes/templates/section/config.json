@@ -96,6 +96,21 @@
 	},
 
 	{	
+		"id"			:	"consent",
+		"label" 		: 	"Consent",
+		"file_path"		:	"consent/",
+		"templates"		:	[
+
+			{
+				"id"					:	"trustedform",
+				"label" 				: 	"TrustedForm",
+				"file_json"				:	"wsf-section-trustedform.json",
+				"preview_url"			:	false
+			}
+		]
+	},
+
+	{	
 		"id"			:	"contact",
 		"label" 		: 	"Contact",
 		"file_path"		:	"contact/",

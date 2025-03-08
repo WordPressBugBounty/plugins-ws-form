@@ -2834,7 +2834,9 @@
 								break;
 
 							case 'checkbox_count' :
+							case 'checkbox_count_total' :
 							case 'select_count' :
+							case 'select_count_total' :
 
 								if(isNaN(variable_attribute_array[0])) {
 
@@ -2857,17 +2859,18 @@
 								switch(parse_variable) {
 
 									case 'checkbox_count' :
+									case 'checkbox_count_total' :
 
-										// Get field checked checkboxes
-										var field_obj = $('[name="' + this.esc_selector(field_name) + '[]"]:checked', this.form_canvas_obj);
+										// Get checked checkboxes
+										var field_obj = $('[data-type="checkbox"][data-id="' + field_id + '"] [data-row-checkbox]:not([style*="display: none"]) input:not([data-hidden])' + ((parse_variable == 'checkbox_count') ? ':checked' : ''), this.form_canvas_obj);
 
 										break;
 
 									case 'select_count' :
+									case 'select_count_total' :
 
 										// Get field selected options
-										var field_obj = $('select[name="' + this.esc_selector(field_name) + '[]"] option:not([data-placeholder]):selected', this.form_canvas_obj);
-
+										var field_obj = $('select[name="' + this.esc_selector(field_name) + '[]"] option:not([data-placeholder])' + ((parse_variable == 'select_count') ? ':selected' : ''), this.form_canvas_obj);
 										break;
 								}
 

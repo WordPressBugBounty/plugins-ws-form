@@ -140,7 +140,13 @@
 
 		foreach($forms as $form) {
 
-			$return_array[$form['id']] = sprintf(__('%s (ID: %u)', 'ws-form'), esc_html($form['label']), $form['id']);
+			$return_array[$form['id']] = sprintf(
+
+				'%s (%s: %u)',
+				esc_html($form['label']),
+				__('ID', 'ws-form'), 
+				$form['id']
+			);
 		}
 
 		return $return_array;

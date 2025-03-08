@@ -202,7 +202,6 @@
 				!isset($hook_return['list']) ||
 				!isset($hook_return['list_fields'])
 			) {
-
 				return false;
 			}
 
@@ -1229,7 +1228,12 @@
 			$sql = $wpdb->prepare(
 
 				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %d, %s, %s, %s);",
-				sprintf(__('%s (Copy)', 'ws-form'), $this->label),
+				sprintf(
+
+					'%s (%s)',
+					$this->label,
+					__('Copy', 'ws-form')
+				),
 				get_current_user_id(),
 				WS_Form_Common::get_mysql_date(),
 				WS_Form_Common::get_mysql_date(),
@@ -1256,7 +1260,12 @@
 			$sql = $wpdb->prepare(
 
 				"UPDATE {$this->table_name} SET label =  '%s' WHERE id = %d;",
-				sprintf(__('%s (Copy)', 'ws-form'), $this->label),
+				sprintf(
+
+					'%s (%s)',
+					$this->label,
+					__('Copy', 'ws-form')
+				),
 				$this->id
 			);
 
@@ -1291,6 +1300,7 @@
 			// Ensure provided form status is valid
 			if(WS_Form_Common::check_form_status($status) == '') {
 
+				/* translators: %s = Status */
 				parent::db_throw_error(sprintf(__('Invalid form status: %s', 'ws-form'), $status));
 			}
 

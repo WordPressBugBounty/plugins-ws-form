@@ -67,6 +67,7 @@
 				return $this;
 			}
 
+			/* translators: %s = Template ID */
 			self::db_throw_error(sprintf(__('Template not found: %s', 'ws-form'), $this->id));
 		}
 
@@ -129,10 +130,14 @@
 
 				// Read config file
 				$config_file_string = file_get_contents($config_file);
+
+				/* translators: %s = Config file path */
 				if($config_file_string === false) { self::db_throw_error(sprintf(__('Unable to read template config file: %s', 'ws-form'), $config_file)); }
 
 				// JSON decode
 				$config_object = json_decode($config_file_string);
+
+				/* translators: %s = Config file path */
 				if(is_null($config_object)) { self::db_throw_error(sprintf(__('Unable to JSON decode template config file: %s', 'ws-form'), $config_file)); }
 
 				// Legacy
@@ -241,6 +246,7 @@
 
 									if($file_json !== false) {
 
+										/* translators: %s = Template JSON file path */
 										if(!file_exists($file_json)) { self::db_throw_error(sprintf(__('Unable to read template JSON file: %s', 'ws-form'), $file_json)); }
 
 										$json = file_get_contents($file_json);
@@ -325,6 +331,7 @@
 
 									if($file_json !== false) {
 
+										/* translators: %s = Template JSON file path */
 										if(!file_exists($file_json)) { self::db_throw_error(sprintf(__('Unable to read template JSON file: %s', 'ws-form'), $file_json)); }
 
 										$json = file_get_contents($file_json);
@@ -501,6 +508,7 @@
 			// Load config file
 			if(!file_exists($file_config)) {
 
+				/* translators: %s = Config file name */
 				parent::db_throw_error(sprintf(__('Unable to open config.json file: %s', 'ws-form'), $file_config));
 			}
 			$config_file_json = file_get_contents($file_config);
@@ -509,6 +517,7 @@
 			$config_object = json_decode($config_file_json);
 			if(is_null($config_object)) {
 
+				/* translators: %s = Config file name */
 				parent::db_throw_error(sprintf(__('Unable to decode config.json file: %s', 'ws-form'), $file_config));
 			}
 
@@ -554,6 +563,7 @@
 			// Write config file
 			if(file_put_contents($file_config, wp_json_encode($config_object)) === false) {
 
+				/* translators: %s = Config file name */
 				parent::db_throw_error(sprintf(__('Unable to write config.json file: %s', 'ws-form'), $file_config));
 			}
 
@@ -562,6 +572,7 @@
 
 			if(file_put_contents($template_file_name, wp_json_encode($form_object)) === false) {
 
+				/* translators: %s = Template file path */
 				parent::db_throw_error(sprintf(__('Unable to write template file: %s', 'ws-form'), $template_file_name));
 			}
 		}

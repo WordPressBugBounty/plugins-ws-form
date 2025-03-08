@@ -711,7 +711,7 @@
 				// Unit
 				styler_html += '<select id="' + this.esc_attr(meta_key_attribute) + '-select" class="wsf-styler-var-size-unit">';
 
-				styler_html += '<option value=""></option>';
+				styler_html += '<option value="">-</option>';
 
 				// Units
 				var styler_units = this.styler_units();
@@ -889,7 +889,7 @@
 		});
 
 		// Setting - Label
-		$('input#wsf-styler-setting-label', styler_obj).on('change paste input', function() {
+		$('input#wsf-styler-setting-label', styler_obj).on('change input', function() {
 
 			// Store to style
 			ws_this.styler_style.label = $(this).val();
@@ -902,7 +902,7 @@
 		});
 
 		// Setting - Change
-		$('input.wsf-styler-setting-meta', styler_obj).on('change paste input', function() {
+		$('input.wsf-styler-setting-meta', styler_obj).on('change input', function() {
 
 			var meta_key = $(this).attr('name');
 
@@ -1047,7 +1047,7 @@
 						// Set Coloris value to match
 						ws_this.styler_coloris_set($(this));
 
-						$(this).on('change input paste', function() {
+						$(this).on('change input', function() {
 
 							// Set Coloris value to match
 							ws_this.styler_coloris_set($(this));
@@ -1071,13 +1071,13 @@
 					var obj_wrapper = ws_this.styler_get_column($(this));
 
 					// Input events
-					$('.wsf-styler-var-size-value, .wsf-styler-var-size-unit', $(this)).on('change input paste', function() {
+					$('.wsf-styler-var-size-value, .wsf-styler-var-size-unit', $(this)).on('change input', function() {
 
 						ws_this.styler_event_size_change(obj_wrapper, styler_units);
 					});
 
 					// Temporarily don't process unit change events if the user changes an input
-					obj_value.on('input paste', function() {
+					obj_value.on('input', function() {
 
 						ws_this.styler_obj_value_last = $(this);
 					});
@@ -1663,16 +1663,39 @@
 		// Check for inside display mode
 		switch(meta_key) {
 
+			// Field label inside mode
 			case 'field_label_inside_mode' :
 
-				if(value == 'hide') {
+				switch(value) {
 
-					this.form_obj.addClass('wsf-label-position-inside-hide');
+					case 'hide' :
+	
+						this.form_obj.addClass('wsf-label-position-inside-hide');
+						break;
 
-				} else {
+					default :
 
-					this.form_obj.removeClass('wsf-label-position-inside-hide');
+						this.form_obj.removeClass('wsf-label-position-inside-hide');
 				}
+
+				break;
+
+			// Field border placement
+			case 'field_border_placement' :
+
+				switch(value) {
+
+					case 'bottom' :
+
+						this.form_obj.addClass('wsf-field-border-placement-bottom');
+						break;
+
+					default :
+
+						this.form_obj.removeClass('wsf-field-border-placement-bottom');
+				}
+
+				break;
 		}
 
 		// Change made
@@ -1932,7 +1955,7 @@
 		var search_array = this.styler_search_walker(window.wsf_form_json_config.styler.meta);
 
 		// Search
-		$('.wsf-styler-search input').on('input change paste', function() {
+		$('.wsf-styler-search input').on('change input', function() {
 
 			// Get keywords entered
 			var keywords = $(this).val();

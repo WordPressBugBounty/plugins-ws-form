@@ -109,6 +109,8 @@
 			// Get styles
 			$styles = self::db_read_all('', " status = 'publish'", 'label ASC', '', '', false);
 
+			if(empty($styles)) { return $style_id_options; }
+
 			// Get default style ID
 			$style_id_default = ($conversational ? self::get_style_id_conv_default() : self::get_style_id_default());
 
@@ -821,7 +823,12 @@
 			$sql = $wpdb->prepare(
 
 				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %d, %s, %s, %s, 0, 0);",
-				sprintf(__('%s (Copy)', 'ws-form'), $this->label),
+				sprintf(
+
+					'%s (%s)',
+					$this->label,
+					__('Copy', 'ws-form')
+				),
 				get_current_user_id(),
 				WS_Form_Common::get_mysql_date(),
 				WS_Form_Common::get_mysql_date(),
@@ -843,7 +850,12 @@
 			$sql = $wpdb->prepare(
 
 				"UPDATE {$this->table_name} SET label =  '%s' WHERE id = %d;",
-				sprintf(__('%s (Copy)', 'ws-form'), $this->label),
+				sprintf(
+
+					'%s (%s)',
+					$this->label,
+					__('Copy', 'ws-form')
+				),
 				$this->id
 			);
 
@@ -884,6 +896,7 @@
 			// Ensure provided form status is valid
 			if(WS_Form_Common::check_style_status($status) == '') {
 
+				/* translators: %s = Status */
 				parent::db_throw_error(sprintf(__('Invalid style status: %s', 'ws-form'), $status));
 			}
 

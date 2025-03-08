@@ -242,6 +242,12 @@
 		// Label
 		this.form_label();
 
+		// CSS vars
+		this.form_css_var();
+
+		// Consent
+		if(typeof(this.form_consent) === 'function') { this.form_consent(); }
+
 		// Required
 		this.form_required();
 
@@ -588,7 +594,7 @@
 			var transform_method = $(this).attr('data-wsf-transform');
 
 			// Event handler
-			$(this).on('change input paste', function() {
+			$(this).on('change input', function() {
 
 				ws_this.form_transform_process($(this), transform_method);
 			})
@@ -1214,18 +1220,34 @@
 		return property_value.trim();
 	}
 
+	// Addition styling for field borders
+	$.WS_Form.prototype.form_css_var = function() {
+
+		// Field label inside mode
+		switch(this.get_css_var('--wsf-field-label-inside-mode', 'move')) {
+
+			case 'hide' :
+
+				this.form_obj.addClass('wsf-label-position-inside-hide');
+				break;
+		}
+
+		// Field border placement
+		switch(this.get_css_var('--wsf-field-border-placement', 'all')) {
+
+			case 'bottom' :
+
+				this.form_obj.addClass('wsf-field-border-placement-bottom');
+				break;
+		}
+	}
+
 	// Addition styling for labels
 	$.WS_Form.prototype.form_label = function(obj) {
 
 		if(typeof(obj) === 'undefined') { obj = this.form_canvas_obj; }
 
 		var ws_this = this;
-
-		// Check for move or hide method
-		if(this.get_css_var('--wsf-field-label-inside-mode', 'move') == 'hide') {
-
-			this.form_obj.addClass('wsf-label-position-inside-hide');
-		}
 
 		// Find all fields with inside label positioning
 		$('.wsf-label-position-inside:not([wsf-label-position-inside-init]):visible', obj).each(function() {
@@ -1633,7 +1655,7 @@
 				if(typeof($(this).attr('data-inputmask-validate')) !== 'undefined') {
 
 					// Validate on change
-					$(this).on('input change paste', function() {
+					$(this).on('change input', function() {
 
 						ws_this.form_inputmask_validate($(this));
 					});
@@ -3214,7 +3236,7 @@
 				var ws_this = this;
 
 				// Reset if field modified
-				field_obj.one('change input keyup paste', function() {
+				field_obj.one('change input', function() {
 
 					// Reset invalid feedback
 					ws_this.set_invalid_feedback($(this), '');
@@ -3697,7 +3719,7 @@
 
 					if(ws_this.form_character_word_count_process($(this))) {
 
-						$(this).on('keyup change paste', function() { ws_this.form_character_word_count_process($(this)); });
+						$(this).on('change input', function() { ws_this.form_character_word_count_process($(this)); });
 					}
 				});
 			}

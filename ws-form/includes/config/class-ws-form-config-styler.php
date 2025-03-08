@@ -843,51 +843,6 @@
 							),
 						),
 
-						'border_style' => array(
-
-							'label' => __('Border Style', 'ws-form'),
-
-							'meta' => array(
-
-								'field_border_radius' => array(
-
-									'label' => __('Radius', 'ws-form'),
-									'var' => '--wsf-field-border-radius',
-									'type' => 'size',
-									'default' => '4px',
-								),
-
-								'field_border_width' => array(
-
-									'label' => __('Width', 'ws-form'),
-									'var' => '--wsf-field-border-width',
-									'type' => 'size',
-									'default' => '1px',
-									'legacy_v1_option_key' => 'skin_border_width',
-									'legacy_v1_suffix' => 'px'
-								),
-
-								'field_border_style' => array(
-
-									'label' => __('Style', 'ws-form'),
-									'var' => '--wsf-field-border-style',
-									'type' => 'text',
-									'default' => 'solid',
-									'datalist' => 'wsf-styler-datalist-border-style',
-									'legacy_v1_option_key' => 'skin_border_style'
-								),
-
-								'field_border' => array(
-
-									'label' => __('Border', 'ws-form'),
-									'var' => '--wsf-field-border',
-									'type' => 'calc',
-									'default' => 'var(--wsf-field-border-width) var(--wsf-field-border-style) var(--wsf-field-border-color)',
-									'default_alt' => 'var(--wsf-field-border-width) var(--wsf-field-border-style) var(--wsf-field-border-color-alt)',
-								),
-							),
-						),
-
 						'border_color' => array(
 
 							'label' => __('Border Color', 'ws-form'),
@@ -932,6 +887,71 @@
 									'var' => '--wsf-field-border-color-invalid',
 									'type' => 'color',
 									'default' => 'var(--wsf-form-color-danger)',
+								),
+							),
+						),
+
+						'border_placement' => array(
+
+							'label' => __('Border Placement', 'ws-form'),
+
+							'meta' => array(
+
+								'field_border_placement' => array(
+
+									'label' => __('Placement', 'ws-form'),
+									'var' => '--wsf-field-border-placement',
+									'type' => 'select',
+									'options' => array(
+										array('value' => 'all', 'text' =>	__('All sides', 'ws-form')),
+										array('value' => 'bottom', 'text' =>	__('Bottom only', 'ws-form')),
+									),
+									'default' => 'all',
+								),
+							),
+						),
+
+						'border_style' => array(
+
+							'label' => __('Border Style', 'ws-form'),
+
+							'meta' => array(
+
+								'field_border_radius' => array(
+
+									'label' => __('Radius', 'ws-form'),
+									'var' => '--wsf-field-border-radius',
+									'type' => 'size',
+									'default' => '4px',
+								),
+
+								'field_border_width' => array(
+
+									'label' => __('Width', 'ws-form'),
+									'var' => '--wsf-field-border-width',
+									'type' => 'size',
+									'default' => '1px',
+									'legacy_v1_option_key' => 'skin_border_width',
+									'legacy_v1_suffix' => 'px'
+								),
+
+								'field_border_style' => array(
+
+									'label' => __('Style', 'ws-form'),
+									'var' => '--wsf-field-border-style',
+									'type' => 'text',
+									'default' => 'solid',
+									'datalist' => 'wsf-styler-datalist-border-style',
+									'legacy_v1_option_key' => 'skin_border_style'
+								),
+
+								'field_border' => array(
+
+									'label' => __('Border', 'ws-form'),
+									'var' => '--wsf-field-border',
+									'type' => 'calc',
+									'default' => 'var(--wsf-field-border-width) var(--wsf-field-border-style) var(--wsf-field-border-color)',
+									'default_alt' => 'var(--wsf-field-border-width) var(--wsf-field-border-style) var(--wsf-field-border-color-alt)',
 								),
 							),
 						),
@@ -3182,7 +3202,29 @@
 
 							'group_focus_selector' => '.wsf-field-wrapper[data-type=texteditor]',
 
-							'children' => self::get_style_color_typograpy('field_texteditor', 'field-texteditor', 'var(--wsf-form-color-base)', false),
+							'children' => array_merge( 
+
+								self::get_style_color_typograpy('field_texteditor', 'field-texteditor', 'var(--wsf-form-color-base)', false),
+
+								array(
+
+									'spacing' => array(
+
+										'label' => __('Spacing', 'ws-form'),
+
+										'meta' => array(
+
+											'field_texteditor_p_margin_bottom' => array(
+
+												'label' => __('P Margin Bottom', 'ws-form'),
+												'var' => '--wsf-field-texteditor-p-margin-bottom',
+												'type' => 'size',
+												'default' => '1em',
+											),
+										),
+									),
+								)
+							),
 						),
 					),
 				),

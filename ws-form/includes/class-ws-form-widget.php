@@ -13,7 +13,12 @@
 				WS_FORM_NAME_PRESENTABLE,
 
 				array(
-					'description' => sprintf(__('Displays a form created with %s.', 'ws-form'), WS_FORM_NAME_PRESENTABLE),
+					'description' => sprintf(
+
+						/* translators: %s = Presentable plugin name, e.g. WS Form PRO */
+						__('Displays a form created with %s.', 'ws-form'),
+						WS_FORM_NAME_PRESENTABLE
+					),
 					'customize_selective_refresh' => true,
 				)
 			);
@@ -49,7 +54,13 @@
 				foreach($forms as $form) {
 
 ?><option value="<?php WS_Form_Common::echo_esc_attr($form['id']); ?>"<?php if($form['id'] == $form_id) { ?> selected<?php } ?>><?php
-					WS_Form_Common::echo_esc_html(sprintf('%s (ID: %u)', $form['label'], $form['id']));
+					WS_Form_Common::echo_esc_html(sprintf(
+
+						'%s (%s: %u)',
+						$form['label'],
+						__('ID', 'ws-form'),
+						$form['id']
+					));
 ?></option>
 <?php
 				}

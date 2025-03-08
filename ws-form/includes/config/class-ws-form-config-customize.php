@@ -67,7 +67,12 @@
 
 				$skins['ws_form_conv'] = array(
 
-					'label'				=>	sprintf(__('%s - Conversational', 'ws-form'), WS_FORM_NAME_GENERIC),
+					'label'				=>	sprintf(
+
+						/* translators: %s = WS Form */
+						__('%s - Conversational', 'ws-form'),
+						WS_FORM_NAME_GENERIC
+					),
 
 					'conversational'	=>	true,
 

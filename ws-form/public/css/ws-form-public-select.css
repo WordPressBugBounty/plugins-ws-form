@@ -20,6 +20,7 @@
 }
 
 .wsf-form select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]) + span.wsf-select-arrow {
+  align-self: center;
   border-color: var(--wsf-field-select-arrow-color) transparent transparent transparent;
   border-style: solid;
   border-width: var(--wsf-field-select-arrow-height) calc(var(--wsf-field-select-arrow-width) / 2) 0 calc(var(--wsf-field-select-arrow-width) / 2);
@@ -72,7 +73,8 @@
   color: var(--wsf-field-color-disabled);
 }
 
-.wsf-form.wsf-validated select.wsf-field:invalid:not([multiple]):not([size]):invalid {
+.wsf-form.wsf-validated select.wsf-field:invalid:not([multiple]):not([size]):invalid,
+.wsf-form .wsf-validated select.wsf-field:invalid:not([multiple]):not([size]):invalid {
   border-color: var(--wsf-field-border-color-invalid);
 }
 
@@ -105,6 +107,7 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] select.wsf-field op
   color: var(--wsf-field-color-disabled-alt);
 }
 
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated select.wsf-field:invalid:not([multiple]):not([size]):invalid {
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated select.wsf-field:invalid:not([multiple]):not([size]):invalid,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated select.wsf-field:invalid:not([multiple]):not([size]):invalid {
   border-color: var(--wsf-field-border-color-invalid-alt);
 }

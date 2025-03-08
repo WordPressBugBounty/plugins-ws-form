@@ -57,7 +57,13 @@
 				$message = WS_Form_Common::do_shortcode($this->message);
 
 				// Show the message
-				parent::success(sprintf(__('Message added to queue: %s', 'ws-form'), $this->message), array(
+				parent::success(sprintf(
+
+					/* translators: %s = Message */
+					__('Message added to queue: %s', 'ws-form'),
+					$this->message
+
+				), array(
 
 					array(
 
@@ -78,7 +84,7 @@
 
 			} else {
 
-				// Invalud message
+				// Invalid message
 				parent::error(__('Invalid message', 'ws-form'));
 			}
 		}

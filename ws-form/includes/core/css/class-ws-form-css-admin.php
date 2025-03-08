@@ -58,7 +58,12 @@
 
 						if(!isset($breakpoint_outer['admin_max_width'])) {
 
-							self::db_throw_error(sprintf(__('Admin max width not defined: %s', 'ws-form'), $breakpoint_outer_id));
+							self::db_throw_error(sprintf(
+
+								/* translators: %s = Breakpoint outer ID */
+								__('Admin max width not defined: %s', 'ws-form'),
+								$breakpoint_outer_id
+							));
 
 						} else {
 

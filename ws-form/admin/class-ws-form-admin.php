@@ -247,7 +247,7 @@
 
 				// URL
 				'url_ajax'						=> WS_Form_Common::get_api_path(),
-				'url_site'						=> get_site_url(),
+				'url_home'						=> get_home_url(null, '/'),
 
 				// Permalink
 				'permalink_custom'				=> (get_option('permalink_structure') != ''),
@@ -297,6 +297,9 @@
 
 				// Shortcode
 				'shortcode'						=> WS_FORM_SHORTCODE,
+
+				// Intro
+				'intro'							=> $this->intro,
 
 			);
 
@@ -748,7 +751,16 @@
 
 <fieldset>
 
-<p><?php WS_Form_Common::echo_esc_html(sprintf(__('We would greatly appreciate your feedback about why you are deactivating %s. Thank you for your help!', 'ws-form'), WS_FORM_NAME_PRESENTABLE)); ?></p>
+<p><?php
+	
+	WS_Form_Common::echo_esc_html(sprintf(
+
+		/* translators: %s = Presentable plugin name, e.g. WS Form PRO */
+		__('We would greatly appreciate your feedback about why you are deactivating %s. Thank you for your help!', 'ws-form'),
+		WS_FORM_NAME_PRESENTABLE
+	));
+
+?></p>
 
 <label><input type="radio" name="wsf_feedback_reason" value="Upgraded" /> <?php
 	
@@ -757,7 +769,11 @@
 		/* translators: %s = WS Form PRO */
 		esc_html__("I'm upgrading to %s", 'ws-form'),
 
-		sprintf('<a href="%s" target="_blank">WS Form PRO</a>', esc_url(WS_Form_Common::get_plugin_website_url('', 'plugins_deactivate')))
+		sprintf(
+
+			'<a href="%s" target="_blank">WS Form PRO</a>',
+			esc_url(WS_Form_Common::get_plugin_website_url('', 'plugins_deactivate'))
+		)
 	);
 
 ?></label>
@@ -1072,7 +1088,7 @@
 
 				sprintf(
 
-					/* translators: %s = WS Form */
+					/* translators: %s = Presentable name (e.g. WS Form PRO) */
 					__('Welcome to %s', 'ws-form'), 
 
 					WS_FORM_NAME_GENERIC
@@ -2410,8 +2426,12 @@
 			$form_count = $ws_form_form->db_get_count_by_status();
 
 			// Build text
-			/* translators: %u = Number of forms */
-			$text = sprintf(_n('%u Form', '%u Forms', $form_count, 'ws-form'), $form_count);
+			$text = sprintf(
+
+				/* translators: %u = Number of forms */
+				_n('%u Form', '%u Forms', $form_count, 'ws-form'),
+				$form_count
+			);
 
 			// Add item
 			if(WS_Form_Common::can_user('read_form')) {

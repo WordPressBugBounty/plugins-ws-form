@@ -110,7 +110,16 @@
 			var invalid_feedback_obj = ws_this.get_invalid_feedback_obj($(this));
 
 			// Move invalid feedback
-			invalid_feedback_obj.insertAfter($(this));
+			var field_group_wrapper_obj = $('.wsf-input-group', field_wrapper_obj);
+			if(field_group_wrapper_obj.length) {
+
+				// Has prefix and/or suffix
+				invalid_feedback_obj.insertAfter(field_group_wrapper_obj);
+
+			} else {
+
+				invalid_feedback_obj.insertAfter($(this));
+			}
 
 			// Move label if position is set to inside
 			if(ws_this.get_label_position(field) == 'inside') {
@@ -135,7 +144,7 @@
 
 			if(validate_number) {
 
-				$(this).on('keyup change input paste countrychange', function() {
+				$(this).on('change input countrychange', function() {
 
 					ws_this.form_tel_validate($(this));
 				});
@@ -180,6 +189,7 @@
 
 			// Get error number
 			var error_code = iti.getValidationError();
+			error_code = (error_code >= 0 && error_code <= 4) ? error_code : 0;
 
 			// Get invalid feedback
 			var invalid_feedback = (typeof(intl_tel_input_errors[error_code]) !== 'undefined') ? intl_tel_input_errors[error_code] : this.language('iti_number');

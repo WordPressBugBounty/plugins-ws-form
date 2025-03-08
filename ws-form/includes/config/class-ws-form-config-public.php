@@ -10,9 +10,13 @@
 
 				'language' => array(
 
+					/* translators: %s = Minimum character count */
 					'error_min_length'						=>	__('Minimum character count: %s', 'ws-form'),
+					/* translators: %s = Maximum character count */
 					'error_max_length'						=>	__('Maximum character count: %s', 'ws-form'),
+					/* translators: %s = Minimum word count */
 					'error_min_length_words'				=>	__('Minimum word count: %s', 'ws-form'),
+					/* translators: %s = Maximum word count */
 					'error_max_length_words'				=>	__('Maximum word count: %s', 'ws-form'),
 					'error_data_grid_source_type'			=>	__('Data grid source type not specified', 'ws-form'),
 					'error_data_grid_source_id'				=>	__('Data grid source ID not specified', 'ws-form'),
@@ -22,7 +26,7 @@
 					'error_data_source_group_label'			=>	__('Data source group label not found', 'ws-form'),
 					'error_data_group_rows'					=>	__('Data source group rows not found', 'ws-form'),
 					'error_data_group_label'				=>	__('Data source group label not found', 'ws-form'),
-					'error_mask_help'						=>	__('No help mask defined: %s', 'ws-form'),
+					'error_mask_help'						=>	__('No help mask defined', 'ws-form'),
 					'error_mask_invalid_feedback'			=>	__('No invalid feedback mask defined', 'ws-form'),
 					'error_api_call_hash'					=>	__('Hash not returned in API call', 'ws-form'),
 					'error_api_call_hash_invalid'			=>	__('Invalid hash returned in API call', 'ws-form'),
@@ -36,38 +40,52 @@
 					'error_timeout_analytics_data_layer'	=>	__('Timeout waiting for Data Layer to load', 'ws-form'),
 					'error_timeout_google_maps'				=>	__('Timeout waiting for Google Maps to load', 'ws-form'),
 					'error_geocoder_google_address_no_results'	=>	__('No results found for Google Geocoder', 'ws-form'),
+					/* translators: %s = Google geocoder error message */
 					'error_geocoder_google_address_error'	=>	__('Google Geocoder error: %s', 'ws-form'),
 					'error_google_key_missing'				=>	__('Google API key has not been entered in global settings', 'ws-form'),
 					'error_google_key_invalid'				=>	__('Google API key is incorrect or misconfigured', 'ws-form'),
-					'error_datetime_default_value'			=>	__('Default date/time value invalid (%s)', 'ws-form'),
+					/* translators: %s = Date/time */
+					'error_datetime_defauDt_value'			=>	__('Default date/time value invalid (%s)', 'ws-form'),
 					'error_framework_tabs_activate_js'		=>	__('Framework tab activate JS not defined', 'ws-form'),
 					'error_form_draft'						=>	__('Form is in draft', 'ws-form'),
 					'error_form_future'						=>	__('Form is scheduled', 'ws-form'),
 					'error_form_trash'						=>	__('Form is trashed', 'ws-form'),
+					/* translators: %s = Calculation */
 					'error_calc'							=>	__('Calculation error: %s'),
+					/* translators: %s = Error message */
 					'error_framework_plugin'				=>	__('Framework plugin error: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_tracking_geo_location'			=>	__('Tracking - Geo location error: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_geo'								=>	__('Geo - IP lookup failed: %s', 'ws-form'),
+					/* translators: %s = Message */
 					'error_action'							=>	__('Actions - %s', 'ws-form'),
 					'error_action_no_message'				=>	__('Actions - Error', 'ws-form'),
+					/* translators: %s = Message */
 					'error_payment'							=>	__('Payments - %s', 'ws-form'),
 					'error_termageddon'						=>	__('Error retrieving Termageddon content', 'ws-form'),
 					'error_termageddon_404'					=>	__('Invalid Termageddon key', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_js'								=>	__('Syntax error in JavaScript: %s', 'ws-form'),
 					'error_section_button_no_section'		=>	__('No section assigned to this button', 'ws-form'),
 					'error_section_icon_no_section'			=>	__('No section assigned to these icons', 'ws-form'),
+					/* translators: %s = Section icon */
 					'error_section_icon_not_in_own_section'	=>	__('Icon %s must be in its own assigned section', 'ws-form'),
 					'error_not_supported_video'				=>	__("Sorry, your browser doesn't support embedded videos.", 'ws-form'),
 					'error_not_supported_audio'				=>	__("Sorry, your browser doesn't support embedded audio.", 'ws-form'),
 					'error_google_map_style_js'				=>	__('Invalid Google Map embedded JSON style declaration', 'ws-form'),
 					'error_file_upload'						=>	__('Error uploading file', 'ws-form'),
 					'error_submit_hash'						=>	__('Invalid submission hash', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_invalid_feedback'				=>	__('Invalid feedback set on field ID: %s', 'ws-form'),
 					'error_google_route'					=>	__('Invalid Google Distance field configuration', 'ws-form'),
+					/* translators: %s = Google Directions API error message */
 					'error_google_route_message'			=>	__('Google Directions API error: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_condition_action'				=>	__('Invalid condition action: %s', 'ws-form'),
 
 					// Analytics
+					/* translators: %s = Form label */
 					'analytics_category'				=> __('Form - %s', 'ws-form'),
 
 					// International telephone input errors

@@ -22,6 +22,10 @@
 	-moz-appearance: textfield;
 }
 
+[dir="rtl"] input[type="file"].dz-hidden-input {
+	display: none;
+}
+
 [data-wsf-hierarchy='1'] {
 	-webkit-margin-start: 1rem;
 	margin-inline-start: 1rem;

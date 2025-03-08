@@ -85,6 +85,7 @@
 					isset($this->tos[0]['action_' . $this->id . '_email'])
 				) {
 
+					/* translators: %s = Email addresses */
 					self::success(sprintf(__('Round robin recipient: %s', 'ws-form'), $this->tos[0]['action_' . $this->id . '_email']));
 				}
 			}
@@ -371,7 +372,13 @@
 
 				if(!empty($this->wp_mail_error_message)) {
 
-					self::error(__(sprintf('Error sending email: %s', $this->wp_mail_error_message), 'ws-form'));
+					self::error(sprintf(
+
+						/* translators: wp_mail error message */
+						__('Error sending email: %s', 'ws-form'),
+						$this->wp_mail_error_message
+					));
+
 					$this->wp_mail_error_message = '';
 
 				} else {
@@ -425,7 +432,8 @@
 				) {
 					$this->wp_mail_error_message = sprintf(
 
-						__('Postmark error %s: %s', 'ws-form'),
+						/* translators: %1$s = Error code, %2$s = Error message */
+						__('Postmark error %1$s: %2$s', 'ws-form'),
 						$body_decoded->ErrorCode,
 						$body_decoded->Message
 					);
@@ -483,7 +491,12 @@
 				return false;
 			}
 
-			self::error(__(sprintf('Invalid email address: %s', $email), 'ws-form'));
+			self::error(sprintf(
+
+				/* translators: %s = Email address */
+				__('Invalid email address: %s', 'ws-form'),
+				$email
+			));
 
 			return false;
 		}

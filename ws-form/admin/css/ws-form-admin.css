@@ -7113,7 +7113,8 @@ body.ws-form_page_ws-form-submit #wsf-submissions td img {
   background-color: #ffffff;
   border-bottom: 1px solid #ceced2;
   font-size: 12px;
-  padding: 12px;
+  margin: 0 !important;
+  padding: 12px !important;
 }
 
 #wsf-sidebar-submit #wsf-sidebar-info th {
@@ -7125,19 +7126,19 @@ body.ws-form_page_ws-form-submit #wsf-submissions td img {
 }
 
 #wsf-sidebar-submit #wsf-sidebar-info tr:first-child > * {
-  padding-top: 0;
+  padding-top: 0 !important;
 }
 
 #wsf-sidebar-submit #wsf-sidebar-info tr:last-child > * {
-  padding-bottom: 0;
+  padding-bottom: 0 !important;
 }
 
 #wsf-sidebar-submit #wsf-sidebar-info tr > *:first-child {
-  padding-left: 0;
+  padding-left: 0 !important;
 }
 
 #wsf-sidebar-submit #wsf-sidebar-info tr > *:last-child {
-  padding-right: 0;
+  padding-right: 0 !important;
 }
 
 #wsf-sidebar-submit label.wsf-label {
@@ -7157,7 +7158,7 @@ body.ws-form_page_ws-form-submit #wsf-submissions td img {
   font-size: 13px;
   font-weight: bold;
   margin-bottom: 3px;
-  padding: 0;
+  padding: 0 !important;
   width: 100%;
 }
 

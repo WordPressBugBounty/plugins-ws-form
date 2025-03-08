@@ -202,7 +202,7 @@
   box-shadow: var(--wsf-field-box-shadow);
 }
 
-.wsf-form input[type=checkbox].wsf-field.wsf-button .wsf-button-full + label.wsf-label {
+.wsf-form input[type=checkbox].wsf-field.wsf-button.wsf-button-full + label.wsf-label {
   display: block;
 }
 
@@ -420,11 +420,13 @@
   margin-inline-start: calc(var(--wsf-field-checkbox-size) * 10);
 }
 
-.wsf-form.wsf-validated input[type=checkbox].wsf-field:invalid {
+.wsf-form.wsf-validated input[type=checkbox].wsf-field:invalid,
+.wsf-form .wsf-validated input[type=checkbox].wsf-field:invalid {
   border-color: var(--wsf-field-border-color-invalid);
 }
 
-.wsf-form.wsf-validated input[type=checkbox].wsf-field:invalid:focus {
+.wsf-form.wsf-validated input[type=checkbox].wsf-field:invalid:focus,
+.wsf-form .wsf-validated input[type=checkbox].wsf-field:invalid:focus {
   box-shadow: var(--wsf-field-box-shadow);
 }
 
@@ -454,11 +456,6 @@
 
 .wsf-form input[type=checkbox].wsf-field.wsf-image + label.wsf-label > img {
   transition: background-color var(--wsf-form-transition), border-color var(--wsf-form-transition), box-shadow var(--wsf-form-transition);
-}
-
-.wsf-form.wsf-rtl input[type=checkbox].wsf-field:checked::after {
-  -webkit-transform: translate(calc(-1 * var(--wsf-field-checkbox-size) / 3), calc(var(--wsf-field-checkbox-size) / 10)) rotate(45deg);
-          transform: translate(calc(-1 * var(--wsf-field-checkbox-size) / 3), calc(var(--wsf-field-checkbox-size) / 10)) rotate(45deg);
 }
 
 .wsf-form.wsf-rtl input[type=checkbox].wsf-field + label.wsf-label {
@@ -688,10 +685,12 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] input[type=checkbox
   border-color: var(--wsf-field-checkbox-checked-image-border-color-alt);
 }
 
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=checkbox].wsf-field:invalid + label.wsf-label::before {
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=checkbox].wsf-field:invalid + label.wsf-label::before,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=checkbox].wsf-field:invalid + label.wsf-label::before {
   border-color: var(--wsf-field-border-color-invalid-alt);
 }
 
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=checkbox].wsf-field:invalid + label.wsf-label::before:focus + label.wsf-label::before {
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=checkbox].wsf-field:invalid + label.wsf-label::before:focus + label.wsf-label::before,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=checkbox].wsf-field:invalid + label.wsf-label::before:focus + label.wsf-label::before {
   box-shadow: var(--wsf-field-box-shadow-alt);
 }

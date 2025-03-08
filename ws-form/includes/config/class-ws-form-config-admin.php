@@ -521,6 +521,7 @@
 					'field'				=>	__('Field', 'ws-form'),
 					'fields'			=>	__('Fields', 'ws-form'),
 					'field_label'		=>	__('Field Label', 'ws-form'),
+					/* translators: %s = Field type label, e.g. Text */
 					'field_label_aria'	=>	__('%s field label', 'ws-form'),
 					'action'			=>	__('Action', 'ws-form'),
 					'actions'			=>	__('Actions', 'ws-form'),
@@ -577,11 +578,13 @@
 
 					// Error messages
 					'error_field_type_unknown'			=>	__('Unknown field type', 'ws-form'),
+					/* translators: %s = Breakpoint name */
 					'error_admin_max_width'				=>	__('admin_max_width not defined for breakpoint: %s.', 'ws-form'),
 					'error_object'						=>	__('Unable to find object', 'ws-form'),
 					'error_object_data'					=>	__('Unable to retrieve object data', 'ws-form'),
 					'error_object_meta_value'			=>	__('Unable to retrieve object meta', 'ws-form'),
 					'error_object_type'					=>	__('Unable to determine object type', 'ws-form'),
+					/* translators: %s = Meta key */
 					'error_meta_key'					=>	__('Unknown meta_key: %s', 'ws-form'),
 					'error_data_grid'					=>	__('Data grid not specified', 'ws-form'),
 					'error_data_grid_groups'			=>	__('Data grid has no groups', 'ws-form'),
@@ -591,6 +594,7 @@
 					'error_data_grid_csv_no_data'		=>	__('No data to export', 'ws-form'),
 					'error_data_grid_row_id'			=>	__('Data grid row has no ID', 'ws-form'),
 					'error_timeout_codemirror'			=>	__('Timeout waiting for CodeMirror to load', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_submit_export'				=>	__('Export error: %s', 'ws-form'),
 
 					// Popover
@@ -629,12 +633,19 @@
 
 					// Data grids - Data sources
 					'data_grid_data_source_error'			=>	__('Error retrieving data source', 'ws-form'),
+					/* translators: %s = Error message */
 					'data_grid_data_source_error_s'			=>	__('Error retrieving data source: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'data_grid_data_source_error_last'			=>	__('Error retrieving data source<br />%s', 'ws-form'),
+					/* translators: %s = Field label */
 					'data_grid_data_source_error_last_field'	=>	__('Field: %s', 'ws-form'),
+					/* translators: %s = Field ID */
 					'data_grid_data_source_error_last_field_id'	=>	__('ID: %s', 'ws-form'),
+					/* translators: %s = Data source */
 					'data_grid_data_source_error_last_source'	=>	__('Data source: %s', 'ws-form'),
+					/* translators: %s = Date */
 					'data_grid_data_source_error_last_date'		=>	__('Last attempt: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'data_grid_data_source_error_last_error'	=>	__('Error: %s', 'ws-form'),
 
 					// Data grids - Groups
@@ -724,7 +735,8 @@
 
 					'field_selector_upgrade'	=>	sprintf(
 
-						__('<a href="%s" target="_blank">Upgrade to PRO</a> for <a href="%s" target="_blank">55+ field types</a>, <a href="%s" target="_blank">conditional logic</a>, <a href="%s" target="_blank">calculated fields</a> and more!', 'ws-form'),
+						/* translators: %1$s = URL, %2$s = URL, %3$s = URL, %4$s = URL */
+						__('<a href="%1$s" target="_blank">Upgrade to PRO</a> for <a href="%2$s" target="_blank">55+ field types</a>, <a href="%3$s" target="_blank">conditional logic</a>, <a href="%4$s" target="_blank">calculated fields</a> and more!', 'ws-form'),
 						WS_Form_Common::get_plugin_website_url('', 'sidebar_toolbox'),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase_category/field-types/', 'sidebar_toolbox'),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox'),
@@ -733,7 +745,8 @@
 
 					'section_selector_upgrade'	=>	sprintf(
 
-						__('<a href="%s" target="_blank">Upgrade to PRO</a> for <a href="%s" target="_blank">more sections</a>, <a href="%s" target="_blank">conditional logic</a>, <a href="%s" target="_blank">calculated fields</a> and more!', 'ws-form'),
+						/* translators: %1$s = URL, %2$s = URL, %3$s = URL, %4$s = URL */
+						__('<a href="%1$s" target="_blank">Upgrade to PRO</a> for <a href="%2$s" target="_blank">more sections</a>, <a href="%3$s" target="_blank">conditional logic</a>, <a href="%4$s" target="_blank">calculated fields</a> and more!', 'ws-form'),
 						WS_Form_Common::get_plugin_website_url('', 'sidebar_toolbox'),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase/section-library/', 'sidebar_toolbox'),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox'),
@@ -742,7 +755,8 @@
 
 					'action_upgrade'			=>	sprintf(
 
-						__('<a href="%s" target="_blank">Upgrade to PRO</a> for <a href="%s" target="_blank">more actions</a> and the ability to run actions using <a href="%s" target="_blank">conditional logic</a>.', 'ws-form'),
+						/* translators: %1$s = URL, %2$s = URL, %3$s = URL */
+						__('<a href="%1$s" target="_blank">Upgrade to PRO</a> for <a href="%2$s" target="_blank">more actions</a> and the ability to run actions using <a href="%3$s" target="_blank">conditional logic</a>.', 'ws-form'),
 						WS_Form_Common::get_plugin_website_url('', 'siderbar_action'),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase_category/actions/', 'sidebar_toolbox'),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox')
@@ -768,14 +782,20 @@
 					'breakpoint_option_offset_plural'			=>	'%s',
 
 					// Orientation Breakpoint options
+					/* translators: %s = Breakpoint name */
 					'orientation_breakpoint_label_width'					=>	__('%s Width', 'ws-form'),
+					/* translators: %s = Fraction */
 					'orientation_breakpoint_width'							=>	__(' = %s width', 'ws-form'),
 					'orientation_breakpoint_width_full'						=>	__(' = Full width', 'ws-form'),
 					'orientation_breakpoint_option_default'					=>	__('Default', 'ws-form'),
 					'orientation_breakpoint_option_inherit'					=>	__('Inherit', 'ws-form'),
+					/* translators: %s = Column count */
 					'orientation_breakpoint_option_column_default_singular'	=>	'%s column',
+					/* translators: %s = Column count */
 					'orientation_breakpoint_option_column_default_plural'	=>	'%s columns',
+					/* translators: %s = Column count */
 					'orientation_breakpoint_option_column_singular'			=>	'%s column',
+					/* translators: %s = Column count */
 					'orientation_breakpoint_option_column_plural'			=>	'%s columns',
 
 					'column_size_change'						=>	__('Change column size', 'ws-form'),
@@ -827,6 +847,7 @@
 
 					// Contact
 					'support_contact_thank_you'			=>	__('Thank you for your support request.', 'ws-form'),
+					/* translators: %s = Error message */
 					'support_contact_error'				=>	__('An error occurred when submitting your support request. Please email support@wsform.com (%s)', 'ws-form'),
 
 					// Starred
@@ -1182,7 +1203,7 @@
 					'variables'	=> array(
 
 						'version'	=> array('label' => __('Version', 'ws-form'), 'value' => $wpdb->db_version(), 'valid' => version_compare($wpdb->db_version(), $required_mysql_version, '>='), 'min' => $required_mysql_version),
-						'max_allowed_packet' => array('label' => __('Max Allowed Packet', 'ws-form'), 'value' => $mysql_max_allowed_packet, 'type' => 'size', 'valid' => ($mysql_max_allowed_packet >= WS_FORM_MIN_MYSQL_MAX_ALLOWED_PACKET), 'min' => '4 MB')
+						'max_allowed_packet' => array('label' => __('Max Allowed Packet', 'ws-form'), 'value' => $mysql_max_allowed_packet, 'type' => 'size', 'valid' => ($mysql_max_allowed_packet >= WS_FORM_MAX_MYSQL_ALLOWED_PACKET), 'min' => '4 MB')
 					)
 				)
 			);

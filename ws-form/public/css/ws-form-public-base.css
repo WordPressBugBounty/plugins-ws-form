@@ -134,6 +134,7 @@
 
 .wsf-form .wsf-field-wrapper[data-type="texteditor"] [data-text-editor] p {
   font-size: var(--wsf-field-texteditor-font-size);
+  margin-bottom: var(--wsf-field-texteditor-p-margin-bottom);
 }
 
 .wsf-form .wsf-tile {
@@ -161,9 +162,9 @@
 .wsf-form select.wsf-field,
 .wsf-form textarea.wsf-field {
   -webkit-appearance: none;
-  border-radius: var(--wsf-field-border-radius);
   background-color: var(--wsf-field-color-background);
   border: var(--wsf-field-border);
+  border-radius: var(--wsf-field-border-radius);
   color: var(--wsf-field-color);
   font-family: var(--wsf-field-font-family);
   font-size: var(--wsf-field-font-size);
@@ -316,6 +317,7 @@
 .wsf-form .wsf-invalid-feedback {
   background-color: var(--wsf-field-invalid-feedback-color-background);
   color: var(--wsf-field-invalid-feedback-color);
+  display: none;
   font-family: var(--wsf-field-invalid-feedback-font-family);
   font-size: var(--wsf-field-invalid-feedback-font-size);
   font-style: var(--wsf-field-invalid-feedback-font-style);
@@ -336,8 +338,13 @@
   text-transform: var(--wsf-field-invalid-feedback-text-transform);
 }
 
+.wsf-form [data-select-min-max],
+.wsf-form [data-checkbox-min-max] {
+  display: none;
+}
+
 .wsf-form .wsf-help {
-  background-color: var(--wsf-field-help-background-color);
+  background-color: var(--wsf-field-help-color-background);
   color: var(--wsf-field-help-color);
   display: block;
   font-family: var(--wsf-field-help-font-family);
@@ -573,17 +580,17 @@
 }
 
 .wsf-form .wsf-input-group-prepend {
-  border-top-left-radius: var(--wsf-field-border-radius);
-  border-bottom-left-radius: var(--wsf-field-border-radius);
   -webkit-border-end: none;
+  border-bottom-left-radius: var(--wsf-field-border-radius);
   border-inline-end: none;
+  border-top-left-radius: var(--wsf-field-border-radius);
 }
 
 .wsf-form .wsf-input-group-append {
-  border-top-right-radius: var(--wsf-field-border-radius);
-  border-bottom-right-radius: var(--wsf-field-border-radius);
   -webkit-border-start: none;
+  border-bottom-right-radius: var(--wsf-field-border-radius);
   border-inline-start: none;
+  border-top-right-radius: var(--wsf-field-border-radius);
 }
 
 .wsf-form .wsf-text-primary {
@@ -768,6 +775,66 @@
   box-shadow: none;
 }
 
+.wsf-form.wsf-validated .wsf-field:invalid ~ .wsf-invalid-feedback,
+.wsf-form.wsf-validated .wsf-field.wsf-invalid ~ .wsf-invalid-feedback,
+.wsf-form.wsf-validated [role=\"radiogroup\"][data-wsf-invalid] ~ .wsf-invalid-feedback,
+.wsf-form.wsf-validated [data-select-min-max]:invalid ~ .wsf-invalid-feedback,
+.wsf-form.wsf-validated [data-checkbox-min-max]:invalid ~ .wsf-invalid-feedback,
+.wsf-form.wsf-validated .wsf-input-group:has(.iti .wsf-field:invalid) ~ .wsf-invalid-feedback,
+.wsf-form .wsf-validated .wsf-field:invalid ~ .wsf-invalid-feedback,
+.wsf-form .wsf-validated .wsf-field.wsf-invalid ~ .wsf-invalid-feedback,
+.wsf-form .wsf-validated [role=\"radiogroup\"][data-wsf-invalid] ~ .wsf-invalid-feedback,
+.wsf-form .wsf-validated [data-select-min-max]:invalid ~ .wsf-invalid-feedback,
+.wsf-form .wsf-validated [data-checkbox-min-max]:invalid ~ .wsf-invalid-feedback,
+.wsf-form .wsf-validated .wsf-input-group:has(.iti .wsf-field:invalid) ~ .wsf-invalid-feedback {
+  display: block;
+}
+
+.wsf-form.wsf-field-border-placement-bottom [data-wsf-legal].wsf-field,
+.wsf-form.wsf-field-border-placement-bottom input.wsf-field[type=text] ~ canvas,
+.wsf-form.wsf-field-border-placement-bottom input.wsf-field:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field,
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field ~ .select2-container .select2-selection--single,
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field ~ .select2-container .select2-selection--multiple,
+.wsf-form.wsf-field-border-placement-bottom textarea.wsf-field {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+}
+
+.wsf-form.wsf-field-border-placement-bottom [data-wsf-legal].wsf-field:hover:enabled:not(:focus), .wsf-form.wsf-field-border-placement-bottom [data-wsf-legal].wsf-field:focus, .wsf-form.wsf-field-border-placement-bottom [data-wsf-legal].wsf-field:disabled,
+.wsf-form.wsf-field-border-placement-bottom input.wsf-field[type=text] ~ canvas:hover:enabled:not(:focus),
+.wsf-form.wsf-field-border-placement-bottom input.wsf-field[type=text] ~ canvas:focus,
+.wsf-form.wsf-field-border-placement-bottom input.wsf-field[type=text] ~ canvas:disabled,
+.wsf-form.wsf-field-border-placement-bottom input.wsf-field:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):hover:enabled:not(:focus),
+.wsf-form.wsf-field-border-placement-bottom input.wsf-field:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):focus,
+.wsf-form.wsf-field-border-placement-bottom input.wsf-field:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):disabled,
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field:hover:enabled:not(:focus),
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field:focus,
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field:disabled,
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field ~ .select2-container .select2-selection--single:hover:enabled:not(:focus),
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field ~ .select2-container .select2-selection--single:focus,
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field ~ .select2-container .select2-selection--single:disabled,
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field ~ .select2-container .select2-selection--multiple:hover:enabled:not(:focus),
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field ~ .select2-container .select2-selection--multiple:focus,
+.wsf-form.wsf-field-border-placement-bottom select.wsf-field ~ .select2-container .select2-selection--multiple:disabled,
+.wsf-form.wsf-field-border-placement-bottom textarea.wsf-field:hover:enabled:not(:focus),
+.wsf-form.wsf-field-border-placement-bottom textarea.wsf-field:focus,
+.wsf-form.wsf-field-border-placement-bottom textarea.wsf-field:disabled {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+}
+
+.wsf-form.wsf-field-border-placement-bottom .wsf-input-group span {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+}
+
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] {
   --wsf-form-color-accent: var(--wsf-form-color-accent-alt);
   background-color: var(--wsf-form-color-background-alt);
@@ -895,7 +962,7 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-invalid-feedba
 }
 
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-help {
-  background-color: var(--wsf-field-help-background-color-alt);
+  background-color: var(--wsf-field-help-color-background-alt);
   color: var(--wsf-field-help-color-alt);
 }
 
@@ -954,7 +1021,14 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=text].wsf-field:invalid,
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=url].wsf-field:invalid,
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated select.wsf-field:invalid,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated textarea.wsf-field:invalid {
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated textarea.wsf-field:invalid,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=email].wsf-field:invalid,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=number].wsf-field:invalid,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=tel].wsf-field:invalid,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=text].wsf-field:invalid,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=url].wsf-field:invalid,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated select.wsf-field:invalid,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated textarea.wsf-field:invalid {
   background-color: var(--wsf-field-color-background-invalid-alt);
   border-color: var(--wsf-field-border-color-invalid-alt);
 }
@@ -965,7 +1039,14 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=text].wsf-field:invalid:focus:not(:hover),
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=url].wsf-field:invalid:focus:not(:hover),
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated select.wsf-field:invalid:focus:not(:hover),
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated textarea.wsf-field:invalid:focus:not(:hover) {
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated textarea.wsf-field:invalid:focus:not(:hover),
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=email].wsf-field:invalid:focus:not(:hover),
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=number].wsf-field:invalid:focus:not(:hover),
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=tel].wsf-field:invalid:focus:not(:hover),
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=text].wsf-field:invalid:focus:not(:hover),
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=url].wsf-field:invalid:focus:not(:hover),
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated select.wsf-field:invalid:focus:not(:hover),
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated textarea.wsf-field:invalid:focus:not(:hover) {
   box-shadow: var(--wsf-field-box-shadow-alt);
 }
 

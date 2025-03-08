@@ -56,7 +56,10 @@
 			$post->post_author = 1;
 			$post->post_date = current_time('mysql');
 			$post->post_date_gmt = current_time('mysql', 1);
+
+			/* translators: %s is the form label */
 			$post->post_title = sprintf(__('%s Preview', 'ws-form'), $this->form_label);
+
 			$post->post_content = do_shortcode(sprintf('[%s id="%u" published="false" preview="true"]', WS_FORM_SHORTCODE, esc_attr($this->form_id)));
 			$post->post_status = 'publish';
 			$post->comment_status = 'closed';

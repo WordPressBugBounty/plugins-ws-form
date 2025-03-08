@@ -2,6 +2,60 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.24 - 03/07/2025 =
+* Added: Updated detection script for Meta Box and ACPT custom field plugins
+* Added: Improved help text for file upload Accepted File Type(s) setting
+* Added: Field border placement setting in styler (All sides or bottom only)
+* Changed: Invalid feedback CSS moved from layout to base CSS files
+* Bug Fix: Invalid feedback positioning if prefix / suffix and ITI used on phone field
+
+= 1.10.23 - 03/03/2025 =
+* Added: Patch to fix browser related bug for DropzoneJS hidden input field when rendered using RTL
+* Bug Fix: Post data source fix if Meta Box returned an object instead of an array
+* Bug Fix: CSS fix for checkbox styled as button with full width
+
+= 1.10.22 - 02/26/2025 =
+* Added: Admin CSS improvements
+* Added: Improved ACF required field handling
+* Added: Meta box data source object bypassing
+* Bug Fix: Conversation JS no longer enqueued if dynamic enqueuing is disabled
+* Bug Fix: #checkbox_count fix
+
+= 1.10.21 - 02/19/2025 =
+* Added: Clamp font size calculator (https://theadminbar.com/simple-responsive-font-size-calculator/)
+* Added: #option_get(option_name, parameter/key) variable for use in action settings
+* Added: Email address field added to cascading source field types
+* Added: Updated language files
+* Added: Patched bug with intl-tel-input library returning error -99
+* Added: Various CSS improvements
+* Changed: Default p bottom margin change to 1em (browser default)
+* Changed: Updated Coloris CDN paths
+
+= 1.10.20 - 02/12/2025 =
+* Added: Social Security Number field type https://wsform.com/knowledgebase/ssn/
+* Added: #checkbox_count_total (Total checkboxes in field) and #select_count_total (Total options in field) variables
+* Added: Various styler CSS improvements
+* Bug Fix: Home URL referencing
+
+= 1.10.19 - 02/08/2025 =
+* Added: Improvements to server-side email address validation
+* Changed: Some server-side checks now return an HTTP 403 status code to avoid error emails being sent
+
+= 1.10.18 - 02/07/2025 =
+* Added: New functionality added for OpenAI generated calculator forms
+* Bug fix: Loader CSS enqueuing
+
+= 1.10.17 - 02/05/2025 =
+* Added: Fallback URL setting in Redirect action https://wsform.com/knowledgebase/redirect-users-to-the-referring-page-after-login/
+* Bug Fix: Woocommerce cart rendering for select, checkbox or radio fields in repeaters
+
+= 1.10.16 - 01/31/2025 =
+* Added: TrustedForm support https://wsform.com/knowledgebase/trustedform/
+* Added: Default reCAPTCHA version setting in global settings
+* Added: Third party custom field changes ready for Option Management add-on
+* Added: Stopped tutorial rendering if IntroJS incorrectly enqueued by third party plugins
+* Bug Fix: Date/time overlay styling if outside of wrapper
+
 = 1.10.15 - 01/22/2025 =
 * Bug Fix: Submission unread bubble escaping
 * Bug Fix: Client-side wpautop now checks for non-string input

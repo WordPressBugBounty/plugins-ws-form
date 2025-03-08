@@ -245,6 +245,20 @@
 						continue 2;
 				}
 
+				// Required
+				switch($action_type) {
+
+					case 'checkbox' :
+
+						$required = false;
+
+						break;
+
+					default :
+
+						$required = (isset($field['required']) ? ($field['required'] == 1) : false);
+				}
+
 				// Section names
 				$wsf_group_name = isset($field['wsf_group_name']) ? $field['wsf_group_name'] : false;
 
@@ -298,7 +312,7 @@
 					'label_field' => 		$field['label'], 
 					'type' => 				$type,
 					'action_type' =>		$action_type,
-					'required' => 			(isset($field['required']) ? ($field['required'] == 1) : false),
+					'required' => 			$required,
 					'default_value' => 		(isset($field['default_value']) ? $field['default_value'] : ''),
 					'pattern' => 			(isset($field['pattern']) ? $field['pattern'] : ''),
 					'placeholder' => 		(isset($field['placeholder']) ? $field['placeholder'] : ''),
@@ -461,7 +475,9 @@
 								);
 							}
 
+							// Choices
 							$choices = array();
+
 							break;
 
 						case 'taxonomy' :
@@ -522,7 +538,9 @@
 								);
 							}
 
+							// Choices
 							$choices = array();
+
 							break;
 
 						case 'user' :
@@ -569,7 +587,9 @@
 								);
 							}
 
+							// Choices
 							$choices = array();
+
 							break;
 
 						case 'select' :
@@ -605,7 +625,9 @@
 								}
 							}
 
+							// Choices
 							$choices = isset($field['choices']) ? $field['choices'] : array();
+
 							break;
 
 						case 'checkbox' :
@@ -629,7 +651,17 @@
 								$meta_return['select_all'] = 'on';
 							}
 
+							// Required
+							$required = isset($field['required']) ? $field['required'] : false;
+
+							if($required) {
+
+								$meta_return['checkbox_min'] = '1';
+							}
+
+							// Choices
 							$choices = isset($field['choices']) ? $field['choices'] : array();
+
 							break;
 
 						case 'radio' :
@@ -644,7 +676,9 @@
 							$meta_return['data_source_id'] = 'acf';
 							$meta_return['data_source_acf_field_key'] = $field['key'];
 
+							// Choices
 							$choices = isset($field['choices']) ? $field['choices'] : array();
+
 							break;
 
 						case 'true_false' :
@@ -661,7 +695,9 @@
 								$meta_return['class_field'] = 'wsf-switch';
 							}
 
+							// Choices
 							$choices = array('on' => $field['label']);
+
 							break;
 
 						case 'button_group' :
@@ -677,7 +713,9 @@
 							$meta_return['data_source_id'] = 'acf';
 							$meta_return['data_source_acf_field_key'] = $field['key'];
 
+							// Choices
 							$choices = isset($field['choices']) ? $field['choices'] : array();
+
 							break;
 					}
 

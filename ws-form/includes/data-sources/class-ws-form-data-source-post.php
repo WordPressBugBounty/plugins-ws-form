@@ -771,6 +771,8 @@
 
 								foreach($meta_box_field as $meta_box_field_single) {
 
+									if(!is_array($meta_box_field_single)) { continue; }
+
 									$full_url = isset($meta_box_field_single['full_url']) ? $meta_box_field_single['full_url'] : false;
 
 									if($full_url !== false) {
@@ -1502,7 +1504,14 @@
 				if(!isset($taxonomy_lookups[$term->taxonomy])) { continue; }
 				$taxonomy_label = $taxonomy_lookups[$term->taxonomy];
 
-				$results[] = array('id' => $term->term_id, 'text' => sprintf('%s: %s (ID: %u)', $taxonomy_label, $term->name, $term->term_id));
+				$results[] = array('id' => $term->term_id, 'text' => sprintf(
+
+					'%s: %s (%s: %u)',
+					$taxonomy_label,
+					$term->name,
+					__('ID', 'ws-form'),
+					$term->term_id
+				));
 			}
 
 			return array('results' => $results);
@@ -1528,7 +1537,14 @@
 
 				$taxonomy_label = $taxonomy_lookups[$term->taxonomy];
 
-				$return_array[$term_id] = sprintf('%s: %s (ID: %u)', $taxonomy_label, $term->name, $term->term_id);
+				$return_array[$term_id] = sprintf(
+
+					'%s: %s (%s: %u)',
+					$taxonomy_label,
+					$term->name,
+					__('ID', 'ws-form'),
+					$term->term_id
+				);
 			}
 
 			return $return_array;

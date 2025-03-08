@@ -125,7 +125,12 @@
 	$.WS_Form.prototype.intro = function() {
 
 		// Intro
-		if(typeof(introJs) !== 'function') { return; }
+		if(
+			(typeof(introJs) !== 'function') ||
+			!ws_form_settings.intro
+		) {
+			return;
+		}
 
 		$('body').addClass('wsf-intro');
 
@@ -4802,7 +4807,7 @@
 	// Sidebar - Title - Init
 	$.WS_Form.prototype.sidebar_required_setting = function(object_data, obj_sidebar_inner) {
 
-		$('[data-required-setting]', obj_sidebar_inner).on('change keyup input', function() {
+		$('[data-required-setting]', obj_sidebar_inner).on('change input', function() {
 
 			$.WS_Form.this.sidebar_required_setting_process(object_data, obj_sidebar_inner);
 		});
@@ -6092,7 +6097,7 @@
 		$('#wsf-form-field-selector').html(field_select_html);
 
 		// Search
-		$('#wsf-field-selector-search').on('input change paste', function() {
+		$('#wsf-field-selector-search').on('change input', function() {
 
 			var keywords = $(this).val();
 			keywords = keywords.toLowerCase().trim();
@@ -6503,7 +6508,7 @@
 		});
 
 		// Search
-		$('#wsf-section-selector-search', section_selector_obj).on('input change paste', function() {
+		$('#wsf-section-selector-search', section_selector_obj).on('change input', function() {
 
 			var keywords = $(this).val();
 			keywords = keywords.toLowerCase().trim();
@@ -6895,7 +6900,7 @@
 
 					init_instance_callback: function (editor) {
 
-						editor.on('keyup input change', function (e) {
+						editor.on('change input keyup', function() {
 
 							$('#' + editor.id).val(wp.editor.getContent(editor.id)).trigger('keyup').trigger('input');
 						});
@@ -6997,7 +7002,7 @@
 				sidebar_condition_added[sidebar_condition_meta_key] = true;
 
 				// Create on change event
-				obj_sidebar_outer.on('input change', meta_key_selector, function() { ws_this.sidebar_condition_process(obj_sidebar_outer, $(this), false); });
+				obj_sidebar_outer.on('change input', meta_key_selector, function() { ws_this.sidebar_condition_process(obj_sidebar_outer, $(this), false); });
 			}
 
 			obj_sidebar_outer.attr('data-sidebar-conditions-init', '');
@@ -14155,7 +14160,7 @@
 			var form_fields = $('input, select, textarea', '#wsf-template-add-modal-form');
 
 			// Validation
-			form_fields.on('change input paste', function() {
+			form_fields.on('change input', function() {
 
 				$('#wsf-modal-buttons-create button').attr('disabled', $(this).closest('form')[0].checkValidity() ? false : '');
 			});
@@ -17582,7 +17587,7 @@
 		}
 
 		// Search
-		$('#wsf-variable-helper-search-input').off().on('input change paste', function() {
+		$('#wsf-variable-helper-search-input').off().on('change input', function() {
 
 			var keywords = $(this).val();
 			keywords = keywords.toLowerCase().trim();
@@ -17869,7 +17874,7 @@
 
 		this.input_auto_size_process(input_obj, dummy_class);
 
-		input_obj.on('change input paste', function() {
+		input_obj.on('change input', function() {
 
 			$.WS_Form.this.input_auto_size_process($(this), dummy_class);
 		})
@@ -17986,9 +17991,6 @@
 		if(typeof(conversational) === 'undefined') { conversational = false; }
 		if(typeof(submit_hash) === 'undefined') { submit_hash = false; }
 
-		// Get site URL
-		var url = ws_form_settings.url_site;
-
 		// Form ID
 		var query_args = [];
 		query_args.push('wsf_preview' + (conversational ? '_conversational' : '') + '_form_id=' + parseInt(form_id, 10));
@@ -18016,7 +18018,7 @@
 
 		query_args.push('wsf_rand=' + rand_string);
 
-		return url + '?' + query_args.join('&');
+		return ws_form_settings.url_home + '?' + query_args.join('&');
 	}
 
 	// Sidebar - Support - Open

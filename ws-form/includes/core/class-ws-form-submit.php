@@ -1134,8 +1134,12 @@
 							case 'file' :
 							case 'signature' :
 							case 'googlemap' :
-
-								if(!is_array($value)) { $value = array(); }
+							case 'select' :
+							case 'checkbox' :
+							case 'radio' :
+							case 'price_select' :
+							case 'price_checkbox' :
+							case 'price_radio' :
 
 								if($submit_meta_not_set) {
 
@@ -1143,11 +1147,12 @@
 
 								} else {
 
-									foreach($value as $file) {
+									if(is_array($value)) {
 
-										$submit_meta[$meta_key_base]['value'][] = $file;
+										$submit_meta[$meta_key_base]['value'] = is_array($submit_meta[$meta_key_base]['value']) ?  array_merge($submit_meta[$meta_key_base]['value'], $value) : $value;
 									}
 								}
+
 								break;
 
 							// Strings
@@ -1363,7 +1368,8 @@
 			// Ensure provided submit status is valid
 			if(WS_Form_Common::check_submit_status($status) == '') {
 
-				parent::db_throw_error(sprintf(__('Invalid submit status: %s.', 'ws-form'), $status));
+				/* translators: %s = Status */
+				parent::db_throw_error(sprintf(__('Invalid submit status: %s', 'ws-form'), $status));
 			}
 
 			// Update submit record
@@ -2274,7 +2280,10 @@
 			// Spam protection - Honeypot
 			$honeypot_hash = ($this->form_object->published_checksum != '') ? $this->form_object->published_checksum : 'honeypot_unpublished_' . $this->form_id;
 			$honeypot_value = WS_Form_Common::get_query_var_nonce("field_$honeypot_hash");
-			if($honeypot_value != '') { parent::db_throw_error(__('Spam protection error.', 'ws-form')); }
+			if($honeypot_value != '') {
+
+				self::return_forbidden();
+			}
 
 			// Get sections array
 			$sections = WS_Form_Common::get_sections_from_form($this->form_object);
@@ -2284,7 +2293,10 @@
 			$form_submit = ($this->post_mode == 'submit');
 
 			// Ensure post mode is valid
-			if(!in_array($this->post_mode, array('submit', 'save', 'action'))) { parent::db_throw_error(__('Invalid post mode.', 'ws-form')); }
+			if(!in_array($this->post_mode, array('submit', 'save', 'action'))) {
+
+				self::return_forbidden();
+			}
 
 			// Build section_repeatable
 			$section_repeatable = array();
@@ -2359,6 +2371,13 @@
 
 				$this->meta['post_id'] = $post_id;
 			}
+		}
+
+		public function return_forbidden() {
+
+			// Exit with 403 HTTP status code
+			header('HTTP/1.0 403 Forbidden');
+			exit;
 		}
 
 		public function setup_from_post_section($section, $form_submit, $process_file_fields = true, $process_non_file_fields = true, $section_id = false, $section_repeatable_index = false, &$section_repeatable = array()) {
@@ -2447,14 +2466,19 @@
 					case 'email' :
 
 						// Sanitize email address
-						$email = sanitize_email($field_value);
+						$field_value = sanitize_email($field_value);
 
-						if(
-							($email !== '') &&
-							(filter_var($email, FILTER_VALIDATE_EMAIL) !== false)
-						) {
+						if($field_value !== '') {
 
-							$email_validate = apply_filters('wsf_action_email_email_validate', true, $email, $this->form_object->id, $field_id);
+							// Double check the email address
+							if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
+
+								self::db_throw_error_field_invalid_feedback($field_id, $section_repeatable_index, $email_validate);
+								continue 2;
+							}
+
+							// Run wsf_action_email_email_validate filter hook
+							$email_validate = apply_filters('wsf_action_email_email_validate', true, $field_value, $this->form_object->id, $field_id);
 
 							if(is_string($email_validate)) {
 
@@ -2690,6 +2714,12 @@
 						case 'file' :
 						case 'signature' :
 						case 'googlemap' :
+						case 'select' :
+						case 'checkbox' :
+						case 'radio' :
+						case 'price_select' :
+						case 'price_checkbox' :
+						case 'price_radio' :
 
 							if($meta_not_set) {
 
@@ -2699,18 +2729,7 @@
 
 								if(is_array($field_value)) {
 
-									$meta_value = $this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'];
-
-									if(!is_array($meta_value)) {
-
-										// Currently a blank string
-										$this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'] = $field_value;
-
-									} else {
-
-										// Currently an array
-										$this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'] = array_merge($field_value, $meta_value);
-									}
+									$this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'] = is_array($this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value']) ? array_merge($this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'], $field_value) : $field_value;
 								}
 							}
 
@@ -3140,6 +3159,8 @@
 			if(is_wp_error($response)) {
 
 				$error_message = $response->get_error_message();
+
+				/* translators: %s = Error message */
 				parent::db_throw_error(sprintf(__('Captcha verification failed (%s).', 'ws-form'), $error_message));
 
 			} else {
@@ -3213,6 +3234,7 @@
 
 								default :
 
+									/* translators: %s = Error code */
 									$error_message = sprintf(__('Captcha Error: %s.', 'ws-form'), $error_code);
 							}
 
@@ -3507,6 +3529,7 @@
 
 				if(!filter_var($email_to, FILTER_VALIDATE_EMAIL)) {
 
+					/* translators: %s = Email address */
 					parent::db_throw_error(__('Invalid email address: %s', $email_to, 'ws-form'));
 				}
 			}

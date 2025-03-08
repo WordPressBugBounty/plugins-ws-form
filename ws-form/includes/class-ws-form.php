@@ -172,8 +172,11 @@ final class WS_Form {
 			}
 
 			// Meta Box
-			if(class_exists('RWMB_Loader')) {
-
+			if(
+				defined('RWMB_VER') ||
+				defined('META_BOX_LITE_DIR') ||
+				defined('META_BOX_AIO_DIR')
+			) {
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/meta-box/class-ws-form-meta-box.php';
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-meta-box.php';
 			}
@@ -201,7 +204,6 @@ final class WS_Form {
 
 			// ACPT
 			if(
-				class_exists('ACPT') &&
 				defined('ACPT_PLUGIN_VERSION') &&
 				(WS_Form_Common::version_compare(ACPT_PLUGIN_VERSION, '2.0.0') >= 0)
 			) {

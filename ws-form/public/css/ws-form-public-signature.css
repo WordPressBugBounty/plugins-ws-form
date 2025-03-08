@@ -36,11 +36,13 @@
   display: none;
 }
 
-.wsf-form.wsf-validated input[type=text].wsf-field:invalid ~ canvas {
+.wsf-form.wsf-validated input[type=text].wsf-field:invalid ~ canvas,
+.wsf-form .wsf-validated input[type=text].wsf-field:invalid ~ canvas {
   border-color: var(--wsf-field-border-color-invalid);
 }
 
-.wsf-form.wsf-validated input[type=text].wsf-field:invalid ~ canvas:focus {
+.wsf-form.wsf-validated input[type=text].wsf-field:invalid ~ canvas:focus,
+.wsf-form .wsf-validated input[type=text].wsf-field:invalid ~ canvas:focus {
   box-shadow: var(--wsf-field-box-shadow);
 }
 
@@ -48,6 +50,7 @@
   transition: background-color var(--wsf-form-transition), border-color var(--wsf-form-transition), box-shadow var(--wsf-form-transition);
 }
 
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=text].wsf-field:invalid ~ canvas {
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=text].wsf-field:invalid ~ canvas,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=text].wsf-field:invalid ~ canvas {
   border-color: var(--wsf-field-border-color-invalid-alt);
 }

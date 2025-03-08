@@ -149,17 +149,14 @@
   transition: background-color var(--wsf-form-transition), border-color var(--wsf-form-transition), box-shadow var(--wsf-form-transition);
 }
 
-.wsf-form.wsf-rtl .dz-hidden-input {
-  left: auto;
-  right: 0;
-}
-
-.wsf-form.wsf-validated input[type=text].wsf-field[data-file-type="dropzonejs"]:invalid ~ .dropzone {
+.wsf-form.wsf-validated input[type=text].wsf-field[data-file-type="dropzonejs"]:invalid ~ .dropzone,
+.wsf-form .wsf-validated input[type=text].wsf-field[data-file-type="dropzonejs"]:invalid ~ .dropzone {
   background-color: var(--wsf-field-color-background-invalid);
   border-color: var(--wsf-field-border-color-invalid);
 }
 
-.wsf-form.wsf-validated input[type=text].wsf-field[data-file-type="dropzonejs"]:invalid ~ .dropzone.dz-drag-hover {
+.wsf-form.wsf-validated input[type=text].wsf-field[data-file-type="dropzonejs"]:invalid ~ .dropzone.dz-drag-hover,
+.wsf-form .wsf-validated input[type=text].wsf-field[data-file-type="dropzonejs"]:invalid ~ .dropzone.dz-drag-hover {
   box-shadow: var(--wsf-field-box-shadow);
 }
 
@@ -231,7 +228,12 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] input[type=text].ws
   color: var(--wsf-field-color-disabled);
 }
 
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=text].wsf-field[data-file-type="dropzonejs"]:invalid ~ .dropzone {
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt].wsf-validated input[type=text].wsf-field[data-file-type="dropzonejs"]:invalid ~ .dropzone,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated input[type=text].wsf-field[data-file-type="dropzonejs"]:invalid ~ .dropzone {
   background-color: var(--wsf-field-color-background-invalid-alt);
   border-color: var(--wsf-field-border-color-invalid-alt);
+}
+
+[dir="rtl"] input[type="file"].dz-hidden-input {
+  display: none;
 }

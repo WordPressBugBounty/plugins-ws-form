@@ -11,7 +11,7 @@
 	 * Plugin Name:       WS Form LITE
 	 * Plugin URI:        https://wsform.com/
 	 * Description:       Build Better WordPress Forms
-	 * Version:           1.10.15
+	 * Version:           1.10.24
 	 * Requires at least: 5.3
 	 * Requires PHP:      5.6
 	 * Author:            WS Form
@@ -24,6 +24,7 @@
 
 	// If this file is called directly, abort.
 	if(!defined('WPINC')) {
+
 		die;
 	}
 
@@ -37,7 +38,7 @@
 
 		// Constants
 		define('WS_FORM_NAME', 'ws-form');
-		define('WS_FORM_VERSION', '1.10.15');
+		define('WS_FORM_VERSION', '1.10.24');
 		define('WS_FORM_NAME_GENERIC', 'WS Form');
 		define('WS_FORM_NAME_PRESENTABLE', 'WS Form LITE');
 		define('WS_FORM_EDITION', 'basic');
@@ -99,7 +100,7 @@
 		define('WS_FORM_MIN_VERSION_PHP', '7.2');
 		define('WS_FORM_MIN_VERSION_MYSQL', '5.6');
 		define('WS_FORM_MIN_INPUT_VARS', 100);
-		define('WS_FORM_MIN_MYSQL_MAX_ALLOWED_PACKET', 4194304);
+		define('WS_FORM_MAX_MYSQL_ALLOWED_PACKET', 4194304);
 
 		define('WS_FORM_API_CALL_TIMEOUT', 15);
 		define('WS_FORM_API_CALL_SSL_VERIFY', true);

@@ -992,7 +992,7 @@
 			} else {
 
 				$path = '/' . WS_FORM_RESTFUL_NAMESPACE . '/' . $path;
-				$api_path = get_site_url() . '/?rest_route=' . rawurlencode($path);
+				$api_path = get_site_url(null, '/') . '?rest_route=' . rawurlencode($path);
 				if($query_string !== false) { $api_path .= '&' . $query_string; }
 			}
 
@@ -1463,7 +1463,13 @@
 			// Check to see if WS Forms upload folder exists
 			if(!file_exists($upload_dir_ws_form)) {
 
-				if(!wp_mkdir_p($upload_dir_ws_form)) { return ['error' => true, 'message' => sprintf(__('Unable to create upload folder for uploaded files (wp-content/uploads/%s).', 'ws-form'), $upload_dir_path)]; }
+				if(!wp_mkdir_p($upload_dir_ws_form)) { return ['error' => true, 'message' => sprintf(
+
+					/* translators: %s = Upload path */
+					__('Unable to create upload folder for uploaded files (wp-content/uploads/%s).', 'ws-form'),
+					$upload_dir_path
+
+				)]; }
 			}
 
 			return ['error' => false, 'dir' => $upload_dir_ws_form, 'path' => $upload_dir_path];
@@ -2038,7 +2044,14 @@
 										if($parse_variable_attribute_required && !$parse_variable_attribute_supplied) {
 
 											// Syntax error - Attribute count
-											self::throw_error(sprintf(__('Syntax error, missing attribute: %s (Expected: %s)', 'ws-form'), '#' . $parse_variable, $parse_variable_attribute_id));
+											self::throw_error(sprintf(
+
+												/* translators: %1$s = Parse variable, %2$s = Attribute ID */
+												__('Syntax error, missing attribute: %1$s (Expected: %2$s)', 'ws-form'),
+												'#' . $parse_variable,
+												$parse_variable_attribute_id
+											));
+
 											continue;
 										}
 
@@ -2071,7 +2084,13 @@
 											) {
 
 												// Syntax error - Attribute count
-												self::throw_error(sprintf(__('Syntax error, invalid attribute: %s (Expected: %s)', 'ws-form'), '#' . $parse_variable, implode(', ', $parse_variable_attribute_valid)));
+												self::throw_error(sprintf(
+
+													/* translators: %1$s = Parse variable, %2$s = Valid attributes */
+													__('Syntax error, invalid attribute: %1$s (Expected: %2$s)', 'ws-form'),
+													'#' . $parse_variable,
+													implode(', ', $parse_variable_attribute_valid)
+												));
 											}
 										}
 									}
@@ -2131,7 +2150,12 @@
 
 											} else {
 
-												self::throw_error(sprintf(__('Syntax error, invalid group ID in #group_label(%u)', 'ws-form'), $group_id));
+												self::throw_error(sprintf(
+
+													/* translators: %u = Tab ID */
+													__('Syntax error, invalid group ID in #group_label(%u)', 'ws-form'),
+													$group_id
+												));
 											}
 
 											break;
@@ -2156,7 +2180,12 @@
 
 											} else {
 
-												self::throw_error(sprintf(__('Syntax error, invalid section ID in #section_label(%u)', 'ws-form'), $section_id));
+												self::throw_error(sprintf(
+
+													/* translators: %u = Section ID */
+													__('Syntax error, invalid section ID in #section_label(%u)', 'ws-form'),
+													$section_id
+												));
 											}
 
 											break;
@@ -2188,7 +2217,12 @@
 
 											} else {
 
-												self::throw_error(sprintf(__('Syntax error, invalid field ID in #field_label(%u)', 'ws-form'), $field_id));
+												self::throw_error(sprintf(
+
+													/* translators: %u = Field ID */
+													__('Syntax error, invalid field ID in #field_label(%u)', 'ws-form'),
+													$field_id
+												));
 											}
 
 											break;
@@ -2344,7 +2378,12 @@
 											// Check time
 											if($time_input === false) {
 
-												self::throw_error(sprintf(__('Syntax error, invalid input date: %s', 'ws-form'), $date_input));
+												self::throw_error(sprintf(
+
+													/* translators: %s = Date input */
+													__('Syntax error, invalid input date: %s', 'ws-form'),
+													$date_input
+												));
 											}
 
 											// Process date
@@ -2640,6 +2679,98 @@
 
 											break;
 
+										// Option - Get
+										case 'option_get' :
+
+											// Get option name
+											$option_name = $variable_attribute_array[0];
+
+											// Get option value
+											$option_value = get_option($option_name);
+
+											// Check for error with get_option
+											if($option_value === false) {
+
+												// Syntax error
+												self::throw_error(sprintf(
+
+													/* translators: %s = Option name */
+													__('Syntax error, option name %s not found in #option_get', 'ws-form'),
+													esc_html($option_name)
+												));
+
+												$option_value = '';
+											}
+
+											// Check if returned value is an object
+											if(is_object($option_value)) {
+
+												// Has a parameter been provided?
+												if(isset($variable_attribute_array[1])) {
+
+													$option_property = $variable_attribute_array[1];
+
+													if(property_exists($option_value, $option_property)) {
+
+														$option_value = $option_value->$option_property;
+
+													} else {
+
+														$option_value = '';
+													}
+
+												} else {
+
+													// Syntax error
+													self::throw_error(sprintf(
+
+														/* translators: %s = Option name */
+														__('Syntax error, option name %s is an object, missing parameter in #option_get', 'ws-form'),
+														esc_html($option_name)
+													));
+
+													$option_value = '';
+												}
+											}
+
+											// Check if returned value is an array
+											if(is_array($option_value)) {
+
+												// Has a parameter been provided?
+												if(isset($variable_attribute_array[1])) {
+
+													$option_property = $variable_attribute_array[1];
+
+													if(isset($option_value[$option_property])) {
+
+														$option_value = $option_value[$option_property];
+
+													} else {
+
+														$option_value = '';
+													}
+
+												} else {
+
+													// Syntax error
+													self::throw_error(sprintf(
+
+														/* translators: %s = Option name */
+														__('Syntax error, option name %s is an array, missing key in #option_get', 'ws-form'),
+														esc_html($option_name)
+													));
+
+													$option_value = '';
+												}
+											}
+
+											if(is_string($option_value)) {
+
+												$parsed_variable = $option_value;
+											}
+
+											break;
+
 										// Submit date added custom
 										case 'submit_date_added_custom' :
 
@@ -2892,8 +3023,22 @@
 					$variables['user_display_name'] = (($user_id > 0) ? $user->display_name : '');
 					$variables['user_url'] = (($user_id > 0) ? $user->user_url : '');
 					$variables['user_registered'] = (($user_id > 0) ? $user->user_registered : '');
-					$variables['user_first_name'] = (($user_id > 0) ? get_user_meta($user_id, 'first_name', true) : '');
-					$variables['user_last_name'] = (($user_id > 0) ? get_user_meta($user_id, 'last_name', true) : '');
+
+					// Build names
+					$user_full_name_array = array();
+
+					$user_first_name = (($user_id > 0) ? get_user_meta($user_id, 'first_name', true) : '');
+					if(!empty($user_first_name)) { $user_full_name_array[] = $user_first_name; }
+
+					$user_last_name = (($user_id > 0) ? get_user_meta($user_id, 'last_name', true) : '');
+					if(!empty($user_last_name)) { $user_full_name_array[] = $user_last_name; }
+
+					$user_full_name = implode(' ', $user_full_name_array);
+
+					$variables['user_first_name'] = $user_first_name;
+					$variables['user_last_name'] = $user_last_name;
+					$variables['user_full_name'] = $user_full_name;
+
 					$variables['user_bio'] = (($user_id > 0) ? get_user_meta($user_id, 'description', true) : '');
 					$variables['user_nickname'] = (($user_id > 0) ? get_user_meta($user_id, 'nickname', true) : '');
 					$variables['user_admin_color'] = (($user_id > 0) ? get_user_meta($user_id, 'admin_color', true) : '');
@@ -3029,9 +3174,20 @@
 
 			foreach($parse_variables_secure as $parse_variable_key) {
 
+				// Exact match
 				if(isset($variables[$parse_variable_key])) {
 
 					$variables[$parse_variable_key] = '&num;' . $parse_variable_key;
+					break;
+				}
+
+				// Variable has attributes
+				foreach($variables as $variable_key => $variable_value) {
+
+					if(strpos($variable_key, $parse_variable_key . '(') === 0) {
+
+						$variables[$variable_key] = '&num;' . $variable_key;
+					}
 				}
 			}
 
@@ -4039,7 +4195,12 @@
 			} else {
 
 				// Throw error
-				throw new Exception(sprintf(__('Insufficient user capabilities (%s)', 'ws-form'), $capability));
+				throw new Exception(sprintf(
+
+					/* translators: %s = Capability */
+					__('Insufficient user capabilities (%s)', 'ws-form'),
+					$capability
+				));
 			}
 		}
 
@@ -4482,7 +4643,7 @@
 		// Get preview URL
 		public static function get_preview_url($form_id = 0, $template_id = false, $style_id = false, $styler = false, $conversational = false, $submit_hash = false, $skin_id = 'ws_form') {
 
-			$url = get_site_url(null, '/');
+			$url = get_home_url(null, '/');
 
 			// Form ID
 			$url = add_query_arg(sprintf('wsf_preview%s_form_id', ($conversational ? '_conversational' : '')), $form_id, $url);
@@ -4991,8 +5152,13 @@
 
 				foreach($forms as $form) {
 
-					/* translators: %s: Name of the form, %u: ID of the form */
-					$form_array[$form['id']] = sprintf(__('%s (ID: %u)', 'ws-form'), esc_html($form['label']), $form['id']);
+					$form_array[$form['id']] = sprintf(
+
+						'%s (%s: %u)',
+						esc_html($form['label']),
+						__('ID', 'ws-form'),
+						$form['id']
+					);
 				}
 			}
 
@@ -5271,7 +5437,12 @@
 
 			// Check file extension
 			$ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-			if($ext !== 'json') { self::throw_error(sprintf(__('Unsupported file extension: %s', 'ws-form') , $ext)); }
+			if($ext !== 'json') { self::throw_error(sprintf(
+
+				/* translators: %s = Extension */
+				__('Unsupported file extension: %s', 'ws-form'),
+				$ext
+			)); }
 
 			// Check file format
 			if(!file_exists($file_tmp_name)) { self::throw_error(__('Unable to read uploaded file', 'ws-form')); }
@@ -5294,7 +5465,15 @@
 
 			// Check form JSON format
 			$object = json_decode($json);
-			if(is_null($object)) { self::throw_error(sprintf(__('JSON corrupt (%s)', 'ws-form'), json_last_error_msg())); }
+			if(is_null($object)) {
+
+				self::throw_error(sprintf(
+
+					/* translators: %s = json_decode last error message */
+					__('JSON corrupt (%s)', 'ws-form'),
+					json_last_error_msg()
+				));
+			}
 			if(!is_object($object)) { self::throw_error(__('JSON corrupt (Not object)', 'ws-form')); }
 
 			// Checksum test
@@ -5472,7 +5651,12 @@
 					!is_array($data[$node]) &&
 					($path_array_index < $path_array_index_max)
 				) {
-					throw new Exception(sprintf(__('Node %s not valid or duplicate node.', 'ws-form'), $path));
+					throw new Exception(sprintf(
+
+						/* translators: %s = Node path */
+						__('Node %s not valid or duplicate node.', 'ws-form'),
+						$path
+					));
 				}
 
 				$data = &$data[$node];
@@ -5529,7 +5713,12 @@
 
 					} else {
 
-						throw new Exception(sprintf(__('Node %s not found in response data.', 'ws-form'), $path));
+						throw new Exception(sprintf(
+
+							/* translators: %s = Node path */
+							__('Node %s not found in response data.', 'ws-form'),
+							$path
+						));
 					}
 
 				} else {
@@ -5540,7 +5729,12 @@
 
 					} else {
 
-						throw new Exception(sprintf(__('Node %s not found in response data.', 'ws-form'), $path));
+						throw new Exception(sprintf(
+
+							/* translators: %s = Node path */
+							__('Node %s not found in response data.', 'ws-form'),
+							$path
+						));
 					}
 				}
 			}

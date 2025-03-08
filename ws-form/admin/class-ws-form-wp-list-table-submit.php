@@ -526,7 +526,13 @@
 
 			// Spam level indicator
 			$spam_level = isset($item->spam_level) ? $item->spam_level : null;
-			$spam_level_indicator = is_null($spam_level) ? '' : '<span class="wsf-spam-level" style="background:' . WS_Form_Color::get_green_to_red_rgb($spam_level, 0, WS_FORM_SPAM_LEVEL_MAX) . '" title="' . sprintf(__('Spam level: %u%%', 'ws-form'), round($spam_level)) . '"></span>';
+			$spam_level_indicator = is_null($spam_level) ? '' : '<span class="wsf-spam-level" style="background:' . WS_Form_Color::get_green_to_red_rgb($spam_level, 0, WS_FORM_SPAM_LEVEL_MAX) . '" title="' . sprintf(
+
+					/* translators: %u = Spam level 0 - 100 */
+					__('Spam level: %u%%', 'ws-form'),
+					round($spam_level)
+
+				) . '"></span>';
 
 			// Build title
 			$ws_form_submit = New WS_Form_Submit();
@@ -824,10 +830,21 @@
 					if($form['id'] == $this->form_id) { echo ' selected'; }
 ?>><?php
 					// Label
-					WS_Form_Common::echo_esc_html(sprintf(__('%s (ID: %u)', 'ws-form'), $form['label'], $form['id']));
+					WS_Form_Common::echo_esc_html(sprintf(
+
+						'%s (%s: %u)',
+						$form['label'],
+						__('ID', 'ws-form'),
+						$form['id']
+					));
 
 					// Submit count
-					WS_Form_Common::echo_esc_html(' - ' . sprintf(_n('%u record', '%u records', $count_submit, 'ws-form'), $count_submit));
+					WS_Form_Common::echo_esc_html(' - ' . sprintf(
+
+						/* translators: %u = Submission count */
+						_n('%u record', '%u records', $count_submit, 'ws-form'),
+						$count_submit
+					));
 ?></option>
 <?php
 				}

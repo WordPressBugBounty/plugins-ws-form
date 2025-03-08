@@ -1465,6 +1465,13 @@
 							'label'					=>	__('Legal', 'ws-form'),
 							'pro_required'			=>	!WS_Form_Common::is_edition('pro'),
 							'kb_url'				=>	'/knowledgebase/legal/',
+						),
+
+						'ssn' => array (
+
+							'label'				=>	__('SSN', 'ws-form'),
+							'pro_required'		=>	!WS_Form_Common::is_edition('pro'),
+							'kb_url'			=>	'/knowledgebase/ssn/',
 						)
 					)
 				),
@@ -3154,6 +3161,21 @@
 										esc_html__('Learn more', 'ws-form')
 									),
 									'default'	=>	''
+								),
+
+								// reCAPTCHA - Default type
+								'recaptcha_recaptcha_type' => array(
+
+									'label'						=>	__('Default reCAPTCHA Type', 'ws-form'),
+									'type'						=>	'select',
+									'help'						=>	__('Select the default type used for new reCAPTCHA fields.', 'ws-form'),
+									'options'					=>	array(
+
+										'v2_default' => array('text' => __('Version 2 - Default', 'ws-form')),
+										'v2_invisible' => array('text' => __('Version 2 - Invisible', 'ws-form')),
+										'v3_default' => array('text' => __('Version 3', 'ws-form')),
+									),
+									'default'					=>	'v2_default'
 								)
 							)
 						),
@@ -3445,7 +3467,9 @@
 					'error_api_call_400'				=>	__('400 Bad request response from server: %s', 'ws-form'),
 					'error_api_call_401'				=>	sprintf('%s <a href="%s" target="_blank">%s</a>.', __('401 Unauthorized response from server.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/401-unauthorized/', 'api_call'), __('Click here', 'ws-form')),
 					'error_api_call_403'				=>	sprintf('%s <a href="%s" target="_blank">%s</a>.', __('403 Forbidden response from server.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/403-forbidden/', 'api_call'), __('Click here', 'ws-form')),
+					/* translators: %s = Error message */
 					'error_api_call_404'				=>	__('404 Not found response from server: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_api_call_500'				=>	__('500 Server error response from server: %s', 'ws-form'),
 
 					// Error message
@@ -3472,17 +3496,29 @@
 					// Select all
 					'select_all_label'					=>	__('Select All', 'ws-form'),
 					// Parse variables
+					/* translators: %s = Error message */
 					'error_parse_variable_syntax_error_brackets'			=>	__('Syntax error, missing brackets: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_parse_variable_syntax_error_bracket_closing'		=>	__('Syntax error, missing closing bracket: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_parse_variable_syntax_error_attribute'			=>	__('Syntax error, missing attribute: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_parse_variable_syntax_error_attribute_invalid'	=>	__('Syntax error, invalid attribute: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_parse_variable_syntax_error_depth'				=>	__('Syntax error, too many iterations', 'ws-form'),
+					/* translators: %s = Field ID */
 					'error_parse_variable_syntax_error_field_id'			=>	__('Syntax error, invalid field ID: %s', 'ws-form'),
+					/* translators: %s = section ID */
 					'error_parse_variable_syntax_error_section_id'			=>	__('Syntax error, invalid section ID: %s', 'ws-form'),
+					/* translators: %s = tab ID */
 					'error_parse_variable_syntax_error_group_id'			=>	__('Syntax error, invalid tab ID: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_parse_variable_syntax_error_self_ref'			=>	__('Syntax error, fields cannot contain references to themselves: %s', 'ws-form'),
+					/* translators: %s = Field ID */
 					'error_parse_variable_syntax_error_field_date_offset'	=>	__('Syntax error, field ID %s is not a date field', 'ws-form'),
+					/* translators: %s = Field ID */
 					'error_parse_variable_syntax_error_calc'				=>	__('Syntax error: field ID: %s', 'ws-form'),
+					/* translators: %s = Date input */
 					'error_parse_variable_syntax_error_date_format'			=>	__('Syntax error, invalid input date: %s', 'ws-form'),
 				)
 			);
@@ -4381,7 +4417,7 @@
 						array('value' => 'v2_invisible', 'text' => __('Version 2 - Invisible', 'ws-form')),
 						array('value' => 'v3_default', 'text' => __('Version 3', 'ws-form')),
 					),
-					'default'					=>	'v2_default'
+					'default'					=>	WS_Form_Common::option_get('recaptcha_recaptcha_type', 'v2_default')
 				),
 
 				// reCAPTCHA - Badge
@@ -5993,6 +6029,34 @@
 					'default'					=>	''
 				),
 
+				'ssn_mask' => array(
+
+					'label'						=>	__('Mask SSN', 'ws-form'),
+					'type'						=>	'select',
+					'options'					=>	array(
+
+						array('value' => 'full', 'text' => __('Full (***-**-****)', 'ws-form')),
+						array('value' => 'partial', 'text' => __('Partial (***-**-9999)', 'ws-form')),
+						array('value' => 'partial_show_as_type', 'text' => __('Partial, show as typed (***-**-9999)', 'ws-form')),
+						array('value' => '', 'text' => __('Unmasked', 'ws-form'))
+					),
+					'help'						=>	__('Choose how the social security number will be masked.', 'ws-form'),
+					'default'					=>	'partial_show_as_type',
+				),
+
+				'ssn_format' => array(
+
+					'label'						=>	__('Output Format', 'ws-form'),
+					'type'						=>	'select',
+					'help'						=>	__('Choose the output format of the social security number.', 'ws-form'),
+					'default'					=>	'dashed',
+					'options'					=>	array(
+
+						array('value' => 'dashed', 'text' => __('###-##-####', 'ws-form')),
+						array('value' => 'numeric', 'text' => __('#########', 'ws-form'))
+					)
+				),
+
 				'password_strength_meter' => array(
 
 					'label'						=>	__('Password Strength Meter', 'ws-form'),
@@ -6005,7 +6069,7 @@
 
 				'password_strength_invalid' => array(
 
-					'label'						=>	__('Minimum Password Strength ', 'ws-form'),
+					'label'						=>	__('Minimum Password Strength', 'ws-form'),
 					'type'						=>	'select',
 					'mask'						=>	'data-password-strength-invalid="#value"',
 					'mask_disregard_on_empty'	=>	true,
@@ -6640,6 +6704,19 @@
 					'type'						=>	'text',
 					'help'						=>	__('Short hint that describes the expected value of the input field.', 'ws-form'),
 					'default'					=>	'https://',
+					'compatibility_id'			=>	'input-placeholder',
+					'variable_helper'			=>	true,
+					'key'						=>	'placeholder',
+					'field_part'				=>	'field_placeholder',
+					'translate'					=>	true
+				),
+
+				'placeholder_ssn' => array(
+
+					'label'						=>	__('Placeholder', 'ws-form'),
+					'type'						=>	'text',
+					'help'						=>	__('Short hint that describes the expected value of the input field.', 'ws-form'),
+					'default'					=>	'###-##-####',
 					'compatibility_id'			=>	'input-placeholder',
 					'variable_helper'			=>	true,
 					'key'						=>	'placeholder',
@@ -7292,7 +7369,7 @@
 					'default'					=>	'',
 					'options'					=>	'fields',
 					'options_blank'				=>	__('Select...', 'ws-form'),
-					'fields_filter_type'		=>	array('select', 'price_select', 'checkbox', 'price_checkbox', 'radio', 'price_radio', 'range', 'price_range', 'text', 'number', 'rating', 'hidden'),
+					'fields_filter_type'		=>	array('select', 'price_select', 'checkbox', 'price_checkbox', 'radio', 'price_radio', 'range', 'price_range', 'text', 'number', 'rating', 'hidden', 'email'),
 					'help'						=>	__('Select the field to use as the filter value.', 'ws-form'),
 					'condition'					=>	array(
 
@@ -7527,7 +7604,7 @@
 					'default'					=>	'',
 					'options'					=>	'fields',
 					'options_blank'				=>	__('Select...', 'ws-form'),
-					'fields_filter_type'		=>	array('select', 'price_select', 'checkbox', 'price_checkbox', 'radio', 'price_radio', 'range', 'price_range', 'text', 'number', 'rating', 'hidden'),
+					'fields_filter_type'		=>	array('select', 'price_select', 'checkbox', 'price_checkbox', 'radio', 'price_radio', 'range', 'price_range', 'text', 'number', 'rating', 'hidden', 'email'),
 					'help'						=>	__('Select the field to use as the filter value.', 'ws-form'),
 					'condition'					=>	array(
 
@@ -7657,7 +7734,7 @@
 					'default'					=>	'',
 					'options'					=>	'fields',
 					'options_blank'				=>	__('Select...', 'ws-form'),
-					'fields_filter_type'		=>	array('select', 'price_select', 'checkbox', 'price_checkbox', 'radio', 'price_radio', 'range', 'price_range', 'text', 'number', 'rating', 'hidden'),
+					'fields_filter_type'		=>	array('select', 'price_select', 'checkbox', 'price_checkbox', 'radio', 'price_radio', 'range', 'price_range', 'text', 'number', 'rating', 'hidden', 'email'),
 					'help'						=>	__('Select the field to use as the filter value.', 'ws-form'),
 					'condition'					=>	array(
 
@@ -8061,7 +8138,7 @@
 					'label'						=>	__('Style', 'ws-form'),
 					'type'						=>	'select',
 					'help'						=>	__('Choose which style to use for this form.', 'ws-form'),
-					'options'					=>	$ws_form_style->get_style_id_options(false),
+					'options'					=>	is_admin() ? $ws_form_style->get_style_id_options(false) : array(),
 					'default'					=>	0
 				);
 
@@ -9497,7 +9574,8 @@
 							),
 							'description' => __('Returns the value of a cookie by name.', 'ws-form'),
 							'kb_slug' => 'insert-cookie-values-into-fields',
-							'usage' => array('client')
+							'usage' => array('client'),
+							'secure' => true
 						)
 					)
 				),
@@ -9519,6 +9597,7 @@
 							),
 							'description' => sprintf(
 
+								/* translators: %s = Example ISO 8601 date */
 								__('Return a date formatted according to the PHP date function. The date supplied must be in a supported format such as ISO 8601, for example: %s. For field related date formatting, see: #field_date_format', 'ws-form'),
 								date('c')
 							),
@@ -10242,6 +10321,19 @@
 
 					'variables'	=> array(
 
+						'select_count_total'	=>	array(
+
+							'label' => __('Select Total Count', 'ws-form'),
+							'attributes' => array(
+
+								array('id' => 'field_id', 'type' => 'integer')
+							),
+							'description' => __('Use this variable to return the total number of options in a select field. For example: <code>#select_count_total(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#select_count_total(123))</code> to keep the value dynamically updated.', 'ws-form'),
+							'kb_slug' => 'select',
+							'usage' => array('client'),
+							'repair_group' => 'field'
+						),
+
 						'select_count'	=>	array(
 
 							'label' => __('Select Count', 'ws-form'),
@@ -10249,7 +10341,7 @@
 
 								array('id' => 'field_id', 'type' => 'integer')
 							),
-							'description' => __('Use this variable to return the number of options that have been selected for a field. For example: <code>#select_count(123)</code> where \'123\' is the field ID shown in the layout editor.', 'ws-form'),
+							'description' => __('Use this variable to return the number of options that have been selected in a select field. For example: <code>#select_count(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#select_count(123))</code> to keep the value dynamically updated.', 'ws-form'),
 							'kb_slug' => 'select',
 							'usage' => array('client'),
 							'repair_group' => 'field'
@@ -10278,14 +10370,27 @@
 
 					'variables'	=> array(
 
-						'checkbox_count'	=>	array(
+						'checkbox_count_total'	=>	array(
 
-							'label' => __('Checkbox Count', 'ws-form'),
+							'label' => __('Checkbox Rows Count', 'ws-form'),
 							'attributes' => array(
 
 								array('id' => 'field_id', 'type' => 'integer')
 							),
-							'description' => __('Use this variable to return the number of checkboxes that have been checked for a field. For example: <code>#checkbox_count(123)</code> where \'123\' is the field ID shown in the layout editor.', 'ws-form'),
+							'description' => __('Use this variable to return the total number of checkboxes in a checkbox field. For example: <code>#checkbox_count_total(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#checkbox_count_total(123))</code> to keep the value dynamically updated.', 'ws-form'),
+							'kb_slug' => 'checkbox',
+							'usage' => array('client'),
+							'repair_group' => 'field'
+						),
+
+						'checkbox_count'	=>	array(
+
+							'label' => __('Checkbox Checked Count', 'ws-form'),
+							'attributes' => array(
+
+								array('id' => 'field_id', 'type' => 'integer')
+							),
+							'description' => __('Use this variable to return the number of checkboxes that have been checked in a checkbox field. For example: <code>#checkbox_count(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#checkbox_count(123))</code> to keep the value dynamically updated.', 'ws-form'),
 							'kb_slug' => 'checkbox',
 							'usage' => array('client'),
 							'repair_group' => 'field'
@@ -10876,6 +10981,17 @@
 
 			$user_id = (($user === false) ? 0 : $user->ID);
 
+			// Build names
+			$user_full_name_array = array();
+
+			$user_first_name = (($user_id > 0) ? get_user_meta($user_id, 'first_name', true) : '');
+			if(!empty($user_first_name)) { $user_full_name_array[] = $user_first_name; }
+
+			$user_last_name = (($user_id > 0) ? get_user_meta($user_id, 'last_name', true) : '');
+			if(!empty($user_last_name)) { $user_full_name_array[] = $user_last_name; }
+
+			$user_full_name = implode(' ', $user_full_name_array);
+
 			$parse_variables['user'] = array(
 
 				'label'		=> __('User', 'ws-form'),
@@ -10942,7 +11058,7 @@
 
 						'label' 		=> __('First Name', 'ws-form'),
 						'description' 	=> __('Returns the user first name if logged in.', 'ws-form'),
-						'value' 		=> ($user_id > 0) ? get_user_meta($user_id, 'first_name', true) : '',
+						'value' 		=> $user_first_name,
 						'usage' 		=> array('client', 'action')
 					),
 
@@ -10950,7 +11066,15 @@
 
 						'label' 		=> __('Last Name', 'ws-form'),
 						'description' 	=> __('Returns the user last name if logged in.', 'ws-form'),
-						'value' 		=> ($user_id > 0) ? get_user_meta($user_id, 'last_name', true) : '',
+						'value' 		=> $user_last_name,
+						'usage' 		=> array('client', 'action')
+					),
+
+					'user_full_name'	=>	array(
+
+						'label' 		=> __('Full Name', 'ws-form'),
+						'description' 	=> __('Returns the user full name if logged in.', 'ws-form'),
+						'value' 		=> $user_full_name,
 						'usage' 		=> array('client', 'action')
 					),
 
@@ -10981,7 +11105,7 @@
 					'user_lost_password_key' => array(
 
 						'label' 		=> __('Lost Password Key', 'ws-form'),
-						'description' 	=> __('Returns the user lost password key if logged in.', 'ws-form'),
+						'description' 	=> __('Returns the user lost password key.', 'ws-form'),
 						'value' 		=> ($user_id > 0) ? $user->lost_password_key : '',
 						'usage' 		=> array('client', 'action'),
 						'secure'		=> true
@@ -10990,7 +11114,7 @@
 					'user_lost_password_url' => array(
 
 						'label'			=> __('Lost Password URL', 'ws-form'),
-						'description' 	=> __('Returns the user lost password URL if logged in.', 'ws-form'),
+						'description' 	=> __('Returns the user lost password URL.', 'ws-form'),
 						'attributes'	=> array(
 
 							array('id' => 'path', 'type' => 'string', 'required' => false, 'default' => '')

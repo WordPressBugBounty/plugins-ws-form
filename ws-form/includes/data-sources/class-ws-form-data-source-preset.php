@@ -107,6 +107,7 @@
 
 				if(is_wp_error($wp_remote_get_response)) {
 
+					/* translators: %s = Data source URL */
 					return self::error(sprintf(__('Error retrieving CSV file: %s', 'ws-form'), $url), $field_id, $this, $api_request);
 				}
 
