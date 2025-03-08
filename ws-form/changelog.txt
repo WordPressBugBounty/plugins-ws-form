@@ -2,6 +2,9 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.25 - 03/08/2025 =
+* Bug Fix: Coloris fix for LITE
+
 = 1.10.24 - 03/07/2025 =
 * Added: Updated detection script for Meta Box and ACPT custom field plugins
 * Added: Improved help text for file upload Accepted File Type(s) setting
