@@ -96,11 +96,11 @@
 				esc_html_e('Form found in %s', 'ws-form');
 			?>';
 			$.WS_Form.settings_form.language['shortcode_copied'] = '<?php esc_html_e('Shortcode copied', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['error_server'] = '<?php esc_html_e('500 Server error response from server.', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['error_server'] = '<?php esc_html_e('500 Internal Server error response from server.', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['error_bad_request_message'] = '<?php
 
 				/* translators: %s = Error message */
-				esc_html_e('400 Bad request response from server: %s', 'ws-form');
+				esc_html_e('400 Bad Request response from server: %s', 'ws-form');
 			?>';
 			$.WS_Form.settings_form.language['dismiss'] = '<?php esc_html_e('Dismiss', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['importing'] = '<?php esc_html_e('Importing ...', 'ws-form'); ?>';

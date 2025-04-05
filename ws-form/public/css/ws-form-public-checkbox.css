@@ -493,16 +493,12 @@
 }
 
 .wsf-form.wsf-rtl input[type=checkbox].wsf-field.wsf-color + label.wsf-label {
-  margin-left: auto;
   margin-right: 0;
-  padding-left: auto;
   padding-right: 0;
 }
 
 .wsf-form.wsf-rtl input[type=checkbox].wsf-field.wsf-image + label.wsf-label {
-  margin-left: auto;
   margin-right: 0;
-  padding-left: auto;
   padding-right: 0;
 }
 

@@ -248,7 +248,7 @@
 			// Manually inject language strings (Avoids having to call the full config)
 			$.WS_Form.settings_form = [];
 			$.WS_Form.settings_form.language = [];
-			$.WS_Form.settings_form.language['error_server'] = '<?php esc_html_e('500 Server error response from server.', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['error_server'] = '<?php esc_html_e('500 Internal Server Error response from server.', 'ws-form'); ?>';
 
 			// Initialize WS Form
 			var wsf_obj = new $.WS_Form();

@@ -15,12 +15,6 @@
 
 		public function __construct() {
 
-			// Set label
-			$this->label = __('Akismet', 'ws-form');
-
-			// Set label for actions pull down
-			$this->label_action = __('Spam Check with Akismet', 'ws-form');
-
 			// Events
 			$this->events = array('save', 'submit');
 
@@ -33,6 +27,18 @@
 			// Register as action
 			add_filter('wsf_actions_post_save', array($this, 'actions_post_add'), 10, 3);
 			add_filter('wsf_actions_post_submit', array($this, 'actions_post_add'), 10, 3);
+
+			// Register init action
+			add_action('init', array($this, 'init'));
+		}
+
+		public function init() {
+
+			// Set label
+			$this->label = __('Akismet', 'ws-form');
+
+			// Set label for actions pull down
+			$this->label_action = __('Spam Check with Akismet', 'ws-form');
 
 			// Register action
 			parent::register($this);

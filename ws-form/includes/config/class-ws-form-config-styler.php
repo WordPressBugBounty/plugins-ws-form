@@ -383,7 +383,7 @@
 				),
 
 				// Tab
-				'tab' => array(
+				'group' => array(
 
 					'label' => __('Tab', 'ws-form'),
 
@@ -561,7 +561,7 @@
 									),
 								),
 
-								self::get_styler_padding_meta('group_li', 'group-li', '16px', '8px')
+								self::get_styler_padding_meta('group_li', 'group-li', '16px', '8px'),
 							),
 						),
 
@@ -640,7 +640,7 @@
 											'type' => 'color',
 											'default' => 'var(--wsf-form-color-primary)'
 										),
-									)
+									),
 								),
 
 								'border_color' => array(
@@ -780,6 +780,44 @@
 							'group_focus_selector' => '.wsf-section legend',
 
 							'children' => self::get_style_color_typograpy_gap('section_legend', 'section-legend', 'var(--wsf-form-color-base)', 'transparent', 'var(--wsf-form-font-size-large)', 'var(--wsf-form-font-weight)', 'var(--wsf-form-line-height)', '10px'),
+						),
+
+						'repeater_icon' => array(
+
+							'label' => __('Repeater Icons', 'ws-form'),
+
+							'group_focus_selector' => '[data-section-icons]',
+
+							'meta' => array(
+
+								'field_summary_section_icon_color' => array(
+
+									'label' => __('Color', 'ws-form'),
+									'var' => '--wsf-section-icon-color',
+									'type' => 'color',
+									'default' => 'var(--wsf-form-color-base)',
+									'default_alt' => 'var(--wsf-form-color-base-alt)',
+									'keyword' => 'repeatable',
+								),
+
+								'field_summary_section_icon_color_disabled' => array(
+
+									'label' => __('Color - Disabled', 'ws-form'),
+									'var' => '--wsf-section-icon-color-disabled',
+									'type' => 'color',
+									'default' => 'var(--wsf-form-color-neutral-light-60)',
+									'keyword' => 'repeatable',
+								),
+
+								'field_summary_section_icon_size' => array(
+
+									'label' => __('Size', 'ws-form'),
+									'var' => '--wsf-section-icon-size',
+									'type' => 'size',
+									'default' => '24px',
+									'keyword' => 'repeatable',
+								),
+							),
 						),
 					),
 				),
@@ -988,7 +1026,7 @@
 									'default' => '0 0 0 var(--wsf-field-box-shadow-width-focus) var(--wsf-field-box-shadow-color-focus)',
 									'default_alt' => '0 0 0 var(--wsf-field-box-shadow-width-focus) var(--wsf-field-box-shadow-color-focus-alt)',
 								),
-							)
+							),
 						),
 
 						'fieldset_label' => array(
@@ -2105,7 +2143,7 @@
 
 									'label' => __('Typography', 'ws-form'),
 
-									'meta' => self::get_styler_typography_meta('field_button', 'field-button')
+									'meta' => self::get_styler_typography_meta('field_button', 'field-button'),
 								),
 							),
 						),
@@ -3223,7 +3261,7 @@
 											),
 										),
 									),
-								)
+								),
 							),
 						),
 					),

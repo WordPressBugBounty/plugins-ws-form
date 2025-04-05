@@ -30,23 +30,29 @@
 
 		public function __construct() {
 
-			// Set label
-			$this->label = __('Redirect', 'ws-form');
-
-			// Set label for actions pull down
-			$this->label_action = __('Redirect', 'ws-form');
-
 			// Events
 			$this->events = array('submit');
-
-			// Register action
-			parent::register($this);
 
 			// Register config filters
 			add_filter('wsf_config_meta_keys', array($this, 'config_meta_keys'), 10, 2);
 
 			// API
 			add_action( 'rest_api_init', array( $this, 'rest_api_init' ), 10, 0 );
+
+			// Register init action
+			add_action('init', array($this, 'init'));
+		}
+
+		public function init() {
+
+			// Set label
+			$this->label = __('Redirect', 'ws-form');
+
+			// Set label for actions pull down
+			$this->label_action = __('Redirect', 'ws-form');
+
+			// Register action
+			parent::register($this);
 		}
 
 		public function post($form, &$submit, $config) {
@@ -152,6 +158,11 @@
 
 							$condition_result = preg_match($value, $url);
 							if($condition == 'regex_not') { $condition_result = !$condition_result; }
+							break;
+
+						case 'blank' :
+
+							$condition_result = ($url == '');
 							break;
 
 						default :
@@ -457,7 +468,8 @@
 						array('value' => 'ends', 'text' => __('Ends with', 'ws-form')),
 						array('value' => 'ends_not', 'text' => __('Does not end with', 'ws-form')),
 						array('value' => 'regex', 'text' => __('Matches regex', 'ws-form')),
-						array('value' => 'regex_not', 'text' => __('Does not match regex', 'ws-form'))
+						array('value' => 'regex_not', 'text' => __('Does not match regex', 'ws-form')),
+						array('value' => 'blank', 'text' => __('Is blank', 'ws-form'))
 					)
 				),
 

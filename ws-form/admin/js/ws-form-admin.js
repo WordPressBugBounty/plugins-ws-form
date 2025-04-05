@@ -4067,6 +4067,27 @@
 							var sidebar_html_field = '<div class="wsf-sidebar-html"' + field_attributes + '>' + html + '</div>';
 							break;
 
+						// Note
+						case 'note' :
+
+							var note_class_array = ['wsf-sidebar-note'];
+
+							var note_type = (typeof(meta_key_config['note_type']) !== 'undefined') ? meta_key_config['note_type'] : '';
+
+							switch(note_type) {
+
+								case 'warning' :
+
+									note_class_array.push('wsf-sidebar-note-warning'); 
+
+									break;
+							}
+
+							var html = (typeof(meta_key_config['html']) !== 'undefined') ? meta_key_config['html'] : '';
+							var sidebar_html_field = '<div class="' + note_class_array.join(' ') + '"' + field_attributes + '>' + html + '</div>';
+
+							break;
+
 						// Hidden
 						case 'hidden' :
 
@@ -4947,11 +4968,27 @@
 	// Sidebar - Conversational - Preview
 	$.WS_Form.prototype.sidebar_conversational_preview = function(obj_sidebar_outer, obj_sidebar_inner) {
 
-		// Conversational
 		if($.WS_Form.settings_plugin.helper_live_preview) {
 
 			$('[data-action="wsf-conversational-preview"]', obj_sidebar_inner).on('click', function(e) { $.WS_Form.this.form_preview(e, $(this)); });
 		}
+	}
+
+	// Sidebar - Form summary
+	$.WS_Form.prototype.sidebar_summary_html_insert = function(obj_sidebar_outer, obj_sidebar_inner) {
+
+		$('[data-action="wsf-summary-html-insert"]', obj_sidebar_inner).on('click', function(e) {
+
+			// Get summary HTML
+			var summary_html = $.WS_Form.this.get_summary_html($.WS_Form.this.form, {
+
+				// Exclude this field from the summary
+				id: parseInt(obj_sidebar_outer.attr('data-id'), 10)
+			});
+
+			// Insert into text_editor
+			$.WS_Form.this.input_insert_text($('[data-meta-key="html_editor"]', obj_sidebar_inner).first(), summary_html);
+		});
 	}
 
 	// Sidebar - Auto Map Fields
@@ -14484,6 +14521,8 @@
 		// Toggle status
 		$('[data-action-ajax="wsf-form-status"]', form_table_obj).on('click', function() {
 
+			var checkbox_switch = $(this);
+
 			var form_id = $(this).attr('data-id');
 			var status = $(this).is(':checked');
 
@@ -14508,6 +14547,10 @@
 
 				// Set title
 				status_label_obj.attr('title', $.WS_Form.this.language('draft'));
+
+				// Remove publish pending
+				checkbox_switch.removeClass('wsf-switch-warning');
+				$('.post-state-publish-pending', checkbox_switch.closest('tr')).remove();
 
 				// Draft
 				$.WS_Form.this.api_call('form/' + form_id + '/draft/', 'POST', false, function(response) {
@@ -16895,12 +16938,17 @@
 		// Get meta_key
 		var meta_key = input.attr('data-meta-key-type');
 
+		var is_regular_input = false;
+
 		switch(meta_key) {
 
 			case 'text_editor' :
 
-				// Insert text
+				// Insert text into Visual tab
 				tinymce.activeEditor.execCommand('mceInsertContent', false, text);
+
+				// Insert text into text tab
+				is_regular_input = true;
 
 				break;
 
@@ -16921,17 +16969,31 @@
 		
 			default :
 
-				// Inject text
-				var caret_position_start = input[0].selectionStart;
-				var caret_position_end = input[0].selectionEnd;
-				var input_val = input.val();
-				input.val(input_val.substring(0, caret_position_start) + text + input_val.substring(caret_position_end));
-				input.trigger('focus').trigger('change');
+				is_regular_input = true;
+		}
 
-				// Set new caret position
-				var new_caret_position = caret_position_start + text.length;
-				if(input.prop('selectionStart') !== null) { input.prop('selectionStart', new_caret_position); }
-				if(input.prop('selectionEnd') !== null) { input.prop('selectionEnd', new_caret_position); }
+		if(is_regular_input) {
+
+			// Remember scroll top positions
+			var obj_sidebar_inner = input.closest('.wsf-sidebar-inner');
+			var scroll_top_sidebar_inner = obj_sidebar_inner.scrollTop();
+			var scroll_top_input = input.scrollTop();
+
+			// Insert at caret position
+			var caret_position_start = input[0].selectionStart;
+			var caret_position_end = input[0].selectionEnd;
+			var input_val = input.val();
+			input.val(input_val.substring(0, caret_position_start) + text + input_val.substring(caret_position_end));
+			input.trigger('focus').trigger('change');
+
+			// Set new caret position
+			var new_caret_position = caret_position_start + text.length;
+			if(input.prop('selectionStart') !== null) { input.prop('selectionStart', new_caret_position); }
+			if(input.prop('selectionEnd') !== null) { input.prop('selectionEnd', new_caret_position); }
+
+			// Recall scroll top positions
+			obj_sidebar_inner.scrollTop(scroll_top_sidebar_inner);
+			input.scrollTop(scroll_top_input);
 		}
 	}
 

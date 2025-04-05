@@ -33,7 +33,7 @@
 
 			$this->id = 0;
 			$this->checksum = '';
-			$this->label = __('New Style', 'ws-form');
+			$this->label = '';
 			$this->meta = array();
 
 			$this->table_name = sprintf('%s%sstyle', $wpdb->prefix, WS_FORM_DB_TABLE_PREFIX);

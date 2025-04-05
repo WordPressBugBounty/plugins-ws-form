@@ -35,7 +35,12 @@
 					'error_hcaptcha_invisible'				=>	__('hCaptcha invisible error', 'ws-form'),
 					'error_timeout_recaptcha'				=>	__('Timeout waiting for reCAPTCHA to load', 'ws-form'),
 					'error_timeout_hcaptcha'				=>	__('Timeout waiting for hCaptcha to load', 'ws-form'),
-					'error_timeout_turnstile'				=>	__('Timeout waiting for Turnstile to load', 'ws-form'),
+					'error_timeout_turnstile'				=>	sprintf(
+
+						/* translators: %s = Turnstile */
+						__('Timeout waiting for %s to load', 'ws-form'),
+						'Turnstile'
+					),
 					'error_timeout_analytics_google'		=>	__('Timeout waiting for Google Analytics to load', 'ws-form'),
 					'error_timeout_analytics_data_layer'	=>	__('Timeout waiting for Data Layer to load', 'ws-form'),
 					'error_timeout_google_maps'				=>	__('Timeout waiting for Google Maps to load', 'ws-form'),

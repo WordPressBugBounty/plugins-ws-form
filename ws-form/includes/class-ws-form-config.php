@@ -224,7 +224,7 @@
 								'basic'	=>	array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'default_value', 'placeholder', 'help_count_char_word', 'autocomplete_text', 'inputmode'),
+									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'hidden_warning', 'default_value', 'placeholder', 'help_count_char_word', 'autocomplete_text', 'inputmode'),
 
 									'fieldsets'	=>	array(
 
@@ -483,7 +483,7 @@
 								'basic'	=> array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'default_value_number', 'step_number', 'placeholder', 'help', 'autocomplete_number'),
+									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'hidden_warning', 'default_value_number', 'step_number', 'placeholder', 'help', 'autocomplete_number'),
 
 									'fieldsets'	=>	array(
 
@@ -615,7 +615,7 @@
 								'basic'	=>	array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('label_render', 'required', 'hidden', 'default_value_tel', 'placeholder', 'help_count_char', 'autocomplete_tel'),
+									'meta_keys'		=>	array('label_render', 'required', 'hidden', 'hidden_warning', 'default_value_tel', 'placeholder', 'help_count_char', 'autocomplete_tel'),
 
 									'fieldsets'		=>	array(
 
@@ -756,7 +756,7 @@
 								'basic'	=> array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'default_value_email', 'multiple_email', 'placeholder', 'help_count_char', 'autocomplete_email'),
+									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'hidden_warning', 'default_value_email', 'multiple_email', 'placeholder', 'help_count_char', 'autocomplete_email'),
 
 									'fieldsets'	=>	array(
 
@@ -898,7 +898,7 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'default_value_url', 'placeholder_url', 'help_count_char', 'autocomplete_url'),
+									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'hidden_warning', 'default_value_url', 'placeholder_url', 'help_count_char', 'autocomplete_url'),
 
 									'fieldsets'	=>	array(
 
@@ -1040,7 +1040,7 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=> array('label_render', 'required', 'hidden', 'multiple', 'default_value_select', 'size', 'placeholder_row', 'help', 'autocomplete'),
+									'meta_keys'		=> array('label_render', 'required', 'hidden', 'hidden_warning', 'multiple', 'default_value_select', 'size', 'placeholder_row', 'help', 'autocomplete'),
 
 									'fieldsets'		=>	array(
 
@@ -1171,7 +1171,7 @@
 								'basic'	=> array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'hidden', 'select_all', 'select_all_label', 'default_value_checkbox', 'help'),
+									'meta_keys'	=>	array('label_render', 'hidden', 'hidden_warning', 'select_all', 'select_all_label', 'default_value_checkbox', 'help'),
 
 									'fieldsets'	=>	array(
 
@@ -1300,7 +1300,7 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('label_render', 'required_attribute_no', 'hidden', 'default_value_radio', 'help'),
+									'meta_keys'		=>	array('label_render', 'required_attribute_no', 'hidden', 'hidden_warning', 'default_value_radio', 'help'),
 
 									'fieldsets'		=>	array(
 
@@ -1513,10 +1513,10 @@
 
 						'recaptcha' => array (
 
-							'label'							=>	__('reCAPTCHA', 'ws-form'),
+							'label'							=>	'reCAPTCHA',
 							'pro_required'					=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'						=>	'/knowledgebase/recaptcha/',
-							'label_default'					=>	__('reCAPTCHA', 'ws-form'),
+							'label_default'					=>	'reCAPTCHA',
 							'mask_field'					=>	'#pre_help<div id="#id" name="#name" style="border: none; padding: 0" required data-recaptcha#attributes></div>#invalid_feedback#post_help',
 							'mask_field_attributes'			=>	array('class', 'recaptcha_site_key', 'recaptcha_recaptcha_type', 'recaptcha_badge', 'recaptcha_type', 'recaptcha_theme', 'recaptcha_size', 'recaptcha_language', 'recaptcha_action'),
 							'submit_save'					=>	false,
@@ -1595,10 +1595,10 @@
 
 						'hcaptcha' => array (
 
-							'label'							=>	__('hCaptcha', 'ws-form'),
+							'label'							=>	'hCaptcha',
 							'pro_required'					=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'						=>	'/knowledgebase/hcaptcha/',
-							'label_default'					=>	__('hCaptcha', 'ws-form'),
+							'label_default'					=>	'hCaptcha',
 							'mask_field'					=>	'#pre_help<div id="#id" name="#name" style="border: none; padding: 0" required data-hcaptcha#attributes></div>#invalid_feedback#post_help',
 							'mask_field_attributes'			=>	array('class', 'hcaptcha_site_key', 'hcaptcha_type', 'hcaptcha_theme', 'hcaptcha_size', 'hcaptcha_language'),
 							'submit_save'					=>	false,
@@ -1677,10 +1677,10 @@
 
 						'turnstile' => array (
 
-							'label'							=>	__('Turnstile', 'ws-form'),
+							'label'							=>	'Turnstile',
 							'pro_required'					=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'						=>	'/knowledgebase/turnstile/',
-							'label_default'					=>	__('Turnstile', 'ws-form'),
+							'label_default'					=>	'Turnstile',
 							'mask_field'					=>	'#pre_help<div id="#id" name="#name" style="border: none; padding: 0" required data-turnstile#attributes></div>#invalid_feedback#post_help',
 							'mask_field_attributes'			=>	array('class', 'turnstile_site_key', 'turnstile_theme', 'turnstile_size', 'turnstile_appearance'),
 							'submit_save'					=>	false,
@@ -2023,6 +2023,13 @@
 									'meta_keys'	=>	array('text_editor_note')
 								)
 							)
+						),
+
+						'summary' => array (
+
+							'label'					=>	__('Summary', 'ws-form'),
+							'pro_required'			=>	!WS_Form_Common::is_edition('pro'),
+							'kb_url'				=>	'/knowledgebase/summary/',
 						)
 					)
 				),
@@ -2394,7 +2401,6 @@
 							'kb_url'					=>	'/knowledgebase/section_move_up/',
 						),
 
-
 						'section_down' => array (
 
 							'label'						=>	__('Move Down', 'ws-form'),
@@ -2625,6 +2631,20 @@
 										'on'		=>	array('text' => __('Always on', 'ws-form')),
 									),
 									'default'	=>	'resize'
+								),
+
+								'publish_auto'	=>	array(
+
+									'label'		=>	__('Auto Publish', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	sprintf(
+
+										'%s <a href="%s" target="_blank">%s</a>',
+										__('If checked, changes made to your form will be automatically published.', 'ws-form'),
+										WS_Form_Common::get_plugin_website_url('/knowledgebase/publishing-forms/'),
+										__('Learn more', 'ws-form')
+									),
+									'default'	=>	false
 								),
 
 								'helper_breakpoint_width'	=>	array(
@@ -3131,7 +3151,7 @@
 
 						'recaptcha'	=>	array(
 
-							'heading'	=>	__('reCAPTCHA', 'ws-form'),
+							'heading'	=> 'reCAPTCHA',
 							'fields'	=>	array(
 
 								'recaptcha_site_key' => array(
@@ -3182,7 +3202,7 @@
 
 						'hcaptcha'	=>	array(
 
-							'heading'	=>	__('hCaptcha', 'ws-form'),
+							'heading'	=>	'hCaptcha',
 							'fields'	=>	array(
 
 								'hcaptcha_site_key' => array(
@@ -3216,7 +3236,7 @@
 
 						'turnstile'	=>	array(
 
-							'heading'	=>	__('Turnstile', 'ws-form'),
+							'heading'	=>	'Turnstile',
 							'fields'	=>	array(
 
 								'turnstile_site_key' => array(
@@ -3225,7 +3245,12 @@
 									'type'		=>	'key',
 									'help'		=>	sprintf(
 										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html__('Turnstile site key.', 'ws-form'),
+										esc_html(sprintf(
+
+											/* translators: %s = Turnstile */
+											__('%s site key.', 'ws-form'),
+											'Turnstile'
+										)),
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
 										esc_html__('Learn more', 'ws-form')
 									),
@@ -3239,7 +3264,12 @@
 									'type'		=>	'key',
 									'help'		=>	sprintf(
 										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html__('Turnstile secret key.', 'ws-form'),
+										esc_html(sprintf(
+
+											/* translators: %s = Turnstile */
+											__('%s secret key.', 'ws-form'),
+											'Turnstile'
+										)),
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
 										esc_html__('Learn more', 'ws-form')
 									),
@@ -3464,15 +3494,59 @@
 					),
 
 					// Errors - API calls
-					'error_api_call_400'				=>	__('400 Bad request response from server: %s', 'ws-form'),
-					'error_api_call_401'				=>	sprintf('%s <a href="%s" target="_blank">%s</a>.', __('401 Unauthorized response from server.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/401-unauthorized/', 'api_call'), __('Click here', 'ws-form')),
-					'error_api_call_403'				=>	sprintf('%s <a href="%s" target="_blank">%s</a>.', __('403 Forbidden response from server.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/403-forbidden/', 'api_call'), __('Click here', 'ws-form')),
-					/* translators: %s = Error message */
-					'error_api_call_404'				=>	__('404 Not found response from server: %s', 'ws-form'),
-					/* translators: %s = Error message */
-					'error_api_call_500'				=>	__('500 Server error response from server: %s', 'ws-form'),
+					'error_api_call_400'				=>	sprintf(
 
-					// Error message
+						'%s: %%s <a href="%s" target="_blank">%s</a>.',
+						__('400 Bad Request response from server', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/400-bad-request/', 'api_call'),
+						__('Learn more', 'ws-form')
+					),
+
+					'error_api_call_401'				=>	sprintf(
+
+						'%s: %%s <a href="%s" target="_blank">%s</a>.',
+						__('401 Unauthorized response from server', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/401-unauthorized/', 'api_call'),
+						__('Learn more', 'ws-form')
+					),
+
+					'error_api_call_403'				=>	sprintf(
+
+						'%s: %%s <a href="%s" target="_blank">%s</a>.',
+						__('403 Forbidden response from server', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/403-forbidden/', 'api_call'),
+						__('Learn more', 'ws-form')
+					),
+
+					'error_api_call_404'				=>	sprintf(
+
+						'%s: %%s <a href="%s" target="_blank">%s</a>.',
+						__('404 Not Found response from server', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/404-not-found/', 'api_call'),
+						__('Learn more', 'ws-form')
+					),
+
+					'error_api_call_500'				=>	sprintf(
+
+						'%s: %%s <a href="%s" target="_blank">%s</a>.',
+						__('500 Internal Server Error response from server', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/500-internal-server-error/', 'api_call'),
+						__('Learn more', 'ws-form')
+					),
+
+					'error_api_call_response_error'		=>	sprintf(
+
+						'%s: %%s <a href="%s" target="_blank">%s</a>',
+						__('Form submission response error', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/troubleshooting-form-submission-issues/', 'api_call'),
+						__('Learn more', 'ws-form')
+					),
+
+					/* translators: %s = Form submission response */
+					'error_api_call_response_text'		=>	__('Form submission response: %s', 'ws-form'),
+					'error_api_call_unknown'			=>	__('Unknown error', 'ws-form'),
+
+					// Dismiss
 					'dismiss'							=>  __('Dismiss', 'ws-form'),
 
 					// Comments
@@ -3905,6 +3979,7 @@
 					'data_change'				=>	array('event' => 'change', 'action' => 'update')
 				),
 
+				// Hidden - Section
 				'hidden_section' => array(
 
 					'label'						=>	__('Hidden', 'ws-form'),
@@ -3915,11 +3990,33 @@
 					'data_change'				=>	array('event' => 'change', 'action' => 'update')
 				),
 
-				// Fields
+				// Hidden - Warning
+				'hidden_warning' =>	array(
+
+					'type'						=>	'note',
+					'note_type'					=>	'warning',
+					'html'						=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						__('Hiding this field excludes it from submissions. To include it, check <strong>Always Include in Actions</strong> below or use a <strong>Hidden</strong> field type.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/how-hidden-fields-work/'),
+						__('Learn more', 'ws-form')
+					),
+					'condition'					=>	array(
+
+						array(
+
+							'logic'			=>	'==',
+							'meta_key'		=>	'hidden',
+							'meta_value'	=>	'on'
+						)
+					)
+				),
+
 				// reCAPTCHA
 				'recaptcha' => array(
 
-					'label'						=>	__('reCAPTCHA', 'ws-form'),
+					'label'						=>	'reCAPTCHA',
 					'type'						=>	'recaptcha',
 					'dummy'						=>	true
 				),
@@ -3927,7 +4024,7 @@
 				// hCaptcha
 				'hcaptcha' => array(
 
-					'label'						=>	__('hCaptcha', 'ws-form'),
+					'label'						=>	'hCaptcha',
 					'type'						=>	'hcaptcha',
 					'dummy'						=>	true
 				),
@@ -3935,7 +4032,7 @@
 				// Turnstile
 				'turnstile' => array(
 
-					'label'						=>	__('Turnstile', 'ws-form'),
+					'label'						=>	'Turnstile',
 					'type'						=>	'turnstile',
 					'dummy'						=>	true
 				),
@@ -4374,7 +4471,7 @@
 					'default_on_clone'			=>	true,
 					'help'						=>	sprintf(
 
-						'%s <a href="%s" target="_blank">%s</a>',
+						' %s <a href="%s" target="_blank">%s</a>',
 						__('reCAPTCHA site key.', 'ws-form'),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/'),
 						__('Learn more', 'ws-form')
@@ -4410,7 +4507,7 @@
 					'mask'						=>	'data-recaptcha-type="#value"',
 					'mask_disregard_on_empty'	=>	true,
 					'type'						=>	'select',
-					'help'						=>	__('Select the reCAPTCHA version your site key relates to.', 'ws-form'),
+					'help'						=>	__('Select the reCAPTCHA type your site key relates to.', 'ws-form'),
 					'options'					=>	array(
 
 						array('value' => 'v2_default', 'text' => __('Version 2 - Default', 'ws-form')),
@@ -4571,7 +4668,13 @@
 					'type'						=>	'text',
 					'default'					=>	'',
 					'default_on_clone'			=>	true,
-					'help'						=>	sprintf('%s <a href="%s" target="_blank">%s</a>', __('hCaptcha site key.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/'), __('Learn more', 'ws-form')),
+					'help'						=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						__('hCaptcha site key.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/'),
+						__('Learn more', 'ws-form')
+					),
 					'required_setting'			=>	true,
 					'required_setting_global_meta_key'	=>	'hcaptcha_site_key',
 					'data_change'				=>	array('event' => 'change', 'action' => 'update')
@@ -4584,7 +4687,13 @@
 					'type'						=>	'text',
 					'default'					=>	'',
 					'default_on_clone'			=>	true,
-					'help'						=>	sprintf('%s <a href="%s" target="_blank">%s</a>', __('hCaptcha secret key.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/'), __('Learn more', 'ws-form')),
+					'help'						=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						__('hCaptcha secret key.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/'),
+						__('Learn more', 'ws-form')
+					),
 					'required_setting'			=>	true,
 					'required_setting_global_meta_key'	=>	'hcaptcha_secret_key',
 					'data_change'				=>	array('event' => 'change', 'action' => 'update')
@@ -4597,7 +4706,7 @@
 					'mask'						=>	'data-hcaptcha-type="#value"',
 					'mask_disregard_on_empty'	=>	true,
 					'type'						=>	'select',
-					'help'						=>	__('Select the hCaptcha version your site key relates to.', 'ws-form'),
+					'help'						=>	__('Select the hCaptcha type your site key relates to.', 'ws-form'),
 					'options'					=>	array(
 
 						array('value' => 'default', 'text' => __('Default', 'ws-form')),
@@ -4686,7 +4795,16 @@
 					'type'						=>	'text',
 					'default'					=>	'',
 					'default_on_clone'			=>	true,
-					'help'						=>	sprintf('%s <a href="%s" target="_blank">%s</a>', __('Turnstile site key.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/'), __('Learn more', 'ws-form')),
+					'help'						=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						sprintf(
+							__('%s site key.', 'ws-form'),
+							'Turnstile'
+						),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/'),
+						__('Learn more', 'ws-form')
+					),
 					'required_setting'			=>	true,
 					'required_setting_global_meta_key'	=>	'turnstile_site_key',
 					'data_change'				=>	array('event' => 'change', 'action' => 'update')
@@ -4699,7 +4817,16 @@
 					'type'						=>	'text',
 					'default'					=>	'',
 					'default_on_clone'			=>	true,
-					'help'						=>	sprintf('%s <a href="%s" target="_blank">%s</a>', __('Turnstile secret key.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/'), __('Learn more', 'ws-form')),
+					'help'						=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						sprintf(
+							__('%s secret key.', 'ws-form'),
+							'Turnstile'
+						),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/'),
+						__('Learn more', 'ws-form')
+					),
 					'required_setting'			=>	true,
 					'required_setting_global_meta_key'	=>	'turnstile_secret_key',
 					'data_change'				=>	array('event' => 'change', 'action' => 'update')
@@ -5308,7 +5435,22 @@
 					'key_legacy'				=>	'class_inline'
 				),
 
-				// Orientation
+				// Orientation - Summary
+				'summary_orientation' => array(
+
+					'label'						=>	__('Field Orientation', 'ws-form'),
+					'type'						=>	'select',
+					'default'					=>	'',
+					'options'					=>	array(
+
+						array('value' => '', 'text' => __('Vertical', 'ws-form')),
+						array('value' => 'horizontal', 'text' => __('Horizontal', 'ws-form')),
+						array('value' => 'grid', 'text' => __('Grid', 'ws-form'))
+					),
+					'key'						=>	'orientation'
+				),
+
+				// Orientation - File Preview
 				'file_preview_orientation' => array(
 
 					'label'						=>	__('Orientation', 'ws-form'),
@@ -5357,7 +5499,7 @@
 					)
 				),
 
-				// Orientation sizes grid
+				// Orientation sizes grid - File preview
 				'file_preview_orientation_breakpoint_sizes' => array(
 
 					'label'						=>	__('Grid Breakpoint Sizes', 'ws-form'),
@@ -5579,8 +5721,6 @@
 					'html'						=>	sprintf(
 
 						'<p>%s</p>',
-
-						/* translators: %s = WS Form */
 						__('For support, please visit the WS Form LITE support page.', 'ws-form')
 					)
 				),
@@ -7273,8 +7413,6 @@
 					'type'						=>	'button'
 				),
 
-
-
 				'datalist_field_value' => array(
 
 					'label'						=>	__('Values', 'ws-form'),
@@ -8328,7 +8466,7 @@
 				// reCAPTCHA
 				'recaptcha_secret_key',
 
-				// hCAPTCHA
+				// hCaptcha
 				'hcaptcha_secret_key',
 
 				// Turnstile

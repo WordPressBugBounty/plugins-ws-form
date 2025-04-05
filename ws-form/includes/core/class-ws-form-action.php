@@ -10,7 +10,7 @@
 		public static $spam_level = null;
 
 		// Run actions
-		public function actions_post($form, $submit, $complete_action = false, $action_id_filter = false, $database_only = false, $process_file_fields = false) {
+		public function actions_post($form, $submit, $complete_action = false, $row_id_filter = false, $database_only = false, $process_file_fields = false) {
 
 			// Full return array
 			$return_array_full = array();
@@ -25,7 +25,7 @@
 			} else {
 
 				// Get form actions to run
-				$actions = self::get_form_actions($form, $submit->post_mode, $action_id_filter);
+				$actions = self::get_form_actions($form, $submit->post_mode, $row_id_filter);
 
 				// Actions filter (Allows you to add additional actions to run)
 				$actions = apply_filters('wsf_actions_post_' . $submit->post_mode, $actions, $form, $submit);
@@ -110,7 +110,7 @@
 			foreach($actions as $action_index => $config) {
 
 				// Should this action run?
-				$action_post_do = apply_filters('wsf_action_post_do', true, $form, $submit, $action_id_filter, $database_only, $config);
+				$action_post_do = apply_filters('wsf_action_post_do', true, $form, $submit, $row_id_filter, $database_only, $config);
 				if(!$action_post_do) { continue; }
 
 				// Get action ID
@@ -360,7 +360,9 @@
 		}
 
 		// Get actions configured for a form
-		public function get_form_actions($form, $event = false, $row_id_filter = 0, $action_id_filter = false) {
+		// $row_id_filter = Filters by row ID (e.g. 3)
+		// $action_id_filter - Filters by action ID (e.g. search)
+		public function get_form_actions($form, $post_mode = false, $row_id_filter = 0, $action_id_filter = false) {
 
 			$actions = array();
 
@@ -425,10 +427,10 @@
 				// Ignore uninstalled actions
 				if(!isset(self::$actions[$action_id])) { continue; }
 
-				// Check for events
+				// Check for post_mode
 				if(
-					($event !== false) &&
-					($event !== 'action')
+					($post_mode !== false) &&
+					($post_mode !== 'action')
 				) {
 
 					if($actions_run !== false) {
@@ -438,7 +440,7 @@
 
 					} else {
 
-						if(!in_array($event, $config['events'])) { continue; }
+						if(!in_array($post_mode, $config['events'])) { continue; }
 					}
 				}
 
@@ -1629,14 +1631,14 @@
 				'form_populate_action_id' => $action_id,
 			);
 
-			// Set list ID
+			// Set populate list ID
 			$action_get_require_list_id = isset($action->get_require_list_id) ? $action->get_require_list_id : true;
 			if($action_get_require_list_id) {
 
 				$meta['form_populate_list_id'] = $list_id;
 			}
 
-			// Set list ID
+			// Set populate field mapping
 			$action_get_require_field_mapping = isset($action->get_require_field_mapping) ? $action->get_require_field_mapping : true;
 			if($action_get_require_field_mapping) {
 

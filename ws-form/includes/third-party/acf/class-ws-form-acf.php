@@ -1422,10 +1422,6 @@
 
 					break;
 
-				case 'true_false' :
-
-					return empty($meta_value) ? 0 : 1;
-
 				case 'post_object' :
 				case 'page_link' :
 				case 'relationship' :
@@ -1465,7 +1461,7 @@
 
 				case 'true_false' :
 
-					return WS_Form_Common::is_true($meta_value);
+					return WS_Form_Common::is_true($meta_value) ? 1 : 0;
 
 				case 'number' :
 

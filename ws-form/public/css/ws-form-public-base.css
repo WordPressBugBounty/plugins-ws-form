@@ -29,6 +29,10 @@
   box-sizing: inherit;
 }
 
+.wsf-form a:active, .wsf-form a:focus, .wsf-form a:hover, .wsf-form a:link, .wsf-form a:visited {
+  color: var(--wsf-form-color-accent);
+}
+
 .wsf-form .wsf-section,
 .wsf-form .wsf-fieldset {
   border: none;
@@ -71,6 +75,39 @@
   text-transform: var(--wsf-section-legend-text-transform);
   margin: 0 0 var(--wsf-section-legend-gap) 0;
   padding: 0;
+}
+
+.wsf-form .wsf-section .wsf-section-icons a {
+  cursor: pointer;
+}
+
+.wsf-form .wsf-section .wsf-section-icons a svg.wsf-section-icon {
+  height: var(--wsf-section-icon-size);
+  width: var(--wsf-section-icon-size);
+}
+
+.wsf-form .wsf-section .wsf-section-icons a svg.wsf-section-icon path {
+  fill: var(--wsf-section-icon-color);
+}
+
+.wsf-form .wsf-section .wsf-section-icons a span.wsf-section-icon-text {
+  color: var(--wsf-section-icon-color);
+}
+
+.wsf-form .wsf-section .wsf-section-icons a[data-action="wsf-section-drag-icon"] {
+  cursor: move;
+}
+
+.wsf-form .wsf-section .wsf-section-icons a.wsf-section-icon-disabled {
+  cursor: not-allowed;
+}
+
+.wsf-form .wsf-section .wsf-section-icons a.wsf-section-icon-disabled svg.wsf-section-icon path {
+  fill: var(--wsf-section-icon-color-disabled);
+}
+
+.wsf-form .wsf-section .wsf-section-icons a.wsf-section-icon-disabled span.wsf-section-icon-text {
+  color: var(--wsf-section-icon-color-disabled);
 }
 
 .wsf-form .wsf-fieldset > legend {
@@ -850,6 +887,22 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-section > lege
   color: var(--wsf-section-legend-color-alt);
 }
 
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-section .wsf-section-icons a svg.wsf-section-icon path {
+  fill: var(--wsf-section-icon-color-alt);
+}
+
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-section .wsf-section-icons a span.wsf-section-icon-text {
+  color: var(--wsf-section-icon-color-alt);
+}
+
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-section .wsf-section-icons a.wsf-section-icon-disabled svg.wsf-section-icon path {
+  fill: var(--wsf-section-icon-color-disabled-alt);
+}
+
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-section .wsf-section-icons a.wsf-section-icon-disabled span.wsf-section-icon-text {
+  color: var(--wsf-section-icon-color-disabled-alt);
+}
+
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-fieldset > legend {
   background-color: var(--wsf-field-fieldset-legend-background-color-alt);
   color: var(--wsf-field-fieldset-legend-color-alt);
@@ -1048,87 +1101,6 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated inpu
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated select.wsf-field:invalid:focus:not(:hover),
 html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated textarea.wsf-field:invalid:focus:not(:hover) {
   box-shadow: var(--wsf-field-box-shadow-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert {
-  background-color: var(--wsf-field-message-color-background-alt);
-  -webkit-border-start: calc(var(--wsf-field-border-width) * 4) solid var(--wsf-field-message-border-color-alt);
-  border-inline-start: calc(var(--wsf-field-border-width) * 4) solid var(--wsf-field-message-border-color-alt);
-  color: var(--wsf-field-message-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert > p {
-  color: var(--wsf-field-message-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert > p a,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert > p a:hover,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert > p a:focus {
-  color: var(--wsf-field-message-anchor-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-success {
-  background-color: var(--wsf-field-message-success-color-background-alt);
-  border-color: var(--wsf-field-message-success-border-color-alt);
-  color: var(--wsf-field-message-success-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-success > p {
-  color: var(--wsf-field-message-success-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-success > p a,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-success > p a:hover,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-success > p a:focus {
-  color: var(--wsf-field-message-success-anchor-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-information {
-  background-color: var(--wsf-field-message-info-color-background-alt);
-  border-color: var(--wsf-field-message-info-border-color-alt);
-  color: var(--wsf-field-message-info-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-information > p {
-  color: var(--wsf-field-message-info-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-information > p a,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-information > p a:hover,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-information > p a:focus {
-  color: var(--wsf-field-message-info-anchor-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-warning {
-  background-color: var(--wsf-field-message-warning-color-background-alt);
-  border-color: var(--wsf-field-message-warning-border-color-alt);
-  color: var(--wsf-field-message-warning-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-warning > p {
-  color: var(--wsf-field-message-warning-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-warning > p a,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-warning > p a:hover,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-warning > p a:focus {
-  color: var(--wsf-field-message-warning-anchor-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-danger {
-  background-color: var(--wsf-field-message-danger-color-background-alt);
-  border-color: var(--wsf-field-message-danger-border-color-alt);
-  color: var(--wsf-field-message-danger-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-danger > p {
-  color: var(--wsf-field-message-danger-color-alt);
-}
-
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-danger > p a,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-danger > p a:hover,
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-alert.wsf-alert-danger > p a:focus {
-  color: var(--wsf-field-message-danger-anchor-color-alt);
 }
 
 .pac-container {

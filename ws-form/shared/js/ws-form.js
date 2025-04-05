@@ -1148,7 +1148,6 @@
 
 		return fields_html_parsed;
 	}
-
 	// Process values for auto population
 	$.WS_Form.prototype.value_populate_process = function(value, field) {
 
@@ -3986,7 +3985,7 @@
 
 								var dropzone = $('.dropzone', obj_wrapper)[0].dropzone;
 
-								if(dropzone.files) {
+								if(dropzone && dropzone.files) {
 
 									var files = dropzone.files;
 								}

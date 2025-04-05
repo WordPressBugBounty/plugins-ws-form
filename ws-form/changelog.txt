@@ -2,6 +2,45 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.31 - 04/04/2025 =
+* Added: Summary field type
+* Added: Insert summary HTML button for HTML field
+* Added: Webhook array to CSV delimiter setting
+* Added: Is Blank setting for redirect fallback
+* Added: Data layer conversion reset setting
+* Added: Webhook username and password fields can now contain WS Form variables
+* Added: Improved client-side REST API response handling
+* Added: Patched datetime library with latest verion for date formatting library
+* Added: Styler settings for repeatable section icons
+* Added: Debug console CSS improvements
+* Added: Various styler CSS improvements
+* Added: Updated translations
+* Added: Google Address location snap setting for Google Maps
+* Added: Various improvements to licensing class
+* Added: WordPress 6.8 compatibility
+* Bug Fix: Google Maps being set from Google Address / Routing in repeaters
+* Bug Fix: Checkbox row level data-hidden attribute causing field to submit empty
+* Bug Fix: Email validation if Multiple checkbox enabled
+* Bug Fix: Action firing via conditional logic
+
+= 1.10.30 - 03/20/2025 =
+* Added: Repeaters to arrays setting in Webhook action
+
+= 1.10.29 - 03/19/2025 =
+* Added: Additional Google Map parameters stored in address object for ACF
+* Bug Fix: Server-side #field data grid column mapping fix for repeaters / duplicate values
+
+= 1.10.28 - 03/18/2025 =
+* Added: Patch to fix form select option values bug with Divi
+* Added: Translation improvements for product names
+* Bug Fix: Admin toolbar menu fix if no supported user capabilities found
+
+= 1.10.27 - 03/12/2025 =
+* Added: Warnings added to fields if hidden is checked to explain how hidden fields work
+* Added: Form list table now shows orange switches and text if a form publish is pending
+* Added: Auto publish setting
+* Added: JetEngine options pages support
+
 = 1.10.26 - 03/08/2025 =
 * Added: Legacy support for invalid feedback fields in layout CSS file
 

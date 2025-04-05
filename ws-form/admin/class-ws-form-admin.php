@@ -2471,8 +2471,17 @@
 				);
 			}
 
-			// Menu
-			if(!WS_Form_Common::toolbar_enabled()) { return; }
+			// Check if toolbar should be rendered
+			if(
+				!WS_Form_Common::toolbar_enabled() ||
+				!(
+					WS_Form_Common::can_user('create_form') ||
+					WS_Form_Common::can_user('read_form') ||
+					WS_Form_Common::can_user('manage_options_wsform')
+				)
+			) {
+				return;
+			}
 
 			// Build menu
 			$wp_admin_bar->add_node(
@@ -2486,79 +2495,80 @@
 			);
 
 			// Get recent forms
-			$ws_form_form = new WS_Form_Form();
-			$forms = $ws_form_form->db_read_recent();
+			if(WS_Form_Common::can_user('read_form')) {
 
-			foreach($forms as $form) {
+				$ws_form_form = new WS_Form_Form();
+				$forms = $ws_form_form->db_read_recent();
+				if(empty($forms)) { $forms = array(); }
 
-				$form_id = $form['id'];
+				foreach($forms as $form) {
 
-				// Add form to menu
-				$wp_admin_bar->add_node(
+					$form_id = $form['id'];
 
-					array(
-
-						'id'     => WS_FORM_NAME . '-node-' . $form_id,
-						'parent' => WS_FORM_NAME . '-node',
-						'title'  => esc_attr($form['label']),
-						'href'   => WS_Form_Common::can_user('edit_form') ? esc_url(WS_Form_Common::get_admin_url('ws-form-edit', $form_id)) : ''
-					)
-				);
-
-				// Edit
-				if(WS_Form_Common::can_user('edit_form')) {
-
+					// Add form to menu
 					$wp_admin_bar->add_node(
 
 						array(
 
-							'id'     => WS_FORM_NAME . '-node-' . $form_id . '-edit',
-							'parent' => WS_FORM_NAME . '-node-' . $form_id,
-							'title'  => esc_attr__('Edit', 'ws-form'),
-							'href'   => esc_url(WS_Form_Common::get_admin_url('ws-form-edit', $form_id))
+							'id'     => WS_FORM_NAME . '-node-' . $form_id,
+							'parent' => WS_FORM_NAME . '-node',
+							'title'  => esc_attr($form['label']),
+							'href'   => WS_Form_Common::can_user('edit_form') ? esc_url(WS_Form_Common::get_admin_url('ws-form-edit', $form_id)) : ''
 						)
 					);
-				}
 
-				// Submissions
-				if(WS_Form_Common::can_user('read_submission')) {
+					// Edit
+					if(WS_Form_Common::can_user('edit_form')) {
 
-					$wp_admin_bar->add_node(
+						$wp_admin_bar->add_node(
 
-						array(
+							array(
 
-							'id'     => WS_FORM_NAME . '-node-' . $form_id . '-submit',
-							'parent' => WS_FORM_NAME . '-node-' . $form_id,
-							'title'  => esc_attr__('Submissions', 'ws-form'),
-							'href'   => esc_url(WS_Form_Common::get_admin_url('ws-form-submit', $form_id))
-						)
-					);
-				}
-
-				// Preview
-				if(WS_Form_Common::can_user('edit_form')) {
-
-					$wp_admin_bar->add_node(
-
-						array(
-
-							'id'     => WS_FORM_NAME . '-node-' . $form_id . '-preview',
-							'parent' => WS_FORM_NAME . '-node-' . $form_id,
-							'title'  => esc_attr__('Preview', 'ws-form'),
-							'href'   => esc_url(WS_Form_Common::get_preview_url($form_id)),
-							'meta'   => array(
-
-								'target' => '_blank'
+								'id'     => WS_FORM_NAME . '-node-' . $form_id . '-edit',
+								'parent' => WS_FORM_NAME . '-node-' . $form_id,
+								'title'  => esc_attr__('Edit', 'ws-form'),
+								'href'   => esc_url(WS_Form_Common::get_admin_url('ws-form-edit', $form_id))
 							)
-						)
-					);
+						);
+					}
+
+					// Submissions
+					if(WS_Form_Common::can_user('read_submission')) {
+
+						$wp_admin_bar->add_node(
+
+							array(
+
+								'id'     => WS_FORM_NAME . '-node-' . $form_id . '-submit',
+								'parent' => WS_FORM_NAME . '-node-' . $form_id,
+								'title'  => esc_attr__('Submissions', 'ws-form'),
+								'href'   => esc_url(WS_Form_Common::get_admin_url('ws-form-submit', $form_id))
+							)
+						);
+					}
+
+					// Preview
+					if(WS_Form_Common::can_user('edit_form')) {
+
+						$wp_admin_bar->add_node(
+
+							array(
+
+								'id'     => WS_FORM_NAME . '-node-' . $form_id . '-preview',
+								'parent' => WS_FORM_NAME . '-node-' . $form_id,
+								'title'  => esc_attr__('Preview', 'ws-form'),
+								'href'   => esc_url(WS_Form_Common::get_preview_url($form_id)),
+								'meta'   => array(
+
+									'target' => '_blank'
+								)
+							)
+						);
+					}
 				}
-			}
 
-			// All forms
-			if(count($forms) > 0) {
-
-				if(WS_Form_Common::can_user('edit_form')) {
+				// All forms
+				if(count($forms) > 0) {
 
 					$wp_admin_bar->add_node(
 

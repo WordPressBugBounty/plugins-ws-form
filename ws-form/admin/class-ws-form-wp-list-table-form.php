@@ -86,14 +86,28 @@
 			$url_edit = WS_Form_Common::get_admin_url('ws-form-edit', $id);
 
 			// Title
+			$title = '<strong>';
+
 			if(WS_Form_Common::can_user('edit_form')) {
 
-				$title = sprintf('<strong><a href="%s">%s</a></strong>', esc_url($url_edit), esc_html($item['label']));
+				$title .= sprintf('<a href="%s">%s</a>', esc_url($url_edit), esc_html($item['label']));
 
 			} else {
 
-				$title = sprintf('<strong>%s</strong>', esc_html($item['label']));
+				$title .= esc_html($item['label']);
 			}
+
+			// Publish pending
+			if(self::is_publish_pending($item)) {
+
+				$title .= sprintf(
+
+					'<span class="post-state-publish-pending"> — <span class="post-state">%s</span></span>',
+					__('Publish Pending', 'ws-form')
+				);
+			}
+
+			$title .= '</strong>';
 
 			// Actions
 			$status = WS_Form_Common::get_query_var('ws-form-status');
@@ -153,7 +167,11 @@
 
 			// Title
 			$ws_form_form = New WS_Form_Form();
-			$status_name = $ws_form_form->db_get_status_name($item['status']);
+			$status_name = $ws_form_form->db_get_status_name(
+
+				$item['status'],
+				self::is_publish_pending($item)
+			);
 
 			$toggle_enabled = true;
 
@@ -162,6 +180,7 @@
 				case 'publish' :
 
 					$toggle_checked = true;
+
 					break;
 
 				case 'trash' :
@@ -180,7 +199,7 @@
 			if($toggle_enabled) {
 
 				$toggle_id = 'wsf-status-' . $item['id'];
-				$status_html = '<input type="checkbox" id="' . $toggle_id . '" class="wsf-field wsf-switch" data-id="' . $item['id'] . '" data-action-ajax="wsf-form-status"' . ($toggle_checked ? ' checked': '') . ' /><label id="' . $toggle_id . '-label" for="' . $toggle_id . '" class="wsf-label" title="' . $status_name . '">&nbsp;</label>';
+				$status_html = '<input type="checkbox" id="' . $toggle_id . '" class="wsf-field wsf-switch' . (self::is_publish_pending($item) ? ' wsf-switch-warning' : '') . '" data-id="' . $item['id'] . '" data-action-ajax="wsf-form-status"' . ($toggle_checked ? ' checked': '') . ' /><label id="' . $toggle_id . '-label" for="' . $toggle_id . '" class="wsf-label" title="' . $status_name . '">&nbsp;</label>';
 			} else {
 
 				$status_html = $status_name;
@@ -246,6 +265,17 @@
 			$title = sprintf('<div class="wsf-shortcode"><code data-action="wsf-clipboard"%s>%s</code></div>',WS_Form_Common::tooltip(__('Click to Copy', 'ws-form'), 'left'), esc_html(WS_Form_Common::shortcode($id)));
 
 			return $title;
+		}
+
+		// Publish pending
+		function is_publish_pending($item) {
+
+			return (
+
+				($item['status'] == 'publish') &&
+				($item['checksum'] != $item['published_checksum']) &&
+				WS_Form_Common::user_must('publish_form')
+			);
 		}
 
 		// Views

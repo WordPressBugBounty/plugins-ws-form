@@ -23,12 +23,6 @@
 
 		public function __construct() {
 
-			// Set label
-			$this->label = __('Posts', 'ws-form');
-
-			// Set label retrieving
-			$this->label_retrieving = __('Retrieving Posts...', 'ws-form');
-
 			// ACF
 			$this->acf_activated = class_exists('ACF');
 
@@ -41,9 +35,6 @@
 			// Toolset
 			$this->toolset_activated = defined('TYPES_VERSION');
 
-			// Register action
-			parent::register($this);
-
 			// Register config filters
 			add_filter('wsf_config_meta_keys', array($this, 'config_meta_keys'), 10, 2);
 
@@ -52,6 +43,21 @@
 
 			// Records per page
 			$this->records_per_page = apply_filters('wsf_data_source_' . $this->id . '_records_per_age', $this->records_per_page);
+
+			// Register init actin
+			add_action('init', array($this, 'init'));
+		}
+
+		public function init() {
+
+			// Set label
+			$this->label = __('Posts', 'ws-form');
+
+			// Set label retrieving
+			$this->label_retrieving = __('Retrieving Posts...', 'ws-form');
+
+			// Register data source
+			parent::register($this);
 		}
 
 		// Get

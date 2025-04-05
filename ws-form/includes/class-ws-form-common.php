@@ -89,9 +89,8 @@
 			if(
 				isset($_SERVER) && // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				isset($_SERVER['HTTP_X_PRESSABLE_PROXY']) && // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				(isset($_SERVER['HTTP_X_PRESSABLE_PROXY']) == 'wordpress')// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitiz	ed
+				(isset($_SERVER['HTTP_X_PRESSABLE_PROXY']) == 'wordpress')// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			) {
-
 				$wrapper_classes_array[] = 'wsf-wpcom';
 			}
 
@@ -1091,6 +1090,38 @@
 		public static function hex_darken_percentage($hex, $percentage) {
 
 			return WS_Form_Color::hex_color_darken_percentage($hex, $percentage);
+		}
+
+		// Clean wp_remote_post
+		public static function wp_remote_post_clean( $url, $args = array() ) {
+
+			// Backup existing filters
+			global $wp_filter;
+
+			$saved_filters = array();
+
+			$filter_keys = array('http_request_args', 'http_api_curl', 'pre_http_request', 'http_response');
+
+			foreach($filter_keys as $key) {
+
+				if(isset($wp_filter[$key])) {
+
+					$saved_filters[$key] = $wp_filter[$key];
+
+					remove_all_filters($key);
+				}
+			}
+
+			// Make the request
+			$response = wp_remote_post($url, $args);
+
+			// Restore filters
+			foreach($saved_filters as $key => $filters) {
+
+				$wp_filter[$key] = $filters;
+			}
+
+			return $response;
 		}
 
 		// Check to see if object should show
@@ -4131,11 +4162,20 @@
 					// Check if value matches
 					$value_array_index = array_search($data[$value_column_index], $value_array);
 
-					if($value_array_index !== false) {
+					// Process each found instance of the input value_array (This ensure if a user selects the same value in a repeater that it returns both values)
+					while($value_array_index !== false) {
 
+						// Add column value to the return array
+						$return_array[] = $data[$return_column_index];
+
+						// Remove found value from input value_array
 						unset($value_array[$value_array_index]);
 
-						$return_array[] = $data[$return_column_index];
+						// Check if any other values exist
+						if(count($value_array) === 0) { break; }
+
+						// Check if another value matches
+						$value_array_index = array_search($data[$value_column_index], $value_array);
 					}
 				}
 			}
@@ -4144,7 +4184,7 @@
 			$return_array = array_merge($return_array, $value_array);
 
 			// Return unique values to avoid duplicates if there are duplicate values
-			$return_array = array_unique($return_array);
+//			$return_array = array_unique($return_array);
 
 			if(is_null($datagrid_delimiter)) {
 
@@ -5628,7 +5668,7 @@
 		}
 
 		// Add dot notation value
-		public static function set_path_value(&$data, $path, $value, $dedupe = true) {
+		public static function set_path_value(&$data, $path, $value, $dedupe = true, $repeatable = false, $repeatable_index = 0) {
 
 			// Pre-process path
 			$path_processed = trim($path);
@@ -5659,7 +5699,17 @@
 					));
 				}
 
-				$data = &$data[$node];
+				if(
+					$repeatable &&
+					($path_array_index == $path_array_index_max)
+				) {
+					$data = &$data[$repeatable_index];
+					$data = &$data[$node];
+
+				} else {
+
+					$data = &$data[$node];
+				}
 			}
 
 			// Create array if value already exists
@@ -5671,7 +5721,7 @@
 					$data = array($data);
 				}
 
-				// Add element
+				// Set node
 				$data[] = $value;
 
 				// Make it unique

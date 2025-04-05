@@ -405,7 +405,7 @@
 			$form_object = self::db_read(true, true, false, false, $bypass_user_capability_check);
 
 			// Update checksum
-			self::db_checksum($bypass_user_capability_check);
+			self::db_checksum($bypass_user_capability_check, true);
 
 			// Set checksums
 			$form_object->checksum = $this->checksum;
@@ -936,7 +936,6 @@
 				!isset(WS_Form_Data_Source::$data_sources[$data_source_id]) ||
 				!method_exists(WS_Form_Data_Source::$data_sources[$data_source_id], 'get_data_source_meta_keys')
 			) {
-
 				return false;
 			}
 
@@ -977,7 +976,6 @@
 					($recurrence === 'wsf_realtime')
 				)
 			) {
-
 				// Get existing meta_value
 				$meta_value = WS_Form_Common::get_object_meta_value($field, $meta_key, false);
 
@@ -1318,12 +1316,12 @@
 		}
 
 		// Get form status name
-		public function db_get_status_name($status) {
+		public function db_get_status_name($status, $publish_pending = false) {
 
 			switch($status) {
 
 				case 'draft' : 		return __('Draft', 'ws-form'); break;
-				case 'publish' : 	return __('Published', 'ws-form'); break;
+				case 'publish' : 	return ($publish_pending ? __('Publish Pending', 'ws-form') : __('Published', 'ws-form')); break;
 				case 'trash' : 		return __('Trash', 'ws-form'); break;
 				default :			return $status;
 			}
@@ -1454,7 +1452,7 @@
 		}
 
 		// Get checksum of current form and store it to database
-		public function db_checksum($bypass_user_capability_check = false) {
+		public function db_checksum($bypass_user_capability_check = false, $bypass_publish_auto = false) {
 
 			global $wpdb;
 
@@ -1475,6 +1473,15 @@
 			);
 
 			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error setting checksum', 'ws-form')); }
+
+			// Auto publish
+			if(
+				!$bypass_publish_auto &&
+				WS_Form_Common::user_must('publish_form', $bypass_user_capability_check) &&
+				WS_Form_Common::option_get('publish_auto', false)
+			) {
+				self::db_publish();
+			}
 
 			return $this->checksum;
 		}

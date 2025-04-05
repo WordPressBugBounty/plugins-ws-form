@@ -37,17 +37,23 @@
 
 		public function __construct() {
 
-			// Set label
-			$this->label = __('Email', 'ws-form');
-
-			// Set label for actions pull down
-			$this->label_action = __('Send Email', 'ws-form');
-
 			// Events
 			$this->events = array('submit');
 
 			// Register config filters
 			add_filter('wsf_config_meta_keys', array($this, 'config_meta_keys'), 10, 2);
+
+			// Register init action
+			add_action('init', array($this, 'init'));
+		}
+
+		public function init() {
+
+			// Set label
+			$this->label = __('Email', 'ws-form');
+
+			// Set label for actions pull down
+			$this->label_action = __('Send Email', 'ws-form');
 
 			// Register action
 			parent::register($this);
@@ -443,6 +449,9 @@
 
 		public function email_validate($form, $submit_parse, $email, $name = '') {
 
+			// Check if email is blank
+			if(empty($email)) { return false; }
+
 			// Parse email address
 			$email = WS_Form_Common::parse_variables_process($email, $form, $submit_parse, 'text/plain');
 
@@ -452,23 +461,52 @@
 				$name = WS_Form_Common::parse_variables_process($name, $form, $submit_parse, 'text/plain');
 			}
 
-			// Sanitize email address
-			$email = sanitize_email($email);
+			// Split in array
+			$email_array = explode(',', $email);
 
-			// Check if email is blank
-			if($email === '') { return false; }
+			$email_array_sanitized = array();
 
-			// Check email address is valid
-			$email_validate = (filter_var($email, FILTER_VALIDATE_EMAIL) !== false);
+			foreach($email_array as $email) {
 
-			// Apply email validation filters
-			if($email_validate !== false) {
+				// Sanitize email address
+				$email = sanitize_email($email);
 
-				$email_validate = apply_filters('wsf_action_email_email_validate', $email_validate, $email, $form->id, false);
-			}
+				// Skip blank email addresses
+				if(empty($email)) { continue; }
 
-			// If email validates, return the email address
-			if($email_validate === true) {
+				// Validate email
+				if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+					self::error(sprintf(
+
+						/* translators: %s = Email address */
+						__('Invalid email address: %s', 'ws-form'),
+						$email
+					));
+					return false;
+				}
+
+				// Run wsf_action_email_email_validate filter hook
+				$email_validate = apply_filters('wsf_action_email_email_validate', true, $email, $form->id, false);
+
+				// If string returned, use string as error message
+				if(is_string($email_validate)) {
+
+					self::error($email_validate);
+					return false;
+				}
+
+				// If false returned, show an error message
+				if($email_validate === false) {
+
+					self::error(sprintf(
+
+						/* translators: %s = Email address */
+						__('Invalid email address: %s', 'ws-form'),
+						$email
+					));
+					return false;
+				}
 
 				// Get full email address
 				$email_full = WS_Form_Common::get_email_address($email, $name);
@@ -476,29 +514,22 @@
 				// Check full email address
 				if($email_full === false) {
 
-					self::error(__('Invalid email address or display name too long', 'ws-form'));
+					self::error(sprintf(
 
+						/* translators: %s = Email address */
+						__('Invalid email address or display name too long: %s', 'ws-form'),
+						$email
+					));
 					return false;
 				}
 
-				return $email_full;
+				$email_array_sanitized[] = $email_full;
 			}
 
-			if(is_string($email_validate)) {
+			// Rebuild email address
+			$email = implode(',', $email_array_sanitized);
 
-				self::error($email_validate);
-
-				return false;
-			}
-
-			self::error(sprintf(
-
-				/* translators: %s = Email address */
-				__('Invalid email address: %s', 'ws-form'),
-				$email
-			));
-
-			return false;
+			return empty($email) ? false : $email;
 		}
 
 		public function process_email_rows($form, $submit_parse, $rows) {

@@ -27,6 +27,8 @@
 
 		public $post_mode;
 
+		public $row_id_filter;
+
 		public $form_object;
 
 		public $error;
@@ -93,6 +95,7 @@
 			$this->viewed = false;
 
 			$this->post_mode = false;
+			$this->row_id_filter = false;
 
 			$this->error = false;
 			$this->error_message = '';
@@ -2259,8 +2262,15 @@
 			$this->preview = (WS_Form_Common::get_query_var_nonce('wsf_preview', false) !== false);
 
 			// Read form
-			self::db_form_object_read();
+			try {
+	
+				self::db_form_object_read();
 
+			} catch(Exception $e) {
+
+				self::return_forbidden();
+			}
+	
 			// Apply restrictions (Removes any groups, sections or fields that are hidden due to restriction settings, e.g. User logged in)
 			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->apply_restrictions($this->form_object);
@@ -2297,7 +2307,6 @@
 
 				self::return_forbidden();
 			}
-
 			// Build section_repeatable
 			$section_repeatable = array();
 			$wsf_form_section_repeatable_index_json = WS_Form_Common::get_query_var_nonce('wsf_form_section_repeatable_index', false);
@@ -2465,16 +2474,25 @@
 
 					case 'email' :
 
-						// Sanitize email address
-						$field_value = sanitize_email($field_value);
+						// Build email array
+						$field_value_array = (WS_Form_Common::get_object_meta_value($field, 'multiple_email', '') == 'on') ? explode(',', $field_value) : array($field_value);
 
-						if($field_value !== '') {
+						// Sanitized array
+						$field_value_array_sanitized = array();
+
+						foreach($field_value_array as $field_value) {
+
+							// Sanitize email address
+							$field_value = sanitize_email($field_value);
+
+							// Skip empty values
+							if(empty($field_value)) { continue; }
 
 							// Double check the email address
-							if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
+							if(!filter_var($field_value, FILTER_VALIDATE_EMAIL)) {
 
 								self::db_throw_error_field_invalid_feedback($field_id, $section_repeatable_index, $email_validate);
-								continue 2;
+								continue 3;
 							}
 
 							// Run wsf_action_email_email_validate filter hook
@@ -2483,13 +2501,20 @@
 							if(is_string($email_validate)) {
 
 								self::db_throw_error_field_invalid_feedback($field_id, $section_repeatable_index, $email_validate);
+								continue 3;
 							}
 
 							if($email_validate === false) {
 
 								self::db_throw_error_field_invalid_feedback($field_id, $section_repeatable_index, __('Invalid email address.', 'ws-form'));
+								continue 3;
 							}
+
+							$field_value_array_sanitized[] = $field_value;
 						}
+
+						// Rebuild field value
+						$field_value = implode(',', $field_value_array_sanitized);
 
 						break;
 

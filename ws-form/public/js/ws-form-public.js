@@ -161,7 +161,12 @@
 		// Build error message
 		var error_message = this.language(language_id, variable, false).replace(/%s/g, variable);
 
-		if(window.console && window.console.error) { console.error(error_message); }
+		if(window.console && window.console.error) {
+
+			console.error(error_message);
+		}
+
+		return error_message;
 	}
 
 	// Render any interface elements that rely on the form object
@@ -1035,6 +1040,30 @@
 		return $('#' + this.form_id_prefix + 'checkbox-min-max-' + field_id + section_repeatable_suffix, this.form_canvas_obj);
 	}
 
+	// Get checkbox row count
+	$.WS_Form.prototype.get_checkbox_row_count = function(obj) {
+
+		// Get field wrapper
+		var field_wrapper = this.get_field_wrapper(obj);
+
+		// Get checkboxes
+		var checkbox_objs = $('[data-row-checkbox]:not([style*="display: none"]) input:not([data-hidden])', field_wrapper);
+
+		return checkbox_objs ? checkbox_objs.length : 0;
+	}
+
+	// Get radio row count
+	$.WS_Form.prototype.get_radio_row_count = function(obj) {
+
+		// Get field wrapper
+		var field_wrapper = this.get_field_wrapper(obj);
+
+		// Get radios
+		var radio_objs = $('[data-row-radio]:not([style*="display: none"]) input:not([data-hidden])', field_wrapper);
+
+		return radio_objs ? radio_objs.length : 0;
+	}
+
 	// Get help from object
 	$.WS_Form.prototype.get_help_obj = function(obj) {
 
@@ -1512,7 +1541,21 @@
 			// If field is not visible, add contain validation attributes, add bypass attributes
 			if($('[' + attribute_source + ']', this.form_canvas_obj).length) {
 
-				$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-checkbox][style*="display:none"] > input[type="checkbox"][' + attribute_source + ']:not(' + attribute_not + ',[' + attribute_bypass + ']), [id^="' + this.form_id_prefix + 'field-wrapper-"] [style*="display: none"] input[type="checkbox"][' + attribute_source + ']:not(' + attribute_not + ',[' + attribute_bypass + '])', this.form_canvas_obj).attr(attribute_bypass, function() { return ws_this.form_bypass_hidden($(this), attribute_source, attribute_replace); });
+				$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-checkbox][style*="display:none"] > input[type="checkbox"][' + attribute_source + ']:not(' + attribute_not + ',[' + attribute_bypass + ']), [id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-checkbox][style*="display: none"] > input[type="checkbox"][' + attribute_source + ']:not(' + attribute_not + ',[' + attribute_bypass + '])', this.form_canvas_obj).attr(attribute_bypass, function() { return ws_this.form_bypass_hidden($(this), attribute_source, attribute_replace); });
+			}
+
+			// Rows - Radio
+
+			// If field is visible, add validation attributes back that have a bypass data tag
+			if($('[' + attribute_bypass + ']', this.form_canvas_obj).length) {
+
+				$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-radio]:not([style*="display:none"],[style*="display: none"]) > input[type="radio"] [' + attribute_bypass + ']:not(' + attribute_not + ')', this.form_canvas_obj).attr(attribute_source, function() { return ws_this.form_bypass_visible($(this), attribute_bypass); }).removeAttr(attribute_bypass);
+			}
+
+			// If field is not visible, add contain validation attributes, add bypass attributes
+			if($('[' + attribute_source + ']', this.form_canvas_obj).length) {
+
+				$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-radio][style*="display:none"] > input[type="radio"][' + attribute_source + ']:not(' + attribute_not + ',[' + attribute_bypass + ']), [id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-radio][style*="display: none"] > input[type="radio"][' + attribute_source + ']:not(' + attribute_not + ',[' + attribute_bypass + '])', this.form_canvas_obj).attr(attribute_bypass, function() { return ws_this.form_bypass_hidden($(this), attribute_source, attribute_replace); });
 			}
 		}
 
@@ -1556,6 +1599,17 @@
 		});
 
 		$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-checkbox][style*="display:none"] input[type="checkbox"], [id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-checkbox][style*="display: none"] input[type="checkbox"]', this.form_canvas_obj).each(function() {
+
+			ws_this.form_bypass_process($(this), '', true);
+		});
+
+		// Process custom validity messages - Rows - Radio
+		$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-radio]:not([style*="display:none"],[style*="display: none"]) input[type="radio"]', this.form_canvas_obj).each(function() {
+
+			ws_this.form_bypass_process($(this), '', false);
+		});
+
+		$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-radio][style*="display:none"] input[type="radio"], [id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-radio][style*="display: none"] input[type="radio"]', this.form_canvas_obj).each(function() {
 
 			ws_this.form_bypass_process($(this), '', true);
 		});
@@ -2438,10 +2492,10 @@
 	}
 
 	// Form - Post
-	$.WS_Form.prototype.form_post = function(post_mode, action_id) {
+	$.WS_Form.prototype.form_post = function(post_mode, row_id_filter) {
 
 		if(typeof(post_mode) == 'undefined') { post_mode = 'save'; }
-		if(typeof(action_id) == 'undefined') { action_id = 0; }
+		if(typeof(row_id_filter) == 'undefined') { row_id_filter = 0; }
 
 		// Determine if this is a submit
 		var submit = (post_mode == 'submit');
@@ -2485,12 +2539,30 @@
 			// Strip brackets (For select, radio and checkboxes)
 			name = name.replace('[]', '');
 
+			// For radio and checkboxes, we should only mark it as hidden if all the rows are hidden
+			switch(ws_this.get_field_type($(this))) {
+
+				case 'checkbox' :
+
+					if(ws_this.get_checkbox_row_count($(this))) { return ''; }
+					break;
+
+				case 'radio' :
+
+					if(ws_this.get_radio_row_count($(this))) { return ''; }
+					break;
+			}
+
 			return name;
 
 		}).get();
 		hidden_array = hidden_array.filter(function(value, index, self) { 
 
-			return self.indexOf(value) === index;
+			return (
+
+				(self.indexOf(value) === index) &&
+				(value !== '')
+			);
 		});
 		var hidden = hidden_array.join();
 		this.form_add_hidden_input('wsf_hidden', hidden);
@@ -2568,7 +2640,7 @@
 		// Do not run AJAX
 		if(
 			submit &&
-			(action_id == 0) &&
+			(row_id_filter == 0) &&
 			(this.form_ajax === false)
 		) {
 
@@ -2591,10 +2663,10 @@
 		// Build form data
 		var form_data = new FormData(this.form_obj[0]);
 
-		// Action ID (Inject into form_data so that it doesn't stay on the form)
-		if(action_id > 0) {
+		// Row ID filter (Inject into form_data so that it doesn't stay on the form)
+		if(row_id_filter > 0) {
 
-			form_data.append('wsf_action_id', action_id);
+			form_data.append('wsf_row_id_filter', row_id_filter);
 		}
 
 		// If this is not a submit, there are some form data elements we should remove to avoid conflicting with WooCommerce
@@ -2761,7 +2833,7 @@
 			ws_this.trigger(post_mode + '-error');
 			ws_this.trigger('error');
 
-		}, (action_id > 0) || !submit);
+		}, (row_id_filter > 0) || !submit);
 	}
 
 	// Form lock
@@ -2916,6 +2988,8 @@
 
 		var ws_this = this;
 
+		// Timer - Start
+		var timer_start = new Date();
 
 		// Make AJAX request
 		var url = force_ajax_path ? (ws_form_settings.url_ajax + ajax_path) : ((ajax_path == 'submit') ? this.form_obj.attr('action') : (ws_form_settings.url_ajax + ajax_path));
@@ -2970,6 +3044,9 @@
 
 			method: method,
 			url: url,
+			contentType: false,
+			processData: (method === 'GET'),
+
 			beforeSend: function(xhr) {
 
 				// Nonce (X-WP-Nonce)
@@ -2978,73 +3055,20 @@
 					xhr.setRequestHeader('X-WP-Nonce', ws_form_settings.x_wp_nonce);
 				}
 			},
-			contentType: false,
-			processData: (method === 'GET'),
- 			statusCode: {
 
-				// Success
-				200: function(response) {
+			success: function(response) {
 
-					// Handle hash response
-					var hash_ok = ws_this.api_call_hash(response);
+				ws_this.api_call_hander_success(response, success_callback, timer_start);
+			},
 
-					// Check for new nonce values
-					if(typeof(response.x_wp_nonce) !== 'undefined') { ws_form_settings.x_wp_nonce = response.x_wp_nonce; }
-					if(typeof(response.wsf_nonce) !== 'undefined') { ws_form_settings.wsf_nonce = response.wsf_nonce; }
+			error: function(jq_xhr, text_status, error_thrown) {
 
-					// Call success function
-					var success_callback_result = (typeof(success_callback) === 'function') ? success_callback(response) : true;
-
-					// Check for data to process
-					if(
-						(typeof(response.data) !== 'undefined') &&
-						success_callback_result
-					) {
-
-						// Check for action_js (These are returned from the action system to tell the browser to do something)
-						if(typeof(response.data.js) === 'object') { ws_this.action_js_init(response.data.js); }
-					}
-				},
-
-				// Bad request
-				400: function(response) {
-
-					// Process error
-					ws_this.api_call_error_handler(response, 400, url, error_callback);
-				},
-
-				// Unauthorized
-				401: function(response) {
-
-					// Process error
-					ws_this.api_call_error_handler(response, 401, url, error_callback);
-				},
-
-				// Forbidden
-				403: function(response) {
-
-					// Process error
-					ws_this.api_call_error_handler(response, 403, url, error_callback);
-				},
-
-				// Not found
-				404: function(response) {
-
-					// Process error
-					ws_this.api_call_error_handler(response, 404, url, error_callback);
-				},
-
-				// Server error
-				500: function(response) {
-
-					// Process error
-					ws_this.api_call_error_handler(response, 500, url, error_callback);
-				}
+				ws_this.api_call_handler_error(jq_xhr, text_status, error_thrown, success_callback, error_callback, timer_start, url);
 			},
 
 			complete: function() {
 
-				this.api_call_handle = false;
+				ws_this.api_call_handler_complete();
 			}
 		};
 
@@ -3067,36 +3091,128 @@
 		return $.ajax(ajax_request);
 	};
 
-	// API call - Process error
-	$.WS_Form.prototype.api_call_error_handler = function(response, status, url, error_callback) {
+	// API call - Success
+	$.WS_Form.prototype.api_call_hander_success = function(response, success_callback, timer_start) {
 
-		// Get response data
-		var data = (typeof(response.responseJSON) !== 'undefined') ? response.responseJSON : false;
+		// Handle hash response
+		var hash_ok = this.api_call_hash(response);
 
-		// Process WS Form API error message
-		if(data && data.error) {
+		// Check for new nonce values
+		if(typeof(response.x_wp_nonce) !== 'undefined') { ws_form_settings.x_wp_nonce = response.x_wp_nonce; }
+		if(typeof(response.wsf_nonce) !== 'undefined') { ws_form_settings.wsf_nonce = response.wsf_nonce; }
 
-			if(data.error_message) {
+		// Call success function
+		var success_callback_result = (typeof(success_callback) === 'function') ? success_callback(response) : true;
 
-				this.error('error_api_call_' + status, data.error_message);
+		// Check for data to process
+		if(
+			(typeof(response.data) !== 'undefined') &&
+			success_callback_result
+		) {
 
-			} else {
-
-				this.error('error_api_call_' + status, url);
-			}
-
-		} else {
-
-			// Fallback
-			this.error('error_api_call_' + status, url);
+			// Check for action_js (These are returned from the action system to tell the browser to do something)
+			if(typeof(response.data.js) === 'object') { this.action_js_init(response.data.js); }
 		}
 
-		// Call error call back
+		return true;
+	}
+
+	// API call - Process AJAX error
+	$.WS_Form.prototype.api_call_handler_error = function(jq_xhr, text_status, error_thrown, success_callback, error_callback, timer_start, url) {
+
+		// Get response JSON
+		var response_json = (typeof(jq_xhr.responseJSON) !== 'undefined') ? jq_xhr.responseJSON : false;
+
+		// Get status
+		var status = jq_xhr.status;
+
+		// Error message
+		var error_message = this.language('error_api_call_unknown');
+
+		// Process by status code
+		switch(status) {
+
+			case 200:
+
+				// Process error thrown
+				if(typeof(error_thrown) === 'string') {
+
+					error_message = this.error('error_api_call_response_error', error_thrown);
+
+				} else if(error_thrown instanceof Error) {
+
+					error_message = this.error('error_api_call_response_error', error_thrown.message);
+
+				} else {
+
+					try {
+
+						error_message = this.error('error_api_call_response_error', JSON.stringify(error_thrown));
+
+					} catch (e) {
+
+						error_message = this.error('error_api_call_response_error', this.language('error_api_call_unknown'));
+					}
+				}
+
+				// Log response text
+				this.error('error_api_call_response_text', this.esc_html(jq_xhr.responseText));
+
+				// Build response
+				response_json = {
+
+					error: true,
+					error_message: error_message
+				};
+
+				break;
+
+			case 400:
+			case 401:
+			case 403:
+			case 404:
+			case 500:
+
+				// Process WS Form API error message
+				if(response_json && response_json.error) {
+
+					if(response_json.error_message) {
+
+						error_message = this.error('error_api_call_' + status, response_json.error_message);
+
+					} else {
+
+						error_message = this.error('error_api_call_' + status, url);
+					}
+
+				} else {
+
+					// Fallback
+					error_message = this.error('error_api_call_' + status, url);
+
+					// Build response
+					response_json = {
+
+						error: true,
+						error_message: error_message
+					};
+				}
+
+				break;
+		}
+
+		// Call error callback
 		if(typeof(error_callback) === 'function') {
 
 			// Run error callback
-			error_callback(data);
+			error_callback(response_json);
 		}
+	}
+
+	// API call - Complete handler
+	$.WS_Form.prototype.api_call_handler_complete = function() {
+
+		this.api_call_handle = false;
 	}
 
 	// API Call

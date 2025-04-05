@@ -30,7 +30,7 @@
 			} else {
 
 				// Core enqueues
-				do_action('wsf_enqueue_core');
+				do_action('wsf_enqueue_visual_builder');
 			}
 		}
 	}

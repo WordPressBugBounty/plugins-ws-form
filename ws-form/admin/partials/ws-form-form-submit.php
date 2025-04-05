@@ -142,8 +142,8 @@
 			$.WS_Form.settings_form.language['starred_off'] = '<?php esc_html_e('Not Starred', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['viewed_on'] = '<?php esc_html_e('Mark as Unread', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['viewed_off'] = '<?php esc_html_e('Mark as Read', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['error_server'] = '<?php esc_html_e('500 Server error response from server.', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['error_bad_request_message'] = '<?php esc_html_e('400 Bad request response from server: %s', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['error_server'] = '<?php esc_html_e('500 Internal Server Error response from server.', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['error_bad_request_message'] = '<?php esc_html_e('400 Bad Request response from server: %s', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['dismiss'] = '<?php esc_html_e('Dismiss', 'ws-form'); ?>';
 
 			// Initialize WS Form

@@ -5362,6 +5362,11 @@ input[type=checkbox].wsf-field.wsf-switch:checked + label.wsf-label::after {
   left: 16px;
 }
 
+input[type=checkbox].wsf-field.wsf-switch-warning:checked + label.wsf-label::before {
+  background-color: #fdb81e;
+  border-color: #fdb81e;
+}
+
 input[type=radio].wsf-field {
   box-sizing: border-box;
   height: 18px;
@@ -5739,6 +5744,17 @@ input[type=range].wsf-field:disabled::-ms-thumb {
 
 .wsf-sidebar-html p {
   font-size: 12px;
+}
+
+.wsf-sidebar-note {
+  color: #000;
+  font-size: 12px;
+  padding: 10px;
+}
+
+.wsf-sidebar-note.wsf-sidebar-note-warning {
+  background: #fff8f1;
+  border: 1px dashed #fdb81e;
 }
 
 button.wsf-button,

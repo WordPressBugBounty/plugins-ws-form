@@ -60,164 +60,75 @@
 		public $enqueue_css_debug = false;
 		public $enqueue_css_styler = false;
 		public $enqueue_css_style = false;
-		public $enqueue_css_conversational = false;
-		public $enqueue_css_loader = false;
-		public $enqueue_css_custom = false;
-
 		// Enqueuing - CSS - V2
 		public $enqueue_css_base = false;
 		public $enqueue_css_button = false;
 		public $enqueue_css_checkbox = false;
 		public $enqueue_css_color = false;
-		public $enqueue_css_datetime = false;
-		public $enqueue_css_file = false;
-		public $enqueue_css_legal = false;
-		public $enqueue_css_meter = false;
 		public $enqueue_css_number = false;
-		public $enqueue_css_password = false;
-		public $enqueue_css_progress = false;
 		public $enqueue_css_radio = false;
-		public $enqueue_css_range = false;
 		public $enqueue_css_select = false;
-		public $enqueue_css_signature = false;
 		public $enqueue_css_tel = false;
 		public $enqueue_css_tab = false;
 		public $enqueue_css_textarea = false;
+		public $enqueue_css_custom = false;
 
 		// Enqueuing - JS
 		public $enqueue_js_common = false;
 		public $enqueue_js_public = false;
-		public $enqueue_js_debug = false;
 		public $enqueue_js_styler = false;
 		public $enqueue_js_styler_scheme = false;
-		public $enqueue_js_conversational = false;
-		public $enqueue_js_wp_media = false;
-		public $enqueue_js_wp_editor = false;
-		public $enqueue_js_wp_html_editor = false;
-		public $enqueue_js_input_mask = false;
-		public $enqueue_js_sortable = false;
-		public $enqueue_js_signature_pad = false;
-		public $enqueue_js_datetime_picker = false;
-		public $enqueue_js_color_picker = false;
-		public $enqueue_js_password_strength = false;
-		public $enqueue_js_select2 = false;
-		public $enqueue_js_dropzonejs = false;
-		public $enqueue_js_intl_tel_input = false;
 
-		public $enqueue_js_analytics = false;
-		public $enqueue_js_calc = false;
 		public $enqueue_js_captcha = false;
-		public $enqueue_js_cascade = false;
 		public $enqueue_js_checkbox = false;
 		public $enqueue_js_color = false;
-		public $enqueue_js_conditional = false;
-		public $enqueue_js_consent = false;
-		public $enqueue_js_datetime = false;
-		public $enqueue_js_date_translate = false;
-		public $enqueue_js_ecommerce = false;
-		public $enqueue_js_file = false;
-		public $enqueue_js_geo = false;
-		public $enqueue_js_google_map = false;
-		public $enqueue_js_google_address = false;
-		public $enqueue_js_google_route = false;
-		public $enqueue_js_legal = false;
-		public $enqueue_js_loader = false;
-		public $enqueue_js_password = false;
-		public $enqueue_js_progress = false;
+		public $enqueue_js_color_picker = false;
+		public $enqueue_js_input_mask = false;
+		public $enqueue_js_intl_tel_input = false;
 		public $enqueue_js_radio = false;
-		public $enqueue_js_rating = false;
-		public $enqueue_js_section_repeatable = false;
 		public $enqueue_js_select = false;
-		public $enqueue_js_signature = false;
-		public $enqueue_js_ssn = false;
+		public $enqueue_js_sortable = false;
 		public $enqueue_js_tab = false;
 		public $enqueue_js_tel = false;
-		public $enqueue_js_textarea = false;
-		public $enqueue_js_tracking = false;
-
 		public $enqueue_js_custom = false;
 
-		// Enqueued CSS
+		// Enqueued - CSS
 		public $enqueued_css_layout = false;
 		public $enqueued_css_skin = false;
 		public $enqueued_css_debug = false;
 		public $enqueued_css_styler = false;
 		public $enqueued_css_style = array();
-		public $enqueued_css_conversational = false;
-		public $enqueued_css_loader = false;
-		public $enqueued_css_custom = false;
 
 		// Enqueued - CSS - V2
 		public $enqueued_css_base = false;
 		public $enqueued_css_button = false;
 		public $enqueued_css_checkbox = false;
 		public $enqueued_css_color = false;
-		public $enqueued_css_datetime = false;
-		public $enqueued_css_file = false;
-		public $enqueued_css_legal = false;
-		public $enqueued_css_meter = false;
 		public $enqueued_css_number = false;
-		public $enqueued_css_password = false;
-		public $enqueued_css_progress = false;
 		public $enqueued_css_radio = false;
-		public $enqueued_css_range = false;
 		public $enqueued_css_select = false;
-		public $enqueued_css_signature = false;
 		public $enqueued_css_tel = false;
 		public $enqueued_css_tab = false;
 		public $enqueued_css_textarea = false;
+		public $enqueued_css_custom = false;
 
-		// Enqueued JS
+		// Enqueued - JS
 		public $enqueued_js_common = false;
 		public $enqueued_js_public = false;
-		public $enqueued_js_debug = false;
 		public $enqueued_js_styler = false;
 		public $enqueued_js_styler_scheme = false;
-		public $enqueued_js_conversational = false;
-		public $enqueued_js_wp_media = false;
-		public $enqueued_js_wp_editor = false;
-		public $enqueued_js_wp_html_editor = false;
-		public $enqueued_js_input_mask = false;
-		public $enqueued_js_sortable = false;
-		public $enqueued_js_signature_pad = false;
-		public $enqueued_js_datetime_picker = false;
-		public $enqueued_js_color_picker = false;
-		public $enqueued_js_password_strength = false;
-		public $enqueued_js_select2 = false;
-		public $enqueued_js_dropzonejs = false;
-		public $enqueued_js_intl_tel_input = false;
 
-		public $enqueued_js_analytics = false;
-		public $enqueued_js_calc = false;
 		public $enqueued_js_captcha = false;
-		public $enqueued_js_cascade = false;
 		public $enqueued_js_checkbox = false;
 		public $enqueued_js_color = false;
-		public $enqueued_js_conditional = false;
-		public $enqueued_js_consent = false;
-		public $enqueued_js_datetime = false;
-		public $enqueued_js_date_translate = false;
-		public $enqueued_js_ecommerce = false;
-		public $enqueued_js_file = false;
-		public $enqueued_js_geo = false;
-		public $enqueued_js_google_map = false;
-		public $enqueued_js_google_address = false;
-		public $enqueued_js_google_route = false;
-		public $enqueued_js_legal = false;
-		public $enqueued_js_loader = false;
-		public $enqueued_js_password = false;
-		public $enqueued_js_progress = false;
+		public $enqueued_js_color_picker = false;
+		public $enqueued_js_input_mask = false;
+		public $enqueued_js_intl_tel_input = false;
 		public $enqueued_js_radio = false;
-		public $enqueued_js_rating = false;
-		public $enqueued_js_section_repeatable = false;
+		public $enqueued_js_sortable = false;
 		public $enqueued_js_select = false;
-		public $enqueued_js_signature = false;
-		public $enqueued_js_ssn = false;
 		public $enqueued_js_tab = false;
 		public $enqueued_js_tel = false;
-		public $enqueued_js_textarea = false;
-		public $enqueued_js_tracking = false;
-
 		public $enqueued_js_custom = false;
 
 		public $enqueued_all = false;
@@ -340,21 +251,12 @@
 			add_filter('wsf_enqueue_css_button', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_checkbox', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_color', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_datetime', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_file', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_legal', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_meter', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_number', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_password', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_progress', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_radio', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_range', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_select', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_signature', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_tab', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_tel', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_textarea', function($enqueue) { return true; }, 99999, 1);
-
 			// Intentionally disabled
 			add_filter('wsf_enqueue_js_debug', function($enqueue) { return false; }, 99999, 1);
 			add_filter('wsf_enqueue_js_wp_media', function($enqueue) { return false; }, 99999, 1);
@@ -405,21 +307,12 @@
 			add_filter('wsf_enqueue_css_button', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_checkbox', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_color', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_datetime', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_file', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_legal', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_meter', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_number', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_password', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_progress', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_radio', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_range', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_select', function($enqueue) { return true; }, 99999, 1);
-			add_filter('wsf_enqueue_css_signature', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_tab', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_tel', function($enqueue) { return true; }, 99999, 1);
 			add_filter('wsf_enqueue_css_textarea', function($enqueue) { return true; }, 99999, 1);
-
 			// Process enqueues
 			self::enqueue();
 
@@ -690,6 +583,12 @@
 						// Check by field type
 						switch($field_type) {
 
+							// Number
+							case 'number' :
+
+								$this->enqueue_css_number = true;
+								break;
+
 							// Select, checkbox and radios
 							case 'select' :
 							case 'checkbox' :
@@ -716,8 +615,6 @@
 
 									// Select
 									case 'select' :
-									case 'price_select' :
-
 										$this->enqueue_js_select = true;
 										$this->enqueue_css_select = true;
 
@@ -743,8 +640,6 @@
 
 									// Checkbox
 									case 'checkbox' :
-									case 'price_checkbox' :
-
 										// E-commerce
 										if($field_type === 'price_checkbox') {
 
@@ -767,8 +662,6 @@
 
 									// Radio
 									case 'radio' :
-									case 'price_radio' :
-
 										$this->enqueue_js_radio = true;
 										$this->enqueue_css_radio = true;
 
@@ -792,29 +685,14 @@
 											$data_grid_meta_key = 'data_grid_select';
 											break;
 
-										case 'price_select' :
-
-											$data_grid_meta_key = 'data_grid_select_price';
-											break;
-
 										case 'checkbox' :
 
 											$data_grid_meta_key = 'data_grid_checkbox';
 											break;
 
-										case 'price_checkbox' :
-
-											$data_grid_meta_key = 'data_grid_checkbox_price';
-											break;
-
 										case 'radio' :
 
 											$data_grid_meta_key = 'data_grid_radio';
-											break;
-
-										case 'price_radio' :
-
-											$data_grid_meta_key = 'data_grid_radio_price';
 											break;
 									}
 
@@ -841,18 +719,10 @@
 								break;
 
 							// Buttons
-							case 'button' :
-							case 'clear' :
-							case 'section_add' :
-							case 'section_delete' :
-							case 'section_down' :
-							case 'section_up' :
-							case 'reset' :
-							case 'save' :
 							case 'submit' :
-							case 'tab_next' :
+							case 'reset' :
 							case 'tab_previous' :
-
+							case 'tab_next' :
 								$this->enqueue_css_button = true;
 								break;
 
@@ -876,22 +746,6 @@
 
 							// Text Area
 							case 'textarea' :
-
-								// Check to see if a textarea field is using wp_editor or wp_html_editor
-								$input_type_textarea = WS_Form_Common::get_object_meta_value($field, 'input_type_textarea', '');
-								if($input_type_textarea == 'tinymce') { $this->enqueue_js_wp_editor = true; }
-								if($input_type_textarea == 'html') { $this->enqueue_js_wp_html_editor = true; }
-								if($input_type_textarea != '') { $this->enqueue_js_textarea = true; }
-
-								// Check to see if the media library should be enqueued
-								if(
-									WS_Form_Common::can_user('upload_files') &&
-									(WS_Form_Common::get_object_meta_value($field, 'visual_editor_media', '') == 'on')
-								) {
-
-									$this->enqueue_js_wp_media = true;
-								}
-
 								$this->enqueue_css_textarea = true;
 
 								break;
@@ -983,44 +837,6 @@
 
 				$this->enqueued_js_color_picker = true;
 			}
-			// If a textarea exists in a form that requires wp_editor or wp_code_editor, enqueue the scripts
-			global $wp_version;
-
-			// WP Editor
-			if(
-				apply_filters('wsf_enqueue_js_wp_editor', $this->enqueue_js_wp_editor) &&
-				(WS_Form_Common::version_compare($wp_version, '4.8') >= 0) &&
-				user_can_richedit()
-			) {
-
-				// Media for 'Add Media' button
-				if(
-					apply_filters('wsf_enqueue_js_wp_media', $this->enqueue_js_wp_media) &&
-					WS_Form_Common::can_user('upload_files')
-				) {
-
-					wp_enqueue_media();
-
-					$this->enqueued_js_wp_media = true;
-				}
-
-				wp_enqueue_editor();
-
-				$this->enqueued_js_wp_editor = true;
-			}
-
-			// WP HTML Editor
-			if(
-				apply_filters('wsf_enqueue_js_wp_html_editor', $this->enqueue_js_wp_html_editor) &&
-				(WS_Form_Common::version_compare($wp_version, '4.9') >= 0) &&
-				(!is_user_logged_in() || (wp_get_current_user()->syntax_highlighting))
-			) {
-
-				wp_enqueue_code_editor(array('type' => 'text/html'));
-
-				$this->enqueued_js_wp_html_editor = true;
-			}
-
 			do_action('wsf_enqueue_external');
 		}
 
@@ -1078,21 +894,19 @@
 			// Base
 			self::enqueue_internal_css('base', false);
 
-			// Analytics
-			self::enqueue_internal_js('analytics');
-
 			// Button
 			self::enqueue_internal_css('button');
 
 			// Captcha
 			self::enqueue_internal_js('captcha');
 
-			// Cascade
-			self::enqueue_internal_js('cascade');
-
 			// Checkbox
 			self::enqueue_internal_js('checkbox');
 			self::enqueue_internal_css('checkbox');
+
+			// Color
+			self::enqueue_internal_js('color');
+			self::enqueue_internal_css('color');
 
 			// Number
 			self::enqueue_internal_css('number');
@@ -1116,14 +930,6 @@
 			// Tab
 			self::enqueue_internal_js('textarea');
 			self::enqueue_internal_css('textarea');
-
-			// Tracking
-			self::enqueue_internal_js('tracking');
-
-			// Color
-			self::enqueue_internal_js('color');
-			self::enqueue_internal_css('color');
-
 			// Public
 			self::enqueue_internal_js('public', true);
 			// Styler
@@ -1714,38 +1520,9 @@
 				// Submit hash
 				'wsf_hash'				=> self::get_submit_hash(),
 
-				// WP Media
-				'wp_media'				=> $this->enqueue_js_wp_media,
-
 				// Geolocation by IP lookup method
 				'ip_lookup_method'		=> WS_Form_Common::option_get('ip_lookup_method')
 			);
-			// WP Editor
-			if(
-				apply_filters('wsf_enqueue_js_wp_editor', $this->enqueue_js_wp_editor) &&
-				(WS_Form_Common::version_compare($wp_version, '4.8') >= 0) &&
-				user_can_richedit()
-			) {
-
-				// TinyMCE toolbars - Compact
-				$return_array['tinymce_toolbar1_compact'] = apply_filters('wsf_tinymce_toolbar1_compact', 'bold italic underline strikethrough | bullist numlist | alignleft aligncenter alignright alignjustify | link unlink | pastetext | undo redo | fullscreen');
-				$return_array['tinymce_toolbar2_compact'] = apply_filters('wsf_tinymce_toolbar2_compact', '');
-				$return_array['tinymce_toolbar3_compact'] = apply_filters('wsf_tinymce_toolbar3_compact', '');
-				$return_array['tinymce_toolbar4_compact'] = apply_filters('wsf_tinymce_toolbar4_compact', '');
-
-				// TinyMCE plugins - Compact
-				$return_array['tinymce_plugins_compact'] = apply_filters('wsf_tinymce_plugins_compact', 'lists media paste tabfocus fullscreen wordpress wpautoresize wpdialogs wpeditimage wpemoji wpgallery wplink wptextpattern wpview');
-	
-				// TinyMCE toolbars - Full
-				$return_array['tinymce_toolbar1_full'] = apply_filters('wsf_tinymce_toolbar1_full', 'formatselect bold italic underline strikethrough | bullist numlist | alignleft aligncenter alignright alignjustify | link unlink | wp_adv');
-				$return_array['tinymce_toolbar2_full'] = apply_filters('wsf_tinymce_toolbar2_full', 'forecolor | pastetext | hr | removeformat charmap | outdent indent blockquote | wp_more | undo redo | fullscreen');
-				$return_array['tinymce_toolbar3_full'] = apply_filters('wsf_tinymce_toolbar3_full', '');
-				$return_array['tinymce_toolbar4_full'] = apply_filters('wsf_tinymce_toolbar4_full', '');
-
-				// TinyMCE plugins - Full
-				$return_array['tinymce_plugins_full'] = apply_filters('wsf_tinymce_plugins_full', 'charmap colorpicker hr lists media paste tabfocus textcolor fullscreen wordpress wpautoresize wpdialogs wpeditimage wpemoji wpgallery wplink wptextpattern wpview');
-			}
-
 			// Pass through post ID
 			if(isset($post) && ($post->ID > 0)) {
 

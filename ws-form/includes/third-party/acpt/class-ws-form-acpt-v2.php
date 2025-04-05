@@ -1334,7 +1334,7 @@
 			// Get field object
 			$acpt_field_object = self::acpt_get_field_object($acpt_field_id, $context);
 
-			// Return field type
+			// Return field name
 			return (!is_object($acpt_field_object) || !property_exists($acpt_field_object, 'name')) ? false : $acpt_field_object->name;
 		}
 
