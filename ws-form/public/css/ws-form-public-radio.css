@@ -2,6 +2,56 @@
   margin-bottom: var(--wsf-field-radio-gap-vertical);
 }
 
+.wsf-form [data-row-radio][data-wsf-hierarchy='1'] {
+  -webkit-margin-start: var(--wsf-field-radio-size);
+  margin-inline-start: var(--wsf-field-radio-size);
+}
+
+.wsf-form [data-row-radio][data-wsf-hierarchy='2'] {
+  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 2);
+  margin-inline-start: calc(var(--wsf-field-radio-size) * 2);
+}
+
+.wsf-form [data-row-radio][data-wsf-hierarchy='3'] {
+  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 3);
+  margin-inline-start: calc(var(--wsf-field-radio-size) * 3);
+}
+
+.wsf-form [data-row-radio][data-wsf-hierarchy='4'] {
+  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 4);
+  margin-inline-start: calc(var(--wsf-field-radio-size) * 4);
+}
+
+.wsf-form [data-row-radio][data-wsf-hierarchy='5'] {
+  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 5);
+  margin-inline-start: calc(var(--wsf-field-radio-size) * 5);
+}
+
+.wsf-form [data-row-radio][data-wsf-hierarchy='6'] {
+  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 6);
+  margin-inline-start: calc(var(--wsf-field-radio-size) * 6);
+}
+
+.wsf-form [data-row-radio][data-wsf-hierarchy='7'] {
+  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 7);
+  margin-inline-start: calc(var(--wsf-field-radio-size) * 7);
+}
+
+.wsf-form [data-row-radio][data-wsf-hierarchy='8'] {
+  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 8);
+  margin-inline-start: calc(var(--wsf-field-radio-size) * 8);
+}
+
+.wsf-form [data-row-radio][data-wsf-hierarchy='9'] {
+  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 9);
+  margin-inline-start: calc(var(--wsf-field-radio-size) * 9);
+}
+
+.wsf-form [data-row-radio][data-wsf-hierarchy='10'] {
+  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 10);
+  margin-inline-start: calc(var(--wsf-field-radio-size) * 10);
+}
+
 .wsf-form input[type=radio].wsf-field {
   appearance: none;
   -moz-appearance: none;
@@ -395,56 +445,6 @@
 .wsf-form input[type=radio].wsf-field.wsf-image:checked + label.wsf-label > img {
   background-color: var(--wsf-field-radio-checked-image-border-color);
   border-color: var(--wsf-field-radio-checked-image-border-color);
-}
-
-.wsf-form input[type=radio].wsf-field [data-wsf-hierarchy='1'] {
-  -webkit-margin-start: var(--wsf-field-radio-size);
-  margin-inline-start: var(--wsf-field-radio-size);
-}
-
-.wsf-form input[type=radio].wsf-field [data-wsf-hierarchy='2'] {
-  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 2);
-  margin-inline-start: calc(var(--wsf-field-radio-size) * 2);
-}
-
-.wsf-form input[type=radio].wsf-field [data-wsf-hierarchy='3'] {
-  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 3);
-  margin-inline-start: calc(var(--wsf-field-radio-size) * 3);
-}
-
-.wsf-form input[type=radio].wsf-field [data-wsf-hierarchy='4'] {
-  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 4);
-  margin-inline-start: calc(var(--wsf-field-radio-size) * 4);
-}
-
-.wsf-form input[type=radio].wsf-field [data-wsf-hierarchy='5'] {
-  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 5);
-  margin-inline-start: calc(var(--wsf-field-radio-size) * 5);
-}
-
-.wsf-form input[type=radio].wsf-field [data-wsf-hierarchy='6'] {
-  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 6);
-  margin-inline-start: calc(var(--wsf-field-radio-size) * 6);
-}
-
-.wsf-form input[type=radio].wsf-field [data-wsf-hierarchy='7'] {
-  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 7);
-  margin-inline-start: calc(var(--wsf-field-radio-size) * 7);
-}
-
-.wsf-form input[type=radio].wsf-field [data-wsf-hierarchy='8'] {
-  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 8);
-  margin-inline-start: calc(var(--wsf-field-radio-size) * 8);
-}
-
-.wsf-form input[type=radio].wsf-field [data-wsf-hierarchy='9'] {
-  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 9);
-  margin-inline-start: calc(var(--wsf-field-radio-size) * 9);
-}
-
-.wsf-form input[type=radio].wsf-field [data-wsf-hierarchy='10'] {
-  -webkit-margin-start: calc(var(--wsf-field-radio-size) * 10);
-  margin-inline-start: calc(var(--wsf-field-radio-size) * 10);
 }
 
 .wsf-form.wsf-validated input[type=radio].wsf-field:invalid,

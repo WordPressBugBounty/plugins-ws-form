@@ -1,30 +1,30 @@
 === WS Form LITE - Drag & Drop Contact Form Builder for WordPress ===
 Contributors: westguard
-Tags: form, contact form, form builder, forms, custom form
+Tags: form builder, contact form, drag and drop form, responsive forms, custom form
 Requires at least: 5.3
 Tested up to: 6.8
-Stable tag: 1.10.31
+Stable tag: 1.10.35
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Form builder for WordPress: Rapidly build professional, stylish, mobile friendly, accessible WordPress forms.
+Build powerful forms for WordPress fast. WS Form LITE is a mobile-friendly, accessible, drag-and-drop form builder with templates, anti-spam, and full styling control.
 
 == Description ==
 
-= Create Professional, Mobile-Friendly, Accessible Forms for WordPress – For Free! =
+= A Smarter Drag & Drop Form Builder for WordPress =
 
-WS Form LITE is a powerful, feature-rich form builder that lets you create fully styled, responsive, and accessible forms. Unlike other plugins, WS Form LITE includes premium-quality features at no cost, such as unlimited forms, customizable styling, submission exporting, and robust anti-spam protection. Perfect for websites of all sizes, WS Form LITE empowers you to build smarter forms with ease.
+WS Form LITE is a fast, flexible, and accessible form builder plugin for WordPress. It’s built for developers and users alike with zero coding required. Build stunning contact forms, feedback forms, surveys, and more with full layout control and advanced anti-spam protection.
 
-Choose from single click templates or build your own form for WordPress using the unique drag and drop form editor.
+Use our drag-and-drop editor to build unlimited forms, style them visually, and export submissions instantly. Whether you're a freelancer, agency, or business owner, WS Form LITE makes creating responsive forms easy.
 
-= Create Beautiful Forms with Ease =
+= Build Beautiful Forms in Minutes =
 
-WS Form LITE includes an incredibly powerful and intuitive [form styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme), enabling you to design stunning forms directly within WordPress. Whether you’re looking to match your website’s branding or create completely custom designs, WS Form’s Styler gives you full control over the appearance of your forms—no coding required!
+WS Form LITE includes a powerful visual [form styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme) to match your brand. Customize layout, colors, spacing, and field visibility — all without touching code.
 
-https://youtu.be/ZsTBBsdQxFQ
+[Watch the Styler Video](https://youtu.be/ZsTBBsdQxFQ)
 
-= Included Features =
+= Key Features =
 
 * [Unlimited Forms](https://wsform.com/knowledgebase/creating-a-form/?utm_source=wp_plugins&utm_medium=readme)
 * [Unlimited Submissions](https://wsform.com/knowledgebase/submissions/?utm_source=wp_plugins&utm_medium=readme) (View, Edit and CSV Export)
@@ -50,7 +50,7 @@ https://youtu.be/ZsTBBsdQxFQ
 
 = Page Builder Compatibility =
 
-Add forms to your website using your favorite WordPress page builder:
+Add forms to your website using your favorite page builder for WordPress:
 
 * [Beaver Builder](https://wsform.com/knowledgebase/beaver-builder-module/?utm_source=wp_plugins&utm_medium=readme)
 * [Breakdance](https://wsform.com/knowledgebase/breakdance-website-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
@@ -159,7 +159,7 @@ The PRO edition comes with unrivaled additional features:
 
 = Theme / Framework Support =
 
-WS Form is compatible with all WordPress themes, and also outputs native HTML for the following front-end frameworks:
+WS Form is compatible with all themes for WordPress, and also outputs native HTML for the following front-end frameworks:
 
 * [Bootstrap 5+](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
 * [Bootstrap 4.1-4.5.x](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
@@ -173,7 +173,7 @@ WS Form is compatible with all WordPress themes, and also outputs native HTML fo
 
 WS Form was built with enterprise level performance in mind. WS Form does not interfere with the loading of other page or post content on your website and isolates submission records to ensure as your website grows your page load speed is not affected.
 
-All form code is HTML 5 compliant and if your website theme uses a framework such as Bootstrap or Foundation WS Form automatically outputs code to suit that framework. This means your form loads as fast as possible without any unnecessary overhead typically found in other WordPress form plugins.
+All form code is HTML 5 compliant and if your website theme uses a framework such as Bootstrap or Foundation WS Form automatically outputs code to suit that framework. This means your form loads as fast as possible without any unnecessary overhead typically found in other form plugins for WordPress.
 
 [Click here](https://wsform.com/knowledgebase/performance/?utm_source=wp_plugins&utm_medium=readme) to learn more about the WSForm performance features.
 

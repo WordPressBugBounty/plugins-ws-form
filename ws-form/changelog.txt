@@ -2,6 +2,23 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.35 - 04/17/2025 =
+* Added: data-id attribute added to data grid checkbox and radio field rows
+* Bug Fix: Hierarchy indentation CSS for checkbox and radio fields
+* Bug Fix: aria-hidden attribute on invalid feedback text
+* Bug Fix: form_bypass row referencing
+
+= 1.10.34 - 04/10/2025 =
+* Bug Fix: Radio / checkbox field hidden bypass
+* Bug Fix: pre_render filter hook no longer runs for styler preview template
+
+= 1.10.33 - 04/08/2025 =
+* Bug Fix: Conditional multi-event triggers
+
+= 1.10.32 - 04/07/2025 =
+* Bug Fix: Tab click detection in conditional logic
+* Bug Fix: Cascade AJAX handle reset
+
 = 1.10.31 - 04/04/2025 =
 * Added: Summary field type
 * Added: Insert summary HTML button for HTML field

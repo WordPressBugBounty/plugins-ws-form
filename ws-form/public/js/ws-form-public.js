@@ -1022,6 +1022,19 @@
 		return (typeof(field_type) !== 'undefined') ? field_type : false;
 	}
 
+	// Get object row id from object
+	$.WS_Form.prototype.get_field_object_row_id = function(obj) {
+
+		// Get row wrapper
+		var object_row_wrapper = obj.closest('[data-row-radio][data-id],[data-row-checkbox][data-id]');
+		if(object_row_wrapper.length == 0) { return false; }
+
+		// Get row ID
+		var object_row_id = object_row_wrapper.attr('data-id');
+
+		return (typeof(object_row_id) !== 'undefined') ? parseInt(object_row_id, 10) : false;
+	}
+
 	// Get label object
 	$.WS_Form.prototype.get_label_obj = function(obj) {
 
@@ -1535,7 +1548,7 @@
 			// If field is visible, add validation attributes back that have a bypass data tag
 			if($('[' + attribute_bypass + ']', this.form_canvas_obj).length) {
 
-				$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-checkbox]:not([style*="display:none"],[style*="display: none"]) > input[type="checkbox"] [' + attribute_bypass + ']:not(' + attribute_not + ')', this.form_canvas_obj).attr(attribute_source, function() { return ws_this.form_bypass_visible($(this), attribute_bypass); }).removeAttr(attribute_bypass);
+				$('[id^="' + this.form_id_prefix + 'field-wrapper-"]:not([style*="display:none"],[style*="display: none"]) [data-row-checkbox]:not([style*="display:none"],[style*="display: none"]) > input[type="checkbox"] [' + attribute_bypass + ']:not(' + attribute_not + ')', this.form_canvas_obj).attr(attribute_source, function() { return ws_this.form_bypass_visible($(this), attribute_bypass); }).removeAttr(attribute_bypass);
 			}
 
 			// If field is not visible, add contain validation attributes, add bypass attributes
@@ -1549,7 +1562,7 @@
 			// If field is visible, add validation attributes back that have a bypass data tag
 			if($('[' + attribute_bypass + ']', this.form_canvas_obj).length) {
 
-				$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-radio]:not([style*="display:none"],[style*="display: none"]) > input[type="radio"] [' + attribute_bypass + ']:not(' + attribute_not + ')', this.form_canvas_obj).attr(attribute_source, function() { return ws_this.form_bypass_visible($(this), attribute_bypass); }).removeAttr(attribute_bypass);
+				$('[id^="' + this.form_id_prefix + 'field-wrapper-"]:not([style*="display:none"],[style*="display: none"]) [data-row-radio]:not([style*="display:none"],[style*="display: none"]) > input[type="radio"] [' + attribute_bypass + ']:not(' + attribute_not + ')', this.form_canvas_obj).attr(attribute_source, function() { return ws_this.form_bypass_visible($(this), attribute_bypass); }).removeAttr(attribute_bypass);
 			}
 
 			// If field is not visible, add contain validation attributes, add bypass attributes
@@ -1593,7 +1606,7 @@
 		});
 
 		// Process custom validity messages - Rows - Checkbox
-		$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-checkbox]:not([style*="display:none"],[style*="display: none"]) input[type="checkbox"]', this.form_canvas_obj).each(function() {
+		$('[id^="' + this.form_id_prefix + 'field-wrapper-"]:not([style*="display:none"],[style*="display: none"]) [data-row-checkbox]:not([style*="display:none"],[style*="display: none"]) input[type="checkbox"]', this.form_canvas_obj).each(function() {
 
 			ws_this.form_bypass_process($(this), '', false);
 		});
@@ -1604,7 +1617,7 @@
 		});
 
 		// Process custom validity messages - Rows - Radio
-		$('[id^="' + this.form_id_prefix + 'field-wrapper-"] [data-row-radio]:not([style*="display:none"],[style*="display: none"]) input[type="radio"]', this.form_canvas_obj).each(function() {
+		$('[id^="' + this.form_id_prefix + 'field-wrapper-"]:not([style*="display:none"],[style*="display: none"]) [data-row-radio]:not([style*="display:none"],[style*="display: none"]) input[type="radio"]', this.form_canvas_obj).each(function() {
 
 			ws_this.form_bypass_process($(this), '', false);
 		});
@@ -1647,6 +1660,8 @@
 		var section_id = this.get_section_id(obj);
 		var section_repeatable_index = this.get_section_repeatable_index(obj);
 		var field_id = this.get_field_id(obj);
+		var object_row_id = this.get_field_object_row_id(obj);
+		if(!object_row_id) { object_row_id = 0; }
 
 		if(set) {
 
@@ -1660,7 +1675,7 @@
 					if(typeof(this.validation_message_cache[section_id][section_repeatable_index]) === 'undefined') { this.validation_message_cache[section_id][section_repeatable_index] = []; }
 					if(typeof(this.validation_message_cache[section_id][section_repeatable_index][field_id]) === 'undefined') { this.validation_message_cache[section_id][section_repeatable_index][field_id] = []; }
 
-					this.validation_message_cache[section_id][section_repeatable_index][field_id][0] = validation_message;
+					this.validation_message_cache[section_id][section_repeatable_index][field_id][object_row_id] = validation_message;
 
 					// Set custom validation message to blank
 					obj[0].setCustomValidity('');
@@ -1677,14 +1692,14 @@
 				(typeof(this.validation_message_cache[section_id]) !== 'undefined') &&
 				(typeof(this.validation_message_cache[section_id][section_repeatable_index]) !== 'undefined') &&
 				(typeof(this.validation_message_cache[section_id][section_repeatable_index][field_id]) !== 'undefined') &&
-				(typeof(this.validation_message_cache[section_id][section_repeatable_index][field_id][0]) !== 'undefined')
+				(typeof(this.validation_message_cache[section_id][section_repeatable_index][field_id][object_row_id]) !== 'undefined')
 			) {
 
 				// Recall custom validation message
-				obj[0].setCustomValidity(this.validation_message_cache[section_id][section_repeatable_index][field_id][0]);
+				obj[0].setCustomValidity(this.validation_message_cache[section_id][section_repeatable_index][field_id][object_row_id]);
 
 				// Delete from cache
-				delete this.validation_message_cache[section_id][section_repeatable_index][field_id][0];
+				delete this.validation_message_cache[section_id][section_repeatable_index][field_id][object_row_id];
 			}
 
 			// Remove data-hidden attribute
@@ -2151,6 +2166,10 @@
 
 				// aria-describedby - Remove invalid feedback ID
 				ws_this.attribute_remove_item($(this), 'aria-describedby', ws_this.get_invalid_feedback_id($(this)));
+
+				// aria-hidden - Add to invalid feedback ID
+				var invalid_feedback_obj = ws_this.get_invalid_feedback_obj($(this));
+				invalid_feedback_obj.attr('aria-hidden', 'true');
 			}
 		});
 
@@ -2163,6 +2182,10 @@
 
 				// aria-describedby - Add invalid feedback ID
 				ws_this.attribute_add_item($(this), 'aria-describedby', ws_this.get_invalid_feedback_id($(this)));
+
+				// aria-hidden - Remove from invalid feedback ID
+				var invalid_feedback_obj = ws_this.get_invalid_feedback_obj($(this));
+				invalid_feedback_obj.removeAttr('aria-hidden');
 			}
 		});	
 	}
@@ -3064,11 +3087,6 @@
 			error: function(jq_xhr, text_status, error_thrown) {
 
 				ws_this.api_call_handler_error(jq_xhr, text_status, error_thrown, success_callback, error_callback, timer_start, url);
-			},
-
-			complete: function() {
-
-				ws_this.api_call_handler_complete();
 			}
 		};
 
@@ -3207,12 +3225,6 @@
 			// Run error callback
 			error_callback(response_json);
 		}
-	}
-
-	// API call - Complete handler
-	$.WS_Form.prototype.api_call_handler_complete = function() {
-
-		this.api_call_handle = false;
 	}
 
 	// API Call

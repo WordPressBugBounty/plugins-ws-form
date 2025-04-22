@@ -1050,7 +1050,7 @@
 			);
 		}
 
-		// Shpuld styler visible on site?
+		// Should styler be visible on site?
 		public static function styler_visible_public() {
 
 			return (
@@ -1062,6 +1062,18 @@
 				)
 			);
 		}
+
+		// Is styler preview template being shown?
+		public static function styler_preview_template_shown() {
+
+			return (
+
+				self::styler_visible_public() &&
+				!empty(self::get_query_var('wsf_preview_template_id'))
+			);
+		}
+
+
 
 		// Is customizer enabled?
 		public static function customizer_enabled() {

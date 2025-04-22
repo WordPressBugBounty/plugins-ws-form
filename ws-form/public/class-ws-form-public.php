@@ -430,8 +430,11 @@
 				if($form_object !== false) {
 
 					// Filter
-					$form_object = apply_filters('wsf_pre_render_' . $form_id, $form_object, $preview);
-					$form_object = apply_filters('wsf_pre_render', $form_object, $preview);
+					if(!WS_Form_Common::styler_preview_template_shown()) {
+
+						$form_object = apply_filters('wsf_pre_render_' . $form_id, $form_object, $preview);
+						$form_object = apply_filters('wsf_pre_render', $form_object, $preview);
+					}
 
 					// Pre-process form data
 					self::form_pre_process($form_object);
