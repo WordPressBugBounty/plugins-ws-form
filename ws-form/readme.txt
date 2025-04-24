@@ -1,33 +1,33 @@
 === WS Form LITE - Drag & Drop Contact Form Builder for WordPress ===
 Contributors: westguard
-Tags: form builder, contact form, drag and drop form, responsive forms, custom form
+Tags: form, contact form, form builder, forms, custom form
 Requires at least: 5.3
 Tested up to: 6.8
-Stable tag: 1.10.35
+Stable tag: 1.10.36
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Build powerful forms for WordPress fast. WS Form LITE is a mobile-friendly, accessible, drag-and-drop form builder with templates, anti-spam, and full styling control.
+Form builder for WordPress: Rapidly build professional, stylish, mobile-friendly, accessible forms for WordPress.
 
 == Description ==
 
-= A Smarter Drag & Drop Form Builder for WordPress =
+= Create Professional, Mobile-Friendly, Accessible Forms for WordPress – For Free! =
 
-WS Form LITE is a fast, flexible, and accessible form builder plugin for WordPress. It’s built for developers and users alike with zero coding required. Build stunning contact forms, feedback forms, surveys, and more with full layout control and advanced anti-spam protection.
+WS Form LITE is a powerful, feature-rich form builder that lets you create fully styled, responsive, and accessible forms. Unlike other plugins, WS Form LITE includes premium-quality features at no cost, such as unlimited forms, customizable styling, submission exporting, and robust anti-spam protection. Perfect for websites of all sizes, WS Form LITE empowers you to build smarter forms with ease.
 
-Use our drag-and-drop editor to build unlimited forms, style them visually, and export submissions instantly. Whether you're a freelancer, agency, or business owner, WS Form LITE makes creating responsive forms easy.
+Choose from single click templates or build your own form for WordPress using the unique drag and drop form editor.
 
-= Build Beautiful Forms in Minutes =
+= Create Beautiful Forms with Ease =
 
-WS Form LITE includes a powerful visual [form styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme) to match your brand. Customize layout, colors, spacing, and field visibility — all without touching code.
+WS Form LITE includes an incredibly powerful and intuitive [form styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme), enabling you to design stunning forms directly within WordPress. Whether you're matching your site’s branding or building custom layouts from scratch, WS Form’s Styler gives you full control over the appearance of your forms—no coding required!
 
-[Watch the Styler Video](https://youtu.be/ZsTBBsdQxFQ)
+https://youtu.be/ZsTBBsdQxFQ
 
-= Key Features =
+= Included Features =
 
 * [Unlimited Forms](https://wsform.com/knowledgebase/creating-a-form/?utm_source=wp_plugins&utm_medium=readme)
-* [Unlimited Submissions](https://wsform.com/knowledgebase/submissions/?utm_source=wp_plugins&utm_medium=readme) (View, Edit and CSV Export)
+* [Unlimited Submissions](https://wsform.com/knowledgebase/submissions/?utm_source=wp_plugins&utm_medium=readme)
 * [Unlimited Styles](https://wsform.com/knowledgebase/styles/?utm_source=wp_plugins&utm_medium=readme)
 * [Accessibility Friendly](https://wsform.com/knowledgebase/accessibility-and-web-forms/?utm_source=wp_plugins&utm_medium=readme)
 * [Clean HTML 5 Code](https://wsform.com/knowledgebase/responsive-forms/?utm_source=wp_plugins&utm_medium=readme)
@@ -45,12 +45,12 @@ WS Form LITE includes a powerful visual [form styler](https://wsform.com/knowled
 * [Section Library](https://wsform.com/knowledgebase/section-library/?utm_source=wp_plugins&utm_medium=readme)
 * [Send Unlimited Emails](https://wsform.com/knowledgebase/send-email/?utm_source=wp_plugins&utm_medium=readme)
 * [Single Click Templates](https://wsform.com/templates/?utm_source=wp_plugins&utm_medium=readme)
-* [Styler](https://https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme)]
+* [Styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme)
 * [Variables](https://wsform.com/knowledgebase/variables/?utm_source=wp_plugins&utm_medium=readme)
 
 = Page Builder Compatibility =
 
-Add forms to your website using your favorite page builder for WordPress:
+Add forms to your website using your favorite WordPress page builder:
 
 * [Beaver Builder](https://wsform.com/knowledgebase/beaver-builder-module/?utm_source=wp_plugins&utm_medium=readme)
 * [Breakdance](https://wsform.com/knowledgebase/breakdance-website-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
@@ -74,8 +74,6 @@ The PRO edition comes with unrivaled additional features:
 * [Cascading Select, Checkbox and Radio Fields](https://wsform.com/knowledgebase/cascade-select-and-radio-fields/?utm_source=wp_plugins&utm_medium=readme)
 * [Conditional Logic](https://wsform.com/knowledgebase/conditional-logic/?utm_source=wp_plugins&utm_medium=readme)
 * [Conversational Forms](https://wsform.com/knowledgebase/conversational-forms/?utm_source=wp_plugins&utm_medium=readme)
-* [Debug Console](https://wsform.com/knowledgebase/debug-console/?utm_source=wp_plugins&utm_medium=readme)
-* [E-Commerce](https://wsform.com/knowledgebase_category/e-commerce/?utm_source=wp_plugins&utm_medium=readme)
 * [Data Encryption](https://wsform.com/knowledgebase/data-encryption/?utm_source=wp_plugins&utm_medium=readme)
 * [Debug Console](https://wsform.com/knowledgebase/debug-console/?utm_source=wp_plugins&utm_medium=readme)
 * [E-Commerce](https://wsform.com/knowledgebase_category/e-commerce/?utm_source=wp_plugins&utm_medium=readme)
@@ -146,7 +144,7 @@ The PRO edition comes with unrivaled additional features:
 * [Zendesk](https://wsform.com/knowledgebase/zendesk/?utm_source=wp_plugins&utm_medium=readme)
 * [Zoho CRM](https://wsform.com/knowledgebase/zoho/?utm_source=wp_plugins&utm_medium=readme)
 
-.... or use the [Webhook](https://wsform.com/knowledgebase/webhook/?utm_source=wp_plugins&utm_medium=readme) action to integration with your own API.
+.... or use the [Webhook](https://wsform.com/knowledgebase/webhook/?utm_source=wp_plugins&utm_medium=readme) action to integrate with your own custom APIs or external systems.
 
 = PRO Custom Field Plugin Compatibility =
 
@@ -159,7 +157,7 @@ The PRO edition comes with unrivaled additional features:
 
 = Theme / Framework Support =
 
-WS Form is compatible with all themes for WordPress, and also outputs native HTML for the following front-end frameworks:
+WS Form is compatible with all WordPress themes, and also outputs native HTML for the following front-end frameworks:
 
 * [Bootstrap 5+](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
 * [Bootstrap 4.1-4.5.x](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
@@ -212,7 +210,7 @@ WS Form includes the following third party components:
 
 * [Date Format by Jacob Wright](https://github.com/jacwright/date.format) - Used for formatting server and post dates on the public JavaScript interface.
 * [Intl-Tel-Input](https://intl-tel-input.com/) - Used for international telephone input
-* [IntroJs](https://introjs.com) - Used for tutorial feature.
+* [IntroJs](https://introjs.com) - Used for the tutorial feature.
 * [Select2](https://select2.org) - Used for AJAX select dropdowns
 * [CanIUse.com](https://caniuse.com) - Used for linking to field and field attribute compatibility pages
 * [Coloris](https://coloris.js.org/) - Used for the color picker in the styler
@@ -277,8 +275,27 @@ For help installing WS Form, please see our [Installation](https://wsform.com/kn
 
 = How can I report security bugs? =
 
-You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/ws-form)
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team helps validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/ws-form)
+
+== Support ==
+
+Need help? Check out our extensive [knowledge base](https://wsform.com/knowledgebase/?utm_source=wp_plugins&utm_medium=readme).
+
+For support, please visit the WS Form LITE [support forum](https://wordpress.org/support/plugin/ws-form/).
 
 == Changelog ==
+
+= 1.10.36 - 04/23/2025 =
+* Bug Fix: Added capability check to config API endpoint
+
+= 1.10.35 - 04/17/2025 =
+* Added: data-id attribute added to data grid checkbox and radio field rows
+* Bug Fix: Hierarchy indentation CSS for checkbox and radio fields
+* Bug Fix: aria-hidden attribute on invalid feedback text
+* Bug Fix: form_bypass row referencing
+
+= 1.10.34 - 04/10/2025 =
+* Bug Fix: Radio / checkbox field hidden bypass
+* Bug Fix: pre_render filter hook no longer runs for styler preview template
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

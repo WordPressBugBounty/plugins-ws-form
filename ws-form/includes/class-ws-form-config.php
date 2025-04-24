@@ -34,8 +34,12 @@
 			$config = array();
 
 			// Different for admin or public
-			if($is_admin) {
+			if(
+				$is_admin &&
 
+				// User capability check
+				WS_Form_Common::user_must('create_form')
+			) {
 				$config['meta_keys'] = self::get_meta_keys($form_id, false);
 				$config['field_types'] = self::get_field_types(false);
 				$config['settings_plugin'] = self::get_settings_plugin(false);

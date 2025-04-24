@@ -2,6 +2,9 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.36 - 04/23/2025 =
+* Bug Fix: Added capability check to config API endpoint
+
 = 1.10.35 - 04/17/2025 =
 * Added: data-id attribute added to data grid checkbox and radio field rows
 * Bug Fix: Hierarchy indentation CSS for checkbox and radio fields

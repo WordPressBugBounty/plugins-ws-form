@@ -1137,12 +1137,6 @@
 							case 'file' :
 							case 'signature' :
 							case 'googlemap' :
-							case 'select' :
-							case 'checkbox' :
-							case 'radio' :
-							case 'price_select' :
-							case 'price_checkbox' :
-							case 'price_radio' :
 
 								if($submit_meta_not_set) {
 
