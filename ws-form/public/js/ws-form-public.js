@@ -1026,11 +1026,11 @@
 	$.WS_Form.prototype.get_field_object_row_id = function(obj) {
 
 		// Get row wrapper
-		var object_row_wrapper = obj.closest('[data-row-radio][data-id],[data-row-checkbox][data-id]');
+		var object_row_wrapper = obj.closest('[data-row-radio][data-row-id],[data-row-checkbox][data-row-id]');
 		if(object_row_wrapper.length == 0) { return false; }
 
 		// Get row ID
-		var object_row_id = object_row_wrapper.attr('data-id');
+		var object_row_id = object_row_wrapper.attr('data-row-id');
 
 		return (typeof(object_row_id) !== 'undefined') ? parseInt(object_row_id, 10) : false;
 	}

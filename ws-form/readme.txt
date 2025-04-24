@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: form, contact form, form builder, forms, custom form
 Requires at least: 5.3
 Tested up to: 6.8
-Stable tag: 1.10.36
+Stable tag: 1.10.37
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -285,6 +285,9 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.10.37 - 04/24/2025 =
+* Bug Fix: Checkbox and radio row data IDs
+
 = 1.10.36 - 04/23/2025 =
 * Bug Fix: Added capability check to config API endpoint
 
@@ -293,9 +296,5 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 * Bug Fix: Hierarchy indentation CSS for checkbox and radio fields
 * Bug Fix: aria-hidden attribute on invalid feedback text
 * Bug Fix: form_bypass row referencing
-
-= 1.10.34 - 04/10/2025 =
-* Bug Fix: Radio / checkbox field hidden bypass
-* Bug Fix: pre_render filter hook no longer runs for styler preview template
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

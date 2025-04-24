@@ -1153,7 +1153,7 @@
 							'mask_group_label'			=>	'<legend>#group_label</legend>',
 
 							// Rows
-							'mask_row'					=>	'<div data-row-checkbox data-id="#data_id"#attributes>#row_label</div>',
+							'mask_row'					=>	'<div data-row-checkbox data-row-id="#data_id"#attributes>#row_label</div>',
 							'mask_row_attributes'		=>	array('class'),
 							'mask_row_label'			=>	'<label id="#label_row_id" for="#row_id"#attributes>#row_field#checkbox_field_label#required</label>#invalid_feedback',
 							'mask_row_label_attributes'	=>	array('class'),
@@ -1279,7 +1279,7 @@
 							'mask_group_label'			=>	'<legend>#group_label</legend>',
 
 							// Rows
-							'mask_row'					=>	'<div data-row-radio data-id="#data_id"#attributes>#row_label</div>',
+							'mask_row'					=>	'<div data-row-radio data-row-id="#data_id"#attributes>#row_label</div>',
 							'mask_row_attributes'		=>	array('class'),
 							'mask_row_label'			=>	'<label id="#label_row_id" for="#row_id" data-label-required-id="#label_id"#attributes>#row_field#radio_field_label</label>#invalid_feedback',
 							'mask_row_label_attributes'	=>	array('class'),

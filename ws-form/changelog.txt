@@ -2,6 +2,9 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.37 - 04/24/2025 =
+* Bug Fix: Checkbox and radio row data IDs
+
 = 1.10.36 - 04/23/2025 =
 * Bug Fix: Added capability check to config API endpoint
 
