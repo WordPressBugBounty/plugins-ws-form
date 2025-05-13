@@ -2460,6 +2460,10 @@ body.admin_page_ws-form-edit.mobile .wsf-offset {
 
 .wsf-sidebar-header code[data-action="wsf-clipboard"] {
   cursor: copy;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .wsf-sidebar-header .wsf-encrypted,

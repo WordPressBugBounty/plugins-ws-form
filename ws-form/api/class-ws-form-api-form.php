@@ -14,9 +14,6 @@
 			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = self::api_get_id($parameters);
 
-			// Check if this is coming from the admin
-			$is_admin = (WS_Form_Common::get_query_var_nonce('wsf_fia', 'false', $parameters) == 'true');
-
 			// Check if form_parse should be called
 			$form_parse = (WS_Form_Common::get_query_var_nonce('wsf_fp', 'false', $parameters) == 'true');
 
@@ -30,9 +27,10 @@
 				parent::api_throw_error($e->getMessage());
 			}
 
-			if($is_admin) {
+			// Check if this is coming from the admin
+			if(WS_Form_Common::get_query_var_nonce('wsf_fia', 'false', $parameters) == 'true') {
 
-				// Describe transaction for history
+				// Describe transaction for undo history
 				$history = array(
 
 					'object'		=>	'form',

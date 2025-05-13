@@ -560,7 +560,7 @@
 					'disabled'			=>	__('Disabled', 'ws-form'),
 					'readonly'			=>	__('Read Only', 'ws-form'),
 					'saving'			=>	__('Saving', 'ws-form'),
-					'clipboard'			=>	__('Click to Copy', 'ws-form'),
+					'clipboard'			=>	__('Click to copy', 'ws-form'),
 
 					// Tutorial
 					'intro_learn_more'	=>	__('Learn More', 'ws-form'),
@@ -596,6 +596,7 @@
 					'error_timeout_codemirror'			=>	__('Timeout waiting for CodeMirror to load', 'ws-form'),
 					/* translators: %s = Error message */
 					'error_submit_export'				=>	__('Export error: %s', 'ws-form'),
+					'error_api_reload'        			=> 	__('API reload error: %s', 'ws-form'),
 
 					// Popover
 					'confirm_group_delete'				=>	__('Are you sure you want to delete this tab?', 'ws-form'),
@@ -859,6 +860,8 @@
 					'viewed_off'						=>	__('Mark as Read', 'ws-form'),
 
 					// Form location
+					/* translators: %s = Form location(s) */
+					'form_location_found'				=>	__('Form found in %s', 'ws-form'),
 					'form_location_not_found'			=>	__('Form not found in content', 'ws-form'),
 
 					// Clipboard
@@ -886,6 +889,11 @@
 					'usage_datagrid'		=>	__('Data Grid', 'ws-form'),
 					'usage_texthelp'		=>	__('Text Help', 'ws-form'),
 					'usage_progresshelp'	=>	__('Progress Help', 'ws-form'),
+
+					 // Styler
+					'styler_default_confirm' => __('Are you sure you want to set this style as the default for standard forms?', 'ws-form'),
+					'styler_default_conv_confirm' => __('Are you sure you want to set this style as the default for conversational forms?', 'ws-form'),
+					'styler_reset_confirm' => __('Are you sure you want to reset this to the default WS Form styling?', 'ws-form'),
 				)
 			);
 

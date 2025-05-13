@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: form, contact form, form builder, forms, custom form
 Requires at least: 5.3
 Tested up to: 6.8
-Stable tag: 1.10.37
+Stable tag: 1.10.43
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -285,16 +285,18 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.10.37 - 04/24/2025 =
-* Bug Fix: Checkbox and radio row data IDs
+= 1.10.43 - 05/12/2025 =
+* Bug Fix: Mouse up handler in layout editor
 
-= 1.10.36 - 04/23/2025 =
-* Bug Fix: Added capability check to config API endpoint
+= 1.10.42 - 05/09/2025 =
+* Added: #field_date_age variable that can be used to calculate age from a date field
+* Added: Label translation settings for the DropzoneJS file upload component
+* Added: form_bypass reset on conditional logic required set
+* Added: Improvements to option_set and option_get methods
 
-= 1.10.35 - 04/17/2025 =
-* Added: data-id attribute added to data grid checkbox and radio field rows
-* Bug Fix: Hierarchy indentation CSS for checkbox and radio fields
-* Bug Fix: aria-hidden attribute on invalid feedback text
-* Bug Fix: form_bypass row referencing
+= 1.10.41 - 05/06/2025 =
+* Added: Additional checks for number formatting to ensure decimals are between 0 and 100
+* Bug Fix: Bypass hidden field check if hidden at a section or tab level
+* Bug Fix: form_bypass on cascade
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

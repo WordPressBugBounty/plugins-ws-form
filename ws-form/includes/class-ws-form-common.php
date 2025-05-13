@@ -146,12 +146,20 @@
 			if($options === false) {
 
 				// Check cache
-				if($enable_cache && isset(self::$options[$option_name])) {
+				if(
+					$enable_cache &&
+					isset(self::$options[$option_name]) &&
+					is_array(self::$options[$option_name])
+				) {
 
 					$options = self::$options[$option_name];
 
 				} else {
 
+					// Clear cache
+					wp_cache_delete($option_name, 'options');
+
+					// Get fresh copy of options
 					$options = get_option($option_name, false);
 
 					// Check options
@@ -170,11 +178,18 @@
 		public static function get_options_by_option_name($option_name, $key_prefix, $enable_cache) {
 
 			// Check cache
-			if($enable_cache && isset(self::$options[$option_name])) {
+			if(
+				$enable_cache &&
+				isset(self::$options[$option_name]) &&
+				is_array(self::$options[$option_name])
+			) {
 
 				return self::$options[$option_name];
 
 			} else {
+
+				// Clear cache
+				wp_cache_delete($option_name, 'options');
 
 				// Check if options have already been migrated
 				$options = get_option($option_name, false);
@@ -278,13 +293,19 @@
 
 				// Set key to value in options array
 				$options[$key] = apply_filters('wsf_option_set', $value, $key);
+
+				// Cache options
+				if(
+					isset(self::$options[$option_name]) &&
+					is_array(self::$options[$option_name]) &&
+					is_array($options)
+				) {
+					self::$options[$option_name] = $options;
+				}
+
+				// Update WordPress option
+				update_option($option_name, $options, 'no');
 			}
-
-			// Cache options
-			self::$options[$option_name] = $options;
-
-			// Update WordPress option
-			update_option($option_name, $options, 'no');
 		}
 
 		// Remove plugin option key value

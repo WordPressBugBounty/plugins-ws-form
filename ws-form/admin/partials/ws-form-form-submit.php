@@ -135,22 +135,13 @@
 		// On load
 		$(function() {
 
-			// Manually inject language strings (Avoids having to call the full config)
-			$.WS_Form.settings_form = [];
-			$.WS_Form.settings_form.language = [];
-			$.WS_Form.settings_form.language['starred_on'] = '<?php esc_html_e('Starred', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['starred_off'] = '<?php esc_html_e('Not Starred', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['viewed_on'] = '<?php esc_html_e('Mark as Unread', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['viewed_off'] = '<?php esc_html_e('Mark as Read', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['error_server'] = '<?php esc_html_e('500 Internal Server Error response from server.', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['error_bad_request_message'] = '<?php esc_html_e('400 Bad Request response from server: %s', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['dismiss'] = '<?php esc_html_e('Dismiss', 'ws-form'); ?>';
-
 			// Initialize WS Form
 			var wsf_obj = new $.WS_Form();
 
+			// Partial initialization
 			wsf_obj.init_partial();
 
+			// Initialize submission table
 			wsf_obj.wp_list_table_submit(<?php WS_Form_Common::echo_esc_html($form_id); ?>);
 		});
 
@@ -174,25 +165,6 @@
 	// Only render JavaScript if a form has been selected
 	if($form_id > 0) {
 
-		// Get config
-		$json_config = WS_Form_Config::get_config(false, array(), true);
-?>
-<script>
-<?php
-?>
-	// Embed config
-	var wsf_form_json_config = {};
-<?php
-
-		// Split up config (Fixes HTTP2 error on certain hosting providers that can't handle the full JSON string)
-		foreach($json_config as $key => $config) {
-
-?>	wsf_form_json_config.<?php WS_Form_Common::echo_esc_html($key); ?> = <?php WS_Form_Common::echo_wp_json_encode($config); ?>;
-<?php
-		}
-
-		$json_config = null;
-
 		// Get form data
 		try {
 
@@ -208,6 +180,7 @@
 
 		if($json_form) {
 ?>
+<script>
 
 	// Embed form data
 	var wsf_form_json = { <?php
@@ -217,14 +190,10 @@
 ?>: <?php
 
 		echo $json_form;	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
-		$json_form = null;
-
 ?> };
-<?php
-		}
-?>
+
 </script>
 <?php
-
+		}
 	}
 ?>

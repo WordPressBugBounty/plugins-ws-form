@@ -319,8 +319,7 @@
 			// Scripts by hook
 			switch($hook) {
 
-				// WS Form - Welcome / Forms
-				case $this->hook_suffix_form_sub :
+				// WS Form - Welcome
 				case $this->hook_suffix_form_welcome :
 
 					// WS Form
@@ -329,6 +328,21 @@
 					wp_enqueue_script($this->plugin_name);
 
 					$this->ws_form_hook = $hook;
+
+					break;
+
+				// WS Form - Forms
+				case $this->hook_suffix_form_sub :
+
+					// WS Form
+					wp_enqueue_script($this->plugin_name . '-form-common');
+					wp_localize_script($this->plugin_name . '-form-common', 'ws_form_settings', $ws_form_settings);
+					wp_enqueue_script($this->plugin_name);
+
+					$this->ws_form_hook = $hook;
+
+					// Output config as script in admin footer
+					self::admin_footer_config_script();
 
 					break;
 
@@ -344,6 +358,9 @@
 					wp_enqueue_script($this->plugin_name);
 
 					$this->ws_form_hook = $hook;
+
+					// Output config as script in admin footer
+					self::admin_footer_config_script();
 
 					break;
 
@@ -400,6 +417,9 @@
 
 					$this->ws_form_hook = $hook;
 
+					// Output config as script in admin footer
+					self::admin_footer_config_script();
+
 					break;
 
 				// WS Form - Form Submissions
@@ -415,6 +435,9 @@
 
 					$this->ws_form_hook = $hook;
 
+					// Output config as script in admin footer
+					self::admin_footer_config_script();
+
 					break;
 
 				// WS Form - Form Styles
@@ -426,6 +449,9 @@
 					wp_enqueue_script($this->plugin_name);
 
 					$this->ws_form_hook = $hook;
+
+					// Output config as script in admin footer
+					self::admin_footer_config_script();
 
 					break;
 
@@ -441,6 +467,9 @@
 					wp_enqueue_script($this->plugin_name);
 
 					$this->ws_form_hook = $hook;
+
+					// Output config as script in admin footer
+					self::admin_footer_config_script();
 
 					break;
 
@@ -544,6 +573,31 @@
 				wp_localize_script($this->plugin_name . '-admin-count-submit-unread', 'ws_form_admin_count_submit_read_settings', $ws_form_admin_count_submit_read_settings);
 				wp_enqueue_script($this->plugin_name . '-admin-count-submit-unread');
 			}
+		}
+
+		// Output config as script in admin footer
+		public function admin_footer_config_script() {
+
+			add_action('admin_footer', function() {
+
+				// Get config
+				$json_config = WS_Form_Config::get_config(false, array(), true);
+?>
+<script>
+	
+	// Embed config
+	var wsf_form_json_config = {};
+<?php
+				// Split up config (Fixes HTTP2 error on certain hosting providers that can't handle the full JSON string)
+				foreach($json_config as $key => $config) {
+
+?>	wsf_form_json_config.<?php WS_Form_Common::echo_esc_html($key); ?> = <?php WS_Form_Common::echo_wp_json_encode($config); ?>;
+<?php
+				}
+?>
+</script>
+<?php
+			});
 		}
 
 		// WP print scripts

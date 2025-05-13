@@ -2301,6 +2301,7 @@
 
 							case 'field' :
 							case 'field_float' :
+							case 'field_date_age' :
 							case 'field_date_format' :
 							case 'field_date_offset' :
 							case 'field_count_word' :
@@ -2591,6 +2592,97 @@
 									case 'ecommerce_field_price' :
 
 										var parsed_variable = this.get_price(this.get_number(parsed_variable));
+										break;
+
+									case 'field_date_age' :
+
+										var date_start = new Date((typeof(parsed_variable) == 'number') ? (parsed_variable * 1000) : parsed_variable);
+										var date_end = new Date();
+
+										// Check start date
+										if(isNaN(date_start.getTime())) {
+
+											this.error('error_parse_variable_field_date_age_invalid', parsed_variable, 'error-parse-variables');
+										}
+
+										// Check for period
+										var period = (typeof(variable_attribute_array[1]) === 'string') ? variable_attribute_array[1] : 'y';
+										period = period.toLowerCase();
+										if(![
+
+											'y','m','d','h','n','s',
+											'year', 'month', 'day', 'hour', 'minute', 'second',
+											'years', 'months', 'days', 'hours', 'minutes', 'seconds'
+
+										].includes(period)) {
+
+											this.error('error_parse_variable_syntax_error_field_date_age_period', period, 'error-parse-variables');
+										}
+
+										switch(period) {
+
+											// Seconds
+											case 's' :
+											case 'second' :
+											case 'seconds' :
+
+												parsed_variable = Math.floor((date_end - date_start) / 1000);
+												break;
+
+											// Minutes
+											case 'n' :
+											case 'minute' :
+											case 'minutes' :
+
+												parsed_variable = Math.floor((date_end - date_start) / (1000 * 60));
+												break;
+
+											// Hours
+											case 'h' :
+											case 'hour' :
+											case 'hours' :
+
+												parsed_variable = Math.floor((date_end - date_start) / (1000 * 60 * 60));
+												break;
+
+											// Days
+											case 'd' :
+											case 'day' :
+											case 'days' :
+
+												parsed_variable = Math.floor((date_end - date_start) / (1000 * 60 * 60 * 24));
+												break;
+
+											// Weeks
+											case 'w' :
+											case 'week' :
+											case 'weeks' :
+
+												parsed_variable = Math.floor((date_end - date_start) / (1000 * 60 * 60 * 24 * 7));
+												break;
+
+											// Months
+											case 'm' :
+											case 'month' :
+											case 'months' :
+
+												parsed_variable = (
+													(date_end.getFullYear() - date_start.getFullYear()) * 12 +
+													(date_end.getMonth() - date_start.getMonth()) -
+													(date_end.getDate() < date_start.getDate() ? 1 : 0)
+												);
+												break;
+
+											// Years (default)
+											default:
+
+												parsed_variable = (
+													date_end.getFullYear() - date_start.getFullYear() -
+													(date_end.getMonth() < date_start.getMonth() ||
+													(date_end.getMonth() === date_start.getMonth() && date_end.getDate() < date_start.getDate()) ? 1 : 0)
+												);
+										}
+
 										break;
 
 									case 'field_date_format' :
@@ -7381,7 +7473,10 @@
 			thousands_separator = ',';
 		}
 
-		// Conver num to floating point and fix it to decimal places (Returns a string)
+		// Check decimals
+		if((decimals < 0) || (decimals > 100)) { decimals = 0; }
+
+		// Convert num to floating point and fix it to decimal places (Returns a string)
 		num = parseFloat(num).toFixed(decimals);
 
 		// Replace decimal point

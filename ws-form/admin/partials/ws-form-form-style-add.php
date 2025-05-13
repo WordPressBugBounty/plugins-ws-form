@@ -166,8 +166,13 @@
 			// Init template functionality
 			var wsf_obj = new $.WS_Form();
 
+			// Partial initialization
 			wsf_obj.init_partial();
+
+			// Initialize tooltips
 			wsf_obj.tooltips();
+
+			// Initialize style templatee
 			wsf_obj.template_style();
 		});
 

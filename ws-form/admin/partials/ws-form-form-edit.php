@@ -194,22 +194,6 @@
 
 <?php
 
-	// Get config
-	$json_config = WS_Form_Config::get_config(false, array(), true);
-?>
-	// Embed config
-	var wsf_form_json_config = {};
-<?php
-
-	// Split up config (Fixes HTTP2 error on certain hosting providers that can't handle the full JSON string)
-	foreach($json_config as $key => $config) {
-
-?>	wsf_form_json_config.<?php WS_Form_Common::echo_esc_html($key); ?> = <?php WS_Form_Common::echo_wp_json_encode($config); ?>;
-<?php
-	}
-
-	$json_config = null;
-
 	// Get form data
 	try {
 
@@ -245,17 +229,18 @@
 		// On load
 		$(function() {
 
-			// Manually inject language strings (Avoids having to call the full config)
-			$.WS_Form.settings_form = [];
-			$.WS_Form.settings_form.language = [];
-			$.WS_Form.settings_form.language['error_server'] = '<?php esc_html_e('500 Internal Server Error response from server.', 'ws-form'); ?>';
-
 			// Initialize WS Form
 			var wsf_obj = new $.WS_Form();
 
+			// Highlight menu item
 			wsf_obj.menu_highlight();
 
-			wsf_obj.render({'obj':'#wsf-form','form_id':<?php WS_Form_Common::echo_esc_attr($form_id); ?>});
+			// Render form
+			wsf_obj.render({
+
+				'obj': '#wsf-form',
+				'form_id': <?php WS_Form_Common::echo_esc_attr($form_id); ?>
+			});
 		});
 
 	})(jQuery);

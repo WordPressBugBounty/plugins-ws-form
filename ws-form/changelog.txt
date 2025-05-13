@@ -2,6 +2,33 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.43 - 05/12/2025 =
+* Bug Fix: Mouse up handler in layout editor
+
+= 1.10.42 - 05/09/2025 =
+* Added: #field_date_age variable that can be used to calculate age from a date field
+* Added: Label translation settings for the DropzoneJS file upload component
+* Added: form_bypass reset on conditional logic required set
+* Added: Improvements to option_set and option_get methods
+
+= 1.10.41 - 05/06/2025 =
+* Added: Additional checks for number formatting to ensure decimals are between 0 and 100
+* Bug Fix: Bypass hidden field check if hidden at a section or tab level
+* Bug Fix: form_bypass on cascade
+
+= 1.10.40 - 05/04/2025 =
+* Added: field_<field_id> and field_values parameters to WS Form short code for populating field values (See: https://wsform.com/knowledgebase/the-ws-form-shortcode/)
+* Added: Message shown when copying shortcodes in admin sidebar
+* Bug Fix: form_bypass custom validation caching now checks for validity.customError set on element
+
+= 1.10.39 - 05/01/2025 =
+* Bug fix: Captcha key obscuring admin side
+
+= 1.10.38 - 04/30/2025 =
+* Added: Improved admin config handling
+* Added: Improved price checkbox and price radio hidden row handling
+* Bug fix: form_bypass on min / max character length check if field hidden
+
 = 1.10.37 - 04/24/2025 =
 * Bug Fix: Checkbox and radio row data IDs
 

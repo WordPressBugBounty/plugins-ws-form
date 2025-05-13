@@ -24,22 +24,15 @@
 		// Get full public or admin config
 		public static function get_config($parameters = false, $field_types = array(), $is_admin = null) {
 
-			// Determine if this is an admin or public API request
-			if($is_admin === null) {
-				$is_admin = (WS_Form_Common::get_query_var('wsf_fia', 'false') == 'true');
-			}
-			$form_id = WS_Form_Common::get_query_var('form_id', 0);
+			// Get form ID
+			$form_id = absint(WS_Form_Common::get_query_var('form_id', 0));
 
 			// Standard response
 			$config = array();
 
 			// Different for admin or public
-			if(
-				$is_admin &&
+			if($is_admin) {
 
-				// User capability check
-				WS_Form_Common::user_must('create_form')
-			) {
 				$config['meta_keys'] = self::get_meta_keys($form_id, false);
 				$config['field_types'] = self::get_field_types(false);
 				$config['settings_plugin'] = self::get_settings_plugin(false);
@@ -2566,6 +2559,11 @@
 		// Configuration - Options
 		public static function get_options($process_options = true) {
 
+			// File upload checks
+			$upload_checks = WS_Form_Common::uploads_check();
+			$max_upload_size = $upload_checks['max_upload_size'];
+			$max_uploads = $upload_checks['max_uploads'];
+
 			$options = array(
 
 				// Basic
@@ -2584,7 +2582,8 @@
 									'label'		=>	__('Live', 'ws-form'),
 									'type'		=>	'checkbox',
 									'help'		=>	sprintf('%s <a href="%s" target="_blank">%s</a>', __('Update the form preview window automatically.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/previewing-forms/'), __('Learn more', 'ws-form')),
-									'default'	=>	true
+									'admin'		=>	true,
+									'default'	=>	true,
 								),
 
 								'preview_template'	=> array(
@@ -2616,6 +2615,7 @@
 									'type'		=>	'select',
 									'help'		=>	__('Advanced mode allows variables to be used in field settings.', 'ws-form'),
 									'default'	=>	'basic',
+									'admin'		=>	true,
 									'options'	=>	array(
 
 										'basic'		=>	array('text' => __('Basic', 'ws-form')),
@@ -2634,7 +2634,8 @@
 										'resize'	=>	array('text' => __('On resize', 'ws-form')),
 										'on'		=>	array('text' => __('Always on', 'ws-form')),
 									),
-									'default'	=>	'resize'
+									'default'	=>	'resize',
+									'admin'		=>	true
 								),
 
 								'publish_auto'	=>	array(
@@ -2656,7 +2657,8 @@
 									'label'		=>	__('Breakpoint Widths', 'ws-form'),
 									'type'		=>	'checkbox',
 									'help'		=>	__('Resize the width of the form to the selected breakpoint.', 'ws-form'),
-									'default'	=>	true
+									'default'	=>	true,
+									'admin'		=>	true
 								),
 
 								'helper_compatibility' => array(
@@ -2665,11 +2667,12 @@
 									'type'		=>	'checkbox',
 									'help'		=>	__('Show HTML compatibility helper links (Data from', 'ws-form') . ' <a href="' . WS_FORM_COMPATIBILITY_URL . '" target="_blank">' . WS_FORM_COMPATIBILITY_NAME . '</a>).',
 									'default'	=>	false,
+									'admin'		=>	true,
 									'mode'		=>	array(
 
 										'basic'		=>	false,
 										'advanced'	=>	true
-									)
+									),
 								),
 
 								'helper_icon_tooltip' => array(
@@ -2677,7 +2680,8 @@
 									'label'		=>	__('Icon Tooltips', 'ws-form'),
 									'type'		=>	'checkbox',
 									'help'		=>	__('Show icon tooltips.'),
-									'default'	=>	true
+									'default'	=>	true,
+									'admin'		=>	true
 								),
 
 								'helper_field_help' => array(
@@ -2685,7 +2689,8 @@
 									'label'		=>	__('Sidebar Help Text', 'ws-form'),
 									'type'		=>	'checkbox',
 									'help'		=>	__('Show help text in sidebar.'),
-									'default'	=>	true
+									'default'	=>	true,
+									'admin'		=>	true
 								),
 
 								'helper_section_id'	=> array(
@@ -2694,11 +2699,12 @@
 									'type'		=>	'checkbox',
 									'help'		=>	__('Show IDs on sections.', 'ws-form'),
 									'default'	=>	true,
+									'admin'		=>	true,
 									'mode'		=>	array(
 
 										'basic'		=>	false,
 										'advanced'	=>	true
-									)
+									),
 								),
 
 								'helper_field_id'	=> array(
@@ -2706,7 +2712,8 @@
 									'label'		=>	__('Field IDs', 'ws-form'),
 									'type'		=>	'checkbox',
 									'help'		=>	__('Show IDs on fields. Useful for #field(nnn) variables.', 'ws-form'),
-									'default'	=>	true
+									'default'	=>	true,
+									'admin'		=>	true
 								)
 							)
 						),
@@ -2859,6 +2866,7 @@
 									'help'		=>	__('Enter your Google API key.', 'ws-form'),
 									'default'	=>	'',
 									'help'		=>	sprintf('%s <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">%s</a>', __('Need an API key?', 'ws-form'), __('Learn more', 'ws-form')),
+									'admin'		=>	true,
 									'public'	=>	true
 								)
 							)
@@ -2952,6 +2960,7 @@
 									'label'		=>	__('URL Mask - IP Lookup', 'ws-form'),
 									'type'		=>	'text',
 									'default'	=>	'https://whatismyipaddress.com/ip/#value',
+									'admin'		=>	true,
 									'help'		=>	__('#value will be replaced with the tracking IP address.', 'ws-form')
 								),
 
@@ -2960,6 +2969,7 @@
 									'label'		=>	__('URL Mask - Lat/Lon Lookup', 'ws-form'),
 									'type'		=>	'text',
 									'default'	=>	'https://www.google.com/maps/search/?api=1&query=#value',
+									'admin'		=>	true,
 									'help'		=>	__('#value will be replaced with latitude,longitude.', 'ws-form')
 								)
 							)
@@ -2987,6 +2997,7 @@
 									'options'		=>	array(),	// Populated below
 									'default'		=>	WS_FORM_DEFAULT_FRAMEWORK,
 									'button'		=>	'wsf-framework-detect',
+									'admin'			=>	true,
 									'public'		=>	true,
 									'data_change'	=>	'reload'
 								),
@@ -3016,26 +3027,7 @@
 									'public'	=>	true,
 									'condition'	=>	array('framework' => 'ws-form')
 								),
-/*
-								'comments_html'	=>	array(
 
-									'label'		=>	__('HTML Comments', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should HTML include comments?', 'ws-form'),
-									'default'	=>	false,
-									'public'	=>	true
-								),
-
-								'comments_css'	=>	array(
-
-									'label'		=>	__('CSS Comments', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should CSS include comments?', 'ws-form'),
-									'default'	=>	false,
-									'public'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-*/
 								'framework_column_count'	=> array(
 
 									'label'		=>	__('Column Count', 'ws-form'),
@@ -3043,6 +3035,7 @@
 									'default'	=>	12,
 									'minimum'	=>	1,
 									'maximum'	=>	24,
+									'admin'		=>	true,
 									'public'	=>	true,
 									'absint'	=>	true,
 									'help'		=>	__('We recommend leaving this setting at 12.', 'ws-form')
@@ -3169,8 +3162,9 @@
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/')),
 										esc_html__('Learn more', 'ws-form')
 									),
-									'public'	=>	true,
-									'default'	=>	''
+									'default'		=>	'',
+									'admin'			=>	true,
+									'public'		=>	true
 								),
 
 								'recaptcha_secret_key' => array(
@@ -3184,7 +3178,8 @@
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/')),
 										esc_html__('Learn more', 'ws-form')
 									),
-									'default'	=>	''
+									'default'		=>	'',
+									'admin'			=>	true
 								),
 
 								// reCAPTCHA - Default type
@@ -3219,8 +3214,9 @@
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/')),
 										esc_html__('Learn more', 'ws-form')
 									),
-									'public'	=>	true,
-									'default'	=>	''
+									'default'		=>	'',
+									'admin'			=>	true,
+									'public'		=>	true
 								),
 
 								'hcaptcha_secret_key' => array(
@@ -3233,7 +3229,8 @@
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/')),
 										esc_html__('Learn more', 'ws-form')
 									),
-									'default'	=>	''
+									'default'		=>	'',
+									'admin'			=>	true
 								)
 							)
 						),
@@ -3258,8 +3255,9 @@
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
 										esc_html__('Learn more', 'ws-form')
 									),
-									'public'	=>	true,
-									'default'	=>	''
+									'default'		=>	'',
+									'admin'			=>	true,
+									'public'		=>	true
 								),
 
 								'turnstile_secret_key' => array(
@@ -3277,7 +3275,8 @@
 										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
 										esc_html__('Learn more', 'ws-form')
 									),
-									'default'	=>	''
+									'default'		=>	'',
+									'admin'			=>	true
 								)
 							)
 						),
@@ -3594,6 +3593,10 @@
 					'error_parse_variable_syntax_error_self_ref'			=>	__('Syntax error, fields cannot contain references to themselves: %s', 'ws-form'),
 					/* translators: %s = Field ID */
 					'error_parse_variable_syntax_error_field_date_offset'	=>	__('Syntax error, field ID %s is not a date field', 'ws-form'),
+					/* translators: %s = Period, e.g. y for Year */
+					'error_parse_variable_syntax_error_field_date_age_period'	=>	__('Syntax error, date age period %s is not valid', 'ws-form'),
+					/* translators: %s = Date */
+					'error_parse_variable_field_date_age_invalid'			=>	__('Syntax error, date age period %s input date invalid', 'ws-form'),
 					/* translators: %s = Field ID */
 					'error_parse_variable_syntax_error_calc'				=>	__('Syntax error: field ID: %s', 'ws-form'),
 					/* translators: %s = Date input */
@@ -3656,6 +3659,10 @@
 				if($public) {
 
 					$field_skip = !isset($attributes['public']) || !$attributes['public'];
+
+				} else {
+
+					$field_skip = !isset($attributes['admin']) || !$attributes['admin'];
 				}
 				if($field_skip) { continue; }
 
@@ -3663,7 +3670,30 @@
 				if(isset($attributes['default'])) { $default_value = $attributes['default']; } else { $default_value = ''; }
 
 				// Get option value
-				$settings_plugin[$field] = WS_Form_Common::option_get($field, $default_value);
+				$option_value = WS_Form_Common::option_get($field, $default_value);
+
+				// Admin processing
+				if(!$public) {
+
+					// Process by type
+					$field_type = isset($attributes['type']) ? $attributes['type'] : 'text';
+
+					switch($field_type) {
+
+						case 'key' :
+
+							// Obscure values admin side (We do this so that we can still determine if the setting is in use or not)
+							$key_length = strlen($option_value);
+							if($key_length > 0) {
+
+								$option_value = str_repeat('*', $key_length);
+							};
+
+							break;
+					}
+				}
+
+				$settings_plugin[$field] = $option_value;
 			}
 		}
 
@@ -5305,7 +5335,7 @@
 				'intl_tel_input_label_number' => array(
 
 					'label'						=>	__('Invalid number', 'ws-form'),
-					'type'						=>	'test',
+					'type'						=>	'text',
 					'default'					=>	__('Invalid number', 'ws-form'),
 					'condition'					=>	array(
 
@@ -5322,7 +5352,7 @@
 				'intl_tel_input_label_country_code' => array(
 
 					'label'						=>	__('Invalid country code', 'ws-form'),
-					'type'						=>	'test',
+					'type'						=>	'text',
 					'default'					=>	__('Invalid country code', 'ws-form'),
 					'condition'					=>	array(
 
@@ -5339,7 +5369,7 @@
 				'intl_tel_input_label_short' => array(
 
 					'label'						=>	__('Too short', 'ws-form'),
-					'type'						=>	'test',
+					'type'						=>	'text',
 					'default'					=>	__('Too short', 'ws-form'),
 					'condition'					=>	array(
 
@@ -5356,7 +5386,7 @@
 				'intl_tel_input_label_long' => array(
 
 					'label'						=>	__('Too long', 'ws-form'),
-					'type'						=>	'test',
+					'type'						=>	'text',
 					'default'					=>	__('Too long', 'ws-form'),
 					'condition'					=>	array(
 
@@ -10255,6 +10285,19 @@
 							),
 							'description' => __('Use this variable to insert the value of a field on your form as a floating point number. For example: <code>#field(123)</code> where \'123\' is the field ID shown in the layout editor. This can be used to convert prices to floating point numbers. An example output might be: 123.45', 'ws-form'),
 							'usage' => array('client', 'action'),
+							'repair_group' => 'field'
+						),
+
+						'field_date_age' => array(
+
+							'label' => __('Field Date Age', 'ws-form'),
+							'attributes' => array(
+
+								array('id' => 'field_id', 'type' => 'integer'),
+								array('id' => 'period', 'type' => 'string', 'required' => false, 'default' => 'y')
+							),
+							'description' => __('Return the age of the provided date field. Period: y = Years (Default), m = Months, d = Days, h = Hours, n = Minutes, s = Seconds', 'ws-form'),
+							'usage' => array('client'),
 							'repair_group' => 'field'
 						),
 

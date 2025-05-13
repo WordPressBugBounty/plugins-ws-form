@@ -315,24 +315,6 @@
 			// Redo
 			$('[data-action="wsf-redo"]').on('click', function() { $.WS_Form.this.redo(); });
 
-			// Event - Mouse up
-			this.mouseup_mode = false;
-			$(document).on('mouseup', function() {
-
-				switch($.WS_Form.this.mouseup_mode) {
-
-					case 'column_size' :
-
-						$.WS_Form.this.column_size_change_release();
-						break;
-
-					case 'offset' :
-
-						$.WS_Form.this.offset_change_release();
-						break;
-				}
-			});
-
 			// Object upload
 			$('#wsf-object-upload-file').on('change', function() {
 
@@ -4529,7 +4511,7 @@
 
 		this.sidebar_expand_contract_init();
 
-		this.clipboard(obj_outer);
+		this.clipboard(obj_outer, 'shortcode_copied');
 	}
 
 	// Sidebar - Label - Init
@@ -12029,7 +12011,7 @@
 
 			}, function(data) {
 
-				if(data.error) { $.WS_Form.this.error('error_bad_request_message', data.error_message); }
+				if(data.error) { $.WS_Form.this.error('error_api_reload', data.error_message); }
 				api_reload_obj.removeClass('wsf-api-method-calling');
 
 			}, true);	// Bypass loader
@@ -13035,9 +13017,6 @@
 		// Mouse down event
 		obj.find('.wsf-column-size').last().on('mousedown', function() {
 
-			// Set mouseup mode
-			$.WS_Form.this.mouseup_mode = 'column_size';
-
 			// Add class to body
 			$('body').addClass('wsf-column-size-change-body');
 
@@ -13147,12 +13126,18 @@
 			// Calculate max size
 			var column_size_max = framework_column_count - offset;
 
-			// Resize
+			// Event - Mouse move
 			$(document).on('mousemove',function(e) {
 
 				e.preventDefault();
 
 				$.WS_Form.this.column_size_change(e, obj, obj_left, obj_width, ul_width, object, column_size_max);
+			});
+
+			// Event - Mouse up
+			$(document).on('mouseup', function() {
+
+				$.WS_Form.this.column_size_change_release();
 			});
 		});
 	}
@@ -13220,6 +13205,9 @@
 
 	// Column size - Size - Release
 	$.WS_Form.prototype.column_size_change_release = function() {
+
+		// Unbind event handlers
+		$(document).off('mouseup').off('mousemove');
 
 		var obj = this.column_size_change_obj;
 
@@ -13304,10 +13292,6 @@
 			// Reset
 			this.column_size_change_obj = false;
 			this.column_size = 0;
-			this.mouseup_mode = false;
-
-			// Unbind mousemove event
-			$(document).off('mousemove');
 		}
 	}
 
@@ -13329,9 +13313,6 @@
 
 		// Mouse down event
 		obj.find('.wsf-offset').last().on('mousedown', function() {
-
-			// Set mouseup mode
-			$.WS_Form.this.mouseup_mode = 'offset';
 
 			// Add class to body
 			$('body').addClass('wsf-offset-change-body');
@@ -13449,12 +13430,18 @@
 			// Calculate max size
 			var offset_max = framework_column_count - column_size;
 
-			// Resize
+			// Event - Mouse move
 			$(document).on('mousemove',function(e) {
 
 				e.preventDefault();
 
 				$.WS_Form.this.offset_change(e, obj, obj_left, obj_width, ul_width, object, offset_max);
+			});
+
+			// Event - Mouse up
+			$(document).on('mouseup', function() {
+
+				$.WS_Form.this.offset_change_release();
 			});
 		});
 	}
@@ -13523,6 +13510,9 @@
 	// Column size - Size - Release
 	$.WS_Form.prototype.offset_change_release = function() {
 
+		// Unbind mousemove event
+		$(document).off('mouseup').off('mousemove');
+
 		var obj = this.offset_change_obj;
 
 		// Only runs if field resize in progress
@@ -13589,10 +13579,6 @@
 			// Reset
 			this.offset_change_obj = false;
 			this.offset = 0;
-			this.mouseup_mode = false;
-
-			// Unbind mousemove event
-			$(document).off('mousemove');
 		}
 	}
 
@@ -14084,12 +14070,12 @@
 			if(typeof(modal_form) === 'undefined') {
 
 				// Get list sub label
-				var list_sub_modal_label_div = $(this).closest('[data-action-form-add-modal-label]');
-				var form_add_modal_label = list_sub_modal_label_div ? list_sub_modal_label_div.attr('data-action-form-add-modal-label') : $(this).attr('data-label');
+				var list_sub_modal_label_div = $(this).closest('[data-action-template-add-modal-label]');
+				var template_add_modal_label = list_sub_modal_label_div ? list_sub_modal_label_div.attr('data-action-template-add-modal-label') : $(this).attr('data-label');
 
 				modal_form = {
 
-					'label' : form_add_modal_label,
+					'label' : template_add_modal_label,
 					'action' : 'wsf-add-action',
 					'fields' : [
 
@@ -14645,8 +14631,13 @@
 		});
 
 		this.clipboard(form_table_obj, 'shortcode_copied', 'table');
-	}
 
+		// Get configuration
+		this.get_configuration(function() {
+
+			$.WS_Form.this.loader_off();
+		});
+	}
 
 	// WP List Table - Style
 	$.WS_Form.prototype.wp_list_table_style = function() {
@@ -14809,75 +14800,17 @@
 			e.preventDefault();
 		});
 
-		// Get style locations
-		$('[data-action-ajax="wsf-style-locate"]', style_table_obj).on('click', function(e) {
+		// Get configuration
+		this.get_configuration(function() {
 
-			e.preventDefault();
-
-			// Remember button object
-			var location_button_obj = $(this);
-
-			// Blur link so hover does not get stuck
-			location_button_obj.trigger('blur');
-
-			// Get style ID
-			var style_id = $(this).attr('data-id');
-
-			// Loader on
-			$.WS_Form.this.loader_on();
-
-			// Get locations
-			$.WS_Form.this.api_call('style/' + style_id + '/locations/', 'GET', false, function(response) {
-
-				// Loader off
-				$.WS_Form.this.loader_off();
-
-				var style_location_array = [];
-
-				if(typeof(response[style_id]) !== 'undefined') {
-
-					// Render each form the style was found
-					for(var style_location_id in response[style_id]) {
-
-						if(!response[style_id].hasOwnProperty(style_location_id)) { continue; }
-
-						var style_location = response[style_id][style_location_id];
-						var style_location_id = style_location.id;
-						var style_location_type = style_location.type;
-						var style_location_type_name = style_location.type_name;
-						var style_location_title = style_location.title;
-
-						style_location_array.push($.WS_Form.this.esc_html(style_location_type_name) + ': ' + '<a href="post.php?post=' + style_location_id + '&post_type=' + style_location_type + '&action=edit">' + $.WS_Form.this.esc_html(style_location_title) + '</a>');
-					}
-				}
-
-				if(style_location_array.length == 0) {
-
-					var location_html = '<div class="wsf-helper">' + $.WS_Form.this.language('style_location_not_found') + '</div>';
-
-				} else {
-
-					var location_html = '<div class="wsf-helper">' + $.WS_Form.this.language('style_location_found', '<span class="ws-style-location">' + style_location_array.join(', </span><span class="wsf-style-location">'), false) + '</div>';
-				}
-
-				var row_actions_obj = location_button_obj.closest('.row-actions');
-				var td_obj = location_button_obj.closest('td');
-				var style_locations_obj = $('.wsf-style-locations', td_obj);
-
-				if(style_locations_obj.length) {
-
-					style_locations_obj.html(location_html);
-
-				} else {
-
-					row_actions_obj.before('<div class="wsf-style-locations">' + location_html + '</div>');
-				}
-			});
+			$.WS_Form.this.loader_off();
 		});
 	}
 
 	// Clipboard copying
 	$.WS_Form.prototype.clipboard = function(obj, language_id, type) {
+
+		var ws_this = this;
 
 		// Copy shortcode to clipboard
 		$('[data-action="wsf-clipboard"]', obj).on('click', function(e) {
@@ -14918,6 +14851,22 @@
 						}
 
 						break;
+
+					default :
+
+						// Store old HTML
+						var obj = $(this);
+						var html_old = obj.html();
+
+						// Set HTML
+						obj.html(ws_this.language(language_id));
+
+						// Recall old HTML
+						setTimeout(function() {
+
+							obj.html(html_old);
+
+						}, 2000);
 				}
 			}
 		});
@@ -15096,7 +15045,6 @@
 
 				// Loader off
 				$.WS_Form.this.loader_off()
-
 			});
 		});
 	}
@@ -17497,11 +17445,7 @@
 			// Get modal width
 			var modal_width = modal_obj.outerWidth();
 
-			$(document).on('mouseup', function() {
-
-				$(document).off('mouseup').off('mousemove');
-			});
-
+			// Event - Mouse move
 			$(document).on('mousemove', function(mme) {
 
 				mme = mme || window.event;
@@ -17530,6 +17474,12 @@
 				// Move modal
 				modal_obj.css('top', offset_top_new + 'px');
 				modal_obj.css('left', offset_left_new + 'px');
+			});
+
+			// Event - Mouse up
+			$(document).on('mouseup', function() {
+
+				$(document).off('mouseup').off('mousemove');
 			});
 		});
 	}

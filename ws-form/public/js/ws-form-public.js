@@ -1060,7 +1060,7 @@
 		var field_wrapper = this.get_field_wrapper(obj);
 
 		// Get checkboxes
-		var checkbox_objs = $('[data-row-checkbox]:not([style*="display: none"]) input:not([data-hidden])', field_wrapper);
+		var checkbox_objs = $('[data-row-checkbox]:not([style*="display: none"]) input:not([data-hidden],[data-hidden-section],[data-hidden-group])', field_wrapper);
 
 		return checkbox_objs ? checkbox_objs.length : 0;
 	}
@@ -1072,7 +1072,7 @@
 		var field_wrapper = this.get_field_wrapper(obj);
 
 		// Get radios
-		var radio_objs = $('[data-row-radio]:not([style*="display: none"]) input:not([data-hidden])', field_wrapper);
+		var radio_objs = $('[data-row-radio]:not([style*="display: none"]) input:not([data-hidden],[data-hidden-section],[data-hidden-group])', field_wrapper);
 
 		return radio_objs ? radio_objs.length : 0;
 	}
@@ -1143,8 +1143,6 @@
 
 		// Check for false message
 		if(message === false) { message = invalid_feedback_obj.html(); }
-
-		var message_invalid_feedback = message;
 
 		// HTML 5 custom validity
 		if(obj.length && obj[0].willValidate) {
@@ -1467,17 +1465,7 @@
 		$('input[type="number"]:not([step]):not([data-step-bypass])', this.form_canvas_obj).attr('step', 1);
 
 		// Process attributes that should be bypassed if a field is hidden
-		var attributes = {
-
-			'required':						{'bypass': 'data-required-bypass', 'not': '[type="hidden"]'},
-			'aria-required':				{'bypass': 'data-aria-required-bypass', 'not': '[type="hidden"]'},
-			'min':							{'bypass': 'data-min-bypass', 'not': '[type="hidden"],[type="range"]'},
-			'max':							{'bypass': 'data-max-bypass', 'not': '[type="hidden"],[type="range"]'},
-			'minlength':					{'bypass': 'data-minlength-bypass', 'not': '[type="hidden"]'},
-			'maxlength':					{'bypass': 'data-maxlength-bypass', 'not': '[type="hidden"]'},
-			'pattern':						{'bypass': 'data-pattern-bypass', 'not': '[type="hidden"]'},
-			'step':							{'bypass': 'data-step-bypass', 'not': '[type="hidden"],[type="range"]', 'replace': 'any'},
-		};
+		var attributes = this.form_bypass_attributes();
 
 		for(var attribute_source in attributes) {
 
@@ -1631,6 +1619,38 @@
 		return true;
 	}
 
+	// Form bypass - Attributes
+	$.WS_Form.prototype.form_bypass_attributes = function() {
+
+		return {
+			'required':						{'bypass': 'data-required-bypass', 'not': '[type="hidden"]'},
+			'aria-required':				{'bypass': 'data-aria-required-bypass', 'not': '[type="hidden"]'},
+			'min':							{'bypass': 'data-min-bypass', 'not': '[type="hidden"],[type="range"]'},
+			'max':							{'bypass': 'data-max-bypass', 'not': '[type="hidden"],[type="range"]'},
+			'minlength':					{'bypass': 'data-minlength-bypass', 'not': '[type="hidden"]'},
+			'maxlength':					{'bypass': 'data-maxlength-bypass', 'not': '[type="hidden"]'},
+			'pattern':						{'bypass': 'data-pattern-bypass', 'not': '[type="hidden"]'},
+			'step':							{'bypass': 'data-step-bypass', 'not': '[type="hidden"],[type="range"]', 'replace': 'any'},
+		};
+	}
+
+	// Form bypass - Reset on object
+	$.WS_Form.prototype.form_bypass_obj_reset = function(obj) {
+
+		var attributes = this.form_bypass_attributes();
+
+		for(var attribute_source in attributes) {
+
+			if(!attributes.hasOwnProperty(attribute_source)) { continue; }
+
+			var attribute_config = attributes[attribute_source];
+
+			var attribute_bypass = attribute_config.bypass;
+
+			obj.removeAttr(attribute_bypass).removeAttr(attribute_bypass + '-section').removeAttr(attribute_bypass + '-group');
+		}
+	}
+
 	// Form bypass - Hidden
 	$.WS_Form.prototype.form_bypass_hidden = function(obj, attribute_source, attribute_replace) {
 
@@ -1655,31 +1675,42 @@
 	}
 
 	// Form bypass process
-	$.WS_Form.prototype.form_bypass_process = function(obj, attr_suffix, set) {
+	$.WS_Form.prototype.form_bypass_process = function(obj, attr_suffix, set_hidden) {
 
+		// Get section ID
 		var section_id = this.get_section_id(obj);
+
+		// Get section repeatable index
 		var section_repeatable_index = this.get_section_repeatable_index(obj);
+
+		// Get field ID
 		var field_id = this.get_field_id(obj);
+
+		// Get object row ID (0 if not found)
 		var object_row_id = this.get_field_object_row_id(obj);
 		if(!object_row_id) { object_row_id = 0; }
 
-		if(set) {
+		// Get object element
+		var obj_el = obj[0];
 
-			if(obj[0].willValidate) {
+		if(set_hidden) {
 
-				var validation_message = obj[0].validationMessage;
+			// Cache custom validation message if set
+			if(
+				obj_el.willValidate &&
+				obj_el.validity &&
+				obj_el.validity.customError &&
+				(obj_el.validationMessage !== '')
+			) {
 
-				if(validation_message !== '') {
+				if(typeof(this.validation_message_cache[section_id]) === 'undefined') { this.validation_message_cache[section_id] = []; }
+				if(typeof(this.validation_message_cache[section_id][section_repeatable_index]) === 'undefined') { this.validation_message_cache[section_id][section_repeatable_index] = []; }
+				if(typeof(this.validation_message_cache[section_id][section_repeatable_index][field_id]) === 'undefined') { this.validation_message_cache[section_id][section_repeatable_index][field_id] = []; }
 
-					if(typeof(this.validation_message_cache[section_id]) === 'undefined') { this.validation_message_cache[section_id] = []; }
-					if(typeof(this.validation_message_cache[section_id][section_repeatable_index]) === 'undefined') { this.validation_message_cache[section_id][section_repeatable_index] = []; }
-					if(typeof(this.validation_message_cache[section_id][section_repeatable_index][field_id]) === 'undefined') { this.validation_message_cache[section_id][section_repeatable_index][field_id] = []; }
+				this.validation_message_cache[section_id][section_repeatable_index][field_id][object_row_id] = obj_el.validationMessage;
 
-					this.validation_message_cache[section_id][section_repeatable_index][field_id][object_row_id] = validation_message;
-
-					// Set custom validation message to blank
-					obj[0].setCustomValidity('');
-				}
+				// Set custom validation message to blank
+				obj_el.setCustomValidity('');
 			}
 
 			// Add data-hidden attribute
@@ -1687,16 +1718,17 @@
 
 		} else {
 
+			// Recall custom validation message if cached
 			if(
-				obj[0].willValidate &&
+				obj_el.willValidate &&
 				(typeof(this.validation_message_cache[section_id]) !== 'undefined') &&
 				(typeof(this.validation_message_cache[section_id][section_repeatable_index]) !== 'undefined') &&
 				(typeof(this.validation_message_cache[section_id][section_repeatable_index][field_id]) !== 'undefined') &&
 				(typeof(this.validation_message_cache[section_id][section_repeatable_index][field_id][object_row_id]) !== 'undefined')
 			) {
 
-				// Recall custom validation message
-				obj[0].setCustomValidity(this.validation_message_cache[section_id][section_repeatable_index][field_id][object_row_id]);
+				// Recall custom validation message from cache
+				obj_el.setCustomValidity(this.validation_message_cache[section_id][section_repeatable_index][field_id][object_row_id]);
 
 				// Delete from cache
 				delete this.validation_message_cache[section_id][section_repeatable_index][field_id][object_row_id];
@@ -2566,11 +2598,13 @@
 			switch(ws_this.get_field_type($(this))) {
 
 				case 'checkbox' :
+				case 'price_checkbox' :
 
 					if(ws_this.get_checkbox_row_count($(this))) { return ''; }
 					break;
 
 				case 'radio' :
+				case 'price_radio' :
 
 					if(ws_this.get_radio_row_count($(this))) { return ''; }
 					break;
@@ -3935,6 +3969,9 @@
 			// Reset invalid feedback
 			this.set_invalid_feedback(obj, '');
 		}
+
+		// Process form bypass
+		this.form_bypass();
 
 		// Process help
 		var help = this.get_object_meta_value(field, 'help', '', false, true);

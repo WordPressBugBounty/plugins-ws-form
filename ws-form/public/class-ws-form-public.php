@@ -354,6 +354,9 @@
 			// Preview?
 			$preview = isset($atts['preview']) ? ($atts['preview'] == 'true') : false;
 
+			// Field populate array (Used to populate fields from field_<id> attributes)
+			$field_populate_array = array();
+
 
 			// Form HTML?
 			$form_html = isset($atts['form_html']) ? ($atts['form_html'] == 'true') : true;
@@ -429,6 +432,22 @@
 
 				if($form_object !== false) {
 
+					// Process field_values attribute
+					if(isset($atts['field_values'])) {
+
+						// Attempt to parse field values as query string
+						parse_str($atts['field_values'], $field_values_array);
+
+						// If array returned then add to field populate array
+						if(is_array($field_values_array)) {
+
+							$field_populate_array = self::field_populate_array_from_atts($field_populate_array, $field_values_array);
+						}
+					}
+
+					// Process field_<id> attributes
+					$field_populate_array = self::field_populate_array_from_atts($field_populate_array, $atts);
+
 					// Filter
 					if(!WS_Form_Common::styler_preview_template_shown()) {
 
@@ -437,7 +456,7 @@
 					}
 
 					// Pre-process form data
-					self::form_pre_process($form_object);
+					self::form_pre_process($form_object, $field_populate_array);
 
 					// Change form so it is public ready
 					$ws_form_form->form_public($form_object);
@@ -455,6 +474,35 @@
 				// Error
 				return __('Invalid form ID', 'ws-form');
 			}
+		}
+
+		public function field_populate_array_from_atts($field_populate_array, $atts) {
+
+			if(
+				!is_array($atts) ||
+				(count($atts) == 0)
+			) {
+				return $field_populate_array;
+			}
+
+			// Shortcode field population
+			foreach($atts as $att_key => $att_value) {
+
+				if(
+					(strpos($att_key, 'field_') === 0) &&
+					(strlen($att_key) > 6)
+				) {
+					$field_id = absint(substr($att_key, 6));
+
+					if($field_id > 0) {
+
+						// Add sanitized value to field populate array
+						$field_populate_array[$field_id] = sanitize_text_field($att_value);
+					}
+				}
+			}
+
+			return $field_populate_array;
 		}
 
 		// Footer scripts
@@ -488,7 +536,7 @@
 		}
 
 		// Footer scripts - Pre-Process
-		public function form_pre_process(&$form_object) {
+		public function form_pre_process(&$form_object, $field_populate_array = array()) {
 
 			// If REST request, abandon this
 			if(WS_Form_Common::is_rest_request()) { return; }
@@ -565,12 +613,22 @@
 					// Process fields
 					foreach($fields as $field_key => $field) {
 
+						// Get field ID
+						if(!isset($field->id)) { continue; }
+						$field_id = $field->id;
+
 						// Get field type
 						if(!isset($field->type)) { continue; }
 						$field_type = $field->type;
 
 						// Check field type
 						if(!isset($field_types[$field_type])) { continue; }
+
+						// Check for att population
+						if(isset($field_populate_array[$field_id])) {
+
+							$field->meta->default_value = $field_populate_array[$field_id];
+						}
 
 						// Add field type to array (This is used later on to filter the field configs rendered on the page)
 						$this->field_types[] = $field_type;

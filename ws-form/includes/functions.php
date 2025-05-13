@@ -468,8 +468,13 @@
 
 		if(count($return_fields) === 0) {
 
-			throw new Exception('Field not found');
-		}
+			throw new Exception(
+
+				empty($field_id) ?
+				'Field not found' :
+				sprintf('Field ID %u not found', $field_id)
+			);
+ 		}
 
 		return $return_fields;
 	}
