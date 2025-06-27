@@ -53,6 +53,8 @@ final class WS_Form {
 	// Load the required dependencies for this plugin.
 	private function load_dependencies() {
 
+		$wp_version = get_bloginfo('version');
+
 		// Configuration (Options, field types, field variables)
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-config.php';
 
@@ -112,7 +114,6 @@ final class WS_Form {
 
 		// Actions - Spam protection
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/actions/class-ws-form-action-akismet.php';
-		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/actions/class-ws-form-action-human-presence.php';
 
 		// Actions - GDPR
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/actions/class-ws-form-action-data-erasure-request.php';
@@ -147,6 +148,13 @@ final class WS_Form {
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/oxygen/oxygen.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/bricks/bricks.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/breakdance/breakdance.php';
+
+		// Blocks
+ 		if(WS_Form_Common::version_compare($wp_version, '5.9') >= 0) {
+
+ 			// API version 3
+			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/blocks/form-add/form-add.php';
+		}
 
 		// Litespeed
 		if(class_exists('LiteSpeed\Core')) {
@@ -257,16 +265,13 @@ final class WS_Form {
 	 */
 	private function define_admin_hooks() {
 
-		global $wp_version;
+		$wp_version = get_bloginfo('version');
 
 		$plugin_admin = new WS_Form_Admin();
 
 		// General
 		$this->loader->add_action('admin_init', $plugin_admin, 'admin_init');
 		$this->loader->add_action('admin_menu', $plugin_admin, 'admin_menu');
-
-		// Gutenberg block
-		$this->loader->add_action('init', $plugin_admin, 'register_blocks');
 
 		// Screen options
 		$this->loader->add_action('wp_ajax_ws_form_hidden_columns', $plugin_admin, 'ws_form_hidden_columns', 1);
@@ -294,8 +299,15 @@ final class WS_Form {
 		$this->loader->add_filter('plugin_action_links_' . WS_FORM_PLUGIN_BASENAME, $plugin_admin, 'plugin_action_links');
 
 		// Blocks
-		$this->loader->add_action('enqueue_block_assets', $plugin_admin, 'enqueue_block_assets');
-		$this->loader->add_action('enqueue_block_editor_assets', $plugin_admin, 'enqueue_block_editor_assets');
+ 		$this->loader->add_action('enqueue_block_assets', $plugin_admin, 'enqueue_block_assets');
+
+ 		if(!(WS_Form_Common::version_compare($wp_version, '5.9') >= 0)) {
+
+ 			// API version 1
+			$this->loader->add_action('init', $plugin_admin, 'register_blocks');
+			$this->loader->add_action('enqueue_block_assets', $plugin_admin, 'enqueue_block_assets');
+			$this->loader->add_action('enqueue_block_editor_assets', $plugin_admin, 'enqueue_block_editor_assets_v1');
+ 		}
 
  		if(WS_Form_Common::version_compare($wp_version, '5.8') >= 0) {
 

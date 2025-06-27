@@ -27,7 +27,7 @@
 			add_filter('list_table_primary_column',[$this, 'list_table_primary_column'], 10, 2);
 
 			// Get the form ID
-			$this->form_id = absint(WS_Form_Common::get_query_var('id'));
+			self::get_form_id();
 
 			// Initialize submit fields
 			$this->submit_fields = array();
@@ -40,7 +40,7 @@
 
 				$submit_fields = $ws_form_submit->db_get_submit_fields();
 
-				$ws_form_field = New WS_Form_Field();
+				$ws_form_field = new WS_Form_Field();
 
 				if($submit_fields !== false) {
 
@@ -61,6 +61,70 @@
 					}
 				}
 			}
+		}
+
+		// Get form ID
+		public function get_form_id() {
+
+			// Is query var provided?
+			$id_set = (WS_Form_Common::get_query_var('id') != '');
+
+			// Get form ID by query var
+			$this->form_id = absint(WS_Form_Common::get_query_var('id'));
+
+			// If no form is selected, get last form ID used
+			if(
+				($this->form_id == 0) &&
+				!$id_set
+			) {
+				// Get form ID from option
+				$form_id_last = absint(WS_Form_Common::option_get('submit_table_form_id', 0));
+				if($form_id_last > 0) {
+
+					$this->form_id = $form_id_last;
+				}
+			}
+
+			// If no form selected, and there is only one form, select it
+			if(
+				($this->form_id == 0) &&
+				!$id_set
+			) {
+				// Get form ID from database if there is only one form
+				$ws_form_form = new WS_Form_Form();
+				$ws_form_form->db_count_update_all();
+				$forms = $ws_form_form->db_read_all(
+
+					'',
+					"NOT (status = 'trash') AND count_submit > 0",
+					'label ASC',
+					'',
+					'',
+					false,
+					false,
+					'id'
+				);
+
+				if(count($forms) == 1) {
+
+					$this->form_id = absint($forms[0]['id']);
+				}
+			}
+
+			// Check if form ID specified exists
+			if($this->form_id > 0) {
+
+				$ws_form_form = new WS_Form_Form();
+				$ws_form_form->id = $this->form_id;
+				if(!$ws_form_form->db_check_id_exists()) {
+
+					// Form ID doesn't exists, so set to 0
+					$this->form_id = 0;
+				}
+			}
+
+			// Save last used form ID
+			WS_Form_Common::option_set('submit_table_form_id', $this->form_id);
 		}
 
 		// Get columns
@@ -535,7 +599,7 @@
 				) . '"></span>';
 
 			// Build title
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$title = $spam_level_indicator . $ws_form_submit->db_get_status_name($item->status) . ($preview ? ' (' . __('Preview', 'ws-form') . ')' : '');
 
 			return $title;
@@ -565,7 +629,7 @@
 		function get_views(){
 
 			// Get data from API
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 
 			$views = array();
 			$current = WS_Form_Common::get_query_var('ws-form-status', 'all');
@@ -680,7 +744,7 @@
 			$clear_hidden_fields = (get_user_meta(get_current_user_id(), 'ws_form_submissions_clear_hidden_fields', true) === 'on');
 
 			// Get data from core
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->form_id = $this->form_id;
 
 			return $ws_form_submit->db_read_all(
@@ -799,7 +863,7 @@
 			if($which != 'top') { return; }
 
 			// Select form
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->db_count_update_all();
 			$forms = $ws_form_form->db_read_all(
 
@@ -817,7 +881,7 @@
 ?>
 <div class="alignleft actions">
 <select id="wsf_filter_id" name="id">
-<option value=""><?php esc_html_e('Select form...', 'ws-form'); ?></option>
+<option value="0"><?php esc_html_e('Select form...', 'ws-form'); ?></option>
 <?php
 				foreach($forms as $form) {
 
@@ -888,7 +952,7 @@
 			if($this->record_count !== false) { return $this->record_count; }
 
 			// Get data from API
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->form_id = $this->form_id;
 
 			// Get record count

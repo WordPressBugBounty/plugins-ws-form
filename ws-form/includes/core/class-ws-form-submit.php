@@ -611,7 +611,7 @@
 			// Update meta
 			if(isset($this->meta)) {
 
-				$ws_form_submit_meta = New WS_Form_Submit_Meta();
+				$ws_form_submit_meta = new WS_Form_Submit_Meta();
 				$ws_form_submit_meta->parent_id = $this->id;
 				$ws_form_submit_meta->db_update_from_object($this->meta, $this->encrypted);
 			}
@@ -637,7 +637,7 @@
 			// Update meta
 			if(isset($submit_object->meta)) {
 
-				$ws_form_submit_meta = New WS_Form_Submit_Meta();
+				$ws_form_submit_meta = new WS_Form_Submit_Meta();
 				$ws_form_submit_meta->parent_id = $this->id;
 				$ws_form_submit_meta->db_update_from_object($submit_object->meta, $submit_encrypted);
 			}
@@ -738,7 +738,7 @@
 				if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting submit.', 'ws-form')); }
 
 				// Delete meta
-				$ws_form_meta = New WS_Form_Submit_Meta();
+				$ws_form_meta = new WS_Form_Submit_Meta();
 				$ws_form_meta->parent_id = $this->id;
 				$ws_form_meta->db_delete_by_submit($bypass_user_capability_check);
 
@@ -765,7 +765,7 @@
 			// Get all trashed forms
 			$submits = self::db_read_all('', "status='trash' AND form_id=" . $this->form_id, '', '', '', '', false, false);
 
-       		foreach($submits as $submit_object) {
+			foreach($submits as $submit_object) {
 
 				$this->id = $submit_object->id;
 				self::db_delete();
@@ -1023,7 +1023,7 @@
 			// Read meta
 			if(!is_array($meta_array)) {
 
-				$ws_form_submit_meta = New WS_Form_Submit_Meta();
+				$ws_form_submit_meta = new WS_Form_Submit_Meta();
 				$ws_form_submit_meta->parent_id = $submit_id;
 				$meta_array = $ws_form_submit_meta->db_read_all($bypass_user_capability_check, $submit_encrypted);
 			}
@@ -1049,7 +1049,7 @@
 					} else {
 
 						// Read field data and get type
-						$ws_form_field = New WS_Form_Field();
+						$ws_form_field = new WS_Form_Field();
 						$ws_form_field->id = $field_id;
 						$field_object = $ws_form_field->db_read(true, $bypass_user_capability_check);
 						$this->field_object_cache[$field_id] = $field_object;
@@ -1969,7 +1969,7 @@
 
 						} catch (Exception $e) {
 
-    						return $order_by_return;
+							return $order_by_return;
 						}
 
 						// Process by field object type
@@ -2269,6 +2269,44 @@
 			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->apply_restrictions($this->form_object);
 
+			// Apply limits
+			if(!$this->preview) {
+
+				$check_limit_response = $ws_form_form->apply_limits($this->form_object);
+				if($check_limit_response !== false) {
+
+					self::return_forbidden();
+				}
+			}
+
+			// Build keyword blocklist
+			$keyword_blocklist = array();
+
+			// Check if 
+			if(WS_Form_Common::get_object_meta_value($this->form_object, 'keyword_blocklist', '')) {
+
+				// Check limit count
+				$keyword_blocklist_keywords = WS_Form_Common::get_object_meta_value($this->form_object, 'keyword_blocklist_keywords', '');
+				if(is_array($keyword_blocklist_keywords)) {
+
+					foreach($keyword_blocklist_keywords as $row) {
+
+						if(!isset($row->keyword_blocklist_keyword)) { continue; }
+
+						$keyword_blocklist[] = $row->keyword_blocklist_keyword;
+					}
+				}
+
+				// Sanitize before filter
+				$keyword_blocklist = WS_Form_Common::sanitize_keyword_array($keyword_blocklist);
+			}
+
+			// Apply filters
+			$keyword_blocklist = apply_filters('wsf_submit_block_keywords', $keyword_blocklist, $this->form_object, $this);
+
+			// Sanitize after filter
+			$keyword_blocklist = WS_Form_Common::sanitize_keyword_array($keyword_blocklist);
+
 			// Do not validate fields that are required bypassed
 			$bypass_required = WS_Form_Common::get_query_var_nonce('wsf_bypass_required', '');
 			$this->bypass_required_array = explode(',', $bypass_required);
@@ -2345,12 +2383,12 @@
 
 					foreach($section_repeatable_indexes as $section_repeatable_index) {
 
-						self::setup_from_post_section($section, $form_submit, $process_file_fields, $process_non_file_fields, $section_id, $section_repeatable_index, $section_repeatable);
+						self::setup_from_post_section($section, $form_submit, $process_file_fields, $process_non_file_fields, $keyword_blocklist, $section_id, $section_repeatable_index, $section_repeatable);
 					}
 
 				} else {
 
-					self::setup_from_post_section($section, $form_submit, $process_file_fields, $process_non_file_fields);
+					self::setup_from_post_section($section, $form_submit, $process_file_fields, $process_non_file_fields, $keyword_blocklist);
 				}
 			}
 
@@ -2383,7 +2421,7 @@
 			exit;
 		}
 
-		public function setup_from_post_section($section, $form_submit, $process_file_fields = true, $process_non_file_fields = true, $section_id = false, $section_repeatable_index = false, &$section_repeatable = array()) {
+		public function setup_from_post_section($section, $form_submit, $process_file_fields = true, $process_non_file_fields = true, $keyword_blocklist = array(), $section_id = false, $section_repeatable_index = false, &$section_repeatable = array()) {
 
 			// Delimiters
 			if($section_repeatable_index !== false) {
@@ -2801,8 +2839,119 @@
 
 						$section_repeatable_index
 					);
+
+					// Keyword blocklist
+					if(
+						is_array($keyword_blocklist) &&
+						(count($keyword_blocklist) > 0) &&
+						is_string($field_value)
+					) {
+
+						// Process keyword list
+						$keyword_match = self::keyword_blocklist_check($field_value, $keyword_blocklist);
+						if($keyword_match !== false) {
+
+							// Get message
+							$keyword_blocklist_message = apply_filters(
+
+								'wsf_submit_block_keywords_message',
+
+								(WS_Form_Common::get_object_meta_value($this->form_object, 'keyword_blocklist', '') ? WS_Form_Common::get_object_meta_value($this->form_object, 'keyword_blocklist_message', '') : ''),
+
+								$this->form_object,
+
+								$this,
+
+								$keyword_match
+							);
+
+							// If message is invalid or blank, return false to trigger default invalid feedback
+							if(
+								!is_string($keyword_blocklist_message) ||
+								($keyword_blocklist_message == '')
+							) {
+
+								$keyword_blocklist_message = false;
+
+							} else {
+
+								// Parse
+								$keyword_blocklist_message_lookups = array(
+
+									'keyword' 	=> $keyword_match
+								);
+
+								$keyword_blocklist_message = WS_Form_Common::mask_parse($keyword_blocklist_message, $keyword_blocklist_message_lookups);
+							}
+
+							// Apply wsf_submit_field_validate filter hook
+							$this->error_validation_actions = self::filter_validate(
+
+								$this->error_validation_actions,
+
+								array($keyword_blocklist_message),
+
+								$field,
+
+								$field_id,
+
+								$field_type_config,
+
+								$section_repeatable_index
+							);
+
+							break;
+						}
+					}
 				}
 			}
+		}
+
+		// Blocked keyword matching
+		public function keyword_blocklist_check($text, $keyword_blocklist) {
+
+			// Normalize text
+			$normalized = strtolower($text);
+
+			// Replace common obfuscation characters with spaces or remove them
+			$normalized = preg_replace('/[\.\,\(\)\[\]\{\}_\-]+/', ' ', $normalized);
+
+			// Collapse multiple spaces into one
+			$normalized = preg_replace('/\s+/', ' ', $normalized);
+
+			// Pad the string with spaces for whole word matching
+			$normalized = ' ' . $normalized . ' ';
+
+			// Process keyword_blocklist (Already sanitized)
+			foreach($keyword_blocklist as $keyword) {
+
+				// Skip empty keywords
+				if(empty($keyword)) { continue; }
+
+				// Search mode
+				$search_mode = substr($keyword, 0, 1);
+
+				switch($search_mode) {
+
+					// Anywhere in the text
+					case '*' :
+
+						$keyword = substr($keyword, 1);
+
+						if(stripos($text, $keyword) !== false) { return $keyword; }
+
+						break;
+
+					// Whole word match with padding and normalization
+					default :
+
+						$pattern = '/[\s\W]' . preg_quote($keyword, '/') . '[\s\W]/i';
+
+						if(preg_match($pattern, $normalized)) { return $keyword; }
+				}
+			}
+
+			return false;
 		}
 
 		// Process validation filter
@@ -2832,7 +2981,7 @@
 				// Get only newly added actions from the filter actions
 				$actions_diff = array_filter($actions_new, function ($actions_new_element) use ($actions_old) {
 
-				    return !in_array($actions_new_element, $actions_old);
+					return !in_array($actions_new_element, $actions_old);
 				});
 			}
 
@@ -2992,7 +3141,7 @@
 
 					foreach($section_repeatable_indexes as $section_repeatable_index) {
 
-						self::setup_from_post_section($section, $form_submit, true, false, $section_id, $section_repeatable_index, $section_repeatable);
+						self::setup_from_post_section($section, $form_submit, true, false, array(), $section_id, $section_repeatable_index, $section_repeatable);
 					}
 
 				} else {
@@ -3092,7 +3241,7 @@
 			self::db_check_form_id();
 
 			// Read form data
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $this->form_id;
 
 			if($this->preview) {
@@ -3151,7 +3300,7 @@
 
 				$tracking_remote_ip = $this->meta['tracking_remote_ip'];
 
-				if(filter_var($tracking_remote_ip, FILTER_VALIDATE_IP) !== false) {
+				if(!empty(WS_Form_Common::sanitize_ip_address($tracking_remote_ip))) {
 
 					$body['remoteip'] = $tracking_remote_ip;
 				}

@@ -190,7 +190,7 @@
 		public function get_preview_html($style_id) {
 
 			// Build meta data
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'style';
 			$ws_form_meta->parent_id = $style_id;
 
@@ -285,7 +285,7 @@
 			$meta_data_object = apply_filters('wsf_style_create_meta_data', self::get_default_meta_data_object($use_legacy, $default_conv));
 
 			// Build meta data
-			$form_meta = New WS_Form_Meta();
+			$form_meta = new WS_Form_Meta();
 			$form_meta->object = 'style';
 			$form_meta->parent_id = $this->id;
 			$form_meta->db_update_from_object($meta_data_object, true, $bypass_user_capability_check);
@@ -313,7 +313,7 @@
 			self::db_create(false);
 
 			// Load template form data
-			$ws_form_template = New WS_Form_Template();
+			$ws_form_template = new WS_Form_Template();
 			$ws_form_template->type = 'style';
 			$ws_form_template->id = $id;
 			$ws_form_template->read();
@@ -370,7 +370,7 @@
 			if($get_meta) {
 
 				// Read meta
-				$ws_form_meta = New WS_Form_Meta();
+				$ws_form_meta = new WS_Form_Meta();
 				$ws_form_meta->object = 'style';
 				$ws_form_meta->parent_id = $this->id;
 				$metas = $ws_form_meta->db_read_all($bypass_user_capability_check);
@@ -583,7 +583,7 @@
 			$conversational = ($this->id == $style_id_conv_default);
 
 			// Initiate form meta object
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'style';
 			$ws_form_meta->parent_id = $this->id;
 
@@ -598,7 +598,7 @@
 				try {
 
 					// Attempt to read template
-					$ws_form_template = New WS_Form_Template();
+					$ws_form_template = new WS_Form_Template();
 					$ws_form_template->type = 'style';
 					$ws_form_template->id = $template_id;
 					$ws_form_template->read();
@@ -657,7 +657,7 @@
 			global $wpdb;
 
 			// Delete meta
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'style';
 			$ws_form_meta->parent_id = $this->id;
 			$ws_form_meta->db_delete_by_object();
@@ -737,7 +737,7 @@
 			if($status == 'trash') {
 
 				// Delete meta
-				$ws_form_meta = New WS_Form_Meta();
+				$ws_form_meta = new WS_Form_Meta();
 				$ws_form_meta->object = 'style';
 				$ws_form_meta->parent_id = $this->id;
 				$ws_form_meta->db_delete_by_object();
@@ -1002,7 +1002,7 @@
 			$this->id = parent::db_update_insert($this->table_name, self::DB_UPDATE, self::DB_INSERT, $style_object, 'style', $this->id, false);
 
 			// Update meta
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'style';
 			$ws_form_meta->parent_id = $this->id;
 			$ws_form_meta->db_update_from_object($style_object->meta, false, false, $replace_meta);

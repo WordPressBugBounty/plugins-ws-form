@@ -188,7 +188,7 @@
 		function get_views(){
 
 			// Get data from API
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 
 			$views = array();
 			$current = WS_Form_Common::get_query_var('ws-style-status', 'all');
@@ -300,7 +300,7 @@
 			$offset = ($page_number - 1) * $per_page;
 
 			// Get data from API
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 			$result = $ws_form_style->db_read_all($join, $where, $order_by, $limit, $offset);
 
 			return $result;
@@ -388,7 +388,7 @@
 
 			if(empty(WS_Form_Common::get_query_var_nonce('s'))) {
 
-				$ws_form_style = New WS_Form_Style();
+				$ws_form_style = new WS_Form_Style();
 
 				$current = WS_Form_Common::get_query_var('ws-style-status', 'all');
 				if($current === 'all') { $current = ''; }

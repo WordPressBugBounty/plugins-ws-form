@@ -60,7 +60,7 @@
 					$breakpoint_meta_value = round($framework_column_count * $width_factor);
 
 					// Build meta data
-					$field_meta = New WS_Form_Meta();
+					$field_meta = new WS_Form_Meta();
 					$field_meta->object = 'field';
 					$field_meta->parent_id = $ws_form_field->id;
 					$field_meta->db_update_from_array(array($breakpoint_meta_key => $breakpoint_meta_value));
@@ -112,7 +112,7 @@
 			} else {
 
 				// Get meta value (Database)
-				$ws_form_meta = New WS_Form_Meta();
+				$ws_form_meta = new WS_Form_Meta();
 				$ws_form_meta->object = 'field';
 				$ws_form_meta->parent_id = $ws_form_field->id;
 
@@ -203,7 +203,7 @@
 			if($meta_key === false) { parent::api_throw_error(__('Meta key not specified', 'ws-form')); }
 
 			// Read current meta value
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'field';
 			$ws_form_meta->parent_id = $ws_form_field->id;
 

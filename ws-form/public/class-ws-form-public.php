@@ -409,7 +409,7 @@
 				(($form_id === false) && ($form_object !== false))
 			) {
 
-				$ws_form_form = New WS_Form_Form();
+				$ws_form_form = new WS_Form_Form();
 
 				if($form_id > 0) {
 
@@ -1388,6 +1388,14 @@
 			$frameworks = WS_Form_Config::get_frameworks();
 			$framework = $frameworks['types'][$framework_id];
 
+			if(!$preview) {
+
+				// Check form limits
+				$ws_form_form = new WS_Form_Form();
+				$check_limit_response = $ws_form_form->apply_limits($form_object);
+				if($check_limit_response !== false) { return $check_limit_response; }
+			}
+
 			// Check for form attributes
 			$form_attributes = '';
 
@@ -1491,7 +1499,7 @@
 			}
 
 			// Add view
-			$ws_form_form_stat = New WS_Form_Form_Stat();
+			$ws_form_form_stat = new WS_Form_Form_Stat();
 			if($ws_form_form_stat->form_stat_check() && (WS_Form_Common::option_get('add_view_method') == 'server')) {
 
 				// Log view
@@ -1507,7 +1515,7 @@
 			global $post, $wp_version;
 
 			// Stats
-			$ws_form_form_stat = New WS_Form_Form_Stat();
+			$ws_form_form_stat = new WS_Form_Form_Stat();
 
 			// API path
 			$api_path = WS_Form_Common::get_api_path();

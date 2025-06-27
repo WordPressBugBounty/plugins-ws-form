@@ -743,7 +743,7 @@
 
 							// Fields
 							'mask_field'						=>	'#pre_label#pre_help<input type="email" id="#id" name="#name" value="#value"#attributes />#post_label#datalist#invalid_feedback#post_help',
-							'mask_field_attributes'				=>	array('class', 'multiple_email', 'min_length', 'max_length', 'pattern', 'list', 'disabled', 'readonly', 'required', 'placeholder', 'aria_describedby', 'aria_labelledby', 'aria_label', 'custom_attributes', 'autocomplete_email', 'transform', 'hidden_bypass'),
+							'mask_field_attributes'				=>	array('class', 'multiple_email', 'min_length', 'max_length', 'pattern_email', 'list', 'disabled', 'readonly', 'required', 'placeholder', 'aria_describedby', 'aria_labelledby', 'aria_label', 'custom_attributes', 'autocomplete_email', 'transform', 'hidden_bypass'),
 							'mask_field_label'					=>	'<label id="#label_id" for="#id"#attributes>#label</label>',
 							'mask_field_label_attributes'		=>	array('class'),
 
@@ -798,7 +798,7 @@
 
 										array(
 											'label'		=>	__('Restrictions', 'ws-form'),
-											'meta_keys'	=> array('disabled', 'readonly', 'min_length', 'max_length', 'pattern', 'field_user_status', 'field_user_roles', 'field_user_capabilities')
+											'meta_keys'	=> array('disabled', 'readonly', 'min_length', 'max_length', 'pattern_email', 'field_user_status', 'field_user_roles', 'field_user_capabilities')
 										),
 
 										array(
@@ -2832,28 +2832,6 @@
 							)
 						),
 
-						'security'	=>	array(
-
-							'heading'	=>	__('Security', 'ws-form'),
-							'fields'	=>	array(
-
-								'security_nonce'	=>	array(
-
-									'label'		=>	__('Enable NONCE', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	sprintf(
-
-										'%s <a href="https://developer.wordpress.org/apis/security/nonces/" target="_blank">%s</a><br />%s',
-
-										__('Add a NONCE to all form submissions.', 'ws-form'),
-										__('Learn more', 'ws-form'),
-										__('If enabled we recommend keeping overall page caching to less than 10 hours.<br />NONCEs are always used on forms if a user is logged in.', 'ws-form')
-									),
-									'default'	=>	''
-								)
-							)
-						),
-
 						'google'	=>	array(
 
 							'heading'	=>	__('Google', 'ws-form'),
@@ -3280,6 +3258,28 @@
 								)
 							)
 						),
+
+						'nonce'	=>	array(
+
+							'heading'	=>	__('NONCE', 'ws-form'),
+							'fields'	=>	array(
+
+								'security_nonce'	=>	array(
+
+									'label'		=>	__('Enable NONCE', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	sprintf(
+
+										'%s <a href="https://developer.wordpress.org/apis/security/nonces/" target="_blank">%s</a><br />%s',
+
+										__('Add a NONCE to all form submissions.', 'ws-form'),
+										__('Learn more', 'ws-form'),
+										__('If enabled we recommend keeping overall page caching to less than 10 hours.<br />NONCEs are always used on forms if a user is logged in.', 'ws-form')
+									),
+									'default'	=>	''
+								)
+							)
+						)
 					)
 				),
 				'variable' => array(
@@ -4088,19 +4088,338 @@
 					)
 				),
 
-				// Spam Protection - WS Form
-				'antispam' => array(
 
-					'label'						=>	__('Enabled', 'ws-form'),
+				// IP throttling
+				'ip_limit' => array(
+
+					'label'						=>	__('Enable', 'ws-form'),
 					'type'						=>	'checkbox',
+					'default'					=>	''
+				),
+
+				// IP throttling - Intro
+				'ip_limit_intro' => array(
+
+					'type'						=> 'note',
+					'note_type'					=> 'information',
+					'html'						=> sprintf(
+
+						'%s<br><a href="%s" target="_blank">%s</a>',
+						__('To use IP throttling, you must enable Remote IP Address tracking.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/tracking/'),
+						__('Learn more', 'ws-form')
+					),
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'ip_limit',
+							'meta_value'		=>	'on'
+						)
+					)
+				),
+
+				// IP throttling - Count
+				'ip_limit_count' => array(
+
+					'label'						=>	__('Maximum Count', 'ws-form'),
+					'type'						=>	'number',
 					'default'					=>	'',
-					'help'						=>	__('WS Form Anti-Spam System.', 'ws-form'),
+					'min'						=>	1,
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'ip_limit',
+							'meta_value'		=>	'on'
+						)
+					)
+				),
+
+				// IP throttling - Duration
+				'ip_limit_period' => array(
+
+					'label'						=>	__('Duration', 'ws-form'),
+					'type'						=>	'select',
+					'default'					=>	'',
+					'options'					=>	array(
+
+						array('value' => '', 'text' => __('All Time', 'ws-form')),
+						array('value' => 'minute', 'text' => __('Per Minute', 'ws-form')),
+						array('value' => 'hour', 'text' => __('Per Hour', 'ws-form')),
+						array('value' => 'day', 'text' => __('Per Day', 'ws-form')),
+						array('value' => 'week', 'text' => __('Per Week', 'ws-form')),
+						array('value' => 'month', 'text' => __('Per Month', 'ws-form')),
+						array('value' => 'year', 'text' => __('Per Year', 'ws-form'))
+					),
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'ip_limit',
+							'meta_value'		=>	'on'
+						)
+					)
+				),
+
+				// IP throttling - Message
+				'ip_limit_message' => array(
+
+					'label'						=>	__('Limit Reached Message', 'ws-form'),
+					'type'						=>	'text_editor',
+					'default'					=>	'',
+					'help'						=>	__('Enter the message you would like to show if the submisson limit is reached. Leave blank to hide form.', 'ws-form'),
+					'variable_helper'			=>	true,
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'ip_limit',
+							'meta_value'		=>	'on'
+						)
+					),
+					'translate'					=>	true
+				),
+
+				// IP throttling - Message type
+				'ip_limit_message_type' => array(
+
+					'label'						=>	__('Message Style', 'ws-form'),
+					'type'						=>	'select',
+					'options'					=>	array(
+
+						array('value' => '', 'text' => __('None', 'ws-form')),
+						array('value' => 'success', 'text' => __('Success', 'ws-form')),
+						array('value' => 'information', 'text' => __('Information', 'ws-form')),
+						array('value' => 'warning', 'text' => __('Warning', 'ws-form')),
+						array('value' => 'danger', 'text' => __('Danger', 'ws-form'))
+					),
+					'default'					=>	'information',
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'ip_limit',
+							'meta_value'		=>	'on'
+						)
+					)
+				),
+
+				// IP blocklist
+				'ip_blocklist' => array(
+
+					'label'						=>	__('Enable', 'ws-form'),
+					'type'						=>	'checkbox',
+					'default'					=>	''
+				),
+
+				// IP blocklist - Note
+				'ip_blocklist_note' => array(
+
+					'type'						=> 'note',
+					'note_type'					=> 'information',
+					'html'						=> sprintf(
+
+						'%s<br><a href="%s" target="_blank">%s</a>',
+						__('You can also block IP addresses using the <code>wsf_submit_block_ips</code> filter hook.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/wsf_submit_block_ips/'),
+						__('Learn more', 'ws-form')
+					),
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'ip_blocklist',
+							'meta_value'		=>	'on'
+						)
+					)
+				),
+
+				// IP blocklist - IP addresses
+				'ip_blocklist_ips' => array(
+
+					'label'						=>	__('IP Addresses', 'ws-form'),
+					'type'						=>	'repeater',
+					'meta_keys'					=>	array(
+
+						'ip_blocklist_ip'
+					),
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'ip_blocklist',
+							'meta_value'		=>	'on'
+						)
+					)
+				),
+
+				// IP blocklist - IP
+				'ip_blocklist_ip' => array(
+
+					'label'						=>	__('IP Address', 'ws-form'),
+					'type'						=>	'text'
+				),
+
+				// IP blocklist - Message
+				'ip_blocklist_message' => array(
+
+					'label'						=>	__('Blocked Message', 'ws-form'),
+					'type'						=>	'text_editor',
+					'default'					=>	'',
+					'help'						=>	__('Enter the message you would like to show if a submission is blocked due to a matching IP address. Leave blank to hide form.', 'ws-form'),
+					'variable_helper'			=>	true,
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'ip_blocklist',
+							'meta_value'		=>	'on'
+						)
+					),
+					'translate'					=>	true
+				),
+
+				// IP blocklist - Message type
+				'ip_blocklist_message_type' => array(
+
+					'label'						=>	__('Message Style', 'ws-form'),
+					'type'						=>	'select',
+					'options'					=>	array(
+
+						array('value' => '', 'text' => __('None', 'ws-form')),
+						array('value' => 'success', 'text' => __('Success', 'ws-form')),
+						array('value' => 'information', 'text' => __('Information', 'ws-form')),
+						array('value' => 'warning', 'text' => __('Warning', 'ws-form')),
+						array('value' => 'danger', 'text' => __('Danger', 'ws-form'))
+					),
+					'default'					=>	'information',
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'ip_blocklist',
+							'meta_value'		=>	'on'
+						)
+					)
+				),
+
+				// Keyword blocklist
+				'keyword_blocklist' => array(
+
+					'label'						=>	__('Enable', 'ws-form'),
+					'type'						=>	'checkbox',
+					'default'					=>	''
+				),
+
+				// Keyword blocklist - Note
+				'keyword_blocklist_note' => array(
+
+					'type'						=> 'note',
+					'note_type'					=> 'information',
+					'html'						=> sprintf(
+
+						'%s<br><a href="%s" target="_blank">%s</a>',
+						__('You can also block keywords using the <code>wsf_submit_block_keywords</code> filter hook.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/wsf_submit_block_keywords/'),
+						__('Learn more', 'ws-form')
+					),
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'keyword_blocklist',
+							'meta_value'		=>	'on'
+						)
+					)
+				),
+
+				// Keyword blocklist - Keywords
+				'keyword_blocklist_keywords' => array(
+
+					'label'						=>	__('Keywords', 'ws-form'),
+					'type'						=>	'repeater',
+					'meta_keys'					=>	array(
+
+						'keyword_blocklist_keyword'
+					),
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'keyword_blocklist',
+							'meta_value'		=>	'on'
+						)
+					)
+				),
+
+				// Keyword blocklist - Keyword
+				'keyword_blocklist_keyword' => array(
+
+					'label'						=>	__('Keyword', 'ws-form'),
+					'type'						=>	'text'
+				),
+
+				// Keyword blocklist - Message
+				'keyword_blocklist_message' => array(
+
+					'label'						=>	__('Invalid Feedback Message', 'ws-form'),
+					'type'						=>	'textarea',
+					'default'					=>	'',
+					'help'						=>	__('Enter the invalid feedback you would like to show if a field contains a matching keyword.', 'ws-form'),
+					'variable_helper'			=>	true,
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'keyword_blocklist',
+							'meta_value'		=>	'on'
+						)
+					),
+					'translate'					=>	true
+				),
+
+				// Keyword blocklist - Message type
+				'keyword_blocklist_message_type' => array(
+
+					'label'						=>	__('Message Style', 'ws-form'),
+					'type'						=>	'select',
+					'options'					=>	array(
+
+						array('value' => '', 'text' => __('None', 'ws-form')),
+						array('value' => 'success', 'text' => __('Success', 'ws-form')),
+						array('value' => 'information', 'text' => __('Information', 'ws-form')),
+						array('value' => 'warning', 'text' => __('Warning', 'ws-form')),
+						array('value' => 'danger', 'text' => __('Danger', 'ws-form'))
+					),
+					'default'					=>	'information',
+					'condition'					=>	array(
+
+						array(
+
+							'logic'				=>	'==',
+							'meta_key'			=>	'keyword_blocklist',
+							'meta_value'		=>	'on'
+						)
+					)
 				),
 
 				// Spam Protection - Honeypot
 				'honeypot' => array(
 
-					'label'						=>	__('Enabled', 'ws-form'),
+					'label'						=>	__('Enable', 'ws-form'),
 					'type'						=>	'checkbox',
 					'default'					=>	'',
 					'help'						=>	__('Adds a hidden field to fool spammers.', 'ws-form'),
@@ -6834,6 +7153,20 @@
 						array('text' => __('yyyy-mm-dd', 'ws-form'), 'value' => '[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])'),
 						array('text' => __('hh:mm:ss', 'ws-form'), 'value' => '(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}'),
 						array('text' => __('yyyy-mm-ddThh:mm:ssZ', 'ws-form'), 'value' => '/([0-2][0-9]{3})\-([0-1][0-9])\-([0-3][0-9])T([0-5][0-9])\:([0-5][0-9])\:([0-5][0-9])(Z|([\-\+]([0-1][0-9])\:00))/')						
+					),
+					'compatibility_id'			=>	'input-pattern'
+				),
+
+				'pattern_email' => array(
+
+					'label'						=>	__('Pattern', 'ws-form'),
+					'mask'						=>	'pattern="#value"',
+					'mask_disregard_on_empty'	=>	true,
+					'type'						=>	'text',
+					'help'						=>	__('Regular expression value is checked against.', 'ws-form'),
+					'select_list'				=>	array(
+
+						array('text' => __('Email (Must have TLD. e.g. .com)', 'ws-form'), 'value' => '.+@.+\..{2,}'),
 					),
 					'compatibility_id'			=>	'input-pattern'
 				),
@@ -10217,6 +10550,66 @@
 							),
 							'description' => __('Returns the string as a slug suitable for URLs.', 'ws-form'),
 							'kb_slug' => 'transforming-strings',
+							'usage' => array('client', 'action')
+						),
+
+						'name_prefix'	=>	array(
+
+							'label' => __('Return the name prefix ', 'ws-form'),
+							'attributes' => array(
+
+								array('id' => 'string', 'type' => 'string'),
+							),
+							'description' => __('Returns the prefix from a full name.', 'ws-form'),
+							'kb_slug' => 'extract-first-and-last-names-from-a-full-name',
+							'usage' => array('client', 'action')
+						),
+
+						'name_first'	=>	array(
+
+							'label' => __('Return the first name ', 'ws-form'),
+							'attributes' => array(
+
+								array('id' => 'string', 'type' => 'string'),
+							),
+							'description' => __('Returns the first name from a full name.', 'ws-form'),
+							'kb_slug' => 'extract-first-and-last-names-from-a-full-name',
+							'usage' => array('client', 'action')
+						),
+
+						'name_middle'	=>	array(
+
+							'label' => __('Return the middle name ', 'ws-form'),
+							'attributes' => array(
+
+								array('id' => 'string', 'type' => 'string'),
+							),
+							'description' => __('Returns the middle name from a full name.', 'ws-form'),
+							'kb_slug' => 'extract-first-and-last-names-from-a-full-name',
+							'usage' => array('client', 'action')
+						),
+
+						'name_last'	=>	array(
+
+							'label' => __('Return the last name ', 'ws-form'),
+							'attributes' => array(
+
+								array('id' => 'string', 'type' => 'string'),
+							),
+							'description' => __('Returns the last name from a full name.', 'ws-form'),
+							'kb_slug' => 'extract-first-and-last-names-from-a-full-name',
+							'usage' => array('client', 'action')
+						),
+
+						'name_suffix'	=>	array(
+
+							'label' => __('Return the name suffix', 'ws-form'),
+							'attributes' => array(
+
+								array('id' => 'string', 'type' => 'string'),
+							),
+							'description' => __('Returns the suffix from a full name.', 'ws-form'),
+							'kb_slug' => 'extract-first-and-last-names-from-a-full-name',
 							'usage' => array('client', 'action')
 						)
 					),

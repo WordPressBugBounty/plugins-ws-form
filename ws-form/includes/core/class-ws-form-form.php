@@ -30,7 +30,7 @@
 		const DB_UPDATE = 'label,date_updated';
 		const DB_SELECT = 'label,status,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,id';
 
- 		const FILE_ACCEPTED_MIME_TYPES = 'application/json';
+		const FILE_ACCEPTED_MIME_TYPES = 'application/json';
 
 		public function __construct() {
 
@@ -86,7 +86,7 @@
 			$meta_data_object = apply_filters('wsf_form_create_meta_data', $meta_data_object);
 
 			// Build meta data
-			$form_meta = New WS_Form_Meta();
+			$form_meta = new WS_Form_Meta();
 			$form_meta->object = 'form';
 			$form_meta->parent_id = $this->id;
 			$form_meta->db_update_from_object($meta_data_object);
@@ -94,7 +94,7 @@
 			// Build first group
 			if($create_group) {
 
-				$ws_form_group = New WS_Form_Group();
+				$ws_form_group = new WS_Form_Group();
 				$ws_form_group->form_id = $this->id;
 				$ws_form_group->db_create();
 			}
@@ -113,7 +113,7 @@
 			self::db_create(false);
 
 			// Load template form data
-			$ws_form_template = New WS_Form_Template();
+			$ws_form_template = new WS_Form_Template();
 			$ws_form_template->id = $id;
 			$ws_form_template->read();
 			$form_object = $ws_form_template->object;
@@ -305,7 +305,7 @@
 				if($get_groups) {
 
 					// Read sections
-					$ws_form_group = New WS_Form_Group();
+					$ws_form_group = new WS_Form_Group();
 					$ws_form_group->form_id = $this->id;
 					$ws_form_group_return = $ws_form_group->db_read_all($get_meta, $checksum, $bypass_user_capability_check);
 
@@ -322,7 +322,7 @@
 				if($get_meta) {
 
 					// Read meta
-					$ws_form_meta = New WS_Form_Meta();
+					$ws_form_meta = new WS_Form_Meta();
 					$ws_form_meta->object = 'form';
 					$ws_form_meta->parent_id = $this->id;
 					$metas = $ws_form_meta->db_read_all($bypass_user_capability_check);
@@ -440,7 +440,7 @@
 				// Field types
 				$field_types = WS_Form_Config::get_field_types_flat();
 
-	 			// Form fields
+				// Form fields
 				$fields = WS_Form_Common::get_fields_from_form($form_object, true);
 
 				// Meta keys
@@ -474,7 +474,7 @@
 		// Accessibility
 		public function form_accessibility($form_object) {
 
- 			// Form fields
+			// Form fields
 			$fields = WS_Form_Common::get_fields_from_form($form_object, true);
 
 			// Process fields
@@ -506,7 +506,7 @@
 			// Field types
 			$field_types = WS_Form_Config::get_field_types_flat();
 
- 			// Form fields
+			// Form fields
 			$fields = WS_Form_Common::get_fields_from_form($form_object, true);
 
 			// Meta keys
@@ -709,7 +709,7 @@
 				$form_object->meta->action = $actions;
 			}
 
- 			// Form fields
+			// Form fields
 			$fields = WS_Form_Common::get_fields_from_form($form_object, true);
 
 			// Meta keys
@@ -1062,13 +1062,13 @@
 			global $wpdb;
 
 			// Delete meta
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'form';
 			$ws_form_meta->parent_id = $this->id;
 			$ws_form_meta->db_delete_by_object();
 
 			// Delete form groups
-			$ws_form_group = New WS_Form_Group();
+			$ws_form_group = new WS_Form_Group();
 			$ws_form_group->form_id = $this->id;
 			$ws_form_group->db_delete_by_form(false);
 
@@ -1150,18 +1150,18 @@
 			if($status == 'trash') {
 
 				// Delete meta
-				$ws_form_meta = New WS_Form_Meta();
+				$ws_form_meta = new WS_Form_Meta();
 				$ws_form_meta->object = 'form';
 				$ws_form_meta->parent_id = $this->id;
 				$ws_form_meta->db_delete_by_object();
 
 				// Delete form groups
-				$ws_form_group = New WS_Form_Group();
+				$ws_form_group = new WS_Form_Group();
 				$ws_form_group->form_id = $this->id;
 				$ws_form_group->db_delete_by_form(false);
 
 				// Delete form stats
-				$ws_form_form_stat = New WS_Form_Form_Stat();
+				$ws_form_form_stat = new WS_Form_Form_Stat();
 				$ws_form_form_stat->form_id = $this->id;
 				$ws_form_form_stat->db_delete();
 
@@ -1424,7 +1424,7 @@
 			self::db_check_id();
 
 			// Get form submit total
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->form_id = $this->id;
 			$count_submit_unread = $ws_form_submit->db_get_count_submit_unread_cached($bypass_user_capability_check);
 
@@ -1565,7 +1565,7 @@
 			}
 
 			// Update meta
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'form';
 			$ws_form_meta->parent_id = $this->id;
 			$ws_form_meta->db_update_from_object($form_object->meta, false, false, $replace_meta);
@@ -1574,7 +1574,7 @@
 			if($full) {
 
 				// Update groups
-				$ws_form_group = New WS_Form_Group();
+				$ws_form_group = new WS_Form_Group();
 				$ws_form_group->form_id = $this->id;
 				$ws_form_group->db_update_from_array($form_object->groups, $new, $replace_meta);
 
@@ -1605,7 +1605,7 @@
 			self::db_check_id();
 
 			// Read action
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'form';
 			$ws_form_meta->parent_id = $this->id;
 			$action = $ws_form_meta->db_get_object_meta('action');
@@ -2012,11 +2012,26 @@
 			return parent::db_object_get_label($this->table_name, $this->id);
 		}
 
-		// Check id
+		// Check ID
 		public function db_check_id() {
 
 			if(absint($this->id) === 0) { parent::db_throw_error(__('Invalid form ID (WS_Form_Form | db_check_id)', 'ws-form')); }
 			return true;
+		}
+
+		// Check ID exists
+		public function db_check_id_exists() {
+
+			global $wpdb;
+
+			// Read form
+			$sql = $wpdb->prepare(
+
+				"SELECT 1 FROM {$this->table_name} WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
+				absint($this->id)
+			);
+
+			return $wpdb->get_var($sql) ? true : false;
 		}
 
 		// API - POST - Download - JSON
@@ -2276,16 +2291,219 @@
 				foreach( $matches[0] as $key => $value) {
 
 					$get = str_replace(" ", "&" , $matches[3][$key] );
-			        parse_str($get, $output);
+					parse_str($get, $output);
 
-			        if(isset($output['id'])) {
+					if(isset($output['id'])) {
 
-			        	$form_id_array[] = (int) filter_var($output['id'], FILTER_SANITIZE_NUMBER_INT);
+						$form_id_array[] = (int) filter_var($output['id'], FILTER_SANITIZE_NUMBER_INT);
 					}
 				}
 			}
 
 			return $form_id_array;
+		}
+
+		public function apply_limits($form_object) {
+			// Check IP throttling
+			$ip_limit_message = self::ip_limit($form_object);
+			if($ip_limit_message !== false) { return $ip_limit_message; }
+
+			// Check IP blocklist
+			$ip_blocklist_message = self::ip_blocklist($form_object);
+			if($ip_blocklist_message !== false) { return $ip_blocklist_message; }
+
+			// Custom limits filter
+			$form_limit_message = apply_filters('wsf_form_limit', false, $form_object);
+			if($form_limit_message !== false) { return $form_limit_message; }
+
+			return false;
+		}
+
+		// IP throttling
+		public function ip_limit($form_object) {
+
+			// Check for IP limits
+			$ip_limit = WS_Form_Common::get_object_meta_value($form_object, 'ip_limit', '');
+			if(!$ip_limit) { return false; }
+
+			// Get IP address
+			$ip = WS_Form_Common::get_ip();
+			if(empty($ip)) { return false; }
+
+			// Check limit count
+			$ip_limit_count = WS_Form_Common::get_object_meta_value($form_object, 'ip_limit_count', '');
+			$ip_limit_count = ($ip_limit_count == '') ? false : absint($ip_limit_count);
+			if($ip_limit_count === false) { return false; }
+
+			// Check limit period
+			$ip_limit_period = WS_Form_Common::get_object_meta_value($form_object, 'ip_limit_period', '');
+			switch($ip_limit_period) {
+
+				case 'minute' :
+				case 'hour' :
+				case 'day' :
+				case 'week' :
+				case 'month' :
+				case 'year' :
+
+					$sql_where_date = " AND date_added > '" . WS_Form_Common::get_mysql_date('-1 ' . $ip_limit_period) . "'";
+
+					break;
+
+				default :
+
+					$sql_where_date = '';
+			}
+
+			global $wpdb;
+
+			// Get submit count
+			$sql_join = sprintf(
+
+				'RIGHT JOIN %1$ssubmit_meta smk ON (smk.parent_id = %1$ssubmit.id AND smk.meta_key = \'tracking_remote_ip\' AND smk.meta_value = \'%2$s\')',
+				$wpdb->prefix . WS_FORM_DB_TABLE_PREFIX,
+				esc_sql($ip)
+			);
+
+			$sql_where = sprintf('form_id = %u AND status = \'publish\'%s', $form_object->id, $sql_where_date);
+
+			$ws_form_submit = new WS_Form_Submit();
+			$submit_count = $ws_form_submit->db_read_count($sql_join, $sql_where, true);
+
+			// Check submit count
+			if($submit_count < $ip_limit_count) { return false; }
+
+			// Get message
+			$ip_limit_message = WS_Form_Common::get_object_meta_value($form_object, 'ip_limit_message', '');
+
+			// If message is blank, return nothing
+			if($ip_limit_message == '') { return ''; }
+
+			// Get message type
+			$ip_limit_message_type = WS_Form_Common::get_object_meta_value($form_object, 'ip_limit_message_type', '');
+
+			// Build return
+			return self::limit_return_message($ip_limit_message_type, $ip_limit_message, $form_object);
+		}
+
+		// IP blocklist
+		public function ip_blocklist($form_object) {
+
+			// Build blocked IP array
+			$ips = array();
+
+			// Check for IP limits
+			$ip_blocklist = WS_Form_Common::get_object_meta_value($form_object, 'ip_blocklist', '');
+			if($ip_blocklist) {
+
+				// Check limit count
+				$ip_blocklist_ips = WS_Form_Common::get_object_meta_value($form_object, 'ip_blocklist_ips', '');
+				if(is_array($ip_blocklist_ips)) {
+
+					foreach($ip_blocklist_ips as $row) {
+
+						if(!isset($row->ip_blocklist_ip)) { continue; }
+
+						$ips[] = $row->ip_blocklist_ip;
+					}
+
+					// Sanitize before filter
+					$ips = WS_Form_Common::sanitize_ip_address_array($ips);
+				}
+			}
+
+			// Apply filters
+			$ips = apply_filters('wsf_submit_block_ips', $ips, $form_object);
+
+			// Sanitize after filter
+			$ips = WS_Form_Common::sanitize_ip_address_array($ips);
+
+			// Check ips count
+			if(count($ips) == 0) { return false; }
+
+			// Get IP address
+			$ip = WS_Form_Common::get_ip();
+
+			// Split IP (IP can be comma separated if proxy in use)
+			$ip_array = explode(',', $ip);
+
+			// Check each IP address
+			foreach($ip_array as $ip) {
+
+				// If IP is blank, skip
+				if($ip == '') { continue; }
+
+				// Check if IP is in IPs array
+				if(in_array($ip, $ips)) {
+
+					// Get message
+					$ip_blocklist_message = apply_filters(
+
+						'wsf_submit_block_ips_message',
+
+						($ip_blocklist ? WS_Form_Common::get_object_meta_value($form_object, 'ip_blocklist_message', '') : ''),
+
+						$form_object
+					);
+
+					// If message is blank, return nothing
+					if($ip_blocklist_message == '') { return ''; }
+
+					// Get message type
+					$ip_blocklist_message_type = apply_filters(
+
+						'wsf_submit_block_ips_message_type',
+
+						WS_Form_Common::get_object_meta_value($form_object, 'ip_blocklist_message_type', ''),
+
+						$form_object
+					);
+
+					// Build return
+					return self::limit_return_message($ip_blocklist_message_type, $ip_blocklist_message, $form_object);
+				}
+			}
+
+			return false;
+		}
+
+		public function limit_return_message($type, $message, $form_object) {
+
+			// Check type
+			if(($type == '') || !in_array($type, array('success', 'information', 'warning', 'danger'))) {
+
+				return WS_Form_Common::parse_variables_process($message, $form_object, false, 'text/html');
+			}
+
+			// Init framework config
+			$framework_id = WS_Form_Common::option_get('framework', WS_FORM_DEFAULT_FRAMEWORK);
+			$frameworks = WS_Form_Config::get_frameworks();
+			$framework = $frameworks['types'][$framework_id];
+
+			// Get mask wrapper
+			$mask_wrapper = $framework['message']['public']['mask_wrapper'];
+
+			// Build lookups
+			$mask_wrapper_lookups = array(
+
+				'mask_wrapper_class' 	=> $framework['message']['public']['types'][$type]['mask_wrapper_class'],
+				'message'				=> $message
+			);
+
+			// Check style ID
+			if(WS_Form_Common::styler_enabled()) {
+
+				$ws_form_style = new WS_Form_Style();
+
+				// Add to lookups
+				$mask_wrapper_lookups['style_id'] = $ws_form_style->get_style_id_from_form_object($form_object);
+			}
+
+			// Parse message wrapper class and message
+			$return_message = WS_Form_Common::mask_parse($mask_wrapper, $mask_wrapper_lookups);
+
+			// Standard parse
+			return WS_Form_Common::parse_variables_process($return_message, $form_object, false, 'text/html');
 		}
 
 		public function get_svg($published = false) {
@@ -3142,7 +3360,7 @@
 			global $wpdb;
 
 			// Meta
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'form';
 			$form_meta_table_name = $ws_form_meta->db_get_table_name();
 

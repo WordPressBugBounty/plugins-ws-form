@@ -786,7 +786,7 @@
 	 */
 	function wsf_submit_get_object($submit_id) {
 
-		$ws_form_submit = New WS_Form_Submit();
+		$ws_form_submit = new WS_Form_Submit();
 		$ws_form_submit->id = $submit_id;
 		$ws_form_submit->db_read(true, true, true);
 
@@ -802,7 +802,7 @@
 	 */
 	function wsf_submit_get_by_hash($submit_hash) {
 
-		$ws_form_submit = New WS_Form_Submit();
+		$ws_form_submit = new WS_Form_Submit();
 		$ws_form_submit->hash = $submit_hash;
 		$ws_form_submit->db_read_by_hash(true, true, false, true);
 
@@ -997,7 +997,7 @@
 		));
 
 		// Update submit meta data
-		$ws_form_submit_meta = New WS_Form_Submit_Meta();
+		$ws_form_submit_meta = new WS_Form_Submit_Meta();
 		$ws_form_submit_meta->parent_id = $submit_id;
 		return $ws_form_submit_meta->db_update_from_array($meta);
 	}
@@ -1034,7 +1034,7 @@
 		));
 
 		// Update submit meta data
-		$ws_form_submit_meta = New WS_Form_Submit_Meta();
+		$ws_form_submit_meta = new WS_Form_Submit_Meta();
 		$ws_form_submit_meta->parent_id = $submit_id;
 		return $ws_form_submit_meta->db_update_from_array($meta);
 	}

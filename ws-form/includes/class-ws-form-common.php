@@ -89,7 +89,7 @@
 			if(
 				isset($_SERVER) && // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				isset($_SERVER['HTTP_X_PRESSABLE_PROXY']) && // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				(isset($_SERVER['HTTP_X_PRESSABLE_PROXY']) == 'wordpress')// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				($_SERVER['HTTP_X_PRESSABLE_PROXY'] == 'wordpress') // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			) {
 				$wrapper_classes_array[] = 'wsf-wpcom';
 			}
@@ -202,6 +202,9 @@
 
 				// Check options
 				if(!is_array($options)) { $options = array(); }
+
+				// Cache options
+				self::$options[$option_name] = $options;
 
 				return $options;
 			}
@@ -1586,7 +1589,13 @@
 		// Get IP
 		public static function get_ip() {
 
-			return self::sanitize_ip_address(self::get_http_env_raw(array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR')));
+			return self::sanitize_ip_address(self::get_http_env_raw(array(
+
+				'HTTP_CF_CONNECTING_IP', // Cloudflare passthrough IP address
+				'HTTP_CLIENT_IP',        // Client IP
+				'HTTP_X_FORWARDED_FOR',  // Forwarded IP
+				'REMOTE_ADDR'            // Remote address
+			)));
 		}
 
 		// Ger user agent
@@ -2919,6 +2928,11 @@
 										case 'slug' :
 										case 'hash_md5' :
 										case 'hash_sha256' :
+										case 'name_prefix' :
+										case 'name_first' :
+										case 'name_middle' :
+										case 'name_last' :
+										case 'name_suffix' :
 
 											// Get input value
 											$input_value = self::parse_variables_process($variable_attribute_array[0], $form, $submit, $content_type, $scope, $section_repeatable_index, $section_row_number, $exclude_secure_nested_parse, $action_config, $depth + 1);
@@ -2989,6 +3003,16 @@
 												case 'hash_sha256' :
 
 													$parsed_variable = hash('sha256', $input_value);
+													break;
+
+												// Name components
+												case 'name_prefix' :
+												case 'name_first' :
+												case 'name_middle' :
+												case 'name_last' :
+												case 'name_suffix' :
+
+													$parsed_variable = self::get_full_name_components($input_value)[$parse_variable];
 													break;
 											}
 
@@ -5238,10 +5262,70 @@
 			return $form_array;
 		}
 
+		// Sanitize keyword
+		public static function sanitize_keyword($keyword) {
+
+			// Keyword should be a string
+			if(!is_string($keyword)) { return ''; }
+
+			// Ensure keyword is lowercase for the purpose of searching
+			$keyword = mb_strtolower(trim($keyword));
+
+			// Sanitize
+			return sanitize_text_field($keyword);
+		}
+
+		// Sanitize keyword array
+		public static function sanitize_keyword_array($keywords) {
+
+			// Check keywords
+			if(!is_array($keywords)) { return array(); }
+
+			// Sanitize keywords
+			$keywords_sanitized = array();
+
+			foreach($keywords as $keyword) {
+
+				$keyword = self::sanitize_keyword($keyword);
+
+				if(!empty($keyword)) { $keywords_sanitized[] = $keyword; }
+			}
+
+			return $keywords_sanitized;
+		}
+
+
 		// Sanitize IP addresses
 		public static function sanitize_ip_address($ip) {
 
+			// IP address should be a string
+			if(!is_string($ip)) { return ''; }
+
+			// Ensure IP address is lowercase
+			// https://www.rfc-editor.org/rfc/rfc5952#section-4.3
+			$ip = mb_strtolower(trim($ip));
+
+			// Validate IP
 			return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : '';
+		}
+
+		// Sanitize IP address array
+		public static function sanitize_ip_address_array($ips) {
+
+			// Check ips
+			if(!is_array($ips)) { return array(); }
+
+			// Sanitize IPs
+			$ips_sanitized = array();
+
+			foreach($ips as $ip) {
+
+				$ip = self::sanitize_ip_address($ip);
+
+				if(!empty($ip)) { $ips_sanitized[] = $ip; }
+			}
+
+			return $ips_sanitized;
 		}
 
 		// Sanitize phone numbers
@@ -6434,6 +6518,105 @@
 			}
 
 			return $filters;
+		}
+
+		public static function get_full_name_components($full_name) {
+
+			if(!is_string($full_name)) {
+
+				return array(
+
+					'name_prefix' => '',
+					'name_first' => '',
+					'name_middle' => '',
+					'name_last' => '',
+					'name_suffix' => ''
+				);
+			}
+
+			$parts = preg_split('/\s+/', trim($full_name));
+
+			$name_prefix = '';
+			$name_suffix = '';
+			$name_first = '';
+			$name_middle = '';
+			$name_last = '';
+
+			// Remove prefix
+			if(
+				!empty($parts) &&
+				in_array(
+
+					strtolower(rtrim($parts[0], '.')),
+					self::get_name_prefixes()
+				)
+			) {
+				$name_prefix = array_shift($parts);
+			}
+
+			// Remove suffix
+			if(
+				count($parts) > 1 &&
+				in_array(
+
+					strtolower(rtrim(end($parts), '.')),
+					self::get_name_suffixes()
+				)
+			) {
+				$name_suffix = array_pop($parts);
+			}
+
+			$count = count($parts);
+
+			if ($count === 1) {
+
+				$name_first = $parts[0];
+
+			} elseif ($count === 2) {
+
+				$name_first = $parts[0];
+				$name_last = $parts[1];
+
+			} elseif ($count > 2) {
+
+				$name_first = $parts[0];
+				$name_last = $parts[$count - 1];
+				$name_middle = implode(' ', array_slice($parts, 1, -1));
+			}
+
+			return array(
+
+				'name_prefix' => $name_prefix,
+				'name_first' => $name_first,
+				'name_middle' => $name_middle,
+				'name_last' => $name_last,
+				'name_suffix' => $name_suffix
+			);
+		}
+
+		public static function get_name_prefixes() {
+
+			return apply_filters('wsf_name_prefixes', array(
+
+				'mr', 'mrs', 'ms', 'miss', 'mx', 'dr', 'prof', 'rev', 'fr', 'sr', 'sra', 'br', 'srta', 'madam', 'mme', 'mlle',
+				'lord', 'lady', 'sir', 'dame', 'hon', 'judge', 'justice', 'pres', 'gov', 'amb', 'sec', 'min', 'supt', 'rep', 'sen',
+				'gen', 'lt', 'col', 'maj', 'capt', 'cmdr', 'cpl', 'sgt', 'adm', 'ens', 'pvt', 'officer', 'chief',
+				'rabbi', 'imam', 'pastor', 'bishop', 'cardinal', 'archbishop', 'elder', 'deacon',
+				'canon', 'monsignor', 'father', 'mother', 'brother', 'sister'
+			));
+		}
+
+		public static function get_name_suffixes() {
+
+			return apply_filters('wsf_name_suffixes', array(
+
+				'jr', 'sr', 'i', 'ii', 'iii', 'iv', 'v', 'vi',
+				'phd', 'md', 'jd', 'mba', 'ms', 'ma', 'ba', 'bs', 'bsc', 'msc', 'dphil', 'edd', 'dvm', 'od', 'do',
+				'esq', 'cpa', 'pe', 'esquire', 'rn', 'lpn', 'esq.',
+				'sj', 'osb', 'op', 'ofm', 'ocist',
+				'ret', 'usa', 'usaf', 'usmc', 'usn', 'uscg',
+				'kc', 'qc', 'cbe', 'obe', 'mbe', 'frcp', 'frcs', 'dds', 'dmd', 'esq'
+			));
 		}
 
 		// Label to autocomplete

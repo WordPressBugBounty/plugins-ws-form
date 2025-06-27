@@ -69,7 +69,6 @@
 			if($this->clear_hidden_meta_values) { $submit_parse->clear_hidden_meta_values(); }
 
 			// Ensure minimal config is set
-			if(count($this->tos) == 0) { self::error(__('No recipients specified', 'ws-form')); }
 			if(($this->message_textarea == '') && ($this->message_text_editor == '') && ($this->message_html_editor == '')) { self::error(__('No message specified', 'ws-form')); }
 
 			// Get content type

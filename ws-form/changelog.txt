@@ -2,6 +2,46 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.50 - 06/24/2025 =
+* Added: New block using API version 3
+* Added: Scroll and focus for invalid Visual Editor fields
+* Bug Fix: Conditional logic highlighting
+* Bug Fix: #field in data grid issue with multiple form instances
+
+= 1.10.49 - 06/17/2025 =
+* Bug fix: Akismet headers
+
+= 1.10.48 - 06/09/2025 =
+* Added: Email pattern setting now has "Must have TLD" example regex
+* Added: wsf_name_prefixes and wsf_name_suffixes filter hooks for #name_prefix and #name_suffix variables
+* Added: Updated translations
+* Bug Fix: Radio and checkbox vertical padding removed if left label alignment selected
+* Bug Fix: Edit in Preview link
+
+= 1.10.47 - 05/22/2025 =
+* Added: New #name_prefix(), #name_first(), #name_middle(), #name_last() and #name_suffix() variables (See: https://wsform.com/knowledgebase/extract-first-and-last-names-from-a-full-name/)
+* Added: If you have a single form, submissions page now defaults to that form
+* Added: Submissions page now remembers last form viewed
+* Bug fix: Improved form_bypass_obj_reset method for resetting field prior to form_bypass
+
+= 1.10.46 - 05/20/2025 =
+* Removed: Human Presence as third party service no longer available
+
+= 1.10.45 - 05/19/2025 =
+* Added: Keyword blocklist string / word match options for wsf_submit_block_keywords filter hook
+* Added: 404 returned on DropzoneJS scratch file attachment pages
+* Changed: NONCE setting move to Spam Protection tab in Global Settings
+
+= 1.10.44 - 05/17/2025 =
+* Added: Keyword blocklist (See: https://wsform.com/knowledgebase/how-to-block-submissions-by-keyword/)
+* Added: wsf_submit_block_keywords filter hook (See: https://wsform.com/knowledgebase/wsf_submit_block_keywords/)
+* Added: IP blocklist (See: https://wsform.com/knowledgebase/how-to-block-form-submissions-by-ip/)
+* Added: wsf_submit_block_ips (See: https://wsform.com/knowledgebase/wsf_submit_limit_ips/)
+* Added: Cubic meter calculator template
+* Added: Send email action now accepts BCC or CC in isolation
+* Added: Improvement to #slug variable
+* Bug Fix: Performance improvement with reading CSS option
+
 = 1.10.43 - 05/12/2025 =
 * Bug Fix: Mouse up handler in layout editor
 

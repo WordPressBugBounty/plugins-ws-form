@@ -1054,7 +1054,7 @@
 <?php
 
 	// Get forms from API
-	$ws_form_form = New WS_Form_Form();
+	$ws_form_form = new WS_Form_Form();
 	$forms = $ws_form_form->db_read_all('', 'NOT status="trash"', 'label', '', '', false);
 
 	if($forms) {
@@ -1309,24 +1309,31 @@
 		// Default hidden submit columns
 		public function ws_form_default_hidden_columns($hidden, $screen) {
 
-			$form_id = absint(WS_Form_Common::get_query_var('id'));
-			if(!$screen) { return $hidden; }
-			if(!isset($screen->id)) { return $hidden; }
-			if($form_id === 0) { return $hidden; }
+			if(
+				!$screen ||
+				!isset($screen->id)
+			) {
+				return $hidden;
+			}
 
 			// Process hidden columns by screen ID
 			switch($screen->id) {
 
 				case 'ws-form_page_ws-form-submit' :
 
-					$ws_form_submit = new WS_Form_Submit;
-					$ws_form_submit->form_id = $form_id;
-					$submit_fields = $ws_form_submit->db_get_submit_fields();
+					$form_id = $this->ws_form_wp_list_table_submit_obj->form_id;
 
-					foreach($submit_fields as $id => $field) {
+					if($form_id > 0) {
 
-						$field_hidden = $field['hidden'];
-						if($field_hidden) { $hidden[] = WS_FORM_FIELD_PREFIX . $id; }
+						$ws_form_submit = new WS_Form_Submit;
+						$ws_form_submit->form_id = $form_id;
+						$submit_fields = $ws_form_submit->db_get_submit_fields();
+
+						foreach($submit_fields as $id => $field) {
+
+							$field_hidden = $field['hidden'];
+							if($field_hidden) { $hidden[] = WS_FORM_FIELD_PREFIX . $id; }
+						}
 					}
 
 					break;
@@ -1407,10 +1414,10 @@
 			}
 		}
 
-		public function enqueue_block_editor_assets() {
+		public function enqueue_block_editor_assets_v1() {
 
 			// Get forms from API
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$forms = $ws_form_form->db_read_all('', 'NOT status="trash"', 'label ASC, id ASC', '', '', false);
 
 			// Enqueue block JavaScript in footer
@@ -1877,7 +1884,7 @@
 		// Form - Create
 		public function form_add_blank() {
 
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->db_create();
 
 			if($ws_form_form->id > 0) {
@@ -1890,7 +1897,7 @@
 		// Form - Create from template
 		public function form_add_template($id) {
 
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->db_create_from_template($id);
 
 			if($ws_form_form->id > 0) {
@@ -1903,7 +1910,7 @@
 		// Form - Create from action
 		public function form_add_action($action_id, $list_id, $list_sub_id = false) {
 
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->db_create_from_action($action_id, $list_id, $list_sub_id);
 
 			if($ws_form_form->id > 0) {
@@ -1929,7 +1936,7 @@
 			}
 
 			// Create form from hook
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			if(
 				$ws_form_form->db_create_from_hook($hook) &&
 				($ws_form_form->id > 0)
@@ -1948,7 +1955,7 @@
 		// Form - Clone
 		public function form_clone($id) {
 
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $id;
 			$ws_form_form->db_clone();
 
@@ -1958,7 +1965,7 @@
 		// Form - Delete
 		public function form_delete($id) {
 
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $id;
 			$ws_form_form->db_delete();
 
@@ -1968,7 +1975,7 @@
 		// Form - Export
 		public function form_export($id) {
 
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $id;
 			$ws_form_form->db_download_json();
 
@@ -1978,7 +1985,7 @@
 		// Form - Restore
 		public function form_restore($id) {
 
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $id;
 			$ws_form_form->db_restore();
 
@@ -2011,7 +2018,7 @@
 		// Form - Empty trash
 		public function form_trash_delete() {
 
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->db_trash_delete();
 
 			// Redirect
@@ -2021,7 +2028,7 @@
 		// Submit - Delete
 		public function submit_delete($id, $update_count_submit_unread) {
 
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->id = $id;
 			$ws_form_submit->form_id = $this->form_id;
 			$ws_form_submit->db_delete(false, $update_count_submit_unread);
@@ -2032,7 +2039,7 @@
 		// Submit - Restore
 		public function submit_restore($id, $update_count_submit_unread) {
 
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->id = $id;
 			$ws_form_submit->form_id = $this->form_id;
 			$ws_form_submit->db_restore($update_count_submit_unread);
@@ -2043,7 +2050,7 @@
 		// Submit - Mark As Spam
 		public function submit_spam($id, $update_count_submit_unread) {
 
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->id = $id;
 			$ws_form_submit->form_id = $this->form_id;
 			$ws_form_submit->db_set_status('spam', $update_count_submit_unread);
@@ -2054,7 +2061,7 @@
 		// Submit - Mark As Not Spam
 		public function submit_not_spam($id, $update_count_submit_unread) {
 
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->id = $id;
 			$ws_form_submit->form_id = $this->form_id;
 			$ws_form_submit->db_set_status('not_spam', $update_count_submit_unread);
@@ -2065,7 +2072,7 @@
 		// Submit - Mark As Read
 		public function submit_read($id, $update_count_submit_unread) {
 
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->id = $id;
 			$ws_form_submit->form_id = $this->form_id;
 			$ws_form_submit->db_set_viewed(true, $update_count_submit_unread);
@@ -2076,7 +2083,7 @@
 		// Submit - Mark As Unread
 		public function submit_not_read($id, $update_count_submit_unread) {
 
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->id = $id;
 			$ws_form_submit->form_id = $this->form_id;
 			$ws_form_submit->db_set_viewed(false, $update_count_submit_unread);
@@ -2087,7 +2094,7 @@
 		// Submit - Mark As Starred
 		public function submit_starred($id) {
 
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->id = $id;
 			$ws_form_submit->db_set_starred(true);
 
@@ -2097,7 +2104,7 @@
 		// Submit - Mark As Not Starred
 		public function submit_not_starred($id) {
 
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->id = $id;
 			$ws_form_submit->db_set_starred(false);
 
@@ -2199,7 +2206,7 @@
 		// Submit - Empty trash
 		public function submit_trash_delete() {
 
-			$ws_form_submit = New WS_Form_Submit();
+			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->form_id = $this->form_id;
 			$ws_form_submit->db_trash_delete();
 
@@ -2210,7 +2217,7 @@
 		// Style - Create from template
 		public function form_style_add_template($id) {
 
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->db_create_from_template($id);
 
 			if($ws_form_style->id > 0) {
@@ -2223,7 +2230,7 @@
 		// Style - Clone
 		public function form_style_clone($id) {
 
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
 			$ws_form_style->db_clone();
 
@@ -2233,7 +2240,7 @@
 		// Style - Delete
 		public function form_style_delete($id) {
 
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
 			$ws_form_style->db_delete();
 
@@ -2243,7 +2250,7 @@
 		// Style - Export
 		public function form_style_export($id) {
 
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
 			$ws_form_style->db_download_json();
 
@@ -2253,7 +2260,7 @@
 		// Style - Restore
 		public function form_style_restore($id) {
 
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
 			$ws_form_style->db_restore();
 
@@ -2263,7 +2270,7 @@
 		// Style - Default
 		public function form_style_default($id) {
 
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
 			$ws_form_style->db_default();
 
@@ -2273,7 +2280,7 @@
 		// Style - Default - Conversational
 		public function form_style_default_conv($id) {
 
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
 			$ws_form_style->db_default_conv();
 
@@ -2283,7 +2290,7 @@
 		// Style - Reset
 		public function form_style_reset($id) {
 
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
 			$ws_form_style->db_reset();
 
@@ -2316,7 +2323,7 @@
 		// Style - Empty trash
 		public function form_style_trash_delete() {
 
-			$ws_form_style = New WS_Form_Style();
+			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->db_trash_delete();
 
 			// Redirect

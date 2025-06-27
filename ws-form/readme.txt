@@ -1,9 +1,9 @@
 === WS Form LITE - Drag & Drop Contact Form Builder for WordPress ===
 Contributors: westguard
 Tags: form, contact form, form builder, forms, custom form
-Requires at least: 5.3
+Requires at least: 5.4
 Tested up to: 6.8
-Stable tag: 1.10.43
+Stable tag: 1.10.50
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -285,18 +285,20 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.10.43 - 05/12/2025 =
-* Bug Fix: Mouse up handler in layout editor
+= 1.10.50 - 06/24/2025 =
+* Added: New block using API version 3
+* Added: Scroll and focus for invalid Visual Editor fields
+* Bug Fix: Conditional logic highlighting
+* Bug Fix: #field in data grid issue with multiple form instances
 
-= 1.10.42 - 05/09/2025 =
-* Added: #field_date_age variable that can be used to calculate age from a date field
-* Added: Label translation settings for the DropzoneJS file upload component
-* Added: form_bypass reset on conditional logic required set
-* Added: Improvements to option_set and option_get methods
+= 1.10.49 - 06/17/2025 =
+* Bug fix: Akismet headers
 
-= 1.10.41 - 05/06/2025 =
-* Added: Additional checks for number formatting to ensure decimals are between 0 and 100
-* Bug Fix: Bypass hidden field check if hidden at a section or tab level
-* Bug Fix: form_bypass on cascade
+= 1.10.48 - 06/09/2025 =
+* Added: Email pattern setting now has "Must have TLD" example regex
+* Added: wsf_name_prefixes and wsf_name_suffixes filter hooks for #name_prefix and #name_suffix variables
+* Added: Updated translations
+* Bug Fix: Radio and checkbox vertical padding removed if left label alignment selected
+* Bug Fix: Edit in Preview link
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

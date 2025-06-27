@@ -10,7 +10,7 @@
 		public function __construct() {
 
 			// Initialize
-			$this->ws_form_submit = New WS_Form_Submit();
+			$this->ws_form_submit = new WS_Form_Submit();
 			$this->duration_server_start = microtime(true);
 			$this->spam_level = null;
 

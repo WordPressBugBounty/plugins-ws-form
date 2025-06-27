@@ -227,11 +227,21 @@
 
 									'fieldsets'	=>	array(
 
-/*										array(
-											'label'			=>	__('WS Form Anti-Spam', 'ws-form'),
-											'meta_keys'	=> array('antispam')
+										array(
+											'label'			=>	__('IP Throttling', 'ws-form'),
+											'meta_keys'	=> array('ip_limit', 'ip_limit_intro', 'ip_limit_count', 'ip_limit_period', 'ip_limit_message', 'ip_limit_message_type')
 										),
-*/
+
+										array(
+											'label'			=>	__('IP Blocklist', 'ws-form'),
+											'meta_keys'	=> array('ip_blocklist', 'ip_blocklist_ips', 'ip_blocklist_message', 'ip_blocklist_message_type', 'ip_blocklist_note')
+										),
+
+										array(
+											'label'			=>	__('Keyword Blocklist', 'ws-form'),
+											'meta_keys'	=> array('keyword_blocklist', 'keyword_blocklist_keywords', 'keyword_blocklist_message', 'keyword_blocklist_note')
+										),
+
 										array(
 											'label'			=>	__('Honeypot', 'ws-form'),
 											'meta_keys'	=> array('honeypot')
@@ -596,6 +606,7 @@
 					'error_timeout_codemirror'			=>	__('Timeout waiting for CodeMirror to load', 'ws-form'),
 					/* translators: %s = Error message */
 					'error_submit_export'				=>	__('Export error: %s', 'ws-form'),
+					/* translators: %s = Error message */
 					'error_api_reload'        			=> 	__('API reload error: %s', 'ws-form'),
 
 					// Popover

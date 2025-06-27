@@ -138,6 +138,12 @@
 					$settings_form_public['language'][$key] = $value;
 				}
 			}
+			// Full name components
+			$settings_form_public['name'] = array(
+
+				'prefixes' => WS_Form_Common::get_name_prefixes(),
+				'suffixes' => WS_Form_Common::get_name_suffixes()
+			);
 
 			// Apply filter
 			$settings_form_public = apply_filters('wsf_config_settings_form_public', $settings_form_public);

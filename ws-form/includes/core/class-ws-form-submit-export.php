@@ -14,7 +14,7 @@
 			}
 
 			// Initial WS_Form_Submit class
-			$this->ws_form_submit = New WS_Form_Submit();
+			$this->ws_form_submit = new WS_Form_Submit();
 			$this->ws_form_submit->form_id = $form_id;
 
 			// Set form ID

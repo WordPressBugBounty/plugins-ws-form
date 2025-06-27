@@ -593,8 +593,7 @@
 						(object) array('data_source_' . $this->id . '_column' => 'id'),
 						(object) array('data_source_' . $this->id . '_column' => 'display_name'),
 						(object) array('data_source_' . $this->id . '_column' => 'nicename'),
-						(object) array('data_source_' . $this->id . '_column' => 'login'),
-						(object) array('data_source_' . $this->id . '_column' => 'email')
+						(object) array('data_source_' . $this->id . '_column' => 'login')
 					)
 				),
 

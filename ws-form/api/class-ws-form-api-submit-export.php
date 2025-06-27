@@ -62,7 +62,7 @@
 			}
 
 			// Build page
-			$ws_form_submit_export = New WS_Form_Submit_Export($form_id);
+			$ws_form_submit_export = new WS_Form_Submit_Export($form_id);
 			$db_export_csv_page_return = $ws_form_submit_export->get_csv_page(
 
 				$csv_file_pointer,

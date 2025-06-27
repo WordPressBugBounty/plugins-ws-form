@@ -168,7 +168,7 @@
 		// Get form data
 		try {
 
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $form_id;
 			$form_object = $ws_form_form->db_read(true, true, false, true);
 			$json_form = wp_json_encode($form_object);

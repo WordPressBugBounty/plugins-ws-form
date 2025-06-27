@@ -177,7 +177,7 @@
 			$query_string = http_build_query($data);
 
 			// POST
-			$api_response = parent::api_call($api_endpoint, 'comment-check', 'POST', $query_string, false, false, false, false, 'text/plain', 'application/x-www-form-urlencoded');
+			$api_response = parent::api_call($api_endpoint, 'comment-check', 'POST', $query_string, array(), 'basic', false, false, 'text/plain', 'application/x-www-form-urlencoded');
 
 			// Check for X-akismet-pro-tip header
 			if(($pro_tip = parent::api_get_header($api_response, 'X-akismet-pro-tip')) !== false) {
@@ -252,19 +252,21 @@
 
 				$fieldset = array(
 
-					'meta_keys'	=> array('action_' . $this->id . '_intro', 'action_' . $this->id . '_enabled', 'action_' . $this->id . '_field_email', 'action_' . $this->id . '_field_mapping', 'action_' . $this->id . '_spam_level_reject', 'action_' . $this->id . '_test', 'action_' . $this->id . '_admin_no_run')
+					'label' => $this->label,
+					'meta_keys'	=> array('action_' . $this->id . '_enabled', 'action_' . $this->id . '_field_email', 'action_' . $this->id . '_field_mapping', 'action_' . $this->id . '_spam_level_reject', 'action_' . $this->id . '_test', 'action_' . $this->id . '_admin_no_run')
 				);
 
 			} else {
 
 				$fieldset = array(
 
-					'meta_keys'	=> array('action_' . $this->id . '_intro', 'action_' . $this->id . '_not_enabled')
+					'label' => $this->label,
+					'meta_keys'	=> array('action_' . $this->id . '_not_enabled')
 				);
 			}
 
-			// Inject after first element
-			$config_settings_form_admin['sidebars']['form']['meta']['fieldsets']['spam']['fieldsets'] = WS_Form_Common::array_inject_element($config_settings_form_admin['sidebars']['form']['meta']['fieldsets']['spam']['fieldsets'], $fieldset, 0);
+			// Inject
+			$config_settings_form_admin['sidebars']['form']['meta']['fieldsets']['spam']['fieldsets'] = WS_Form_Common::array_inject_element($config_settings_form_admin['sidebars']['form']['meta']['fieldsets']['spam']['fieldsets'], $fieldset, 4);
 
 			return $config_settings_form_admin;
 		}
@@ -309,13 +311,6 @@
 
 			// Build config_meta_keys
 			$config_meta_keys = array(
-
-				// Intro HTML block
-				'action_' . $this->id . '_intro'		=> array(
-
-					'type'						=>	'html',
-					'html'						=>	sprintf('<a href="https://akismet.com/" target="_blank"><img src="%s/includes/third-party/akismet/images/logo.gif" width="100" height="18" alt="Akismet" title="Akismet" /></a><div class="wsf-helper">%s</div>', WS_FORM_PLUGIN_DIR_URL, sprintf('%s <a href="%s" target="_blank">%s</a>', __('Use Akismet to filter out form submissions that contain spam.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/spam-check-with-akismet/', 'ws-form'), __('Learn more', 'ws-form')))
-				),
 				
 				// Not enable HTML block
 				'action_' . $this->id . '_not_enabled' => array(

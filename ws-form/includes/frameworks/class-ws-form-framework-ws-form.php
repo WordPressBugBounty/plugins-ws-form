@@ -97,7 +97,7 @@
 
 					'public'	=>	array(
 
-						'mask_wrapper'		=>	'<div class="wsf-alert#mask_wrapper_class">#message</div>',
+						'mask_wrapper'		=>	'<div class="wsf-alert#mask_wrapper_class" data-wsf-style-id="#style_id">#message</div>',
 
 						'types'	=>	array(
 

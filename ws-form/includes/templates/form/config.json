@@ -166,6 +166,14 @@
 			},
 
 			{
+				"id"					:	"cubic-meter",
+				"label" 				: 	"Cubic Meter",
+				"file_json"				:	"wsf-form-cubic-meter.json",
+				"pro_required"			:	true,
+				"preview_url"			:	true
+			},
+
+			{
 				"id"					:	"daily-calories",
 				"label" 				: 	"Daily Calories",
 				"file_json"				:	"wsf-form-daily-calories.json",

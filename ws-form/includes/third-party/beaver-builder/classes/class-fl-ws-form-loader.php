@@ -49,7 +49,7 @@ class FL_WS_Form_Loader {
 	static public function get_forms() {
 
 		// Build form list
-		$ws_form_form = New WS_Form_Form();
+		$ws_form_form = new WS_Form_Form();
 		$forms = $ws_form_form->db_read_all('', "NOT (status = 'trash')", 'label ASC', '', '', false, true);
 		$form_array = array('0' => __('Select form...', 'ws-form'));
 

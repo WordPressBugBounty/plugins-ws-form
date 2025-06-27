@@ -70,7 +70,7 @@
 			try {
 
 				// Load template form data
-				$ws_form_template = New WS_Form_Template();
+				$ws_form_template = new WS_Form_Template();
 				$ws_form_template->type = 'section';
 				$ws_form_template->id = $template_id;
 				$ws_form_template->read();

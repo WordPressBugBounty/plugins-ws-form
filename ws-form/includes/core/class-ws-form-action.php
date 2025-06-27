@@ -941,6 +941,7 @@
 		public function api_call($endpoint, $path = '', $method = 'GET', $body = null, $headers = array(), $authentication = 'basic', $username = false, $password = false, $accept = 'application/json', $content_type = 'application/json', $timeout = WS_FORM_API_CALL_TIMEOUT, $ssl_verify = WS_FORM_API_CALL_SSL_VERIFY, $cookies = array(), $blocking = true) {
 
 			// Headers
+			if(!is_array($headers)) { $headers = array(); }
 			if($accept !== false) { $headers['Accept'] = $accept; }
 			if($content_type !== false) { $headers['Content-Type'] = $content_type; }
 			if($username !== false) {

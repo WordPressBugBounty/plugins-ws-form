@@ -116,7 +116,7 @@
 			}
 
 			// Build meta data
-			$field_meta = New WS_Form_Meta();
+			$field_meta = new WS_Form_Meta();
 			$field_meta->object = 'field';
 			$field_meta->parent_id = $this->id;
 			$field_meta->db_update_from_object($meta_data);
@@ -158,7 +158,7 @@
 			if($get_meta) {
 
 				// Read meta
-				$field_meta = New WS_Form_Meta();
+				$field_meta = new WS_Form_Meta();
 				$field_meta->object = 'field';
 				$field_meta->parent_id = $this->id;
 				$metas = $field_meta->db_read_all($bypass_user_capability_check);
@@ -248,7 +248,7 @@
 					// Get meta data for each field
 					if($get_meta) {
 
-						$field_meta = New WS_Form_Meta();
+						$field_meta = new WS_Form_Meta();
 						$field_meta->object = 'field';
 						$field_meta->parent_id = $field['id'];
 						$metas = $field_meta->db_read_all($bypass_user_capability_check);
@@ -379,7 +379,7 @@
 			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting field', 'ws-form')); }
 
 			// Delete meta
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'field';
 			$ws_form_meta->parent_id = $this->id;
 			$ws_form_meta->db_delete_by_object();
@@ -389,7 +389,7 @@
 
 				self::db_check_form_id();
 
-				$ws_form_form = New WS_Form_Form();
+				$ws_form_form = new WS_Form_Form();
 				$ws_form_form->id = $this->form_id;
 				$ws_form_form->new_lookup['field'][$this->id] = '';
 				$ws_form_form->db_action_repair();
@@ -413,7 +413,7 @@
 
 				self::db_check_form_id();
 
-				$ws_form_form = New WS_Form_Form();
+				$ws_form_form = new WS_Form_Form();
 				$ws_form_form->id = $this->form_id;
 			}
 
@@ -523,7 +523,7 @@
 			$field_id_new = $wpdb->insert_id;
 
 			// Clone meta data
-			$ws_form_meta = New WS_Form_Meta();
+			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'field';
 			$ws_form_meta->parent_id = $this->id;
 			$ws_form_meta->db_clone_all($field_id_new, $single_field_clone);
@@ -541,7 +541,7 @@
 			self::db_check_form_id();
 
 			// Calculate new form checksum
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $this->form_id;
 			$checksum = $ws_form_form->db_checksum();
 
@@ -617,7 +617,7 @@
 			// Update meta
 			if(isset($field_object->meta)) {
 
-				$ws_form_meta = New WS_Form_Meta();
+				$ws_form_meta = new WS_Form_Meta();
 				$ws_form_meta->object = 'field';
 				$ws_form_meta->parent_id = $this->id;
 				$ws_form_meta->db_update_from_object($field_object->meta, $this->new_lookup['field'], false, $replace_meta);

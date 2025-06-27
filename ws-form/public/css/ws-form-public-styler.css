@@ -73,6 +73,7 @@ body.wsf-styler-panel-left-pin.wsf-styler-rtl, body.wsf-styler-panel-right-pin:n
   margin: 0;
   outline: 0;
   padding: 0;
+  text-align: left;
   text-decoration: none;
   text-transform: none;
   vertical-align: top;
@@ -313,6 +314,7 @@ body.wsf-styler-panel-left-pin.wsf-styler-rtl, body.wsf-styler-panel-right-pin:n
   flex: auto;
   font-size: 16px;
   font-weight: 700;
+  text-align: left;
 }
 
 #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-setting fieldset.wsf-styler-settings .wsf-styler-setting-wrapper {
@@ -353,6 +355,7 @@ body.wsf-styler-panel-left-pin.wsf-styler-rtl, body.wsf-styler-panel-right-pin:n
   flex: auto;
   font-size: 16px;
   font-weight: 700;
+  text-align: left;
 }
 
 #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-search {
@@ -511,7 +514,7 @@ body.wsf-styler-panel-left-pin.wsf-styler-rtl, body.wsf-styler-panel-right-pin:n
 
 #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-ui .wsf-styler-children .wsf-styler-child .wsf-styler-child-label {
   align-content: space-around;
-  background: #eee;
+  background: #eeeeee;
   color: #000000;
   cursor: pointer;
   margin: 0 0 8px 0;
@@ -677,6 +680,8 @@ body.wsf-styler-panel-left-pin.wsf-styler-rtl, body.wsf-styler-panel-right-pin:n
 
 #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-ui .wsf-styler-children .wsf-styler-child .wsf-styler-child-content .wsf-styler-var-wrapper .wsf-styler-var-columns .wsf-styler-var-column .wsf-styler-var-bottom input.wsf-styler-var-input.wsf-styler-var-input-color {
   border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-ui .wsf-styler-children .wsf-styler-child .wsf-styler-child-content .wsf-styler-var-wrapper .wsf-styler-var-columns .wsf-styler-var-column .wsf-styler-var-bottom .wsf-styler-var-color-preview {
@@ -736,7 +741,7 @@ body.wsf-styler-panel-left-pin.wsf-styler-rtl, body.wsf-styler-panel-right-pin:n
 }
 
 #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-ui .wsf-styler-children .wsf-styler-child .wsf-styler-child-content .wsf-styler-var-wrapper .wsf-styler-var-columns .wsf-styler-var-column .wsf-styler-var-bottom input[type="range"]::-webkit-slider-runnable-track {
-  background: #A7A8AA;
+  background: #a7a8aa;
   height: 4px;
 }
 
@@ -745,7 +750,7 @@ body.wsf-styler-panel-left-pin.wsf-styler-rtl, body.wsf-styler-panel-right-pin:n
   appearance: none;
   border-radius: 50%;
   margin-top: -8px;
-  background-color: #002E5D;
+  background-color: #002e5d;
   height: 18px;
   width: 18px;
 }
@@ -884,58 +889,59 @@ acss-dashboard ~ #wsf-styler button {
 
 @media (prefers-color-scheme: dark) {
   #wsf-styler .wsf-styler-panel-wrapper {
-    background: #000000;
-    border: 1px solid #444444;
+    background: #000000 !important;
+    border: 1px solid #444444 !important;
   }
-  #wsf-styler .wsf-styler-panel-wrapper input {
-    border: 1px solid #ceced2;
-    color: #ffffff;
+  #wsf-styler .wsf-styler-panel-wrapper input,
+  #wsf-styler .wsf-styler-panel-wrapper select {
+    background: #000000 !important;
+    color: #ffffff !important;
   }
   #wsf-styler .wsf-styler-panel-wrapper header svg.wsf-styler-logo path {
-    fill: #FFFFFF;
+    fill: #ffffff !important;
   }
   #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-style-id {
-    color: #fff;
+    color: #ffffff !important;
   }
   #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-setting fieldset.wsf-styler-settings .wsf-styler-settings-legend legend {
-    color: #ffffff;
+    color: #ffffff !important;
   }
   #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-setting fieldset.wsf-styler-settings .wsf-styler-setting-wrapper label {
-    color: #ffffff;
+    color: #ffffff !important;
   }
   #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-label legend {
-    color: #ffffff;
+    color: #ffffff !important;
   }
   #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main fieldset.wsf-styler-scheme label {
-    color: #ffffff;
+    color: #ffffff !important;
   }
   #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main fieldset.wsf-styler-scheme input:checked + label {
-    background: #002e5f;
-    color: #ffffff;
+    background: #002e5f !important;
+    color: #ffffff !important;
   }
   #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-search input[type="search"] {
-    color: #000000;
+    color: #ffffff !important;
   }
   #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-search::after {
-    border: var(--wsf-styler-search-icon-width) solid #000000;
+    border: var(--wsf-styler-search-icon-width) solid #ffffff !important;
   }
   #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-search::before {
-    border-top: var(--wsf-styler-search-icon-width) solid #000000;
+    border-top: var(--wsf-styler-search-icon-width) solid #ffffff !important;
   }
-  #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-ui .wsf-styler-children .wsf-styler-child .wsf-styler-child-label p {
-    color: #000000;
+  #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-ui .wsf-styler-children .wsf-styler-child .wsf-styler-child-content .wsf-styler-var-wrapper .wsf-styler-var-columns .wsf-styler-var-column .wsf-styler-var-top .wsf-styler-var-label label {
+    color: #ffffff !important;
   }
-  #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-ui .wsf-styler-children .wsf-styler-child .wsf-styler-child-content .wsf-styler-var-wrapper .wsf-styler-var-label label {
-    color: #ffffff;
+  #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-ui .wsf-styler-children .wsf-styler-child .wsf-styler-child-content .wsf-styler-var-wrapper .wsf-styler-var-columns .wsf-styler-var-column .wsf-styler-var-bottom input[type="range"]::-webkit-slider-thumb {
+    background-color: #ffffff;
   }
-  #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-ui .wsf-styler-children .wsf-styler-child .wsf-styler-child-content .wsf-styler-var-wrapper [data-wsf-styler-var-action] svg path {
-    fill: #ffffff;
+  #wsf-styler .wsf-styler-panel-wrapper .wsf-styler-panel .wsf-styler-panel-main .wsf-styler-ui .wsf-styler-children .wsf-styler-child .wsf-styler-child-content .wsf-styler-var-wrapper .wsf-styler-var-columns .wsf-styler-var-column .wsf-styler-var-bottom [data-wsf-styler-var-action] svg path {
+    fill: #ffffff !important;
   }
   #wsf-styler .wsf-styler-button {
-    background: #ffffff;
+    background: #ffffff !important;
   }
   #wsf-styler .wsf-styler-button svg path {
-    fill: #000000;
+    fill: #000000 !important;
   }
 }
 

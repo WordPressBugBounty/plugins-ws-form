@@ -2440,7 +2440,6 @@
 									(parsed_variable === false) &&
 									(section_repeatable_section_id_from === false)
 								) {
-
 									// Get source repeatable index
 									var parsed_variable = this.get_field_value(field_from, false, submit_array_from, column);
 								}
@@ -3123,6 +3122,11 @@
 							case 'wpautop' :
 							case 'trim' :
 							case 'slug' :
+							case 'name_prefix' :
+							case 'name_first' :
+							case 'name_middle' :
+							case 'name_last' :
+							case 'name_suffix' :
 
 								if(typeof(variable_attribute_array[0]) === 'string') {
 
@@ -3177,6 +3181,15 @@
 										case 'slug' :
 
 											parsed_variable = this.get_slug(parsed_variable);
+											break;
+
+										case 'name_prefix' :
+										case 'name_first' :
+										case 'name_middle' :
+										case 'name_last' :
+										case 'name_suffix' :
+
+											parsed_variable = this.get_full_name_components(parsed_variable)[parse_variable];
 											break;
 									}
 								}
@@ -4012,7 +4025,7 @@
 		field_selector += '"]';
 
 		// Check field(s) exist
-		if(!$(field_selector).length) { return false; }
+		if(!$(field_selector, this.form_canvas_obj).length) { return false; }
 
 		// Return values
 		switch(field.type) {
@@ -6406,7 +6419,6 @@
 
 			// Store as mask value
 			if(get_attributes_return.attributes != '') { mask_values_field_label['attributes'] += ' ' + get_attributes_return.attributes; }
-
 		}
 
 		// Parse help mask append
@@ -7019,10 +7031,13 @@
 	// Get slug
 	$.WS_Form.prototype.get_slug = function(input) {
 
+		// Parse HTML entities first
+		input = this.parse_html_entities(input.toString());
+
 		return input
 			.toString()
-			.normalize( 'NFD' )
-			.replace( /[\u0300-\u036f]/g, '' )
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '')
 			.toLowerCase()
 			.trim()
 			.replace(/\s+/g, '-')
@@ -7030,15 +7045,38 @@
 			.replace(/\-\-+/g, '-'); 
 	}
 
-	// Parse HTML entities
+	// Parse HTML entities without use of DOM element for improved security
 	$.WS_Form.prototype.parse_html_entities = function(str) {
 
-		return str.replace(/&#([0-9]{1,3});/gi, function(match, num_str) {
+		// Basic named entity mapping
+		var named_entities = {
+			'amp': '&',
+			'lt': '<',
+			'gt': '>',
+			'quot': '"',
+			'apos': "'",
+			'nbsp': ' ',
+			'copy': '©',
+			'reg': '®',
+			'euro': '€',
+			'cent': '¢',
+			'pound': '£',
+			'yen': '¥',
+			'hellip': '…'
+		};
 
+		// Decode numeric entities (decimal)
+		str = str.replace(/&#([0-9]{1,5});/g, function(_, num_str) {
 			var num = parseInt(num_str, 10);
-
 			return String.fromCharCode(num);
 		});
+
+		// Decode named entities
+		str = str.replace(/&([a-z]+);/gi, function(_, name) {
+			return named_entities[name.toLowerCase()] || '&' + name + ';';
+		});
+
+		return str;
 	}
 
 	// Add hidden field to canvas
@@ -7495,25 +7533,89 @@
 		return num;
 	}
 
+	$.WS_Form.prototype.get_full_name_components = function(full_name) {
+
+		if(typeof(full_name) !== 'string') {
+
+			return {
+
+				name_prefix: '',
+				first_name: '',
+				name_middle: '',
+				name_last: '',
+				suffix: ''
+			};
+		}
+
+		var parts = full_name.trim().split(/\s+/);
+
+		var name_prefix = '';
+		var name_suffix = '';
+		var name_first = '';
+		var name_middle = '';
+		var name_last = '';
+
+		// Remove and save prefix
+		var prefixes = $.WS_Form.settings_form.name.prefixes;
+		if(typeof(prefixes) !== 'object') { prefixes = []; }
+		if(parts.length && prefixes.includes(parts[0].toLowerCase().replace(/\./g, ''))) {
+
+			name_prefix = parts.shift();
+		}
+
+		// Remove and save suffix
+		var suffixes = $.WS_Form.settings_form.name.suffixes;
+		if(typeof(suffixes) !== 'object') { prefixes = []; }
+		if(parts.length > 1 && suffixes.includes(parts[parts.length - 1].toLowerCase().replace(/\./g, ''))) {
+
+			name_suffix = parts.pop();
+		}
+
+		if(parts.length === 1) {
+
+			name_first = parts[0];
+
+		} else if (parts.length === 2) {
+
+			name_first = parts[0];
+			name_last = parts[1];
+
+		} else if (parts.length > 2) {
+
+			name_first = parts[0];
+			name_last = parts[parts.length - 1];
+			name_middle = parts.slice(1, -1).join(' ');
+		}
+
+		return {
+
+			name_prefix: name_prefix,
+			name_first: name_first,
+			name_middle: name_middle,
+			name_last: name_last,
+			name_suffix: name_suffix
+		};
+	}
+
 	// Equivalent to PHP's date function
 	$.WS_Form.prototype.date_format = function (date, format) {
 
 		var ws_this = this;
 
 		// Defining locale
-		var shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-		var longMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-		var shortDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-		var longDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+		var short_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+		var long_months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+		var short_days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+		var long_days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 		// Defining patterns
-		var replaceChars = {
+		var replace_chars = {
 
 			// Day
 			d: function () { var d = this.getDate(); return (d < 10 ? '0' : '') + d },
-			D: function () { return shortDays[this.getDay()] },
+			D: function () { return short_days[this.getDay()] },
 			j: function () { return this.getDate() },
-			l: function () { return longDays[this.getDay()] },
+			l: function () { return long_days[this.getDay()] },
 			N: function () { var N = this.getDay(); return (N === 0 ? 7 : N) },
 			S: function () { var S = this.getDate(); return (S % 10 === 1 && S !== 11 ? 'st' : (S % 10 === 2 && S !== 12 ? 'nd' : (S % 10 === 3 && S !== 13 ? 'rd' : 'th'))) },
 			w: function () { return this.getDay() },
@@ -7522,31 +7624,31 @@
 			// Week
 			W: function () {
 				var target = new Date(this.valueOf())
-				var dayNr = (this.getDay() + 6) % 7
-				target.setDate(target.getDate() - dayNr + 3)
-				var firstThursday = target.valueOf()
+				var day_number = (this.getDay() + 6) % 7
+				target.setDate(target.getDate() - day_number + 3)
+				var first_thursday = target.valueOf()
 				target.setMonth(0, 1)
 				if (target.getDay() !== 4) {
 					target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7)
 				}
-				var retVal = 1 + Math.ceil((firstThursday - target) / 604800000)
+				var return_Value = 1 + Math.ceil((first_thursday - target) / 604800000)
 
-				return (retVal < 10 ? '0' + retVal : retVal)
+				return (return_Value < 10 ? '0' + return_Value : return_Value)
 			},
 
 			// Month
-			F: function () { return longMonths[this.getMonth()] },
+			F: function () { return long_months[this.getMonth()] },
 			m: function () { var m = this.getMonth(); return (m < 9 ? '0' : '') + (m + 1) },
-			M: function () { return shortMonths[this.getMonth()] },
+			M: function () { return short_months[this.getMonth()] },
 			n: function () { return this.getMonth() + 1 },
 			t: function () {
 				var year = this.getFullYear()
-				var nextMonth = this.getMonth() + 1
-				if (nextMonth === 12) {
+				var next_month = this.getMonth() + 1
+				if (next_month === 12) {
 					year = year++
-					nextMonth = 0
+					next_month = 0
 				}
-				return new Date(year, nextMonth, 0).getDate()
+				return new Date(year, next_month, 0).getDate()
 			},
 
 			// Year
@@ -7593,7 +7695,7 @@
 
 		return format.replace(/(\\?)(.)/g, function (_, esc, chr) {
 
-			return (esc === '' && replaceChars[chr]) ? replaceChars[chr].call(date) : chr;
+			return (esc === '' && replace_chars[chr]) ? replace_chars[chr].call(date) : chr;
 		});
 	}
 

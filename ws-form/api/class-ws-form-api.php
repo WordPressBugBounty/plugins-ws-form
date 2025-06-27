@@ -64,7 +64,7 @@
 			if($form_id > 0) {
 
 				// Build form array
-				$ws_form_form = New WS_Form_Form();
+				$ws_form_form = new WS_Form_Form();
 				$ws_form_form->id = $form_id;
 
 				try {
@@ -349,6 +349,12 @@
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/template/action/(?P<action_id>[a-zA-Z0-9]+)/', array('methods' => 'GET', 'callback' => array($plugin_api_template, 'api_get_action_templates'), 'permission_callback' => function () { return WS_Form_Common::can_user('create_form'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/template/delete/', array('methods' => 'POST', 'callback' => array($plugin_api_template, 'api_delete'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
+
+			// API - Block
+			require_once WS_FORM_PLUGIN_DIR_PATH . 'api/class-ws-form-api-block.php';
+			$plugin_api_block = new WS_Form_API_Block();
+
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/block/forms/', array('methods' => 'GET', 'callback' => array($plugin_api_block, 'api_get_forms'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_form'); }));
 
 		}
 

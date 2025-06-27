@@ -38,7 +38,7 @@
 			extract(wp_parse_args((array) $instance, $defaults ));
 
 			// Get forms from API
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$forms = $ws_form_form->db_read_all('', 'NOT status="trash"', 'label', '', '', false);
 
 			if($forms) {

@@ -415,8 +415,14 @@
 
 				$maximum = false;
 			}
+
+			// Classes
+			$class_row_array = array();
+			if($read_only) { $class_row_array[] = 'wsf-read-only'; }
+			if(!empty($config['class_row'])) { $class_row_array[] = $config['class_row']; }
+			$class_row = implode(' ', $class_row_array);
 ?>
-<tr<?php if($read_only) { ?> class="wsf-read-only"<?php } ?>>
+<tr<?php if(!empty($class_row)) { ?> class="<?php WS_Form_Common::echo_esc_attr($class_row); ?>"<?php } ?>>
 <?php
 			if($config['label'] !== false) {
 ?>

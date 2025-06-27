@@ -11,8 +11,8 @@
 	 * Plugin Name:       WS Form LITE
 	 * Plugin URI:        https://wsform.com/
 	 * Description:       Smart. Fast. Forms.
-	 * Version:           1.10.43
-	 * Requires at least: 5.3
+	 * Version:           1.10.50
+	 * Requires at least: 5.4
 	 * Requires PHP:      5.6
 	 * Author:            WS Form
 	 * Author URI:        https://wsform.com/
@@ -38,7 +38,7 @@
 
 		// Constants
 		define('WS_FORM_NAME', 'ws-form');
-		define('WS_FORM_VERSION', '1.10.43');
+		define('WS_FORM_VERSION', '1.10.50');
 		define('WS_FORM_NAME_GENERIC', 'WS Form');
 		define('WS_FORM_NAME_PRESENTABLE', 'WS Form LITE');
 		define('WS_FORM_EDITION', 'basic');

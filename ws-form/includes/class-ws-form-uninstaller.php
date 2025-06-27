@@ -37,7 +37,7 @@
 				}
 
 				// Delete submission hidden column meta
-				$ws_form_form = New WS_Form_Form();
+				$ws_form_form = new WS_Form_Form();
 				$forms = $ws_form_form->db_read_all('', '', '', '', '', false);
 				foreach($forms as $form) {
 

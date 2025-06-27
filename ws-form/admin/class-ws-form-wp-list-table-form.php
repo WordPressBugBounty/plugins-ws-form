@@ -166,7 +166,7 @@
 		function _column_media($item) {
 
 			// Title
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$status_name = $ws_form_form->db_get_status_name(
 
 				$item['status'],
@@ -282,7 +282,7 @@
 		function get_views(){
 
 			// Get data from API
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 
 			$views = array();
 			$current = WS_Form_Common::get_query_var('ws-form-status', 'all');
@@ -417,7 +417,7 @@
 			$offset = ($page_number - 1) * $per_page;
 
 			// Get data from API
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$result = $ws_form_form->db_read_all($join, $where, $order_by, $limit, $offset);
 
 			return $result;
@@ -505,7 +505,7 @@
 
 			if(empty(WS_Form_Common::get_query_var_nonce('s'))) {
 
-				$ws_form_form = New WS_Form_Form();
+				$ws_form_form = new WS_Form_Form();
 
 				$current = WS_Form_Common::get_query_var('ws-form-status', 'all');
 				if($current === 'all') { $current = ''; }

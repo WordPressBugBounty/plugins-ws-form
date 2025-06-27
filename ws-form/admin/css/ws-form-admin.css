@@ -535,6 +535,22 @@ body.admin_page_ws-form-welcome .error {
   fill: #fdb81e;
 }
 
+#wsf-settings > .form-table > tbody > tr.margin-small > th {
+  padding: 15px 10px 0 0;
+}
+
+#wsf-settings > .form-table > tbody > tr.margin-small > td {
+  padding: 10px 10px 0;
+}
+
+#wsf-settings > .form-table > tbody > tr.margin-small:last-child > th {
+  padding: 15px 10px 20px 0;
+}
+
+#wsf-settings > .form-table > tbody > tr.margin-small:last-child > td {
+  padding: 10px 10px 20px 10px;
+}
+
 #wsf-settings > .form-table > tbody > tr > td input[type=date].wsf-field,
 #wsf-settings > .form-table > tbody > tr > td input[type=datetime-local].wsf-field,
 #wsf-settings > .form-table > tbody > tr > td input[type=month].wsf-field,
@@ -5759,6 +5775,11 @@ input[type=range].wsf-field:disabled::-ms-thumb {
 .wsf-sidebar-note.wsf-sidebar-note-warning {
   background: #fff8f1;
   border: 1px dashed #fdb81e;
+}
+
+.wsf-sidebar-note.wsf-sidebar-note-information {
+  background: #f1f9ff;
+  border: 1px dashed #3374b7;
 }
 
 button.wsf-button,

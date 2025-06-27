@@ -4058,6 +4058,12 @@
 
 							switch(note_type) {
 
+								case 'information' :
+
+									note_class_array.push('wsf-sidebar-note-information'); 
+
+									break;
+
 								case 'warning' :
 
 									note_class_array.push('wsf-sidebar-note-warning'); 

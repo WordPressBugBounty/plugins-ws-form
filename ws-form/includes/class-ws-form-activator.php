@@ -7,7 +7,7 @@
 
 			// These are set here to avoid problems if someone has both plugins installed and migrates from basic to PRO without de-activating the basic edition first. This ensures the PRO options are set up.
 			$ws_form_edition = 'basic';
-			$ws_form_version = '1.10.43';
+			$ws_form_version = '1.10.50';
 
 			$run_version_check = true;
 
@@ -407,34 +407,38 @@
 
 		private static function capabilities_init() {
 
-			// Set up WS Form roles
-			global $wp_roles;
-
 			// Create administrator capabilities
 			$role = get_role('administrator');
 
-			$role->add_cap('create_form');
-			$role->add_cap('delete_form');
-			$role->add_cap('edit_form');
-			$role->add_cap('export_form');
-			$role->add_cap('import_form');
-			$role->add_cap('publish_form');
-			$role->add_cap('read_form');
+			if(!is_null($role)) {
 
-			$role->add_cap('delete_submission');
-			$role->add_cap('edit_submission');
-			$role->add_cap('export_submission');
-			$role->add_cap('read_submission');
+				// Form capabilities
+				$role->add_cap('create_form');
+				$role->add_cap('delete_form');
+				$role->add_cap('edit_form');
+				$role->add_cap('export_form');
+				$role->add_cap('import_form');
+				$role->add_cap('publish_form');
+				$role->add_cap('read_form');
 
-			$role->add_cap('create_form_style');
-			$role->add_cap('delete_form_style');
-			$role->add_cap('edit_form_style');
-			$role->add_cap('export_form_style');
-			$role->add_cap('import_form_style');
-			$role->add_cap('publish_form_style');
-			$role->add_cap('read_form_style');
+				// Submission capabilities
+				$role->add_cap('delete_submission');
+				$role->add_cap('edit_submission');
+				$role->add_cap('export_submission');
+				$role->add_cap('read_submission');
 
-			$role->add_cap('manage_options_wsform');
+				// Form style capabilities
+				$role->add_cap('create_form_style');
+				$role->add_cap('delete_form_style');
+				$role->add_cap('edit_form_style');
+				$role->add_cap('export_form_style');
+				$role->add_cap('import_form_style');
+				$role->add_cap('publish_form_style');
+				$role->add_cap('read_form_style');
+
+				// Manage options capabilities
+				$role->add_cap('manage_options_wsform');
+			}
 
 			// Get role capabilities (ensures new capabilities are available in current session)
 			if(WS_Form_Common::logged_in()) {

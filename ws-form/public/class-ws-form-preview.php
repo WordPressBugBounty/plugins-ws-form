@@ -18,7 +18,7 @@
 			if(!WS_Form_Common::can_user('edit_form')) { return false; }
 
 			// Load form to get label
-			$ws_form_form = New WS_Form_Form();
+			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $this->form_id;
 			$form_object = $ws_form_form->db_read(false, false, false, false, false, true);
 			$this->form_label = $form_object->label;

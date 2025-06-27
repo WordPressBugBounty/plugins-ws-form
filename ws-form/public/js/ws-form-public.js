@@ -1634,7 +1634,7 @@
 		};
 	}
 
-	// Form bypass - Reset on object
+	// Form bypass - Reset on object back to its original state ready for form_bypass to be reprocessed on it
 	$.WS_Form.prototype.form_bypass_obj_reset = function(obj) {
 
 		var attributes = this.form_bypass_attributes();
@@ -1647,7 +1647,20 @@
 
 			var attribute_bypass = attribute_config.bypass;
 
-			obj.removeAttr(attribute_bypass).removeAttr(attribute_bypass + '-section').removeAttr(attribute_bypass + '-group');
+			if(obj.attr(attribute_bypass + '-group')) {
+
+				obj.attr(attribute_source, obj.attr(attribute_bypass + '-group')).removeAttr(attribute_bypass + '-group');;
+			}
+
+			if(obj.attr(attribute_bypass + '-section')) {
+
+				obj.attr(attribute_source, obj.attr(attribute_bypass + '-section')).removeAttr(attribute_bypass + '-section');
+			}
+
+			if(obj.attr(attribute_bypass)) {
+
+				obj.attr(attribute_source, obj.attr(attribute_bypass)).removeAttr(attribute_bypass);
+			}
 		}
 	}
 
@@ -1702,7 +1715,6 @@
 				obj_el.validity.customError &&
 				(obj_el.validationMessage !== '')
 			) {
-
 				if(typeof(this.validation_message_cache[section_id]) === 'undefined') { this.validation_message_cache[section_id] = []; }
 				if(typeof(this.validation_message_cache[section_id][section_repeatable_index]) === 'undefined') { this.validation_message_cache[section_id][section_repeatable_index] = []; }
 				if(typeof(this.validation_message_cache[section_id][section_repeatable_index][field_id]) === 'undefined') { this.validation_message_cache[section_id][section_repeatable_index][field_id] = []; }
@@ -3756,9 +3768,17 @@
 
 		var mask_wrapper_values = {
 
-			'message':				message,
-			'mask_wrapper_class':	mask_wrapper_class 
+			'message':            message,
+			'mask_wrapper_class': mask_wrapper_class
 		};
+
+		// Add style ID
+		var style_id = (typeof(this.form_canvas_obj.attr('data-wsf-style-id')) !== 'undefined') ? this.form_canvas_obj.attr('data-wsf-style-id') : false;
+
+		if(style_id) {
+
+			mask_wrapper_values.style_id = style_id;
+		}
 
 		var message_div = $('<div/>', { html: this.mask_parse(mask_wrapper, mask_wrapper_values) });
 		message_div.attr('role', 'alert');
@@ -3766,9 +3786,7 @@
 		message_div.attr('data-wsf-instance-id', this.form_instance_id);
 
 		// Add style ID
-		if(typeof(this.form_canvas_obj.attr('data-wsf-style-id')) !== 'undefined') {
-
-			message_div.attr('data-wsf-style-id', this.form_canvas_obj.attr('data-wsf-style-id'));
+		if(style_id) {
 
 			// Check if styler is present
 			if($('#wsf-styler').length) {
