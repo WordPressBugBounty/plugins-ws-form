@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: form, contact form, form builder, forms, custom form
 Requires at least: 5.4
 Tested up to: 6.8
-Stable tag: 1.10.50
+Stable tag: 1.10.54
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -285,20 +285,27 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.10.50 - 06/24/2025 =
-* Added: New block using API version 3
-* Added: Scroll and focus for invalid Visual Editor fields
-* Bug Fix: Conditional logic highlighting
-* Bug Fix: #field in data grid issue with multiple form instances
+= 1.10.54 - 08/15/2025 =
+* Added: Form import (Button and drag & drop) on Add New form page
+* Added: Improved presentation of unavailable settings in LITE edition
+* Added: Improved base CSS for fields
+* Bug Fix: TinyMCE focus scrolling
 
-= 1.10.49 - 06/17/2025 =
-* Bug fix: Akismet headers
+= 1.10.53 - 08/01/2025 =
+* Added: wsf_action_email_css filter hook
+* Added: Validate CSS improvements
+* Added: Validation field update on invalid feedback set from Run WordPress Hook
+* Added: include_hidden attribute on #checkbox_count and #checkbox_count_total variables
+* Added: Summary field can now exclude HTML and Text Editor fields
+* Added: Summary field no longer renders labels for HTML and Text Editor fields
+* Added: Experimental searchable field mapping dropdowns
+* Added: Updated Google Address field to support inconsistent address part types
+* Bug Fix: Move down button
 
-= 1.10.48 - 06/09/2025 =
-* Added: Email pattern setting now has "Must have TLD" example regex
-* Added: wsf_name_prefixes and wsf_name_suffixes filter hooks for #name_prefix and #name_suffix variables
-* Added: Updated translations
-* Bug Fix: Radio and checkbox vertical padding removed if left label alignment selected
-* Bug Fix: Edit in Preview link
+= 1.10.52 - 07/09/2025 =
+* Added: New Validation field type (See: https://wsform.com/knowledgebase/validate/)
+* Added: Additional checks when autofocusing select 2 search field
+* Added: #section_id can now be used within #section_rows_start loop
+* Added: Improvements to attachment filtering for DropzoneJS scratch files
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

@@ -342,6 +342,9 @@
 
 		global $image_preview_size;
 
+		// Groups with no fields
+		if(!is_array($fields) || (count($fields) == 0)) { return false; }
+
 		// Heading
 		if($heading !== false) {
 ?>

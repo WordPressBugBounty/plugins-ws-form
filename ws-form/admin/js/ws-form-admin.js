@@ -3637,12 +3637,26 @@
 						meta_key_config['select2'] = true;
 					}
 
+					// Enable Select2 on mousedown if there are a lot of options
+					if(
+						$.WS_Form.settings_plugin.helper_select2_on_mousedown &&
+						(meta_key_options.length > 20)
+					) {
+						meta_key_config['select2'] = true;
+						meta_key_config['select2_on_mousedown'] = true;
+					}
+
 					var select2 = (typeof(meta_key_config['select2']) !== 'undefined') ? meta_key_config['select2'] : false;
 
 					if(select2) {
 
-						// Add data-wsf-select2 to field attributes
 						field_attributes += ' data-wsf-select2';
+
+						// Select2 on mousedown
+						if((typeof(meta_key_config['select2_on_mousedown']) !== 'undefined') ? meta_key_config['select2_on_mousedown'] : false) {
+
+							field_attributes += ' data-wsf-select2-on-mousedown';
+						}
 
 						var select_ajax_method_search = (typeof(meta_key_config['select_ajax_method_search']) !== 'undefined') ? meta_key_config['select_ajax_method_search'] : false;
 						var select_ajax_method_cache = (typeof(meta_key_config['select_ajax_method_cache']) !== 'undefined') ? meta_key_config['select_ajax_method_cache'] : false;
@@ -8360,39 +8374,83 @@
 
 		var ws_this = this;
 
+		$('select[data-wsf-select2]:not([data-wsf-select2-on-mousedown]):not([data-select-ajax-method-search])', obj).each(function() {
+
+			ws_this.sidebar_select2_create($(this));
+		});
+
+		$('select[data-wsf-select2][data-wsf-select2-on-mousedown]:not([data-select-ajax-method-search])', obj).each(function(e) {
+
+			var select_obj = $(this);
+
+			select_obj.on('mousedown', function(e) {
+
+	 			e.preventDefault();
+				ws_this.sidebar_select2_create($(this));
+
+				setTimeout(function() {
+
+					select_obj.select2('open');
+				}, 0);
+			});
+
+			select_obj.on('select2:close', function() {
+
+				ws_this.sidebar_select2_destroy($(this));
+			});
+		});
+	}
+
+	// Sidebar - Select2 - Create
+	$.WS_Form.prototype.sidebar_select2_create = function(obj) {
+
 		// Get language
 		var locale = ws_form_settings.locale_user;
 		var language = locale.substring(0, 2);
 
-		$('select[data-wsf-select2]:not([data-select-ajax-method-search])', obj).each(function() {
+		var config = {
 
-			var config = {
+			// Add clear icon
+			allowClear: true,
 
-				// Add clear icon
-				allowClear: true,
+			// Placeholder
+			placeholder: (typeof(obj.attr('placeholder')) !== 'undefined') ? obj.attr('placeholder') : '',
 
-				// Placeholder
-				placeholder: (typeof($(this).attr('placeholder')) !== 'undefined') ? $(this).attr('placeholder') : '',
+			// Language
+			language: language,
 
-				// Language
-				language: language,
+			// CSS
+			selectionCssClass: 'wsf-select2-selection',
+			dropdownCssClass: 'wsf-select2-dropdown',
 
-				// CSS
-				selectionCssClass: 'wsf-select2-selection',
-				dropdownCssClass: 'wsf-select2-dropdown',
+			// Dropdown parent
+			dropdownParent: obj.parent(),
 
-				// Dropdown parent
-				dropdownParent: $(this).parent()
-			};
+			// Dropdown position
+			dropdownPosition: 'below'
+		};
 
-			$(this).select2(config);
+		obj.select2(config);
 
-			// Open event
-			$(this).on('select2:open', function (e) {
+		// Open event
+		obj.on('select2:open', function (e) {
 
-				$('.select2-search__field', $(this).parent()).get(0).focus();
-			});
+			var search_field_obj = $('.select2-search__field', $(this).parent());
+
+			if(search_field_obj.length) {
+
+				search_field_obj.get(0).focus();
+			}
 		});
+	}
+
+	// Sidebar - Select2 - Create
+	$.WS_Form.prototype.sidebar_select2_destroy = function(obj) {
+
+		if(obj.hasClass('select2-hidden-accessible')) {
+
+			obj.select2('destroy');
+		}
 	}
 
 	// Sidebar - Select2 AJAX
@@ -13973,6 +14031,8 @@
 	// Template - Form
 	$.WS_Form.prototype.template_form = function() {
 
+		this.form_id = 0;
+
 		// Tabs (Run initially to avoid jolt in tabs)
 		$('#wsf-template-add').tabs({
 
@@ -14267,6 +14327,89 @@
 
 		}, null, false)
 
+		// Form upload
+		$('#wsf-template-add').wrap('<div id="wsf-form-add"></div>');
+		var form_add_obj = $('#wsf-form-add');
+		form_add_obj.append('<div class="wsf-object-upload-json-window"><div class="wsf-object-upload-json-window-content"><h1></h1><div class="wsf-uploads"></div></div></div>');
+
+		// Drag enter
+		form_add_obj.on('dragenter', function (e) {
+
+			e.stopPropagation();
+			e.preventDefault();
+
+			// Check dragged object is a file
+			if(!$.WS_Form.this.drag_is_file(e)) { return; }
+
+			$('.wsf-object-upload-json-window', $(this)).show();
+		});
+
+		// Drag over
+		$('.wsf-object-upload-json-window', form_add_obj).on('dragover', function (e) {
+
+			e.stopPropagation();
+			e.preventDefault();
+		});
+
+		// Drop
+		$('.wsf-object-upload-json-window', form_add_obj).on('drop', function (e) {
+
+			e.preventDefault();
+
+			var files = e.originalEvent.dataTransfer.files;
+
+			$.WS_Form.this.object_upload_json(files, $(this), null, function(response) {
+
+				var form_id = parseInt(response.data.id, 10);
+
+				if(form_id) {
+
+					location.href = 'admin.php?page=ws-form-edit&id=' + form_id;
+				}
+
+			}, function() {
+
+				$('.wsf-object-upload-json-window', form_add_obj).hide();
+			});
+		});
+
+		// Drag leave
+		$('.wsf-object-upload-json-window', form_add_obj).on('dragleave', function (e) {
+
+			$('.wsf-object-upload-json-window', form_add_obj).hide();
+		});
+
+		// Upload
+		$('[data-action-button="wsf-form-upload"]').on('click', function(e) {
+
+			// Click file input
+			$('#wsf-object-upload-file').val('').trigger('click');
+		});
+
+		$('#wsf-object-upload-file').on('change', function() {
+
+			var files = $('#wsf-object-upload-file').prop("files");
+
+			if(files.length > 0) {
+
+				var form_upload_window = $('> .wsf-object-upload-json-window', form_add_obj);
+				form_upload_window.show();
+				$.WS_Form.this.object_upload_json(files, form_upload_window, null, function(response) {
+
+					var form_id = parseInt(response.data.id, 10);
+
+					if(form_id) {
+
+						location.href = 'admin.php?page=ws-form-edit&id=' + form_id;
+					}
+
+				}, function() {
+
+					$('> .wsf-object-upload-json-window', form_add_obj).hide();
+				});
+			}
+		});
+
 		// Get configuration
 		this.get_configuration(function() {
 
@@ -14497,7 +14640,7 @@
 
 			if(files.length > 0) {
 
-				var form_upload_window = $('> .wsf-object-upload-json-window', $.WS_Form.this.upload_obj);
+				var form_upload_window = $('> .wsf-object-upload-json-window', form_table_obj);
 				form_upload_window.show();
 				$.WS_Form.this.object_upload_json(files, form_upload_window, null, function() {
 
@@ -14505,7 +14648,7 @@
 
 				}, function() {
 
-					$('> .wsf-object-upload-json-window', $.WS_Form.this.upload_obj).hide();
+					$('> .wsf-object-upload-json-window', form_table_obj).hide();
 				});
 			}
 		});
@@ -14750,7 +14893,7 @@
 
 			if(files.length > 0) {
 
-				var style_upload_window = $('> .wsf-object-upload-json-window', $.WS_Form.this.upload_obj);
+				var style_upload_window = $('> .wsf-object-upload-json-window', style_table_obj);
 				style_upload_window.show();
 				$.WS_Form.this.object_upload_json(files, style_upload_window, 'style', function() {
 
@@ -14758,7 +14901,7 @@
 
 				}, function() {
 
-					$('> .wsf-object-upload-json-window', $.WS_Form.this.upload_obj).hide();
+					$('> .wsf-object-upload-json-window', style_table_obj).hide();
 				});
 			}
 		});
@@ -16673,7 +16816,7 @@
 		// Create new object data that edits will be saved to
 		ws_this.object_data_scratch = $.extend(true, {}, object_data); // Deep clone
 
-		// Initialize conditional datagrid
+		// Initialize action datagrid
 		ws_this.sidebar_data_grids_init($('#wsf-sidebar-action'));
 
 		// Button - Save

@@ -49,13 +49,26 @@
 <!-- Header -->
 <div class="wsf-header">
 <h1><?php esc_html_e('Add Form', 'ws-form'); ?></h1>
-</div>
+<?php
+	if(WS_Form_Common::can_user('import_form')) {
+?>
+<button class="wsf-button wsf-button-small" data-action-button="wsf-form-upload"><?php WS_Form_Common::render_icon_16_svg('upload'); ?> <?php esc_html_e('Import', 'ws-form'); ?></button>
+<?php
+	}
+?></div>
 <hr class="wp-header-end">
 <!-- /Header -->
 <?php
 
 	// Review nag
 	WS_Form_Common::review();
+
+	// Import
+	if(WS_Form_Common::can_user('import_form')) {
+?>
+<input type="file" id="wsf-object-upload-file" class="wsf-file-upload" accept=".json" aria-hidden aria-label="<?php _e('File upload', 'ws-form'); ?>" />
+<?php
+	}
 ?>
 <p><?php esc_html_e('Choose a form template or start with a blank template to create your own.', 'ws-form'); ?></p>
 
@@ -192,12 +205,19 @@
 		// On load
 		$(function() {
 
-			// Init template functionality
+			// Initialize WS Form
 			var wsf_obj = new $.WS_Form();
 
+			// Partial initialization
 			wsf_obj.init_partial();
+
+			// Initialize tooltips
 			wsf_obj.tooltips();
+
+			// Initialize form add
 			wsf_obj.template_form();
+
+			$('#wsf-form-add h1').html('<?php esc_html_e('Drop file to import', 'ws-form'); ?>');
 		});
 
 	})(jQuery);

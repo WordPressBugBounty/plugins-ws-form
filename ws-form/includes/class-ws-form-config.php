@@ -192,6 +192,7 @@
 							'text_out'			=>	true,
 							'value_out'			=>	true,
 							'mappable'			=>	true,
+							'has_required'		=>	true,
 							'label_inside'		=>	true,
 							'keyword'			=>	__('single line', 'ws-form'),
 							'events'			=>	array(
@@ -333,6 +334,7 @@
 							),
 							'label_inside'		=>	true,
 							'mappable'			=>	true,
+							'has_required'		=>	true,
 							'keyword'			=>	__('paragraph visual editor tinymce codemirror area textarea', 'ws-form'),
 							'events'			=>	array(
 
@@ -450,6 +452,7 @@
 							'text_out'			=>	true,
 							'value_out'			=>	true,
 							'mappable'			=>	true,
+							'has_required'		=>	true,
 							'label_inside'		=>	true,
 							'keyword'			=>	__('digit', 'ws-form'),
 							'compatibility_id'	=>	'input-number',
@@ -582,6 +585,7 @@
 							'text_out'			=>	true,
 							'value_out'			=>	true,
 							'mappable'			=>	true,
+							'has_required'		=>	true,
 							'label_inside'		=>	true,
 							'keyword'			=>	__('telephone cell fax', 'ws-form'),
 							'compatibility_id'	=>	'input-email-tel-url',
@@ -724,6 +728,7 @@
 							'text_out'				=>	true,
 							'value_out'				=>	true,
 							'mappable'				=>	true,
+							'has_required'		=>	true,
 							'label_inside'			=>	true,
 							'compatibility_id'	=>	'input-email-tel-url',
 							'events'				=>	array(
@@ -865,6 +870,7 @@
 							'text_out'			=>	true,
 							'value_out'			=>	true,
 							'mappable'			=>	true,
+							'has_required'		=>	true,
 							'label_inside'		=>	true,
 							'keyword'			=>	__('website', 'ws-form'),
 							'compatibility_id'	=>	'input-email-tel-url',
@@ -1005,6 +1011,7 @@
 							'text_out'			=>	true,
 							'value_out'			=>	true,
 							'mappable'			=>	true,
+							'has_required'		=>	true,
 							'label_inside'		=>	true,
 							'keyword'			=>	__('dropdown', 'ws-form'),
 							'events'	=>	array(
@@ -1134,6 +1141,7 @@
 							'text_out'			=>	true,
 							'value_out'			=>	true,
 							'mappable'			=>	true,
+							'has_required'		=>	false,
 							'keyword'			=>	__('buttons toggle switches colors images', 'ws-form'),
 							'events'	=>	array(
 
@@ -1260,6 +1268,7 @@
 							'text_out'			=>	true,
 							'value_out'			=>	true,
 							'mappable'			=>	true,
+							'has_required'		=>	true,
 							'keyword'			=>	__('buttons toggle switches colors images', 'ws-form'),
 							'events'	=>	array(
 
@@ -1524,6 +1533,7 @@
 							'text_out'						=>	false,
 							'value_out'						=>	false,
 							'mappable'						=>	false,
+							'has_required'					=>	false,
 							'progress'						=>	false,
 							'keyword'						=>	__('google spam', 'ws-form'),
 							'multiple'						=>	false,
@@ -1606,6 +1616,7 @@
 							'text_out'						=>	false,
 							'value_out'						=>	false,
 							'mappable'						=>	false,
+							'has_required'					=>	false,
 							'progress'						=>	false,
 							'keyword'						=>	__('spam', 'ws-form'),
 							'multiple'						=>	false,
@@ -1688,6 +1699,7 @@
 							'text_out'						=>	false,
 							'value_out'						=>	false,
 							'mappable'						=>	false,
+							'has_required'					=>	false,
 							'progress'						=>	false,
 							'keyword'						=>	__('spam captcha', 'ws-form'),
 							'multiple'						=>	false,
@@ -1772,12 +1784,13 @@
 							'calc_in'				=>	true,
 							'calc_out'				=>	false,
 							'text_in'				=>	true,
-							'text_out'				=>	false,
+							'text_out'				=>	true,
 							'html_in'				=>	true,
 							'value_out'				=>	false,
 							'wpautop_form_parse'	=>	array('text_editor'),
 							'wpautop_parse_variable'	=>	true,
 							'mappable'				=>	false,
+							'has_required'			=>	false,
 							'keyword'				=>	__('visual tinymce', 'ws-form'),
 
 							'fieldsets'				=>	array(
@@ -1853,6 +1866,7 @@
 							'text_out'				=>	false,
 							'value_out'				=>	false,
 							'mappable'				=>	false,
+							'has_required'			=>	false,
 							'static'				=>	true,
 							'keyword'				=>	__('hr', 'ws-form'),
 							'label_disabled'			=>	true,
@@ -1927,6 +1941,8 @@
 							'text_out'			=>	false,
 							'value_out'			=>	false,
 							'mappable'			=>	false,
+							'has_required'		=>	false,
+							'static'			=>	true,
 							'label_disabled'	=>	true,
 
 							'fieldsets'			=> array(
@@ -2000,6 +2016,7 @@
 							'wpautop_form_parse'	=>	array('text_editor'),
 							'wpautop_parse_variable'	=>	true,
 							'mappable'				=>	false,
+							'has_required'			=>	false,
 							'progress'				=>	false,
 							'mask_wrappers_drop'	=>	true,
 							'layout_editor_only'	=>	true,
@@ -2027,6 +2044,14 @@
 							'label'					=>	__('Summary', 'ws-form'),
 							'pro_required'			=>	!WS_Form_Common::is_edition('pro'),
 							'kb_url'				=>	'/knowledgebase/summary/',
+						),
+
+						'validate' => array (
+
+							'label'					=>	__('Validation', 'ws-form'),
+							'pro_required'			=>	!WS_Form_Common::is_edition('pro'),
+							'kb_url'				=>	'/knowledgebase/validation/',
+							'icon'					=>	'asterisk',
 						)
 					)
 				),
@@ -2054,6 +2079,7 @@
 							'text_out'						=>	false,
 							'value_out'						=>	false,
 							'mappable'						=>	false,
+							'has_required'					=>	false,
 							'events'	=>	array(
 
 								'event'				=>	'click',
@@ -2140,6 +2166,7 @@
 							'submit_edit'					=>	false,
 							'value_out'						=>	false,
 							'mappable'						=>	false,
+							'has_required'					=>	false,
 
 							'fieldsets'	=> array(
 
@@ -2221,6 +2248,7 @@
 							'submit_edit'				=>	false,
 							'value_out'					=>	false,
 							'mappable'					=>	false,
+							'has_required'				=>	false,
 							'keyword'					=>	__('back', 'ws-form'),
 							'fieldsets'	=> array(
 
@@ -2300,6 +2328,7 @@
 							'submit_edit'			=>	false,
 							'value_out'				=>	false,
 							'mappable'				=>	false,
+							'has_required'			=>	false,
 							'keyword'				=>	__('continue forward', 'ws-form'),
 							'fieldsets'	=> array(
 
@@ -2550,6 +2579,21 @@
 				}
 			}
 
+			// Get meta keys
+			$meta_keys = WS_Form_Config::get_meta_keys();
+
+			// Add has_required parameter
+			// Used for checking if a field should be check for required on submit
+			// Prevents problems if third party form meta data is corrupt and has required meta data on fields that don't support it
+			foreach($field_types as $id => $field_type) {
+
+				if(isset($field_type['has_required'])) { continue; }
+
+				$field_type_meta_keys = WS_Form_Common::get_field_type_config_meta_keys($field_type, $meta_keys);
+
+				$field_types[$id]['has_required'] = isset($field_type_meta_keys['required']);
+			}
+
 			// Cache
 			self::$field_types_flat[$public] = $field_types;
 
@@ -2713,6 +2757,15 @@
 									'type'		=>	'checkbox',
 									'help'		=>	__('Show IDs on fields. Useful for #field(nnn) variables.', 'ws-form'),
 									'default'	=>	true,
+									'admin'		=>	true
+								),
+
+								'helper_select2_on_mousedown'	=> array(
+
+									'label'		=>	__('Searchable Sidebar Dropdowns', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	__('If enabled, dropdown settings in the sidebar with 20 or more options will become searchable.<br><em>Experimental</em>', 'ws-form'),
+									'default'	=>	false,
 									'admin'		=>	true
 								)
 							)
@@ -7697,6 +7750,17 @@
 					'key'						=>	'ws_form_field'
 				),
 
+				'ws_form_field_summary' => array(
+
+					'label'							=>	__('Form Field', 'ws-form'),
+					'type'							=>	'select',
+					'options'						=>	'fields',
+					'options_blank'					=>	__('Select...', 'ws-form'),
+					'fields_filter_type_exclude'	=>	array('hidden', 'meter', 'progress', 'signature'),
+					'fields_filter_mappable'		=>	false,
+					'key'							=>	'ws_form_field'
+				),
+
 				'ws_form_field_ecommerce_price_cart' => array(
 
 					'label'						=>	__('Form Field', 'ws-form'),
@@ -10953,9 +11017,10 @@
 							'label' => __('Checkbox Rows Count', 'ws-form'),
 							'attributes' => array(
 
-								array('id' => 'field_id', 'type' => 'integer')
+								array('id' => 'field_id', 'type' => 'integer'),
+								array('id' => 'include_hidden', 'type' => 'boolean', 'required' => false)
 							),
-							'description' => __('Use this variable to return the total number of checkboxes in a checkbox field. For example: <code>#checkbox_count_total(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#checkbox_count_total(123))</code> to keep the value dynamically updated.', 'ws-form'),
+							'description' => __('Use this variable to return the total number of checkboxes in a checkbox field. For example: <code>#checkbox_count_total(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#checkbox_count_total(123))</code> to keep the value dynamically updated. Set <code>include_hidden</code> attribute to <code>true</code> to include hidden checkboxes.', 'ws-form'),
 							'kb_slug' => 'checkbox',
 							'usage' => array('client'),
 							'repair_group' => 'field'
@@ -10966,7 +11031,8 @@
 							'label' => __('Checkbox Checked Count', 'ws-form'),
 							'attributes' => array(
 
-								array('id' => 'field_id', 'type' => 'integer')
+								array('id' => 'field_id', 'type' => 'integer'),
+								array('id' => 'include_hidden', 'type' => 'boolean', 'required' => false)
 							),
 							'description' => __('Use this variable to return the number of checkboxes that have been checked in a checkbox field. For example: <code>#checkbox_count(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#checkbox_count(123))</code> to keep the value dynamically updated.', 'ws-form'),
 							'kb_slug' => 'checkbox',

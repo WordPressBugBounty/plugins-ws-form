@@ -203,6 +203,7 @@
   border: var(--wsf-field-border);
   border-radius: var(--wsf-field-border-radius);
   color: var(--wsf-field-color);
+  display: inline-block;
   font-family: var(--wsf-field-font-family);
   font-size: var(--wsf-field-font-size);
   font-style: var(--wsf-field-font-style);

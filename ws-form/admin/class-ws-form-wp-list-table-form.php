@@ -274,7 +274,7 @@
 
 				($item['status'] == 'publish') &&
 				($item['checksum'] != $item['published_checksum']) &&
-				WS_Form_Common::user_must('publish_form')
+				WS_Form_Common::can_user('publish_form')
 			);
 		}
 

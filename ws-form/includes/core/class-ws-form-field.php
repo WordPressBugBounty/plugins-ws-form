@@ -14,6 +14,8 @@
 
 		public $table_name;
 
+ 		public $field_type_config_cache;
+
 		const DB_INSERT = 'label,type,user_id,date_added,date_updated,sort_index,section_id';
 		const DB_UPDATE = 'label,user_id,date_updated';
 		const DB_SELECT = 'label,type,date_updated,sort_index,id';
@@ -704,10 +706,22 @@
 		// Check type
 		public function db_field_type_config($field_type) {
 
+			if(isset($this->field_type_config_cache[$field_type])) {
+
+				// Retrieve field type config from cache
+				return $this->field_type_config_cache[$field_type];
+			}
+
 			$field_types = WS_Form_Config::get_field_types();
 			foreach($field_types as $field_group => $types) {
 
-				if(isset($types['types'][$field_type])) { return $types['types'][$field_type]; }
+				if(isset($types['types'][$field_type])) {
+
+					// Cache field type config
+					$this->field_type_config_cache[$field_type] = $types['types'][$field_type];
+
+					return $types['types'][$field_type];
+				}
 			}
 			return false;
 		}

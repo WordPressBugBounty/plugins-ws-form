@@ -780,7 +780,7 @@
 						($field['min'] != '')
 					) {
 
-						$meta_return['min'] = absint($field['min']);
+						$meta_return['min'] = floatval($field['min']);
 					}
 
 					if(
@@ -788,7 +788,7 @@
 						($field['max'] != '')
 					) {
 
-						$meta_return['max'] = absint($field['max']);
+						$meta_return['max'] = floatval($field['max']);
 					}
 
 					if(
@@ -796,7 +796,7 @@
 						($field['step'] != '')
 					) {
 
-						$meta_return['step'] = absint($field['step']);
+						$meta_return['step'] = floatval($field['step']);
 					}
 
 					return $meta_return;

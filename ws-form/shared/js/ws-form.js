@@ -2951,8 +2951,11 @@
 									case 'checkbox_count' :
 									case 'checkbox_count_total' :
 
+										// Include hidden checkboxes?
+										var include_hidden = variable_attribute_array[1] && this.is_true(variable_attribute_array[1]);
+
 										// Get checked checkboxes
-										var field_obj = $('[data-type="checkbox"][data-id="' + field_id + '"] [data-row-checkbox]:not([style*="display: none"]) input:not([data-hidden])' + ((parse_variable == 'checkbox_count') ? ':checked' : ''), this.form_canvas_obj);
+										var field_obj = $('[data-type="checkbox"][data-id="' + field_id + '"] [data-row-checkbox]' + (include_hidden ? '' : ':not([style*="display: none"])') + ' input' + (include_hidden ? '' : ':not([data-hidden])') + ((parse_variable == 'checkbox_count') ? ':checked' : ''), this.form_canvas_obj);
 
 										break;
 
@@ -7009,7 +7012,7 @@
 		return_obj.decimals = (price_decimals < 0) ? 0 : price_decimals;
 
 		// Separators
-		return_obj.decimal_separator = $.WS_Form.settings_plugin.price_decimal_separator;
+		return_obj.decimal_separator = $.WS_Form.settings_plugin.price_decimal_separator || '.';
 		return_obj.thousand_separator = $.WS_Form.settings_plugin.price_thousand_separator;
 
 		return return_obj;
@@ -7154,6 +7157,54 @@
 		if(!obj[0] || !obj[0].validity) { return false; }
 
 		return obj[0].validity.valid;
+	}
+
+	// Is not a number
+	$.WS_Form.prototype.is_not_number = function(input_number) {
+
+		return (
+
+			isNaN(input_number) ||
+			(typeof(input_number) === 'boolean') ||
+			(input_number === '')
+		);
+	}
+
+	// Is true
+	$.WS_Form.prototype.is_true = function(input) {
+
+		// Check for boolean
+		if(typeof(input) === 'boolean') {
+			return input;
+		}
+
+		// Check for object (including arrays)
+		if(typeof(input) === 'object' && input !== null) {
+			// If it's an array, get the first element
+			if(Array.isArray(input)) {
+				input = input[0] !== undefined ? input[0] : '';
+			} else {
+				// Convert object to array of values and take the first one
+				input = Object.values(input)[0] || '';
+			}
+		}
+
+		// If numeric, convert to string
+		if(typeof(input) === 'number') {
+			input = String(input);
+		}
+
+		// If not a string at this point, return false
+		if(typeof(input) !== 'string') {
+			return false;
+		}
+
+		// Trim and lowercase
+		input = input.trim().toLowerCase();
+
+		// Check against true values
+		var true_array = ['1', 'on', 'yes', 'true'];
+		return true_array.includes(input);
 	}
 
 	// Replace all
@@ -7369,17 +7420,6 @@
 	$.WS_Form.prototype.date_valid = function(input_date) {
 
 		return input_date instanceof Date && !isNaN(input_date.valueOf())
-	}
-
-	// Is not a number
-	$.WS_Form.prototype.is_not_number = function(input_number) {
-
-		return (
-
-			isNaN(input_number) ||
-			(typeof(input_number) === 'boolean') ||
-			(input_number === '')
-		);
 	}
 
 	// Get object_row_id as an array of integers

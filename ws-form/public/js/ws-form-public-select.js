@@ -213,7 +213,12 @@
 				// Autofocus
 				select2_obj.on('select2:open', function (e) {
 
-					$('.select2-search__field', $(this).parent()).get(0).focus();
+					var select2_search_field_obj = $('.select2-search__field', $(this).parent());
+
+					if(select2_search_field_obj.length) {
+
+						select2_search_field_obj.get(0).focus();
+					}
 				});
 
 				// Check for pre-population

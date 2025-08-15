@@ -2499,7 +2499,12 @@
 				$field_bypassed = in_array($field_name_post, $this->bypass_required_array);
 
 				// Field required
-				$field_required = WS_Form_Common::get_object_meta_value($field, 'required', false) && !$field_bypassed;
+				$field_required = (
+
+					WS_Form_Common::get_object_meta_value($field, 'required', false) &&
+					!$field_bypassed &&
+					$field_type_config['has_required'] // Set in WS_Form_Config::get_field_types_flat()
+				);
 
 				// Process according to field type
 				switch($field_type) {

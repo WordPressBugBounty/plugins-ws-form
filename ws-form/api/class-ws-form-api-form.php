@@ -149,7 +149,7 @@
 			}
 
 			// Send JSON response (By passing form ID, it will get returned in default JSON response)
-			parent::api_json_response([], $form_id, $history, true);
+			parent::api_json_response(array('id' => $ws_form_form->id), $form_id, $history, true);
 		}
 
 		// API - POST - Download - JSON

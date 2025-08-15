@@ -1438,6 +1438,42 @@
 			return $groups;
 		}
 
+		// Get field type config meta keys
+		public static function get_field_type_config_meta_keys($field_type_config, $meta_keys, $meta_keys_return = array()) {
+
+			if(!isset($field_type_config['fieldsets'])) { return $meta_keys_return; }
+
+			foreach($field_type_config['fieldsets'] as $id => $fieldset) {
+
+				// Process meta_keys
+				if(isset($fieldset['meta_keys'])) {
+
+					foreach($fieldset['meta_keys'] as $meta_key) {
+
+						// Check for key
+						if(!isset($meta_keys[$meta_key])) { continue; }
+
+						$meta_key_config = $meta_keys[$meta_key];
+
+						if(isset($meta_key_config['key'])) {
+
+							$meta_key = $meta_key_config['key'];
+						}
+
+						$meta_keys_return[$meta_key] = true;
+					}
+				}
+
+				// Process fieldsets
+				if(isset($fieldset['fieldsets'])) {
+
+					$meta_keys_return = self::get_field_type_config_meta_keys($fieldset, $meta_keys, $meta_keys_return);
+				}
+			}
+
+			return $meta_keys_return;
+		}
+
 		// Mask parse
 		public static function mask_parse($mask, $values, $prefix = '#', $single_parse = false) {
 

@@ -2,6 +2,33 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.54 - 08/15/2025 =
+* Added: Form import (Button and drag & drop) on Add New form page
+* Added: Improved presentation of unavailable settings in LITE edition
+* Added: Improved base CSS for fields
+* Bug Fix: TinyMCE focus scrolling
+
+= 1.10.53 - 08/01/2025 =
+* Added: wsf_action_email_css filter hook
+* Added: Validate CSS improvements
+* Added: Validation field update on invalid feedback set from Run WordPress Hook
+* Added: include_hidden attribute on #checkbox_count and #checkbox_count_total variables
+* Added: Summary field can now exclude HTML and Text Editor fields
+* Added: Summary field no longer renders labels for HTML and Text Editor fields
+* Added: Experimental searchable field mapping dropdowns
+* Added: Updated Google Address field to support inconsistent address part types
+* Bug Fix: Move down button
+
+= 1.10.52 - 07/09/2025 =
+* Added: New Validation field type (See: https://wsform.com/knowledgebase/validate/)
+* Added: Additional checks when autofocusing select 2 search field
+* Added: #section_id can now be used within #section_rows_start loop
+* Added: Improvements to attachment filtering for DropzoneJS scratch files
+
+= 1.10.51 - 06/27/2025 =
+* Added: Improved server-side required validation
+* Bug Fix: Migrate tool meta key validation
+
 = 1.10.50 - 06/24/2025 =
 * Added: New block using API version 3
 * Added: Scroll and focus for invalid Visual Editor fields

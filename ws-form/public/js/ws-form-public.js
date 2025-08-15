@@ -268,6 +268,7 @@
 
 		// Form validation - Real time
 		this.form_validate_real_time();
+
 		// Tab validation
 		if(typeof(this.form_tab_validation) === 'function') { this.form_tab_validation(); }
 
@@ -954,6 +955,16 @@
 		var group_id = obj.closest('[data-id]').attr('data-id');
 
 		return (typeof(group_id) !== 'undefined') ? parseInt(group_id, 10) : false;
+	}
+
+	// Get section object resides in
+	$.WS_Form.prototype.get_section = function(obj) {
+
+		// Get section
+		var section_single = obj.closest('fieldset');
+		if(section_single.length == 0) { return false; }
+
+		return section_single;
 	}
 
 	// Get section id from object

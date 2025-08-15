@@ -1089,6 +1089,7 @@ body.toplevel_page_ws-form .wsf-shortcode {
 }
 
 #wsf-form-table,
+#wsf-form-add,
 #wsf-style-table {
   position: relative;
 }
@@ -5153,6 +5154,7 @@ select.wsf-field[data-wsf-select2] ~ .select2-container .select2-selection--sing
 select.wsf-field[data-wsf-select2] ~ .select2-container .select2-selection--multiple .select2-selection__rendered {
   color: #000000;
   line-height: 1.4 !important;
+  margin-top: 1px;
   padding-left: 0;
   padding-right: 0;
 }
