@@ -73,7 +73,7 @@
 			if($css_compile && !$force_build) {
 
 				// RTL suffix
-				$rtl_suffix = $rtl ? '_rtl' : '';
+				$rtl_suffix = (!WS_Form_Common::styler_enabled() && $rtl) ? '_rtl' : '';
 
 				if($css_minify) {
 
@@ -172,7 +172,7 @@
 				$upload_dir = WS_Form_Common::upload_dir_create(WS_FORM_CSS_FILE_PATH);
 				if($upload_dir['error']) {
 
-					throw new Exception($upload_dir['message']);
+					throw new Exception(esc_html($upload_dir['message']));
 				}
 
 				// Get file upload directory

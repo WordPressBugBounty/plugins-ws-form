@@ -27,7 +27,7 @@
 
 		public function name() {
 
-			return __('Form', 'ws-form');
+			return __('WS Form', 'ws-form');
 		}
 
 		public function slug() {

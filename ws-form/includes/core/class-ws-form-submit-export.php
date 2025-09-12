@@ -10,7 +10,7 @@
 			// Check form ID
 			if(empty($form_id)) {
 
-				throw new Exception(__('Form ID empty', 'ws-form'));
+				throw new Exception(esc_html__('Form ID empty', 'ws-form'));
 			}
 
 			// Initial WS_Form_Submit class

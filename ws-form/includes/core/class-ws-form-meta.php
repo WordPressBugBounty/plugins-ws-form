@@ -44,7 +44,7 @@
 
 			$meta_object = new stdClass();
 
-			if(absint($this->parent_id) === 0) { parent::db_throw_error(__('Parent ID not set')); }
+			if(absint($this->parent_id) === 0) { parent::db_throw_error(__('Parent ID not set', 'ws-form')); }
 
 			$sql = $wpdb->prepare(
 
@@ -76,7 +76,7 @@
 
 			$meta_object = new stdClass();
 
-			if(absint($this->parent_id) === 0) { parent::db_throw_error(__('Parent ID not set')); }
+			if(absint($this->parent_id) === 0) { parent::db_throw_error(__('Parent ID not set', 'ws-form')); }
 
 			$sql = $wpdb->prepare(
 

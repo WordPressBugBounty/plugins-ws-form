@@ -38,7 +38,7 @@
 
 			// Set HTTP content type head
 			header('Content-Type: application/json');
-  			http_response_code(200);
+			http_response_code(200);
 
 			// API error
 			if($this->error) {
@@ -52,12 +52,12 @@
 					case '403' :
 					case '404' :
 
-			  			http_response_code($this->error_code);
+						http_response_code($this->error_code);
 						break;
 
 					default :
 
-			  			http_response_code(400);
+						http_response_code(400);
 				}
 			}
 
@@ -115,7 +115,7 @@
 			if(json_last_error() !== 0) {
 
 				// Set response code
-			  	http_response_code(400);
+				http_response_code(400);
 
 				// Build error JSON
 				$response_array = array(
@@ -356,6 +356,38 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/block/forms/', array('methods' => 'GET', 'callback' => array($plugin_api_block, 'api_get_forms'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_form'); }));
 
+			// API - Sidebar
+			require_once WS_FORM_PLUGIN_DIR_PATH . 'api/class-ws-form-api-sidebar.php';
+			$plugin_api_sidebar = new WS_Form_API_Sidebar();
+
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/sidebar/width/', array('methods' => 'POST', 'callback' => array($plugin_api_sidebar, 'api_sidebar_width'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form'); }));
+
+		}
+
+		// MCP adapter init
+		public function mcp_adapter_init($adapter) {
+
+			// Get abilities
+			$abilities = WS_Form_Config::get_abilities();
+
+			// Create MCP server
+			$adapter->create_server(
+
+				'ws-form',                           // Unique server identifier
+				WS_FORM_RESTFUL_NAMESPACE,           // REST API namespace
+				'mcp',                               // REST API route
+				__('WS Form MCP Server', 'ws-form'), // Server name
+				__('WS Form MCP Server', 'ws-form'), // Server description
+				WS_FORM_VERSION,                     // Server version
+				[                                    // Transport methods
+					\WP\MCP\Transport\Http\RestTransport::class,
+				],
+				\WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler::class,     // Error handler
+				\WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler::class, // Observability handler
+				array_keys($abilities),              // Abilities to expose as tools
+				[],                                  // Resources (optional)
+				[]                                   // Prompts (optional)
+			);
 		}
 
 		// No cache

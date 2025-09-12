@@ -288,7 +288,7 @@
 				// Adjust label if blank
 				if($field->label == '') {
 
-					$field->label = __('(no label)', 'acpt');
+					$field->label = __('(no label)', 'ws-form');
 					$meta['label_render'] = '';
 				}
 

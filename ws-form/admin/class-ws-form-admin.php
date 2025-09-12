@@ -288,6 +288,9 @@
 				// Sidebar
 				'sidebar_reset_id'				=> $sidebar_reset_id,
 				'sidebar_tab_key'				=> $sidebar_tab_key,
+				'sidebar_width'					=> WS_Form_Common::option_get('sidebar_width', WS_FORM_SIDEBAR_WIDTH_DEFAULT),
+				'sidebar_width_min'				=> WS_FORM_SIDEBAR_WIDTH_MIN,
+				'sidebar_width_max'				=> WS_FORM_SIDEBAR_WIDTH_MAX,
 
 				// Preview update
 				'helper_live_preview'			=> WS_Form_Common::option_get('helper_live_preview', true),
@@ -326,6 +329,9 @@
 					wp_enqueue_script($this->plugin_name . '-form-common');
 					wp_localize_script($this->plugin_name . '-form-common', 'ws_form_settings', $ws_form_settings);
 					wp_enqueue_script($this->plugin_name);
+
+					// Vimeo
+					wp_enqueue_script('vimeo-player', 'https://player.vimeo.com/api/player.js', array(), $this->version, true);
 
 					$this->ws_form_hook = $hook;
 
@@ -1573,7 +1579,7 @@
 		public function admin_init() {
 
 			// Get current page
- 			$page = WS_Form_Common::get_query_var('page');
+			$page = WS_Form_Common::get_query_var('page');
 			if($page === '') { return true; }
 
 			// Do on specific WS Form pages
@@ -2223,7 +2229,7 @@
 			if($ws_form_style->id > 0) {
 
 				// Redirect
-				self::redirect('ws-form-style', $ws_form_form->id);
+				self::redirect('ws-form-style', $ws_form_style->id);
 			}
 		}
 

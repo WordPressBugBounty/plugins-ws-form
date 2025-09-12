@@ -26,7 +26,7 @@
 		// Field data cache
 		this.field_data_cache = [];
 
-		// Field data cache
+		// Action data cache
 		this.action_data_cache = [];
 
 		// Validation message cache
@@ -36,15 +36,15 @@
 		this.invalid_feedback_cache = [];
 
 		// Object cache
-		this.object_cache = [];
-		this.object_cache['condition'] = [];
-		this.object_cache['then'] = [];
-		this.object_cache['else'] = [];
+		this.object_cache = {};
+		this.object_cache.condition = [];
+		this.object_cache.then = [];
+		this.object_cache.else = [];
 
 		// Actions
 		this.action = false;
 
-		// New object data (for reverting fied data back to an older state)
+		// New object data (for reverting field data back to an older state)
 		this.object_data_scratch = false;
 
 		// Form history
@@ -506,7 +506,7 @@
 
 		// Get current framework
 		var framework = this.get_framework();
-		var framework_form = framework['form'][this.is_admin ? 'admin' : 'public'];
+		var framework_form = framework.form[this.is_admin ? 'admin' : 'public'];
 
 		// Label
 		var form_label = this.esc_html(form.label);
@@ -515,7 +515,7 @@
 		if(label_render) {
 
 			var label_mask_form = !this.is_admin ? this.get_object_meta_value(this.form, 'label_mask_form', '') : '';
-			var mask = (label_mask_form != '') ? label_mask_form : (typeof framework_form['mask_label'] !== 'undefined') ? framework_form['mask_label'] : '';
+			var mask = (label_mask_form != '') ? label_mask_form : (typeof framework_form.mask_label !== 'undefined') ? framework_form.mask_label : '';
 			var mask_values = {'label': form_label};
 			var label_html_parsed = this.mask_parse(mask, mask_values);
 
@@ -531,7 +531,7 @@
 		form_html += this.get_groups_html(form.groups);
 
 		// Parse wrapper form
-		var mask = framework_form['mask_single'];
+		var mask = framework_form.mask_single;
 		var mask_values = {
 
 			'form': form_html,
@@ -560,7 +560,7 @@
 
 		// Get current framework
 		var framework = this.get_framework();
-		var framework_tabs = framework['tabs'][this.is_admin ? 'admin' : 'public'];
+		var framework_tabs = framework.tabs[this.is_admin ? 'admin' : 'public'];
 
 		// Get tab index cookie if settings require it
 		var index = (this.get_object_meta_value(this.form, 'cookie_tab_index')) ? this.cookie_get('tab_index', 0) : 0;
@@ -602,7 +602,7 @@
 			}
 
 			// Parse wrapper tabs
-			var mask = framework_tabs['mask_wrapper'];
+			var mask = framework_tabs.mask_wrapper;
 			var mask_values = {
 
 				'attributes': attributes,
@@ -628,7 +628,7 @@
 
 		// Get current framework for tabs
 		var framework = this.get_framework();
-		var framework_tabs = framework['tabs'][this.is_admin ? 'admin' : 'public'];
+		var framework_tabs = framework.tabs[this.is_admin ? 'admin' : 'public'];
 
 		// Get group label
 		var group_label = this.esc_html(group.label);
@@ -644,7 +644,7 @@
 		}
 
 		// Parse and return wrapper tab
-		var mask = framework_tabs['mask_single'];
+		var mask = framework_tabs.mask_single;
 		var mask_values = {
 
 			'attributes': attributes,
@@ -654,13 +654,13 @@
 		};
 
 		// Active tab
-		if(is_active && (typeof(framework_tabs['active']) !== 'undefined')) {
+		if(is_active && (typeof(framework_tabs.active) !== 'undefined')) {
 
-			mask_values['active'] = framework_tabs['active'];
+			mask_values.active = framework_tabs.active;
 
 		} else {
 
-			mask_values['active'] = '';
+			mask_values.active = '';
 		}
 
 		return this.mask_parse(mask, mask_values);
@@ -679,7 +679,7 @@
 
 		// Get current framework
 		var framework = this.get_framework();
-		var framework_groups = framework['groups'][this.is_admin ? 'admin' : 'public'];
+		var framework_groups = framework.groups[this.is_admin ? 'admin' : 'public'];
 
 		// Get tab index cookie if settings require it
 		var group_index_current = (this.get_object_meta_value(this.form, 'cookie_tab_index')) ? this.cookie_get('tab_index', 0) : 0;
@@ -703,7 +703,7 @@
 		var class_array = ['wsf-groups'];
 
 		// Parse wrapper form
-		var mask = (use_mask ? framework_groups['mask_wrapper'] : '#groups');
+		var mask = (use_mask ? framework_groups.mask_wrapper : '#groups');
 		var mask_values = {
 
 			'class': class_array.join(' '),
@@ -724,7 +724,7 @@
 
 		// Get current framework
 		var framework = this.get_framework();
-		var framework_groups = framework['groups'][this.is_admin ? 'admin' : 'public'];
+		var framework_groups = framework.groups[this.is_admin ? 'admin' : 'public'];
 
 		var group_id = this.esc_html(group.id);
 
@@ -735,7 +735,7 @@
 		if(label_render) {
 
 			var label_mask_group = !this.is_admin ? this.get_object_meta_value(this.form, 'label_mask_group', '') : '';
-			var mask = (label_mask_group != '') ? label_mask_group : (typeof framework_groups['mask_label'] !== 'undefined') ? framework_groups['mask_label'] : '';
+			var mask = (label_mask_group != '') ? label_mask_group : (typeof framework_groups.mask_label !== 'undefined') ? framework_groups.mask_label : '';
 			var mask_values = {'label': group_label};
 			var label_html_parsed = this.mask_parse(mask, mask_values);
 
@@ -751,9 +751,9 @@
 		var class_array = [];
 
 		// Class - Base
-		if(typeof(framework_groups['class']) !== 'undefined') {
+		if(typeof(framework_groups.class) !== 'undefined') {
 
-			class_array.push(framework_groups['class']);
+			class_array.push(framework_groups.class);
 		}
 
 		// Class - Wrapper
@@ -769,9 +769,9 @@
 		}
 
 		// Class - Active
-		if(is_active && (typeof framework_groups['class_active'] !== 'undefined')) {
+		if(is_active && (typeof framework_groups.class_active !== 'undefined')) {
 
-			class_array.push(framework_groups['class_active']);
+			class_array.push(framework_groups.class_active);
 		}
 
 		// Attributes
@@ -785,7 +785,7 @@
 		}
 
 		// Parse wrapper tabs content
-		var mask = (use_mask ? framework_groups['mask_single'] : '#group');
+		var mask = (use_mask ? framework_groups.mask_single : '#group');
 		var mask_values = {
 
 			'attributes': ((attributes_array.length > 0) ? ' ' : '') + attributes_array.join(' '),
@@ -810,7 +810,7 @@
 
 		// Get current framework
 		var framework = this.get_framework();
-		var framework_sections = framework['sections'][this.is_admin ? 'admin' : 'public'];
+		var framework_sections = framework.sections[this.is_admin ? 'admin' : 'public'];
 
 		var group_id = group.id;
 		var sections = group.sections
@@ -819,9 +819,9 @@
 		var section_repeatable = {};
 		if(typeof(this.submit) === 'object') {
 
-			if(typeof(this.submit['section_repeatable']) !== 'undefined') {
+			if(typeof(this.submit.section_repeatable) !== 'undefined') {
 
-				section_repeatable = this.submit['section_repeatable'];
+				section_repeatable = this.submit.section_repeatable;
 			}
 
 		} else {
@@ -829,9 +829,9 @@
 			// Check to see if auto populate data exists
 			if(this.submit_auto_populate !== false) {
 
-				if(typeof(this.submit_auto_populate['section_repeatable']) !== 'undefined') {
+				if(typeof(this.submit_auto_populate.section_repeatable) !== 'undefined') {
 
-					section_repeatable = this.submit_auto_populate['section_repeatable'];
+					section_repeatable = this.submit_auto_populate.section_repeatable;
 				}
 			}
 		}
@@ -851,9 +851,9 @@
 
 				(section_repeatable !== false) &&
 				(typeof(section_repeatable[section_id_string]) !== 'undefined') &&
-				(typeof(section_repeatable[section_id_string]['index']) !== 'undefined')
+				(typeof(section_repeatable[section_id_string].index) !== 'undefined')
 
-			) ? section_repeatable[section_id_string]['index'] : [false];
+			) ? section_repeatable[section_id_string].index : [false];
 
 			// Loop through section_repeatable_array
 			for(var section_repeatable_array_index in section_repeatable_array) {
@@ -869,7 +869,7 @@
 		}
 
 		// Parse wrapper section
-		var mask = framework_sections['mask_wrapper'];
+		var mask = framework_sections.mask_wrapper;
 		var mask_values = {
 
 			'class': 'wsf-sections',
@@ -913,7 +913,7 @@
 
 		// Get current framework
 		var framework = this.get_framework();
-		var framework_sections = framework['sections'][this.is_admin ? 'admin' : 'public'];
+		var framework_sections = framework.sections[this.is_admin ? 'admin' : 'public'];
 
 		// Get column class array
 		var class_array = this.column_class_array(section);
@@ -926,7 +926,7 @@
 		}
 
 		// Add any base classes
-		if(typeof(framework_sections['class_single']) !== 'undefined') { class_array = class_array.concat(framework_sections['class_single']); }
+		if(typeof(framework_sections.class_single) !== 'undefined') { class_array = class_array.concat(framework_sections.class_single); }
 
 		// Public
 		if(!this.is_admin) {
@@ -994,7 +994,7 @@
 		if(label_render) {
 
 			var label_mask_section = !this.is_admin ? this.get_object_meta_value(this.form, 'label_mask_section', '') : '';
-			var mask = (label_mask_section != '') ? label_mask_section : ((typeof framework_sections['mask_label'] !== 'undefined') ? framework_sections['mask_label'] : '');
+			var mask = (label_mask_section != '') ? label_mask_section : ((typeof framework_sections.mask_label !== 'undefined') ? framework_sections.mask_label : '');
 			var mask_values = {'label': section_label};
 			var label_html_parsed = this.mask_parse(mask, mask_values);
 
@@ -1035,7 +1035,7 @@
 		var section_single_html = this.get_fields_html(section, section_repeatable_index);
 
 		// Parse wrapper section
-		var mask = framework_sections['mask_single'];
+		var mask = framework_sections.mask_single;
 		var mask_values = {
 
 			'attributes': (attributes ? ' ' : '') + attributes,
@@ -1100,7 +1100,7 @@
 
 		// Get current framework for tabs
 		var framework = this.get_framework();
-		var framework_fields = framework['fields'][this.is_admin ? 'admin' : 'public'];
+		var framework_fields = framework.fields[this.is_admin ? 'admin' : 'public'];
 
 		var section_id = section.id;
 		var fields = section.fields;
@@ -1112,7 +1112,7 @@
 		if(label_render) {
 
 			var label_mask_section = !this.is_admin ? this.get_object_meta_value(this.form, 'label_mask_section', '') : '';
-			var mask = (label_mask_section != '') ? label_mask_section : ((typeof framework_fields['mask_wrapper_label'] !== 'undefined') ? framework_fields['mask_wrapper_label'] : '');
+			var mask = (label_mask_section != '') ? label_mask_section : ((typeof framework_fields.mask_wrapper_label !== 'undefined') ? framework_fields.mask_wrapper_label : '');
 			var mask_values = {'label': section_label};
 			var label_html_parsed = this.mask_parse(mask, mask_values);
 
@@ -1135,7 +1135,7 @@
 		}
 
 		// Parse wrapper section
-		var mask = framework_fields['mask_wrapper'];
+		var mask = framework_fields.mask_wrapper;
 		var mask_values = {
 
 			'column_count' : $.WS_Form.settings_plugin.framework_column_count,
@@ -1206,7 +1206,7 @@
 
 		// Get current framework for tabs
 		var framework = this.get_framework();
-		var framework_fields = framework['fields'][this.is_admin ? 'admin' : 'public'];
+		var framework_fields = framework.fields[this.is_admin ? 'admin' : 'public'];
 
 		// Hidden
 		if(!this.is_admin) {
@@ -1286,13 +1286,13 @@
 		if(typeof(this.submit) === 'object') {
 
 			if(
-				(typeof(this.submit['meta']) !== 'undefined') &&
-				(typeof(this.submit['meta'][submit_meta_key]) !== 'undefined') &&
-				(typeof(this.submit['meta'][submit_meta_key]['value']) !== 'undefined') &&
-				(this.submit['meta'][submit_meta_key]['value'] !== null)
+				(typeof(this.submit.meta) !== 'undefined') &&
+				(typeof(this.submit.meta[submit_meta_key]) !== 'undefined') &&
+				(typeof(this.submit.meta[submit_meta_key].value) !== 'undefined') &&
+				(this.submit.meta[submit_meta_key].value !== null)
 			) {
 
-				var value = this.submit['meta'][submit_meta_key]['value'];
+				var value = this.submit.meta[submit_meta_key].value;
 
 				value = this.value_populate_process(value, field);
 			}
@@ -1303,12 +1303,12 @@
 			if(this.submit_auto_populate !== false) {
 
 				if(
-					(typeof(this.submit_auto_populate['data']) !== 'undefined') &&
-					(typeof(this.submit_auto_populate['data'][submit_meta_key]) !== 'undefined') &&
-					(this.submit_auto_populate['data'][submit_meta_key] !== null)
+					(typeof(this.submit_auto_populate.data) !== 'undefined') &&
+					(typeof(this.submit_auto_populate.data[submit_meta_key]) !== 'undefined') &&
+					(this.submit_auto_populate.data[submit_meta_key] !== null)
 				) {
 
-					var value = this.submit_auto_populate['data'][submit_meta_key];
+					var value = this.submit_auto_populate.data[submit_meta_key];
 
 					value = this.value_populate_process(value, field);
 				}
@@ -1326,13 +1326,13 @@
 		var field_config = $.WS_Form.field_type_cache[field.type];
 
 		// Check field is licensed
-		if((typeof(field_config['pro_required']) !== 'undefined') && field_config['pro_required']) {
+		if((typeof(field_config.pro_required) !== 'undefined') && field_config.pro_required) {
 
 			return '';
 		}
 
 		// Check to see if mask_single should be ignored
-		var mask_wrappers_drop = this.is_admin ? false : ((typeof field_config['mask_wrappers_drop'] !== 'undefined') ? field_config['mask_wrappers_drop'] : false);
+		var mask_wrappers_drop = this.is_admin ? false : ((typeof field_config.mask_wrappers_drop !== 'undefined') ? field_config.mask_wrappers_drop : false);
 
 
 		// If wrappers should be dropped, disregard them
@@ -1722,18 +1722,18 @@
 		// object[label_position] checks
 		if(label_position !== false) {
 
-			// object[label_position]['field_types'][field_type][element]
-			var object_not_found = (typeof(object) === 'undefined') || (typeof(object[label_position]) === 'undefined') || (typeof(object[label_position]['field_types']) === 'undefined') || (typeof(object[label_position]['field_types'][field_type]) === 'undefined') || (typeof(object[label_position]['field_types'][field_type][element]) === 'undefined');
-			if(!object_not_found) { return object[label_position]['field_types'][field_type][element]; }
+			// object[label_position].field_types[field_type][element]
+			var object_not_found = (typeof(object) === 'undefined') || (typeof(object[label_position]) === 'undefined') || (typeof(object[label_position].field_types) === 'undefined') || (typeof(object[label_position].field_types[field_type]) === 'undefined') || (typeof(object[label_position].field_types[field_type][element]) === 'undefined');
+			if(!object_not_found) { return object[label_position].field_types[field_type][element]; }
 
 			// object[label_position][element]
 			var object_not_found = (typeof(object) === 'undefined') || (typeof(object[label_position]) === 'undefined') || (typeof (object[label_position][element]) === 'undefined');
 			if(!object_not_found) { return object[label_position][element]; }
 		}
 
-		// object['field_types'][field_type][element]
-		var object_not_found = (typeof(object) === 'undefined') || (typeof(object['field_types']) === 'undefined') || (typeof(object['field_types'][field_type]) === 'undefined') || (typeof(object['field_types'][field_type][element]) === 'undefined');
-		if(!object_not_found) { return object['field_types'][field_type][element]; }
+		// object.field_types[field_type][element]
+		var object_not_found = (typeof(object) === 'undefined') || (typeof(object.field_types) === 'undefined') || (typeof(object.field_types[field_type]) === 'undefined') || (typeof(object.field_types[field_type][element]) === 'undefined');
+		if(!object_not_found) { return object.field_types[field_type][element]; }
 
 		// object[element]
 		var object_not_found = (typeof(object) === 'undefined') || (typeof(object[element]) === 'undefined');
@@ -1928,26 +1928,26 @@
 			// If lookup not found, skip this variable group
 			if(!var_lookup_found) { continue; }
 
-			for(var parse_variable in parse_variables['variables']) {
+			for(var parse_variable in parse_variables.variables) {
 
-				if(!parse_variables['variables'].hasOwnProperty(parse_variable)) { continue; }
+				if(!parse_variables.variables.hasOwnProperty(parse_variable)) { continue; }
 
 				if(parse_string.indexOf('#' + parse_variable) === -1) { continue; }
 
-				var parse_variable_config = parse_variables['variables'][parse_variable];
+				var parse_variable_config = parse_variables.variables[parse_variable];
 
 				// Assign value
-				var parse_variable_value = (typeof(parse_variable_config['value']) !== 'undefined') ? parse_variable_config['value'] : false;
-				var parse_variable_attributes = (typeof(parse_variable_config['attributes']) === 'object') ? parse_variable_config['attributes'] : false;
+				var parse_variable_value = (typeof(parse_variable_config.value) !== 'undefined') ? parse_variable_config.value : false;
+				var parse_variable_attributes = (typeof(parse_variable_config.attributes) === 'object') ? parse_variable_config.attributes : false;
 
 				// Single parse? (Used if different value returned each parse, e.g. random_number)
-				var parse_variable_single_parse = (typeof(parse_variable_config['single_parse']) !== 'undefined') ? parse_variable_config['single_parse'] : false;
+				var parse_variable_single_parse = (typeof(parse_variable_config.single_parse) !== 'undefined') ? parse_variable_config.single_parse : false;
 
 				// If no attributes specified, then just set the value
 				if((parse_variable_attributes === false) && (parse_variable_value !== false)) { variables[parse_variable] = parse_variable_value; continue; }
 
 				// Get number of attributes required
-				var variable_attribute_count = (typeof(parse_variable_config['attributes']) === 'object') ? parse_variable_config['attributes'].length : 0;
+				var variable_attribute_count = (typeof(parse_variable_config.attributes) === 'object') ? parse_variable_config.attributes.length : 0;
 
 				if(variable_attribute_count > 0) {
 
@@ -2003,7 +2003,7 @@
 							var parse_variable_full = parse_string.substr(variable_index_of, (variable_index_of_bracket_finish + 1) - variable_index_of);
 
 							// Get separator
-							var separator = (typeof(parse_variable_config['attribute_separator']) !== 'undefined') ? parse_variable_config['attribute_separator'] : ',';
+							var separator = (typeof(parse_variable_config.attribute_separator) !== 'undefined') ? parse_variable_config.attribute_separator : ',';
 
 							// Convert string to attributes
 							var variable_attribute_array = this.string_to_attributes(variable_attribute_string, separator);
@@ -2016,13 +2016,13 @@
 
 							var parse_variable_attribute = parse_variable_attributes[parse_variable_attributes_index];
 
-							var parse_variable_attribute_id = parse_variable_attribute['id'];
+							var parse_variable_attribute_id = parse_variable_attribute.id;
 
 							// Was attribute provided for this index?
 							var parse_variable_attribute_supplied = (typeof(variable_attribute_array[parse_variable_attributes_index]) !== 'undefined');
 
 							// Check required
-							var parse_variable_attribute_required = (typeof(parse_variable_attribute['required']) !== 'undefined') ? parse_variable_attribute['required'] : true;
+							var parse_variable_attribute_required = (typeof(parse_variable_attribute.required) !== 'undefined') ? parse_variable_attribute.required : true;
 							if(parse_variable_attribute_required && !parse_variable_attribute_supplied) {
 
 								// Syntax error - Attribute count
@@ -2031,14 +2031,14 @@
 							}
 
 							// Check default
-							var parse_variable_attribute_default = (typeof(parse_variable_attribute['default']) !== 'undefined') ? parse_variable_attribute['default'] : false;
+							var parse_variable_attribute_default = (typeof(parse_variable_attribute.default) !== 'undefined') ? parse_variable_attribute.default : false;
 							if((parse_variable_attribute_default !== false) && !parse_variable_attribute_supplied) {
 
 								variable_attribute_array[parse_variable_attributes_index] = parse_variable_attribute_default;
 							}
 
 							// Check trim
-							var parse_variable_attribute_trim = (typeof(parse_variable_attribute['trim']) !== 'undefined') ? parse_variable_attribute['trim'] : true;
+							var parse_variable_attribute_trim = (typeof(parse_variable_attribute.trim) !== 'undefined') ? parse_variable_attribute.trim : true;
 							if(parse_variable_attribute_trim) {
 
 								var parse_variable_attribute_value = variable_attribute_array[parse_variable_attributes_index];
@@ -2050,7 +2050,7 @@
 							}
 
 							// Check valid
-							var parse_variable_attribute_valid = (typeof(parse_variable_attribute['valid']) !== 'undefined') ? parse_variable_attribute['valid'] : false;
+							var parse_variable_attribute_valid = (typeof(parse_variable_attribute.valid) !== 'undefined') ? parse_variable_attribute.valid : false;
 							if(parse_variable_attribute_valid !== false) {
 
 								if(!parse_variable_attribute_valid.includes(variable_attribute_array[parse_variable_attributes_index])) {
@@ -2391,7 +2391,7 @@
 								}
 
 								// Check if submitted as array
-								var submit_array_from = (typeof(field_type_config_from['submit_array']) !== 'undefined') ? field_type_config_from['submit_array'] : false;
+								var submit_array_from = (typeof(field_type_config_from.submit_array) !== 'undefined') ? field_type_config_from.submit_array : false;
 
 								// Get criteria needed to work out how to get field value
 								var section_repeatable_section_id_from = (typeof(field_from.section_repeatable_section_id) !== 'undefined') ? parseInt(field_from.section_repeatable_section_id, 10) : false;
@@ -3311,18 +3311,18 @@
 		// Form
 		if(parse_string.indexOf('form') != -1) {
 
-			variables['form_id'] = this.form_id;
-			variables['form_instance_id'] = this.form_instance_id;
-			variables['form_obj_id'] = this.form_obj_id;
-			variables['form_label'] = this.form.label;
-			variables['form_checksum'] = this.form.published_checksum;
-			variables['form_framework'] = this.framework.name;
+			variables.form_id = this.form_id;
+			variables.form_instance_id = this.form_instance_id;
+			variables.form_obj_id = this.form_obj_id;
+			variables.form_label = this.form.label;
+			variables.form_checksum = this.form.published_checksum;
+			variables.form_framework = this.framework.name;
 		}
 
 		// Section
 		if(parse_string.indexOf('section') != -1) {
 
-			variables['section_row_index'] = section_repeatable_index;
+			variables.section_row_index = section_repeatable_index;
 
 			// Get section ID
 			var section_row_number = 1;
@@ -3344,13 +3344,13 @@
 				if(section_row_number <= 0) { section_row_number = 1; }
 			}
 
-			variables['section_row_number'] = section_row_number;
+			variables.section_row_number = section_row_number;
 		}
 
 		// Submit
 		if(parse_string.indexOf('submit') != -1) {
 
-			variables['submit_hash'] = this.hash;
+			variables.submit_hash = this.hash;
 		}
 
 		// Client
@@ -3358,8 +3358,8 @@
 
 			var client_date_time = new Date();
 
-			variables['client_time'] = ((typeof(this.date_format) === 'function') ? this.date_format(client_date_time, ws_form_settings.time_format) : '');
-			variables['client_date'] = ((typeof(this.date_format) === 'function') ? this.date_format(client_date_time, ws_form_settings.date_format) : '');
+			variables.client_time = ((typeof(this.date_format) === 'function') ? this.date_format(client_date_time, ws_form_settings.time_format) : '');
+			variables.client_date = ((typeof(this.date_format) === 'function') ? this.date_format(client_date_time, ws_form_settings.date_format) : '');
 		}
 
 		// Seconds
@@ -3368,13 +3368,13 @@
 			var now = new Date();
 			now.setHours(0,0,0,0);
 
-			variables['seconds_epoch_midnight'] = Math.round(now.getTime() / 1000);
+			variables.seconds_epoch_midnight = Math.round(now.getTime() / 1000);
 		}
 		if(parse_string.indexOf('seconds_epoch') != -1) {
 
 			var now = new Date();
 
-			variables['seconds_epoch'] = Math.round(now.getTime() / 1000);
+			variables.seconds_epoch = Math.round(now.getTime() / 1000);
 		}
 
 
@@ -3569,7 +3569,7 @@
 					(typeof(data_cloned[label_column_index]) !== 'undefined')
 				) {
 
-					mask_values_row['data_grid_row_label'] = data_cloned[label_column_index];
+					mask_values_row.data_grid_row_label = data_cloned[label_column_index];
 				}
 
 				// Parse Variable
@@ -3578,7 +3578,7 @@
 					(typeof(data_cloned[parse_variable_column_index]) !== 'undefined')
 				) {
 
-					mask_values_row['data_grid_row_action_variable'] = data_cloned[parse_variable_column_index];
+					mask_values_row.data_grid_row_action_variable = data_cloned[parse_variable_column_index];
 				}
 
 				// Parse columns
@@ -3618,7 +3618,7 @@
 		if(this.get_object_meta_value(field, 'wpautop_do_not_process', '') == 'on') { return false; }
 
 		// Meta wpautop
-		var wpautop_parse_variable = (typeof(field_type_config['wpautop_parse_variable']) !== 'undefined') ? field_type_config['wpautop_parse_variable'] : false;	
+		var wpautop_parse_variable = (typeof(field_type_config.wpautop_parse_variable) !== 'undefined') ? field_type_config.wpautop_parse_variable : false;	
 
 		if(typeof(wpautop_parse_variable) === 'object') {
 
@@ -3630,7 +3630,7 @@
 
 				var condition = wpautop_parse_variable[wpautop_parse_variable_index];
 
-				if(this.get_object_meta_value(field, condition['meta_key'], '') === condition['meta_value']) {
+				if(this.get_object_meta_value(field, condition.meta_key, '') === condition.meta_value) {
 
 					condition_output = true;
 				}
@@ -5131,7 +5131,7 @@
 		if(invalid_feedback_default == '') {
 
 			// Get invalid feedback mask
-			var meta_key_config = $.WS_Form.meta_keys['invalid_feedback_mask'];
+			var meta_key_config = $.WS_Form.meta_keys.invalid_feedback_mask;
 
 			// Return placeholder
 			return meta_key_config.p ? meta_key_config.p : meta_key_config.mask_placeholder;
@@ -5185,7 +5185,7 @@
 		var field_type_config = $.WS_Form.field_type_cache[field.type];
 
 		// Check to see if this field can be used in the current edition
-		var pro_required = field_type_config['pro_required'];
+		var pro_required = field_type_config.pro_required;
 		if(pro_required) { return this.language('error_pro_required'); }
 
 		// Should label be rendered?
@@ -5207,7 +5207,7 @@
 		if(label_disabled) { label_render = false; }
 
 		// Should field name be suffixed with []?
-		var submit_array = (typeof field_type_config['submit_array'] !== 'undefined') ? field_type_config['submit_array'] : false;
+		var submit_array = (typeof field_type_config.submit_array !== 'undefined') ? field_type_config.submit_array : false;
 		if(submit_array) { field_name += '[]'; }
 
 		// Determine label_position (If we are not rendering the label, then set to top so no position specific framework masks are used)
@@ -5229,7 +5229,7 @@
 		var mask_field_attributes = ($.extend(true, [], this.get_field_value_fallback(field.type, label_position, 'mask_field_attributes', [], false, sub_type)));
 
 		// Check to see if wrappers should be ignored
-		var mask_wrappers_drop = (typeof field_type_config['mask_wrappers_drop'] !== 'undefined') ? field_type_config['mask_wrappers_drop'] : false;
+		var mask_wrappers_drop = (typeof field_type_config.mask_wrappers_drop !== 'undefined') ? field_type_config.mask_wrappers_drop : false;
 
 
 		// Load masks
@@ -5383,7 +5383,7 @@
 			}
 
 			// Label position
-			var label_inside = (typeof(field_type_config['label_inside']) !== 'undefined') ? field_type_config['label_inside'] : false;
+			var label_inside = (typeof(field_type_config.label_inside) !== 'undefined') ? field_type_config.label_inside : false;
 			if(
 				label_inside &&
 				(label_position === 'inside')
@@ -5486,7 +5486,7 @@
 
 			// Get default value
 			var meta_key_config = (typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') ? false : $.WS_Form.meta_keys[meta_key];
-			var meta_key_value_default = (meta_key_config !== false) ? ((typeof(meta_key_config['d']) === 'undefined') ? '' : meta_key_config['d']) : '';
+			var meta_key_value_default = (meta_key_config !== false) ? ((typeof(meta_key_config.d) === 'undefined') ? '' : meta_key_config.d) : '';
 
 			// Get meta value
 			var meta_value = this.get_object_meta_value(field, meta_key, meta_key_value_default);
@@ -5502,7 +5502,7 @@
 
 		// Field label - Mask values
 		var mask_values_field_label = $.extend(true, {}, mask_values_field);
-		mask_values_field_label['label_id'] = this.get_part_id(field.id, section_repeatable_index, 'label');
+		mask_values_field_label.label_id = this.get_part_id(field.id, section_repeatable_index, 'label');
 
 		// Help
 		var help_id = this.get_part_id(field.id, section_repeatable_index, 'help');
@@ -5559,12 +5559,12 @@
 		var class_help_array = this.get_field_value_fallback(field.type, label_position, 'class_help_' + ((help_position == 'bottom') ? 'post' : 'pre'), [], false, sub_type);
 
 		// Help mask values
-		mask_values_help['id'] = field_id;
-		mask_values_help['help_id'] = help_id;
-		mask_values_help['help_class'] = class_help_array.join(' ');
-		mask_values_help['help'] = help;
+		mask_values_help.id = field_id;
+		mask_values_help.help_id = help_id;
+		mask_values_help.help_class = class_help_array.join(' ');
+		mask_values_help.help = help;
 
-		mask_values_field['help_class'] = class_help_array.join(' ');
+		mask_values_field.help_class = class_help_array.join(' ');
 
 		// Get invalid_feedback parameters
 		var invalid_feedback_render = (is_submit ? false : this.get_object_meta_value(field, 'invalid_feedback_render', false, false, true));
@@ -5595,10 +5595,10 @@
 			invalid_feedback = this.get_invalid_feedback_mask_parsed(invalid_feedback, field.label);
 
 			// Invalid feedback mask values
-			mask_values_invalid_feedback['invalid_feedback_id'] = invalid_feedback_id;
-			mask_values_invalid_feedback['invalid_feedback_class'] = class_invalid_feedback_array.join(' ');
-			mask_values_invalid_feedback['invalid_feedback'] = invalid_feedback;
-			mask_values_invalid_feedback['attributes'] = '';
+			mask_values_invalid_feedback.invalid_feedback_id = invalid_feedback_id;
+			mask_values_invalid_feedback.invalid_feedback_class = class_invalid_feedback_array.join(' ');
+			mask_values_invalid_feedback.invalid_feedback = invalid_feedback;
+			mask_values_invalid_feedback.attributes = '';
 
 			var invalid_feedback_parsed = this.mask_parse(mask_invalid_feedback, mask_values_invalid_feedback);
 
@@ -5608,11 +5608,11 @@
 			var invalid_feedback_parsed = '';
 		}
 
-		mask_values_field['invalid_feedback'] = invalid_feedback_parsed;
-		mask_values_field_label['invalid_feedback'] = invalid_feedback_parsed;
+		mask_values_field.invalid_feedback = invalid_feedback_parsed;
+		mask_values_field_label.invalid_feedback = invalid_feedback_parsed;
 
 		// Field - Attributes
-		mask_values_field['attributes'] = '';
+		mask_values_field.attributes = '';
 
 		if(is_submit) {
 
@@ -5624,7 +5624,7 @@
 
 		if(mask_field_attributes.length > 0) {
 			var get_attributes_return = this.get_attributes(field, mask_field_attributes, false, section_repeatable_index);
-			mask_values_field['attributes'] += ' '  + get_attributes_return.attributes;
+			mask_values_field.attributes += ' '  + get_attributes_return.attributes;
 			mask_field_attributes = get_attributes_return.mask_attributes;
 			attributes_values_field = get_attributes_return.attribute_values;
 		}
@@ -5632,14 +5632,14 @@
 		// If there is no wrapper (e.g. hidden field) then add data-repeatable-index attribute directly to field
 		if(section_repeatable_index !== false) {
 
-			mask_values_field['attributes'] += ' data-repeatable-index="' + this.esc_attr(section_repeatable_index) + '"';
+			mask_values_field.attributes += ' data-repeatable-index="' + this.esc_attr(section_repeatable_index) + '"';
 		}
 
 		// Attributes to inherit at a row level
 		var mask_values_row_attributes_source = '';
 
 		// Custom attributes
-		mask_values_field['attributes'] = this.custom_attributes(mask_values_field['attributes'], field, 'field', section_repeatable_index);
+		mask_values_field.attributes = this.custom_attributes(mask_values_field.attributes, field, 'field', section_repeatable_index);
 
 		// Field - Attributes - Orientation
 		var orientation = this.get_object_meta_value(field, 'orientation', false);
@@ -5658,7 +5658,7 @@
 		}
 
 		// Field label - Attributes
-		mask_values_field_label['attributes'] = '';
+		mask_values_field_label.attributes = '';
 		var mask_field_label_attributes = ($.extend(true, [], this.get_field_value_fallback(field.type, label_position, 'mask_field_label_attributes', [], false, sub_type)));
 
 		if(is_submit) {
@@ -5671,7 +5671,7 @@
 
 		if(mask_field_label_attributes.length > 0) {
 			var get_attributes_return = this.get_attributes(field, mask_field_label_attributes, false, section_repeatable_index);
-			mask_values_field_label['attributes'] += get_attributes_return.attributes;
+			mask_values_field_label.attributes += get_attributes_return.attributes;
 			mask_field_label_attributes = get_attributes_return.mask_attributes;
 		}
 
@@ -5770,7 +5770,7 @@
 
 				// Inject placeholder row
 				var mask_values_row_placeholder = $.extend(true, {}, mask_values_field);
-				mask_values_row_placeholder['value'] = placeholder_row;
+				mask_values_row_placeholder.value = placeholder_row;
 				data += this.mask_parse(mask_row_placeholder, mask_values_row_placeholder);
 			}
 
@@ -5854,7 +5854,7 @@
 
 				// Mask values
 				var mask_values_group = $.extend(true, {}, mask_values_field);
-				mask_values_group['group_id'] = this.form_id_prefix + 'datagrid-' + field.id + '-group-' + data_group_index + repeatable_suffix;
+				mask_values_group.group_id = this.form_id_prefix + 'datagrid-' + field.id + '-group-' + data_group_index + repeatable_suffix;
 
 				var data_group = data_groups[data_group_index];
 
@@ -5885,19 +5885,19 @@
 				if(mask_values_group_label_render) {
 
 					var mask_values_group_label = $.extend(true, {}, mask_values_field);
-					mask_values_group_label['group_label'] = data_group.label;
-					mask_values_group_label['label_row_id'] = this.form_id_prefix + 'label-' + field.id + '-group-' + data_group_index + repeatable_suffix;
+					mask_values_group_label.group_label = data_group.label;
+					mask_values_group_label.label_row_id = this.form_id_prefix + 'label-' + field.id + '-group-' + data_group_index + repeatable_suffix;
 
 					// Parse group label mask to build group_label value
-					mask_values_group['group_label'] = this.parse_variables_process(this.mask_parse(mask_group_label, mask_values_group_label), section_repeatable_index).output;
+					mask_values_group.group_label = this.parse_variables_process(this.mask_parse(mask_group_label, mask_values_group_label), section_repeatable_index).output;
 
 				} else {
 
-					mask_values_group['group_label'] = '';
+					mask_values_group.group_label = '';
 				}
 
 				// Get group disabled (optional)
-				mask_values_group['disabled'] = (typeof(data_group.disabled) !== 'undefined') ? (data_group.disabled == 'on' ? ' disabled' : '') : '';
+				mask_values_group.disabled = (typeof(data_group.disabled) !== 'undefined') ? (data_group.disabled == 'on' ? ' disabled' : '') : '';
 
 				// Should group data mask be used?
 				var mask_group_use = ((typeof(data_group.mask_group) !== 'undefined') ? (data_group.mask_group == 'on') : false) || mask_group_always;
@@ -5964,7 +5964,7 @@
 						if(
 							(data_row === null) ||
 							(typeof(data_row) !== 'object') ||
-							(typeof(data_row['data']) !== 'object')
+							(typeof(data_row.data) !== 'object')
 						) {
 							continue;
 						}
@@ -5976,12 +5976,12 @@
 						var mask_values_row = $.extend(true, {}, mask_values_field);
 
 						// Clear values
-						mask_values_row['data_grid_row_value'] = '';
-						mask_values_row['data_grid_row_action_variable'] = '';
-						mask_values_row['data_grid_row_label'] = '';
-						mask_values_row['data_grid_row_price'] = '';
-						mask_values_row['data_grid_row_price_currency'] = '';
-						mask_values_row['data_grid_row_woocommerce_cart'] = '';
+						mask_values_row.data_grid_row_value = '';
+						mask_values_row.data_grid_row_action_variable = '';
+						mask_values_row.data_grid_row_label = '';
+						mask_values_row.data_grid_row_price = '';
+						mask_values_row.data_grid_row_price_currency = '';
+						mask_values_row.data_grid_row_woocommerce_cart = '';
 
 						// Mask values - Data mask fields
 						for(var mask_row_lookup in mask_row_lookup_array) {
@@ -5994,9 +5994,9 @@
 							var data_column_index = mask_row_lookup_array[mask_row_lookup];
 
 							if(data_column_index === false) { continue; }
-							if(typeof(data_row['data'][data_column_index]) === 'undefined') { continue; }
+							if(typeof(data_row.data[data_column_index]) === 'undefined') { continue; }
 
-							var mask_row_lookup_value = data_row['data'][data_column_index];
+							var mask_row_lookup_value = data_row.data[data_column_index];
 							if(mask_row_lookup_value === null) { mask_row_lookup_value = ''; }
 
 							mask_row_lookup_value = this.parse_variables_process(mask_row_lookup_value.toString(), section_repeatable_index, false, field, 'data_grid_row', calc_register).output;
@@ -6031,7 +6031,7 @@
 									mask_values_row[mask_row_lookup_percentage] = range_percentage;
 
 									// Build datagrid row variable
-									if(mask_row_lookup.indexOf('_field_percentage') !== -1) { mask_values_row['data_grid_row_value_percentage'] = range_percentage; }
+									if(mask_row_lookup.indexOf('_field_percentage') !== -1) { mask_values_row.data_grid_row_value_percentage = range_percentage; }
 
 									break;
 							}
@@ -6047,11 +6047,11 @@
 								var mask_row_lookup_config = $.WS_Form.meta_keys[mask_row_lookup];
 
 								// Check for HTML encoding
-								var esc_html = (typeof(mask_row_lookup_config['h']) !== 'undefined') ? mask_row_lookup_config['h'] : false;
+								var esc_html = (typeof(mask_row_lookup_config.h) !== 'undefined') ? mask_row_lookup_config.h : false;
 								if(esc_html) { mask_row_lookup_value = this.esc_html(mask_row_lookup_value); }
 
 								// Check for price
-								var price = (typeof(mask_row_lookup_config['pr']) !== 'undefined') ? mask_row_lookup_config['pr'] : false;
+								var price = (typeof(mask_row_lookup_config.pr) !== 'undefined') ? mask_row_lookup_config.pr : false;
 							}
 
 							if(price) {
@@ -6063,8 +6063,8 @@
 								mask_values_row[mask_row_lookup] = mask_row_lookup_value_number;
 
 								// Build datagrid row variable
-								if(mask_row_lookup.indexOf('_price_field_price') !== -1) { mask_values_row['data_grid_row_price'] = mask_row_lookup_value_number; }
-								if(mask_row_lookup_currency.indexOf('_price_field_price_currency') !== -1) { mask_values_row['data_grid_row_price_currency'] = mask_row_lookup_value_currency; }
+								if(mask_row_lookup.indexOf('_price_field_price') !== -1) { mask_values_row.data_grid_row_price = mask_row_lookup_value_number; }
+								if(mask_row_lookup_currency.indexOf('_price_field_price_currency') !== -1) { mask_values_row.data_grid_row_price_currency = mask_row_lookup_value_currency; }
 
 							} else {
 
@@ -6072,63 +6072,63 @@
 							}
 
 							// Build datagrid row variables
-							if(mask_row_lookup.indexOf('_field_value') !== -1) { mask_values_row['data_grid_row_value'] = mask_row_lookup_value; }
-							if(mask_row_lookup.indexOf('_field_parse_variable') !== -1) { mask_values_row['data_grid_row_action_variable'] = mask_row_lookup_value; }
-							if(mask_row_lookup.indexOf('_field_label') !== -1) { mask_values_row['data_grid_row_label'] = mask_row_lookup_value; }
-							if(mask_row_lookup.indexOf('_field_wc') !== -1) { mask_values_row['data_grid_row_woocommerce_cart'] = mask_row_lookup_value; }
+							if(mask_row_lookup.indexOf('_field_value') !== -1) { mask_values_row.data_grid_row_value = mask_row_lookup_value; }
+							if(mask_row_lookup.indexOf('_field_parse_variable') !== -1) { mask_values_row.data_grid_row_action_variable = mask_row_lookup_value; }
+							if(mask_row_lookup.indexOf('_field_label') !== -1) { mask_values_row.data_grid_row_label = mask_row_lookup_value; }
+							if(mask_row_lookup.indexOf('_field_wc') !== -1) { mask_values_row.data_grid_row_woocommerce_cart = mask_row_lookup_value; }
 						}
 
 						// Check for row value mask (Used by price_select, price_radio and price_checkbox)
-						if(typeof(field_type_config['mask_row_value']) !== 'undefined') {
+						if(typeof(field_type_config.mask_row_value) !== 'undefined') {
 
-							mask_values_row['row_value'] = this.mask_parse(field_type_config['mask_row_value'], mask_values_row);
+							mask_values_row.row_value = this.mask_parse(field_type_config.mask_row_value, mask_values_row);
 
 							// Re-parse if user has variables in the row value
-							if(mask_values_row['row_value'].indexOf('#') > -1) {
+							if(mask_values_row.row_value.indexOf('#') > -1) {
 
-								mask_values_row['row_value'] = this.mask_parse(mask_values_row['row_value'], mask_values_row);
+								mask_values_row.row_value = this.mask_parse(mask_values_row.row_value, mask_values_row);
 							}
 						}
-						if(typeof(field_type_config['mask_row_price']) !== 'undefined') {
+						if(typeof(field_type_config.mask_row_price) !== 'undefined') {
 
-							mask_values_row['row_price'] = this.mask_parse(field_type_config['mask_row_price'], mask_values_row);
+							mask_values_row.row_price = this.mask_parse(field_type_config.mask_row_price, mask_values_row);
 						}
 
 						// Mask values row
 						if(data_row.select_all) {
 
-							mask_values_row['row_id'] = this.form_id_prefix + 'field-' + field.id + '-group-' + data_group_index + '-row-' + data_row['id'] + repeatable_suffix;
+							mask_values_row.row_id = this.form_id_prefix + 'field-' + field.id + '-group-' + data_group_index + '-row-' + data_row.id + repeatable_suffix;
 
 						} else {
 
-							mask_values_row['row_id'] = this.form_id_prefix + 'field-' + field.id + '-row-' + data_row['id'] + repeatable_suffix;
+							mask_values_row.row_id = this.form_id_prefix + 'field-' + field.id + '-row-' + data_row.id + repeatable_suffix;
 						}
-						mask_values_row['data_id'] = data_row['id'];
+						mask_values_row.data_id = data_row.id;
 
 						// Copy to row label and field mask values
 						var mask_values_row_field = $.extend(true, {}, mask_values_row);
 						var mask_values_row_label = $.extend(true, {}, mask_values_row);
-						mask_values_row_label['label_id'] = this.form_id_prefix + 'label-' + field.id + repeatable_suffix;
-						mask_values_row_label['label_row_id'] = this.form_id_prefix + 'label-' + field.id + '-row-' + data_row['id'] + repeatable_suffix;
+						mask_values_row_label.label_id = this.form_id_prefix + 'label-' + field.id + repeatable_suffix;
+						mask_values_row_label.label_row_id = this.form_id_prefix + 'label-' + field.id + '-row-' + data_row.id + repeatable_suffix;
 
 						// Build default extra values
 						var extra_values_default = [];
 						if(
-							(!has_value && data_row['default']) ||
+							(!has_value && data_row.default) ||
 							(has_value && (datagrid_column_value !== false) && has_value_indexof && (value.indexOf(mask_values_row[datagrid_column_value + '_compare']) > -1)) ||
-							(has_value && (typeof(mask_values_row['row_value']) !== 'undefined') && has_value_indexof && (value.indexOf(mask_values_row['row_value']) > -1))
-						) { extra_values_default['default'] = mask_row_default; }
-						if(data_row['disabled']) { extra_values_default['disabled'] = mask_row_disabled; }
-						if(data_row['required']) { extra_values_default['required'] = mask_row_required; }
+							(has_value && (typeof(mask_values_row.row_value) !== 'undefined') && has_value_indexof && (value.indexOf(mask_values_row.row_value) > -1))
+						) { extra_values_default.default = mask_row_default; }
+						if(data_row.disabled) { extra_values_default.disabled = mask_row_disabled; }
+						if(data_row.required) { extra_values_default.required = mask_row_required; }
 
 						// These attributes we manually push across to rows
-						extra_values_default['dedupe_value_scope'] = dedupe_value_scope;
-						extra_values_default['hidden_bypass'] = hidden_bypass;
-						extra_values_default['exclude_cart_total'] = exclude_cart_total;
+						extra_values_default.dedupe_value_scope = dedupe_value_scope;
+						extra_values_default.hidden_bypass = hidden_bypass;
+						extra_values_default.exclude_cart_total = exclude_cart_total;
 
-						mask_values_row['attributes'] = mask_values_row_attributes_source;
-						mask_values_row_label['attributes'] = '';
-						mask_values_row_field['attributes'] = '';
+						mask_values_row.attributes = mask_values_row_attributes_source;
+						mask_values_row_label.attributes = '';
+						mask_values_row_field.attributes = '';
 
 						// Row - Attributes
 						var extra_values = $.extend(true, [], extra_values_default);
@@ -6137,27 +6137,27 @@
 
 							// class (Inline)
 							var class_inline_array = (orientation == 'horizontal') ? this.get_field_value_fallback(field.type, label_position, 'class_inline', false, false, sub_type) : false;
-							if(class_inline_array !== false) { extra_values['class'] = class_inline_array.join(' '); }
+							if(class_inline_array !== false) { extra_values.class = class_inline_array.join(' '); }
 
 							// class (Row)
 							var class_row_array = this.get_field_value_fallback(field.type, label_position, 'class_row', false, false, sub_type)
-							if(class_row_array !== false) { extra_values['class'] = (class_inline_array !== false) ? (extra_values['class'] + ' ' + class_row_array.join(' ')) : class_row_array.join(' '); }
+							if(class_row_array !== false) { extra_values.class = (class_inline_array !== false) ? (extra_values.class + ' ' + class_row_array.join(' ')) : class_row_array.join(' '); }
 
 							// class if disabled
-							if(data_row['disabled']) {
+							if(data_row.disabled) {
 								var class_row_disabled_array = this.get_field_value_fallback(field.type, label_position, 'class_row_disabled', false, false, sub_type);
-								if(class_row_disabled_array !== false) { extra_values['class'] += ' ' + class_row_disabled_array.join(' '); }
+								if(class_row_disabled_array !== false) { extra_values.class += ' ' + class_row_disabled_array.join(' '); }
 							}
 						}
 
 						var mask_row_attributes = ($.extend(true, [], this.get_field_value_fallback(field.type, label_position, 'mask_row_attributes', [], false, sub_type)));
 						if(mask_row_attributes.length > 0) {
 							var get_attributes_return = this.get_attributes(field, mask_row_attributes, extra_values, section_repeatable_index);
-							mask_values_row['attributes'] += ' ' + get_attributes_return.attributes;
+							mask_values_row.attributes += ' ' + get_attributes_return.attributes;
 						}
 
 						// Skip hidden rows
-						if((typeof(data_row['hidden']) !== 'undefined') && data_row['hidden'] && !is_submit) {
+						if((typeof(data_row.hidden) !== 'undefined') && data_row.hidden && !is_submit) {
 
 							switch(field.type) {
 
@@ -6169,7 +6169,7 @@
 								// Checkboxes and radios
 								default :
 
-									mask_values_row['attributes'] += ' style="display: none;"';
+									mask_values_row.attributes += ' style="display: none;"';
 							}
 						}
 
@@ -6179,7 +6179,7 @@
 							(orientation_row_class != '') 
 						) {
 
-							mask_values_row['attributes'] = this.attribute_modify(mask_values_row['attributes'], 'class', orientation_row_class, true);
+							mask_values_row.attributes = this.attribute_modify(mask_values_row.attributes, 'class', orientation_row_class, true);
 						}
 
 						// Row - Label - Attributes
@@ -6187,7 +6187,7 @@
 
 						// Class
 						var class_row_field_label_array = this.get_field_value_fallback(field.type, label_position, 'class_row_field_label', false, false, sub_type);
-						if(class_row_field_label_array !== false) { extra_values['class'] = class_row_field_label_array.join(' '); }
+						if(class_row_field_label_array !== false) { extra_values.class = class_row_field_label_array.join(' '); }
 
 						var mask_row_label_attributes = ($.extend(true, [], this.get_field_value_fallback(field.type, label_position, 'mask_row_label_attributes', [], false, sub_type)));
 
@@ -6201,7 +6201,7 @@
 
 						if(mask_row_label_attributes.length > 0) {
 							var get_attributes_return = this.get_attributes(field, mask_row_label_attributes, extra_values, section_repeatable_index);
-							mask_values_row_label['attributes'] += ' ' + get_attributes_return.attributes;
+							mask_values_row_label.attributes += ' ' + get_attributes_return.attributes;
 						}
 
 						// Row - Field - Attributes
@@ -6209,25 +6209,25 @@
 
 						// class
 						var class_row_field_array = this.get_field_value_fallback(field.type, label_position, 'class_row_field', false, false, sub_type);
-						if(class_row_field_array !== false) { extra_values['class'] = class_row_field_array.join(' '); }
+						if(class_row_field_array !== false) { extra_values.class = class_row_field_array.join(' '); }
 
 						// class (Field setting)
-						if(!is_submit && (class_field != '')) { extra_values['class'] += ' ' + class_field.trim(); }
+						if(!is_submit && (class_field != '')) { extra_values.class += ' ' + class_field.trim(); }
 
 						// aria-labelledby
-						extra_values['aria_labelledby'] = mask_values_row_label['label_row_id'];
+						extra_values.aria_labelledby = mask_values_row_label.label_row_id;
 
 						// Row attributes
 						if(
-							(!has_value && data_row['default']) ||
+							(!has_value && data_row.default) ||
 							(has_value && (datagrid_column_value !== false) && has_value_indexof && (value.indexOf(mask_values_row[datagrid_column_value + '_compare']) > -1))
-						) { extra_values['default'] = mask_row_default; }
+						) { extra_values.default = mask_row_default; }
 
-						if(data_row['disabled']) { extra_values['disabled'] = mask_row_disabled; }
-						if(data_row['required']) { extra_values['required'] = mask_row_required; }
+						if(data_row.disabled) { extra_values.disabled = mask_row_disabled; }
+						if(data_row.required) { extra_values.required = mask_row_required; }
 
 						// Copy field level attributes to row
-						extra_values['required_row'] = attributes_values_field['required'];
+						extra_values.required_row = attributes_values_field.required;
 
 						// Build row field attributes
 						var mask_row_field_attributes = ($.extend(true, [], this.get_field_value_fallback(field.type, label_position, 'mask_row_field_attributes', [], false, sub_type)));
@@ -6242,13 +6242,13 @@
 
 						if(mask_row_field_attributes.length > 0) {
 							var get_attributes_return = this.get_attributes(field, mask_row_field_attributes, extra_values, section_repeatable_index);
-							mask_values_row_field['attributes'] += ' ' + get_attributes_return.attributes;
+							mask_values_row_field.attributes += ' ' + get_attributes_return.attributes;
 						}
-						if(mask_values_row_field['attributes'] != '') { mask_values_row_field['attributes'] = ' ' + mask_values_row_field['attributes']; }
+						if(mask_values_row_field.attributes != '') { mask_values_row_field.attributes = ' ' + mask_values_row_field.attributes; }
 
 						if(typeof(data_row.select_all) !== 'undefined') {
 
-							mask_values_row_field['attributes'] += ' data-wsf-select-all';
+							mask_values_row_field.attributes += ' data-wsf-select-all';
 						}
 
 						// Hierarchy (Vertical only)
@@ -6265,7 +6265,7 @@
 								case 'radio' :
 								case 'price_radio' :
 
-									mask_values_row['attributes'] += ' data-wsf-hierarchy="' + this.esc_attr(data_row.hierarchy) + '"';
+									mask_values_row.attributes += ' data-wsf-hierarchy="' + this.esc_attr(data_row.hierarchy) + '"';
 									break;
 
 								case 'select' :
@@ -6273,7 +6273,7 @@
 
 									if(data_row.hierarchy > 0) {
 
-										mask_values_row['select_field_label'] = '&nbsp;&nbsp;&nbsp;'.repeat(data_row.hierarchy) + mask_values_row['select_field_label'];
+										mask_values_row.select_field_label = '&nbsp;&nbsp;&nbsp;'.repeat(data_row.hierarchy) + mask_values_row.select_field_label;
 									}
 									break;
 							}
@@ -6282,8 +6282,8 @@
 						// Parse invalid feedback for rows
 						if(invalid_feedback_render && !invalid_feedback_last_row) {
 
-							invalid_feedback_id = this.form_id_prefix + 'invalid-feedback-' + field.id + '-row-' + data_row['id'] + repeatable_suffix;
-							mask_values_invalid_feedback['invalid_feedback_id'] = invalid_feedback_id;
+							invalid_feedback_id = this.form_id_prefix + 'invalid-feedback-' + field.id + '-row-' + data_row.id + repeatable_suffix;
+							mask_values_invalid_feedback.invalid_feedback_id = invalid_feedback_id;
 							if(invalid_feedback_render) {
 
 								var invalid_feedback_parsed = this.mask_parse(mask_invalid_feedback, mask_values_invalid_feedback);
@@ -6295,17 +6295,17 @@
 						}
 
 						// Invalid feedback
-						mask_values_row_field['invalid_feedback'] = (last_row ? invalid_feedback_parsed : '');
-						mask_values_row_label['invalid_feedback'] = (last_row ? invalid_feedback_parsed : '');
+						mask_values_row_field.invalid_feedback = (last_row ? invalid_feedback_parsed : '');
+						mask_values_row_label.invalid_feedback = (last_row ? invalid_feedback_parsed : '');
 
 						// Parse field
 						var row_field_html = this.mask_parse(mask_row_field, mask_values_row_field);
-						mask_values_row_label['row_field'] = row_field_html;
-						mask_values_row['row_field'] = row_field_html;
+						mask_values_row_label.row_field = row_field_html;
+						mask_values_row.row_field = row_field_html;
 
 						// Parse label
 						var row_field_label = this.mask_parse(mask_row_label, mask_values_row_label);
-						mask_values_row['row_label'] = row_field_label;
+						mask_values_row.row_label = row_field_label;
 
 						// Parse row
 						group += this.mask_parse(mask_row, mask_values_row);
@@ -6329,7 +6329,7 @@
 						(orientation_group_wrapper_class != '')
 					) {
 
-						mask_values_group_wrapper['attributes'] = ' class="' + this.esc_attr(orientation_group_wrapper_class) + '"';
+						mask_values_group_wrapper.attributes = ' class="' + this.esc_attr(orientation_group_wrapper_class) + '"';
 					}
 					group = this.mask_parse(mask_group_wrapper, mask_values_group_wrapper);
 				}
@@ -6337,7 +6337,7 @@
 				if((mask_group !== false) && mask_group_use) {
 
 					// Parse mask_group
-					mask_values_group['group'] = group;
+					mask_values_group.group = group;
 					data += this.mask_parse(mask_group, mask_values_group);
 
 				} else {
@@ -6351,11 +6351,11 @@
 		// Add to mask array
 		if(data_row_count > 0) {
 
-			mask_values_field['datalist'] = data;
+			mask_values_field.datalist = data;
 
 		} else {
 
-			mask_values_field['datalist'] = '';
+			mask_values_field.datalist = '';
 		}
 
 		// Field - Attributes
@@ -6366,10 +6366,10 @@
 			// list
 			if(typeof(mask_values_group) !== 'undefined') {
 				if(
-					(typeof(mask_values_group['group_id']) !== 'undefined') &&
+					(typeof(mask_values_group.group_id) !== 'undefined') &&
 					data_row_count > 0
 
-				) { extra_values['list'] = mask_values_group['group_id']; }
+				) { extra_values.list = mask_values_group.group_id; }
 			}
 
 			// aria_labelledby (Used if aria_label is blank)
@@ -6382,30 +6382,30 @@
 				) {
 
 					// Use aria_labelledby instead of aria_label
-					extra_values['aria_labelledby'] = this.form_id_prefix + 'label-' + field.id + repeatable_suffix;
+					extra_values.aria_labelledby = this.form_id_prefix + 'label-' + field.id + repeatable_suffix;
 
 				} else {
 
 					// Set to label
-					extra_values['aria_label'] = field.label;
+					extra_values.aria_label = field.label;
 				}
 			}
 
 			// aria_describedby
-			if(has_help) { extra_values['aria_describedby'] = help_id; }
+			if(has_help) { extra_values.aria_describedby = help_id; }
 
 			// class (Config)
 			var class_field_array = this.get_field_value_fallback(field.type, label_position, 'class_field', false, false, sub_type);
-			if(class_field_array !== false) { extra_values['class'] = class_field_array.join(' '); }
+			if(class_field_array !== false) { extra_values.class = class_field_array.join(' '); }
 
 			// class (Field setting)
-			if(class_field != '') { extra_values['class'] += ' '  + class_field.trim(); }
+			if(class_field != '') { extra_values.class += ' '  + class_field.trim(); }
 
 			// Process attributes
 			var get_attributes_return = this.get_attributes(field, mask_field_attributes, extra_values, section_repeatable_index);
 
 			// Store as mask value
-			if(get_attributes_return.attributes != '') { mask_values_field['attributes'] += ' ' + get_attributes_return.attributes; }
+			if(get_attributes_return.attributes != '') { mask_values_field.attributes += ' ' + get_attributes_return.attributes; }
 		}
 
 		// Field Label - Attributes
@@ -6415,24 +6415,24 @@
 
 			// class
 			var class_field_label_array = this.get_field_value_fallback(field.type, label_position, 'class_field_label', false, false, sub_type);
-			if(class_field_label_array !== false) { extra_values['class'] = class_field_label_array.join(' '); }
+			if(class_field_label_array !== false) { extra_values.class = class_field_label_array.join(' '); }
 
 			// Process attributes
 			var get_attributes_return = this.get_attributes(field, mask_field_label_attributes, extra_values, section_repeatable_index);
 
 			// Store as mask value
-			if(get_attributes_return.attributes != '') { mask_values_field_label['attributes'] += ' ' + get_attributes_return.attributes; }
+			if(get_attributes_return.attributes != '') { mask_values_field_label.attributes += ' ' + get_attributes_return.attributes; }
 		}
 
 		// Parse help mask append
-		mask_values_help['help_append_separator'] = has_help ? this.mask_parse(mask_help_append_separator, mask_values_help) : '';
+		mask_values_help.help_append_separator = has_help ? this.mask_parse(mask_help_append_separator, mask_values_help) : '';
 		if(mask_help_append != '') {
 
-			mask_values_help['text_clear'] = this.get_object_meta_value(field, 'text_clear', '');
-			if(mask_values_help['text_clear'] == '') { mask_values_help['text_clear'] = this.language('clear'); }
+			mask_values_help.text_clear = this.get_object_meta_value(field, 'text_clear', '');
+			if(mask_values_help.text_clear == '') { mask_values_help.text_clear = this.language('clear'); }
 
-			mask_values_help['text_reset'] = this.get_object_meta_value(field, 'text_reset', '');
-			if(mask_values_help['text_reset'] == '') { mask_values_help['text_reset'] = this.language('reset'); }
+			mask_values_help.text_reset = this.get_object_meta_value(field, 'text_reset', '');
+			if(mask_values_help.text_reset == '') { mask_values_help.text_reset = this.language('reset'); }
 
 			var help_append_parsed = this.mask_parse(mask_help_append, mask_values_help);
 
@@ -6440,23 +6440,23 @@
 
 			var help_append_parsed = '';
 		}
-		mask_values_help['help_append'] = help_append_parsed;
-		mask_values_help['attributes'] = '';
+		mask_values_help.help_append = help_append_parsed;
+		mask_values_help.attributes = '';
 
 		// Parse help mask
 		var help_parsed = (has_help || help_append_parsed != '') ? this.mask_parse(mask_help, mask_values_help) : '';
 
 		// Pre and post help
-		mask_values_field['pre_help'] = mask_values_field_label['pre_help'] = ((help_position == 'bottom') ? '' : help_parsed);
-		mask_values_field['post_help'] = mask_values_field_label['post_help'] = ((help_position == 'bottom') ? help_parsed : '');
+		mask_values_field.pre_help = mask_values_field_label.pre_help = ((help_position == 'bottom') ? '' : help_parsed);
+		mask_values_field.post_help = mask_values_field_label.post_help = ((help_position == 'bottom') ? help_parsed : '');
 
 		// Legacy
-		mask_values_field['help'] = help_parsed;
-		mask_values_field_label['help'] = help_parsed;
+		mask_values_field.help = help_parsed;
+		mask_values_field_label.help = help_parsed;
 
 		// Trim attributes
-		if(mask_values_field['attributes'] != '') { mask_values_field['attributes'] = ' ' + mask_values_field['attributes'].trim(); }
-		if(mask_values_field_label['attributes'] != '') { mask_values_field_label['attributes'] = ' ' + mask_values_field_label['attributes'].trim(); }
+		if(mask_values_field.attributes != '') { mask_values_field.attributes = ' ' + mask_values_field.attributes.trim(); }
+		if(mask_values_field_label.attributes != '') { mask_values_field_label.attributes = ' ' + mask_values_field_label.attributes.trim(); }
 
 		// Parse label
 		var label_parsed = this.mask_parse(mask_field_label, mask_values_field_label);
@@ -6480,23 +6480,23 @@
 			case 'inside' :
 			case 'bottom' :
 
-				mask_values_field['pre_label'] = '';
-				mask_values_field['post_label'] = field_in_label ? mask_values_field['label'] : label_parsed;
+				mask_values_field.pre_label = '';
+				mask_values_field.post_label = field_in_label ? mask_values_field.label : label_parsed;
 				break;
 
 			// Top
 			case 'top' :
 
-				mask_values_field['pre_label'] = field_in_label ? mask_values_field['label'] : label_parsed;
-				mask_values_field['post_label'] = '';
+				mask_values_field.pre_label = field_in_label ? mask_values_field.label : label_parsed;
+				mask_values_field.post_label = '';
 				break;
 
 			default :
 
-				mask_values_field['pre_label'] = '';
-				mask_values_field['post_label'] = '';
-				mask_values_field_label['pre_label'] = '';
-				mask_values_field_label['post_label'] = '';
+				mask_values_field.pre_label = '';
+				mask_values_field.post_label = '';
+				mask_values_field_label.pre_label = '';
+				mask_values_field_label.post_label = '';
 				break;
 		}
 
@@ -6507,20 +6507,20 @@
 		) {
 
 			var mask_values_input_group = $.extend(true, {}, mask_values_field);
-			mask_values_input_group['invalid_feedback'] = mask_values_field['invalid_feedback'];
-			mask_values_input_group['pre_help'] = mask_values_field['pre_help'];
-			mask_values_input_group['post_help'] = mask_values_field['post_help'];
-			mask_values_input_group['pre_label'] = mask_values_field['pre_label'];
-			mask_values_input_group['post_label'] = mask_values_field['post_label'];
-			mask_values_field['invalid_feedback'] = '';
-			mask_values_field['pre_help'] = '';
-			mask_values_field['post_help'] = '';
-			mask_values_field['pre_label'] = '';
-			mask_values_field['post_label'] = '';
+			mask_values_input_group.invalid_feedback = mask_values_field.invalid_feedback;
+			mask_values_input_group.pre_help = mask_values_field.pre_help;
+			mask_values_input_group.post_help = mask_values_field.post_help;
+			mask_values_input_group.pre_label = mask_values_field.pre_label;
+			mask_values_input_group.post_label = mask_values_field.post_label;
+			mask_values_field.invalid_feedback = '';
+			mask_values_field.pre_help = '';
+			mask_values_field.post_help = '';
+			mask_values_field.pre_label = '';
+			mask_values_field.post_label = '';
 
 			// Legacy
-			mask_values_input_group['help'] = mask_values_field['help'];
-			mask_values_field['help'] = '';
+			mask_values_input_group.help = mask_values_field.help;
+			mask_values_field.help = '';
 		}
 
 		// Parse field
@@ -6541,16 +6541,16 @@
 			) {
 
 				var col_small_prepend = (prepend !== '') ? Math.round(framework_column_count * col_small_prepend_factor, 0) : 0;
-				mask_values_input_group['col_small_prepend'] = col_small_prepend;
+				mask_values_input_group.col_small_prepend = col_small_prepend;
 
 				var col_small_append = (append !== '') ? Math.round(framework_column_count * col_small_append_factor, 0) : 0;
-				mask_values_input_group['col_small_append'] = col_small_append;
+				mask_values_input_group.col_small_append = col_small_append;
 
-				mask_values_input_group['col_small_field'] = framework_column_count - (col_small_prepend + col_small_append);
+				mask_values_input_group.col_small_field = framework_column_count - (col_small_prepend + col_small_append);
 			}
 
 			// Field
-			mask_values_input_group['field'] = field_parsed;
+			mask_values_input_group.field = field_parsed;
 
 			var mask_field_input_group_field = this.get_field_value_fallback(field.type, label_position, 'mask_field_input_group_field', '#field', false, sub_type);
 
@@ -6562,7 +6562,7 @@
 			// Prepend
 			if(prepend !== '') {
 
-				mask_values_input_group['prepend'] = prepend;
+				mask_values_input_group.prepend = prepend;
 
 				var mask_field_input_group_prepend = this.get_field_value_fallback(field.type, label_position, 'mask_field_input_group_prepend', '#prepend', false, sub_type);
 
@@ -6577,7 +6577,7 @@
 			// Append
 			if(append !== '') {
 
-				mask_values_input_group['append'] = append;
+				mask_values_input_group.append = append;
 
 				var mask_field_input_group_append = this.get_field_value_fallback(field.type, label_position, 'mask_field_input_group_append', '#append', false, sub_type);
 
@@ -6600,8 +6600,8 @@
 			if(css_input_group) { css_input_group = ' ' + css_input_group; }
 
 			// Final parse
-			mask_values_input_group['css_input_group'] = css_input_group;
-			mask_values_input_group['field'] = field_parsed;
+			mask_values_input_group.css_input_group = css_input_group;
+			mask_values_input_group.field = field_parsed;
 
 			field_parsed = this.mask_parse(mask_field_input_group, mask_values_input_group);
 		}
@@ -6610,12 +6610,12 @@
 		if(field_in_label) {
 
 			// Render field in label
-			mask_values_field_label['field'] = field_parsed;	// Make the field available in the label mask values
+			mask_values_field_label.field = field_parsed;	// Make the field available in the label mask values
 			label_parsed = this.mask_parse(mask_field_label, mask_values_field_label);
 
 			// Finished with field
 			field_parsed = '';
-			mask_values_field_label['field'] = '';
+			mask_values_field_label.field = '';
 		}
 
 		// Check to see if the #label is in the field
@@ -6623,12 +6623,12 @@
 		if(label_in_field) {
 
 			// Render label in field
-			mask_values_field['label'] = label_parsed;	// Make the label available in the field mask values
+			mask_values_field.label = label_parsed;	// Make the label available in the field mask values
 			field_parsed = this.mask_parse(mask_field, mask_values_field);
 
 			// Finished with label
 			label_parsed = '';
-			mask_values_field['label'] = '';
+			mask_values_field.label = '';
 		}
 
 		// Parse field wrapper
@@ -6665,7 +6665,7 @@
 		}
 
 		// Final parse
-		mask_values_field['field'] = field_parsed;
+		mask_values_field.field = field_parsed;
 		field_html = this.mask_parse(mask, mask_values_field);
 
 		return field_html;
@@ -7021,10 +7021,9 @@
 	// Get price
 	$.WS_Form.prototype.get_price = function(price_float, currency, currency_symbol_render) {
 
+		if(typeof(price_float) !== 'number') { price_float = parseFloat(price_float); }
 		if(typeof(currency) === 'undefined') { currency = this.get_currency(); }
 		if(typeof(currency_symbol_render) === 'undefined') { currency_symbol_render = true; }
-
-		if(typeof(price_float) !== 'number') { price_float = parseFloat(price_float); }
 
 		var price = (currency_symbol_render ? currency.prefix : '') + this.replace_all(this.replace_all(price_float.toFixed(currency.decimals).replace(/\B(?=(\d{3})+(?!\d))/g, '[thousand]'), '.', currency.decimal_separator), '[thousand]', currency.thousand_separator) + (currency_symbol_render ? currency.suffix : '');
 

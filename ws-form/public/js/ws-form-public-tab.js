@@ -62,7 +62,7 @@
 		}
 
 
-		var framework_tabs = this.framework['tabs']['public'];
+		var framework_tabs = this.framework.tabs.public;
 
 		if(typeof(framework_tabs.event_js) !== 'undefined') {
 
@@ -337,7 +337,7 @@
 		// Check that tabs exist
 		if(Object.keys(this.form.groups).length <= 1) { return false; }
 
-		var framework_tabs = this.framework['tabs']['public'];
+		var framework_tabs = this.framework.tabs.public;
 
 		if(typeof(framework_tabs.activate_js) !== 'undefined') {
 

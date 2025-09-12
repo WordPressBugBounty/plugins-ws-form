@@ -468,7 +468,7 @@
 
 			} catch (Exception $e) {
 
-				wp_die($e->getMessage());
+				wp_die(esc_html($e->getMessage()));
 			}
 
 			// Get field
@@ -505,7 +505,7 @@
 			// Check file exists
 			if(!file_exists($file_path_full)) {
 
-				wp_die(__('File not found'));
+				wp_die(__('File not found', 'ws-form'));
 			}
 
 			// Set HTTP headers

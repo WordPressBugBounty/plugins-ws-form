@@ -126,7 +126,7 @@
 				'slug',
 				'term_order',
 
-			))) { return self::error(__('Invalid order by method'), $field_id, $this, $api_request); }
+			))) { return self::error(__('Invalid order by method', 'ws-form'), $field_id, $this, $api_request); }
 
 			// Columns
 			$columns = array();
@@ -867,7 +867,7 @@
 					'label'						=>	__('ACF Field', 'ws-form'),
 					'type'						=>	'select',
 					'options'					=>	$options_acf,
-					'options_blank'				=>	__('Select...', 'ws-form-post')
+					'options_blank'				=>	__('Select...', 'ws-form')
 				);
 			}
 

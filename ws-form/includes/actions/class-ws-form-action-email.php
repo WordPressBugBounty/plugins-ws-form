@@ -357,7 +357,7 @@
 					// Delete each file
 					if(file_exists($path)) {
 
-						unlink($path);
+						wp_delete_file($path);
 					}
 				}
 

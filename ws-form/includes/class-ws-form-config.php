@@ -137,6 +137,13 @@
 			return $ws_form_config_public->get_settings_form_public();
 		}
 
+		public static function get_abilities() {
+
+			include_once 'config/class-ws-form-config-ability.php';
+			$ws_form_config_ability = new WS_Form_Config_Ability();
+			return $ws_form_config_ability->get_abilities();
+		}
+
 		public static function get_field_types_public($field_types_filter) {
 
 			include_once 'config/class-ws-form-config-public.php';
@@ -1932,6 +1939,7 @@
 							'kb_url'			=>	'/knowledgebase/spacer/',
 							'label_default'		=>	__('Spacer', 'ws-form'),
 							'mask_field'		=>	'<div#attributes></div>',
+							'mask_field_static' =>	'',
 							'mask_field_attributes' => array('spacer_style_height'),
 							'submit_save'		=>	false,
 							'submit_edit'		=>	false,
@@ -2723,7 +2731,7 @@
 
 									'label'		=>	__('Icon Tooltips', 'ws-form'),
 									'type'		=>	'checkbox',
-									'help'		=>	__('Show icon tooltips.'),
+									'help'		=>	__('Show icon tooltips.', 'ws-form'),
 									'default'	=>	true,
 									'admin'		=>	true
 								),
@@ -2732,7 +2740,7 @@
 
 									'label'		=>	__('Sidebar Help Text', 'ws-form'),
 									'type'		=>	'checkbox',
-									'help'		=>	__('Show help text in sidebar.'),
+									'help'		=>	__('Show help text in sidebar.', 'ws-form'),
 									'default'	=>	true,
 									'admin'		=>	true
 								),
@@ -3150,7 +3158,7 @@
 
 										'<p><strong style="color: #bb0000;">%s:</strong> %s</p>',
 										esc_html__('Caution', 'ws-form'),
-										esc_html__('If you enable this setting and uninstall the plugin this data cannot be recovered.')
+										esc_html__('If you enable this setting and uninstall the plugin this data cannot be recovered.', 'ws-form')
 									)
 								),
 
@@ -3163,7 +3171,7 @@
 
 										'<p><strong style="color: #bb0000;">%s:</strong> %s</p>',
 										esc_html__('Caution', 'ws-form'),
-										esc_html__('If you enable this setting and uninstall the plugin this data cannot be recovered.')
+										esc_html__('If you enable this setting and uninstall the plugin this data cannot be recovered.', 'ws-form')
 									)
 								)
 							)
@@ -3360,7 +3368,7 @@
 									'label'		=>	__('Size', 'ws-form'),
 									'type'		=>	'image_size',
 									'default'	=>	'full',
-									'help'		=>	__('Recommended max dimensions: 400 x 200 pixels.')
+									'help'		=>	__('Recommended max dimensions: 400 x 200 pixels.', 'ws-form')
 								)
 							)
 						),
@@ -3418,7 +3426,7 @@
 									'label'		=>	__('Static Fields', 'ws-form'),
 									'type'		=>	'checkbox',
 									'default'	=>	true,
-									'help'		=>	__('Show static fields such as text and HTML, if not excluded at a field level.')
+									'help'		=>	__('Show static fields such as text and HTML, if not excluded at a field level.', 'ws-form')
 								),
 
 								'action_email_exclude_empty'	=>	array(
@@ -3426,7 +3434,7 @@
 									'label'		=>	__('Exclude Empty Fields', 'ws-form'),
 									'type'		=>	'checkbox',
 									'default'	=>	true,
-									'help'		=>	__('Exclude empty fields.')
+									'help'		=>	__('Exclude empty fields.', 'ws-form')
 								)
 							)
 						),
@@ -3442,7 +3450,7 @@
 									'label'		=>	__('Show File Preview', 'ws-form'),
 									'type'		=>	'checkbox',
 									'default'	=>	true,
-									'help'		=>	__('If checked, file and signature previews will be shown. Compatible with the WS Form (Private), WS Form (Public) and Media Library file handlers.')
+									'help'		=>	__('If checked, file and signature previews will be shown. Compatible with the WS Form (Private), WS Form (Public) and Media Library file handlers.', 'ws-form')
 								),
 
 								'action_email_embed_image_description'	=>	array(
@@ -3450,7 +3458,7 @@
 									'label'		=>	__('Show File Name and Size', 'ws-form'),
 									'type'		=>	'checkbox',
 									'default'	=>	true,
-									'help'		=>	__('If checked, file and signature file names and sizes will be shown. Compatible with the WS Form (Private), WS Form (Public) and Media Library file handlers.')
+									'help'		=>	__('If checked, file and signature file names and sizes will be shown. Compatible with the WS Form (Private), WS Form (Public) and Media Library file handlers.', 'ws-form')
 								),
 
 								'action_email_embed_image_link'	=>	array(
@@ -3458,7 +3466,7 @@
 									'label'		=>	__('Link to Files', 'ws-form'),
 									'type'		=>	'checkbox',
 									'default'	=>	false,
-									'help'		=>	__('If checked, file and signature files will have links added to them. The Send Email action has a separate setting for this. Compatible with the WS Form (Private), WS Form (Public) and Media Library file handlers.')
+									'help'		=>	__('If checked, file and signature files will have links added to them. The Send Email action has a separate setting for this. Compatible with the WS Form (Private), WS Form (Public) and Media Library file handlers.', 'ws-form')
 								)
 							)
 						)
@@ -4878,7 +4886,11 @@
 					'help'						=>	sprintf(
 
 						' %s <a href="%s" target="_blank">%s</a>',
-						__('reCAPTCHA site key.', 'ws-form'),
+						sprintf(
+							/* translators: reCAPTCHA, brand name, do not translate */
+							__('%s site key.', 'ws-form'),
+							'reCAPTCHA'
+						),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/'),
 						__('Learn more', 'ws-form')
 					),
@@ -4896,7 +4908,11 @@
 					'help'						=>	sprintf(
 
 						'%s <a href="%s" target="_blank">%s</a>',
-						__('reCAPTCHA secret key.', 'ws-form'),
+						sprintf(
+							/* translators: reCAPTCHA, brand name, do not translate */
+							__('%s secret key.', 'ws-form'),
+							'reCAPTCHA'
+						),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/'),
 						__('Learn more', 'ws-form')
 					),
@@ -5077,7 +5093,11 @@
 					'help'						=>	sprintf(
 
 						'%s <a href="%s" target="_blank">%s</a>',
-						__('hCaptcha site key.', 'ws-form'),
+						sprintf(
+							/* translators: hCaptcha, brand name, do not translate */
+							__('%s site key.', 'ws-form'),
+							'hCaptcha'
+						),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/'),
 						__('Learn more', 'ws-form')
 					),
@@ -5096,7 +5116,11 @@
 					'help'						=>	sprintf(
 
 						'%s <a href="%s" target="_blank">%s</a>',
-						__('hCaptcha secret key.', 'ws-form'),
+						sprintf(
+							/* translators: hCaptcha, brand name, do not translate */
+							__('%s secret key.', 'ws-form'),
+							'hCaptcha'
+						),
 						WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/'),
 						__('Learn more', 'ws-form')
 					),
@@ -5205,6 +5229,7 @@
 
 						'%s <a href="%s" target="_blank">%s</a>',
 						sprintf(
+							/* translators: Turnstile, brand name, do not translate */
 							__('%s site key.', 'ws-form'),
 							'Turnstile'
 						),
@@ -5227,6 +5252,7 @@
 
 						'%s <a href="%s" target="_blank">%s</a>',
 						sprintf(
+							/* translators: Turnstile, brand name, do not translate */
 							__('%s secret key.', 'ws-form'),
 							'Turnstile'
 						),
@@ -5639,9 +5665,8 @@
 					'options'					=>	array(
 
 						array('value' => '', 'text' => __('Not set', 'ws-form')),
-						array('value' => 'auto', 'text' => __('Auto (IP Lookup)', 'ws-form'))
 					),
-					'help'						=>	__('Set the initial country selection.', 'ws-form'),
+					'help'						=>	__('Set the initial country selection. Upgrade to PRO to enable automatic country detection.', 'ws-form'),
 					'condition'					=>	array(
 
 						array(
@@ -6431,7 +6456,7 @@
 
 						'%s<br /><strong>%s:</strong> %s',
 						__('Enter content to be output at this point on the form.', 'ws-form'),
-						__('Note'),
+						__('Note', 'ws-form'),
 						$capability_unfiltered_html ? __('Content saved to this setting is unfiltered to allow for JavaScript.', 'ws-form') : __('Content saved to this setting is filtered to disallow JavaScript.', 'ws-form')
 					),
 					'variable_helper'			=>	true,
@@ -6971,7 +6996,7 @@
 					'type'						=>	'select',
 					'select2'					=>	true,
 					'multiple'					=>	true,
-					'placeholder'				=>	__('Select...'),
+					'placeholder'				=>	__('Select...', 'ws-form'),
 					'help'						=>	__('Only show this form if logged in user has one of these roles.', 'ws-form'),
 					'options'					=>	array(),
 					'condition'					=>	array(
@@ -6991,7 +7016,7 @@
 					'type'						=>	'select',
 					'select2'					=>	true,
 					'multiple'					=>	true,
-					'placeholder'				=>	__('Select...'),
+					'placeholder'				=>	__('Select...', 'ws-form'),
 					'help'						=>	__('Only show this tab if logged in user has one of these roles.', 'ws-form'),
 					'options'					=>	array(),
 					'condition'					=>	array(
@@ -7011,7 +7036,7 @@
 					'type'						=>	'select',
 					'select2'					=>	true,
 					'multiple'					=>	true,
-					'placeholder'				=>	__('Select...'),
+					'placeholder'				=>	__('Select...', 'ws-form'),
 					'help'						=>	__('Only show this section if logged in user has one of these roles.', 'ws-form'),
 					'options'					=>	array(),
 					'condition'					=>	array(
@@ -7031,7 +7056,7 @@
 					'type'						=>	'select',
 					'select2'					=>	true,
 					'multiple'					=>	true,
-					'placeholder'				=>	__('Select...'),
+					'placeholder'				=>	__('Select...', 'ws-form'),
 					'help'						=>	__('Only show this field if logged in user has one of these roles.', 'ws-form'),
 					'options'					=>	array(),
 					'condition'					=>	array(
@@ -7051,7 +7076,7 @@
 					'type'						=>	'select',
 					'select2'					=>	true,
 					'multiple'					=>	true,
-					'placeholder'				=>	__('Select...'),
+					'placeholder'				=>	__('Select...', 'ws-form'),
 					'help'						=>	__('Only show this form if logged in user has one of these capabilities.', 'ws-form'),
 					'options'					=>	array(),
 					'condition'					=>	array(
@@ -7071,7 +7096,7 @@
 					'type'						=>	'select',
 					'select2'					=>	true,
 					'multiple'					=>	true,
-					'placeholder'				=>	__('Select...'),
+					'placeholder'				=>	__('Select...', 'ws-form'),
 					'help'						=>	__('Only show this tab if logged in user has one of these capabilities.', 'ws-form'),
 					'options'					=>	array(),
 					'condition'					=>	array(
@@ -7091,7 +7116,7 @@
 					'type'						=>	'select',
 					'select2'					=>	true,
 					'multiple'					=>	true,
-					'placeholder'				=>	__('Select...'),
+					'placeholder'				=>	__('Select...', 'ws-form'),
 					'help'						=>	__('Only show this section if logged in user has one of these capabilities.', 'ws-form'),
 					'options'					=>	array(),
 					'condition'					=>	array(
@@ -7111,7 +7136,7 @@
 					'type'						=>	'select',
 					'select2'					=>	true,
 					'multiple'					=>	true,
-					'placeholder'				=>	__('Select...'),
+					'placeholder'				=>	__('Select...', 'ws-form'),
 					'help'						=>	__('Only show this field if logged in user has one of these capabilities.', 'ws-form'),
 					'options'					=>	array(),
 					'condition'					=>	array(
@@ -8020,7 +8045,7 @@
 					'label'						=>	__('No Results Placeholder', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Select...'),
+					'placeholder'				=>	__('Select...', 'ws-form'),
 					'condition'					=>	array(
 
 						array(
@@ -8070,7 +8095,7 @@
 					'label'						=>	__('Loading Placeholder', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Loading...'),
+					'placeholder'				=>	__('Loading...', 'ws-form'),
 					'condition'					=>	array(
 
 						array(
@@ -8426,7 +8451,7 @@
 
 						'%s<br /><strong>%s:</strong> %s',
 						__('Add additional attributes to this field.', 'ws-form'),
-						__('Note'),
+						__('Note', 'ws-form'),
 						$capability_unfiltered_html ? __('Attribute values saved to this setting are unfiltered to allow for JavaScript.', 'ws-form') : __('Attributes saved to this setting are filtered to disallow JavaScript. Event attributes will be removed.', 'ws-form')
 					),
 					'meta_keys'					=>	array(
@@ -8497,11 +8522,11 @@
 					'default'					=>	'',
 					'options'					=>	array(
 
-						array('value' => '', 'text' => __('None')),
-						array('value' => 'allow', 'text' => __('Allow')),
-						array('value' => 'deny', 'text' => __('Deny'))
+						array('value' => '', 'text' => __('None', 'ws-form')),
+						array('value' => 'allow', 'text' => __('Allow', 'ws-form')),
+						array('value' => 'deny', 'text' => __('Deny', 'ws-form'))
 					),
-					'help'						=>	__('Allow or deny email addresses in this field. Use * as a wildcard, e.g. *@wsform.com')
+					'help'						=>	__('Allow or deny email addresses in this field. Use * as a wildcard, e.g. *@wsform.com', 'ws-form')
 				),
 
 				'allow_deny_values'	=> array(
@@ -8784,7 +8809,7 @@
 			// Data source update frequencies
 
 			// Add real-time
-			$meta_keys['data_source_recurrence']['options'][] = array('value' => 'wsf_realtime', 'text' => __('Real-Time'));
+			$meta_keys['data_source_recurrence']['options'][] = array('value' => 'wsf_realtime', 'text' => __('Real-Time', 'ws-form'));
 
 			// Get registered schedules
 			$schedules = wp_get_schedules();
@@ -9449,7 +9474,7 @@
 
 							'label' => __('URL', 'ws-form'),
 							'value' => get_bloginfo('url'),
-							'description' => __('Returns the <strong>WordPress Address (URL)</strong> setting in <strong>WordPress Settings &gt; General</strong>.'),
+							'description' => __('Returns the <strong>WordPress Address (URL)</strong> setting in <strong>WordPress Settings &gt; General</strong>.', 'ws-form'),
 							'usage' => array('client', 'action')
 						),
 
@@ -9457,7 +9482,7 @@
 
 							'label' => __('Name', 'ws-form'),
 							'value' => get_bloginfo('name'),
-							'description' => __('Returns the <strong>Site Title</strong> setting in <strong>WordPress Settings &gt; General</strong>.'),
+							'description' => __('Returns the <strong>Site Title</strong> setting in <strong>WordPress Settings &gt; General</strong>.', 'ws-form'),
 							'usage' => array('client', 'action')
 						),
 
@@ -9465,7 +9490,7 @@
 
 							'label' => __('Language', 'ws-form'),
 							'value' => get_bloginfo('language'),
-							'description' => __('Returns the <strong>Language</strong> setting in <strong>WordPress Settings &gt; General</strong>.'),
+							'description' => __('Returns the <strong>Language</strong> setting in <strong>WordPress Settings &gt; General</strong>.', 'ws-form'),
 							'usage' => array('client', 'action')
 						),
 
@@ -9473,14 +9498,14 @@
 
 							'label' => __('Character Set', 'ws-form'),
 							'value' => get_bloginfo('charset'),
-							'description' => __('Returns the site character set.'),
+							'description' => __('Returns the site character set.', 'ws-form'),
 							'usage' => array('client', 'action')
 						),
 
 						'blog_admin_email'	=> array(
 
 							'label' => __('Admin Email', 'ws-form'),
-							'description' => __('Returns the <strong>Administrator Email Address</strong> setting in <strong>WordPress Settings &gt; General</strong>.'),
+							'description' => __('Returns the <strong>Administrator Email Address</strong> setting in <strong>WordPress Settings &gt; General</strong>.', 'ws-form'),
 							'usage' => array('action'),
 							'secure' => true,
 						),
@@ -10168,7 +10193,7 @@
 
 								/* translators: %s = Example ISO 8601 date */
 								__('Return a date formatted according to the PHP date function. The date supplied must be in a supported format such as ISO 8601, for example: %s. For field related date formatting, see: #field_date_format', 'ws-form'),
-								date('c')
+								gmdate('c')
 							),
 							'usage' => array('client', 'action'),
 							'repair_group' => 'field'
@@ -11288,7 +11313,7 @@
 						'character_min'	=>	array(
 
 							'label'	=> __('Minimum', 'ws-form'),
-							'description' => __('Returns the minimum character length that you set for a field.'),
+							'description' => __('Returns the minimum character length that you set for a field.', 'ws-form'),
 							'kb_slug' => 'word-and-character-count',
 							'usage' => array('texthelp')
 						),
@@ -11304,7 +11329,7 @@
 						'character_max'	=>	array(
 
 							'label'	=> __('Maximum', 'ws-form'),
-							'description' => __('Returns the maximum character length that you set for a field.'),
+							'description' => __('Returns the maximum character length that you set for a field.', 'ws-form'),
 							'kb_slug' => 'word-and-character-count',
 							'usage' => array('texthelp')
 						),

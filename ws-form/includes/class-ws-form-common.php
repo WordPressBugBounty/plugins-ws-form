@@ -372,7 +372,24 @@
 		// Get customize URL
 		public static function get_customize_url($panel = 'ws_form', $preview_form_id = 0) {
 
-			return sprintf('customize.php?return=%s&wsf_panel_open=%s%s', urlencode(remove_query_arg(wp_removable_query_args(), wp_unslash($_SERVER['REQUEST_URI']))), $panel, (($preview_form_id > 0) ? sprintf('&wsf_preview_form_id=%u', $preview_form_id) : ''));
+			return sprintf(
+
+				'customize.php?return=%s&wsf_panel_open=%s%s',
+				urlencode(
+
+					remove_query_arg(
+
+						wp_removable_query_args(),
+						wp_unslash(
+							isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : ''
+						)
+					)
+				),
+				$panel,
+				(
+					($preview_form_id > 0) ? sprintf('&wsf_preview_form_id=%u', $preview_form_id) : ''
+				)
+			);
 		}
 
 		// Get tooltip attributes
@@ -390,11 +407,11 @@
 			}
 		}
 
-		// Echo tooltip attribut
+		// Echo tooltip attribute
 		public static function tooltip_e($title, $position = 'bottom-center') {
 
 			// Output is escaped in tooltip method
-			echo self::tooltip($title, $position = 'bottom-center');	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+			echo self::tooltip($title, $position);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 		}
 
 		// Output settings attributes
@@ -812,11 +829,14 @@
 			// Check for valid request methods
 			if(!$valid_request_methods) { $valid_request_methods = ['GET', 'POST', 'PUT', 'DELETE']; }
 
-			// Check to ensure we can determine request method
-			if(!isset($_SERVER) || !isset($_SERVER["REQUEST_METHOD"])) { return false; }	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-
 			// Read request method
-			$request_method = strtoupper(wp_unslash($_SERVER["REQUEST_METHOD"]));
+			$request_method = strtoupper(
+
+				wp_unslash(
+
+					isset($_SERVER["REQUEST_METHOD"]) ? $_SERVER["REQUEST_METHOD"] : ''
+				)
+			);
 
 			// Ensure it is valid
 			if(!in_array($request_method, $valid_request_methods)) { return false; }
@@ -1606,16 +1626,15 @@
 			// Run through each variable
 			foreach($variable_array as $variable_array_index => $variable) {
 
-				if(isset($_SERVER[$variable])) {	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$server_variable = isset($_SERVER[$variable]) ? $_SERVER[$variable] : '';
 
-					if($variable_array_index == $variable_array_index_last) {
+				if($variable_array_index == $variable_array_index_last) {
 
-						return wp_unslash($_SERVER[$variable]);
+					return wp_unslash($server_variable);
 
-					} else {
+				} else {
 
-						if(!empty($_SERVER[$variable])) return wp_unslash($_SERVER[$variable]);
-					}
+					if(!empty($server_variable)) return wp_unslash($server_variable);
 				}
 			}
 
@@ -3932,12 +3951,7 @@
 							if($field_static === true) {
 
 								// If static set to true, we use the mask_field
-								$mask_field = isset($field_type_config['mask_field_static']) ? $field_type_config['mask_field_static'] : '';
-
-								if($mask_field == '') {
-
-									$mask_field = isset($field_type_config['mask_field']) ? $field_type_config['mask_field'] : '';
-								}
+								$mask_field = isset($field_type_config['mask_field_static']) ? $field_type_config['mask_field_static'] : (isset($field_type_config['mask_field']) ? $field_type_config['mask_field'] : '');
 
 								$fields_html .= self::parse_variables_process($mask_field, $form, $submit, $content_type);
 
@@ -4621,7 +4635,7 @@
 		// Throw error
 		public static function throw_error($error) {
 			
-			throw new Exception($error);
+			throw new Exception(esc_html($error));
 		}
 
 		// Get system report
@@ -5596,26 +5610,20 @@
 		// Get cookie raw
 		public static function cookie_get_raw($cookie_name, $default_value = '') {
 
-			if(
+			return (
 				($cookie_name === '') ||
 				!isset($_COOKIE) ||
 				!isset($_COOKIE[$cookie_name])
-			) {
-				return $default_value;
-			}
-
-			return $_COOKIE[$cookie_name];
+			) ? $default_value : $_COOKIE[$cookie_name];
 		}
 
 		// Get object from POST $_FILE
 		public static function get_object_from_post_file($object_type = false) {
 
-			// Get files
-			if(!isset($_FILES)) { self::throw_error(__('No files found', 'ws-form')); }
-			if(!isset($_FILES['file'])) { self::throw_error(__('No files found', 'ws-form')); }
-
 			// Run through files
-			$file = $_FILES['file'];
+			$file = (isset($_FILES) && isset($_FILES['file'])) ? $_FILES['file'] : false;
+
+			if($file === false) { self::throw_error(__('No files found', 'ws-form')); }
 
 			// Read file data
 			$file_name = $file['name'];

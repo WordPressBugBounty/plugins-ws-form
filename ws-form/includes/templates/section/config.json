@@ -105,7 +105,8 @@
 				"id"					:	"trustedform",
 				"label" 				: 	"TrustedForm",
 				"file_json"				:	"wsf-section-trustedform.json",
-				"preview_url"			:	false
+				"preview_url"			:	false,
+				"pro_required"			:	true
 			}
 		]
 	},
@@ -270,7 +271,8 @@
 				"id"					:	"question",
 				"label" 				: 	"Question",
 				"file_json"				:	"wsf-section-question.json",
-				"preview_url"			:	false
+				"preview_url"			:	false,
+				"pro_required"			:	true
 			}
 		]
 	}

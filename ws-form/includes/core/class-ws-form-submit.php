@@ -3702,14 +3702,18 @@
 
 				if(!filter_var($email_to, FILTER_VALIDATE_EMAIL)) {
 
-					/* translators: %s = Email address */
-					parent::db_throw_error(__('Invalid email address: %s', $email_to, 'ws-form'));
+					parent::db_throw_error(sprintf(
+
+						/* translators: %s = Email address */
+						__('Invalid email address: %s', 'ws-form'),
+						$email_to
+					));
 				}
 			}
 
 			if(empty($email_subject)) {
 
-				parent::db_throw_error(__('Invalid email subject'));
+				parent::db_throw_error(__('Invalid email subject', 'ws-form'));
 			}
 
 			// Check when error notification was last sent

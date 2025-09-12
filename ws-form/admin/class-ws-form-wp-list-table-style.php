@@ -65,11 +65,10 @@
 				case 'id':
 
 					return $item[$column_name];
-					break;
 
 				default:
 
-					return print_r($item, true); //Show the whole array for troubleshooting purposes
+					return '';
 			}
 		}
 

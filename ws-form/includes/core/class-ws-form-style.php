@@ -761,8 +761,8 @@
 					$dir = $upload_dir['dir'];
 
 					// Remove files
-					unlink(sprintf('%s/public.style.%u.css', $dir, $this->id));
-					unlink(sprintf('%s/public.style.%u.min.css', $dir, $this->id));
+					wp_delete_file(sprintf('%s/public.style.%u.css', $dir, $this->id));
+					wp_delete_file(sprintf('%s/public.style.%u.min.css', $dir, $this->id));
 
 					// Remove options
 					WS_Form_Common::option_remove(sprintf('css_public_style_%u', $this->id));

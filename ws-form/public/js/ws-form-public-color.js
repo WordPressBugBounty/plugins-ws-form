@@ -495,14 +495,14 @@
 	$.WS_Form.prototype.hsla_array_to_alt_hsla_array = function(hsla_array) {
 
 		// Get lightness
-		var lightness = hsla_array['l'];
+		var lightness = hsla_array.l;
 
 		// Check lightness
 		if(lightness < 0) { lightness = 0; }
 		if(lightness > 100) { lightness = 100; }
 
 		// Flip lightness
-		hsla_array['l'] = 100 - lightness;
+		hsla_array.l = 100 - lightness;
 
 		return hsla_array;
 	}

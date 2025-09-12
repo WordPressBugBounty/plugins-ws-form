@@ -66,7 +66,6 @@
 				(config.initialCountry == 'auto') &&
 				(typeof(ws_this.form_geo) === 'function')
 			) {
-
 				config.geoIpLookup = function(callback) {
 
 					// Get geo data

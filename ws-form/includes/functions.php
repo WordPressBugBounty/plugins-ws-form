@@ -472,7 +472,7 @@
 
 				empty($field_id) ?
 				'Field not found' :
-				sprintf('Field ID %u not found', $field_id)
+				sprintf('Field ID %u not found', absint($field_id))
 			);
  		}
 
@@ -573,7 +573,7 @@
 			default : $meta_key = 'data_grid';
 		}
 
-		if(!isset($field_object->meta->{$meta_key})) { throw new Exception('Field meta key ' . $meta_key . ' not found'); }
+		if(!isset($field_object->meta->{$meta_key})) { throw new Exception('Field meta key ' . esc_html($meta_key) . ' not found'); }
 
 		return $field_object->meta->{$meta_key};
 	}

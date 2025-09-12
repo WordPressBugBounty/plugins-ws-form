@@ -114,7 +114,7 @@
 		this.framework = $.WS_Form.frameworks.types[this.framework_id];
 
 		// Get current framework for tabs
-		this.framework_fields = this.framework['fields'][typeof(admin_public) !== 'undefined' ? admin_public : 'admin'];
+		this.framework_fields = this.framework.fields[typeof(admin_public) !== 'undefined' ? admin_public : 'admin'];
 
 		// Set mobile breakpoint size
 		this.mobile_min_width = '851px';
@@ -1548,11 +1548,11 @@
 				if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { continue; }
 				var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
-				if(typeof(meta_key_config['type']) === 'undefined') { continue; }
-				if(meta_key_config['type'] == 'select') {
+				if(typeof(meta_key_config.type) === 'undefined') { continue; }
+				if(meta_key_config.type == 'select') {
 
-					if(typeof(meta_key_config['options']) === 'undefined') { continue; }
-					if(meta_key_config['options'] == 'fields') {
+					if(typeof(meta_key_config.options) === 'undefined') { continue; }
+					if(meta_key_config.options == 'fields') {
 
 						var field_id = field.meta[meta_key];
 
@@ -1562,7 +1562,7 @@
 						}
 					}
 
-					if(meta_key_config['options'] == 'sections') {
+					if(meta_key_config.options == 'sections') {
 
 						var section_id = field.meta[meta_key];
 
@@ -1767,16 +1767,16 @@
 			// Get field
 			if(typeof(this.field_data_cache[field_id]) === 'undefined') { continue; }
 			var field = this.field_data_cache[field_id];
-			if(typeof(field['type']) === 'undefined') { continue; }
-			var field_type_id = field['type'];
+			if(typeof(field.type) === 'undefined') { continue; }
+			var field_type_id = field.type;
 
 			// Get field type data
 			var field_type = $.WS_Form.field_type_cache[field_type_id];
 
 			// Check to see if multiple attribute is set
-			if(typeof(field_type['multiple']) === 'undefined') { continue; }
+			if(typeof(field_type.multiple) === 'undefined') { continue; }
 
-			var multiple = field_type['multiple'];
+			var multiple = field_type.multiple;
 
 			if(!multiple) {
 
@@ -2049,7 +2049,7 @@
 		var params = {};
 
 		// Form ID
-		params['form_id'] = this.form_id;
+		params.form_id = this.form_id;
 
 		// Object data
 		switch(object) {
@@ -2505,7 +2505,7 @@
 			if(!this.object_meta_cache.hasOwnProperty(key)) { continue; }
 
 			// Get meta_key
-			var meta_key = this.object_meta_cache[key]['meta_key'];
+			var meta_key = this.object_meta_cache[key].meta_key;
 
 			// Update object data
 			var meta_value = this.object_data_update_by_meta_key(object, this.object_data_scratch, meta_key);
@@ -2538,7 +2538,7 @@
 		var object_label = $('[name="label"]', obj_sidebar_inner).val();
 		if(typeof(object_label) !== 'undefined') {
 
-			this.object_data_scratch['label'] = (object_label == '') ? label_default : object_label;
+			this.object_data_scratch.label = (object_label == '') ? label_default : object_label;
 		}
 
 		if(save) {
@@ -2667,7 +2667,7 @@
 			case 'form' :
 
 				// Reset form title
-				$('[data-action="wsf-form-label"]').val($.WS_Form.this.form['label']);
+				$('[data-action="wsf-form-label"]').val($.WS_Form.this.form.label);
 
 				// Remove editing class on form edit button
 				$('[data-action="wsf-form-settings"]').removeClass('wsf-editing');
@@ -2681,7 +2681,7 @@
 
 				// Change tab label
 				var object_data = this.get_object_data(object, object_id);
-				$('.wsf-group-tab[data-id="' + this.esc_selector(object_id) + '"] a input').val(object_data['label']).trigger('change');
+				$('.wsf-group-tab[data-id="' + this.esc_selector(object_id) + '"] a input').val(object_data.label).trigger('change');
 
 				// Remove editing class on tab
 				$('.wsf-group-tab[data-id="' + this.esc_selector(object_id) + '"]').removeClass('wsf-editing');
@@ -2692,7 +2692,7 @@
 
 				// Render section
 				var object_data = this.get_object_data(object, object_id);
-				$('.wsf-section[data-id="' + this.esc_selector(object_id) + '"] .wsf-section-label input').val(object_data['label']);
+				$('.wsf-section[data-id="' + this.esc_selector(object_id) + '"] .wsf-section-label input').val(object_data.label);
 				$.WS_Form.this.section_render(obj);
 				break;
 
@@ -2929,10 +2929,10 @@
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 		// Get type to determine how to render it
-		var meta_key_type = meta_key_config['type'];
+		var meta_key_type = meta_key_config.type;
 
 		// Check for key change
-		if(typeof($.WS_Form.meta_keys[meta_key]['key']) !== 'undefined') { meta_key = $.WS_Form.meta_keys[meta_key]['key']; }
+		if(typeof($.WS_Form.meta_keys[meta_key].key) !== 'undefined') { meta_key = $.WS_Form.meta_keys[meta_key].key; }
 
 		// Read meta_value from form elements
 		var field_obj = $('#wsf-sidebar-' + object + ' [data-meta-key="' + this.esc_selector(meta_key) + '"]');
@@ -2988,7 +2988,7 @@
 					if(typeof($.WS_Form.meta_keys[meta_keys_single]) === 'undefined') { continue; }
 
 					// Check for key change
-					if(typeof($.WS_Form.meta_keys[meta_keys_single]['key']) !== 'undefined') { meta_keys_single = $.WS_Form.meta_keys[meta_keys_single]['key']; }
+					if(typeof($.WS_Form.meta_keys[meta_keys_single].key) !== 'undefined') { meta_keys_single = $.WS_Form.meta_keys[meta_keys_single].key; }
 
 					var repeater_row_index = 0;
 
@@ -3052,7 +3052,7 @@
 
 				var fieldset = fieldsets[key];
 
-				sidebar_html_tabs += '<li><a href="' + this.esc_url('#wsf-' + object + '-' + key) + '" data-wsf-tab-key="' + this.esc_attr(key) + '">' + this.esc_html(fieldset['label']) + '</a></li>';
+				sidebar_html_tabs += '<li><a href="' + this.esc_url('#wsf-' + object + '-' + key) + '" data-wsf-tab-key="' + this.esc_attr(key) + '">' + this.esc_html(fieldset.label) + '</a></li>';
 
 				tab_count++;
 			}
@@ -3083,7 +3083,7 @@
 
 			if((depth == 1) && !repeater) {
 
-				sidebar_html += this.comment_html(this.language('group') + ' - ' + fieldset['label']);
+				sidebar_html += this.comment_html(this.language('group') + ' - ' + fieldset.label);
 				sidebar_html += '<div id="wsf-' + this.esc_attr(object + '-' + key) + '"' + ((tab_count > 1) ? ' class="wsf-sidebar-tabs-panel"' : '') + '>';
 			}
 
@@ -3132,12 +3132,12 @@
 					var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 					// meta_key override
-					if(typeof(meta_key_config['key']) !== 'undefined') { meta_key = meta_key_config['key']; }
+					if(typeof(meta_key_config.key) !== 'undefined') { meta_key = meta_key_config.key; }
 
 					// Option check
-					if(typeof(meta_key_config['option_check']) !== 'undefined') {
+					if(typeof(meta_key_config.option_check) !== 'undefined') {
 
-						if($.WS_Form.settings_plugin[meta_key_config['option_check']]) { continue; }
+						if($.WS_Form.settings_plugin[meta_key_config.option_check]) { continue; }
 					}
 
 					// Condition
@@ -3158,26 +3158,26 @@
 					}
 
 					// Get required
-					var meta_key_required = (typeof(meta_key_config['required']) !== 'undefined') ? meta_key_config['required'] : false;
+					var meta_key_required = (typeof(meta_key_config.required) !== 'undefined') ? meta_key_config.required : false;
 
 					// Get label
-					var meta_key_label = meta_key_config['label'];
+					var meta_key_label = meta_key_config.label;
 
 					// Get type to determine how to render it
-					var meta_key_type = meta_key_config['type'];
+					var meta_key_type = meta_key_config.type;
 
 					// Get meta value
-					var meta_value_fallback = (typeof(meta_key_config['fallback']) !== 'undefined') ? meta_key_config['fallback'] : false;
-					var meta_value_default = (meta_value_fallback === false) ? ((typeof(meta_key_config['default']) !== 'undefined') ? meta_key_config['default'] : '') : meta_value_fallback;
+					var meta_value_fallback = (typeof(meta_key_config.fallback) !== 'undefined') ? meta_key_config.fallback : false;
+					var meta_value_default = (meta_value_fallback === false) ? ((typeof(meta_key_config.default) !== 'undefined') ? meta_key_config.default : '') : meta_value_fallback;
 					var meta_value = this.get_object_meta_value(object_data, meta_key, meta_value_default, true);
 
 					// Datetime types
 					if(meta_key == 'input_type_datetime') { datetime_type = meta_value; }
 
 					// Build help HTML
-					if((typeof(meta_key_config['help']) !== 'undefined') && ($.WS_Form.settings_plugin.helper_field_help || (typeof(meta_key_config['help_force']) !== 'undefined' ? meta_key_config['help_force'] : false)) && !repeater) {
+					if((typeof(meta_key_config.help) !== 'undefined') && ($.WS_Form.settings_plugin.helper_field_help || (typeof(meta_key_config.help_force) !== 'undefined' ? meta_key_config.help_force : false)) && !repeater) {
 
-						var sidebar_html_help = '<div class="wsf-helper">' + meta_key_config['help'] + '</div>';
+						var sidebar_html_help = '<div class="wsf-helper">' + meta_key_config.help + '</div>';
 
 					} else {
 
@@ -3188,7 +3188,7 @@
 					var sidebar_html_label = (repeater || (typeof(meta_key_label) === 'undefined')) ? '' : '<label class="wsf-label"' + ((meta_key_type != 'repeater') ? ' for="wsf_' + this.esc_attr(meta_key) + '"' : '') + '>' + meta_key_label + (meta_key_required ? ' <span class="wsf-required"></span>' : '') + '</label>';
 
 					// Field attributes - Standard
-					var class_field = (typeof(meta_key_config['class_field']) !== 'undefined') ? ' ' + meta_key_config['class_field'] : '';
+					var class_field = (typeof(meta_key_config.class_field) !== 'undefined') ? ' ' + meta_key_config.class_field : '';
 
 					var field_attributes = ' ' + (repeater ? ' name="' + this.esc_attr(repeater_meta_key + '_' + meta_key) + '[]"' : 'id="wsf_' + this.esc_attr(meta_key) + '"') + ' class="wsf-field' + this.esc_attr(class_field) + (repeater ? ' wsf-field-small' : '') + '" data-meta-key="' + this.esc_attr(meta_key) + '" data-meta-key-type="' + this.esc_attr(meta_key_type) + '"';
 
@@ -3196,14 +3196,14 @@
 					var meta_key_options = [];
 
 					// Field options - Required setting
-					if((typeof(meta_key_config['required_setting']) !== 'undefined') && meta_key_config['required_setting']) {
+					if((typeof(meta_key_config.required_setting) !== 'undefined') && meta_key_config.required_setting) {
 
 						var required_setting = true;
 
 						// Check to see if a global setting exists
-						if((typeof(meta_key_config['required_setting_global_meta_key']) !== 'undefined') && meta_key_config['required_setting_global_meta_key']) {
+						if((typeof(meta_key_config.required_setting_global_meta_key) !== 'undefined') && meta_key_config.required_setting_global_meta_key) {
 
-							var required_setting_global_meta_key = meta_key_config['required_setting_global_meta_key'];
+							var required_setting_global_meta_key = meta_key_config.required_setting_global_meta_key;
 
 							// Check to see if a global override setting exists
 							if(
@@ -3229,15 +3229,15 @@
 					}
 
 					// Field options - Compatibility
-					if((typeof(meta_key_config['compatibility_url']) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility && !repeater) {
+					if((typeof(meta_key_config.compatibility_url) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility && !repeater) {
 
-						meta_key_options.push('<li><a class="wsf-compatibility" href="' + this.esc_url(meta_key_config['compatibility_url']) + '" target="_blank"' + this.tooltip(this.language('attribute_compatibility'), 'top-right') + ' tabindex="-1">' + this.svg('markup') + '</a></li>');
+						meta_key_options.push('<li><a class="wsf-compatibility" href="' + this.esc_url(meta_key_config.compatibility_url) + '" target="_blank"' + this.tooltip(this.language('attribute_compatibility'), 'top-right') + ' tabindex="-1">' + this.svg('markup') + '</a></li>');
 					}
 
 					// Field options - Calc
 					if(
 						(object === 'field') &&
-						(typeof(meta_key_config['calc']) !== 'undefined')
+						(typeof(meta_key_config.calc) !== 'undefined')
 					) {
 
 						var field_type = object_data.type;
@@ -3259,7 +3259,7 @@
 					}
 
 					// Field options - Select list
-					if(typeof(meta_key_config['select_list']) === 'object') {
+					if(typeof(meta_key_config.select_list) === 'object') {
 
 						meta_key_options.push('<li><div data-action="wsf-select-list" data-option-meta-key="' + this.esc_attr(meta_key) + '"' + this.tooltip(this.language('select_list'), 'top-right') + '>' + this.svg('menu') + '</div></li>');
 
@@ -3268,18 +3268,18 @@
 
 					// Field options - Variable helper
 					if(
-						((typeof(meta_key_config['variable_helper']) !== 'undefined') && meta_key_config['variable_helper']) ||
+						((typeof(meta_key_config.variable_helper) !== 'undefined') && meta_key_config.variable_helper) ||
 
 						// Legacy support for add-ons that specify select_list = true
-						((typeof(meta_key_config['select_list']) !== 'undefined') && (meta_key_config['select_list'] === true)) 
+						((typeof(meta_key_config.select_list) !== 'undefined') && (meta_key_config.select_list === true)) 
 					) {
-						meta_key_options.push('<li><div data-action="wsf-variable-helper" data-option-meta-key="' + this.esc_attr(meta_key) + '"' + this.tooltip(this.language('variable_helper'), 'top-right') + '>' + this.svg('hash') + '</div></li>');
+						meta_key_options.push('<li><div data-action="wsf-variable-helper" data-option-meta-key="' + this.esc_attr(meta_key) + '"' + ((typeof(meta_key_config.variable_helper_group_id) !== 'undefined') ? (' data-group-id="' + this.esc_attr(meta_key_config.variable_helper_group_id) + '"') : '') + this.tooltip(this.language('variable_helper'), 'top-right') + '>' + this.svg('hash') + '</div></li>');
 
 						inits.push('variable-helper');
 					}
 
 					// Field options - Auto map
-					if((typeof(meta_key_config['auto_map']) !== 'undefined') && !repeater) {
+					if((typeof(meta_key_config.auto_map) !== 'undefined') && !repeater) {
 
 						meta_key_options.push('<li><div data-action="wsf-auto-map" data-option-meta-key="' + this.esc_attr(meta_key) + '" data-object="' + this.esc_attr(object) + '" data-object-id="' + this.esc_attr(object_id) + '"' + this.tooltip(this.language('auto_map'), 'top-right') + '>' + this.svg('exchange') + '</div></li>');
 
@@ -3287,17 +3287,17 @@
 					}
 
 					// Field options - API reload
-					if((typeof(meta_key_config['reload']) !== 'undefined')) {
+					if((typeof(meta_key_config.reload) !== 'undefined')) {
 
-						var reload_config = meta_key_config['reload'];
+						var reload_config = meta_key_config.reload;
 
 						// Reload attributes
 						var reload_attributes = '';
-						if(typeof(reload_config['action_id']) !== 'undefined') { reload_attributes += ' data-action-id="' + this.esc_attr(reload_config['action_id']) + '"'; }
-						if(typeof(reload_config['action_id_meta_key']) !== 'undefined') { reload_attributes += ' data-action-id-meta-key="' + this.esc_attr(reload_config['action_id_meta_key']) + '"'; }
-						if(typeof(reload_config['list_id_meta_key']) !== 'undefined') { reload_attributes += ' data-list-id-meta-key="' + this.esc_attr(reload_config['list_id_meta_key']) + '"'; }
-						if(typeof(reload_config['list_sub_id_meta_key']) !== 'undefined') { reload_attributes += ' data-list-sub-id-meta-key="' + this.esc_attr(reload_config['list_sub_id_meta_key']) + '"'; }
-						reload_attributes += ' data-method="' + this.esc_attr(reload_config['method']) + '"';
+						if(typeof(reload_config.action_id) !== 'undefined') { reload_attributes += ' data-action-id="' + this.esc_attr(reload_config.action_id) + '"'; }
+						if(typeof(reload_config.action_id_meta_key) !== 'undefined') { reload_attributes += ' data-action-id-meta-key="' + this.esc_attr(reload_config.action_id_meta_key) + '"'; }
+						if(typeof(reload_config.list_id_meta_key) !== 'undefined') { reload_attributes += ' data-list-id-meta-key="' + this.esc_attr(reload_config.list_id_meta_key) + '"'; }
+						if(typeof(reload_config.list_sub_id_meta_key) !== 'undefined') { reload_attributes += ' data-list-sub-id-meta-key="' + this.esc_attr(reload_config.list_sub_id_meta_key) + '"'; }
+						reload_attributes += ' data-method="' + this.esc_attr(reload_config.method) + '"';
 						if(repeater) { reload_attributes += ' data-repeater-meta-key="' + this.esc_attr(repeater_meta_key) + '"'; }
 
 						meta_key_options.push('<li><span data-action="wsf-api-reload"' + reload_attributes + ' data-meta-key-for="' + this.esc_attr(meta_key) + '"' + this.tooltip(this.language('action_api_reload'), 'top-right') + '>' + this.svg('reload') + '</span></li>');
@@ -3313,11 +3313,11 @@
 					}
 
 					// Default option (Use for inheriting parent values)
-					if(typeof(meta_key_config['options_default']) !== 'undefined') {
+					if(typeof(meta_key_config.options_default) !== 'undefined') {
 
 						// Get default options
 						var options_default_label = false;
-						var options_default_meta_key = meta_key_config['options_default'];
+						var options_default_meta_key = meta_key_config.options_default;
 
 						// Read default meta key config
 						var meta_key_config_default = $.WS_Form.meta_keys[options_default_meta_key];
@@ -3332,23 +3332,23 @@
 
 							var options_default_meta_key = $.WS_Form.meta_keys[options_default_meta_key];
 
-							switch(options_default_meta_key['type']) {
+							switch(options_default_meta_key.type) {
 
 								case 'select' :
 
-									if(typeof(options_default_meta_key['options']) !== 'undefined') {
+									if(typeof(options_default_meta_key.options) !== 'undefined') {
 
-										var options_default_options = options_default_meta_key['options'];
+										var options_default_options = options_default_meta_key.options;
 
 										for(var options_default_options_index in options_default_options) {
 
 											if(!options_default_options.hasOwnProperty(options_default_options_index)) { continue; }
 											if(typeof(options_default_options[options_default_options_index]) === 'function') { continue; }
 
-											var options_default_value = options_default_options[options_default_options_index]['value'];
+											var options_default_value = options_default_options[options_default_options_index].value;
 											if(options_default_value != options_default_meta_value) { continue; }
 
-											options_default_label = options_default_options[options_default_options_index]['text'];
+											options_default_label = options_default_options[options_default_options_index].text;
 										}
 									}
 									break;
@@ -3367,19 +3367,19 @@
 					}
 
 					// Build options HTML
-					if(typeof(meta_key_config['options']) !== 'undefined') {
+					if(typeof(meta_key_config.options) !== 'undefined') {
 
 						// Get options
-						var meta_key_options = meta_key_config['options'];
+						var meta_key_options = meta_key_config.options;
 
 						// Option filtering by framework (e.g. to only show label positions available for the current framework)
 						var meta_key_options_filter = false;
-						if(typeof(meta_key_config['options_framework_filter']) !== 'undefined') {
+						if(typeof(meta_key_config.options_framework_filter) !== 'undefined') {
 
 							// Get options filter from framework
-							if(typeof(this.framework[meta_key_config['options_framework_filter']]) !== 'undefined') {
+							if(typeof(this.framework[meta_key_config.options_framework_filter]) !== 'undefined') {
 
-								meta_key_options_filter = this.framework[meta_key_config['options_framework_filter']];
+								meta_key_options_filter = this.framework[meta_key_config.options_framework_filter];
 							}
 						}
 
@@ -3389,10 +3389,10 @@
 							case 'sections' :
 
 								// Check cache
-								if(typeof(this.meta_key_options_cache['sections']) !== 'undefined') {
+								if(typeof(this.meta_key_options_cache.sections) !== 'undefined') {
 
 									// Cached version found, so set meta_key_options to copy of that cached data
-									var meta_key_options = $.extend(true, [], this.meta_key_options_cache['sections']);
+									var meta_key_options = $.extend(true, [], this.meta_key_options_cache.sections);
 									break;
 								}
 
@@ -3400,7 +3400,7 @@
 								var meta_key_options = [];
 
 								// Filter
-								var section_filter_attribute = (typeof(meta_key_config['section_filter_attribute']) !== 'undefined') ? meta_key_config['section_filter_attribute'] : false;
+								var section_filter_attribute = (typeof(meta_key_config.section_filter_attribute) !== 'undefined') ? meta_key_config.section_filter_attribute : false;
 
 								// Build options
 								for(var section_index in this.section_data_cache) {
@@ -3432,7 +3432,7 @@
 								});
 
 								// Store to cache
-								this.meta_key_options_cache['sections'] = $.extend(true, [], meta_key_options);
+								this.meta_key_options_cache.sections = $.extend(true, [], meta_key_options);
 
 								break;
 
@@ -3441,8 +3441,8 @@
 								// Filter by mappable?
 								var fields_filter_mappable = (
 
-									(typeof(meta_key_config['fields_filter_mappable']) === 'undefined') ||
-									meta_key_config['fields_filter_mappable']
+									(typeof(meta_key_config.fields_filter_mappable) === 'undefined') ||
+									meta_key_config.fields_filter_mappable
 								);
 
 								// Build cache key
@@ -3467,10 +3467,10 @@
 							case 'data_source' :
 
 								// Check cache
-								if(typeof(this.meta_key_options_cache['data_source']) !== 'undefined') {
+								if(typeof(this.meta_key_options_cache.data_source) !== 'undefined') {
 
 									// Cached version found, so set meta_key_options to copy of that cached data
-									var meta_key_options = $.extend(true, [], this.meta_key_options_cache['data_source']);
+									var meta_key_options = $.extend(true, [], this.meta_key_options_cache.data_source);
 									break;
 								}
 
@@ -3478,7 +3478,7 @@
 								var meta_key_options = this.options_data_sources();
 
 								// Store to cache
-								this.meta_key_options_cache['data_source'] = $.extend(true, [], meta_key_options);
+								this.meta_key_options_cache.data_source = $.extend(true, [], meta_key_options);
 
 								break;
 
@@ -3494,16 +3494,16 @@
 						}
 
 						// Insert blank option
-						if(typeof(meta_key_config['options_blank']) !== 'undefined') {
+						if(typeof(meta_key_config.options_blank) !== 'undefined') {
 
-							meta_key_options.unshift({'value': '', 'text': meta_key_config['options_blank'], 'disabled_never': true});
+							meta_key_options.unshift({'value': '', 'text': meta_key_config.options_blank, 'disabled_never': true});
 						}
 
 						// Filters
-						var fields_filter_type = (typeof(meta_key_config['fields_filter_type']) !== 'undefined') ? meta_key_config['fields_filter_type'] : false;
-						var fields_filter_type_exclude = (typeof(meta_key_config['fields_filter_type_exclude']) !== 'undefined') ? meta_key_config['fields_filter_type_exclude'] : false;
-						var fields_filter_attribute = (typeof(meta_key_config['fields_filter_attribute']) !== 'undefined') ? meta_key_config['fields_filter_attribute'] : false;
-						var fields_filter_include_self = (typeof(meta_key_config['fields_filter_include_self']) !== 'undefined') ? meta_key_config['fields_filter_include_self'] : false;
+						var fields_filter_type = (typeof(meta_key_config.fields_filter_type) !== 'undefined') ? meta_key_config.fields_filter_type : false;
+						var fields_filter_type_exclude = (typeof(meta_key_config.fields_filter_type_exclude) !== 'undefined') ? meta_key_config.fields_filter_type_exclude : false;
+						var fields_filter_attribute = (typeof(meta_key_config.fields_filter_attribute) !== 'undefined') ? meta_key_config.fields_filter_attribute : false;
+						var fields_filter_include_self = (typeof(meta_key_config.fields_filter_include_self) !== 'undefined') ? meta_key_config.fields_filter_include_self : false;
 
 						// Build options
 						var optgroup_last = false;
@@ -3634,7 +3634,7 @@
 					if(meta_key_type == 'select_ajax') {
 
 						meta_key_type = 'select';
-						meta_key_config['select2'] = true;
+						meta_key_config.select2 = true;
 					}
 
 					// Enable Select2 on mousedown if there are a lot of options
@@ -3642,25 +3642,25 @@
 						$.WS_Form.settings_plugin.helper_select2_on_mousedown &&
 						(meta_key_options.length > 20)
 					) {
-						meta_key_config['select2'] = true;
-						meta_key_config['select2_on_mousedown'] = true;
+						meta_key_config.select2 = true;
+						meta_key_config.select2_on_mousedown = true;
 					}
 
-					var select2 = (typeof(meta_key_config['select2']) !== 'undefined') ? meta_key_config['select2'] : false;
+					var select2 = (typeof(meta_key_config.select2) !== 'undefined') ? meta_key_config.select2 : false;
 
 					if(select2) {
 
 						field_attributes += ' data-wsf-select2';
 
 						// Select2 on mousedown
-						if((typeof(meta_key_config['select2_on_mousedown']) !== 'undefined') ? meta_key_config['select2_on_mousedown'] : false) {
+						if((typeof(meta_key_config.select2_on_mousedown) !== 'undefined') ? meta_key_config.select2_on_mousedown : false) {
 
 							field_attributes += ' data-wsf-select2-on-mousedown';
 						}
 
-						var select_ajax_method_search = (typeof(meta_key_config['select_ajax_method_search']) !== 'undefined') ? meta_key_config['select_ajax_method_search'] : false;
-						var select_ajax_method_cache = (typeof(meta_key_config['select_ajax_method_cache']) !== 'undefined') ? meta_key_config['select_ajax_method_cache'] : false;
-						var select_ajax_placeholder = (typeof(meta_key_config['select_ajax_placeholder']) !== 'undefined') ? meta_key_config['select_ajax_placeholder'] : false;
+						var select_ajax_method_search = (typeof(meta_key_config.select_ajax_method_search) !== 'undefined') ? meta_key_config.select_ajax_method_search : false;
+						var select_ajax_method_cache = (typeof(meta_key_config.select_ajax_method_cache) !== 'undefined') ? meta_key_config.select_ajax_method_cache : false;
+						var select_ajax_placeholder = (typeof(meta_key_config.select_ajax_placeholder) !== 'undefined') ? meta_key_config.select_ajax_placeholder : false;
 
 						// AJAX
 						if(select_ajax_method_search) {
@@ -3681,7 +3681,7 @@
 						}
 
 						// Tags (Pills)
-						var select_tags = (typeof(meta_key_config['select2_tags']) !== 'undefined') ? meta_key_config['select2_tags'] : false;
+						var select_tags = (typeof(meta_key_config.select2_tags) !== 'undefined') ? meta_key_config.select2_tags : false;
 						field_attributes += select_tags ? ' data-tags="true"' : '';
 
 						// Build default options
@@ -3709,8 +3709,8 @@
 					if(meta_key_type == 'select_number') {
 
 						// Get minimum and maximum values
-						var minimum = (typeof(meta_key_config['minimum']) !== 'undefined') ? meta_key_config['minimum'] : 1;
-						var maximum = (typeof(meta_key_config['maximum']) !== 'undefined') ? meta_key_config['maximum'] : 100;
+						var minimum = (typeof(meta_key_config.minimum) !== 'undefined') ? meta_key_config.minimum : 1;
+						var maximum = (typeof(meta_key_config.maximum) !== 'undefined') ? meta_key_config.maximum : 100;
 						if(maximum == 'framework_column_count') { maximum = ($.WS_Form.settings_plugin.framework_column_count - 1); }
 
 						for(var option_value = minimum; option_value <= maximum; option_value++) {
@@ -3736,7 +3736,7 @@
 
 							var field_type = object_data.type;
 							var field_type_config = $.WS_Form.field_type_cache[field_type];
-							placeholder = (typeof(field_type_config['invalid_feedback']) !== 'undefined') ? field_type_config['invalid_feedback'] : placeholder;
+							placeholder = (typeof(field_type_config.invalid_feedback) !== 'undefined') ? field_type_config.invalid_feedback : placeholder;
 						}
 
 						// Add data-placeholder to field attributes
@@ -3833,12 +3833,12 @@
 					}
 
 					// Check to see if this field should render if groups_group is present
-					if(typeof(meta_key_config['show_if_groups_group']) !== 'undefined') {
+					if(typeof(meta_key_config.show_if_groups_group) !== 'undefined') {
 
 						var field_type = object_data.type;
 						var field_type_config = $.WS_Form.field_type_cache[field_type];
 
-						var data_source = (typeof(field_type_config['data_source']) !== 'undefined') ? field_type_config['data_source'] : false;
+						var data_source = (typeof(field_type_config.data_source) !== 'undefined') ? field_type_config.data_source : false;
 
 						// Get data source ID
 						if(
@@ -3850,10 +3850,10 @@
 							var data_source_meta_key_config = $.WS_Form.meta_keys[data_source.id]
 
 							// Check if data grid has groups_group set
-							var groups_group = (typeof(data_source_meta_key_config['groups_group']) !== 'undefined') ? data_source_meta_key_config['groups_group'] : false;
+							var groups_group = (typeof(data_source_meta_key_config.groups_group) !== 'undefined') ? data_source_meta_key_config.groups_group : false;
 
 							// Render as hidden value
-							if(groups_group !== meta_key_config['show_if_groups_group']) {
+							if(groups_group !== meta_key_config.show_if_groups_group) {
 
 								meta_key_type = 'hidden';
 								meta_value = '';
@@ -4059,7 +4059,7 @@
 						// HTML
 						case 'html' :
 
-							var html = (typeof(meta_key_config['html']) !== 'undefined') ? meta_key_config['html'] : '';
+							var html = (typeof(meta_key_config.html) !== 'undefined') ? meta_key_config.html : '';
 							var sidebar_html_field = '<div class="wsf-sidebar-html"' + field_attributes + '>' + html + '</div>';
 							break;
 
@@ -4068,7 +4068,7 @@
 
 							var note_class_array = ['wsf-sidebar-note'];
 
-							var note_type = (typeof(meta_key_config['note_type']) !== 'undefined') ? meta_key_config['note_type'] : '';
+							var note_type = (typeof(meta_key_config.note_type) !== 'undefined') ? meta_key_config.note_type : '';
 
 							switch(note_type) {
 
@@ -4085,7 +4085,7 @@
 									break;
 							}
 
-							var html = (typeof(meta_key_config['html']) !== 'undefined') ? meta_key_config['html'] : '';
+							var html = (typeof(meta_key_config.html) !== 'undefined') ? meta_key_config.html : '';
 							var sidebar_html_field = '<div class="' + note_class_array.join(' ') + '"' + field_attributes + '>' + html + '</div>';
 
 							break;
@@ -4103,13 +4103,13 @@
 					}
 
 					// Indent HTML
-					var indent_html = (typeof(meta_key_config['indent']) !== 'undefined') ? ' wsf-field-indent' : '';
+					var indent_html = (typeof(meta_key_config.indent) !== 'undefined') ? ' wsf-field-indent' : '';
 
 					// Add fieldset field HTML
-					var field_wrapper = (typeof(meta_key_config['field_wrapper']) !== 'undefined') ? meta_key_config['field_wrapper'] : true;
+					var field_wrapper = (typeof(meta_key_config.field_wrapper) !== 'undefined') ? meta_key_config.field_wrapper : true;
 					if(render_field_wrappers && field_wrapper) {
 
-						var class_wrapper = (typeof(meta_key_config['class_wrapper']) !== 'undefined') ? ' ' + meta_key_config['class_wrapper'] : '';
+						var class_wrapper = (typeof(meta_key_config.class_wrapper) !== 'undefined') ? ' ' + meta_key_config.class_wrapper : '';
 
 						sidebar_html += '<div class="wsf-field-wrapper' + class_wrapper + indent_html + '">' + sidebar_html_field + "</div>\n";
 
@@ -4134,7 +4134,7 @@
 
 				sidebar_html += '</div>';
 
-				sidebar_html += this.comment_html(this.language('group') + ' - ' + fieldset['label'], true);
+				sidebar_html += this.comment_html(this.language('group') + ' - ' + fieldset.label, true);
 			}
 
 			fieldset_index++;
@@ -4180,7 +4180,7 @@
 
 					if(fields_filter_mappable) {
 
-						var mappable = (typeof(field_type_config['mappable'])) ? field_type_config['mappable'] : false;
+						var mappable = (typeof(field_type_config.mappable)) ? field_type_config.mappable : false;
 						if(!mappable) { continue; }
 					}
 
@@ -4501,16 +4501,16 @@
 				var sidebar_icon = (typeof(object_meta.icon) !== 'undefined' ? (object_meta.icon) : '');
 
 				// Build knowledge base HTML
-				if((typeof(object_meta['kb_url']) !== 'undefined')) {
+				if((typeof(object_meta.kb_url) !== 'undefined')) {
 
-					var kb_url = this.get_plugin_website_url(object_meta['kb_url'], 'sidebar');
+					var kb_url = this.get_plugin_website_url(object_meta.kb_url, 'sidebar');
 					var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 				}
 
 				// Build compatibility icon HTML
-				if((typeof(object_meta['compatibility_url']) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility) {
+				if((typeof(object_meta.compatibility_url) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility) {
 
-					var sidebar_compatibility_html = '<a class="wsf-compatibility" href="' + this.esc_url(object_meta['compatibility_url']) + '" target="_blank"' + this.tooltip(this.language('field_compatibility'), 'bottom-center') +  ' tabindex="-1">' + this.svg('markup-circle') + '</a>';
+					var sidebar_compatibility_html = '<a class="wsf-compatibility" href="' + this.esc_url(object_meta.compatibility_url) + '" target="_blank"' + this.tooltip(this.language('field_compatibility'), 'bottom-center') +  ' tabindex="-1">' + this.svg('markup-circle') + '</a>';
 				}
 
 				// Build ID html
@@ -4557,21 +4557,21 @@
 
 					var label_default = $.WS_Form.this.get_label_default(object);
 			}
-			$.WS_Form.this.object_data_scratch['label'] = ((object_label == '') ? label_default : object_label);
+			$.WS_Form.this.object_data_scratch.label = ((object_label == '') ? label_default : object_label);
 
 			switch(object) {
 
 				case 'form' :
 
 					// Change form label
-					$('[data-action="wsf-form-label"]').val($.WS_Form.this.object_data_scratch['label']);
+					$('[data-action="wsf-form-label"]').val($.WS_Form.this.object_data_scratch.label);
 					break;
 
 				case 'group' :
 
 					// Change tab label
 					var group_id = obj.attr('data-id');
-					$('.wsf-group-tab[data-id="' + $.WS_Form.this.esc_selector(group_id) + '"] a input').val($.WS_Form.this.object_data_scratch['label']).trigger('change');
+					$('.wsf-group-tab[data-id="' + $.WS_Form.this.esc_selector(group_id) + '"] a input').val($.WS_Form.this.object_data_scratch.label).trigger('change');
 
 					break;
 
@@ -4579,7 +4579,7 @@
 
 					// Render section (Simulate using new object data)
 					var section_id = obj.attr('data-id');
-					$('.wsf-section[data-id="' + $.WS_Form.this.esc_selector(section_id) + '"] .wsf-section-label input').val($.WS_Form.this.object_data_scratch['label']);
+					$('.wsf-section[data-id="' + $.WS_Form.this.esc_selector(section_id) + '"] .wsf-section-label input').val($.WS_Form.this.object_data_scratch.label);
 
 					// Render placeholders
 					$.WS_Form.this.sidebar_placeholders_init(obj_outer);
@@ -5188,7 +5188,11 @@
 		$('#wsf-sidebars').on('click', '[data-action="wsf-variable-helper"]', function() {
 
 			// Variable helper
-			$.WS_Form.this.variable_helper_modal_open($(this).attr('data-option-meta-key') ? $('[data-meta-key="' + $(this).attr('data-option-meta-key') + '"]', $(this).closest('.wsf-field-wrapper')) : false);
+			$.WS_Form.this.variable_helper_modal_open(
+
+				$(this).attr('data-option-meta-key') ? $('[data-meta-key="' + $(this).attr('data-option-meta-key') + '"]', $(this).closest('.wsf-field-wrapper')) : false,
+				$(this).attr('data-group-id') ? $(this).attr('data-group-id') : false,
+			);
 		});
 	}
 
@@ -5209,10 +5213,10 @@
 				$(this).addClass('wsf-select-list-open').attr('autocomplete', 'off');
 
 				// Get heading
-				var select_list_heading = (typeof($.WS_Form.meta_keys[meta_key]['select_list_heading']) !== 'undefined') ? $.WS_Form.meta_keys[meta_key]['select_list_heading'] : false;
+				var select_list_heading = (typeof($.WS_Form.meta_keys[meta_key].select_list_heading) !== 'undefined') ? $.WS_Form.meta_keys[meta_key].select_list_heading : false;
 
 				// List specified at meta key level
-				$.WS_Form.this.sidebar_select_list_process(field_wrapper, $.WS_Form.meta_keys[meta_key]['select_list'], meta_key, select_list_heading);
+				$.WS_Form.this.sidebar_select_list_process(field_wrapper, $.WS_Form.meta_keys[meta_key].select_list, meta_key, select_list_heading);
 			}
 		});
 	}
@@ -5244,9 +5248,9 @@
 
 					var field_type_config = $.WS_Form.field_type_cache[field.type];
 
-					var value_out = (typeof(field_type_config['value_out'])) ? field_type_config['value_out'] : false;
+					var value_out = (typeof(field_type_config.value_out)) ? field_type_config.value_out : false;
 
-					var calc_out = !calc_out_filter || ((typeof(field_type_config['calc_out'])) ? field_type_config['calc_out'] : false);
+					var calc_out = !calc_out_filter || ((typeof(field_type_config.calc_out)) ? field_type_config.calc_out : false);
 
 					if(value_out && calc_out) {
 
@@ -5573,9 +5577,9 @@
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 		// Insert blank option
-		if(typeof(meta_key_config['options_blank']) !== 'undefined') {
+		if(typeof(meta_key_config.options_blank) !== 'undefined') {
 
-			options_html += '<option value="">' + this.esc_html(meta_key_config['options_blank']) + '</option>';
+			options_html += '<option value="">' + this.esc_html(meta_key_config.options_blank) + '</option>';
 		}
 
 		// Render options
@@ -5634,7 +5638,7 @@
 				var meta_key_config = $.WS_Form.meta_keys[meta_key_unique];
 
 				// meta_key_unique override
-				if(typeof(meta_key_config['key']) !== 'undefined') { meta_key_unique = meta_key_config['key']; }
+				if(typeof(meta_key_config.key) !== 'undefined') { meta_key_unique = meta_key_config.key; }
 
 				this.sidebar_repeater_options_unique(meta_key_unique, obj);
 
@@ -5817,7 +5821,7 @@
 
 			var meta_value = (typeof($.WS_Form.meta_keys[meta_key].default) !== 'undefined') ? $.WS_Form.meta_keys[meta_key].default : '';
 
-			if(typeof($.WS_Form.meta_keys[meta_key]['key']) !== 'undefined') { meta_key = $.WS_Form.meta_keys[meta_key]['key']; }
+			if(typeof($.WS_Form.meta_keys[meta_key].key) !== 'undefined') { meta_key = $.WS_Form.meta_keys[meta_key].key; }
 
 			repeater_row[meta_key] = meta_value;
 		}
@@ -5836,14 +5840,14 @@
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 		// Read meta keys for repeater
-		if(typeof(meta_key_config['meta_keys']) !== 'object') { return false; }
-		var meta_keys = meta_key_config['meta_keys'];
+		if(typeof(meta_key_config.meta_keys) !== 'object') { return false; }
+		var meta_keys = meta_key_config.meta_keys;
 
 		// Custom column names
-		var columns = (typeof(meta_key_config['columns']) !== 'undefined') ? meta_key_config['columns'] : false;
+		var columns = (typeof(meta_key_config.columns) !== 'undefined') ? meta_key_config.columns : false;
 
 		// Read meta keys unique
-		var meta_keys_unique = (typeof(meta_key_config['meta_keys_unique']) !== 'undefined') ? meta_key_config['meta_keys_unique'] : false;
+		var meta_keys_unique = (typeof(meta_key_config.meta_keys_unique) !== 'undefined') ? meta_key_config.meta_keys_unique : false;
 
 		// Get object
 		var object = obj.attr('data-object');
@@ -5940,7 +5944,7 @@
 
 		// Build object data (sidebar_html then uses this to extract the meta_value)
 		var object_data = [];
-		object_data['meta'] = repeater_data_row;
+		object_data.meta = repeater_data_row;
 
 		for(var meta_keys_index in repeater.meta_keys) {
 
@@ -6268,7 +6272,7 @@
 				var field_type_config = $.WS_Form.field_type_cache[field_type];
 
 				// Check to see if multiple attribute is set
-				var multiple = (typeof(field_type_config['multiple']) !== 'undefined') ? field_type_config['multiple'] : true;
+				var multiple = (typeof(field_type_config.multiple) !== 'undefined') ? field_type_config.multiple : true;
 				if(!multiple) { $(this).addClass('wsf-field-disabled'); }
 
 				// Get section ID
@@ -7090,7 +7094,7 @@
 
 			// Get meta key type
 			var meta_key_config = $.WS_Form.meta_keys[sidebar_condition_meta_key];
-			var sidebar_condition_meta_key_type = meta_key_config['type'];
+			var sidebar_condition_meta_key_type = meta_key_config.type;
 
 			// Get meta key to show	
 			var sidebar_condition_show = sidebar_condition.show;
@@ -7156,9 +7160,9 @@
 					if(meta_value === 'default') {
 
 						var meta_key_config = $.WS_Form.meta_keys[sidebar_condition_meta_key];
-						if(typeof(meta_key_config['options_default']) !== 'undefined') {
+						if(typeof(meta_key_config.options_default) !== 'undefined') {
 
-							meta_value = this.get_object_meta_value(this.form, meta_key_config['options_default'], '');
+							meta_value = this.get_object_meta_value(this.form, meta_key_config.options_default, '');
 						}
 					}
 
@@ -7270,7 +7274,7 @@
 					if(!$.WS_Form.this.object_meta_cache.hasOwnProperty(key)) { continue; }
 
 					// Get meta_key
-					var meta_key = $.WS_Form.this.object_meta_cache[key]['meta_key'];
+					var meta_key = $.WS_Form.this.object_meta_cache[key].meta_key;
 
 					// Update object data
 					$.WS_Form.this.object_data_update_by_meta_key(object, object_data, meta_key);
@@ -7392,7 +7396,7 @@
 		}
 
 		// Set on form
-		var form_breakpoint_class = framework_breakpoints[breakpoint]['id'];
+		var form_breakpoint_class = framework_breakpoints[breakpoint].id;
 		$('#' + this.form_obj_id).attr('data-breakpoint', form_breakpoint_class);
 
 		// Inject breakpoint framework
@@ -7609,7 +7613,7 @@
 		var framework = $.WS_Form.settings_plugin.framework;
 
 		// Get breakpoint ID
-		var form_data_breakpoint = $.WS_Form.frameworks.types[framework]['breakpoints'][key]['id'];
+		var form_data_breakpoint = $.WS_Form.frameworks.types[framework].breakpoints[key].id;
 
 		// Set new breakpoint
 		$.WS_Form.this.set_object_meta_value($.WS_Form.this.form, 'breakpoint', key);
@@ -8385,7 +8389,7 @@
 
 			select_obj.on('mousedown', function(e) {
 
-	 			e.preventDefault();
+				e.preventDefault();
 				ws_this.sidebar_select2_create($(this));
 
 				setTimeout(function() {
@@ -9196,8 +9200,8 @@
 			var object_id = obj.attr('data-id');
 			var meta_key = obj.attr('data-meta-key');
 			var meta_key_config = $.WS_Form.meta_keys[meta_key];
-			var meta_key_type_sub = (typeof(meta_key_config['type_sub']) !== 'undefined') ? meta_key_config['type_sub'] : false;
-			var data_source = (typeof(meta_key_config['data_source']) !== 'undefined') ? meta_key_config['data_source'] : false;
+			var meta_key_type_sub = (typeof(meta_key_config.type_sub) !== 'undefined') ? meta_key_config.type_sub : false;
+			var data_source = (typeof(meta_key_config.data_source) !== 'undefined') ? meta_key_config.data_source : false;
 
 			// Get object data
 			var object_data = $.WS_Form.this.get_object_data(object, object_id, true);
@@ -9260,7 +9264,7 @@
 						if(!rows.hasOwnProperty(row_index)) { continue; }
 
 						// Get label
-						var group_label = rows[row_index]['data'][auto_group_index];
+						var group_label = rows[row_index].data[auto_group_index];
 						if(typeof(group_label) === 'undefined') { group_label = ''; }
 
 						// See if this exists, if not create key
@@ -9798,7 +9802,7 @@
 
 							// Object data
 							params[object] = object_data_old;
-							params[object]['history_suppress'] = 'on';
+							params[object].history_suppress = 'on';
 
 							// Call AJAX request
 							$.WS_Form.this.api_call(object + '/' + object_id + '/put/', 'POST', params, function(response) {
@@ -10141,7 +10145,7 @@
 
 					// Update row data
 					var rows = group.rows;
-					rows[row_index]['data'][column_index] = $(this).val();
+					rows[row_index].data[column_index] = $(this).val();
 				});
 
 				// Rows - Sortable
@@ -10451,7 +10455,7 @@
 		var object_id = obj.attr('data-id');
 		var meta_key = obj.attr('data-meta-key');
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
-		var data_source = (typeof(meta_key_config['data_source']) !== 'undefined') ? meta_key_config['data_source'] : false;
+		var data_source = (typeof(meta_key_config.data_source) !== 'undefined') ? meta_key_config.data_source : false;
 
 		if(data_source) {
 
@@ -10584,7 +10588,7 @@
 		var object_id = obj.attr('data-id');
 		var meta_key = obj.attr('data-meta-key');
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
-		var data_source = (typeof(meta_key_config['data_source']) !== 'undefined') ? meta_key_config['data_source'] : false;
+		var data_source = (typeof(meta_key_config.data_source) !== 'undefined') ? meta_key_config.data_source : false;
 
 		// Get object data
 		var object_data = $.WS_Form.this.get_object_data(object, object_id, true);
@@ -10632,7 +10636,7 @@
 			var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 			// Check for default value
-			var value = (typeof(meta_key_config['default']) !== 'undefined') ? meta_key_config['default'] : '';
+			var value = (typeof(meta_key_config.default) !== 'undefined') ? meta_key_config.default : '';
 
 			// Add to object_data
 			object_data.meta[meta_key] = value;
@@ -10707,7 +10711,7 @@
 		var object_id = obj.attr('data-id');
 		var meta_key = obj.attr('data-meta-key');
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
-		var data_source = (typeof(meta_key_config['data_source']) !== 'undefined') ? meta_key_config['data_source'] : false;
+		var data_source = (typeof(meta_key_config.data_source) !== 'undefined') ? meta_key_config.data_source : false;
 
 		// Get object data
 		var object_data = $.WS_Form.this.get_object_data(object, object_id, true);
@@ -10875,7 +10879,7 @@
 				var deselect_data_source_id = (typeof(response.deselect_data_source_id) !== 'undefined') ? response.deselect_data_source_id : '';
 				if(deselect_data_source_id) {
 
-					$.WS_Form.this.object_data_scratch.meta['data_source_id'] = '';
+					$.WS_Form.this.object_data_scratch.meta.data_source_id = '';
 				}
 
 				// Set initial progress
@@ -11037,7 +11041,7 @@
 			if(!this.object_meta_cache.hasOwnProperty(key)) { continue; }
 
 			// Get meta_key
-			var meta_key = this.object_meta_cache[key]['meta_key'];
+			var meta_key = this.object_meta_cache[key].meta_key;
 
 			// Update object data
 			this.object_data_update_by_meta_key(object, this.object_data_scratch, meta_key);
@@ -11118,7 +11122,7 @@
 	$.WS_Form.prototype.data_grid_row_next_id = function(meta_value) {
 
 		var row_id = 0;
-		var groups = meta_value['groups'];
+		var groups = meta_value.groups;
 
 		for(var group_index in groups) {
 
@@ -11126,7 +11130,7 @@
 
 			var group = groups[group_index];
 
-			var rows = group['rows'];
+			var rows = group.rows;
 
 			for(var row_index in rows) {
 
@@ -11573,7 +11577,7 @@
 
 					if(!rows.hasOwnProperty(row_index)) { continue; }
 
-					if(rows[row_index]['default'] != '') { default_row_count++; }
+					if(rows[row_index].default != '') { default_row_count++; }
 					if(default_row_count > 1) { break; }
 				}
 
@@ -11585,12 +11589,12 @@
 
 						if(!rows.hasOwnProperty(row_index)) { continue; }
 
-						if(rows[row_index]['default'] != '') {
+						if(rows[row_index].default != '') {
 
 							default_row_count++;
 
 							// Remove any default rows after the first default
-							if(default_row_count > 1) { rows[row_index]['default'] = ''; }
+							if(default_row_count > 1) { rows[row_index].default = ''; }
 						}
 					}
 
@@ -11658,7 +11662,7 @@
 
 			// Object data
 			params[object] = object_data_old;
-			params[object]['history_suppress'] = 'on';
+			params[object].history_suppress = 'on';
 
 			// Call AJAX request
 			$.WS_Form.this.api_call(object + '/' + object_id + '/put/', 'POST', params, function(response) {
@@ -11714,7 +11718,7 @@
 
 		// Object data
 		params[object] = object_data_old;
-		params[object]['history_suppress'] = 'on';
+		params[object].history_suppress = 'on';
 
 		// Run complete function
 		if(typeof(complete) !== 'undefined') { complete(); }
@@ -11859,8 +11863,8 @@
 			}
 
 			// Get action_id
-			if(typeof(action_single['id']) === 'undefined') { continue; }
-			var action_single_id = action_single['id'];
+			if(typeof(action_single.id) === 'undefined') { continue; }
+			var action_single_id = action_single.id;
 
 			// Get multiple value
 			if(typeof($.WS_Form.actions[action_single_id]) === 'undefined') { continue }
@@ -11918,7 +11922,7 @@
 				var action_event = action_events[action_event_key];
 				var action_selected = ($.WS_Form.this.action.events.indexOf(action_event_key) != -1);
 
-				action_header_html += '<div><input class="wsf-field" type="checkbox" id="wsf_action_event_' + this.esc_attr(action_event_key) + '" name="wsf_action_event[]"' + (action_selected ? ' checked' : '') + ' /><label class="wsf-label" for="wsf_action_event_' + this.esc_attr(action_event_key) + '">' + this.esc_html(action_event['label']) + '</label></div>';
+				action_header_html += '<div><input class="wsf-field" type="checkbox" id="wsf_action_event_' + this.esc_attr(action_event_key) + '" name="wsf_action_event[]"' + (action_selected ? ' checked' : '') + ' /><label class="wsf-label" for="wsf_action_event_' + this.esc_attr(action_event_key) + '">' + this.esc_html(action_event.label) + '</label></div>';
 			}
 		}
 
@@ -12035,7 +12039,7 @@
 					if(!$.WS_Form.this.object_meta_cache.hasOwnProperty(key)) { continue; }
 
 					// Get meta_key
-					var meta_key = $.WS_Form.this.object_meta_cache[key]['meta_key'];
+					var meta_key = $.WS_Form.this.object_meta_cache[key].meta_key;
 
 					// Update object data
 					$.WS_Form.this.object_data_update_by_meta_key(object, object_data, meta_key);
@@ -12258,12 +12262,12 @@
 						if(typeof(meta_keys[meta_key]) === 'undefined') { continue; }
 
 						// Skip dummy entries
-						if((typeof(meta_keys[meta_key]['dummy'] !== 'undefined') && meta_keys[meta_key]['dummy'])) { continue; }
+						if((typeof(meta_keys[meta_key].dummy !== 'undefined') && meta_keys[meta_key].dummy)) { continue; }
 
 						// Get default meta value
-						if(typeof(meta_keys[meta_key]['default']) !== 'undefined') {
+						if(typeof(meta_keys[meta_key].default) !== 'undefined') {
 
-							var meta_value = meta_keys[meta_key]['default'];
+							var meta_value = meta_keys[meta_key].default;
 
 						} else {
 
@@ -12274,9 +12278,9 @@
 						meta_value = (typeof(meta_value) === 'boolean') ? (meta_value ? 'on' : '') : meta_value;
 
 						// Handle key changes
-						if(typeof(meta_keys[meta_key]['key']) !== 'undefined') {
+						if(typeof(meta_keys[meta_key].key) !== 'undefined') {
 
-							meta_key = meta_keys[meta_key]['key'];
+							meta_key = meta_keys[meta_key].key;
 						}
 
 						// Add to return array
@@ -12295,13 +12299,14 @@
 	}
 
 	// Sidebar - Title
-	$.WS_Form.prototype.sidebar_title = function(sidebar_icon, sidebar_label, sidebar_compatibility_html, sidebar_kb_html, sidebar_field_id_html, sidebar_expand, sidebar_logo_html) {
+	$.WS_Form.prototype.sidebar_title = function(sidebar_icon, sidebar_label, sidebar_compatibility_html, sidebar_kb_html, sidebar_field_id_html, sidebar_expand, sidebar_logo_html, sidebar_resize) {
 
 		if(typeof(sidebar_compatibility_html) === 'undefined') { sidebar_compatibility_html = ''; }
 		if(typeof(sidebar_kb_html) === 'undefined') { sidebar_kb_html = ''; }
 		if(typeof(sidebar_field_id_html) === 'undefined') { sidebar_field_id_html = ''; }
 		if(typeof(sidebar_expand) === 'undefined') { sidebar_expand = false; }
 		if(typeof(sidebar_logo_html) === 'undefined') { sidebar_logo_html = ''; }
+		if(typeof(sidebar_resize) === 'undefined') { sidebar_resize = true; }
 
 		// Expand / Contract
 		if(sidebar_expand) {
@@ -12314,7 +12319,10 @@
 			var expand_contract = '';
 		}
 
-		return '<div class="wsf-sidebar-header"><div class="wsf-sidebar-icon">' + sidebar_icon + '</div><h2>' + this.esc_html(sidebar_label) + '</h2>' + sidebar_field_id_html + sidebar_kb_html + sidebar_compatibility_html + expand_contract + sidebar_logo_html + '</div>';
+		// Resize
+		var sidebar_resize = '<div class="wsf-sidebar-resize"></div>';
+
+		return sidebar_resize + '<div class="wsf-sidebar-header"><div class="wsf-sidebar-icon">' + sidebar_icon + '</div><h2>' + this.esc_html(sidebar_label) + '</h2>' + sidebar_field_id_html + sidebar_kb_html + sidebar_compatibility_html + expand_contract + sidebar_logo_html + '</div>';
 	}
 
 	// Sidebar - Open
@@ -12442,7 +12450,7 @@
 	// Sidebars - Render
 	$.WS_Form.prototype.sidebars_render = function() {
 
-		var sidebars = $.WS_Form.settings_form['sidebars'];
+		var sidebars = $.WS_Form.settings_form.sidebars;
 		for(var sidebar_key in sidebars) {
 
 			if(!sidebars.hasOwnProperty(sidebar_key)) { continue; }
@@ -12451,6 +12459,8 @@
 		}
 
 		this.sidebar_expand_contract_init();
+
+		this.sidebar_resize_init();
 	}
 
 	// Sidebar - Expand / Contract init
@@ -12478,7 +12488,7 @@
 		// Add wrapper
 		this.sidebar_wrapper_add(id);
 
-		var sidebar_config = $.WS_Form.settings_form['sidebars'][id];
+		var sidebar_config = $.WS_Form.settings_form.sidebars[id];
 
 		var sidebar_static = (typeof(sidebar_config.static) !== 'undefined') ? sidebar_config.static : false;
 		var sidebar_buttons = (typeof(sidebar_config.buttons) !== 'undefined') ? sidebar_config.buttons : false;
@@ -12593,6 +12603,74 @@
 				}
 			}
 		});
+	}
+
+	// Sidebar - Resize - Init
+	$.WS_Form.prototype.sidebar_resize_init = function() {
+
+		var ws_this = this;
+
+		$('#wsf-sidebars').on('mousedown', '.wsf-sidebar-resize', function(e) {
+
+			e.preventDefault();
+
+			var start_x = e.clientX;
+
+			var width_current = getComputedStyle(document.documentElement)
+				.getPropertyValue('--wsf-admin-sidebar-width')
+				.trim();
+
+			var width_start = parseInt(width_current, 10) || parseInt(ws_form_settings.sidebar_width, 10);
+
+			var width_new = width_start;
+
+			var width_min = parseInt(ws_form_settings.sidebar_width_min, 10);
+			var width_max = parseInt(ws_form_settings.sidebar_width_max, 10);
+
+			function on_drag(e) {
+
+				var delta_x = start_x - e.clientX;
+				width_new = width_start + delta_x;
+
+				if(width_new < width_min) { width_new = width_min; }
+				if(width_new > width_max) { width_new = width_max; }
+
+				document.documentElement.style.setProperty('--wsf-admin-sidebar-width', width_new + 'px');
+			}
+
+			function on_stop() {
+
+				$(document).off('mousemove.sidebarResize', on_drag);
+				$(document).off('mouseup.sidebarResize', on_stop);
+
+				// Push width to API
+				if(width_start != width_new) {
+
+					var params = {
+
+						sidebar_width: width_new
+					};
+
+					$.WS_Form.this.api_call('sidebar/width/', 'POST', params, function(response) {
+
+						// Loader off
+						$.WS_Form.this.loader_off();
+					});
+				}
+			}
+
+			$(document).on('mousemove.sidebarResize', on_drag);
+			$(document).on('mouseup.sidebarResize', on_stop);
+		});
+
+		// Set initial width
+		var width_initial = parseInt(ws_form_settings.sidebar_width, 10);
+		var width_min = parseInt(ws_form_settings.sidebar_width_min, 10);
+		var width_max = parseInt(ws_form_settings.sidebar_width_max, 10);
+		if(width_initial < width_min) { width_initial = width_min; }
+		if(width_initial > width_max) { width_initial = width_max; }
+
+		document.documentElement.style.setProperty('--wsf-admin-sidebar-width', width_initial + 'px');
 	}
 
 	// Sidebar - Resize - Reset
@@ -12768,7 +12846,7 @@
 		this.sidebar_reset();
 
 		// Get previous state
-		this.form = $.extend(true, {}, this.form_history[index]['form']);
+		this.form = $.extend(true, {}, this.form_history[index].form);
 
 		// Build data cache
 		this.data_cache_build();
@@ -13036,10 +13114,10 @@
 
 			var button = buttons[key];
 
-			var button_name = button['name'];
-			var button_icon = button['icon'];
+			var button_name = button.name;
+			var button_icon = button.icon;
 
-			var button_method = button['method'];
+			var button_method = button.method;
 			if(!multiple && (button_method == 'clone')) { continue; }
 
 			settings_html += '<li data-id="' + this.esc_attr(object_id) + '" data-action="' + this.esc_attr(button_method) + '"' + this.tooltip(button_name, 'top-center') + '>' + button_icon + '</li>';
@@ -13334,7 +13412,7 @@
 				this.breakpoint_optimize(object);
 
 				// Add history method
-				api_params['history_method'] = 'put_resize';
+				api_params.history_method = 'put_resize';
 
 				// Call AJAX request
 				this.api_call(api_object_type + '/' + api_object_id + '/put/', 'POST', api_params, function(response) {
@@ -13621,7 +13699,7 @@
 				if(api_object_type === false) { return false; }
 
 				// Add history method
-				api_params['history_method'] = 'put_offset';
+				api_params.history_method = 'put_offset';
 
 				// Call AJAX request
 				this.api_call(api_object_type + '/' + api_object_id + '/put/', 'POST', api_params, function(response) {
@@ -15531,11 +15609,10 @@
 
 		// Checks
 		if(
-				(typeof(form) === 'undefined') ||
-				(typeof(form.groups) === 'undefined') ||
-				(parseInt(submit.form_id) !== parseInt(this.form_id, 10))
-			) {
-
+			(typeof(form) === 'undefined') ||
+			(typeof(form.groups) === 'undefined') ||
+			(parseInt(submit.form_id) !== parseInt(this.form_id, 10))
+		) {
 			// Turn off loader
 			this.loader_off();
 
@@ -15549,13 +15626,13 @@
 		var has_groups = (form.groups.length > 1);
 
 		// Is there meta data?
-		var has_meta = (typeof(submit['meta']) !== 'undefined');
+		var has_meta = (typeof(submit.meta) !== 'undefined');
 
 		// Encrypted?
 		var encrypted_html = (submit.encrypted) ? '<div class="wsf-encrypted"' + this.tooltip(this.language('submit_encrypted'), 'top-center') + '>' + this.svg('readonly') + '</div>' : '';
 
 		// Section repeatable
-		var section_repeatable = (typeof(submit['section_repeatable']) !== 'undefined') ? submit['section_repeatable'] : false;
+		var section_repeatable = (typeof(submit.section_repeatable) !== 'undefined') ? submit.section_repeatable : false;
 
 		// Expand / Contract
 		var expand_contract = '<div data-action="wsf-sidebar-expand"' + this.tooltip(this.language('sidebar_expand'), 'bottom-right') + '>' + this.svg('expand') + '</div>';
@@ -15609,9 +15686,9 @@
 
 					(section_repeatable !== false) &&
 					(typeof(section_repeatable[section_id_string]) !== 'undefined') &&
-					(typeof(section_repeatable[section_id_string]['index']) !== 'undefined')
+					(typeof(section_repeatable[section_id_string].index) !== 'undefined')
 
-				) ? section_repeatable[section_id_string]['index'] : [false];
+				) ? section_repeatable[section_id_string].index : [false];
 
 				// Run through each field
 				for(var field_index in section.fields) {
@@ -15676,7 +15753,7 @@
 
 						var field = section.fields[field_index];
 						var field_name = this.field_name_prefix + field.id + section_repeatable_suffix;
-						var value = (typeof(submit['meta'][field_name]) !== 'undefined') ? submit['meta'][field_name]['value'] : '';
+						var value = (typeof(submit.meta[field_name]) !== 'undefined') ? submit.meta[field_name].value : '';
 
 
 						fieldset_html += '<div class="wsf-field-wrapper" data-id="' + this.esc_attr(field.id) + '" data-type="' + this.esc_attr(field.type) + '"' + (section_repeatable_index ? (' data-repeatable-index="' + this.esc_attr(section_repeatable_index) + '"') : '') + '>';
@@ -15709,9 +15786,9 @@
 						if(submit_edit) {
 
 							// Create blank scratch data if not found in original submit
-							if((typeof(submit['meta'][field_name]) === 'undefined')) {
+							if((typeof(submit.meta[field_name]) === 'undefined')) {
 
-								submit_scratch['meta'][field_name] = {
+								submit_scratch.meta[field_name] = {
 
 									'id' :			field.id,
 									'value' :		'', 
@@ -15722,7 +15799,7 @@
 						} else {
 
 							// Delete from scratch if it cannot be edited to that it is not included in the AJAX PUT request
-							delete(submit_scratch['meta'][field_name])
+							delete(submit_scratch.meta[field_name])
 						}
 
 						// Render field by field type
@@ -15840,9 +15917,9 @@
 						fieldset_html += '</div>'
 
 						// Mark submit meta as processed
-						if(typeof(submit['meta'][field_name]) === 'object') {
+						if(typeof(submit.meta[field_name]) === 'object') {
 
-							submit['meta'][field_name]['processed'] = true;
+							submit.meta[field_name].processed = true;
 						}
 
 						// Revert field type
@@ -16088,22 +16165,22 @@
 			if(meta_key.indexOf(this.field_name_prefix) == -1) { continue; }
 
 			// If meta data contains data from a delete field, skip it
-			if(typeof(submit_scratch.meta[meta_key]['value']) === 'undefined') { continue; }
+			if(typeof(submit_scratch.meta[meta_key].value) === 'undefined') { continue; }
 
 			// Check if repeatable
-			var section_repeatable_index = submit_scratch.meta[meta_key]['repeatable_index'];
+			var section_repeatable_index = submit_scratch.meta[meta_key].repeatable_index;
 
 			// Get field name
-			var field_id = submit_scratch.meta[meta_key]['id']
+			var field_id = submit_scratch.meta[meta_key].id
 			var field_name = this.field_name_prefix + field_id + (section_repeatable_index ? '[' + section_repeatable_index + ']' : '');
 
 			// Get value from form data and assign to submit meta value
 			var meta_value = (form_data.get(field_name) !== null) ? form_data.get(field_name) : (form_data.getAll(field_name + '[]') ? form_data.getAll(field_name + '[]') : '');
 
-			submit_scratch.meta[meta_key]['value'] = meta_value;
+			submit_scratch.meta[meta_key].value = meta_value;
 
 			// Removed processed references
-			delete(submit_scratch.meta[meta_key]['processed']);
+			delete(submit_scratch.meta[meta_key].processed);
 		}
 
 		// Push to API
@@ -16446,13 +16523,13 @@
 
 				var user_id = parseInt(submit[field]);
 
-				if((user_id === 0) || (typeof(submit['user']) === 'undefined')) {
+				if((user_id === 0) || (typeof(submit.user) === 'undefined')) {
 
 					return_html += '-';
 
 				} else {
 
-					var user_label = submit['user']['display_name'];
+					var user_label = submit.user.display_name;
 
 					return_html += '<a href="user-edit.php?user_id=' + user_id + '">' + this.esc_html(user_label) + '</a>';
 				}
@@ -16791,7 +16868,7 @@
 		var obj_outer = $('#wsf-sidebar-action');
 
 		// Title
-		var sidebar_config = $.WS_Form.settings_form['sidebars']['action'];
+		var sidebar_config = $.WS_Form.settings_form.sidebars.action;
 
 		// Build knowledge base HTML
 		if((typeof(sidebar_config.kb_url) !== 'undefined')) {
@@ -17458,7 +17535,7 @@
 	}
 
 	// Variable helper modal - Open
-	$.WS_Form.prototype.variable_helper_modal_open = function(insert_obj) {
+	$.WS_Form.prototype.variable_helper_modal_open = function(insert_obj, group_id) {
 
 		// Remember meta key
 		this.variable_helper_modal_insert_obj = insert_obj ? insert_obj : false;
@@ -17486,6 +17563,11 @@
 
 		// Focus on the search field
 		$('#wsf-variable-helper-search-input').focus();
+
+		if(group_id) {
+
+			this.variable_helper_modal_tab_show(group_id);
+		}
 	}
 
 	// Variable helper modal - Close
@@ -17711,7 +17793,7 @@
 
 					var field_type_config = $.WS_Form.field_type_cache[field.type];
 
-					if((typeof(field_type_config['value_out'])) ? field_type_config['value_out'] : false) {
+					if((typeof(field_type_config.value_out)) ? field_type_config.value_out : false) {
 
 						// Build keyword
 						var keyword = '#field(' + field.id + ') #field(' + field.id + ', ' + field.label.toLowerCase();
@@ -17917,7 +17999,7 @@
 
 					var field_type_config = $.WS_Form.field_type_cache[field.type];
 
-					if((typeof(field_type_config['value_out'])) ? field_type_config['value_out'] : false) {
+					if((typeof(field_type_config.value_out)) ? field_type_config.value_out : false) {
 
 						html_section += this.variable_helper_modal_var_html({
 

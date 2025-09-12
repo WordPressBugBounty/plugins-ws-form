@@ -217,7 +217,7 @@
 				'meta_value',
 				'meta_value_num'
 
-			))) { return self::error(__('Invalid order by method'), $field_id, $this, $api_request); }
+			))) { return self::error(__('Invalid order by method', 'ws-form'), $field_id, $this, $api_request); }
 
 			// Check meta key
 			switch($this->data_source_post_order_by) {
@@ -227,7 +227,7 @@
 
 					if($this->data_source_post_meta_key == '') {
 
-						return self::error(__('Invalid meta key'), $field_id, $this, $api_request);
+						return self::error(__('Invalid meta key', 'ws-form'), $field_id, $this, $api_request);
 					}
 			}
 
@@ -245,7 +245,7 @@
 				'TIME',
 				'UNSIGNED'
 
-			))) { return self::error(__('Invalid meta type'), $field_id, $this, $api_request); }
+			))) { return self::error(__('Invalid meta type', 'ws-form'), $field_id, $this, $api_request); }
 
 			// Columns
 			$columns = array();
@@ -1388,7 +1388,7 @@
 					'label'						=>	__('ACF Field', 'ws-form'),
 					'type'						=>	'select',
 					'options'					=>	is_admin() ? WS_Form_ACF::acf_get_fields_all(false, false, false, true, false) : array(),
-					'options_blank'				=>	__('Select...', 'ws-form-post')
+					'options_blank'				=>	__('Select...', 'ws-form')
 				);
 			}
 
@@ -1417,7 +1417,7 @@
 					'label'						=>	__('Meta Box Field', 'ws-form'),
 					'type'						=>	'select',
 					'options'					=>	is_admin() ? WS_Form_Meta_Box::meta_box_get_fields_all('post', false, false, false, true, false) : array(),
-					'options_blank'				=>	__('Select...', 'ws-form-post')
+					'options_blank'				=>	__('Select...', 'ws-form')
 				);
 			}
 
@@ -1446,7 +1446,7 @@
 					'label'						=>	__('Pods Field', 'ws-form'),
 					'type'						=>	'select',
 					'options'					=>	is_admin() ? WS_Form_Pods::pods_get_fields_all('post_type', false, false, false, true, false) : array(),
-					'options_blank'				=>	__('Select...', 'ws-form-post')
+					'options_blank'				=>	__('Select...', 'ws-form')
 				);
 			}
 
@@ -1475,7 +1475,7 @@
 					'label'						=>	__('Toolset Field', 'ws-form'),
 					'type'						=>	'select',
 					'options'					=>	is_admin() ? WS_Form_Toolset::toolset_get_fields_all(array('domain' => Toolset_Element_Domain::POSTS), false, false, true, false) : array(),
-					'options_blank'				=>	__('Select...', 'ws-form-post')
+					'options_blank'				=>	__('Select...', 'ws-form')
 				);
 			}
 

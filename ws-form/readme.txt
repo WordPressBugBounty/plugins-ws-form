@@ -1,9 +1,9 @@
-=== WS Form LITE - Drag & Drop Contact Form Builder for WordPress ===
+=== WS Form LITE - Drag & Drop Contact Form Builder ===
 Contributors: westguard
 Tags: form, contact form, form builder, forms, custom form
 Requires at least: 5.4
 Tested up to: 6.8
-Stable tag: 1.10.54
+Stable tag: 1.10.58
 Requires PHP: 5.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -113,6 +113,7 @@ The PRO edition comes with unrivaled additional features:
 * [Google Map](https://wsform.com/knowledgebase/google-map/?utm_source=wp_plugins&utm_medium=readme)
 * [Google Sheets](https://wsform.com/knowledgebase/google-sheets/?utm_source=wp_plugins&utm_medium=readme)
 * [Groundhogg](https://wsform.com/knowledgebase/groundhogg/?utm_source=wp_plugins&utm_medium=readme)
+* [HighLevel](https://wsform.com/knowledgebase/highlevel/?utm_source=wp_plugins&utm_medium=readme)
 * [HubSpot](https://wsform.com/knowledgebase/hubspot/?utm_source=wp_plugins&utm_medium=readme)
 * [iContact](https://wsform.com/knowledgebase/icontact/?utm_source=wp_plugins&utm_medium=readme)
 * [InstaWP](https://wsform.com/knowledgebase/instawp/?utm_source=wp_plugins&utm_medium=readme)
@@ -285,27 +286,29 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.10.54 - 08/15/2025 =
-* Added: Form import (Button and drag & drop) on Add New form page
-* Added: Improved presentation of unavailable settings in LITE edition
-* Added: Improved base CSS for fields
-* Bug Fix: TinyMCE focus scrolling
+= 1.10.58 - 09/11/2025 =
+* Added: Resizable sidebar in layout editor
+* Added: Improvement to ACPT data source to avoid errors if field ID changes / missing
+* Added: Translation updates
+* Bug Fix: Compiled rendering of layout CSS with RTL
 
-= 1.10.53 - 08/01/2025 =
-* Added: wsf_action_email_css filter hook
-* Added: Validate CSS improvements
-* Added: Validation field update on invalid feedback set from Run WordPress Hook
-* Added: include_hidden attribute on #checkbox_count and #checkbox_count_total variables
-* Added: Summary field can now exclude HTML and Text Editor fields
-* Added: Summary field no longer renders labels for HTML and Text Editor fields
-* Added: Experimental searchable field mapping dropdowns
-* Added: Updated Google Address field to support inconsistent address part types
-* Bug Fix: Move down button
+= 1.10.57 - 09/04/2025 =
+* Added: Abilities class ready for WordPress abilities / MCP APIs
+* Added: Improve handling of visual builder includes
+* Added: Options and style initialization on activation moved to init action
+* Added: Accessibility improvements to Validation field
+* Bug Fix: Various CSS calc() fixes
+* Bug Fix: Spacer field markup in #email_submission
+* Bug Fix: Invalid feedback for radio fields in a fieldset
 
-= 1.10.52 - 07/09/2025 =
-* Added: New Validation field type (See: https://wsform.com/knowledgebase/validate/)
-* Added: Additional checks when autofocusing select 2 search field
-* Added: #section_id can now be used within #section_rows_start loop
-* Added: Improvements to attachment filtering for DropzoneJS scratch files
+= 1.10.56 - 08/27/2025 =
+* Added: Upgrades for ACPT integration
+* Bug Fix: #if variable string comparison
+
+= 1.10.55 - 08/20/2025 =
+* Added: E-commerce field lock / unlock methods for PayPal add-on
+* Bug Fix: Conditional logic "Matches Field" condition case sensitivity
+* Bug Fix: Currency formatting in submission e-commerce section
+* Bug Fix: Submission date editing
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

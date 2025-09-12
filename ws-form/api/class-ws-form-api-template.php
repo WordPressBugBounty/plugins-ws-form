@@ -204,7 +204,7 @@
 
 				if(
 					!file_exists($file_json) ||
-					!unlink($file_json)
+					!wp_delete_file($file_json)
 				) {
 
 					// Throw error
@@ -229,7 +229,7 @@
 
 			if(!in_array($type, array('form', 'section', 'preview', 'style'))) {
 
-				parent::api_throw_error(__('Invalid template type'));
+				parent::api_throw_error(__('Invalid template type', 'ws-form'));
 			}
 
 			return $type;

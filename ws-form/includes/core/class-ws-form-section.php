@@ -576,7 +576,7 @@
 			// Update section child_count
 			$sql = $wpdb->prepare(
 
-				"UPDATE {$this->table_name} SET child_count = %u WHERE id = %d;",
+				"UPDATE {$this->table_name} SET child_count = %d WHERE id = %d;",
 				$child_count,
 				$this->id
 			);

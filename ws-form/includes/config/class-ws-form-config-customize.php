@@ -198,7 +198,7 @@
 
 							'label'			=>	__('Primary', 'ws-form'),
 							'type'			=>	'color',
-							'description'	=>	__('Checkboxes, radios, range sliders, progress bars, and submit buttons.')
+							'description'	=>	__('Checkboxes, radios, range sliders, progress bars, and submit buttons.', 'ws-form')
 						),
 
 						'color_secondary'	=> array(
@@ -212,7 +212,7 @@
 
 							'label'			=>	__('Success', 'ws-form'),
 							'type'			=>	'color',
-							'description'	=>	__('Completed progress bars, save buttons, and success messages.')
+							'description'	=>	__('Completed progress bars, save buttons, and success messages.', 'ws-form')
 						),
 
 						'color_information'	=> array(
@@ -233,7 +233,7 @@
 
 							'label'			=>	__('Danger', 'ws-form'),
 							'type'			=>	'color',
-							'description'	=>	__('Required field labels, invalid field borders, invalid feedback, remove repeatable section buttons, and danger messages.')
+							'description'	=>	__('Required field labels, invalid field borders, invalid feedback, remove repeatable section buttons, and danger messages.', 'ws-form')
 						),
 
 						'color_form_background'	=> array(

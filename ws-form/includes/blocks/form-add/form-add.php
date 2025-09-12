@@ -16,7 +16,8 @@ class WS_Form_Block_Form_Add {
 			'ws-form-block-editor',
 			plugins_url('block.js', __FILE__),
 			array('wp-blocks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-api-fetch', 'wp-server-side-render'),
-			filemtime(__DIR__ . '/block.js')
+			filemtime(__DIR__ . '/block.js'),
+			true
 		);
 		
 		wp_register_script(
@@ -40,6 +41,8 @@ class WS_Form_Block_Form_Add {
 
 			// Translations
 			'text_add_form_button' => __('Add New', 'ws-form'),
+
+			/* translators: %s = WS Form */
 			'text_description' => sprintf(__('Add a form to your web page using %s.', 'ws-form'), WS_FORM_NAME_PRESENTABLE),
 			'text_edit_form_button' => __('Edit', 'ws-form'),
 			'text_form_not_selected' => __('Select a form in the sidebar.', 'ws-form'),

@@ -109,7 +109,7 @@
 
 					var field_obj = $(this);
 
-					args['ajax'] = {
+					args.ajax = {
 
 						// AJAX URL
 						url: url,
@@ -191,7 +191,7 @@
 
 				if(multiple && select2_tags) {
 
-					args['tags'] = true;
+					args.tags = true;
 				}
 
 				// Max
@@ -203,7 +203,7 @@
 					var select_max = parseInt(select_max, 10);
 					if(select_max > 0) {
 
-						args['maximumSelectionLength'] = select_max;
+						args.maximumSelectionLength = select_max;
 					}
 				}
 

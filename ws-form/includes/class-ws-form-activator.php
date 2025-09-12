@@ -7,7 +7,7 @@
 
 			// These are set here to avoid problems if someone has both plugins installed and migrates from basic to PRO without de-activating the basic edition first. This ensures the PRO options are set up.
 			$ws_form_edition = 'basic';
-			$ws_form_version = '1.10.54';
+			$ws_form_version = '1.10.58';
 
 			$run_version_check = true;
 
@@ -56,6 +56,13 @@
 
 			// Upgrade
 			self::upgrade_init($version_old);
+
+			// Load the text domain manually so translations for options and styler initialization
+			load_plugin_textdomain(
+				'ws-form',
+				false,
+				dirname(plugin_basename(__FILE__)) . '/languages/'
+			);
 
 			// Initialize options
 			self::options_init();

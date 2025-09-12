@@ -56,7 +56,7 @@
 					'error_form_future'						=>	__('Form is scheduled', 'ws-form'),
 					'error_form_trash'						=>	__('Form is trashed', 'ws-form'),
 					/* translators: %s = Calculation */
-					'error_calc'							=>	__('Calculation error: %s'),
+					'error_calc'							=>	__('Calculation error: %s', 'ws-form'),
 					/* translators: %s = Error message */
 					'error_framework_plugin'				=>	__('Framework plugin error: %s', 'ws-form'),
 					/* translators: %s = Error message */

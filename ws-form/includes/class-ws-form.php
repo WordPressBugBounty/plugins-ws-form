@@ -141,14 +141,6 @@ final class WS_Form {
 		// Functions
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/functions.php';
 
-		// Visual builders
-		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/beaver-builder/fl-ws-form.php';
-		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/divi/ws-form/ws-form.php';
-		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/elementor/elementor.php';
-		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/oxygen/oxygen.php';
-		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/bricks/bricks.php';
-		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/breakdance/breakdance.php';
-
 		// Blocks
  		if(WS_Form_Common::version_compare($wp_version, '5.9') >= 0) {
 
@@ -156,27 +148,93 @@ final class WS_Form {
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/blocks/form-add/form-add.php';
 		}
 
-		// Litespeed
-		if(class_exists('LiteSpeed\Core')) {
+		// Abilities
+		if(WS_FORM_ABILITIES_API || WS_FORM_ANGIE) {
 
-			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/litespeed/litespeed.php';
+			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-ability.php';
 		}
 
-		// Check for third party components when plugins loaded. Run before add-ons with priority 5.
+		if(WS_FORM_ABILITIES_API && class_exists('WP_Ability')) {
+
+			$ws_form_ability = new WS_Form_Ability();
+			add_action('abilities_api_init', array($ws_form_ability, 'register'));
+		}
+
+		// Third party
 		add_action('plugins_loaded', function() {
-
-			// WooCommerce
-			if(defined('WC_VERSION')) {
-
-				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/woocommerce/class-ws-form-woocommerce.php';
-				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-woocommerce.php';
-			}
 
 			// ACF
 			if(class_exists('ACF')) {
 
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/acf/class-ws-form-acf.php';
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-acf.php';
+			}
+
+			// ACPT
+			if(
+				defined('ACPT_PLUGIN_VERSION') &&
+				(WS_Form_Common::version_compare(ACPT_PLUGIN_VERSION, '2.0.0') >= 0)
+			) {
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/acpt/class-ws-form-acpt-v2.php';
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-acpt.php';
+			}
+
+			// Angie
+			if(WS_FORM_ANGIE && defined('ANGIE_VERSION')) {
+
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/angie/angie.php';
+			}
+
+			// Beaver Builder
+			if(class_exists('FLBuilder')) {
+
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/beaver-builder/fl-ws-form.php';
+			}
+
+			// Breakdance
+			if(defined('__BREAKDANCE_VERSION')) {
+
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/breakdance/breakdance.php';
+			}
+
+			// Bricks Theme (Don't remove init action)
+			add_action('init', function() {
+
+				if(class_exists('\Bricks\Elements')) {
+
+					require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/bricks/bricks.php';
+				}
+
+			}, 11);
+
+			// Divi
+			if(
+				wp_get_theme()->get('Name') === 'Divi' ||
+				wp_get_theme()->get('Template') === 'Divi' ||
+				file_exists( WP_PLUGIN_DIR . '/divi-builder/divi-builder.php' ) ||
+				defined('ET_CORE_VERSION') ||
+				class_exists('ET_Builder_Module')
+			) {
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/divi/ws-form/ws-form.php';
+			}
+
+			// Elementor
+			if(defined('ELEMENTOR_VERSION')) {
+
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/elementor/elementor.php';
+			}
+
+			// JetEngine
+			if(class_exists('Jet_Engine')) {
+
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/jetengine/class-ws-form-jetengine.php';
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-jetengine.php';
+			}
+
+			// Litespeed
+			if(class_exists('LiteSpeed\Core')) {
+
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/litespeed/litespeed.php';
 			}
 
 			// Meta Box
@@ -187,6 +245,12 @@ final class WS_Form {
 			) {
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/meta-box/class-ws-form-meta-box.php';
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-meta-box.php';
+			}
+
+			// Oxygen
+			if(class_exists('OxyEl')) {
+
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/oxygen/oxygen.php';
 			}
 
 			// Pods
@@ -203,20 +267,11 @@ final class WS_Form {
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-toolset.php';
 			}
 
-			// JetEngine
-			if(class_exists('Jet_Engine')) {
+			// WooCommerce
+			if(defined('WC_VERSION')) {
 
-				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/jetengine/class-ws-form-jetengine.php';
-				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-jetengine.php';
-			}
-
-			// ACPT
-			if(
-				defined('ACPT_PLUGIN_VERSION') &&
-				(WS_Form_Common::version_compare(ACPT_PLUGIN_VERSION, '2.0.0') >= 0)
-			) {
-				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/acpt/class-ws-form-acpt-v2.php';
-				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-acpt.php';
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/woocommerce/class-ws-form-woocommerce.php';
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-woocommerce.php';
 			}
 
 /*			// Translation
@@ -375,6 +430,16 @@ final class WS_Form {
 
 		// Initialize API
 		$this->loader->add_action('rest_api_init', $plugin_api, 'api_rest_api_init');
+
+		// Initialize MCP server
+		if(
+			WS_FORM_MCP_ADAPTER &&
+			class_exists('WP_Ability') &&
+			WS_FORM_ABILITIES_API &&
+			class_exists('WP\MCP\Plugin')
+		) {
+			$this->loader->add_action('mcp_adapter_init', $plugin_api, 'mcp_adapter_init', 10, 1);
+		}
 	}
 
 	/**

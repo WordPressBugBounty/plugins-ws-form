@@ -432,7 +432,7 @@
 				// Adjust name if blank
 				if($field['name'] == '') {
 
-					$field['name'] = __('(No label)', 'meta-box-builder');
+					$field['name'] = __('(No label)', 'ws-form');
 					$meta['label_render'] = '';
 				}
 

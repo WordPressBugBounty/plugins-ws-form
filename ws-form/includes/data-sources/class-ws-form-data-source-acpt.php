@@ -75,7 +75,8 @@
 			$acpt_field_id = $this->{'data_source_' . $this->id . '_field_id'};
 
 			// Get ACPT field object
-			$acpt_field_object = WS_Form_ACPT::acpt_get_field_object($acpt_field_id);
+			$acpt_field_object = WS_Form_ACPT::acpt_get_field_object($acpt_field_id, 'posts');
+			if(empty($acpt_field_object)) { return self::error(__('Field ID not found', 'ws-form'), $field_id, $this, $api_request); }
 
 			// Get ACPT field name
 			$acpt_field_name = $acpt_field_object->name;

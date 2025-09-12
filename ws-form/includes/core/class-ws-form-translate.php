@@ -294,8 +294,8 @@
 
 				case 'form' :
 
-					/* translators: %1$u = Object ID, %1$s = Meta label */
-					return sprintf(__('Form (%u1$) - %1$s', 'ws-form'), $object_id, $meta_label);
+					/* translators: %1$u = Object ID, %2$s = Meta label */
+					return sprintf(__('Form (%1$u) - %2$s', 'ws-form'), $object_id, $meta_label);
 
 				case 'group' :
 

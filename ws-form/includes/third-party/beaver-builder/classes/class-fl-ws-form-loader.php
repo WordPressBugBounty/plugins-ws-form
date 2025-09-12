@@ -11,7 +11,7 @@ class FL_WS_Form_Loader {
 	 */
 	static public function init() {
 
-		add_action( 'plugins_loaded', __CLASS__ . '::setup_hooks' );
+		self::setup_hooks();
 	}
 	
 	/**

@@ -36,7 +36,7 @@
 
 			$return_array = array();
 
-			if(absint($this->parent_id) === 0) { parent::db_throw_error(__('Parent ID not set')); }
+			if(absint($this->parent_id) === 0) { parent::db_throw_error(__('Parent ID not set', 'ws-form')); }
 
 			global $wpdb;
 
@@ -599,7 +599,7 @@
 				$file_type_check = mime_content_type($temp_path);
 				if(!in_array($file_type_check, array('image/jpeg', 'image/svg+xml', 'text/plain', 'image/png'))) {		// text/plain = SVG
 
-					unlink($temp_path);
+					wp_delete_file($temp_path);
 					parent::db_throw_error(__('Invalid signature file format', 'ws-form'));
 				}
 			}

@@ -35,7 +35,7 @@
 	// Import
 	if(WS_Form_Common::can_user('import_form')) {
 ?>
-<input type="file" id="wsf-object-upload-file" class="wsf-file-upload" accept=".json" aria-hidden aria-label="<?php _e('File upload', 'ws-form'); ?>" />
+<input type="file" id="wsf-object-upload-file" class="wsf-file-upload" accept=".json" aria-hidden aria-label="<?php esc_attr_e('File upload', 'ws-form'); ?>" />
 <?php
 	}
 ?>

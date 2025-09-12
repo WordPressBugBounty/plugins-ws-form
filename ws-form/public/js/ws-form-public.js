@@ -39,7 +39,7 @@
 		}
 
 		// Get current framework
-		this.framework_fields = this.framework['fields']['public'];
+		this.framework_fields = this.framework.fields.public;
 
 		// Custom action URL
 		if(typeof(this.form_obj.attr('action')) !== 'undefined') {
@@ -1247,7 +1247,7 @@
 			// Build honeypot input
 			var framework_type = $.WS_Form.settings_plugin.framework;
 			var framework = $.WS_Form.frameworks.types[framework_type];
-			var fields = this.framework['fields']['public'];
+			var fields = this.framework.fields.public;
 			var honeypot_attributes = (typeof(fields.honeypot_attributes) !== 'undefined') ? ' ' + fields.honeypot_attributes.join(' ') : '';
 
 			// Add to form
@@ -1382,7 +1382,7 @@
 			// Use framework mask_required_label
 			var framework_type = $.WS_Form.settings_plugin.framework;
 			var framework = $.WS_Form.frameworks.types[framework_type];
-			var fields = this.framework['fields']['public'];
+			var fields = this.framework.fields.public;
 
 			if(typeof(fields.mask_required_label) === 'undefined') { return false; }
 			var label_mask_required = fields.mask_required_label;
@@ -3380,7 +3380,7 @@
 			case 'redirect' :
 
 				var url = this.js_action_get_parameter(js_action, 'url');
-				if(url !== false) { location.href = js_action['url']; }
+				if(url !== false) { location.href = js_action.url; }
 
 				// Actions end at this point because of the redirect
 				return true;
@@ -3707,12 +3707,12 @@
 		if(typeof(this.framework[object]) === 'undefined') {
 			return false;
 		}
-		if(typeof(this.framework[object]['public']) === 'undefined') {
+		if(typeof(this.framework[object].public) === 'undefined') {
 			return false;
 		}
-		if(typeof(this.framework[object]['public'][meta_key]) === 'undefined') { return false; }
+		if(typeof(this.framework[object].public[meta_key]) === 'undefined') { return false; }
 
-		return this.framework[object]['public'][meta_key];
+		return this.framework[object].public[meta_key];
 	}
 
 	// JS Action - Message
@@ -3745,7 +3745,7 @@
 		var types = this.get_framework_config_value('message', 'types');
 
 		var type = (typeof(types[type]) !== 'undefined') ? types[type] : false;
-		var mask_wrapper_class = (typeof(type['mask_wrapper_class']) !== 'undefined') ? type['mask_wrapper_class'] : '';
+		var mask_wrapper_class = (typeof(type.mask_wrapper_class) !== 'undefined') ? type.mask_wrapper_class : '';
 
 		// Clear other messages
 		if(clear) {

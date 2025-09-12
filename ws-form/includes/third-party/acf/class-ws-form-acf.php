@@ -229,7 +229,7 @@
 				// Adjust label if blank
 				if($field['label'] == '') {
 
-					$field['label'] = __('(no label)', 'acf');
+					$field['label'] = __('(no label)', 'ws-form');
 					$meta['label_render'] = '';
 				}
 
@@ -1646,7 +1646,8 @@
 					'action' 					=> 'field_invalid_feedback',
 					'field_id' 					=> $field_id,
 					'section_repeatable_index' 	=> $section_repeatable_index,
-					'message' 					=> sprintf(__('%s value is required', 'acf'), $field['label'])
+					/* translators: %s = Field label */
+					'message' 					=> sprintf(__('%s value is required', 'ws-form'), $field['label'])
 				);
 
 			} else {
