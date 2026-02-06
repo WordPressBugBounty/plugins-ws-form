@@ -44,8 +44,10 @@
 
 			global $wpdb;
 
-			$wpdb->query("DELETE FROM {$this->table_name};");
-			$wpdb->query("DELETE FROM {$this->table_name}_meta;");
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$wpdb->query("DELETE FROM {$wpdb->prefix}wsf_style;");
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$wpdb->query("DELETE FROM {$wpdb->prefix}wsf_style_meta;");
 		}
 
 		// Check style system has been initialized (Runs as public in case of plugin updates or cron process)
@@ -135,7 +137,8 @@
 			global $wpdb;
 
 			// Get default style ID
-			$this->style_id_default = absint($wpdb->get_var("SELECT id FROM {$this->table_name} WHERE `default` = 1 LIMIT 1;"));
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$this->style_id_default = absint($wpdb->get_var("SELECT id FROM {$wpdb->prefix}wsf_style WHERE `default` = 1 LIMIT 1;"));
 
 			// If default style not found
 			if(empty($this->style_id_default)) {
@@ -160,7 +163,8 @@
 			global $wpdb;
 
 			// Get default style ID
-			$this->style_id_conv_default = absint($wpdb->get_var("SELECT id FROM {$this->table_name} WHERE `default_conv` = 1 LIMIT 1;"));
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$this->style_id_conv_default = absint($wpdb->get_var("SELECT id FROM {$wpdb->prefix}wsf_style WHERE `default_conv` = 1 LIMIT 1;"));
 
 			// If default style not found
 			if(empty($this->style_id_conv_default)) {
@@ -183,7 +187,8 @@
 			global $wpdb;
 
 			// Get all style IDs
-			return $wpdb->get_col("SELECT id FROM {$this->table_name} WHERE status = 'publish';");
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			return $wpdb->get_col("SELECT id FROM {$wpdb->prefix}wsf_style WHERE status = 'publish';");
 		}
 
 		// Get style preview
@@ -264,24 +269,30 @@
 			self::sanitize_label(__('New Style', 'ws-form'));
 
 			// Add style
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %d, %s, %s, %s, %d, %d);",
-				$this->label,
-				get_current_user_id(),
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				WS_FORM_VERSION,
-				($default ? 1 : 0),
-				($default_conv ? 1 : 0)
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'label' => $this->label,
+					'user_id' => get_current_user_id(),
+					'date_added' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'version' => WS_FORM_VERSION,
+					'default' => ($default ? 1 : 0),
+					'default_conv' => ($default_conv ? 1 : 0),
+				),
+				array( '%s', '%d', '%s', '%s', '%s', '%d', '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error adding style', 'ws-form')); }
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error adding style', 'ws-form')); 
+			}
 
 			// Get inserted ID
 			$this->id = $wpdb->insert_id;
 
 			// Build meta data object
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$meta_data_object = apply_filters('wsf_style_create_meta_data', self::get_default_meta_data_object($use_legacy, $default_conv));
 
 			// Build meta data
@@ -300,6 +311,7 @@
 			}
 
 			// Run action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_style_create', $this);
 
 			return $this->id;
@@ -351,13 +363,12 @@
 			self::db_check_id();
 
 			// Read form
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$style_array = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
+				"SELECT label,status,`default`,default_conv,checksum,published_checksum,id FROM {$wpdb->prefix}wsf_style WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
 				$this->id
-			);
-
-			$style_array = $wpdb->get_row($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 			if(is_null($style_array)) { parent::db_wpdb_handle_error(__('Unable to read style', 'ws-form')); }
 
 			// Set class variables
@@ -389,13 +400,12 @@
 			global $wpdb;
 
 			// Get contents of published field
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$published_row = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT checksum, published FROM {$this->table_name} WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
+				"SELECT checksum, published FROM {$wpdb->prefix}wsf_style WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
 				$this->id
-			);
-
-			$published_row = $wpdb->get_row($sql);
+			));
 			if(is_null($published_row)) { parent::db_wpdb_handle_error(__('Unable to read published style data', 'ws-form')); }
 
 			// Read published JSON string
@@ -423,15 +433,22 @@
 			global $wpdb;
 
 			// Set style as published
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET status = 'publish', date_publish = %s, date_updated = %s WHERE id = %d LIMIT 1;",
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'status' => 'publish',
+					'date_publish' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+				),
+				array( 'id' => $this->id ),
+				array( '%s', '%s', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error publishing style', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error publishing style', 'ws-form')); 
+			}
 
 			// Read full style
 			$style_object = self::db_read(true, $bypass_user_capability_check);
@@ -444,23 +461,31 @@
 			$style_object->published_checksum = $this->checksum;
 
 			// Apply filters
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			apply_filters('wsf_style_publish', $style_object);
 
 			// JSON encode
 			$style_json = wp_json_encode($style_object);
 
 			// Publish style
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET published = %s, published_checksum = %s WHERE id = %d LIMIT 1;", 
-				$style_json,
-				$this->checksum,
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'published' => $style_json,
+					'published_checksum' => $this->checksum,
+				),
+				array( 'id' => $this->id ),
+				array( '%s', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error publishing style', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error publishing style', 'ws-form')); 
+			}
 
 			// Do action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_style_publish', $style_object);
 		}
 
@@ -477,15 +502,21 @@
 			if($label == '') { $label = __('Style', 'ws-form'); }
 
 			// Set default 0 where default is 1
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET label = %s, date_updated = %s WHERE id = %d;",
-				$label,
-				WS_Form_Common::get_mysql_date(),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'label' => $label,
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+				),
+				array( 'id' => $this->id ),
+				array( '%s', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error setting style label', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error setting style label', 'ws-form')); 
+			}
 		}
 
 		// Set - Default
@@ -499,23 +530,38 @@
 			global $wpdb;
 
 			// Set default 0 where default is 1
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET `default` = 0, date_updated = %s WHERE `default` = 1;",
-				WS_Form_Common::get_mysql_date()
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'default' => 0,
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+				),
+				array( 'default' => 1 ),
+				array( '%d', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error resetting style as default', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error resetting style as default', 'ws-form')); 
+			}
 
 			// Set default 1
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET `default` = 1, date_updated = %s WHERE id = %d LIMIT 1;",
-				WS_Form_Common::get_mysql_date(),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'default' => 1,
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+				),
+				array( 'id' => $this->id ),
+				array( '%d', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error setting style as default', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error setting style as default', 'ws-form')); 
+			}
 
 			// Update checksum
 			self::db_checksum();
@@ -539,23 +585,38 @@
 			global $wpdb;
 
 			// Set default conversational 0 where default is 1
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET default_conv = 0, date_updated = %s WHERE default_conv = 1;",
-				WS_Form_Common::get_mysql_date()
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'default_conv' => 0,
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+				),
+				array( 'default_conv' => 1 ),
+				array( '%d', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error resetting style as default conversational', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error resetting style as default conversational', 'ws-form')); 
+			}
 
 			// Set default conversational 1
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET default_conv = 1, date_updated = %s WHERE id = %d LIMIT 1;",
-				WS_Form_Common::get_mysql_date(),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'default_conv' => 1,
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+				),
+				array( 'id' => $this->id ),
+				array( '%d', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error setting style as default conversational', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error setting style as default conversational', 'ws-form')); 
+			}
 
 			// Update checksum
 			self::db_checksum();
@@ -588,6 +649,7 @@
 			$ws_form_meta->parent_id = $this->id;
 
 			// Build meta
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$meta = apply_filters('wsf_style_create_meta_data', self::get_default_meta_data_object(false, $conversational));
 
 			// Get source template ID
@@ -633,14 +695,27 @@
 			global $wpdb;
 
 			// Set style as draft
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET status = 'draft', date_publish = '', date_updated = %s, published = '', published_checksum = '' WHERE id = %d AND `default` = 0 LIMIT 1;",
-				WS_Form_Common::get_mysql_date(),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'status' => 'draft',
+					'date_publish' => '',
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'published' => '',
+					'published_checksum' => '',
+				),
+				array(
+					'id' => $this->id,
+					'default' => 0,
+				),
+				array( '%s', '%s', '%s', '%s', '%s' ),
+				array( '%d', '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error drafting style', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error drafting style', 'ws-form')); 
+			}
 
 			// Update checksum
 			self::db_checksum();
@@ -663,14 +738,26 @@
 			$ws_form_meta->db_delete_by_object();
 
 			// Set style as draft
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET status = 'draft', date_publish = NULL, date_updated = %s, published = '', published_checksum = NULL, `default` = 0, default_conv = 0 WHERE id = %d LIMIT 1;",
-				WS_Form_Common::get_mysql_date(),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'status' => 'draft',
+					'date_publish' => null,
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'published' => '',
+					'published_checksum' => null,
+					'default' => 0,
+					'default_conv' => 0,
+				),
+				array( 'id' => $this->id ),
+				array( '%s', null, '%s', '%s', null, '%d', '%d' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error resetting form', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error resetting form', 'ws-form')); 
+			}
 		}
 
 		// Read - Recent
@@ -700,7 +787,7 @@
 				$select = implode(',', $select_array);
 			}
 
-			$sql = "SELECT {$select} FROM {$this->table_name}";
+			$sql = "SELECT {$select} FROM {$wpdb->prefix}wsf_style";
 
 			if($join != '') { $sql .= sprintf(" %s", $join); }
 			if($where != '') { $sql .= sprintf(" WHERE %s", $where); }
@@ -710,7 +797,8 @@
 
 			$sql .= ';';
 
-			return $wpdb->get_results($sql, 'ARRAY_A');	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table, already escaped
+			return $wpdb->get_results($sql, 'ARRAY_A');
 		}
 
 		// Delete
@@ -724,13 +812,12 @@
 			self::db_check_id();
 
 			// Get status
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$status = $wpdb->get_var($wpdb->prepare(
 
-				"SELECT status FROM {$this->table_name} WHERE id = %d AND `default` = 0 AND default_conv = 0;",
+				"SELECT status FROM {$wpdb->prefix}wsf_style WHERE id = %d AND `default` = 0 AND default_conv = 0;",
 				$this->id
-			);
-
-			$status = $wpdb->get_var($sql);
+			));
 			if(is_null($status)) { return false; }
 
 			// If status is trashed, do a permanent delete of the data
@@ -743,13 +830,16 @@
 				$ws_form_meta->db_delete_by_object();
 
 				// Delete style
-				$sql = $wpdb->prepare(
-
-					"DELETE FROM {$this->table_name} WHERE id = %d;",
-					$this->id
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$delete_result = $wpdb->delete(
+					"{$wpdb->prefix}wsf_style",
+					array( 'id' => $this->id ),
+					array( '%d' )
 				);
-	
-				if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting style', 'ws-form')); }
+
+				if($delete_result === false) { 
+					parent::db_wpdb_handle_error(__('Error deleting style', 'ws-form')); 
+				}
 
 				// Attempt to delete cached CSS files and options
 				try {
@@ -771,6 +861,7 @@
 				} catch(Exception $e) {}
 
 				// Do action
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_style_delete', $this->id);
 
 			} else {
@@ -779,6 +870,7 @@
 				self::db_set_status('trash');
 
 				// Do action
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_style_trash', $this->id);
 			}
 
@@ -820,22 +912,28 @@
 			$style_object = self::db_read();
 
 			// Clone form
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %d, %s, %s, %s, 0, 0);",
-				sprintf(
-
-					'%s (%s)',
-					$this->label,
-					__('Copy', 'ws-form')
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'label' => sprintf(
+						'%s (%s)',
+						$this->label,
+						__('Copy', 'ws-form')
+					),
+					'user_id' => get_current_user_id(),
+					'date_added' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'version' => WS_FORM_VERSION,
+					'default' => 0,
+					'default_conv' => 0,
 				),
-				get_current_user_id(),
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				WS_FORM_VERSION
+				array( '%s', '%d', '%s', '%s', '%s', '%d', '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error cloning style', 'ws-form')); }
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error cloning style', 'ws-form')); 
+			}
 
 			// Get new form ID
 			$this->id = $wpdb->insert_id;
@@ -847,19 +945,24 @@
 			self::db_checksum();
 
 			// Update form label
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET label =  '%s' WHERE id = %d;",
-				sprintf(
-
-					'%s (%s)',
-					$this->label,
-					__('Copy', 'ws-form')
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'label' => sprintf(
+						'%s (%s)',
+						$this->label,
+						__('Copy', 'ws-form')
+					),
 				),
-				$this->id
+				array( 'id' => $this->id ),
+				array( '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error updating style label', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error updating style label', 'ws-form')); 
+			}
 
 			// Publish
 			if($this->publish_auto) {
@@ -880,6 +983,7 @@
 			self::db_draft();
 
 			// Do action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_style_restore', $this->id);
 		}
 
@@ -896,19 +1000,28 @@
 			// Ensure provided form status is valid
 			if(WS_Form_Common::check_style_status($status) == '') {
 
-				/* translators: %s = Status */
+				/* translators: %s: Status */
 				parent::db_throw_error(sprintf(__('Invalid style status: %s', 'ws-form'), $status));
 			}
 
 			// Update style record
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET status = '%s' WHERE id = %d AND `default` = 0 LIMIT 1;",
-				$status,
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'status' => $status,
+				),
+				array(
+					'id' => $this->id,
+					'default' => 0,
+				),
+				array( '%s' ),
+				array( '%d', '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error setting style status', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error setting style status', 'ws-form')); 
+			}
 
 			return true;
 		}
@@ -946,14 +1059,20 @@
 			$this->checksum = md5($style_serialized);
 
 			// Update style record
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET checksum = '%s' WHERE id = %d LIMIT 1;",
-				$this->checksum,
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_style",
+				array(
+					'checksum' => $this->checksum,
+				),
+				array( 'id' => $this->id ),
+				array( '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error setting checksum', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error setting checksum', 'ws-form')); 
+			}
 
 			return $this->checksum;
 		}
@@ -967,18 +1086,19 @@
 
 			if($status == '') {
 
-				$sql = "SELECT COUNT(id) FROM {$this->table_name} WHERE NOT (status = 'trash')";
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$style_count = $wpdb->get_var("SELECT COUNT(id) FROM {$wpdb->prefix}wsf_style WHERE NOT (status = 'trash')");
 
 			} else {
 
-				$sql = $wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$style_count = $wpdb->get_var($wpdb->prepare(
 
-					"SELECT COUNT(id) FROM {$this->table_name} WHERE status = %s",
+					"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_style WHERE status = %s",
 					$status
-				);
+				));
 			}
 
-			$style_count = $wpdb->get_var($sql);
 			if(is_null($style_count)) { $style_count = 0; }
 
 			return $style_count; 
@@ -1108,7 +1228,8 @@
 
 			if(empty($this->style_ids_alt)) {
 
-				$this->style_ids_alt = $wpdb->get_col("SELECT parent_id FROM {$this->table_name}_meta WHERE meta_key = 'alt' AND meta_value = 'on';");
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$this->style_ids_alt = $wpdb->get_col("SELECT parent_id FROM {$wpdb->prefix}wsf_style_meta WHERE meta_key = 'alt' AND meta_value = 'on';");
 			}
 
 			return in_array($this->id, $this->style_ids_alt);
@@ -1386,6 +1507,7 @@
 
 									'label' => $label,
 									'type' => $meta_config['type'],
+									// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 									'meta_key' => $meta_key,
 									'value' => WS_Form_Common::sanitize_css_value($meta_value),
 									'default' => WS_Form_Common::sanitize_css_value($default)
@@ -1450,6 +1572,7 @@
 
 										'label' => sprintf('%s - %s', $label, __('Alt', 'ws-form')),
 										'type' => $meta_config['type'],
+										// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 										'meta_key' => $meta_key_alt,
 										'value' => WS_Form_Common::sanitize_css_value($meta_value_alt),
 										'default' => WS_Form_Common::sanitize_css_value($default_alt)

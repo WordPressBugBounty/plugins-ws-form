@@ -28,7 +28,7 @@
 			}
 
 			// Force rebuild (e.g. if WS Form or add-on updated)
-			if(WS_Form_Common::option_get('css_rebuild') === true) {
+			if(WS_Form_Common::option_get('css_init') === true) {
 
 				self::rebuild();
 			}
@@ -100,6 +100,7 @@
 				ob_end_clean();
 
 				// Apply filters
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$css_return = apply_filters('wsf_css_get_layout', $css_return);
 
 				// Minify?
@@ -143,6 +144,7 @@
 				$css_return = $ws_form_style->get_css_vars_markup(true, true, false, true, false, true);
 
 				// Apply filters
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$css_return = apply_filters('wsf_css_get_style', $css_return);
 
 				// Minify?
@@ -235,8 +237,8 @@
 				}
 			}
 
-			// Remove css_rebuild option
-			WS_Form_Common::option_remove('css_rebuild');
+			// Remove css_init option
+			WS_Form_Common::option_remove('css_init');
 		}
 
 		public function build_public_css_set($function, $part, $dir) {
@@ -246,13 +248,13 @@
 
 			// Build CSS - Normal
 			$css = self::{$function}(false, true, false);
-			file_put_contents(sprintf('%s/public.%s.css', $dir, $part), $css);
+			WS_Form_File::file_put_contents(sprintf('%s/public.%s.css', $dir, $part), $css);
 			WS_Form_Common::option_set(sprintf('css_public_%s', $part_option), $css);
 
 			// Build CSS - Minimized
 			$css_minimized = self::minify($css);
 			$css = null;
-			file_put_contents(sprintf('%s/public.%s.min.css', $dir, $part), $css_minimized);
+			WS_Form_File::file_put_contents(sprintf('%s/public.%s.min.css', $dir, $part), $css_minimized);
 			WS_Form_Common::option_set(sprintf('css_public_%s_min', $part_option), $css_minimized);
 			$css_minimized = null;
 
@@ -260,13 +262,13 @@
 
 				// Build CSS - RTL
 				$css_rtl = self::{$function}(false, true, true);
-				file_put_contents(sprintf('%s/public.%s.rtl.css', $dir, $part), $css_rtl);
+				WS_Form_File::file_put_contents(sprintf('%s/public.%s.rtl.css', $dir, $part), $css_rtl);
 				WS_Form_Common::option_set(sprintf('css_public_%s_rtl', $part_option), $css_rtl);
 
 				// Build CSS - RTL - Minimized
 				$css_rtl_minimized = self::minify($css_rtl);
 				$css_rtl = null;
-				file_put_contents(sprintf('%s/public.%s.rtl.min.css', $dir, $part), $css_rtl_minimized);
+				WS_Form_File::file_put_contents(sprintf('%s/public.%s.rtl.min.css', $dir, $part), $css_rtl_minimized);
 				WS_Form_Common::option_set(sprintf('css_public_%s_rtl_min', $part_option), $css_rtl_minimized);
 				$css_rtl_minimized = null;
 			}
@@ -376,7 +378,9 @@
 				ob_end_clean();
 
 				// Apply filters
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$css_return = apply_filters('wsf_get_skin', $css_return);		// Legacy
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$css_return = apply_filters('wsf_css_get_skin', $css_return);	// New
 
 				// Minify?
@@ -390,13 +394,14 @@
 		public function skin_load() {
 
 			// Get skin
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$this->skin_id = apply_filters('wsf_css_skin_id', $this->skin_id);
 
 			// Get skins
 			self::get_skins();
 
 			// Check skin config
-			if(!isset($this->skins[$this->skin_id])) { throw new ErrorException(__('Invalid skin ID', 'ws-form')); }			
+			if(!isset($this->skins[$this->skin_id])) { throw new Exception(esc_html__('Invalid skin ID', 'ws-form')); }			
 
 			// Load config
 			$this->skin_config = $this->skins[$this->skin_id];

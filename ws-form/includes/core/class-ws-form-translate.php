@@ -137,6 +137,7 @@
 		public function form_register($form_object) {
 
 			// Start
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_translate_start', $form_object->id, $form_object->label);
 
 			// Get translatable meta keys
@@ -152,6 +153,7 @@
 			}
 
 			// Finish
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_translate_finish', $form_object->id, $form_object->label);
 		}
 
@@ -294,22 +296,22 @@
 
 				case 'form' :
 
-					/* translators: %1$u = Object ID, %2$s = Meta label */
+					/* translators: %1$u: Object ID, %2$s: Meta label */
 					return sprintf(__('Form (%1$u) - %2$s', 'ws-form'), $object_id, $meta_label);
 
 				case 'group' :
 
-					/* translators: %1$s = Object label, %2$u = Object ID, %3$s = Meta label */
+					/* translators: %1$s: Object label, %2$u: Object ID, %3$s: Meta label */
 					return sprintf(__('Tab: %1$s (%2$u) - %3$s', 'ws-form'), $object_label, $object_id, $meta_label);
 
 				case 'section' :
 
-					/* translators: %1$s = Object label, %2$u = Object ID, %3$s = Meta label */
+					/* translators: %1$s: Object label, %2$u: Object ID, %3$s: Meta label */
 					return sprintf(__('Section: %1$s (%2$u) - %3$s', 'ws-form'), $object_label, $object_id, $meta_label);
 
 				case 'field' :
 
-					/* translators: %1$s = Object label, %2$u = Object ID, %3$s = Meta label */
+					/* translators: %1$s: Object label, %2$u: Object ID, %3$s: Meta label */
 					return sprintf(__('Field: %1$s (%2$u) - %3$s', 'ws-form'), $object_label, $object_id, $meta_label);
 			}
 		}
@@ -338,6 +340,7 @@
 			// Translate label
 			return apply_filters(
 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				'wsf_translate',
 				$string_value,				// String value
 				$string_id, 				// String ID
@@ -351,6 +354,7 @@
 			// Do action hook for wsf_translation_register
 			do_action(
 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				'wsf_translate_register',
 				$string_value,							// String value
 				$string_id,								// String ID
@@ -366,6 +370,7 @@
 			// Do action hook for wsf_translation_register_string
 			do_action(
 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				'wsf_translate_unregister_all',
 				$form_id								// Form ID
 			);

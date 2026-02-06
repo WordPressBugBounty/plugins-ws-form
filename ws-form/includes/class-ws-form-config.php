@@ -53,7 +53,7 @@
 				$config['meta_keys'] = self::get_meta_keys($form_id, true);
 				$config['field_types'] = self::get_field_types_public($field_types);
 				$config['settings_plugin'] = self::get_settings_plugin();
-				$config['settings_form'] = self::get_settings_form_public();
+				$config['settings_form'] = self::get_settings_form_public($field_types);
 				$config['frameworks'] = self::get_frameworks();
 				$config['parse_variables'] = self::get_parse_variables();
 				// Styler
@@ -130,11 +130,11 @@
 			$ws_form_config_customize = new WS_Form_Config_Customize();
 			return $ws_form_config_customize->get_customize();
 		}
-		public static function get_settings_form_public() {
+		public static function get_settings_form_public($field_types_filter = array()) {
 
 			include_once 'config/class-ws-form-config-public.php';
 			$ws_form_config_public = new WS_Form_Config_Public();
-			return $ws_form_config_public->get_settings_form_public();
+			return $ws_form_config_public->get_settings_form_public($field_types_filter);
 		}
 
 		public static function get_abilities() {
@@ -144,7 +144,7 @@
 			return $ws_form_config_ability->get_abilities();
 		}
 
-		public static function get_field_types_public($field_types_filter) {
+		public static function get_field_types_public($field_types_filter = array()) {
 
 			include_once 'config/class-ws-form-config-public.php';
 			$ws_form_config_public = new WS_Form_Config_Public();
@@ -171,6 +171,13 @@
 			$ws_form_config_svg = new WS_Form_Config_SVG();
 			return $ws_form_config_svg->get_icon_16_svg($id);
 		}
+
+		public static function get_options($process_options = true) {
+
+			include_once 'config/class-ws-form-config-option.php';
+			$ws_form_config_option = new WS_Form_Config_Option();
+			return $ws_form_config_option->get_options($process_options);
+		}
 		// Configuration - Field Types
 		public static function get_field_types($public = true) {
 
@@ -187,6 +194,7 @@
 						'text' => array (
 
 							'label'				=>	__('Text', 'ws-form'),
+							'description'		=>	__('A single-line input field for capturing short text values.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'			=>	'/knowledgebase/text/',
 							'label_default'		=>	__('Text', 'ws-form'),
@@ -324,6 +332,7 @@
 						'textarea' => array (
 
 							'label'				=>	__('Text Area', 'ws-form'),
+							'description'		=>	__('A multi-line input field for capturing longer text entries.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'			=>	'/knowledgebase/textarea/',
 							'label_default'		=>	__('Text Area', 'ws-form'),
@@ -336,8 +345,19 @@
 							'value_out'			=>	true,
 							'wpautop_parse_variable'	=>	array(
 
-								array('meta_key' => 'input_type_textarea', 'meta_value' => ''),
-								array('meta_key' => 'input_type_textarea', 'meta_value' => 'tinymce')
+								array(
+									// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+									'meta_key' => 'input_type_textarea',
+									// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+									'meta_value' => ''
+								),
+
+								array(
+									// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+									'meta_key' => 'input_type_textarea',
+									// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+									'meta_value' => 'tinymce'
+								)
 							),
 							'label_inside'		=>	true,
 							'mappable'			=>	true,
@@ -447,6 +467,7 @@
 						'number' => array (
 
 							'label'				=>	__('Number', 'ws-form'),
+							'description'		=>	__('A numeric input field for capturing digits with optional step controls.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'			=>	'/knowledgebase/number/',
 							'label_default'		=>	__('Number', 'ws-form'),
@@ -580,6 +601,7 @@
 						'tel' => array (
 
 							'label'				=>	__('Phone', 'ws-form'),
+							'description'		=>	__('A telephone input field for capturing phone numbers.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'			=>	'/knowledgebase/tel/',
 							'label_default'		=>	__('Phone', 'ws-form'),
@@ -723,6 +745,7 @@
 						'email' => array (
 
 							'label'					=>	__('Email', 'ws-form'),
+							'description'		=>	__('An email input field for capturing valid email addresses.', 'ws-form'),
 							'pro_required'			=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'				=>	'/knowledgebase/email/',
 							'label_default'			=>	__('Email', 'ws-form'),
@@ -735,7 +758,7 @@
 							'text_out'				=>	true,
 							'value_out'				=>	true,
 							'mappable'				=>	true,
-							'has_required'		=>	true,
+							'has_required'			=>	true,
 							'label_inside'			=>	true,
 							'compatibility_id'	=>	'input-email-tel-url',
 							'events'				=>	array(
@@ -865,6 +888,7 @@
 						'url' => array (
 
 							'label'				=>	__('URL', 'ws-form'),
+							'description'		=>	__('A URL input field for capturing website addresses.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'			=>	'/knowledgebase/url/',
 							'label_default'		=>	__('URL', 'ws-form'),
@@ -1005,6 +1029,7 @@
 						'select' => array (
 
 							'label'				=>	__('Select', 'ws-form'),
+							'description'		=>	__('A dropdown field for selecting one or more options from a list.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'			=>	'/knowledgebase/select/',
 							'label_default'		=>	__('Select', 'ws-form'),
@@ -1054,7 +1079,6 @@
 									'meta_keys'		=> array('label_render', 'required', 'hidden', 'hidden_warning', 'multiple', 'default_value_select', 'size', 'placeholder_row', 'help', 'autocomplete'),
 
 									'fieldsets'		=>	array(
-
 										array(
 											'label'		=>	__('Prefix / Suffix', 'ws-form'),
 											'meta_keys'	=>	array('prepend', 'append')
@@ -1135,6 +1159,7 @@
 						'checkbox' => array (
 
 							'label'				=>	__('Checkbox', 'ws-form'),
+							'description'		=>	__('A multiple-choice input field for selecting one or more options using checkboxes.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'			=>	'/knowledgebase/checkbox/',
 							'label_default'		=>	__('Checkbox', 'ws-form'),
@@ -1262,6 +1287,7 @@
 						'radio' => array (
 
 							'label'				=>	__('Radio', 'ws-form'),
+							'description'		=>	__('A single-choice input field for selecting one option from a set of radio buttons.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'			=>	'/knowledgebase/radio/',
 							'label_default'		=>	__('Radio', 'ws-form'),
@@ -1392,6 +1418,7 @@
 						'datetime' => array (
 
 							'label'				=>	__('Date/Time', 'ws-form'),
+							'description'		=>	__('An input field for selecting dates and times.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('pro'),
 							'kb_url'			=>	'/knowledgebase/datetime/',
 						),
@@ -1399,6 +1426,7 @@
 						'range' => array (
 
 							'label'				=>	__('Range Slider', 'ws-form'),
+							'description'		=>	__('A slider input field for selecting a numeric value within a defined range.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('pro'),
 							'kb_url'			=>	'/knowledgebase/range/',
 						),
@@ -1406,6 +1434,7 @@
 						'color' => array (
 
 							'label'				=>	__('Color', 'ws-form'),
+							'description'		=>	__('An input field for selecting a color using a color picker.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('pro'),
 							'kb_url'			=>	'/knowledgebase/color/',
 						),
@@ -1413,8 +1442,40 @@
 						'rating' => array (
 
 							'label'				=>	__('Rating', 'ws-form'),
+							'description'		=>	__('An input field for selecting a rating value, typically displayed as stars.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('pro'),
 							'kb_url'			=>	'/knowledgebase/rating/',
+						)
+					)
+				),
+
+				'media' => array(
+
+					'label'	=> __('Media', 'ws-form'),
+					'types' => array(
+
+						'file' => array (
+
+							'label'							=>	__('File Upload', 'ws-form'),
+							'description'		=>	__('An input field for uploading one or more files.', 'ws-form'),
+							'pro_required'					=>	!WS_Form_Common::is_edition('pro'),
+							'kb_url'						=>	'/knowledgebase/file/',
+						),
+
+						'mediacapture' => array(
+
+							'label'							=>	__('Media Capture', 'ws-form'),
+							'description'					=>	__('Capture video, photos and audio.', 'ws-form'),
+							'pro_required'					=>	!WS_Form_Common::is_edition('pro'),
+							'kb_url'						=>	'/knowledgebase/media-capture/',
+						),
+
+						'signature' => array (
+
+							'label'						=>	__('Signature', 'ws-form'),
+							'description'		=>	__('An input field for capturing a handwritten signature via a drawing pad.', 'ws-form'),
+							'pro_required'				=>	!WS_Form_Common::is_edition('pro'),
+							'kb_url'					=>	'/knowledgebase/signature/',
 						)
 					)
 				),
@@ -1424,30 +1485,18 @@
 					'label'	=> __('Advanced', 'ws-form'),
 					'types' => array(
 
-						'file' => array (
-
-							'label'							=>	__('File Upload', 'ws-form'),
-							'pro_required'					=>	!WS_Form_Common::is_edition('pro'),
-							'kb_url'						=>	'/knowledgebase/file/',
-						),
-
 						'hidden' => array (
 
 							'label'						=>	__('Hidden', 'ws-form'),
+							'description'		=>	__('A hidden input field for storing values not visible to the user.', 'ws-form'),
 							'pro_required'				=>	!WS_Form_Common::is_edition('pro'),
 							'kb_url'					=>	'/knowledgebase/hidden/',
-						),
-
-						'signature' => array (
-
-							'label'						=>	__('Signature', 'ws-form'),
-							'pro_required'				=>	!WS_Form_Common::is_edition('pro'),
-							'kb_url'					=>	'/knowledgebase/signature/',
 						),
 
 						'progress' => array (
 
 							'label'				=>	__('Progress', 'ws-form'),
+							'description'		=>	__('A progress bar field for displaying completion progress.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('pro'),
 							'kb_url'			=>	'/knowledgebase/progress/',
 						),
@@ -2005,6 +2054,7 @@
 						'note' => array (
 
 							'label'					=>	__('Note', 'ws-form'),
+							'description'			=>	__('A static field for displaying non-editable text, comments, or instructions in the WS Form layout editor in the WordPress admin only.', 'ws-form'),
 							'pro_required'			=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'				=>	'/knowledgebase/note/',
 							'label_default'			=>	__('Note', 'ws-form'),
@@ -2057,6 +2107,7 @@
 						'validate' => array (
 
 							'label'					=>	__('Validation', 'ws-form'),
+							'description'			=>	__('Displays real-time consolidated form validation messages and is typically placed at the top of the form.', 'ws-form'),
 							'pro_required'			=>	!WS_Form_Common::is_edition('pro'),
 							'kb_url'				=>	'/knowledgebase/validation/',
 							'icon'					=>	'asterisk',
@@ -2461,6 +2512,7 @@
 						'price' => array (
 
 							'label'				=>	__('Price', 'ws-form'),
+							'description'		=>	__('A currency input field for capturing product or service prices in forms.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('pro'),
 							'icon'				=>	'text',
 							'kb_url'			=>	'/knowledgebase/price/',
@@ -2534,6 +2586,7 @@
 			);
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$field_types = apply_filters('wsf_config_field_types', $field_types);
 
 			// Add icons and compatibility links
@@ -2595,6 +2648,7 @@
 			// Prevents problems if third party form meta data is corrupt and has required meta data on fields that don't support it
 			foreach($field_types as $id => $field_type) {
 
+				// If already set, skip
 				if(isset($field_type['has_required'])) { continue; }
 
 				$field_type_meta_keys = WS_Form_Common::get_field_type_config_meta_keys($field_type, $meta_keys);
@@ -2606,932 +2660,6 @@
 			self::$field_types_flat[$public] = $field_types;
 
 			return $field_types;
-		}
-
-		// Configuration - Options
-		public static function get_options($process_options = true) {
-
-			// File upload checks
-			$upload_checks = WS_Form_Common::uploads_check();
-			$max_upload_size = $upload_checks['max_upload_size'];
-			$max_uploads = $upload_checks['max_uploads'];
-
-			$options = array(
-
-				// Basic
-				'basic'		=> array(
-
-					'label'		=>	__('Basic', 'ws-form'),
-					'groups'	=>	array(
-
-						'preview'	=>	array(
-
-							'heading'		=>	__('Preview', 'ws-form'),
-							'fields'	=>	array(
-
-								'helper_live_preview'	=>	array(
-
-									'label'		=>	__('Live', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	sprintf('%s <a href="%s" target="_blank">%s</a>', __('Update the form preview window automatically.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/previewing-forms/'), __('Learn more', 'ws-form')),
-									'admin'		=>	true,
-									'default'	=>	true,
-								),
-
-								'preview_template'	=> array(
-
-									'label'				=>	__('Template', 'ws-form'),
-									'type'				=>	'select',
-									'help'				=>	__('Page template used for previewing forms.', 'ws-form'),
-									'options'			=>	array(),	// Populated below
-									'default'			=>	''
-								)
-							)
-						),
-
-						'debug'	=>	array(
-
-							'heading'		=>	__('Debug', 'ws-form'),
-							'fields'	=>	array(
-							)
-						),
-
-						'layout_editor'	=>	array(
-
-							'heading'	=>	__('Layout Editor', 'ws-form'),
-							'fields'	=>	array(
-
-								'mode'	=> array(
-
-									'label'		=>	__('Mode', 'ws-form'),
-									'type'		=>	'select',
-									'help'		=>	__('Advanced mode allows variables to be used in field settings.', 'ws-form'),
-									'default'	=>	'basic',
-									'admin'		=>	true,
-									'options'	=>	array(
-
-										'basic'		=>	array('text' => __('Basic', 'ws-form')),
-										'advanced'	=>	array('text' => __('Advanced', 'ws-form'))
-									)
-								),
-
-								'helper_columns'	=>	array(
-
-									'label'		=>	__('Column Guidelines', 'ws-form'),
-									'type'		=>	'select',
-									'help'		=>	__('Show column guidelines when editing forms?', 'ws-form'),
-									'options'	=>	array(
-
-										'off'		=>	array('text' => __('Off', 'ws-form')),
-										'resize'	=>	array('text' => __('On resize', 'ws-form')),
-										'on'		=>	array('text' => __('Always on', 'ws-form')),
-									),
-									'default'	=>	'resize',
-									'admin'		=>	true
-								),
-
-								'publish_auto'	=>	array(
-
-									'label'		=>	__('Auto Publish', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	sprintf(
-
-										'%s <a href="%s" target="_blank">%s</a>',
-										__('If checked, changes made to your form will be automatically published.', 'ws-form'),
-										WS_Form_Common::get_plugin_website_url('/knowledgebase/publishing-forms/'),
-										__('Learn more', 'ws-form')
-									),
-									'default'	=>	false
-								),
-
-								'helper_breakpoint_width'	=>	array(
-
-									'label'		=>	__('Breakpoint Widths', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Resize the width of the form to the selected breakpoint.', 'ws-form'),
-									'default'	=>	true,
-									'admin'		=>	true
-								),
-
-								'helper_compatibility' => array(
-
-									'label'		=>	__('HTML Compatibility Helpers', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Show HTML compatibility helper links (Data from', 'ws-form') . ' <a href="' . WS_FORM_COMPATIBILITY_URL . '" target="_blank">' . WS_FORM_COMPATIBILITY_NAME . '</a>).',
-									'default'	=>	false,
-									'admin'		=>	true,
-									'mode'		=>	array(
-
-										'basic'		=>	false,
-										'advanced'	=>	true
-									),
-								),
-
-								'helper_icon_tooltip' => array(
-
-									'label'		=>	__('Icon Tooltips', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Show icon tooltips.', 'ws-form'),
-									'default'	=>	true,
-									'admin'		=>	true
-								),
-
-								'helper_field_help' => array(
-
-									'label'		=>	__('Sidebar Help Text', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Show help text in sidebar.', 'ws-form'),
-									'default'	=>	true,
-									'admin'		=>	true
-								),
-
-								'helper_section_id'	=> array(
-
-									'label'		=>	__('Section IDs', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Show IDs on sections.', 'ws-form'),
-									'default'	=>	true,
-									'admin'		=>	true,
-									'mode'		=>	array(
-
-										'basic'		=>	false,
-										'advanced'	=>	true
-									),
-								),
-
-								'helper_field_id'	=> array(
-
-									'label'		=>	__('Field IDs', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Show IDs on fields. Useful for #field(nnn) variables.', 'ws-form'),
-									'default'	=>	true,
-									'admin'		=>	true
-								),
-
-								'helper_select2_on_mousedown'	=> array(
-
-									'label'		=>	__('Searchable Sidebar Dropdowns', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('If enabled, dropdown settings in the sidebar with 20 or more options will become searchable.<br><em>Experimental</em>', 'ws-form'),
-									'default'	=>	false,
-									'admin'		=>	true
-								)
-							)
-						),
-
-						'admin'	=>	array(
-
-							'heading'	=>	__('Administration', 'ws-form'),
-							'fields'	=>	array(
-
-								'disable_count_submit_unread'	=>	array(
-
-									'label'		=>	__('Disable Unread Submission Bubbles', 'ws-form'),
-									'type'		=>	'checkbox',
-									'default'	=>	false
-								),
-
-								'disable_toolbar_menu'			=>	array(
-
-									'label'		=>	__('Disable Toolbar Menu', 'ws-form'),
-									'type'		=>	'checkbox',
-									'default'	=>	false,
-									'help'		=>	sprintf(
-
-										/* translators: %s = WS Form */
-										__('If checked, the %s toolbar menu will not be shown.', 'ws-form'),
-
-										WS_FORM_NAME_GENERIC
-									)
-								),
-
-								'disable_translation'			=>	array(
-
-									'label'		=>	__('Disable Translation', 'ws-form'),
-									'type'		=>	'checkbox',
-									'default'	=>	false
-								)
-							)
-						)
-					)
-				),
-
-				// Advanced
-				'advanced'	=> array(
-
-					'label'		=>	__('Advanced', 'ws-form'),
-					'groups'	=>	array(
-
-						'performance'	=>	array(
-
-							'heading'		=>	__('Performance', 'ws-form'),
-							'fields'	=>	array(
-
-								'enqueue_dynamic'	=>	array(
-
-									'label'		=>	__('Dynamic Enqueuing', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should WS Form dynamically enqueue CSS and JavaScript components? (Recommended)', 'ws-form'),
-									'default'	=>	true
-								),
-							),
-						),
-
-						'javascript'	=>	array(
-
-							'heading'	=>	__('JavaScript', 'ws-form'),
-							'fields'	=>	array(
-
-								'js_defer'	=>	array(
-
-									'label'		=>	__('Defer', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('If checked, scripts will be executed after the document has been parsed.', 'ws-form'),
-									'default'	=>	''
-								),
-
-								'jquery_footer'	=>	array(
-
-									'label'		=>	__('Enqueue in Footer', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('If checked, scripts will be enqueued in the footer.', 'ws-form'),
-									'default'	=>	''
-								),
-							)
-						),
-						'cookie'	=>	array(
-
-							'heading'	=>	__('Cookies', 'ws-form'),
-							'fields'	=>	array(
-
-								'cookie_timeout'	=>	array(
-
-									'label'		=>	__('Cookie Timeout (Seconds)', 'ws-form'),
-									'type'		=>	'number',
-									'help'		=>	__('Duration in seconds cookies are valid for.', 'ws-form'),
-									'default'	=>	60 * 60 * 24 * 28,	// 28 day
-									'public'	=>	true
-								),
-
-								'cookie_prefix'	=>	array(
-
-									'label'		=>	__('Cookie Prefix', 'ws-form'),
-									'type'		=>	'text',
-									'help'		=>	__('We recommend leaving this value as it is.', 'ws-form'),
-									'default'	=>	WS_FORM_IDENTIFIER,
-									'public'	=>	true
-								),
-
-								'cookie_hash'	=>	array(
-
-									'label'		=>	__('Enable Save Cookie', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('If checked a cookie will be set when a form save button is clicked to later recall the form content.', 'ws-form'),
-									'default'	=>	true,
-									'public'	=>	true
-								)
-							)
-						),
-
-						'google'	=>	array(
-
-							'heading'	=>	__('Google', 'ws-form'),
-							'fields'	=>	array(
-
-								'api_key_google_map'	=>	array(
-
-									'label'		=>	__('API Key', 'ws-form'),
-									'type'		=>	'text',
-									'help'		=>	__('Enter your Google API key.', 'ws-form'),
-									'default'	=>	'',
-									'help'		=>	sprintf('%s <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">%s</a>', __('Need an API key?', 'ws-form'), __('Learn more', 'ws-form')),
-									'admin'		=>	true,
-									'public'	=>	true
-								)
-							)
-						),
-
-						'geo'	=>	array(
-
-							'heading'	=>	__('Geolocation Lookup by IP', 'ws-form'),
-							'fields'	=>	array(
-
-								'ip_lookup_method' => array(
-
-									'label'		=>	__('Service', 'ws-form'),
-									'type'		=>	'select',
-									'options'	=>	array(
-
-										'' => array('text' => __('geoplugin.com', 'ws-form')),
-										'ipapi' => array('text' => __('ip-api.com', 'ws-form')),
-										'ipapico' => array('text' => __('ipapi.co (Recommended)', 'ws-form')),
-										'ipinfo' => array('text' => __('ipinfo.io', 'ws-form'))
-									),
-									'default'	=>	'ipapico'
-								),
-
-								'ip_lookup_geoplugin_key' => array(
-
-									'label'		=>	__('geoplugin.com API Key', 'ws-form'),
-									'type'		=>	'text',
-									'default'	=>	'',
-									'help'		=>	sprintf(
-
-										'%s <a href="https://www.geoplugin.com" target="_blank">%s</a>',
-
-										__('If you are using the commercial version of geoplugin.com, please enter your API key. Used for server-side tracking only.', 'ws-form'),
-										__('Learn more', 'ws-form')
-									)
-								),
-
-								'ip_lookup_ipapi_key' => array(
-
-									'label'		=>	__('ip-api.com API Key', 'ws-form'),
-									'type'		=>	'text',
-									'default'	=>	'',
-									'help'		=>	sprintf(
-
-										'%s <a href="https://ip-api.com" target="_blank">%s</a>',
-
-										__('If you are using the commercial version of ip-api.com, please enter your API key. Used for server-side tracking only.', 'ws-form'),
-										__('Learn more', 'ws-form')
-									)
-								),
-
-								'ip_lookup_ipapico_key' => array(
-
-									'label'		=>	__('ipapi.co API Key', 'ws-form'),
-									'type'		=>	'text',
-									'default'	=>	'',
-									'help'		=>	sprintf(
-
-										'%s <a href="https://ipapi.co" target="_blank">%s</a>',
-
-										__('If you are using the commercial version of ipapi.co, please enter your API key. Used for server-side tracking only.', 'ws-form'),
-										__('Learn more', 'ws-form')
-									)
-								),
-
-								'ip_lookup_ipinfo_key' => array(
-
-									'label'		=>	__('ipinfo.io API Key', 'ws-form'),
-									'type'		=>	'text',
-									'default'	=>	'',
-									'help'		=>	sprintf(
-
-										'%s <a href="https://ipinfo.io" target="_blank">%s</a>',
-
-										__('If you are using the commercial version of ipinfo.io, please enter your API key. Used for server-side tracking only.', 'ws-form'),
-										__('Learn more', 'ws-form')
-									)
-								)
-							)
-						),
-
-						'tracking'	=>	array(
-
-							'heading'	=>	__('Tracking Links', 'ws-form'),
-							'fields'	=>	array(
-
-
-								'ip_lookup_url_mask' => array(
-
-									'label'		=>	__('URL Mask - IP Lookup', 'ws-form'),
-									'type'		=>	'text',
-									'default'	=>	'https://whatismyipaddress.com/ip/#value',
-									'admin'		=>	true,
-									'help'		=>	__('#value will be replaced with the tracking IP address.', 'ws-form')
-								),
-
-								'latlon_lookup_url_mask' => array(
-
-									'label'		=>	__('URL Mask - Lat/Lon Lookup', 'ws-form'),
-									'type'		=>	'text',
-									'default'	=>	'https://www.google.com/maps/search/?api=1&query=#value',
-									'admin'		=>	true,
-									'help'		=>	__('#value will be replaced with latitude,longitude.', 'ws-form')
-								)
-							)
-						),
-
-					)
-				),
-
-				// Styling
-				'styling'	=> array(
-
-					'label'		=>	__('Styling', 'ws-form'),
-					'groups'	=>	array(
-
-						'markup'	=>	array(
-
-							'heading'		=>	__('Markup', 'ws-form'),
-							'fields'	=>	array(
-
-								'framework'	=> array(
-
-									'label'			=>	__('Framework', 'ws-form'),
-									'type'			=>	'select',
-									'help'			=>	__('Framework used for rendering the front-end HTML.', 'ws-form'),
-									'options'		=>	array(),	// Populated below
-									'default'		=>	WS_FORM_DEFAULT_FRAMEWORK,
-									'button'		=>	'wsf-framework-detect',
-									'admin'			=>	true,
-									'public'		=>	true,
-									'data_change'	=>	'reload'
-								),
-
-								'css_layout'	=>	array(
-
-									'label'		=>	__('Layout CSS', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should the layout CSS be rendered?', 'ws-form'),
-									'default'	=>	true,
-									'public'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-
-								(WS_Form_Common::styler_enabled() ? 'css_style' : 'css_skin')	=>	array(
-
-									'label'		=>	(WS_Form_Common::styler_enabled() ? __('Style CSS', 'ws-form') : __('Skin CSS', 'ws-form')),
-									'type'		=>	'checkbox',
-									'help'		=>	sprintf(
-
-										'%s <a href="%s">%s</a>',
-										__('Should the style CSS be rendered?', 'ws-form'),
-										WS_Form_Common::styler_enabled() ? WS_Form_Common::get_admin_url('ws-form-style') : admin_url('customize.php?return=%2Fwp-admin%2Fadmin.php%3Fpage%3Dws-form-settings%26tab%3Dappearance'),
-										WS_Form_Common::styler_enabled() ? __('View styles', 'ws-form') : __('Customize', 'ws-form'),
-									),
-									'default'	=>	true,
-									'public'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-
-								'framework_column_count'	=> array(
-
-									'label'		=>	__('Column Count', 'ws-form'),
-									'type'		=>	'select_number',
-									'default'	=>	12,
-									'minimum'	=>	1,
-									'maximum'	=>	24,
-									'admin'		=>	true,
-									'public'	=>	true,
-									'absint'	=>	true,
-									'help'		=>	__('We recommend leaving this setting at 12.', 'ws-form')
-								),
-							),
-						),
-
-						'performance'	=>	array(
-
-							'heading'		=>	__('Performance', 'ws-form'),
-							'fields'	=>	array(
-
-								'css_compile'	=>	array(
-
-									'label'		=>	__('Compile CSS', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should CSS be precompiled? (Recommended)', 'ws-form'),
-									'default'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-
-								'css_inline'	=>	array(
-
-									'label'		=>	__('Inline CSS', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Should CSS be rendered inline? (Recommended)', 'ws-form'),
-									'default'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-
-								'css_cache_duration'	=>	array(
-
-									'label'		=>	__('CSS Cache Duration', 'ws-form'),
-									'type'		=>	'number',
-									'help'		=>	__('Expires header duration in seconds for CSS.', 'ws-form'),
-									'default'	=>	WS_FORM_CSS_CACHE_DURATION_DEFAULT,
-									'public'	=>	true,
-									'condition'	=>	array('framework' => 'ws-form')
-								),
-							)
-						),
-					),
-				),
-
-				// System
-				'system'	=> array(
-
-					'label'		=>	__('System', 'ws-form'),
-					'fields'	=>	array(
-
-						'system' => array(
-
-							'label'		=>	__('System Report', 'ws-form'),
-							'type'		=>	'static'
-						),
-
-						'setup'	=> array(
-
-							'type'		=>	'hidden',
-							'default'	=>	false
-						)
-					)
-				),
-				// Data
-				'data'	=> array(
-
-					'label'		=>	__('Data', 'ws-form'),
-					'groups'	=>	array(
-
-						'uninstall'	=>	array(
-
-							'heading'	=>	__('Uninstall', 'ws-form'),
-							'fields'	=>	array(
-
-								'uninstall_options' => array(
-
-									'label'		=>	__('Delete Plugin Settings on Uninstall', 'ws-form'),
-									'type'		=>	'checkbox',
-									'default'	=>	false,
-									'help'		=>	sprintf(
-
-										'<p><strong style="color: #bb0000;">%s:</strong> %s</p>',
-										esc_html__('Caution', 'ws-form'),
-										esc_html__('If you enable this setting and uninstall the plugin this data cannot be recovered.', 'ws-form')
-									)
-								),
-
-								'uninstall_database' => array(
-
-									'label'		=>	__('Delete Database Tables on Uninstall', 'ws-form'),
-									'type'		=>	'checkbox',
-									'default'	=>	false,
-									'help'		=>	sprintf(
-
-										'<p><strong style="color: #bb0000;">%s:</strong> %s</p>',
-										esc_html__('Caution', 'ws-form'),
-										esc_html__('If you enable this setting and uninstall the plugin this data cannot be recovered.', 'ws-form')
-									)
-								)
-							)
-						)
-					)
-				),
-
-				// Spam Protection
-				'spam_protection'	=> array(
-
-					'label'		=>	__('Spam Protection', 'ws-form'),
-					'groups'	=>	array(
-
-						'recaptcha'	=>	array(
-
-							'heading'	=> 'reCAPTCHA',
-							'fields'	=>	array(
-
-								'recaptcha_site_key' => array(
-
-									'label'		=>	__('Site Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html__('reCAPTCHA site key.', 'ws-form'),
-										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/')),
-										esc_html__('Learn more', 'ws-form')
-									),
-									'default'		=>	'',
-									'admin'			=>	true,
-									'public'		=>	true
-								),
-
-								'recaptcha_secret_key' => array(
-
-									'label'		=>	__('Secret Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html__('reCAPTCHA secret key.', 'ws-form'),
-										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/')),
-										esc_html__('Learn more', 'ws-form')
-									),
-									'default'		=>	'',
-									'admin'			=>	true
-								),
-
-								// reCAPTCHA - Default type
-								'recaptcha_recaptcha_type' => array(
-
-									'label'						=>	__('Default reCAPTCHA Type', 'ws-form'),
-									'type'						=>	'select',
-									'help'						=>	__('Select the default type used for new reCAPTCHA fields.', 'ws-form'),
-									'options'					=>	array(
-
-										'v2_default' => array('text' => __('Version 2 - Default', 'ws-form')),
-										'v2_invisible' => array('text' => __('Version 2 - Invisible', 'ws-form')),
-										'v3_default' => array('text' => __('Version 3', 'ws-form')),
-									),
-									'default'					=>	'v2_default'
-								)
-							)
-						),
-
-						'hcaptcha'	=>	array(
-
-							'heading'	=>	'hCaptcha',
-							'fields'	=>	array(
-
-								'hcaptcha_site_key' => array(
-
-									'label'		=>	__('Site Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html__('hCaptcha site key.', 'ws-form'),
-										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/')),
-										esc_html__('Learn more', 'ws-form')
-									),
-									'default'		=>	'',
-									'admin'			=>	true,
-									'public'		=>	true
-								),
-
-								'hcaptcha_secret_key' => array(
-
-									'label'		=>	__('Secret Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html__('hCaptcha secret key.', 'ws-form'),
-										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/')),
-										esc_html__('Learn more', 'ws-form')
-									),
-									'default'		=>	'',
-									'admin'			=>	true
-								)
-							)
-						),
-
-						'turnstile'	=>	array(
-
-							'heading'	=>	'Turnstile',
-							'fields'	=>	array(
-
-								'turnstile_site_key' => array(
-
-									'label'		=>	__('Site Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(sprintf(
-
-											/* translators: %s = Turnstile */
-											__('%s site key.', 'ws-form'),
-											'Turnstile'
-										)),
-										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
-										esc_html__('Learn more', 'ws-form')
-									),
-									'default'		=>	'',
-									'admin'			=>	true,
-									'public'		=>	true
-								),
-
-								'turnstile_secret_key' => array(
-
-									'label'		=>	__('Secret Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(sprintf(
-
-											/* translators: %s = Turnstile */
-											__('%s secret key.', 'ws-form'),
-											'Turnstile'
-										)),
-										esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
-										esc_html__('Learn more', 'ws-form')
-									),
-									'default'		=>	'',
-									'admin'			=>	true
-								)
-							)
-						),
-
-						'nonce'	=>	array(
-
-							'heading'	=>	__('NONCE', 'ws-form'),
-							'fields'	=>	array(
-
-								'security_nonce'	=>	array(
-
-									'label'		=>	__('Enable NONCE', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	sprintf(
-
-										'%s <a href="https://developer.wordpress.org/apis/security/nonces/" target="_blank">%s</a><br />%s',
-
-										__('Add a NONCE to all form submissions.', 'ws-form'),
-										__('Learn more', 'ws-form'),
-										__('If enabled we recommend keeping overall page caching to less than 10 hours.<br />NONCEs are always used on forms if a user is logged in.', 'ws-form')
-									),
-									'default'	=>	''
-								)
-							)
-						)
-					)
-				),
-				'variable' => array(
-
-					'label'		=>	__('Variables', 'ws-form'),
-
-					'groups'	=>	array(
-
-						'variable_email_logo'	=>	array(
-
-							'heading'		=>	__('Variable: #email_logo', 'ws-form'),
-
-							'fields'	=>	array(
-
-								'action_email_logo'	=>	array(
-
-									'label'		=>	__('Image', 'ws-form'),
-									'type'		=>	'image',
-									'button'	=>	'wsf-image',
-									'help'		=>	__('Use #email_logo in your template to add this logo.', 'ws-form')
-								),
-
-								'action_email_logo_size'	=>	array(
-
-									'label'		=>	__('Size', 'ws-form'),
-									'type'		=>	'image_size',
-									'default'	=>	'full',
-									'help'		=>	__('Recommended max dimensions: 400 x 200 pixels.', 'ws-form')
-								)
-							)
-						),
-
-						'variable_email_submission'	=>	array(
-
-							'heading'		=>	'Variable: #email_submission',
-
-							'fields'	=>	array(
-
-								'action_email_group_labels'	=> array(
-
-									'label'		=>	__('Tab Labels', 'ws-form'),
-									'type'		=>	'select',
-									'default'	=>	'auto',
-									'options'	=>	array(
-
-										'auto'				=>	array('text' => __('Auto', 'ws-form')),
-										'true'				=>	array('text' => __('Yes', 'ws-form')),
-										'false'				=>	array('text' => __('No', 'ws-form'))
-									),
-									'help'		=>	__("Auto - Only shown if any fields are not empty and the 'Show Label' setting is enabled.<br />Yes - Only shown if the 'Show Label' setting is enabled for that tab.<br />No - Never shown.", 'ws-form')
-								),
-
-								'action_email_section_labels'	=> array(
-
-									'label'		=>	__('Section Labels', 'ws-form'),
-									'type'		=>	'select',
-									'default'	=>	'auto',
-									'options'	=>	array(
-
-										'auto'				=>	array('text' => __('Auto', 'ws-form')),
-										'true'				=>	array('text' => __('Yes', 'ws-form')),
-										'false'				=>	array('text' => __('No', 'ws-form'))
-									),
-									'help'		=>	__("Auto - Only shown if any fields are not empty and the 'Show Label' setting is enabled.<br />Yes - Only shown if the 'Show Label' setting is enabled.<br />No - Never shown.", 'ws-form')
-								),
-
-								'action_email_field_labels'	=> array(
-
-									'label'		=>	__('Field Labels', 'ws-form'),
-									'type'		=>	'select',
-									'default'	=>	'auto',
-									'options'	=>	array(
-
-										'auto'				=>	array('text' => __("Auto", 'ws-form')),
-										'true'				=>	array('text' => __('Yes', 'ws-form')),
-										'false'				=>	array('text' => __('No', 'ws-form'))
-									),
-									'help'		=>	__("Auto - Only shown if the 'Show Label' setting is enabled.<br />Yes - Always shown.<br />No - Never shown.", 'ws-form')
-								),
-
-								'action_email_static_fields'	=>	array(
-
-									'label'		=>	__('Static Fields', 'ws-form'),
-									'type'		=>	'checkbox',
-									'default'	=>	true,
-									'help'		=>	__('Show static fields such as text and HTML, if not excluded at a field level.', 'ws-form')
-								),
-
-								'action_email_exclude_empty'	=>	array(
-
-									'label'		=>	__('Exclude Empty Fields', 'ws-form'),
-									'type'		=>	'checkbox',
-									'default'	=>	true,
-									'help'		=>	__('Exclude empty fields.', 'ws-form')
-								)
-							)
-						),
-
-						'variable_field'	=>	array(
-
-							'heading'		=>	'Variable: #field',
-
-							'fields'	=>	array(
-
-								'action_email_embed_images'	=>	array(
-
-									'label'		=>	__('Show File Preview', 'ws-form'),
-									'type'		=>	'checkbox',
-									'default'	=>	true,
-									'help'		=>	__('If checked, file and signature previews will be shown. Compatible with the WS Form (Private), WS Form (Public) and Media Library file handlers.', 'ws-form')
-								),
-
-								'action_email_embed_image_description'	=>	array(
-
-									'label'		=>	__('Show File Name and Size', 'ws-form'),
-									'type'		=>	'checkbox',
-									'default'	=>	true,
-									'help'		=>	__('If checked, file and signature file names and sizes will be shown. Compatible with the WS Form (Private), WS Form (Public) and Media Library file handlers.', 'ws-form')
-								),
-
-								'action_email_embed_image_link'	=>	array(
-
-									'label'		=>	__('Link to Files', 'ws-form'),
-									'type'		=>	'checkbox',
-									'default'	=>	false,
-									'help'		=>	__('If checked, file and signature files will have links added to them. The Send Email action has a separate setting for this. Compatible with the WS Form (Private), WS Form (Public) and Media Library file handlers.', 'ws-form')
-								)
-							)
-						)
-					)
-				)
-			);
-
-			// Don't run the rest of this function to improve client side performance
-			if(!$process_options) {
-
-				// Apply filter
-				$options = apply_filters('wsf_config_options', $options);
-
-				return $options;
-			}
-
-			// Frameworks
-			$frameworks = self::get_frameworks(false);
-			foreach($frameworks['types'] as $key => $framework) {
-
-				$name = $framework['name'];
-				$options['styling']['groups']['markup']['fields']['framework']['options'][$key] = array('text' => $name);
-			}
-
-			// Templates
-			$options['basic']['groups']['preview']['fields']['preview_template']['options'][''] = array('text' => __('Automatic', 'ws-form'));
-
-			// Custom page templates
-			$page_templates = array();
-			$templates_path = get_template_directory();
-			$templates = wp_get_theme()->get_page_templates();
-			$templates['page.php'] = 'Page';
-			$templates['singular.php'] = 'Singular';
-			$templates['index.php'] = 'Index';
-			$templates['front-page.php'] = 'Front Page';
-			$templates['single-post.php'] = 'Single Post';
-			$templates['single.php'] = 'Single';
-			$templates['home.php'] = 'Home';
-
-			foreach($templates as $template_file => $template_title) {
-
-				// Build template path
-				$template_file_full = $templates_path . '/' . $template_file;
-
-				// Skip files that don't exist
-				if(!file_exists($template_file_full)) { continue; }
-
-				$page_templates[$template_file] = $template_title . ' (' . $template_file . ')';
-			}
-
-			asort($page_templates);
-
-			foreach($page_templates as $template_file => $template_title) {
-
-				$options['basic']['groups']['preview']['fields']['preview_template']['options'][$template_file] = array('text' => $template_title);
-			}
-
-			// Fallback
-			$options['basic']['groups']['preview']['fields']['preview_template']['options']['fallback'] = array('text' => __('Blank Page', 'ws-form'));
-
-
-			// Apply filter
-			$options = apply_filters('wsf_config_options', $options);
-
-			return $options;
 		}
 
 		// Configuration - Settings (Shared with admin and public)
@@ -3548,10 +2676,10 @@
 					'error_attributes_form_id'			=>	__('No attributes form ID specified.', 'ws-form'),
 					'error_form_id'						=>	__('Form ID not specified.', 'ws-form'),
 
-					/* translators: %s = WS Form */
+					/* translators: %s: WS Form */
 					'error_pro_required'				=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('%s PRO required.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -3606,7 +2734,7 @@
 						__('Learn more', 'ws-form')
 					),
 
-					/* translators: %s = Form submission response */
+					/* translators: %s: Form submission response */
 					'error_api_call_response_text'		=>	__('Form submission response: %s', 'ws-form'),
 					'error_api_call_unknown'			=>	__('Unknown error', 'ws-form'),
 
@@ -3634,38 +2762,39 @@
 					// Select all
 					'select_all_label'					=>	__('Select All', 'ws-form'),
 					// Parse variables
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'error_parse_variable_syntax_error_brackets'			=>	__('Syntax error, missing brackets: %s', 'ws-form'),
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'error_parse_variable_syntax_error_bracket_closing'		=>	__('Syntax error, missing closing bracket: %s', 'ws-form'),
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'error_parse_variable_syntax_error_attribute'			=>	__('Syntax error, missing attribute: %s', 'ws-form'),
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'error_parse_variable_syntax_error_attribute_invalid'	=>	__('Syntax error, invalid attribute: %s', 'ws-form'),
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'error_parse_variable_syntax_error_depth'				=>	__('Syntax error, too many iterations', 'ws-form'),
-					/* translators: %s = Field ID */
+					/* translators: %s: Field ID */
 					'error_parse_variable_syntax_error_field_id'			=>	__('Syntax error, invalid field ID: %s', 'ws-form'),
-					/* translators: %s = section ID */
+					/* translators: %s: section ID */
 					'error_parse_variable_syntax_error_section_id'			=>	__('Syntax error, invalid section ID: %s', 'ws-form'),
-					/* translators: %s = tab ID */
+					/* translators: %s: tab ID */
 					'error_parse_variable_syntax_error_group_id'			=>	__('Syntax error, invalid tab ID: %s', 'ws-form'),
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'error_parse_variable_syntax_error_self_ref'			=>	__('Syntax error, fields cannot contain references to themselves: %s', 'ws-form'),
-					/* translators: %s = Field ID */
+					/* translators: %s: Field ID */
 					'error_parse_variable_syntax_error_field_date_offset'	=>	__('Syntax error, field ID %s is not a date field', 'ws-form'),
-					/* translators: %s = Period, e.g. y for Year */
+					/* translators: %s: Period, e.g. y for Year */
 					'error_parse_variable_syntax_error_field_date_age_period'	=>	__('Syntax error, date age period %s is not valid', 'ws-form'),
-					/* translators: %s = Date */
+					/* translators: %s: Date */
 					'error_parse_variable_field_date_age_invalid'			=>	__('Syntax error, date age period %s input date invalid', 'ws-form'),
-					/* translators: %s = Field ID */
+					/* translators: %s: Field ID */
 					'error_parse_variable_syntax_error_calc'				=>	__('Syntax error: field ID: %s', 'ws-form'),
-					/* translators: %s = Date input */
+					/* translators: %s: Date input */
 					'error_parse_variable_syntax_error_date_format'			=>	__('Syntax error, invalid input date: %s', 'ws-form'),
 				)
 			);
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$settings_form = apply_filters('wsf_config_settings_form', $settings_form);
 
 			return $settings_form;
@@ -3702,6 +2831,7 @@
 			}
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$settings_plugin = apply_filters('wsf_config_settings_plugin', $settings_plugin);
 
 			// Cache
@@ -3982,7 +3112,7 @@
 				array('value' => 'switch', 'text' => __('Switch', 'ws-form')),
 			);
 
- 			// Check for unfiltered_html capability so we can provide alerts in admin
+			// Check for unfiltered_html capability so we can provide alerts in admin
 			$capability_unfiltered_html = WS_Form_Common::can_user('unfiltered_html');
 
 			// Meta keys
@@ -4018,7 +3148,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'tab_validation',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -4057,7 +3189,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'label_required',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -4102,7 +3236,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'hidden',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -4143,7 +3279,9 @@
 						array(
 
 							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'recaptcha_recaptcha_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'invisible'
 						)
 					)
@@ -4175,7 +3313,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'ip_limit',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4193,7 +3333,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'ip_limit',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4220,7 +3362,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'ip_limit',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4239,7 +3383,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'ip_limit',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					),
@@ -4265,7 +3411,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'ip_limit',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4296,7 +3444,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'ip_blocklist',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4316,7 +3466,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'ip_blocklist',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4326,7 +3478,8 @@
 				'ip_blocklist_ip' => array(
 
 					'label'						=>	__('IP Address', 'ws-form'),
-					'type'						=>	'text'
+					'type'						=>	'text',
+					'placeholder'				=>	'e.g. 203.0.113.45 or 198.51.100.0/24'
 				),
 
 				// IP blocklist - Message
@@ -4342,7 +3495,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'ip_blocklist',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					),
@@ -4368,7 +3523,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'ip_blocklist',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4399,7 +3556,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'keyword_blocklist',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4419,7 +3578,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'keyword_blocklist',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4445,7 +3606,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'keyword_blocklist',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					),
@@ -4471,7 +3634,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'keyword_blocklist',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4518,7 +3683,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'submit_lock',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4559,7 +3726,7 @@
 					'type'						=>	'text',
 					'default'					=>	'',
 
-					/* translators: %s = WS Form */
+					/* translators: %s: WS Form */
 					'help'						=>	sprintf(__('Enter a custom action for this form. Leave blank to use %s (Recommended).', 'ws-form'), 'ws-form')
 				),
 
@@ -4572,7 +3739,7 @@
 
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('If a server side error occurs when a form is submitted, should %s show those as form error messages?', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -4645,7 +3812,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'error_scroll_top',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -4663,7 +3832,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'error_scroll_top',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'smooth'
 						)
 					)
@@ -4699,7 +3870,9 @@
 						array(
 
 							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'error_duration',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	''
 						)
 					)
@@ -4717,7 +3890,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'error_form_hide',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on',
 							'logic_previous'	=>	'&&'
 						),
@@ -4725,7 +3900,9 @@
 						array(
 
 							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'error_duration',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'',
 							'logic_previous'	=>	'&&'
 						)
@@ -4775,7 +3952,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'label_render',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -4796,7 +3975,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'label_render',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					),
@@ -4829,14 +4010,18 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'label_position',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'left'
 						),
 
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'label_position',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'right',
 							'logic_previous'	=>	'||'
 						),
@@ -4844,7 +4029,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'label_render',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on',
 							'logic_previous'	=>	'&&'
 						)
@@ -4887,7 +4074,7 @@
 
 						' %s <a href="%s" target="_blank">%s</a>',
 						sprintf(
-							/* translators: reCAPTCHA, brand name, do not translate */
+							/* translators: %s: Brand name */
 							__('%s site key.', 'ws-form'),
 							'reCAPTCHA'
 						),
@@ -4909,7 +4096,7 @@
 
 						'%s <a href="%s" target="_blank">%s</a>',
 						sprintf(
-							/* translators: reCAPTCHA, brand name, do not translate */
+							/* translators: %s: Brand name */
 							__('%s secret key.', 'ws-form'),
 							'reCAPTCHA'
 						),
@@ -4959,7 +4146,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'recaptcha_recaptcha_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'v2_invisible'
 						)
 					)
@@ -4984,7 +4173,9 @@
 						array(
 
 							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'recaptcha_recaptcha_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'v3_default'
 						)
 					)
@@ -5009,7 +4200,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'recaptcha_recaptcha_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'v2_default'
 						)
 					)
@@ -5034,7 +4227,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'recaptcha_recaptcha_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'v2_default'
 						)
 					)
@@ -5055,7 +4250,9 @@
 						array(
 
 							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'recaptcha_recaptcha_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'v3_default'
 						)
 					)
@@ -5075,7 +4272,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'recaptcha_recaptcha_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'v3_default'
 						)
 					)
@@ -5094,7 +4293,7 @@
 
 						'%s <a href="%s" target="_blank">%s</a>',
 						sprintf(
-							/* translators: hCaptcha, brand name, do not translate */
+							/* translators: %s: Brand name */
 							__('%s site key.', 'ws-form'),
 							'hCaptcha'
 						),
@@ -5117,7 +4316,7 @@
 
 						'%s <a href="%s" target="_blank">%s</a>',
 						sprintf(
-							/* translators: hCaptcha, brand name, do not translate */
+							/* translators: %s: Brand name */
 							__('%s secret key.', 'ws-form'),
 							'hCaptcha'
 						),
@@ -5164,7 +4363,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'hcaptcha_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'default'
 						)
 					)
@@ -5189,7 +4390,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'hcaptcha_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'default'
 						)
 					)
@@ -5210,7 +4413,9 @@
 						array(
 
 							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'hcaptcha_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'v3_default'
 						)
 					)
@@ -5229,7 +4434,7 @@
 
 						'%s <a href="%s" target="_blank">%s</a>',
 						sprintf(
-							/* translators: Turnstile, brand name, do not translate */
+							/* translators: %s: Brand name */
 							__('%s site key.', 'ws-form'),
 							'Turnstile'
 						),
@@ -5252,7 +4457,7 @@
 
 						'%s <a href="%s" target="_blank">%s</a>',
 						sprintf(
-							/* translators: Turnstile, brand name, do not translate */
+							/* translators: %s: Brand name */
 							__('%s secret key.', 'ws-form'),
 							'Turnstile'
 						),
@@ -5378,7 +4583,7 @@
 
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('%s skin only.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -5570,7 +4775,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5588,7 +4795,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5606,7 +4815,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5624,7 +4835,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5650,7 +4863,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5672,7 +4887,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5697,7 +4914,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5722,7 +4941,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5739,7 +4960,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5756,7 +4979,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5773,7 +4998,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5790,7 +5017,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5808,7 +5037,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'intl_tel_input',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -5898,7 +5129,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'file_preview',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
@@ -5906,7 +5139,9 @@
 
 							'logic_previous'	=>	'||',
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'sub_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'dropzonejs'
 						)
 					),
@@ -5924,7 +5159,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'orientation',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'grid'
 						)
 					)
@@ -5941,7 +5178,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'file_preview',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
@@ -5949,7 +5188,9 @@
 
 							'logic_previous'	=>	'||',
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'sub_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'dropzonejs'
 						),
 
@@ -5957,7 +5198,9 @@
 
 							'logic_previous'	=>	'&&',
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'orientation',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'grid'
 						)
 					),
@@ -6129,7 +5372,7 @@
 
 					'label'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('I consent to having %s store my submitted information so they can respond to my inquiry.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -6346,6 +5589,7 @@
 					'label'						=>	__('Invalid Feedback Text', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					'mask_placeholder'			=>	apply_filters('wsf_field_invalid_feedback_text', __('This field is required.', 'ws-form')),
 					'help'						=>	sprintf(
 
@@ -6395,7 +5639,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'invalid_feedback_render',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					),
@@ -6413,7 +5659,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'invalid_feedback_render',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					),
@@ -6439,7 +5687,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'invalid_feedback_render',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -6487,7 +5737,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'input_type_textarea',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -6506,14 +5758,18 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'required',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'readonly',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on',
 							'logic_previous'	=>	'&&'
 						)
@@ -6659,7 +5915,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'password_strength_meter',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -6690,7 +5948,7 @@
 					'default'					=>	'',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('If checked, %s will always include this field in actions if it is hidden.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -6704,7 +5962,7 @@
 					'default'					=>	'',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('If checked, %s will not apply HTML formatting using wpautop to the output of this field in emails and other actions.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -6939,7 +6197,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'input_mask',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -7004,7 +6264,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'user_limit_logged_in',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'role_capability'
 						)
 					)
@@ -7024,7 +6286,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'group_user_status',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'role_capability'
 						)
 					)
@@ -7044,7 +6308,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'section_user_status',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'role_capability'
 						)
 					)
@@ -7064,7 +6330,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'field_user_status',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'role_capability'
 						)
 					)
@@ -7084,7 +6352,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'user_limit_logged_in',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'role_capability'
 						)
 					)
@@ -7104,7 +6374,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'group_user_status',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'role_capability'
 						)
 					)
@@ -7124,7 +6396,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'section_user_status',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'role_capability'
 						)
 					)
@@ -7144,7 +6418,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'field_user_status',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'role_capability'
 						)
 					)
@@ -7276,7 +6552,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'sub_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'dropzonejs'
 						)
 					),
@@ -7332,7 +6610,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'multiple',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
@@ -7340,7 +6620,9 @@
 
 							'logic_previous'	=>	'||',
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select2',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					),
@@ -7360,14 +6642,18 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'required',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'disabled',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on',
 							'logic_previous'	=>	'&&'
 						)
@@ -7388,14 +6674,18 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'required',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'disabled',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on',
 							'logic_previous'	=>	'&&'
 						)
@@ -7428,7 +6718,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'scroll_to_top',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -7445,7 +6737,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'scroll_to_top',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'smooth'
 						)
 					)
@@ -7465,14 +6759,18 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'disabled',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'readonly',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on',
 							'logic_previous'	=>	'&&'
 						)
@@ -7494,14 +6792,18 @@
 						array(
 
 							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'disabled',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						),
 
 						array(
 
 							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'readonly',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on',
 							'logic_previous'	=>	'&&'
 						)
@@ -7523,14 +6825,18 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'disabled',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'readonly',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on',
 							'logic_previous'	=>	'&&'
 						)
@@ -7568,7 +6874,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'input_type_textarea',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -7587,7 +6895,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'input_type_textarea',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'html'
 						)
 					)
@@ -7607,7 +6917,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select2',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					),
@@ -7633,7 +6945,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_all',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					),
@@ -7925,7 +7239,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'multiple',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -7942,7 +7258,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'multiple',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -7970,7 +7288,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -7988,7 +7308,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8001,7 +7323,7 @@
 					'default'					=>	'',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('If checked, %s will search comma separated values individually.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -8011,7 +7333,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8022,19 +7346,15 @@
 					'label'						=>	__('Show All If No Results', 'ws-form'),
 					'type'						=>	'checkbox',
 					'default'					=>	'',
-					'help'						=>	sprintf(
-
-						/* translators: %s = WS Form */
-						__('If checked and the filter value does not match any data in your filter column, all options will be shown.', 'ws-form'),
-
-						WS_FORM_NAME_GENERIC
-					),
+					'help'						=>	__('If checked and the filter value does not match any data in your filter column, all options will be shown.', 'ws-form'),
 					'condition'					=>	array(
 
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8051,14 +7371,18 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_cascade_no_match',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on',
 							'logic_previous'	=>	'&&'
 						)
@@ -8074,7 +7398,7 @@
 					'default'					=>	'',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('If checked %s will retrieve data using AJAX. This can improve performance with larger datasets.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -8084,7 +7408,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8101,14 +7427,18 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_cascade_ajax',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on',
 							'logic_previous'	=>	'&&'
 						)
@@ -8177,7 +7507,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'select_all',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8205,7 +7537,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'checkbox_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8223,7 +7557,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'checkbox_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8236,7 +7572,7 @@
 					'default'					=>	'',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('If checked %s will search comma separated values individually.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -8246,7 +7582,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'checkbox_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8263,7 +7601,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'checkbox_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8335,7 +7675,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'radio_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8353,7 +7695,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'radio_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8366,7 +7710,7 @@
 					'default'					=>	'',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('If checked, %s will search comma separated values individually.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -8376,7 +7720,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'radio_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8393,7 +7739,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'radio_cascade',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8409,7 +7757,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'data_source_term_hierarchy',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8492,7 +7842,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'input_type_textarea',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -8508,7 +7860,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'input_type_textarea',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -8526,7 +7880,11 @@
 						array('value' => 'allow', 'text' => __('Allow', 'ws-form')),
 						array('value' => 'deny', 'text' => __('Deny', 'ws-form'))
 					),
-					'help'						=>	__('Allow or deny email addresses in this field. Use * as a wildcard, e.g. *@wsform.com', 'ws-form')
+					'help' => sprintf(
+						/* translators: %s: Example email address with wildcard */
+						__('Allow or deny email addresses in this field. Use * as a wildcard, e.g. %s', 'ws-form'),
+						'*@wsform.com'
+					),
 				),
 
 				'allow_deny_values'	=> array(
@@ -8541,7 +7899,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'allow_deny',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -8564,7 +7924,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'allow_deny',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -8596,7 +7958,7 @@
 					'type'						=>	'checkbox',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('If checked, %s will check for duplicates in existing submissions. This feature is not available if you are encrypting submission data.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -8624,7 +7986,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'dedupe',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8641,7 +8005,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'dedupe',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
 					)
@@ -8841,6 +8207,7 @@
 			}
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$meta_keys = apply_filters('wsf_config_meta_keys', $meta_keys, $form_id);
 
 			// Public parsing (To cut down on only output needed to render form
@@ -8917,6 +8284,7 @@
 		// Configuration - Meta Keys - Protected
 		public static function get_meta_keys_protected() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_config_meta_keys_protected', array(
 
 				// reCAPTCHA
@@ -9335,6 +8703,7 @@
 			}
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$frameworks = apply_filters('wsf_config_frameworks', $frameworks, $framework, $public);
 
 			// Public filter
@@ -9436,17 +8805,6 @@
 
 				return self::get_parse_variables_return(self::$parse_variables[$public], $public);
 			}
-
-			// Get email logo
-			$email_logo = '';
-			$action_email_logo = absint(WS_Form_Common::option_get('action_email_logo'));
-			$action_email_logo_size = WS_Form_Common::option_get('action_email_logo_size');
-			if($action_email_logo_size == '') { $action_email_logo_size = 'full'; }
-			if($action_email_logo > 0) {
-
-				$email_logo = WS_Form_Common::get_attachment_img_html($action_email_logo, $action_email_logo_size);
-			}
-
 			// Check WordPress version
 			$wp_new = WS_Form_Common::wp_version_at_least('5.3');
 
@@ -9584,7 +8942,7 @@
 							'usage' => array('client')
 						)
 					)
- 				),
+				),
 
 				// Server
 				'server'	=>	array(
@@ -9629,7 +8987,7 @@
 							'secure' => true
 						)
 					)
- 				),
+				),
 
 				// Form
 				'form' 		=> array(
@@ -10191,7 +9549,7 @@
 							),
 							'description' => sprintf(
 
-								/* translators: %s = Example ISO 8601 date */
+								/* translators: %s: Example ISO 8601 date */
 								__('Return a date formatted according to the PHP date function. The date supplied must be in a supported format such as ISO 8601, for example: %s. For field related date formatting, see: #field_date_format', 'ws-form'),
 								gmdate('c')
 							),
@@ -10216,7 +9574,7 @@
 								array('id' => 'key'),
 							),
 							'description' => __('Returns the value of a session storage key.', 'ws-form'),
-							'kb_slug' => 'insert-cookie-values-into-fields',
+							'kb_slug' => 'insert-session-storage-values-into-fields',
 							'usage' => array('client')
 						)
 					)
@@ -10237,6 +9595,7 @@
 								array('id' => 'key'),
 							),
 							'description' => __('Returns the value of a local storage key.', 'ws-form'),
+							'kb_slug' => 'insert-local-storage-values-into-fields',
 							'usage' => array('client')
 						)
 					)
@@ -10337,7 +9696,7 @@
 							'label' => __("Floor", 'ws-form'),
 							'attributes' => array(
 
-								array('id' => 'number', 'required' => false),
+								array('id' => 'number', 'type' => 'float', 'required' => false),
 							),
 							'description' => __('Returns the largest integer value that is less than or equal to a number.', 'ws-form'),
 							'kb_slug' => 'calculated-fields',
@@ -10971,7 +10330,7 @@
 							'usage' => array('datagrid')
 						),
 
-						'data_grid_row_wocommerce_Cart'	=>	array(
+						'data_grid_row_woocommerce_cart'	=>	array(
 
 							'label' => __('WooCommerce Cart Column', 'ws-form'),
 							'description' => __('Use this variable within a data grid row to insert the text found in the WooCommerce cart column.', 'ws-form'),
@@ -11093,8 +10452,7 @@
 							'label' => __('Radio Label', 'ws-form'),
 							'attributes' => array(
 
-								array('id' => 'field_id', 'type' => 'integer'),
-								array('id' => 'delimiter', 'type' => 'string', 'required' => false, 'trim' => false)
+								array('id' => 'field_id', 'type' => 'integer')
 							),
 							'description' => __('Use this variable to insert the label of a radio field on your form. For example: <code>#radio_label(123)</code> where \'123\' is the field ID shown in the layout editor.', 'ws-form'),
 							'kb_slug' => 'radio',
@@ -11169,6 +10527,7 @@
 							'label' => __('Tracking data', 'ws-form'),
 							'description' => __('Returns a list of all the enabled tracking data that was captured when the form was submitted.', 'ws-form'),
 							'kb_slug' => 'send-email',
+							'usage' => array('action'),
 							'secure' => true
 						),
 
@@ -11176,7 +10535,6 @@
 
 							'label' => __('Logo', 'ws-form'),
 							'description' => __('Returns the email logo specified in <strong>WS Form Settings &gt; Variables</strong>.', 'ws-form'),
-							'value' => $email_logo,
 							'kb_slug' => 'send-email',
 							'usage' => array('action'),
 							'secure' => true
@@ -11462,10 +10820,19 @@
 						'usage' => array('client','action')
 					),
 
+					'post_time_modified'			=>	array(
+
+						'label' => __('Time Modified', 'ws-form'),
+						'description' => __('Returns the post modified time according to the <strong>Time Format</strong> setting found in <strong>WordPress Settings &gt; General</strong>.', 'ws-form'),
+						'value' => $post_not_null ? ($wp_new ? wp_date(get_option('time_format'), strtotime($post->post_modified_gmt)) : gmdate(get_option('time_format'), strtotime($post->post_modified))) : '',
+						'usage' => array('client','action'),
+						'secure' => true
+					),
+
 					'post_time'			=>	array(
 
-						'label' => __('Time', 'ws-form'),
-						'description' => __('Returns the post time according to the <strong>Time Format</strong> setting found in <strong>WordPress Settings &gt; General</strong>.', 'ws-form'),
+						'label' => __('Time Created', 'ws-form'),
+						'description' => __('Returns the post creation time according to the <strong>Time Format</strong> setting found in <strong>WordPress Settings &gt; General</strong>.', 'ws-form'),
 						'value' => $post_not_null ? ($wp_new ? wp_date(get_option('time_format'), strtotime($post->post_date_gmt)) : gmdate(get_option('time_format'), strtotime($post->post_date))) : '',
 						'usage' => array('client','action'),
 						'secure' => true
@@ -11476,6 +10843,14 @@
 						'label' => __('Status', 'ws-form'),
 						'description' => __('Returns the post status.', 'ws-form'),
 						'value' => $post_not_null ? $post->post_status : '',
+						'usage' => array('client','action')
+					),
+
+					'post_parent'		=>	array(
+
+						'label' => __('Parent ID', 'ws-form'),
+						'description' => __('Returns the post parent ID.', 'ws-form'),
+						'value' => $post_not_null ? $post->post_parent : '',
 						'usage' => array('client','action')
 					),
 
@@ -11496,9 +10871,31 @@
 						'secure' => true
 					),
 
+					'post_date_modified_custom'	=>	array(
+						'label' => __('Date / Time Modified - Custom', 'ws-form'),
+						'description' => __('Returns the post modified date and time in the specified format (PHP date format).', 'ws-form'),
+						'value' => $post_not_null ? ($wp_new ? wp_date('Y-m-d H:i:s', strtotime($post->post_modified_gmt)) : gmdate('Y-m-d H:i:s', strtotime($post->post_modified))) : '',
+						'attributes' => array(
+							array('id' => 'format', 'type' => 'string', 'required' => false, 'default' => 'F j, Y, g:i a'),
+							array('id' => 'seconds_offset', 'type' => 'integer', 'required' => false, 'default' => '0')
+						),
+						'kb_slug' => 'the-date-time-cheat-sheet',
+						'usage' => array('client','action'),
+						'secure' => true
+					),
+
+					'post_date_modified'	=>	array(
+
+						'label' => __('Date Modified', 'ws-form'),
+						'description' => __('Returns the post modified date according to the <strong>Date Format</strong> setting found in <strong>WordPress Settings &gt; General</strong>.', 'ws-form'),
+						'value' => !is_null($post) ? ($wp_new ? wp_date(get_option('date_format'), strtotime($post->post_modified_gmt)) : gmdate(get_option('date_format'), strtotime($post->post_modified))) : '',
+						'usage' => array('client','action'),
+						'secure' => true
+					),
+
 					'post_date_custom'	=>	array(
-						'label' => __('Post Custom Date', 'ws-form'),
-						'description' => __('Returns the post date and time in the specified format (PHP date format).', 'ws-form'),
+						'label' => __('Date / Time Created - Custom', 'ws-form'),
+						'description' => __('Returns the post creation date and time in the specified format (PHP date format).', 'ws-form'),
 						'value' => $post_not_null ? ($wp_new ? wp_date('Y-m-d H:i:s', strtotime($post->post_date_gmt)) : gmdate('Y-m-d H:i:s', strtotime($post->post_date))) : '',
 						'attributes' => array(
 							array('id' => 'format', 'type' => 'string', 'required' => false, 'default' => 'F j, Y, g:i a'),
@@ -11511,7 +10908,7 @@
 
 					'post_date'			=>	array(
 
-						'label' => __('Date', 'ws-form'),
+						'label' => __('Date Created', 'ws-form'),
 						'description' => __('Returns the post date according to the <strong>Date Format</strong> setting found in <strong>WordPress Settings &gt; General</strong>.', 'ws-form'),
 						'value' => !is_null($post) ? ($wp_new ? wp_date(get_option('date_format'), strtotime($post->post_date_gmt)) : gmdate(get_option('date_format'), strtotime($post->post_date))) : '',
 						'usage' => array('client','action'),
@@ -11834,6 +11231,7 @@
 		public static function get_parse_variables_return($parse_variables, $public) {
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$parse_variables = apply_filters('wsf_config_parse_variables', $parse_variables);
 
 			// Public - Optimize
@@ -11890,33 +11288,35 @@
 			$min = SCRIPT_DEBUG ? '' : '.min';
 
 			// Third party script paths (Local and included with WS Form)
-			$select2_js_local = sprintf('%sshared/js/external/select2.full%s.js', WS_FORM_PLUGIN_DIR_URL, $min);
-			$select2_css_local = sprintf('%sshared/css/external/select2%s.css', WS_FORM_PLUGIN_DIR_URL, $min);
+			$coloris_js_local = sprintf('%spublic/js/external/coloris%s.js', WS_FORM_PLUGIN_DIR_URL, $min);
+			$coloris_css_local = sprintf('%spublic/css/external/coloris%s.css', WS_FORM_PLUGIN_DIR_URL, $min);
 			$inputmask_js_local = sprintf('%spublic/js/external/jquery.inputmask%s.js', WS_FORM_PLUGIN_DIR_URL, $min);
 			$intl_tel_input_js_local = sprintf('%spublic/js/external/intlTelInput%s.js', WS_FORM_PLUGIN_DIR_URL, $min);
 			$intl_tel_input_css_local = sprintf('%spublic/css/external/intlTelInput%s.css', WS_FORM_PLUGIN_DIR_URL, $min);
-			$coloris_js_local = sprintf('%spublic/js/external/coloris%s.js', WS_FORM_PLUGIN_DIR_URL, $min);
-			$coloris_css_local = sprintf('%spublic/css/external/coloris%s.css', WS_FORM_PLUGIN_DIR_URL, $min);
+			$select2_js_local = sprintf('%sshared/js/external/select2.full%s.js', WS_FORM_PLUGIN_DIR_URL, $min);
+			$select2_css_local = sprintf('%sshared/css/external/select2%s.css', WS_FORM_PLUGIN_DIR_URL, $min);
 
 			$external = array(
 
-				// Select2
-				'select2_js' => array('js' => $select2_js_local, 'version' => '4.0.5'),
-				'select2_css' => array('js' => $select2_css_local, 'version' => '4.0.5'),
+				// Coloris
+				'coloris_js' => array('path' => $coloris_js_local, 'version' => '0.24.0'),
+				'coloris_css' => array('path' => $coloris_css_local, 'version' => '0.24.0'),
 
 				// Input mask bundle
-				'inputmask_js' => array('js' => $inputmask_js_local, 'version' => '5.0.7'),
+				'inputmask_js' => array('path' => $inputmask_js_local, 'version' => '5.0.7'),
 
 				// International Telephone Input
-				'intl_tel_input_js' => array('js' => $intl_tel_input_js_local, 'version' => '17.0.9'),
-				'intl_tel_input_css' => array('js' => $intl_tel_input_css_local, 'version' => '17.0.9'),
+				'intl_tel_input_js' => array('path' => $intl_tel_input_js_local, 'version' => '17.0.9'),
+				'intl_tel_input_css' => array('path' => $intl_tel_input_css_local, 'version' => '17.0.9'),
 
-				// Coloris
-				'coloris_js' => array('js' => ($coloris_js_local), 'version' => '0.24.0'),
-				'coloris_css' => array('js' => ($coloris_css_local ), 'version' => '0.24.0')
+				// Select2
+				'select2_js' => array('path' => $select2_js_local, 'version' => '4.0.5'),
+				'select2_css' => array('path' => $select2_css_local, 'version' => '4.0.5'),
+
 			);
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$external = apply_filters('wsf_config_external', $external);
 
 			return $external;
@@ -12175,6 +11575,7 @@
 			);
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$countries_alpha_2 = apply_filters('wsf_config_countries_alpha_2', $countries_alpha_2);
 
 			return $countries_alpha_2;

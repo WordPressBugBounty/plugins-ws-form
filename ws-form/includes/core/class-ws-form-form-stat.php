@@ -5,7 +5,6 @@
 
 		public $id;
 		public $form_id;
-		public $table_name;
 		public $date_ranges;
 
 		public $counts_cache = false;
@@ -13,8 +12,6 @@
 		public function __construct() {
 
 			global $wpdb;
-
-			$this->table_name = sprintf('%s%sform_stat', $wpdb->prefix, WS_FORM_DB_TABLE_PREFIX);
 
 			// Form stat check
 			add_filter('wsf_form_stat_check', array($this, 'form_stat_check'), 10, 1);
@@ -50,6 +47,7 @@
 
 			self::db_check_form_id();
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			if(!apply_filters('wsf_form_stat_add_count', true)) { return true; };
 
 			global $wpdb;
@@ -57,52 +55,75 @@
 			$time_bounds = self::db_get_time_bounds();
 
 			// Get existing record
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$row = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT id, count_view, count_save, count_submit FROM {$this->table_name} WHERE form_id = %d AND date_added >= %s AND date_added < %s LIMIT 1;",
+				"SELECT id, count_view, count_save, count_submit FROM {$wpdb->prefix}wsf_form_stat WHERE form_id = %d AND date_added >= %s AND date_added < %s LIMIT 1;",
 				$this->form_id,
-				date('Y-m-d H:i:s', $time_bounds['start']),
-				date('Y-m-d H:i:s', $time_bounds['finish'])
-			);
-
-			$row = $wpdb->get_row($sql);
+				gmdate('Y-m-d H:i:s', $time_bounds['start']),
+				gmdate('Y-m-d H:i:s', $time_bounds['finish'])
+			));
 			if(is_null($row)) {
 
 				// Build SQL - New record
 				switch($type) {
 
 					case 'view' :
+
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+						$rows_inserted = $wpdb->insert(
+							"{$wpdb->prefix}wsf_form_stat",
+							array(
+								'date_added' => WS_Form_Common::get_mysql_date(),
+								'form_id' => $this->form_id,
+								'count_view' => 1,
+							),
+							array( '%s', '%d', '%d' )
+						);
+
+						break;
+
 					case 'save' :
+
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+						$rows_inserted = $wpdb->insert(
+							"{$wpdb->prefix}wsf_form_stat",
+							array(
+								'date_added' => WS_Form_Common::get_mysql_date(),
+								'form_id' => $this->form_id,
+								'count_save' => 1,
+							),
+							array( '%s', '%d', '%d' )
+						);
+
+						break;
+
 					case 'submit' :
 
-						$sql = $wpdb->prepare(
-
-							"INSERT INTO {$this->table_name} (date_added, form_id, count_$type) VALUES (%s, %d, 1);",
-							WS_Form_Common::get_mysql_date(),
-							$this->form_id
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+						$rows_inserted = $wpdb->insert(
+							"{$wpdb->prefix}wsf_form_stat",
+							array(
+								'date_added' => WS_Form_Common::get_mysql_date(),
+								'form_id' => $this->form_id,
+								'count_submit' => 1,
+							),
+							array( '%s', '%d', '%d' )
 						);
 
 						break;
 
 					default :
 
-						$sql = false;
+						parent::db_throw_error(__('Invalid stats count type.', 'ws-form'));
 				}
 
-				// Create record
-				if($sql !== false) {
+				if($rows_inserted === 0) { parent::db_throw_error(__('Unable to insert stats record.', 'ws-form')); }
+				if($rows_inserted === false) { parent::db_wpdb_handle_error(__('Stats record insert failed.', 'ws-form')); }
 
-					$rows_inserted = $wpdb->query($sql);
+				$this->id = $wpdb->insert_id;
 
-					if($rows_inserted == 0) { parent::db_throw_error(__('Unable to insert stats record.', 'ws-form')); }
-					if($rows_inserted === false) { parent::db_wpdb_handle_error(__('Stats record insert failed.', 'ws-form')); }
-
-					$this->id = $wpdb->insert_id;
-
-				} else {
-
-					return false;
-				}
+				return true;
 
 			} else {
 
@@ -112,37 +133,48 @@
 				switch($type) {
 
 					case 'view' :
+
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+						$rows_updated = $wpdb->query($wpdb->prepare(
+
+							"UPDATE {$wpdb->prefix}wsf_form_stat SET count_view = (count_view + 1) WHERE id = %d LIMIT 1",
+							$this->id
+						));
+
+						break;
+
 					case 'save' :
+
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+						$rows_updated = $wpdb->query($wpdb->prepare(
+
+							"UPDATE {$wpdb->prefix}wsf_form_stat SET count_save = (count_save + 1) WHERE id = %d LIMIT 1",
+							$this->id
+						));
+
+						break;
+
 					case 'submit' :
 
-						$sql = $wpdb->prepare(
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+						$rows_updated = $wpdb->query($wpdb->prepare(
 
-							"UPDATE {$this->table_name} SET count_$type = (count_$type + 1) WHERE id = %d LIMIT 1",
+							"UPDATE {$wpdb->prefix}wsf_form_stat SET count_submit = (count_submit + 1) WHERE id = %d LIMIT 1",
 							$this->id
-						);
+						));
 
 						break;
 
 					default :
 
-						$sql = false;
+						parent::db_throw_error(__('Invalid stats count type.', 'ws-form'));
 				}
 
-				// Update record
-				if($sql !== false) {
+				if($rows_updated === 0) { parent::db_throw_error(__('Stats record not found.', 'ws-form')); }
+				if($rows_updated === false) { parent::db_wpdb_handle_error(__('Stats record update failed.', 'ws-form')); }
 
-					$rows_updated = $wpdb->query($sql);
-
-					if($rows_updated == 0) { parent::db_throw_error(__('Stats record not found.', 'ws-form')); }
-					if($rows_updated === false) { parent::db_wpdb_handle_error(__('Stats record update failed.', 'ws-form')); }
-
-				} else {
-
-					parent::db_throw_error(__('Invalid stats count type.', 'ws-form'));
-				}
+				return true;
 			}
-
-			return true;
 		}
 
 		// Delete stats records
@@ -153,13 +185,16 @@
 			global $wpdb;
 
 			// Delete
-			$sql = $wpdb->prepare(
-
-				"DELETE FROM {$this->table_name} WHERE form_id = %d;",
-				$this->form_id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$delete_result = $wpdb->delete(
+				"{$wpdb->prefix}wsf_form_stat",
+				array( 'form_id' => $this->form_id ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting stats', 'ws-form')); }
+			if($delete_result === false) { 
+				parent::db_wpdb_handle_error(__('Error deleting stats', 'ws-form')); 
+			}
 
 			return true;
 		}
@@ -172,13 +207,12 @@
 			global $wpdb;
 
 			// Get totals
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$row = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT SUM(count_view) AS count_view_total, SUM(count_save) AS count_save_total, SUM(count_submit) AS count_submit_total FROM {$this->table_name} WHERE form_id = %d;",
+				"SELECT SUM(count_view) AS count_view_total, SUM(count_save) AS count_save_total, SUM(count_submit) AS count_submit_total FROM {$wpdb->prefix}wsf_form_stat WHERE form_id = %d;",
 				$this->form_id
-			);
-
-			$row = $wpdb->get_row($sql);
+			));
 			if(!is_null($row)) {
 
 				$count_view_total = $row->count_view_total;
@@ -213,8 +247,11 @@
 				$this->counts_cache = array();
 
 				// Get counts for each form
-				$sql = "SELECT form_id, SUM(count_view) AS count_view_total, SUM(count_save) AS count_save_total, SUM(count_submit) AS count_submit_total FROM {$this->table_name} GROUP BY form_id;";
-				$rows = $wpdb->get_results($sql);
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$rows = $wpdb->get_results(
+
+					"SELECT form_id, SUM(count_view) AS count_view_total, SUM(count_save) AS count_save_total, SUM(count_submit) AS count_submit_total FROM {$wpdb->prefix}wsf_form_stat GROUP BY form_id;"
+				);
 
 				if(is_null($rows)) {
 
@@ -253,13 +290,12 @@
 			global $wpdb;
 
 			// Get totals
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$date_added = $wpdb->get_var($wpdb->prepare(
 
-				"SELECT date_added FROM {$this->table_name} WHERE form_id = %d ORDER BY date_added LIMIT 1;",
+				"SELECT date_added FROM {$wpdb->prefix}wsf_form_stat WHERE form_id = %d ORDER BY date_added LIMIT 1;",
 				$this->form_id
-			);
-
-			$date_added = $wpdb->get_var($sql);
+			));
 
 			$return_value = is_null($date_added) ? false : date_i18n(get_option('date_format'), strtotime(get_date_from_gmt($date_added)));
 
@@ -297,7 +333,6 @@
 
 			global $wpdb;
 
-			$where_sql = '';
 			$where_array = array();
 
 			// Form ID
@@ -310,19 +345,16 @@
 			if($time_to_utc !== false) { $where_array[] = sprintf('date_added < \'%s\'', gmdate('Y-m-d H:i:s', $time_to_utc)); }
 
 			// Build WHERE SQL
-			if(count($where_array) > 0) {
-
-				$where_sql = ' WHERE ' . implode(' AND ', $where_array);
-			}
+			$where_sql = (count($where_array) > 0) ? ' WHERE ' . implode(' AND ', $where_array) : '';
 
 			// Get min and max date ranges
-			$sql = sprintf(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+			$date_range_row = $wpdb->get_row(
 
-				"SELECT MIN(date_added) AS date_added_from, MAX(date_added) AS date_added_to FROM {$this->table_name}%s ORDER BY date_added;",
-				$where_sql
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Where SQL already escaped
+				"SELECT MIN(date_added) AS date_added_from, MAX(date_added) AS date_added_to FROM {$wpdb->prefix}wsf_form_stat{$where_sql} ORDER BY date_added;"
 			);
 
-			$date_range_row = $wpdb->get_row($sql);	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			if(is_null($date_range_row)) { return false; }
 			if(is_null($date_range_row->date_added_from)) { return false; }
 			if(is_null($date_range_row->date_added_to)) { return false; }
@@ -348,13 +380,13 @@
 			}
 
 			// Get form stat data
-			$sql = sprintf(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+			$form_stats = $wpdb->get_results(
 
-				"SELECT date_added, count_view, count_save, count_submit FROM {$this->table_name}%s ORDER BY date_added;",
-				$where_sql
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Already prepared above
+				"SELECT date_added, count_view, count_save, count_submit FROM {$wpdb->prefix}wsf_form_stat{$where_sql} ORDER BY date_added;"
 			);
 
-			$form_stats = $wpdb->get_results($sql);
 			if(is_null($form_stats)) { return false; }
 
 			// Build form stat array
@@ -476,7 +508,6 @@
 
 			global $wpdb;
 
-			$where_sql = '';
 			$where_array = array();
 
 			// Form ID
@@ -489,19 +520,15 @@
 			if($time_to_utc !== false) { $where_array[] = sprintf('date_added < \'%s\'', gmdate('Y-m-d H:i:s', $time_to_utc)); }
 
 			// Build WHERE SQL
-			if(count($where_array) > 0) {
-
-				$where_sql = ' WHERE ' . implode(' AND ', $where_array);
-			}
+			$where_sql = (count($where_array) > 0) ? ' WHERE ' . implode(' AND ', $where_array) : '';
 
 			// Get form stat data
-			$sql = sprintf(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+			$form_stats = $wpdb->get_row(
 
-				"SELECT SUM(count_view) AS count_view, SUM(count_save) AS count_save, SUM(count_submit) AS count_submit FROM {$this->table_name}$where_sql ORDER BY date_added;",
-				$where_sql
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Already prepared above
+				"SELECT SUM(count_view) AS count_view, SUM(count_save) AS count_save, SUM(count_submit) AS count_submit FROM {$wpdb->prefix}wsf_form_stat{$where_sql} ORDER BY date_added;"
 			);
-
-			$form_stats = $wpdb->get_row($sql);	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 			if(is_null($form_stats)) { return false; }
 
@@ -511,9 +538,9 @@
 			$count_submit_total = $form_stats->count_submit;
 
 			if(
-				($count_view_total == 0) &&
-				($count_save_total == 0) &&
-				($count_submit_total == 0)
+				($count_view_total === 0) &&
+				($count_save_total === 0) &&
+				($count_submit_total === 0)
 
 			) { return false; }
 

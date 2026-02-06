@@ -7,7 +7,8 @@
   -webkit-column-gap: var(--wsf-group-li-gap);
      -moz-column-gap: var(--wsf-group-li-gap);
           column-gap: var(--wsf-group-li-gap);
-  list-style: none;
+  list-style: none !important;
+  list-style-type: none !important;
   margin: 0 0 var(--wsf-form-grid-gap) 0;
   padding: 0;
   position: relative;

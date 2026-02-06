@@ -261,7 +261,7 @@
 			$id = absint($item['id']);
 
 			// Title
-			$title = sprintf('<div class="wsf-shortcode"><code data-action="wsf-clipboard"%s>%s</code></div>',WS_Form_Common::tooltip(__('Click to Copy', 'ws-form'), 'left'), esc_html(WS_Form_Common::shortcode($id)));
+			$title = sprintf('<div class="wsf-shortcode"><code data-action="wsf-clipboard"%s>%s</code></div>',WS_Form_Common::esc_attr_tooltip(__('Click to Copy', 'ws-form'), 'left'), esc_html(WS_Form_Common::shortcode($id)));
 
 			return $title;
 		}

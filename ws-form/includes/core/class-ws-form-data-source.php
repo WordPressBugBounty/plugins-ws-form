@@ -157,7 +157,7 @@
 					// Error
 					WS_Form_Common::echo_esc_html(sprintf(
 
-						/* translators: %1$s = WS Form, %2$s = Error message */
+						/* translators: %1$s: WS Form, %2$s: Error message */
 						__('%1$s Data Source CRON Error: %2$s', 'ws-form'),
 						WS_FORM_NAME_GENERIC,
 						$error_message
@@ -226,6 +226,7 @@
 			}
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$meta_keys = apply_filters('wsf_data_source_get_column_mapping', $meta_keys, $meta_value, $meta_key_config);
 
 			return $meta_keys;

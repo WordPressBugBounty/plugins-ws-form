@@ -15,7 +15,7 @@
 				array(
 					'description' => sprintf(
 
-						/* translators: %s = Presentable plugin name, e.g. WS Form PRO */
+						/* translators: %s: Presentable plugin name, e.g. WS Form PRO */
 						__('Displays a form created with %s.', 'ws-form'),
 						WS_FORM_NAME_PRESENTABLE
 					),
@@ -86,30 +86,29 @@
 
 		// Display the widget
 		public function widget($args, $instance) {
-
-			extract($args);
-
-			// Check the widget options
-			$title = apply_filters('widget_title', isset($instance['title']) ? $instance['title'] : '');
-			$form_id = absint(isset($instance['form_id']) ? $instance['form_id'] : '');
-			if($form_id === 0) { return; }
-
-			// WordPress core before_widget hook (always include)
-			echo $before_widget;	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
-
-			// Display the title
-			if(!empty($title)) {
-
-				echo $args['before_title'];	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
-				WS_Form_Common::echo_esc_html($title);
-				echo $args['after_title'];	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
-			}
-
-			// Display the widget
-			echo do_shortcode(sprintf('[%s id="%u"]', WS_FORM_SHORTCODE, esc_attr($form_id)));	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
-
-			// WordPress core after_widget hook (always include)
-			echo $after_widget;		// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+		    // Check the widget options
+		    $title = apply_filters('widget_title', isset($instance['title']) ? $instance['title'] : '');
+		    $form_id = absint(isset($instance['form_id']) ? $instance['form_id'] : '');
+		    
+		    if($form_id === 0) { 
+		        return; 
+		    }
+		    
+		    // WordPress core before_widget hook (always include)
+		    WS_Form_Common::echo_html($args['before_widget']);
+		    
+		    // Display the title
+		    if(!empty($title)) {
+		        WS_Form_Common::echo_html($args['before_title']);
+		        WS_Form_Common::echo_esc_html($title);
+		        WS_Form_Common::echo_html($args['after_title']);
+		    }
+		    
+		    // Display the widget
+		    echo do_shortcode(sprintf('[%s id="%u"]', WS_FORM_SHORTCODE, $form_id));	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Shortcode output is already escaped
+		    
+		    // WordPress core after_widget hook (always include)
+		    WS_Form_Common::echo_html($args['after_widget']);
 		}
 	}
 

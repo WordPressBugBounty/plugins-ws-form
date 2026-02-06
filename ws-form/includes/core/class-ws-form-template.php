@@ -67,7 +67,7 @@
 				return $this;
 			}
 
-			/* translators: %s = Template ID */
+			/* translators: %s: Template ID */
 			self::db_throw_error(sprintf(__('Template not found: %s', 'ws-form'), $this->id));
 		}
 
@@ -113,9 +113,11 @@
 				// Legacy
 				if($this->type == 'form') {
 
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$config_files = apply_filters('wsf_wizard_config_files', $config_files);	// Legacy
 				}
 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- All hooks prefixed with wsf_
 				$config_files = apply_filters(sprintf('wsf_template_%s_config_files', $this->type), $config_files);
 			}
 
@@ -129,15 +131,15 @@
 				if(!self::config_check($config_file)) { continue; }
 
 				// Read config file
-				$config_file_string = file_get_contents($config_file);
+				$config_file_string = WS_Form_File::file_get_contents($config_file);
 
-				/* translators: %s = Config file path */
+				/* translators: %s: Config file path */
 				if($config_file_string === false) { self::db_throw_error(sprintf(__('Unable to read template config file: %s', 'ws-form'), $config_file)); }
 
 				// JSON decode
 				$config_object = json_decode($config_file_string);
 
-				/* translators: %s = Config file path */
+				/* translators: %s: Config file path */
 				if(is_null($config_object)) { self::db_throw_error(sprintf(__('Unable to JSON decode template config file: %s', 'ws-form'), $config_file)); }
 
 				// Legacy
@@ -246,10 +248,10 @@
 
 									if($file_json !== false) {
 
-										/* translators: %s = Template JSON file path */
-										if(!file_exists($file_json)) { self::db_throw_error(sprintf(__('Unable to read template JSON file: %s', 'ws-form'), $file_json)); }
+										/* translators: %s: Template JSON file path */
+										if(!WS_Form_File::file_exists($file_json)) { self::db_throw_error(sprintf(__('Unable to read template JSON file: %s', 'ws-form'), $file_json)); }
 
-										$json = file_get_contents($file_json);
+										$json = WS_Form_File::file_get_contents($file_json);
 
 									} else {
 
@@ -276,7 +278,7 @@
 											$checksum = md5(wp_json_encode($object));
 											$object->checksum = $checksum;
 
-											file_put_contents($file_json, wp_json_encode($object));
+											WS_Form_File::file_put_contents($file_json, wp_json_encode($object));
 										}
 
 										// Set object
@@ -331,10 +333,10 @@
 
 									if($file_json !== false) {
 
-										/* translators: %s = Template JSON file path */
-										if(!file_exists($file_json)) { self::db_throw_error(sprintf(__('Unable to read template JSON file: %s', 'ws-form'), $file_json)); }
+										/* translators: %s: Template JSON file path */
+										if(!WS_Form_File::file_exists($file_json)) { self::db_throw_error(sprintf(__('Unable to read template JSON file: %s', 'ws-form'), $file_json)); }
 
-										$json = file_get_contents($file_json);
+										$json = WS_Form_File::file_get_contents($file_json);
 
 									} else {
 
@@ -506,18 +508,18 @@
 			$file_path = $user_template_config_file_return['file_path'];
 
 			// Load config file
-			if(!file_exists($file_config)) {
+			if(!WS_Form_File::file_exists($file_config)) {
 
-				/* translators: %s = Config file name */
+				/* translators: %s: Config file name */
 				parent::db_throw_error(sprintf(__('Unable to open config.json file: %s', 'ws-form'), $file_config));
 			}
-			$config_file_json = file_get_contents($file_config);
+			$config_file_json = WS_Form_File::file_get_contents($file_config);
 
 			// JSON decode config file
 			$config_object = json_decode($config_file_json);
 			if(is_null($config_object)) {
 
-				/* translators: %s = Config file name */
+				/* translators: %s: Config file name */
 				parent::db_throw_error(sprintf(__('Unable to decode config.json file: %s', 'ws-form'), $file_config));
 			}
 
@@ -561,18 +563,18 @@
 			$config_object->template_categories[0]->templates[] = $template;
 
 			// Write config file
-			if(file_put_contents($file_config, wp_json_encode($config_object)) === false) {
+			if(WS_Form_File::file_put_contents($file_config, wp_json_encode($config_object)) === false) {
 
-				/* translators: %s = Config file name */
+				/* translators: %s: Config file name */
 				parent::db_throw_error(sprintf(__('Unable to write config.json file: %s', 'ws-form'), $file_config));
 			}
 
 			// Write template file
 			$template_file_name = sprintf('%s%s', $template_file_path, $template_file_name);
 
-			if(file_put_contents($template_file_name, wp_json_encode($form_object)) === false) {
+			if(WS_Form_File::file_put_contents($template_file_name, wp_json_encode($form_object)) === false) {
 
-				/* translators: %s = Template file path */
+				/* translators: %s: Template file path */
 				parent::db_throw_error(sprintf(__('Unable to write template file: %s', 'ws-form'), $template_file_name));
 			}
 		}
@@ -605,7 +607,7 @@
 			$config_file_name = sprintf('%s/config.json', $config_file_path, $config_file_path);
 
 			// Check if config.json file exists
-			if(!file_exists($config_file_name)) {
+			if(!WS_Form_File::file_exists($config_file_name)) {
 
 				// Build default config file content
 				$config_file_array = array(
@@ -630,12 +632,12 @@
 				$config_file_json = wp_json_encode($config_file_array);
 
 				// Create config.json file
-				file_put_contents($config_file_name, $config_file_json);
+				WS_Form_File::file_put_contents($config_file_name, $config_file_json);
 			}
 
 			// Check if config.json file path exists
 			$template_category_file_path = sprintf('%s/user', $config_file_path);
-			if(!file_exists($template_category_file_path)) {
+			if(!WS_Form_File::file_exists($template_category_file_path)) {
 
 				wp_mkdir_p($template_category_file_path);
 			}
@@ -754,7 +756,7 @@
 <!-- Blank -->
 <li>
 <div class="wsf-template" data-id="blank">
-	<svg class="wsf-responsive" viewBox="0 0 <?php WS_Form_Common::echo_esc_attr($svg_width); ?> <?php WS_Form_Common::echo_esc_attr($svg_height); ?>"><rect height="100%" width="100%" fill="<?php WS_Form_Common::echo_esc_attr($color_form_background); ?>"/><text fill="<?php WS_Form_Common::echo_esc_attr($color_default) ?>" class="wsf-template-title"><tspan x="<?php echo is_rtl() ? esc_attr($svg_width - 5) : 5; ?>" y="16"><?php esc_html_e('Blank', 'ws-form'); ?></tspan></text></svg>
+	<svg class="wsf-responsive" viewBox="0 0 <?php WS_Form_Common::echo_esc_attr($svg_width); ?> <?php WS_Form_Common::echo_esc_attr($svg_height); ?>"><rect height="100%" width="100%" fill="<?php WS_Form_Common::echo_esc_attr($color_form_background); ?>"/><text fill="<?php WS_Form_Common::echo_esc_attr($color_default) ?>" class="wsf-template-title"><tspan x="<?php WS_Form_Common::echo_esc_attr(is_rtl() ? ($svg_width - 5) : 5); ?>" y="16"><?php esc_html_e('Blank', 'ws-form'); ?></tspan></text></svg>
 	<div class="wsf-template-actions">
 		<button class="wsf-button wsf-button-primary wsf-button-full" data-action="wsf-add-blank"><?php esc_html_e('Use Template', 'ws-form'); ?></button>
 	</div>
@@ -773,7 +775,7 @@
 <div class="wsf-template" title="<?php WS_Form_Common::echo_esc_html($template->label); ?>">
 <?php
 					// Echo SVG
-					echo $template->svg;	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped 
+					WS_Form_Common::echo_esc_svg($template->svg);
 ?>
 <div class="wsf-template-actions">
 <?php
@@ -885,8 +887,8 @@
 			$config_file_rewrite = false;
 
 			// Load config file
-			if(!file_exists($config_file)) { return false; }
-			$config_file_json = file_get_contents($config_file);
+			if(!WS_Form_File::file_exists($config_file)) { return false; }
+			$config_file_json = WS_Form_File::file_get_contents($config_file);
 
 			// JSON decode config file
 			$config_object = json_decode($config_file_json);
@@ -957,7 +959,7 @@
 						$template_file = sprintf('%s/%s%s', $config_file_path, $template_category->file_path, $template->file_json);
 
 						// Check to see if it exists
-						if(!file_exists($template_file)) {
+						if(!WS_Form_File::file_exists($template_file)) {
 
 							$config_file_rewrite = true;
 							$templates_new_set = true;
@@ -983,7 +985,7 @@
 				$config_file_json = wp_json_encode($config_object);
 				if($config_file_json === false) { return false; }
 
-				file_put_contents($config_file, $config_file_json);
+				WS_Form_File::file_put_contents($config_file, $config_file_json);
 			}
 
 			return true;

@@ -1,6 +1,7 @@
 <?php
 
 	// Register Elementor widget
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Third party
 	class Elementor_WS_Form_Widget extends \Elementor\Widget_Base {
 
 		public $is_edit_mode;
@@ -124,11 +125,11 @@
 
 				if($this->is_edit_mode) {
 
-					echo sprintf('<div style="min-height:42px">%s</div>', do_shortcode(sprintf('[%s id="%u" visual_builder="true"]', WS_FORM_SHORTCODE, $form_id)));	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+					echo sprintf('<div style="min-height:42px">%s</div>', do_shortcode(sprintf('[%s id="%u" visual_builder="true"]', WS_FORM_SHORTCODE, $form_id)));	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				} else {
 
-					echo do_shortcode(sprintf('[%s id="%u"]', WS_FORM_SHORTCODE, $form_id));	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+					echo do_shortcode(sprintf('[%s id="%u"]', WS_FORM_SHORTCODE, $form_id));	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 
 			} else {

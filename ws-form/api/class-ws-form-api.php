@@ -111,7 +111,11 @@
 			header_remove('Location');
 
 			// Push JSON response
-			$response_json = wp_json_encode(apply_filters('wsf_api_response_array', $response_array));
+			$response_json = wp_json_encode(
+
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				apply_filters('wsf_api_response_array', $response_array)
+			);
 			if(json_last_error() !== 0) {
 
 				// Set response code
@@ -129,10 +133,12 @@
 			}
 
 			// Run wsf_api_response action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_api_response');
 
 			// Output JSON return
-			echo apply_filters('wsf_api_response_json', $response_json);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			WS_Form_Common::echo_json(apply_filters('wsf_api_response_json', $response_json));
 
 			// Stop execution
 			exit;
@@ -368,7 +374,41 @@
 		public function mcp_adapter_init($adapter) {
 
 			// Get abilities
-			$abilities = WS_Form_Config::get_abilities();
+			$abilities = WS_Form_Config::get_abilities('ability');
+
+			$exposed_tools = array();
+			$exposed_resources = array();
+			$exposed_prompts = array();
+
+			// Process each ability
+			foreach($abilities as $ability_name => $ability) {
+
+				// Get type
+				$type =	(
+							isset($ability['meta']) &&
+							isset($ability['meta']['mcp']) &&
+							isset($ability['meta']['mcp']['type'])
+
+						) ? $ability['meta']['mcp']['type'] : 'tool';
+
+				// Add to exposed array
+				switch($type) {
+
+					case 'prompt' :
+
+						$exposed_prompts[] = $ability_name;
+						break;
+
+					case 'resource' :
+
+						$exposed_resources[] = $ability_name;
+						break;
+
+					default :
+
+						$exposed_tools[] = $ability_name;
+				}
+			}
 
 			// Create MCP server
 			$adapter->create_server(
@@ -380,14 +420,14 @@
 				__('WS Form MCP Server', 'ws-form'), // Server description
 				WS_FORM_VERSION,                     // Server version
 				[                                    // Transport methods
-					\WP\MCP\Transport\Http\RestTransport::class,
+					(class_exists('\WP\MCP\Transport\HttpTransport') ? \WP\MCP\Transport\HttpTransport::class : \WP\MCP\Transport\Http\RestTransport::class),
 				],
 				\WP\MCP\Infrastructure\ErrorHandling\ErrorLogMcpErrorHandler::class,     // Error handler
 				\WP\MCP\Infrastructure\Observability\NullMcpObservabilityHandler::class, // Observability handler
-				array_keys($abilities),              // Abilities to expose as tools
-				[],                                  // Resources (optional)
-				[]                                   // Prompts (optional)
-			);
+				$exposed_tools,                      // Tools
+				$exposed_resources,                  // Resources
+				$exposed_prompts                     // Prompts
+    		);
 		}
 
 		// No cache
@@ -401,6 +441,7 @@
 			header(sprintf('Last-Modified: %s GMT', gmdate('D, d M Y H:i:s')));
 
 			// Run action to run additional no cache code
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_api_no_cache');
 		}
 

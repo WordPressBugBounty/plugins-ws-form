@@ -28,6 +28,7 @@
 				$actions = self::get_form_actions($form, $submit->post_mode, $row_id_filter);
 
 				// Actions filter (Allows you to add additional actions to run)
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- All hooks prefixed with wsf_
 				$actions = apply_filters('wsf_actions_post_' . $submit->post_mode, $actions, $form, $submit);
 
 				$action_logs = array();
@@ -110,6 +111,7 @@
 			foreach($actions as $action_index => $config) {
 
 				// Should this action run?
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$action_post_do = apply_filters('wsf_action_post_do', true, $form, $submit, $row_id_filter, $database_only, $config);
 				if(!$action_post_do) { continue; }
 
@@ -160,7 +162,7 @@
 
 				} catch(Exception $e) {
 
-					throw new Exception($e->getMessage());
+					throw new Exception(esc_html($e->getMessage()));
 				}
 
 				// If spam threshold exceeded, throw error
@@ -209,6 +211,7 @@
 			);
 
 			// Do complete action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Intentionally dynamic
 			if($complete_action !== false) { do_action($complete_action, $return_array_full); }
 
 			return true;
@@ -227,10 +230,11 @@
 
 			} catch(Exception $e) {
 
-				throw new Exception($e->getMessage());
+				throw new Exception(esc_html($e->getMessage()));
 			}
 
 			// Do complete action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Intentionally dynamic
 			if($complete_action !== false) { do_action($complete_action, self::$return_array); }
 
 			return true;
@@ -262,7 +266,9 @@
 			}
 
 			// Filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$action_obj = apply_filters('wsf_action_pre_post', $action_obj, $form, $submit, $config);
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$action_obj = apply_filters('wsf_action_pre_post_' . $id, $action_obj, $form, $submit, $config);
 
 			// Action post count
@@ -273,6 +279,7 @@
 			$return_value = $action_obj->post($form, $submit, $config, self::$action_post_count[$id]);
 
 			// Do complete action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Intentionally dynamic
 			if($complete_action !== false) { do_action($complete_action, self::$return_array, true); }
 
 			return $return_value;
@@ -321,6 +328,7 @@
 					$return_settings[$id] = $action->get_action_settings();
 
 					// Settings filter
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$return_settings[$id] = apply_filters('wsf_action_settings', $return_settings[$id], $action);
 				}
 			}
@@ -494,15 +502,18 @@
 		}
 
 		// Error
-		public function error($errors, $action_js = false, $label_prefix = true) {
+		public function error($errors, $action_js = false, $label_prefix = true, $bypass_sanitize = false) {
 
 			if(!is_array($errors)) { $errors = array($errors); }
 			if(!isset(self::$return_array['errors'])) { self::$return_array['errors'] = array(); }
 
 			// Sanitize errors
-			foreach($errors as $error_index => $error) {
+			if(!$bypass_sanitize) {
 
-				$errors[$error_index] = sanitize_text_field($error);
+				foreach($errors as $error_index => $error) {
+
+					$errors[$error_index] = sanitize_text_field($error);
+				}
 			}
 
 			// Add message to queue
@@ -722,7 +733,7 @@
 					'type'						=>	'checkbox',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('If checked, %s will populate the form with data from an action.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -737,7 +748,7 @@
 					'type'							=>	'select',
 					'help'							=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('Select which action to populate this form with.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -749,7 +760,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'form_populate_enabled',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
 						)
 					)
@@ -775,7 +788,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'form_populate_enabled',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on',
 							'logic_previous'	=>	'&&'
 						),
@@ -783,7 +798,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'form_populate_action_id',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'',
 							'logic_previous'	=>	'&&'
 						)
@@ -797,7 +814,7 @@
 					'type'						=>	'repeater',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('Map list fields to %s fields.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -823,14 +840,18 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'form_populate_enabled',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'form_populate_action_id',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'',
 							'logic_previous'	=>	'&&'
 						),
@@ -838,7 +859,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'form_populate_list_id',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'',
 							'logic_previous'	=>	'&&'
 						)
@@ -852,7 +875,7 @@
 					'type'						=>	'repeater',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('Map fields containing terms to %s fields.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -866,14 +889,18 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'form_populate_enabled',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						),
 
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'form_populate_action_id',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'',
 							'logic_previous'	=>	'&&'
 						),
@@ -881,7 +908,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'form_populate_list_id',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'',
 							'logic_previous'	=>	'&&'
 						)
@@ -914,7 +943,9 @@
 					$config_meta_keys_action['form_populate_tag_mapping']['condition'][] = array(
 
 						'logic'				=>	'!=',
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 						'meta_key'			=>	'form_populate_action_id',
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 						'meta_value'		=>	$action_id,
 						'logic_previous'	=>	'&&'
 					);
@@ -1105,25 +1136,39 @@
 			$breakpoint_first = key($framework_breakpoints);
 			$breakpoint_meta_key = 'breakpoint_size_' . $breakpoint_first;
 
-			// If action is not installed and active
-			if(!isset(self::$actions[$action_id])) { return false; }
+			if($action_id !== false) {
 
-			// Get action
-			$action = self::$actions[$action_id];
+				// If action is not installed and active
+				if(!isset(self::$actions[$action_id])) { return false; }
 
-			// Set list ID
-			$action->list_id = $list_id;
+				// Get action
+				$action = self::$actions[$action_id];
 
-			// Set list sub ID
-			if($list_sub_id !== false) { $action->list_sub_id = $list_sub_id; }
+				// Set list ID
+				$action->list_id = $list_id;
 
-			// Get list (And force API request)
-			if($list === false) {
+				// Set list sub ID
+				if($list_sub_id !== false) { $action->list_sub_id = $list_sub_id; }
 
-				$list = $action->get_list(true);
+				// Get list (And force API request)
+				if($list === false) {
+
+					$list = $action->get_list(true);
+				}
+
+				// API was unable to retrieve the list
+				if($list === false) {
+
+					$list = array(
+
+						'label' => __('Unknown', 'ws-form')
+					);
+				}
+
+				// Set label
+				$form_object->label = $action->label . ': ' . $list['label'];
 			}
 
-			// API was unable to retrieve the list
 			if($list === false) {
 
 				$list = array(
@@ -1132,8 +1177,16 @@
 				);
 			}
 
-			// Set label
-			$form_object->label = $action->label . ': ' . $list['label'];
+			if($action_id !== false) {
+
+				// Set label
+				$form_object->label = $action->label . ': ' . $list['label'];
+
+			} else {
+
+				// Set label
+				$form_object->label = $list['label'];
+			}
 
 			// Action specific meta data
 			if(isset($list['meta']) && ($list['meta'] !== false)) {
@@ -1153,8 +1206,11 @@
 			$form_field_type_lookup = array();
 
 			// Get list fields (And force API request)
-			if($list_fields === false) {
-
+			if(
+				($list_fields === false) &&
+				($action_id !== false) &&
+				method_exists($action, 'get_list_fields')
+			) {
 				$list_fields = $action->get_list_fields(true);
 			}
 
@@ -1164,6 +1220,7 @@
 
 			if(
 				($list_fields_meta_data === false) &&
+				($action_id !== false) &&
 				method_exists($action, 'get_list_fields_meta_data')
 			) {
 				$list_fields_meta_data = $action->get_list_fields_meta_data();
@@ -1446,120 +1503,124 @@
 				$section_id = $ws_form_section->db_create();
 			}
 
-			// Create tag categories
-			if(method_exists($action, 'get_tag_categories') && method_exists($action, 'get_tags')) {
+			if($action_id !== false) {
 
-				// Build columns
-				$data_grid_columns = array(
+				// Create tag categories
+				if(method_exists($action, 'get_tag_categories') && method_exists($action, 'get_tags')) {
 
-					array('id' => 0, 'label' => __('Value', 'ws-form')),
-					array('id' => 1, 'label' => __('Label', 'ws-form'))
-				);
+					// Build columns
+					$data_grid_columns = array(
 
-				$tag_categories = $action->get_tag_categories(true);
+						array('id' => 0, 'label' => __('Value', 'ws-form')),
+						array('id' => 1, 'label' => __('Label', 'ws-form'))
+					);
 
-				foreach($tag_categories as $tag_category) {
+					$tag_categories = $action->get_tag_categories(true);
 
-					// Get tag category ID
-					$tag_category_id = $tag_category['id'];
+					foreach($tag_categories as $tag_category) {
 
-					// Get tag category label
-					$tag_category_label = $tag_category['label'];
-					if(empty($tag_category_label)) { $tag_category_label = $tag_category_id; }
+						// Get tag category ID
+						$tag_category_id = $tag_category['id'];
 
-					// Get tag category type
-					$tag_category_type = $tag_category['type'];
+						// Get tag category label
+						$tag_category_label = $tag_category['label'];
+						if(empty($tag_category_label)) { $tag_category_label = $tag_category_id; }
 
-					$tags = $action->get_tags($tag_category_id, true);
-					if(count($tags) == 0) { continue; }
+						// Get tag category type
+						$tag_category_type = $tag_category['type'];
 
-					// Build data grid data
-					$data_grid_rows = array();
-					$tag_index = 1;
-					foreach($tags as $tag) {
+						$tags = $action->get_tags($tag_category_id, true);
+						if(count($tags) == 0) { continue; }
 
-						// Get tag ID
-						$tag_id = $tag['id'];
+						// Build data grid data
+						$data_grid_rows = array();
+						$tag_index = 1;
+						foreach($tags as $tag) {
 
-						// Get tag label
-						$tag_label = $tag['label'];
-						if(empty($tag_label)) { $tag_label = $tag_id; }
+							// Get tag ID
+							$tag_id = $tag['id'];
 
-						$data_grid_rows[] = array(
+							// Get tag label
+							$tag_label = $tag['label'];
+							if(empty($tag_label)) { $tag_label = $tag_id; }
 
-							'id'		=> $tag_index,
-							'data'		=> array($tag_id, $tag_label)
-						);
+							$data_grid_rows[] = array(
 
-						$tag_index++;
-					}
+								'id'		=> $tag_index,
+								'data'		=> array($tag_id, $tag_label)
+							);
 
-					// Build category label full
-					$tag_category_label_full = (isset($action->tag_category_label_prefix) ? $action->tag_category_label_prefix : '') . $tag_category_label;
-
-					// Create tag category field
-					$update_form_field_return = self::update_form_field($form_id, $section_id, $tag_category_type, $tag_category_label_full);
-
-					$ws_form_field = $update_form_field_return['ws_form_field'];
-					$field = $update_form_field_return['field'];
-
-					// Update checkbox columns
-					$field->meta->{'data_grid_' . $tag_category_type}->columns = $data_grid_columns;
-
-					// Update [type]_field_label meta_key
-					$field->meta->{$tag_category_type . '_field_label'} = 1;	// Column index 1 = $tag['label']
-
-					// Update [type]_field_parse_variable meta_key
-					$field->meta->{$tag_category_type . '_field_parse_variable'} = 1;	// Column index 1 = $tag['label']
-
-					// Update label render
-					$field->meta->label_render = 'on';
-
-					// Update checkbox rows
-					$field->meta->{'data_grid_' . $tag_category_type}->groups[0]->rows = $data_grid_rows;
-
-					// Data source
-					$data_source = isset($tag_category['data_source']) ? $tag_category['data_source'] : false;
-					if(
-						($data_source !== false) &&
-						(isset($data_source['id']))
-					) {
-
-						// Get data source ID
-						$data_source_id = $data_source['id'];
-
-						// Set field data source ID
-						$field->meta->{'data_source_id'} = $data_source_id;
-
-						// Get data source base meta
-						$meta = WS_Form_Data_Source::get_data_source_meta($data_source_id);
-						foreach($meta as $meta_key => $meta_value) {
-
-							$field->meta->{$meta_key} = $meta_value;
+							$tag_index++;
 						}
 
-						// Get data source action meta
-						$data_source_meta = isset($data_source['meta']) ? $data_source['meta'] : false;
-						if($data_source_meta !== false) {
+						// Build category label full
+						$tag_category_label_full = (isset($action->tag_category_label_prefix) ? $action->tag_category_label_prefix : '') . $tag_category_label;
 
-							foreach($data_source_meta as $meta_key => $meta_value) {
+						// Create tag category field
+						$update_form_field_return = self::update_form_field($form_id, $section_id, $tag_category_type, $tag_category_label_full);
+
+						$ws_form_field = $update_form_field_return['ws_form_field'];
+						$field = $update_form_field_return['field'];
+
+						// Update checkbox columns
+						$field->meta->{'data_grid_' . $tag_category_type}->columns = $data_grid_columns;
+
+						// Update [type]_field_label meta_key
+						$field->meta->{$tag_category_type . '_field_label'} = 1;	// Column index 1 = $tag['label']
+
+						// Update [type]_field_parse_variable meta_key
+						$field->meta->{$tag_category_type . '_field_parse_variable'} = 1;	// Column index 1 = $tag['label']
+
+						// Update label render
+						$field->meta->label_render = 'on';
+
+						// Update checkbox rows
+						$field->meta->{'data_grid_' . $tag_category_type}->groups[0]->rows = $data_grid_rows;
+
+						// Data source
+						$data_source = isset($tag_category['data_source']) ? $tag_category['data_source'] : false;
+						if(
+							($data_source !== false) &&
+							(isset($data_source['id']))
+						) {
+
+							// Get data source ID
+							$data_source_id = $data_source['id'];
+
+							// Set field data source ID
+							$field->meta->{'data_source_id'} = $data_source_id;
+
+							// Get data source base meta
+							$meta = WS_Form_Data_Source::get_data_source_meta($data_source_id);
+							foreach($meta as $meta_key => $meta_value) {
 
 								$field->meta->{$meta_key} = $meta_value;
 							}
+
+							// Get data source action meta
+							$data_source_meta = isset($data_source['meta']) ? $data_source['meta'] : false;
+							if($data_source_meta !== false) {
+
+								foreach($data_source_meta as $meta_key => $meta_value) {
+
+									$field->meta->{$meta_key} = $meta_value;
+								}
+							}
 						}
+
+						$ws_form_field->db_update_from_object($field, false);
+
+						// Remember for tag mapping
+						$tag_mapping_action[] = array('ws_form_field' => $ws_form_field->id, 'action_' . $action->id . '_tag_category_id' => $tag_category['id']);
+						$tag_mapping_populate[] = array('ws_form_field' => $ws_form_field->id);	// , 'action_' . $action->id . '_tag_category_id' => $tag_category['id']
 					}
-
-					$ws_form_field->db_update_from_object($field, false);
-
-					// Remember for tag mapping
-					$tag_mapping_action[] = array('ws_form_field' => $ws_form_field->id, 'action_' . $action->id . '_tag_category_id' => $tag_category['id']);
-					$tag_mapping_populate[] = array('ws_form_field' => $ws_form_field->id);	// , 'action_' . $action->id . '_tag_category_id' => $tag_category['id']
 				}
 			}
 
 			// Get add form fields
 			if(
 				($form_fields === false) &&
+				($action_id !== false) &&
 				method_exists($action, 'get_fields')
 			) {
 
@@ -1594,9 +1655,9 @@
 
 			if(
 				($form_actions === false) &&
+				($action_id !== false) &&
 				method_exists($action, 'get_actions')
 			) {
-
 				$form_actions = $action->get_actions($form_field_id_lookup_all, $form_field_type_lookup);
 			}
 
@@ -1649,6 +1710,7 @@
 			// Get form meta
 			if(
 				($form_meta === false) &&
+				($action_id !== false) &&
 				method_exists($action, 'get_meta')
 			) {
 				$form_meta = $action->get_meta($form_field_id_lookup_all, $form_field_type_lookup);
@@ -1660,8 +1722,11 @@
 			}
 
 			// Form meta - Tagging
-			if(method_exists($action, 'get_tag_categories') && method_exists($action, 'get_tags')) {
-
+			if(
+				($action_id !== false) &&
+				method_exists($action, 'get_tag_categories') &&
+				method_exists($action, 'get_tags')
+			) {
 				$meta['form_populate_tag_mapping'] = $tag_mapping_populate;
 			}
 
@@ -1960,7 +2025,7 @@
 			// Record count
 			if($record_count !== false) {
 
-				$svg .= sprintf('<tspan x="%u" y="%u" fill="%s">%s: <tspan class="wsf-template-stat-number" fill="%s">%u</tspan></tspan>', (is_rtl() ? ($svg_width - 5) : 5), esc_attr($ypos), esc_attr($color_default), esc_attr($record_label), esc_attr($color_information), number_format($record_count));
+				$svg .= sprintf('<tspan x="%u" y="%u" fill="%s">%s: <tspan class="wsf-template-stat-number" fill="%s">%s</tspan></tspan>', (is_rtl() ? ($svg_width - 5) : 5), esc_attr($ypos), esc_attr($color_default), esc_attr($record_label), esc_attr($color_information), esc_html(number_format($record_count)));
 			}
 
 			$svg .= '</text>';

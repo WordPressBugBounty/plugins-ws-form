@@ -245,12 +245,12 @@
 				'wsf_nonce_field_name'			=> WS_FORM_POST_NONCE_FIELD_NAME,
 				'wsf_nonce'						=> wp_create_nonce(WS_FORM_POST_NONCE_ACTION_NAME),
 
+				// Permalink
+				'use_rest_route'				=> (get_option('permalink_structure') === ''),
+
 				// URL
 				'url_ajax'						=> WS_Form_Common::get_api_path(),
 				'url_home'						=> get_home_url(null, '/'),
-
-				// Permalink
-				'permalink_custom'				=> (get_option('permalink_structure') != ''),
 
 				// Default label - Group
 				'label_default_group'			=> __('Tab', 'ws-form'),
@@ -515,6 +515,7 @@
 				case 'widgets.php' : 
 
 					$post_type = WS_Form_Common::get_query_var('post_type', 'post');
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$render_media_button = apply_filters('wsf_render_media_button', true, $post_type);
 					if($render_media_button) {
 
@@ -528,6 +529,7 @@
 						$ws_form_public = new WS_Form_Public();
 
 						// Visual builder enqueues
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 						do_action('wsf_enqueue_visual_builder');
 
 						// Add public footer to speed up loading of config
@@ -541,6 +543,22 @@
 						wp_localize_script($this->plugin_name . '-form-common', 'ws_form_settings', $ws_form_settings);
 						wp_enqueue_script($this->plugin_name);
 					}
+
+					break;
+
+				// Site editor
+				case 'site-editor.php' :
+
+					// Create public instance
+					$ws_form_public = new WS_Form_Public();
+
+					// Visual builder enqueues
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+					do_action('wsf_enqueue_visual_builder');
+
+					// Add public footer to speed up loading of config
+					$ws_form_public->wsf_form_json[0] = true;
+					add_action('admin_footer', array($ws_form_public, 'wp_footer'));
 
 					break;
 
@@ -798,7 +816,7 @@
 <!-- WS Form - Modal - Feedback - Header -->
 <div class="wsf-modal-title"><?php
 
-	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 ?><h2><?php esc_html_e('Feedback', 'ws-form'); ?></h2></div>
 <div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"></div>
@@ -815,7 +833,7 @@
 	
 	WS_Form_Common::echo_esc_html(sprintf(
 
-		/* translators: %s = Presentable plugin name, e.g. WS Form PRO */
+		/* translators: %s: Presentable plugin name, e.g. WS Form PRO */
 		__('We would greatly appreciate your feedback about why you are deactivating %s. Thank you for your help!', 'ws-form'),
 		WS_FORM_NAME_PRESENTABLE
 	));
@@ -824,9 +842,9 @@
 
 <label><input type="radio" name="wsf_feedback_reason" value="Upgraded" /> <?php
 	
-	echo sprintf(	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_html(sprintf(
 
-		/* translators: %s = WS Form PRO */
+		/* translators: %s: WS Form PRO */
 		esc_html__("I'm upgrading to %s", 'ws-form'),
 
 		sprintf(
@@ -834,7 +852,7 @@
 			'<a href="%s" target="_blank">WS Form PRO</a>',
 			esc_url(WS_Form_Common::get_plugin_website_url('', 'plugins_deactivate'))
 		)
-	);
+	));
 
 ?></label>
 <label><input type="radio" name="wsf_feedback_reason" value="Temporary" /> <?php esc_html_e("I'm temporarily deactivating", 'ws-form'); ?></label>
@@ -845,12 +863,12 @@
 <textarea id="wsf-feedback-reason-error-text" name="wsf_feedback_reason_error" placeholder="<?php esc_attr_e('Please describe the error...', 'ws-form'); ?>" rows="3"></textarea>
 <p><em><?php esc_html_e("We'd love to help!", 'ws-form'); ?><?php
 
-	echo sprintf(	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_html(sprintf(
 
 		' <a href="%s" target="_blank">%s</a>',
 		esc_url(WS_Form_Common::get_plugin_website_url('/support/', 'plugins_deactivate')),
 		esc_html__('Get Support', 'ws-form')
-	);
+	));
 
 ?></em></p>
 </div>
@@ -923,11 +941,11 @@
 			// Build add form button
 ?><a href="#" class="button wsf-button-add-form"><span class="wsf-button-add-form-icon"><?php
 
-	WS_Form_Common::echo_get_admin_icon('#888888', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_get_admin_icon('#888888', false);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 ?></span><?php WS_Form_Common::echo_esc_html(sprintf(
 
-	/* translators: %s = WS Form */
+	/* translators: %s: WS Form */
 	__('Add %s', 'ws-form'),
 
 	WS_FORM_NAME_GENERIC
@@ -1037,17 +1055,17 @@
 <!-- WS Form - Modal - Add Form - Header -->
 <div class="wsf-modal-title"><?php
 
-	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 ?><h2><?php
 
-	echo sprintf(	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_html(sprintf(
 
-		/* translators: %s = WS Form */
+		/* translators: %s: WS Form */
 		esc_html__('Add %s', 'ws-form'),
 
 		WS_FORM_NAME_GENERIC
-	);
+	));
 
 ?></h2></div>
 <div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"></div>
@@ -1148,7 +1166,7 @@
 
 				sprintf(
 
-					/* translators: %s = Presentable name (e.g. WS Form PRO) */
+					/* translators: %s: Presentable name (e.g. WS Form PRO) */
 					__('Welcome to %s', 'ws-form'), 
 
 					WS_FORM_NAME_GENERIC
@@ -1416,6 +1434,7 @@
 			if(is_admin()) {
 
 				// Visual builder enqueues
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_enqueue_visual_builder');
 			}
 		}
@@ -1453,7 +1472,7 @@
 
 					'name'						=> 'wsf-block/form-add',
 					'label'						=> WS_FORM_NAME_PRESENTABLE,
-					/* translators: %s = Presentable name (e.g. WS Form PRO) */
+					/* translators: %s: Presentable name (e.g. WS Form PRO) */
 					'description'				=> sprintf(__('Add a form to your web page using %s.', 'ws-form'), WS_FORM_NAME_PRESENTABLE),
 					'category'					=> WS_FORM_NAME,
 					'keywords'					=> array(WS_FORM_NAME_PRESENTABLE, __('form', 'ws-form')),
@@ -1669,6 +1688,7 @@
 					}
 
 					// Action
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					do_action('wsf_table_submit_action', $action, $submit_id);
 
 					// Process hidden columns
@@ -1809,11 +1829,13 @@
 								}
 							}
 
+							// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 							do_action('wsf_settings_update');
 
 							break;
 					}
 
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					do_action('wsf_settings');
 
 					break;
@@ -1839,6 +1861,7 @@
 					// Disable nag notices
 					if(!defined('DISABLE_NAG_NOTICES')) {
 
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- This is a WordPress core constant
 						define('DISABLE_NAG_NOTICES', true);
 					}
 
@@ -1862,12 +1885,15 @@
 						empty($setup) &&
 						(WS_Form_Common::get_query_var('skip_welcome') == '')
 					) {
+						// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Trusted redirect
 						wp_redirect(WS_Form_Common::get_admin_url('ws-form-welcome'));
+						exit;
 					}
 				}
 			}
 
 			// Run nags
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_nag');
 		}
 
@@ -2374,6 +2400,7 @@
 
 					default :
 
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 						do_action('wsf_settings_update_fields', $field, $value);
 				}
 
@@ -2468,6 +2495,7 @@
 		// Redirect
 		public function redirect($page_slug = 'ws-form', $item_id = false, $path_extra = '') {
 
+			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Trusted redirect
 			wp_redirect(WS_Form_Common::get_admin_url($page_slug, $item_id, $path_extra));
 			exit;
 		}
@@ -2495,7 +2523,7 @@
 			// Build text
 			$text = sprintf(
 
-				/* translators: %u = Number of forms */
+				/* translators: %u: Number of forms */
 				_n('%u Form', '%u Forms', $form_count, 'ws-form'),
 				$form_count
 			);

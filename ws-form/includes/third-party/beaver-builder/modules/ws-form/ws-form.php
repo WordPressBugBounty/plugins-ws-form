@@ -6,6 +6,7 @@
  *
  * @class FLWSFormModule
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Beaver Builder class name convention
 class FLWSFormModule extends FLBuilderModule {
 
     /** 
@@ -20,8 +21,8 @@ class FLWSFormModule extends FLBuilderModule {
             'name'          => WS_FORM_NAME_GENERIC,
             'description'   => __('Add a form.', 'ws-form'),
             'category'		=> __('Basic', 'ws-form'),
-            'dir'           => FL_WS_FORM_DIR . 'modules/ws-form/',
-            'url'           => FL_WS_FORM_URL . 'modules/ws-form/',
+            'dir'           => WS_FORM_BEAVER_BUILDER_DIR . 'modules/ws-form/',
+            'url'           => WS_FORM_BEAVER_BUILDER_URL . 'modules/ws-form/',
             'editor_export' => true, // Defaults to true and can be omitted.
             'enabled'       => true, // Defaults to true and can be omitted.
             'icon'          => 'icon.svg'

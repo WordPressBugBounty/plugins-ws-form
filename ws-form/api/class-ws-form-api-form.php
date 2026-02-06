@@ -350,7 +350,7 @@
 			self::api_get_svg($parameters, true);
 		}
 
-		// API - GET - SVG - Draft
+		// API - GET - SVG
 		public function api_get_svg($parameters, $published) {
 
 			// Content type
@@ -363,7 +363,7 @@
 			// Return SVG
 			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $form_id;
-			echo $ws_form_form->get_svg($published);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped	
+			WS_Form_Common::echo_esc_svg($ws_form_form->get_svg($published));
 			exit;
 		}
 

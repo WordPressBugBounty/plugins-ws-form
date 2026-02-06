@@ -116,20 +116,11 @@
 				add_action('wsf_actions_post_complete', array($this, 'api_post_complete'), 10, 2);
 
 				// Process all actions
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_actions_post', $form_object, $this->ws_form_submit, 'wsf_actions_post_complete', $this->ws_form_submit->row_id_filter, false, true);
 
 			} catch(\Throwable $e) {
 
-				/// Check if email notifications are enabled
-				if(WS_Form_Common::option_get('report_submit_error_enable', false)) {
-
-					// Send error notification
-					try {
-
-						$this->ws_form_submit->report_submit_error_send($e);
-
-					} catch(Exception $e) {}
-				}
 
 				// Throw API error
 				self::api_throw_error_submit($e->getMessage());
@@ -198,6 +189,7 @@
 			}
 
 			// Do action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_submit_post_complete', $this->ws_form_submit);
 
 			// Send response
@@ -220,15 +212,16 @@
 
 				// Get submit actions
 				$actions = is_serialized($this->ws_form_submit->actions) ? unserialize($this->ws_form_submit->actions) : false;
-				if($actions === false) { self::api_throw_error(__('No actions found', 'ws-form')); }
+				if($actions === false) { self::api_throw_error(esc_html__('No actions found', 'ws-form')); }
 
 				// Get action
-				if(!isset($actions[$action_index])) { self::api_throw_error(__('Action index not found', 'ws-form')); }
+				if(!isset($actions[$action_index])) { self::api_throw_error(esc_html__('Action index not found', 'ws-form')); }
 				$action = $actions[$action_index];
 
 				// Set up action for 
 				add_action('wsf_action_repost_complete', array($this, 'api_repost_complete'), 10, 1);
 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_action_repost', $this->ws_form_submit->form_object, $this->ws_form_submit, $action, 'wsf_action_repost_complete');
 
 			} catch(Exception $e) {
@@ -242,23 +235,6 @@
 
 			// Send response
 			parent::api_json_response($return_array, false, false);
-		}
-
-		// API - POST - Send test error notification
-		public function api_report_submit_error_send($parameters) {
-
-			$ws_form_submit = new WS_Form_Submit();
-			
-			try {
-
-				$ws_form_submit->report_submit_error_send('test');
-
-			} catch (Exception $e) {
-
-				parent::api_throw_error($e->getMessage());
-			}
-
-			return array('error' => false);
 		}
 
 		// API - PUT
@@ -360,6 +336,7 @@
 			if($data !== false) { $json_array['data'] = $data; }
 
 			// Return data filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$json_array = apply_filters('wsf_api_submit_response_data', $json_array, $this->ws_form_submit);
 
 			// JSON encode
@@ -416,7 +393,7 @@
 			self::api_no_cache();
 
 			// Output JSON response
-			echo $json_return;	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+			WS_Form_Common::echo_json($json_return);
 
 			// Stop execution
 			exit;

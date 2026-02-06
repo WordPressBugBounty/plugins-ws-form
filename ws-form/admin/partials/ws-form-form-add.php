@@ -4,22 +4,22 @@
 
 	// Get core template data
 	$ws_form_template = new WS_Form_Template;
-	$template_categories = $ws_form_template->read_config();
+	$ws_form_template_categories = $ws_form_template->read_config();
 
 	// Add action categories
-	$actions = $ws_form_template->db_get_actions();
-	if($actions !== false) {
+	$ws_form_actions = $ws_form_template->db_get_actions();
+	if($ws_form_actions !== false) {
 
-		foreach($actions as $action) {
+		foreach($ws_form_actions as $action) {
 
 			$action->action_id = $action->id;
 			$action->action_template_add_modal_label = isset($action->list_sub_modal_label) ? $action->list_sub_modal_label : false;
-			$template_categories[] = $action;
+			$ws_form_template_categories[] = $action;
 		}
 	}
 
 	// Order template categories by priority, then label
-	uasort($template_categories, function($a, $b) {
+	uasort($ws_form_template_categories, function($a, $b) {
 
 		$pa = isset($a->priority) ? $a->priority : 0;
 		$pb = isset($b->priority) ? $b->priority : 0;
@@ -80,19 +80,19 @@
 <?php
 
 	// Loop through templates
-	foreach ($template_categories as $template_category)  {
+	foreach ($ws_form_template_categories as $ws_form_template_category)  {
 
-		if(isset($template_category->templates) && (count($template_category->templates) == 0)) { continue; }
+		if(isset($ws_form_template_category->templates) && (count($ws_form_template_category->templates) == 0)) { continue; }
 
-		$action_id = isset($template_category->action_id) ? $template_category->action_id : false;
+		$ws_form_action_id = isset($ws_form_template_category->action_id) ? $ws_form_template_category->action_id : false;
 
-?><li><a href="<?php WS_Form_Common::echo_esc_url(sprintf('#wsf_template_category_%s', $template_category->id)); ?>"><?php WS_Form_Common::echo_esc_html($template_category->label); ?><?php
+?><li><a href="<?php WS_Form_Common::echo_esc_url(sprintf('#wsf_template_category_%s', $ws_form_template_category->id)); ?>"><?php WS_Form_Common::echo_esc_html($ws_form_template_category->label); ?><?php
 
-		if(($action_id !== false) && ($template_category->reload)) {
+		if(($ws_form_action_id !== false) && ($ws_form_template_category->reload)) {
 
-?><span data-action="wsf-api-reload" data-action-id="<?php WS_Form_Common::echo_esc_attr($action_id); ?>" data-method="lists_fetch"<?php
+?><span data-action="wsf-api-reload" data-action-id="<?php WS_Form_Common::echo_esc_attr($ws_form_action_id); ?>" data-method="lists_fetch"<?php
 
-	WS_Form_Common::tooltip_e(__('Update', 'ws-form'), 'top-center');	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_esc_attr_tooltip(__('Update', 'ws-form'), 'top-center');
 
 ?>><?php WS_Form_Common::render_icon_16_svg('reload'); ?></span><?php
 
@@ -108,20 +108,20 @@
 <?php
 
 	// Loop through templates
-	foreach ($template_categories as $template_category)  {
+	foreach ($ws_form_template_categories as $ws_form_template_category)  {
 
-		if(isset($template_category->templates) && (count($template_category->templates) == 0)) { continue; }
+		if(isset($ws_form_template_category->templates) && (count($ws_form_template_category->templates) == 0)) { continue; }
 ?>
-<!-- Tab Content: <?php WS_Form_Common::echo_esc_html($template_category->label); ?> -->
-<div id="<?php WS_Form_Common::echo_esc_attr(sprintf('wsf_template_category_%s', $template_category->id)); ?>"<?php if(isset($template_category->action_id)) { ?> data-action-id="<?php WS_Form_Common::echo_esc_attr($template_category->action_id); ?>"<?php } ?><?php if(isset($template_category->action_template_add_modal_label)) { ?> data-action-template-add-modal-label="<?php WS_Form_Common::echo_esc_attr($template_category->action_template_add_modal_label); ?>"<?php } ?> style="display: none;">
+<!-- Tab Content: <?php WS_Form_Common::echo_esc_html($ws_form_template_category->label); ?> -->
+<div id="<?php WS_Form_Common::echo_esc_attr(sprintf('wsf_template_category_%s', $ws_form_template_category->id)); ?>"<?php if(isset($ws_form_template_category->action_id)) { ?> data-action-id="<?php WS_Form_Common::echo_esc_attr($ws_form_template_category->action_id); ?>"<?php } ?><?php if(isset($ws_form_template_category->action_template_add_modal_label)) { ?> data-action-template-add-modal-label="<?php WS_Form_Common::echo_esc_attr($ws_form_template_category->action_template_add_modal_label); ?>"<?php } ?> style="display: none;">
 <ul class="wsf-templates">
 <?php
-		$ws_form_template->template_category_render($template_category);
+		$ws_form_template->template_category_render($ws_form_template_category);
 ?>
 </ul>
 
 </div>
-<!-- /Tab Content: <?php WS_Form_Common::echo_esc_html($template_category->label); ?> -->
+<!-- /Tab Content: <?php WS_Form_Common::echo_esc_html($ws_form_template_category->label); ?> -->
 <?php
 
 	}
@@ -147,7 +147,7 @@
 <!-- WS Form - Modal - Header -->
 <div class="wsf-modal-title"><?php
 
-	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 ?><h2></h2></div>
 <div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"></div>
@@ -191,6 +191,7 @@
 <input type="hidden" id="ws-form-list-id" name="list_id" value="">
 <?php
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 	do_action('wsf_form_add_hidden');
 ?>
 </form>

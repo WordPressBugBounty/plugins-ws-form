@@ -178,7 +178,7 @@
 
 			$starred_class = ($item->starred) ? ' wsf-starred-on' : '';
 
-			$return_html = '<th scope="row" class="manage-column column-is_active"><div data-id="' . $item->id . '" data-action-ajax="wsf-submit-starred" class="wsf-starred' . $starred_class . '"'. WS_Form_Common::tooltip(__('Starred', 'ws-form'), 'top-center') . '>' . WS_Form_Config::get_icon_16_svg('rating') . '</div></th>';
+			$return_html = '<th scope="row" class="manage-column column-is_active"><div data-id="' . $item->id . '" data-action-ajax="wsf-submit-starred" class="wsf-starred' . $starred_class . '"'. WS_Form_Common::esc_attr_tooltip(__('Starred', 'ws-form'), 'top-center') . '>' . WS_Form_Config::get_icon_16_svg('rating') . '</div></th>';
 
 			return $return_html;
 		}
@@ -190,9 +190,9 @@
 			if(isset($item->viewed) && !$item->viewed) { $class_array[] = 'wsf-submit-not-viewed'; }
 			$class = implode(' ', $class_array);
 
-			echo '<tr' . (($class != '') ? ' class="' . esc_attr($class) . '"' : '') . '>';
+			WS_Form_Common::echo_html('<tr' . (($class != '') ? ' class="' . esc_attr($class) . '"' : '') . '>');
 			$this->single_row_columns( $item );
-			echo '</tr>';
+			WS_Form_Common::echo_html('</tr>');
 		}
 
 		// Column - Default
@@ -258,8 +258,9 @@
 
 			switch($field_type) {
 
-				case 'signature' :
 				case 'file' :
+				case 'mediacapture' :
+				case 'signature' :
 
 					$value = implode($submit_delimiter_row, array_map(function($file_objects) use ($submit, $field_id) {
 
@@ -459,6 +460,7 @@
 			}
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$value = apply_filters('wsf_table_submit_field_type_list', $value, $field_id, $field_type);
 
 			// Check if value is still an array
@@ -576,6 +578,7 @@
 					}
 
 					// Apply filter
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$actions = apply_filters('wsf_table_submit_column_actions', $actions, (array) $item, $status);
 			}
 
@@ -592,7 +595,7 @@
 			$spam_level = isset($item->spam_level) ? $item->spam_level : null;
 			$spam_level_indicator = is_null($spam_level) ? '' : '<span class="wsf-spam-level" style="background:' . WS_Form_Color::get_green_to_red_rgb($spam_level, 0, WS_FORM_SPAM_LEVEL_MAX) . '" title="' . sprintf(
 
-					/* translators: %u = Spam level 0 - 100 */
+					/* translators: %u: Spam level 0 - 100 */
 					__('Spam level: %u%%', 'ws-form'),
 					round($spam_level)
 
@@ -714,23 +717,28 @@
 			global $wpdb;
 
 			$status = WS_Form_Common::check_submit_status($status);
-
+			
 			if($status == '') {
 
-				$sql = "SELECT COUNT(id) FROM {$wpdb->prefix}wsf_form WHERE NOT(status = 'trash')";
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$form_count = $wpdb->get_var(
+					"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_form WHERE status != 'trash'"
+				);
 
 			} else {
 
-				$sql = $wpdb->prepare(
-
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$form_count = $wpdb->get_var($wpdb->prepare(
 					"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_form WHERE status = %s",
 					$status
-				);
+				));
 			}
+			
+			if(is_null($form_count)) { 
 
-			$form_count = $wpdb->get_var($sql);
-			if(is_null($form_count)) { $form_count = 0; }
-
+				$form_count = 0; 
+			}
+			
 			return $form_count; 
 		}
 
@@ -891,7 +899,7 @@
 ?><option value="<?php WS_Form_Common::echo_esc_attr(absint($form['id'])); ?>"<?php
 
 					// Selected
-					if($form['id'] == $this->form_id) { echo ' selected'; }
+					if($form['id'] == $this->form_id) { WS_Form_Common::echo_html(' selected'); }
 ?>><?php
 					// Label
 					WS_Form_Common::echo_esc_html(sprintf(
@@ -905,7 +913,7 @@
 					// Submit count
 					WS_Form_Common::echo_esc_html(' - ' . sprintf(
 
-						/* translators: %u = Submission count */
+						/* translators: %u: Number of records */
 						_n('%u record', '%u records', $count_submit, 'ws-form'),
 						$count_submit
 					));

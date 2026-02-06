@@ -4,7 +4,7 @@
  * A class that handles loading custom modules and custom
  * fields if the builder is installed and activated.
  */
-class FL_WS_Form_Loader {
+class WS_Form_Beaver_Builder_Loader {
 	
 	/**
 	 * Initializes the class once all plugins have loaded.
@@ -28,10 +28,15 @@ class FL_WS_Form_Loader {
 		) {
 
 			// Disable debug
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			add_filter('wsf_debug_enabled', function($debug_render) { return false; }, 10, 1);
 
 			// Visual builder enqueues
-			add_action('wp_enqueue_scripts', function() { do_action('wsf_enqueue_core'); });
+			add_action('wp_enqueue_scripts', function() {
+
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				do_action('wsf_enqueue_core');
+			});
 		}
 		
 		// Load custom modules.
@@ -43,7 +48,7 @@ class FL_WS_Form_Loader {
 	 */
 	static public function load_modules() {
 
-		require_once FL_WS_FORM_DIR . 'modules/ws-form/ws-form.php';
+		require_once WS_FORM_BEAVER_BUILDER_DIR . 'modules/ws-form/ws-form.php';
 	}
 
 	static public function get_forms() {
@@ -65,4 +70,4 @@ class FL_WS_Form_Loader {
 	}
 }
 
-FL_WS_Form_Loader::init();
+WS_Form_Beaver_Builder_Loader::init();

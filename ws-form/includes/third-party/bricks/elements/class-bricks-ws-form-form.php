@@ -1,6 +1,6 @@
 <?php
 
-	class Bricks_WS_Form_Form extends \Bricks\Element {
+	class WS_Form_Bricks_Element extends \Bricks\Element {
 
 		// Element properties
 		public $category     = 'ws-form';
@@ -83,25 +83,36 @@
 				// Wrapper
 				if($version_1_4_greater) {
 
-					echo "<div {$this->render_attributes('_root')}>";	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+					echo "<div {$this->render_attributes('_root')}>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_attributes() returns escaped content
 				}
 
 				// Show shortcode
-				$shortcode = sprintf('[ws_form id="%u"%s%s]', $form_id, ($form_element_id != '') ? sprintf(' element_id="%s"', esc_attr($form_element_id)) : '', (bricks_is_builder() ? ' visual_builder="true"' : ''));
-				echo do_shortcode($shortcode);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+				$shortcode = sprintf(
+
+					'[ws_form id="%u"%s%s]',
+					esc_attr($form_id),
+					($form_element_id != '') ? sprintf(
+
+						' element_id="%s"',
+						esc_attr($form_element_id)
+					) : '',
+					(bricks_is_builder() ? ' visual_builder="true"' : '')
+				);
+
+				echo do_shortcode($shortcode); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- do_shortcode() output is escaped by $shortcode
 
 				// End wrapper
 				if($version_1_4_greater) {
 
-					echo '</div>';	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+					echo '</div>';	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Nothing to escape
 				}
 
 			} else {
 
 				// Show placeholder
-				echo $this->render_element_placeholder([	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+				echo $this->render_element_placeholder([ // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_element_placeholder() returns escaped content
 
-					'icon-class'	=> $this->icon,
+					'icon-class'	=> esc_attr($this->icon),
 					'title'			=> esc_html__('No form selected', 'ws-form'),
 					'description'	=> esc_html__('Please select a form from the element controls.', 'ws-form'),
 

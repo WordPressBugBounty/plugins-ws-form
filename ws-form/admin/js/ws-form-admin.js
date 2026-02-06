@@ -17,11 +17,12 @@
 		// Sidebar reset
 		this.sidebar_reset();
 
+		// Set CSS root variables
+		this.root_css_variables_set_once();
+		this.root_css_variables_set_dynamic();
+
 		// Window resizing
 		this.window_resize_init();
-
-		// Set CSS root variables
-		this.root_css_variables_set();
 
 		// Key down events
 		this.keydown_events_init();
@@ -50,17 +51,77 @@
 	$.WS_Form.prototype.init_partial = function() {
 
 		// Set CSS root variables
-		this.root_css_variables_set();
+		this.root_css_variables_set_once();
+		this.root_css_variables_set_dynamic();
+
+		// Window resizing
+		this.window_resize_init();
 	}
 
-	// Set CSS root variables
-	$.WS_Form.prototype.root_css_variables_set = function() {
+	// Set CSS root variables - Once
+	$.WS_Form.prototype.root_css_variables_set_once = function() {
 
-		if($('#adminmenuwrap')) {
+		// Set initial width
+		if($('#wsf-sidebars').length) {
 
-			var adminmenuwrap_width = $('#adminmenuwrap').width();
-			$(':root').css('--wp-sidebar-width', adminmenuwrap_width + 'px');
+			var width_initial = parseInt(ws_form_settings.sidebar_width, 10);
+			var width_min = parseInt(ws_form_settings.sidebar_width_min, 10);
+			var width_max = parseInt(ws_form_settings.sidebar_width_max, 10);
+			if(width_initial < width_min) { width_initial = width_min; }
+			if(width_initial > width_max) { width_initial = width_max; }
+
+		} else {
+
+			width_initial = 0;
 		}
+
+		$(':root').css('--wsf-admin-sidebar-width', width_initial + 'px');
+	}
+
+	// Set CSS root variables - Dynamic
+	$.WS_Form.prototype.root_css_variables_set_dynamic = function() {
+
+		if($('#adminmenuwrap:visible').length) {
+
+			var admin_menu_width = $('#adminmenuwrap').width();
+
+		} else {
+
+			var admin_menu_width = 0;
+		}
+		$(':root').css('--wsf-admin-menu-width', admin_menu_width + 'px');
+
+		var body_width = $('body').width();
+		$(':root').css('--wsf-admin-body-width', body_width + 'px');
+	}
+
+	// Window - Resize - Init
+	$.WS_Form.prototype.window_resize_init = function() {
+
+		var ws_this = this;
+
+		// Window resize
+		$(window).on('resize', function() {
+
+			// Toolbox sidebar reopened if it was closed and screen goes beyond mobile cut-off
+			if(	(($('#wsf-sidebars').attr('data-current') == 'toolbox') || ($('#wsf-sidebars').attr('data-current') == undefined)) &&
+				$('#wsf-sidebar-toolbox').hasClass('wsf-sidebar-closed') &&
+				window.matchMedia('(min-width: ' + $.WS_Form.this.mobile_min_width + ')').matches
+			) {
+
+				// Sidebar - Toolbox - Open
+				$.WS_Form.this.sidebar_open('toolbox');
+			}
+
+			ws_this.root_css_variables_set_dynamic();
+		});
+
+		// Body resize
+		var observer = new ResizeObserver(function(entries) {
+
+			ws_this.root_css_variables_set_dynamic();
+		});
+		observer.observe(document.body);
 	}
 
 	// Key down events
@@ -83,23 +144,6 @@
 					e.preventDefault();
 					keydown.function();
 				}
-			}
-		});
-	}
-
-	// Window - Resize - Init
-	$.WS_Form.prototype.window_resize_init = function() {
-
-		$(window).on('resize', function() {
-
-			// Toolbox sidebar reopened if it was closed and screen goes beyond mobile cut-off
-			if(	(($('#wsf-sidebars').attr('data-current') == 'toolbox') || ($('#wsf-sidebars').attr('data-current') == undefined)) &&
-				$('#wsf-sidebar-toolbox').hasClass('wsf-sidebar-closed') &&
-				window.matchMedia('(min-width: ' + $.WS_Form.this.mobile_min_width + ')').matches
-			) {
-
-				// Sidebar - Toolbox - Open
-				$.WS_Form.this.sidebar_open('toolbox');
 			}
 		});
 	}
@@ -343,7 +387,7 @@
 		}
 
 		// Groups - Tabs - Add
-		var add_group_tab = '<li class="wsf-group-add wsf-ui-cancel" role="tab"><button' + this.tooltip(this.language('add_group'), 'top-center') + ' tabindex="-1">' + this.svg('group') + this.svg('plus') + '</button></li>';
+		var add_group_tab = '<li class="wsf-group-add wsf-ui-cancel" role="tab"><button' + this.esc_attr_tooltip(this.language('add_group'), 'top-center') + ' tabindex="-1">' + this.svg('group') + this.svg('plus') + '</button></li>';
 
 		$('.wsf-group-tabs').append(add_group_tab);
 		$('.wsf-group-add button').on('click', function() { $.WS_Form.this.group_post($(this)); });
@@ -811,7 +855,7 @@
 			obj.find('.wsf-sections').prepend(section_blank_html);
 
 			// Section interface HTML
-			var section_interface_html = '<div class="wsf-section-add" data-group-id="' + this.esc_attr(group_id) + '"><button' + this.tooltip(this.language('add_section'), 'left') + '>' + this.svg('section') + this.svg('plus') + '</button></div>';
+			var section_interface_html = '<div class="wsf-section-add" data-group-id="' + this.esc_attr(group_id) + '"><button' + this.esc_attr_tooltip(this.language('add_section'), 'left') + '>' + this.svg('section') + this.svg('plus') + '</button></div>';
 
 			// Upload
 			section_interface_html += '<div class="wsf-object-upload-json-window"><div class="wsf-object-upload-json-window-content"><div class="wsf-uploads"></div></div></div>';
@@ -1426,7 +1470,7 @@
 		var field_html = '<div class="wsf-field-inner">';
 		field_html += '<div class="wsf-field-label' + ((field_icon_count > 0) ? ' wsf-field-icon-count-' + field_icon_count : '') + '">' + field_type_config_icon;
 		field_html += field_icon_array.join('');
-		field_html += '<input type="text" value="' + this.esc_attr(this_field_label) + '" data-label="' + this.esc_attr(field_id) + '" readonly maxlength="1024" aria-label="' + this.language('field_label_aria', field_type_config.label) + '""></div>';
+		field_html += '<input type="text" data-wsf-value="' + this.esc_attr(this_field_label) + '" data-label="' + this.esc_attr(field_id) + '" aria-label="' + this.esc_attr(this.language('field_label')) + '" readonly maxlength="1024" autocomplete="off" data-private="lipsum" data-lpignore="true" data-1p-ignore></div>';
 
 		if(!field_type_config_admin_hide_id) {
 
@@ -1894,8 +1938,16 @@
 	// Label - Init
 	$.WS_Form.prototype.label_init = function(object_wrapper) {
 
+		// Set input value (This is done to prevent autofill software from interfering with the value)
+		var label_obj = $('input[data-wsf-value]', object_wrapper).first();
+		if(label_obj.length) {
+
+			var label_value = label_obj.attr('data-wsf-value');
+			label_obj.val(label_value).removeAttr('data-wsf-value');
+		}
+
 		// Get label object
-		var label_obj = object_wrapper.find('input').first();
+		var label_obj = $('input', object_wrapper).first();
 
 		// Get ID and object type
 		var object_id = object_wrapper.attr('data-id');
@@ -3231,7 +3283,7 @@
 					// Field options - Compatibility
 					if((typeof(meta_key_config.compatibility_url) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility && !repeater) {
 
-						meta_key_options.push('<li><a class="wsf-compatibility" href="' + this.esc_url(meta_key_config.compatibility_url) + '" target="_blank"' + this.tooltip(this.language('attribute_compatibility'), 'top-right') + ' tabindex="-1">' + this.svg('markup') + '</a></li>');
+						meta_key_options.push('<li><a class="wsf-compatibility" href="' + this.esc_url(meta_key_config.compatibility_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('attribute_compatibility'), 'top-right') + ' tabindex="-1">' + this.svg('markup') + '</a></li>');
 					}
 
 					// Field options - Calc
@@ -3254,14 +3306,14 @@
 							)
 						) {
 
-							meta_key_options.push('<li><a href="https://wsform.com/knowledgebase/calculated-fields/"' + this.tooltip(this.language('calc'), 'top-right') + ' target="_blank">' + this.svg('calc') + '</a></li>');
+							meta_key_options.push('<li><a href="https://wsform.com/knowledgebase/calculated-fields/"' + this.esc_attr_tooltip(this.language('calc'), 'top-right') + ' target="_blank">' + this.svg('calc') + '</a></li>');
 						}
 					}
 
 					// Field options - Select list
 					if(typeof(meta_key_config.select_list) === 'object') {
 
-						meta_key_options.push('<li><div data-action="wsf-select-list" data-option-meta-key="' + this.esc_attr(meta_key) + '"' + this.tooltip(this.language('select_list'), 'top-right') + '>' + this.svg('menu') + '</div></li>');
+						meta_key_options.push('<li><div data-action="wsf-select-list" data-option-meta-key="' + this.esc_attr(meta_key) + '"' + this.esc_attr_tooltip(this.language('select_list'), 'top-right') + '>' + this.svg('menu') + '</div></li>');
 
 						inits.push('select-list');
 					}
@@ -3273,7 +3325,7 @@
 						// Legacy support for add-ons that specify select_list = true
 						((typeof(meta_key_config.select_list) !== 'undefined') && (meta_key_config.select_list === true)) 
 					) {
-						meta_key_options.push('<li><div data-action="wsf-variable-helper" data-option-meta-key="' + this.esc_attr(meta_key) + '"' + ((typeof(meta_key_config.variable_helper_group_id) !== 'undefined') ? (' data-group-id="' + this.esc_attr(meta_key_config.variable_helper_group_id) + '"') : '') + this.tooltip(this.language('variable_helper'), 'top-right') + '>' + this.svg('hash') + '</div></li>');
+						meta_key_options.push('<li><div data-action="wsf-variable-helper" data-option-meta-key="' + this.esc_attr(meta_key) + '"' + ((typeof(meta_key_config.variable_helper_group_id) !== 'undefined') ? (' data-group-id="' + this.esc_attr(meta_key_config.variable_helper_group_id) + '"') : '') + this.esc_attr_tooltip(this.language('variable_helper'), 'top-right') + '>' + this.svg('hash') + '</div></li>');
 
 						inits.push('variable-helper');
 					}
@@ -3281,7 +3333,7 @@
 					// Field options - Auto map
 					if((typeof(meta_key_config.auto_map) !== 'undefined') && !repeater) {
 
-						meta_key_options.push('<li><div data-action="wsf-auto-map" data-option-meta-key="' + this.esc_attr(meta_key) + '" data-object="' + this.esc_attr(object) + '" data-object-id="' + this.esc_attr(object_id) + '"' + this.tooltip(this.language('auto_map'), 'top-right') + '>' + this.svg('exchange') + '</div></li>');
+						meta_key_options.push('<li><div data-action="wsf-auto-map" data-option-meta-key="' + this.esc_attr(meta_key) + '" data-object="' + this.esc_attr(object) + '" data-object-id="' + this.esc_attr(object_id) + '"' + this.esc_attr_tooltip(this.language('auto_map'), 'top-right') + '>' + this.svg('exchange') + '</div></li>');
 
 						inits.push('auto-map');
 					}
@@ -3300,7 +3352,7 @@
 						reload_attributes += ' data-method="' + this.esc_attr(reload_config.method) + '"';
 						if(repeater) { reload_attributes += ' data-repeater-meta-key="' + this.esc_attr(repeater_meta_key) + '"'; }
 
-						meta_key_options.push('<li><span data-action="wsf-api-reload"' + reload_attributes + ' data-meta-key-for="' + this.esc_attr(meta_key) + '"' + this.tooltip(this.language('action_api_reload'), 'top-right') + '>' + this.svg('reload') + '</span></li>');
+						meta_key_options.push('<li><span data-action="wsf-api-reload"' + reload_attributes + ' data-meta-key-for="' + this.esc_attr(meta_key) + '"' + this.esc_attr_tooltip(this.language('action_api_reload'), 'top-right') + '>' + this.svg('reload') + '</span></li>');
 
 						inits.push('options-action-reload');
 					}
@@ -4458,10 +4510,10 @@
 
 				// Knowledge base URL
 				var kb_url = this.get_plugin_website_url('/knowledgebase/form-settings/', 'sidebar');
-				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 
 				// Build ID html
-				var sidebar_field_id_html = ($.WS_Form.settings_plugin.helper_field_id) ? '<code data-action="wsf-clipboard"' + this.tooltip(this.language('clipboard'), 'left') + '>[' + ws_form_settings.shortcode + ' id="' + this.form_id + '"]</code>' : '';
+				var sidebar_field_id_html = ($.WS_Form.settings_plugin.helper_field_id) ? '<code data-action="wsf-clipboard"' + this.esc_attr_tooltip(this.language('clipboard'), 'left') + '>[' + ws_form_settings.shortcode + ' id="' + this.form_id + '"]</code>' : '';
 
 				break;
 
@@ -4473,7 +4525,7 @@
 
 				// Knowledge base URL
 				var kb_url = this.get_plugin_website_url('/knowledgebase/tabs/', 'sidebar');
-				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 
 				// Build ID html
 				var sidebar_field_id_html = ($.WS_Form.settings_plugin.helper_field_id) ? '<code>' + this.language('id') + ': ' + object_id + '</code>' : '';
@@ -4488,7 +4540,7 @@
 
 				// Knowledge base URL
 				var kb_url = this.get_plugin_website_url('/knowledgebase/sections/', 'sidebar');
-				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 
 				// Build ID html
 				var sidebar_field_id_html = ($.WS_Form.settings_plugin.helper_field_id) ? '<code>' + this.language('id') + ': ' + object_id + '</code>' : '';
@@ -4504,18 +4556,18 @@
 				if((typeof(object_meta.kb_url) !== 'undefined')) {
 
 					var kb_url = this.get_plugin_website_url(object_meta.kb_url, 'sidebar');
-					var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+					var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 				}
 
 				// Build compatibility icon HTML
 				if((typeof(object_meta.compatibility_url) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility) {
 
-					var sidebar_compatibility_html = '<a class="wsf-compatibility" href="' + this.esc_url(object_meta.compatibility_url) + '" target="_blank"' + this.tooltip(this.language('field_compatibility'), 'bottom-center') +  ' tabindex="-1">' + this.svg('markup-circle') + '</a>';
+					var sidebar_compatibility_html = '<a class="wsf-compatibility" href="' + this.esc_url(object_meta.compatibility_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_compatibility'), 'bottom-center') +  ' tabindex="-1">' + this.svg('markup-circle') + '</a>';
 				}
 
 				// Build ID html
 				var object_meta_admin_hide_id = (typeof(object_meta.admin_hide_id) !== 'undefined') ? object_meta.admin_hide_id : false;
-				var sidebar_field_id_html = object_meta_admin_hide_id ? '' : (($.WS_Form.settings_plugin.helper_field_id) ? '<code data-action="wsf-clipboard"' + this.tooltip(this.language('clipboard'), 'left') + '>#field(' + this.esc_html(object_id) + ')</code>' : '');
+				var sidebar_field_id_html = object_meta_admin_hide_id ? '' : (($.WS_Form.settings_plugin.helper_field_id) ? '<code data-action="wsf-clipboard"' + this.esc_attr_tooltip(this.language('clipboard'), 'left') + '>#field(' + this.esc_html(object_id) + ')</code>' : '');
 
 				break;
 
@@ -5924,7 +5976,7 @@
 		repeater_html += '</tbody></table>';
 
 		// Add button
-		repeater_html += '<div data-action="wsf-repeater-row-add"><div' + this.tooltip(this.language('repeater_row_add'), 'left') + '>' + this.svg('plus-circle') + '</div></div>';
+		repeater_html += '<div data-action="wsf-repeater-row-add"><div' + this.esc_attr_tooltip(this.language('repeater_row_add'), 'left') + '>' + this.svg('plus-circle') + '</div></div>';
 
 		// Add column-toggle to repeater_inits
 		repeater_inits.push('column-toggle');
@@ -5940,7 +5992,7 @@
 		var repeater_row_html = '<tr>';
 
 		// Sort
-		repeater_row_html += '<td data-icon><div data-action="wsf-repeater-row-sort"' + this.tooltip(this.language('repeater_row_sort'), 'top-left') + '>' + this.svg('sort') + '</div></td>'
+		repeater_row_html += '<td data-icon><div data-action="wsf-repeater-row-sort"' + this.esc_attr_tooltip(this.language('repeater_row_sort'), 'top-left') + '>' + this.svg('sort') + '</div></td>'
 
 		// Build object data (sidebar_html then uses this to extract the meta_value)
 		var object_data = [];
@@ -5966,7 +6018,7 @@
 			repeater_row_inits = repeater_row_inits.concat(sidebar_html_return.inits);
 		}
 
-		repeater_row_html += '<td data-icon><div data-action="wsf-repeater-row-delete"' + this.tooltip(this.language('repeater_row_delete'), 'top-right') + '>' + this.svg('delete-circle') + '</div></td>';
+		repeater_row_html += '<td data-icon><div data-action="wsf-repeater-row-delete"' + this.esc_attr_tooltip(this.language('repeater_row_delete'), 'top-right') + '>' + this.svg('delete-circle') + '</div></td>';
 
 		repeater_row_html += '</tr>';
 
@@ -6756,13 +6808,13 @@
 				// Download icon
 				if(template_category_download) {
 
-					section_select_html_templates += '<div data-action="wsf-section-download"' + this.tooltip(this.language('section_download'), 'top-right') + '>' + this.svg('download') + '</div>';
+					section_select_html_templates += '<div data-action="wsf-section-download"' + this.esc_attr_tooltip(this.language('section_download'), 'top-right') + '>' + this.svg('download') + '</div>';
 				}
 
 				// Delete icon
 				if(template_category_delete) {
 
-					section_select_html_templates += '<div data-action="wsf-section-delete"' + this.tooltip(this.language('section_delete'), 'top-right') + '>' + this.svg('delete') + '</div>';
+					section_select_html_templates += '<div data-action="wsf-section-delete"' + this.esc_attr_tooltip(this.language('section_delete'), 'top-right') + '>' + this.svg('delete') + '</div>';
 				}
 
 				section_select_html_templates += '</li>';
@@ -6786,7 +6838,7 @@
 				// Icon - Upload
 				if(template_category_upload) {
 
-					li_array.push('<li><div data-action="wsf-section-upload"' + this.tooltip(this.language('section_selector_import'), 'top-right') + '>' + this.svg('upload') + '</div><input type="file" class="wsf-section-upload" id="wsf-section-upload-file" accept=".json"/></li>');
+					li_array.push('<li><div data-action="wsf-section-upload"' + this.esc_attr_tooltip(this.language('section_selector_import'), 'top-right') + '>' + this.svg('upload') + '</div><input type="file" class="wsf-section-upload" id="wsf-section-upload-file" accept=".json"/></li>');
 				}
 
 				if(li_array.length) { section_select_html += '<ul class="wsf-section-selector-group-options">' + li_array.join('') + '</ul>'; }
@@ -7436,7 +7488,7 @@
 
 			// Add breakpoint to ul
 			var tooltip_attribute = 'top-' + ((breakpoint_index === 0) ? 'left' : 'center');
-			obj_slider.append('<label' + this.tooltip(breakpoint_help_text, tooltip_attribute) + ' style="' + (ws_form_settings.rtl ? 'right' : 'left') + ':' + (breakpoint_index / (breakpoint_slider_max - 1) * 100) + '%;">' + breakpoint_icon + '</label>');
+			obj_slider.append('<label' + this.esc_attr_tooltip(breakpoint_help_text, tooltip_attribute) + ' style="' + (ws_form_settings.rtl ? 'right' : 'left') + ':' + (breakpoint_index / (breakpoint_slider_max - 1) * 100) + '%;">' + breakpoint_icon + '</label>');
 
 			breakpoint_index++;
 		}
@@ -8707,7 +8759,7 @@
 			return_html += '<a href="' + this.esc_url('#wsf-data-grid-group-' + group_index) + '">' + this.esc_html(group_label) + '</a>';
 
 			if(!read_only && group_count > 1) {
-				return_html += '<div data-action="wsf-data-grid-group-delete"' + this.tooltip(this.language('data_grid_group_delete'), 'top-center') + '>' + this.svg('delete-circle') + '</div>';
+				return_html += '<div data-action="wsf-data-grid-group-delete"' + this.esc_attr_tooltip(this.language('data_grid_group_delete'), 'top-center') + '>' + this.svg('delete-circle') + '</div>';
 			}
 
 			return_html += '</li>';
@@ -8716,7 +8768,7 @@
 		if(!read_only && groups_group) {
 
 			// Add group
-			return_html += '<li class="wsf-ui-cancel" data-action="wsf-data-grid-group-add"><div' + this.tooltip(this.language('data_grid_group_add'), 'top-center') + '>' + this.svg('plus-circle') + '</div></li>';
+			return_html += '<li class="wsf-ui-cancel" data-action="wsf-data-grid-group-add"><div' + this.esc_attr_tooltip(this.language('data_grid_group_add'), 'top-center') + '>' + this.svg('plus-circle') + '</div></li>';
 		}
 
 		return_html += "</ul>\n\n";
@@ -8730,23 +8782,23 @@
 			// Upload CSV
 			if(!read_only) {
 
-				li_array.push('<li><div data-action="wsf-data-grid-upload"' + this.tooltip(this.language('data_grid_group_upload_csv'), 'bottom-right') + '>' + this.svg('upload') + '</div><input type="file" class="wsf-file-upload" id="wsf-data-grid-upload-file" accept=".csv"/></li>');
+				li_array.push('<li><div data-action="wsf-data-grid-upload"' + this.esc_attr_tooltip(this.language('data_grid_group_upload_csv'), 'bottom-right') + '>' + this.svg('upload') + '</div><input type="file" class="wsf-file-upload" id="wsf-data-grid-upload-file" accept=".csv"/></li>');
 			}
 
 			// Download CSV
-			li_array.push('<li><div data-action="wsf-data-grid-download"' + this.tooltip(this.language('data_grid_group_download_csv'), 'bottom-right') + '>' + this.svg('download') + '</div></li>');
+			li_array.push('<li><div data-action="wsf-data-grid-download"' + this.esc_attr_tooltip(this.language('data_grid_group_download_csv'), 'bottom-right') + '>' + this.svg('download') + '</div></li>');
 		}
 
 		// Compatibility
 		if((typeof(meta_key_config.compatibility_url) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility) {
 
-			li_array.push('<li><div class="wsf-data-grid-compatibility"' + this.tooltip(this.language('field_compatibility'), 'bottom-right') + '><a class="wsf-compatibility" href="' + this.esc_url(meta_key_config.compatibility_url) + '" target="_blank" tabindex="-1">' + this.svg('markup') + '</a></div></li>');
+			li_array.push('<li><div class="wsf-data-grid-compatibility"' + this.esc_attr_tooltip(this.language('field_compatibility'), 'bottom-right') + '><a class="wsf-compatibility" href="' + this.esc_url(meta_key_config.compatibility_url) + '" target="_blank" tabindex="-1">' + this.svg('markup') + '</a></div></li>');
 		}
 
 		// Variable helper
 		if((typeof(meta_key_config.variable_helper) !== 'undefined') && meta_key_config.variable_helper) {
 
-			li_array.push('<li><div data-action="wsf-variable-helper"' + this.tooltip(this.language('variable_helper'), 'bottom-right') + '>' + this.svg('hash') + '</div></li>');
+			li_array.push('<li><div data-action="wsf-variable-helper"' + this.esc_attr_tooltip(this.language('variable_helper'), 'bottom-right') + '>' + this.svg('hash') + '</div></li>');
 		}
 
 		if(li_array.length) { return_html += '<ul class="wsf-data-grid-options">' + li_array.join('') + '</ul>'; }
@@ -8835,7 +8887,7 @@
 		// Row - Add
 		if(!read_only) {
 
-			return_html += '<div data-action="wsf-data-grid-row-add"><div' + this.tooltip(this.language('data_grid_row_add'), 'left') + '>' + this.svg('plus-circle') + '</div></div>';
+			return_html += '<div data-action="wsf-data-grid-row-add"><div' + this.esc_attr_tooltip(this.language('data_grid_row_add'), 'left') + '>' + this.svg('plus-circle') + '</div></div>';
 		}
 
 		// Table - Outer/Inner
@@ -8918,7 +8970,7 @@
 		if(!read_only && group_settings_show) {
 
 			// Group - Settings - Open
-			return_html += '<li class="wsf-flex-none"><div data-action="wsf-data-grid-settings"' + this.tooltip(this.language('data_grid_settings'), 'top-right') + '>' + this.svg('settings') + '</div></li>';
+			return_html += '<li class="wsf-flex-none"><div data-action="wsf-data-grid-settings"' + this.esc_attr_tooltip(this.language('data_grid_settings'), 'top-right') + '>' + this.svg('settings') + '</div></li>';
 		}
 
 		return_html += '</ul>'
@@ -9004,7 +9056,7 @@
 			return_html += '<th data-fixed-sort class="wsf-data-grid-icon"></th>';
 
 			// Spacer - Bulk action select all
-			return_html += '<th data-fixed-select class="wsf-data-grid-checkbox"><input id="' + this.esc_attr(row_id) + '" class="wsf-field" data-action="wsf-data-grid-row-select-all" type="checkbox" /><label for="' + this.esc_attr(row_id) + '" class="wsf-label"></label></th>'
+			return_html += '<th data-fixed-select class="wsf-data-grid-checkbox"' + this.esc_attr_tooltip(this.language('data_grid_row_bulk_select_all'), 'right') + '><input id="' + this.esc_attr(row_id) + '" class="wsf-field" data-action="wsf-data-grid-row-select-all" type="checkbox" /><label for="' + this.esc_attr(row_id) + '" class="wsf-label"></label></th>'
 		}
 
 		var column_count = 0;
@@ -9021,7 +9073,7 @@
 
 			if(!read_only && (columns.length > 1) && ((max_columns > 1) || (max_columns == 0))) {
 
-				return_html += '<div data-action="wsf-data-grid-column-delete" data-id="' + this.esc_attr(column_id) + '"' + this.tooltip(this.language('data_grid_column_delete'), 'bottom-center') + '>' + this.svg('delete-circle') + '</div>';
+				return_html += '<div data-action="wsf-data-grid-column-delete" data-id="' + this.esc_attr(column_id) + '"' + this.esc_attr_tooltip(this.language('data_grid_column_delete'), 'bottom-center') + '>' + this.svg('delete-circle') + '</div>';
 			}
 
 			return_html += '</th>';
@@ -9051,7 +9103,7 @@
 		) {
 
 			// Spacer - Add column
-			return_html += '<th data-fixed-icon><div data-action="wsf-data-grid-column-add"' + this.tooltip(this.language('data_grid_column_add'), 'top-right') + '>' + this.svg('plus-circle') + '</div></th>';
+			return_html += '<th data-fixed-icon><div data-action="wsf-data-grid-column-add"' + this.esc_attr_tooltip(this.language('data_grid_column_add'), 'top-right') + '>' + this.svg('plus-circle') + '</div></th>';
 		}
 
 		return_html += '</tr>';
@@ -9093,11 +9145,11 @@
 			var row_id = 'wsf-data-grid-bulk-' + meta_key + '-' + group_index + '-' + row_index;
 
 			// Sort
-			return_html += '<td data-fixed-sort><div data-action="wsf-data-grid-row-sort"' + this.tooltip(this.language('data_grid_row_sort'), 'top-left') + '>' + this.svg('sort') + '</div></td>'
+			return_html += '<td data-fixed-sort><div data-action="wsf-data-grid-row-sort"' + this.esc_attr_tooltip(this.language('data_grid_row_sort'), 'top-left') + '>' + this.svg('sort') + '</div></td>'
 
 			// Selector
 			var bulk_action_row_checked = ((typeof(bulk_action_row_ids) === 'object') && (bulk_action_row_ids.indexOf(row_index) !== -1));
-			return_html += '<td data-fixed-select><input data-action="wsf-data-grid-row-select" id="' + this.esc_attr(row_id) + '" class="wsf-field" type="checkbox" tabindex="-1"' + (bulk_action_row_checked ? ' checked' : '') + ' /><label for="' + this.esc_attr(row_id) + '" class="wsf-label"></label></td>'
+			return_html += '<td data-fixed-select' + this.esc_attr_tooltip(this.language('data_grid_row_bulk_select'), 'right') + '><input data-action="wsf-data-grid-row-select" id="' + this.esc_attr(row_id) + '" class="wsf-field" type="checkbox" tabindex="-1"' + (bulk_action_row_checked ? ' checked' : '') + ' /><label for="' + this.esc_attr(row_id) + '" class="wsf-label"></label></td>'
 		}
 
 		// Build each column
@@ -9108,7 +9160,7 @@
 
 			if(insert_image) {
 
-				return_html += '<div data-action="wsf-insert-image"' + this.tooltip(this.language('data_grid_insert_image'), 'left') + '>' + this.svg('file-picture') + '</div>';
+				return_html += '<div data-action="wsf-insert-image"' + this.esc_attr_tooltip(this.language('data_grid_insert_image'), 'left') + '>' + this.svg('file-picture') + '</div>';
 			}
 
 			return_html += '</td>';
@@ -9120,20 +9172,20 @@
 		// Sub type edit
 		if(type_sub !== false) {
 
-			return_html += '<td data-fixed-icon><div data-action="wsf-data-grid-' + this.esc_attr(type_sub) + '-edit"' + this.tooltip(this.language('data_grid_' + type_sub + '_edit'), 'top-center') + '>' + this.svg('edit') + '</div></td>';
-			return_html += '<td data-fixed-icon><div data-action="wsf-data-grid-' + this.esc_attr(type_sub) + '-clone"' + this.tooltip(this.language('data_grid_' + type_sub + '_clone'), 'top-center') + '>' + this.svg('clone') + '</div></td>';
+			return_html += '<td data-fixed-icon><div data-action="wsf-data-grid-' + this.esc_attr(type_sub) + '-edit"' + this.esc_attr_tooltip(this.language('data_grid_' + type_sub + '_edit'), 'top-center') + '>' + this.svg('edit') + '</div></td>';
+			return_html += '<td data-fixed-icon><div data-action="wsf-data-grid-' + this.esc_attr(type_sub) + '-clone"' + this.esc_attr_tooltip(this.language('data_grid_' + type_sub + '_clone'), 'top-center') + '>' + this.svg('clone') + '</div></td>';
 		}
 
 		// Supported attributes
-		if(row_default) { return_html += '<td data-fixed-icon><div data-attribute="default" data-status="' + (row.default ? 'on': '') + '"' + (read_only ? ' data-read-only' : '') + this.tooltip(this.language('data_grid_row_default'), 'top-center') + '>' + this.svg('check') + '</div></td>'; }
-		if(row_required) { return_html += '<td data-fixed-icon><div data-attribute="required" data-status="' + (row.required ? 'on': '') + '"' + (read_only ? ' data-read-only' : '') + this.tooltip(this.language('data_grid_row_required'), 'top-center') + '>' + this.svg('asterisk') + '</div></td>'; }
-		if(row_disabled) { return_html += '<td data-fixed-icon><div data-attribute="disabled" data-status="' + (row.disabled ? 'on': '') + '"' + (read_only ? ' data-read-only' : '') + this.tooltip(this.language('data_grid_row_disabled'), 'top-center') + '>' + this.svg('disabled') + '</div></td>'; }
-		if(row_hidden) { return_html += '<td data-fixed-icon><div data-attribute="hidden" data-status="' + (row.hidden ? 'on': '') + '"' + (read_only ? ' data-read-only' : '') + this.tooltip(this.language('data_grid_row_hidden'), 'top-center') + '>' + this.svg('visible') + this.svg('hidden') + '</div></td>'; }
+		if(row_default) { return_html += '<td data-fixed-icon><div data-attribute="default" data-status="' + (row.default ? 'on': '') + '"' + (read_only ? ' data-read-only' : '') + this.esc_attr_tooltip(this.language('data_grid_row_default'), 'top-center') + '>' + this.svg('check') + '</div></td>'; }
+		if(row_required) { return_html += '<td data-fixed-icon><div data-attribute="required" data-status="' + (row.required ? 'on': '') + '"' + (read_only ? ' data-read-only' : '') + this.esc_attr_tooltip(this.language('data_grid_row_required'), 'top-center') + '>' + this.svg('asterisk') + '</div></td>'; }
+		if(row_disabled) { return_html += '<td data-fixed-icon><div data-attribute="disabled" data-status="' + (row.disabled ? 'on': '') + '"' + (read_only ? ' data-read-only' : '') + this.esc_attr_tooltip(this.language('data_grid_row_disabled'), 'top-center') + '>' + this.svg('disabled') + '</div></td>'; }
+		if(row_hidden) { return_html += '<td data-fixed-icon><div data-attribute="hidden" data-status="' + (row.hidden ? 'on': '') + '"' + (read_only ? ' data-read-only' : '') + this.esc_attr_tooltip(this.language('data_grid_row_hidden'), 'top-center') + '>' + this.svg('visible') + this.svg('hidden') + '</div></td>'; }
 
 		// Delete
 		if(!read_only) {
 
-			return_html += '<td data-fixed-icon><div data-action="wsf-data-grid-row-delete"' + this.tooltip(this.language('data_grid_row_delete'), 'top-right') + '>' + this.svg('delete-circle') + '</div></td>';
+			return_html += '<td data-fixed-icon><div data-action="wsf-data-grid-row-delete"' + this.esc_attr_tooltip(this.language('data_grid_row_delete'), 'top-right') + '>' + this.svg('delete-circle') + '</div></td>';
 		}
 
 		return_html += "</tr>\n";
@@ -12311,8 +12363,8 @@
 		// Expand / Contract
 		if(sidebar_expand) {
 
-			var expand_contract = '<div data-action="wsf-sidebar-expand"' + this.tooltip(this.language('sidebar_expand'), 'bottom-right') + '>' + this.svg('expand') + '</div>';
-			expand_contract += '<div data-action="wsf-sidebar-contract"' + this.tooltip(this.language('sidebar_contract'), 'bottom-right') + '>' + this.svg('contract') + '</div>';
+			var expand_contract = '<div data-action="wsf-sidebar-expand"' + this.esc_attr_tooltip(this.language('sidebar_expand'), 'bottom-right') + '>' + this.svg('expand') + '</div>';
+			expand_contract += '<div data-action="wsf-sidebar-contract"' + this.esc_attr_tooltip(this.language('sidebar_contract'), 'bottom-right') + '>' + this.svg('contract') + '</div>';
 
 		} else {
 
@@ -12503,11 +12555,11 @@
 
 			if(sidebar_url) {
 
-				var sidebar_button_html = '<li data-action-sidebar="' + this.esc_attr(id) + '"' + this.tooltip(sidebar_label, 'bottom-center') + ' class="wsf-pro-required"><a href="' + this.esc_url(this.get_plugin_website_url(sidebar_url, 'nav')) + '" target="_blank" title="' + this.esc_attr(sidebar_label) + '">' + this.svg(sidebar_icon) + '</a></li>';
+				var sidebar_button_html = '<li data-action-sidebar="' + this.esc_attr(id) + '"' + this.esc_attr_tooltip(sidebar_label, 'bottom-center') + ' class="wsf-pro-required"><a href="' + this.esc_url(this.get_plugin_website_url(sidebar_url, 'nav')) + '" target="_blank" title="' + this.esc_attr(sidebar_label) + '">' + this.svg(sidebar_icon) + '</a></li>';
 
 			} else {
 
-				var sidebar_button_html = '<li data-action-sidebar="' + this.esc_attr(id) + '"' + this.tooltip(sidebar_label, (id === 'form' ? 'bottom-right' : 'bottom-center')) + '>' + this.svg(sidebar_icon) + '</li>';
+				var sidebar_button_html = '<li data-action-sidebar="' + this.esc_attr(id) + '"' + this.esc_attr_tooltip(sidebar_label, (id === 'form' ? 'bottom-right' : 'bottom-center')) + '>' + this.svg(sidebar_icon) + '</li>';
 			}
 			$('#wsf-header .wsf-settings').prepend(sidebar_button_html);
 		}
@@ -12522,7 +12574,7 @@
 		if((typeof(sidebar_config.kb_url) !== 'undefined')) {
 
 			var kb_url = this.get_plugin_website_url(sidebar_config.kb_url, 'sidebar');
-			var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'bottom-right') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+			var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'bottom-right') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 		}
 
 		// Build logo HTML
@@ -12630,12 +12682,12 @@
 			function on_drag(e) {
 
 				var delta_x = start_x - e.clientX;
-				width_new = width_start + delta_x;
+				width_new = width_start + (delta_x * (ws_form_settings.rtl ? -1 : 1));
 
 				if(width_new < width_min) { width_new = width_min; }
 				if(width_new > width_max) { width_new = width_max; }
 
-				document.documentElement.style.setProperty('--wsf-admin-sidebar-width', width_new + 'px');
+				$(':root').css('--wsf-admin-sidebar-width', width_new + 'px');
 			}
 
 			function on_stop() {
@@ -12662,15 +12714,6 @@
 			$(document).on('mousemove.sidebarResize', on_drag);
 			$(document).on('mouseup.sidebarResize', on_stop);
 		});
-
-		// Set initial width
-		var width_initial = parseInt(ws_form_settings.sidebar_width, 10);
-		var width_min = parseInt(ws_form_settings.sidebar_width_min, 10);
-		var width_max = parseInt(ws_form_settings.sidebar_width_max, 10);
-		if(width_initial < width_min) { width_initial = width_min; }
-		if(width_initial > width_max) { width_initial = width_max; }
-
-		document.documentElement.style.setProperty('--wsf-admin-sidebar-width', width_initial + 'px');
 	}
 
 	// Sidebar - Resize - Reset
@@ -13120,7 +13163,7 @@
 			var button_method = button.method;
 			if(!multiple && (button_method == 'clone')) { continue; }
 
-			settings_html += '<li data-id="' + this.esc_attr(object_id) + '" data-action="' + this.esc_attr(button_method) + '"' + this.tooltip(button_name, 'top-center') + '>' + button_icon + '</li>';
+			settings_html += '<li data-id="' + this.esc_attr(object_id) + '" data-action="' + this.esc_attr(button_method) + '"' + this.esc_attr_tooltip(button_name, 'top-center') + '>' + button_icon + '</li>';
 		}
 
 		settings_html += '</ul>';
@@ -15629,14 +15672,14 @@
 		var has_meta = (typeof(submit.meta) !== 'undefined');
 
 		// Encrypted?
-		var encrypted_html = (submit.encrypted) ? '<div class="wsf-encrypted"' + this.tooltip(this.language('submit_encrypted'), 'top-center') + '>' + this.svg('readonly') + '</div>' : '';
+		var encrypted_html = (submit.encrypted) ? '<div class="wsf-encrypted"' + this.esc_attr_tooltip(this.language('submit_encrypted'), 'top-center') + '>' + this.svg('readonly') + '</div>' : '';
 
 		// Section repeatable
 		var section_repeatable = (typeof(submit.section_repeatable) !== 'undefined') ? submit.section_repeatable : false;
 
 		// Expand / Contract
-		var expand_contract = '<div data-action="wsf-sidebar-expand"' + this.tooltip(this.language('sidebar_expand'), 'bottom-right') + '>' + this.svg('expand') + '</div>';
-		expand_contract += '<div data-action="wsf-sidebar-contract"' + this.tooltip(this.language('sidebar_contract'), 'bottom-right') + '>' + this.svg('contract') + '</div>';
+		var expand_contract = '<div data-action="wsf-sidebar-expand"' + this.esc_attr_tooltip(this.language('sidebar_expand'), 'bottom-right') + '>' + this.svg('expand') + '</div>';
+		expand_contract += '<div data-action="wsf-sidebar-contract"' + this.esc_attr_tooltip(this.language('sidebar_contract'), 'bottom-right') + '>' + this.svg('contract') + '</div>';
 
 		// Title
 		var sidebar_html_title = '<div class="wsf-sidebar-header"><div class="wsf-sidebar-icon">' + this.svg('table') + '</div><h2>' + this.language('submission') + '</h2>' + encrypted_html + '<code></code>' + expand_contract + '</div>';
@@ -15982,7 +16025,8 @@
 		var sidebar_html_buttons = this.sidebar_buttons_html(view ? buttons_view : buttons_edit);
 
 		// Push HTML to sidebar inner
-		sidebar_outer_obj.html(sidebar_html_title);
+		sidebar_outer_obj.html('<div class="wsf-sidebar-resize"></div>');
+		sidebar_outer_obj.append(sidebar_html_title);
 		sidebar_outer_obj.append(sidebar_html_info);
 		sidebar_outer_obj.append(sidebar_html);
 		sidebar_outer_obj.append(sidebar_html_buttons);
@@ -16279,7 +16323,7 @@
 
 			if(sidebar_render_action_meta_html !== false) {
 
-				sidebar_actions_html += '<div data-toggle="wsf-action-meta-' + this.esc_attr(submit_action_index) + '"' + this.tooltip(this.language('submit_actions_meta'), 'top-center') + '>' + this.svg('edit') + '</div>';
+				sidebar_actions_html += '<div data-toggle="wsf-action-meta-' + this.esc_attr(submit_action_index) + '"' + this.esc_attr_tooltip(this.language('submit_actions_meta'), 'top-center') + '>' + this.svg('edit') + '</div>';
 			}
 
 			sidebar_actions_html += '</td><td data-icon>';
@@ -16287,7 +16331,7 @@
 			// Action column - Logs
 			if(sidebar_render_action_logs_html !== false) {
 
-				sidebar_actions_html += '<div data-toggle="wsf-action-logs-' + this.esc_attr(submit_action_index) + '"' + this.tooltip(this.language('submit_actions_logs'), 'top-center') + '>' + this.svg('info-circle') + '</div>';
+				sidebar_actions_html += '<div data-toggle="wsf-action-logs-' + this.esc_attr(submit_action_index) + '"' + this.esc_attr_tooltip(this.language('submit_actions_logs'), 'top-center') + '>' + this.svg('info-circle') + '</div>';
 			}
 
 			sidebar_actions_html += '</td><td data-icon>';
@@ -16295,7 +16339,7 @@
 			// Action column - Errors
 			if(sidebar_render_action_errors_html !== false) {
 
-				sidebar_actions_html += '<div data-toggle="wsf-action-errors-' + this.esc_attr(submit_action_index) + '"' + this.tooltip(this.language('submit_actions_errors'), 'top-right') + '>' + this.svg('warning') + '</div>';
+				sidebar_actions_html += '<div data-toggle="wsf-action-errors-' + this.esc_attr(submit_action_index) + '"' + this.esc_attr_tooltip(this.language('submit_actions_errors'), 'top-right') + '>' + this.svg('warning') + '</div>';
 			}
 
 			sidebar_actions_html += '</td><td data-icon>';
@@ -16303,7 +16347,7 @@
 			// Action column - Repost
 			if(action_can_repost) {
 
-				sidebar_actions_html += '<div data-action="wsf-submit-action-repost" data-submit-action-index="' + this.esc_attr(submit_action_index) + '"' + this.tooltip(this.language('submit_actions_repost'), 'top-right') + '>' + this.svg('redo') + '</div>';
+				sidebar_actions_html += '<div data-action="wsf-submit-action-repost" data-submit-action-index="' + this.esc_attr(submit_action_index) + '"' + this.esc_attr_tooltip(this.language('submit_actions_repost'), 'top-right') + '>' + this.svg('redo') + '</div>';
 			}
 
 			sidebar_actions_html += "</td></tr>\n";
@@ -16642,6 +16686,13 @@
 		// NONCE
 		data[ws_form_settings.wsf_nonce_field_name] = ws_form_settings.wsf_nonce;
 
+		// Check permalinks
+		if(ws_form_settings.use_rest_route) {
+
+			var ajax_path_parts = ajax_path.split('?');
+			ajax_path = encodeURIComponent(ajax_path_parts[0]) + (ajax_path_parts[1] ? '&' + ajax_path_parts[1] : '');
+		}
+
 		// Make AJAX request
 		var url = ws_form_settings.url_ajax + ajax_path;
 
@@ -16874,7 +16925,7 @@
 		if((typeof(sidebar_config.kb_url) !== 'undefined')) {
 
 			var kb_url = ws_this.get_plugin_website_url(sidebar_config.kb_url, 'sidebar');
-			var sidebar_kb_html = '<a class="wsf-kb-url" href="' + ws_this.esc_url(kb_url) + '" target="_blank"' + ws_this.tooltip(ws_this.language('field_kb_url'), 'bottom-right') + ' tabindex="-1">' + ws_this.svg('question-circle') + '</a>';
+			var sidebar_kb_html = '<a class="wsf-kb-url" href="' + ws_this.esc_url(kb_url) + '" target="_blank"' + ws_this.esc_attr_tooltip(ws_this.language('field_kb_url'), 'bottom-right') + ' tabindex="-1">' + ws_this.svg('question-circle') + '</a>';
 		}
 
 		obj_outer.html(ws_this.sidebar_title(ws_this.svg(sidebar_config.icon), sidebar_config.label, '', sidebar_kb_html, '', true));
@@ -17422,7 +17473,7 @@
 	}
 
 	// Tooltip
-	$.WS_Form.prototype.tooltip = function(title, position) {
+	$.WS_Form.prototype.esc_attr_tooltip = function(title, position) {
 
 		if(typeof(position) === 'undefined') { position = 'bottom-center'; }
 
@@ -18060,7 +18111,7 @@
 			var kb_url = this.get_plugin_website_url('/knowledgebase/' + variable.kb_slug + '/', 'variable_helper');
 
 			// Add icon
-			tab_content_html += '<a class="wsf-vh-var-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'left') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+			tab_content_html += '<a class="wsf-vh-var-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'left') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 		}
 
 		// Help - Knowledge base category
@@ -18070,7 +18121,7 @@
 			var kb_category_url = this.get_plugin_website_url('/knowledgebase_category/' + variable.kb_category_slug + '/', 'variable_helper');
 
 			// Add icon
-			tab_content_html += '<a class="wsf-vh-var-kb-url" href="' + this.esc_url(kb_category_url) + '" target="_blank"' + this.tooltip(this.language('field_kb_url'), 'left') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
+			tab_content_html += '<a class="wsf-vh-var-kb-url" href="' + this.esc_url(kb_category_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'left') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 		}
 
 		// Usage
@@ -18098,7 +18149,7 @@
 		}
 
 		// Variable syntax
-		tab_content_html += '<div class="wsf-vh-var-code"><code' + this.tooltip(this.language('variable_insert'), 'right') + '>' + this.esc_html(variable.value) + '</code> <div class="wsf-vh-var-copy"' + this.tooltip(this.language('clipboard'), 'right') + '>' + this.svg('clone') + '</div></div>';
+		tab_content_html += '<div class="wsf-vh-var-code"><code' + this.esc_attr_tooltip(this.language('variable_insert'), 'right') + '>' + this.esc_html(variable.value) + '</code> <div class="wsf-vh-var-copy"' + this.esc_attr_tooltip(this.language('clipboard'), 'right') + '>' + this.svg('clone') + '</div></div>';
 
 		// Description
 		if(variable.description) {

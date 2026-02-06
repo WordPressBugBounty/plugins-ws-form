@@ -17,6 +17,7 @@
 			}
 
 			// Filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$palette = apply_filters('wsf_palette', $palette);
 
 			return $palette;
@@ -42,6 +43,11 @@
 					!isset($color['name']) ||
 					!isset($color['color'])
 				) {
+					continue;
+				}
+
+				// Only include RGB, RGBA, HSL, HSLA, HEX colors
+				if(!preg_match('/^(#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})|rgba?\([^)]*\)|hsla?\([^)]*\))$/i', trim($color['color']))) {
 					continue;
 				}
 
@@ -152,7 +158,7 @@
 
 					} else {
 
-						// Removee -alt
+						// Remove -alt
 						$var_parameters_array[$var_parameter_index] = str_replace('-alt', '', $var_parameter);
 					}
 				}
@@ -445,7 +451,7 @@
 
 			extract($hsla_array);
 
-			// If alpha is 0, return #00000000
+			// If alpha is 0, return #000000
 			if ($a == 0) {
 				return '#000000';
 			}
@@ -611,7 +617,7 @@
 		public static function get_green_to_red_rgb($value, $min = 0, $max = 100) {
 
 			// Calculate ratio
-			$ratio = $value / $max;
+			$ratio = ($max > 0) ? ($value / $max) : 0;
 			if($ratio < 0) { $ratio = 0; }
 			if($ratio > 1) { $ratio = 1; }
 
@@ -695,67 +701,80 @@
 
 		public static function get_color_background() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_background', 'transparent');
 		}
 
 		public static function get_color_background_alt() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_background_alt', '#000000');
 		}
 
 		public static function get_color_base() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_base', '#000000');
 		}
 
 		public static function get_color_base_contrast() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_base_contrast', '#ffffff');
 		}
 
 		public static function get_color_accent() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_accent', '#205493');
 		}
 
 		public static function get_color_neutral() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_neutral', '#767676');
 		}
 
 		public static function get_color_primary() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_primary', '#205493');
 		}
 
 		public static function get_color_secondary() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_secondary', '#5b616b');
 		}
 
 		public static function get_color_success() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_success', '#2e8540');
 		}
 
 		public static function get_color_info() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_info', '#02bfe7');
 		}
 
 		public static function get_color_warning() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_warning', '#fdb81e');
 		}
 
 		public static function get_color_danger() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_color_danger', '#bb0000');
 		}
 
 		// Get shades - Dark
 		public static function get_shades_dark() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_styler_color_shades_dark', array(
 
 				// Darken
@@ -774,6 +793,7 @@
 		// Get shades - Light
 		public static function get_shades_light() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_styler_color_shades_light', array(
 
 				// Lighten
@@ -792,6 +812,7 @@
 		// Get shades
 		public static function get_shades() {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return apply_filters('wsf_styler_color_shades', array_merge(
 
 				self::get_shades_dark(),

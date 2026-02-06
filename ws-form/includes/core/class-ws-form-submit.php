@@ -126,14 +126,15 @@
 			// Handle NULL values because $wpdb->prepare does not
 			$sql_prepare = sprintf(
 
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%%d, %%s, %%s, %s, %%d, '', '', 0, %%d, %%d, %%s, %%s, %%s, %%d, %s, %%d, %%d, %%d);",
+				"INSERT INTO {$wpdb->prefix}wsf_submit (form_id,date_added,date_updated,date_expire,user_id,hash,token,token_validated,duration,count_submit,status,actions,section_repeatable,preview,spam_level,starred,viewed,encrypted) VALUES (%%d, %%s, %%s, %s, %%d, '', '', 0, %%d, %%d, %%s, %%s, %%s, %%d, %s, %%d, %%d, %%d);",
 				(is_null($this->date_expire) ? 'NULL' : "'" . $this->date_expire . "'"),
 				(is_null($this->spam_level) ? 'NULL' : $this->spam_level)
 			);
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table, already escaped
+			if($wpdb->query($wpdb->prepare(
 
-				$sql_prepare,
+				$sql_prepare, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$this->form_id,
 				$this->date_added,
 				$this->date_updated,
@@ -147,9 +148,7 @@
 				($this->starred ? 1 : 0),
 				($this->viewed ? 1 : 0),
 				($this->encrypted ? 1 : 0)
-			);
-
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error adding submit', 'ws-form')); }
+			)) === false) { parent::db_wpdb_handle_error(__('Error adding submit', 'ws-form')); }
 
 			// Get inserted ID
 			$this->id = $wpdb->insert_id;
@@ -161,15 +160,21 @@
 			self::db_create_token();
 
 			// Update hash
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET hash = %s, token = %s WHERE id = %d LIMIT 1",
-				$this->hash,
-				$this->token,
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_submit",
+				array(
+					'hash' => $this->hash,
+					'token' => $this->token,
+				),
+				array( 'id' => $this->id ),
+				array( '%s', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error updating submit.', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error updating submit.', 'ws-form')); 
+			}
 
 			// Update form submit unread count statistic
 			if($update_count_submit_unread) {
@@ -180,6 +185,7 @@
 			}
 
 			// Run action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_submit_create', $this);
 		}
 
@@ -194,13 +200,12 @@
 			global $wpdb;
 
 			// Add fields
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$submit_array = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE id = %d LIMIT 1;",
+				"SELECT form_id,date_added,date_updated,date_expire,user_id,hash,token,token_validated,duration,count_submit,status,actions,section_repeatable,preview,spam_level,starred,viewed,encrypted,id FROM {$wpdb->prefix}wsf_submit WHERE id = %d LIMIT 1;",
 				$this->id
-			);
-
-			$submit_array = $wpdb->get_row($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 			if(is_null($submit_array)) { parent::db_wpdb_handle_error(__('Unable to read submission.', 'ws-form')); }
 
 			// Set class variables
@@ -301,7 +306,7 @@
 					// Add URLs to file objects all objects
 					if(
 						isset($meta['type']) &&
-						(($meta['type'] == 'file') || ($meta['type'] == 'signature')) &&
+						(($meta['type'] == 'file') || ($meta['type'] == 'mediacapture') || ($meta['type'] == 'signature')) &&
 						isset($meta['value']) &&
 						is_array($meta['value']) &&
 						(count($meta['value']) > 0) &&
@@ -324,11 +329,11 @@
 							$handler = isset($file_object['handler']) ? $file_object['handler'] : 'wsform';
 
 							// Get URL
-							if(isset(WS_Form_File_Handler_WS_Form::$file_handlers[$handler])) {
+							if(isset(WS_Form_File_Handler::$file_handlers[$handler])) {
 
 								$section_repeatable_index = isset($meta['repeatable_index']) ? absint($meta['repeatable_index']) : 0;
 
-								$url = WS_Form_File_Handler_WS_Form::$file_handlers[$handler]->get_url($file_object, $meta['id'], $file_object_index, $submit_object->hash, $section_repeatable_index);
+								$url = WS_Form_File_Handler::$file_handlers[$handler]->get_url($file_object, $meta['id'], $file_object_index, $submit_object->hash, $section_repeatable_index);
 
 							} else {
 
@@ -342,6 +347,7 @@
 							if(isset($file_object['attachment_id'])) {
 
 								// Get image size
+								// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 								$image_size = apply_filters('wsf_dropzonejs_image_size', WS_FORM_DROPZONEJS_IMAGE_SIZE);
 
 								$attachment_id = $file_object['attachment_id'];
@@ -370,6 +376,8 @@
 		// Read - All
 		public function db_read_all($join = '', $where = '', $group_by = '', $order_by = '', $limit = '', $offset = '', $get_meta = true, $get_expanded = true, $bypass_user_capability_check = false, $clear_hidden_fields = false) {
 
+			global $wpdb;
+
 			// User capability check
 			WS_Form_Common::user_must('read_submission', $bypass_user_capability_check);
 
@@ -391,8 +399,8 @@
 			$sql .= ';';
 
 			// Get results
-			global $wpdb;
-			$return_array = $wpdb->get_results($sql);	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table, already escaped
+			$return_array = $wpdb->get_results($sql);
 
 			if(is_null($return_array)) { return; }
 
@@ -460,7 +468,8 @@
 
 			global $wpdb;
 
-			$return_array = $wpdb->get_results($sql, 'ARRAY_A');	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table, already escaped
+			$return_array = $wpdb->get_results($sql, 'ARRAY_A');
 
 			return empty($return_array) ? null : array_column($return_array, 'id');
 		}
@@ -485,6 +494,7 @@
 
 			$sql .= ';';
 
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table, already escaped
 			$read_count = $wpdb->get_var($sql);
 			if(is_null($read_count)) { return 0; }
 
@@ -530,23 +540,24 @@
 			// Get form submission
 			if($form_id_check) {
 
-				$sql = $wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$submit_array = $wpdb->get_row($wpdb->prepare(
 
-					"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE form_id = %d AND hash = %s AND (NOT status = 'trash') LIMIT 1;",
+					"SELECT form_id,date_added,date_updated,date_expire,user_id,hash,token,token_validated,duration,count_submit,status,actions,section_repeatable,preview,spam_level,starred,viewed,encrypted,id FROM {$wpdb->prefix}wsf_submit WHERE form_id = %d AND hash = %s AND (NOT status = 'trash') LIMIT 1;",
 					$this->form_id,
 					$this->hash
-				);
+				), 'ARRAY_A');
 
 			} else {
 
-				$sql = $wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$submit_array = $wpdb->get_row($wpdb->prepare(
 
-					"SELECT " . self::DB_SELECT  . " FROM {$this->table_name} WHERE hash = %s AND (NOT status = 'trash') LIMIT 1;",
+					"SELECT form_id,date_added,date_updated,date_expire,user_id,hash,token,token_validated,duration,count_submit,status,actions,section_repeatable,preview,spam_level,starred,viewed,encrypted,id FROM {$wpdb->prefix}wsf_submit WHERE hash = %s AND (NOT status = 'trash') LIMIT 1;",
 					$this->hash
-				);				
+				), 'ARRAY_A');				
 			}
 
-			$submit_array = $wpdb->get_row($sql, 'ARRAY_A');
 			if(is_null($submit_array)) {
 
 				$this->hash = '';
@@ -583,13 +594,21 @@
 					$this->token_validated = $submit_object->token_validated = true;
 
 					// Update hash
-					$sql = $wpdb->prepare(
-
-						"UPDATE {$this->table_name} SET token_validated = 1, spam_level = 0 WHERE id = %d LIMIT 1",
-						$this->id
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+						"{$wpdb->prefix}wsf_submit",
+						array(
+							'token_validated' => 1,
+							'spam_level' => 0,
+						),
+						array( 'id' => $this->id ),
+						array( '%d', '%d' ),
+						array( '%d' )
 					);
 
-					if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error updating submit.', 'ws-form')); }
+					if($update_result === false) { 
+						parent::db_wpdb_handle_error(__('Error updating submit.', 'ws-form')); 
+					}
 				}
 			}
 
@@ -617,6 +636,7 @@
 			}
 
 			// Run action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_submit_update', $this);
 		}
 
@@ -688,26 +708,25 @@
 			global $wpdb;
 
 			// Date updated, count submit + 1
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			if($wpdb->query($wpdb->prepare(
 
-				"UPDATE {$this->table_name} SET date_updated = %s, count_submit = count_submit + 1, duration = %d WHERE id = %d LIMIT 1",
+				"UPDATE {$wpdb->prefix}wsf_submit SET date_updated = %s, count_submit = count_submit + 1, duration = %d WHERE id = %d LIMIT 1", // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse -- Needed for count_submit + 1
 				WS_Form_Common::get_mysql_date(),
 				$this->duration,
 				$this->id
-			);
+			)) === false) { parent::db_wpdb_handle_error(__('Error updating submit date updated.', 'ws-form')); }
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error updating submit date updated.', 'ws-form')); }
 			$this->count_submit++;
 
 			// User ID
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			if($wpdb->query($wpdb->prepare(
 
-				"UPDATE {$this->table_name} SET user_id = %d WHERE id = %d AND (user_id = 0 OR user_id IS NULL) LIMIT 1",
-				get_current_user_id(),
+				"UPDATE {$wpdb->prefix}wsf_submit SET user_id = %d WHERE id = %d AND (user_id = 0 OR user_id IS NULL) LIMIT 1",
+				get_current_user_id(), // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse -- Needed for OR
 				$this->id
-			);
-
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error updating submit user ID,', 'ws-form')); }
+			)) === false) { parent::db_wpdb_handle_error(__('Error updating submit user ID,', 'ws-form')); }
 		}
 
 		// Delete
@@ -729,13 +748,16 @@
 				global $wpdb;
 
 				// Delete submit
-				$sql = $wpdb->prepare(
-
-					"DELETE FROM {$this->table_name} WHERE id = %d;",
-					$this->id
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$delete_result = $wpdb->delete(
+					"{$wpdb->prefix}wsf_submit",
+					array( 'id' => $this->id ),
+					array( '%d' )
 				);
 
-				if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting submit.', 'ws-form')); }
+				if($delete_result === false) { 
+					parent::db_wpdb_handle_error(__('Error deleting submit.', 'ws-form')); 
+				}
 
 				// Delete meta
 				$ws_form_meta = new WS_Form_Submit_Meta();
@@ -743,6 +765,7 @@
 				$ws_form_meta->db_delete_by_submit($bypass_user_capability_check);
 
 				// Run action
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_submit_delete_permanent', $this);
 
 			} else {
@@ -788,13 +811,12 @@
 			global $wpdb;
 
 			// Get submit records
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$submissions = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT {$this->table_name}.id FROM {$this->table_name_meta} LEFT OUTER JOIN {$this->table_name} ON {$this->table_name}.id = {$this->table_name_meta}.parent_id WHERE (LOWER({$this->table_name_meta}.meta_value) = %s) AND NOT ({$this->table_name}.id IS NULL);",
+				"SELECT {$wpdb->prefix}wsf_submit.id FROM {$wpdb->prefix}wsf_submit_meta LEFT OUTER JOIN {$wpdb->prefix}wsf_submit ON {$wpdb->prefix}wsf_submit.id = {$wpdb->prefix}wsf_submit_meta.parent_id WHERE (LOWER({$wpdb->prefix}wsf_submit_meta.meta_value) = %s) AND NOT ({$wpdb->prefix}wsf_submit.id IS NULL);",
 				strtolower($email_address)
-			);
-
-			$submissions = $wpdb->get_results($sql);
+			));
 
 			// Process results
 			if($submissions) {
@@ -899,13 +921,12 @@
 			$items_retained_count = 0;
 
 			// Get submit records to be deleted
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$submissions = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT {$this->table_name}.id FROM {$this->table_name_meta} LEFT OUTER JOIN {$this->table_name} ON {$this->table_name}.id = {$this->table_name_meta}.parent_id WHERE (LOWER({$this->table_name_meta}.meta_value) = %s) AND NOT ({$this->table_name}.id IS NULL);",
+				"SELECT {$wpdb->prefix}wsf_submit.id FROM {$wpdb->prefix}wsf_submit_meta LEFT OUTER JOIN {$wpdb->prefix}wsf_submit ON {$wpdb->prefix}wsf_submit.id = {$wpdb->prefix}wsf_submit_meta.parent_id WHERE (LOWER({$wpdb->prefix}wsf_submit_meta.meta_value) = %s) AND NOT ({$wpdb->prefix}wsf_submit.id IS NULL);",
 				strtolower($email_address)
-			);
-
-			$submissions = $wpdb->get_results($sql);
+			));
 
 			// Process results
 			if($submissions) {
@@ -933,7 +954,7 @@
 			$done = ($items_retained_count <= 0);
 			$messages = (($items_removed_count > 0) && ($items_retained_count <= 0)) ? array(sprintf(
 
-				/* translators: %s = WS Form */
+				/* translators: %s: WS Form */
 				__('%s submissions successfully deleted.', 'ws-form'),
 
 				WS_FORM_NAME_GENERIC
@@ -955,13 +976,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$rows_affected = $wpdb->query($wpdb->prepare(
 
-				"UPDATE {$this->table_name} SET status = 'trash' WHERE (NOT date_expire IS NULL) AND (NOT date_expire = '0000-00-00 00:00:00') AND (NOT status = 'trash') AND (date_expire < %s)",
+				"UPDATE {$wpdb->prefix}wsf_submit SET status = 'trash' WHERE (NOT date_expire IS NULL) AND (NOT date_expire = '0000-00-00 00:00:00') AND (NOT status = 'trash') AND (date_expire < %s)", // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse -- Needed for complex WHERE
 				WS_Form_Common::get_mysql_date()
-			);
-
-			$rows_affected = $wpdb->query($sql);
+			));
 
 			// Update form submit unread count statistic
 			if($count_update_all) {
@@ -988,23 +1008,24 @@
 
 			if($status == '') {
 
-				$sql = $wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$form_count = $wpdb->get_var($wpdb->prepare(
 
-					"SELECT COUNT(id) FROM {$this->table_name} WHERE NOT(status = 'trash' OR status = 'spam') AND form_id = %d;",
+					"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_submit WHERE NOT(status = 'trash' OR status = 'spam') AND form_id = %d;",
 					$form_id
-				);
+				));
 
 			} else {
 
-				$sql = $wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$form_count = $wpdb->get_var($wpdb->prepare(
 
-					"SELECT COUNT(id) FROM {$this->table_name} WHERE status = %s AND form_id = %d",
+					"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_submit WHERE status = %s AND form_id = %d",
 					$status,
 					$form_id
-				);
+				));
 			}
 
-			$form_count = $wpdb->get_var($sql);
 			if(is_null($form_count)) { $form_count = 0; }
 
 			return $form_count; 
@@ -1098,17 +1119,21 @@
 					) ? absint($meta['section_id']) : false;
 
 					// Check for repeatable_delimiter_section
-					$section_repeatable_section_string = 'section_' . $section_id;
-					$section_repeatable_delimiter_section = (
-						isset($this->section_repeatable[$section_repeatable_section_string]) &&
-						isset($this->section_repeatable[$section_repeatable_section_string]['delimiter_section'])
-					) ? $this->section_repeatable[$section_repeatable_section_string]['delimiter_section'] : WS_FORM_SECTION_REPEATABLE_DELIMITER_SECTION;
+					$section_key = 'section_' . $section_id;
+					$delimiter_section = (
+						isset($this->section_repeatable[$section_key]) &&
+						isset($this->section_repeatable[$section_key]['delimiter_section'])
+					) ? $this->section_repeatable[$section_key]['delimiter_section'] : WS_FORM_SECTION_REPEATABLE_DELIMITER_SECTION;
 
 					// Check for repeatable_delimiter_row
-					$section_repeatable_delimiter_row = (
-						isset($this->section_repeatable[$section_repeatable_section_string]) &&
-						isset($this->section_repeatable[$section_repeatable_section_string]['delimiter_row'])
-					) ? $this->section_repeatable[$section_repeatable_section_string]['delimiter_row'] : WS_FORM_SECTION_REPEATABLE_DELIMITER_ROW;
+					$delimiter_row = (
+						isset($this->section_repeatable[$section_key]) &&
+						isset($this->section_repeatable[$section_key]['delimiter_row'])
+					) ? $this->section_repeatable[$section_key]['delimiter_row'] : WS_FORM_SECTION_REPEATABLE_DELIMITER_ROW;
+
+					// Sanitize delimiters
+					$delimiter_section = WS_Form_Common::delimiter_sanitize($delimiter_section);
+					$delimiter_row = WS_Form_Common::delimiter_sanitize($delimiter_row);
 
 					// Build meta data
 					$meta_data = array('id' => $field_id, 'value' => $value, 'type' => $field_type, 'section_id' => $section_id, 'repeatable_index' => $repeatable_index);
@@ -1135,6 +1160,7 @@
 
 							// Arrays
 							case 'file' :
+							case 'mediacapture' :
 							case 'signature' :
 							case 'googlemap' :
 
@@ -1157,11 +1183,11 @@
 
 								if($submit_meta_not_set) {
 
-									$submit_meta[$meta_key_base]['value'] = self::field_value_stringify($field_object, $submit_meta[$meta_key_base]['value'], $field_submit_array, $section_repeatable_delimiter_row);
+									$submit_meta[$meta_key_base]['value'] = self::field_value_stringify($field_object, $submit_meta[$meta_key_base]['value'], $field_submit_array, $delimiter_row);
 
 								} else {
 
-									$submit_meta[$meta_key_base]['value'] .= $section_repeatable_delimiter_section . self::field_value_stringify($field_object, $value, $field_submit_array, $section_repeatable_delimiter_row);
+									$submit_meta[$meta_key_base]['value'] .= $delimiter_section . self::field_value_stringify($field_object, $value, $field_submit_array, $delimiter_row);
 								}
 						}
 
@@ -1209,8 +1235,8 @@
 				$this->form_count_submit_cache = array();
 
 				// Get total number of form submissions
-				$sql = "SELECT form_id, COUNT(id) AS count_submit FROM {$this->table_name} WHERE NOT (status = 'trash') GROUP BY form_id;";
-				$rows = $wpdb->get_results($sql);
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$rows = $wpdb->get_results("SELECT form_id, COUNT(id) AS count_submit FROM {$wpdb->prefix}wsf_submit WHERE NOT (status = 'trash') GROUP BY form_id;");
 
 				if(is_null($rows)) { return 0; }
 
@@ -1240,8 +1266,8 @@
 				$this->form_count_submit_unread_cache = array();
 
 				// Get total number of form submissions that are unread
-				$sql = "SELECT form_id, COUNT(id) AS count_submit_unread FROM {$this->table_name} WHERE viewed = 0 AND status IN ('publish', 'draft') GROUP BY form_id;";
-				$rows = $wpdb->get_results($sql);
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$rows = $wpdb->get_results("SELECT form_id, COUNT(id) AS count_submit_unread FROM {$wpdb->prefix}wsf_submit WHERE viewed = 0 AND status IN ('publish', 'draft') GROUP BY form_id;");
 
 				if(is_null($rows)) { return 0; }
 
@@ -1273,16 +1299,21 @@
 
 			global $wpdb;
 
-			// Build SQL
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET starred = %d WHERE id = %d LIMIT 1;",
-				($starred ? 1 : 0),
-				$this->id
+			// Update submit record
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_submit",
+				array(
+					'starred' => ($starred ? 1 : 0),
+				),
+				array( 'id' => $this->id ),
+				array( '%d' ),
+				array( '%d' )
 			);
 
-			// Update submit record
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error setting starred status.', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error setting starred status.', 'ws-form')); 
+			}
 		}
 
 		// Set a submit record as viewed
@@ -1297,14 +1328,20 @@
 			global $wpdb;
 
 			// Set viewed true
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET viewed = %d WHERE id = %d LIMIT 1",
-				($viewed ? 1 : 0),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_submit",
+				array(
+					'viewed' => ($viewed ? 1 : 0),
+				),
+				array( 'id' => $this->id ),
+				array( '%d' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error updating viewed status.', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error updating viewed status.', 'ws-form')); 
+			}
 
 			// Update form submit unread count statistic
 			if($update_count_submit_unread) {
@@ -1330,11 +1367,16 @@
 
 				case 'spam' :
 
-					$sql = $wpdb->prepare(
-
-						"UPDATE {$this->table_name} SET status = %s, spam_level = 100 WHERE id = %d LIMIT 1;",
-						$status,
-						$this->id
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+					$records_updated = $wpdb->update(
+						"{$wpdb->prefix}wsf_submit",
+						array(
+							'status' => $status,
+							'spam_level' => 100,
+						),
+						array( 'id' => $this->id ),
+						array( '%s', '%d' ),
+						array( '%d' )
 					);
 
 					break;
@@ -1343,34 +1385,43 @@
 
 					$status = 'publish';
 
-					$sql = $wpdb->prepare(
-
-						"UPDATE {$this->table_name} SET status = %s, spam_level = 0 WHERE id = %d LIMIT 1;",
-						$status,
-						$this->id
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+					$records_updated = $wpdb->update(
+						"{$wpdb->prefix}wsf_submit",
+						array(
+							'status' => $status,
+							'spam_level' => 0,
+						),
+						array( 'id' => $this->id ),
+						array( '%s', '%d' ),
+						array( '%d' )
 					);
 
 					break;
 
 				default :
 
-					$sql = $wpdb->prepare(
-
-						"UPDATE {$this->table_name} SET status = %s WHERE id = %d LIMIT 1;",
-						$status,
-						$this->id
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+					$records_updated = $wpdb->update(
+						"{$wpdb->prefix}wsf_submit",
+						array(
+							'status' => $status,
+						),
+						array( 'id' => $this->id ),
+						array( '%s' ),
+						array( '%d' )
 					);
 			}
 
 			// Ensure provided submit status is valid
 			if(WS_Form_Common::check_submit_status($status) == '') {
 
-				/* translators: %s = Status */
+				/* translators: %s: Status */
 				parent::db_throw_error(sprintf(__('Invalid submit status: %s', 'ws-form'), $status));
 			}
 
 			// Update submit record
-			if($wpdb->query($sql) === false) {
+			if($records_updated === false) {
 
 				parent::db_wpdb_handle_error(__('Error setting submit status.', 'ws-form'));
 			}
@@ -1386,6 +1437,7 @@
 			}
 
 			// Run action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_submit_status', $this->id, $status);
 
 			return true;
@@ -2230,6 +2282,7 @@
 					$this->spam_level = null;
 
 					// Clear meta data
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$submit_clear_meta_filter_keys = apply_filters('wsf_submit_clear_meta_filter_keys', array());
 					foreach($this->meta as $key => $value) {
 
@@ -2302,6 +2355,7 @@
 			}
 
 			// Apply filters
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$keyword_blocklist = apply_filters('wsf_submit_block_keywords', $keyword_blocklist, $this->form_object, $this);
 
 			// Sanitize after filter
@@ -2397,6 +2451,7 @@
 
 				$this->error_validation_actions,
 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				apply_filters('wsf_submit_validate', $this->error_validation_actions, $this->post_mode, $this)
 			);
 
@@ -2427,19 +2482,24 @@
 			if($section_repeatable_index !== false) {
 
 				// Get delimiters
-				$section_repeatable_delimiter_section = WS_Form_Common::get_object_meta_value($section, 'section_repeatable_delimiter_section', WS_FORM_SECTION_REPEATABLE_DELIMITER_SECTION);
-				if($section_repeatable_delimiter_section == '') { $section_repeatable_delimiter_section = WS_FORM_SECTION_REPEATABLE_DELIMITER_SECTION; }
-				$section_repeatable_delimiter_row = WS_Form_Common::get_object_meta_value($section, 'section_repeatable_delimiter_row', WS_FORM_SECTION_REPEATABLE_DELIMITER_ROW);
-				if($section_repeatable_delimiter_row == '') { $section_repeatable_delimiter_row = WS_FORM_SECTION_REPEATABLE_DELIMITER_ROW; }
+				$delimiter_section = WS_Form_Common::get_object_meta_value($section, 'section_repeatable_delimiter_section', WS_FORM_SECTION_REPEATABLE_DELIMITER_SECTION);
+				if($delimiter_section == '') { $delimiter_section = WS_FORM_SECTION_REPEATABLE_DELIMITER_SECTION; }
+
+				$delimiter_row = WS_Form_Common::get_object_meta_value($section, 'section_repeatable_delimiter_row', WS_FORM_SECTION_REPEATABLE_DELIMITER_ROW);
+				if($delimiter_row == '') { $delimiter_row = WS_FORM_SECTION_REPEATABLE_DELIMITER_ROW; }
+
+				// Sanitize delimiters
+				$delimiter_section = WS_Form_Common::delimiter_sanitize($delimiter_section);
+				$delimiter_row = WS_Form_Common::delimiter_sanitize($delimiter_row);
 
 				// Add delimiters to section_repeatable
 				if(!isset($section_repeatable['section_' . $section_id])) { $section_repeatable['section_' . $section_id] = array(); }
-				$section_repeatable['section_' . $section_id]['delimiter_section'] = $section_repeatable_delimiter_section;
-				$section_repeatable['section_' . $section_id]['delimiter_row'] = $section_repeatable_delimiter_row;
+				$section_repeatable['section_' . $section_id]['delimiter_section'] = $delimiter_section;
+				$section_repeatable['section_' . $section_id]['delimiter_row'] = $delimiter_row;
 			}
 
 			// File field types
-			$field_type_files = array('file', 'signature');
+			$field_type_files = array('file', 'mediacapture', 'signature');
 
 			// Process each field
 			$section_fields = $section->fields;
@@ -2533,6 +2593,7 @@
 							}
 
 							// Run wsf_action_email_email_validate filter hook
+							// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 							$email_validate = apply_filters('wsf_action_email_email_validate', true, $field_value, $this->form_object->id, $field_id);
 
 							if(is_string($email_validate)) {
@@ -2774,6 +2835,7 @@
 
 						// Merge
 						case 'file' :
+						case 'mediacapture' :
 						case 'signature' :
 						case 'googlemap' :
 						case 'select' :
@@ -2802,11 +2864,11 @@
 
 							if($meta_not_set) {
 
-								$this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'] = self::field_value_stringify($field, $this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'], $field_submit_array, $section_repeatable_delimiter_row);
+								$this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'] = self::field_value_stringify($field, $this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'], $field_submit_array, $delimiter_row);
 
 							} else {
 
-								$this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'] .= $section_repeatable_delimiter_section . self::field_value_stringify($field, $field_value, $field_submit_array, $section_repeatable_delimiter_row);
+								$this->{$meta_field}[WS_FORM_FIELD_PREFIX . $field_id]['value'] .= $delimiter_section . self::field_value_stringify($field, $field_value, $field_submit_array, $delimiter_row);
 							}
 					}
 
@@ -2834,6 +2896,7 @@
 
 						$this->error_validation_actions,
 
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 						apply_filters('wsf_submit_field_validate', $this->error_validation_actions, $field_id, $field_value, $section_repeatable_index, $this->post_mode, $this),
 
 						$field,
@@ -2859,6 +2922,7 @@
 							// Get message
 							$keyword_blocklist_message = apply_filters(
 
+								// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 								'wsf_submit_block_keywords_message',
 
 								(WS_Form_Common::get_object_meta_value($this->form_object, 'keyword_blocklist', '') ? WS_Form_Common::get_object_meta_value($this->form_object, 'keyword_blocklist_message', '') : ''),
@@ -3173,6 +3237,7 @@
 				if($field_invalid_feedback == '') {
 
 					// Use default invalid feedback
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$field_invalid_feedback = apply_filters('wsf_field_invalid_feedback_text', __('This field is required.', 'ws-form'));
 				}
 			}
@@ -3188,7 +3253,7 @@
 		}
 
 		// Meta value stringify
-		public function field_value_stringify($field_object, $field_value, $field_submit_array, $section_repeatable_delimiter_row) {
+		public function field_value_stringify($field_object, $field_value, $field_submit_array, $delimiter_row) {
 
 			$field_type = $field_object->type;
 
@@ -3199,6 +3264,7 @@
 				switch($field_type) {
 
 					case 'file' :
+					case 'mediacapture' :
 					case 'signature' :
 
 						$field_value = $field_value['name'];
@@ -3222,7 +3288,7 @@
 
 					default :
 
-						$field_value = implode($section_repeatable_delimiter_row, $field_value);
+						$field_value = implode($delimiter_row, $field_value);
 				}
 
 			} else {
@@ -3267,7 +3333,9 @@
 			}
 
 			// Filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$form_object = apply_filters('wsf_pre_render_' . $this->form_id, $form_object, $this->preview);
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$form_object = apply_filters('wsf_pre_render', $form_object, $this->preview);
 
 			// Convert to object
@@ -3333,7 +3401,7 @@
 
 				$error_message = $response->get_error_message();
 
-				/* translators: %s = Error message */
+				/* translators: %s: Error message */
 				parent::db_throw_error(sprintf(__('Captcha verification failed (%s).', 'ws-form'), $error_message));
 
 			} else {
@@ -3407,7 +3475,7 @@
 
 								default :
 
-									/* translators: %s = Error code */
+									/* translators: %s: Error code */
 									$error_message = sprintf(__('Captcha Error: %s.', 'ws-form'), $error_code);
 							}
 
@@ -3568,7 +3636,9 @@
 					// Build meta data
 					$meta_array[] = array(
 
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 						'meta_key' => $meta_key,
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 						'meta_value' => $meta['value'],
 						'section_id' => $meta['section_id'],
 						'field_id' => $meta['id'],
@@ -3622,263 +3692,107 @@
 			);
 		}
 
-		// Send error notification
-		public function report_submit_error_send($e = 'test') {
+		// Find submit meta value by type (first_name, last_name, email) 
+		public function find_field_value($field_type) {
 
-			// Check for test send
-			if($e === 'test') {
+			$fields = \WS_Form_Common::get_fields_from_form( $this->form_object, true );
 
-				$test = true;
+			switch($field_type) {			
 
-				$form_id = 123;
-				$form_label = __('Test form label', 'ws-form');
-				$form_url = '#';
+				case 'first_name':
+					$possible_matches = [ 'first name', 'firstname', 'given name', 'forename' ];
+					break;
 
-				$message = __('Test message', 'ws-form');
-				$code = __('Test code', 'ws-form');
-				$file = __('Test file', 'ws-form');
-				$line = __('Test line', 'ws-form');
-				$trace = __('Test trace', 'ws-form');
+				case 'last_name':
+					$possible_matches = [ 'last name', 'lastname', 'surname', 'family name' ];
+					break;
 
-			} else {
+				case 'email':
+					$possible_matches = [];
+					break;
 
-				$test = false;
-
-				// Check for error object
-				if(is_object($e)) {
-
-					$message = method_exists($e, 'getMessage') ? $e->getMessage() :false;
-					$code =    method_exists($e, 'getCode') ? $e->getCode() : false;
-					$file =    method_exists($e, 'getFile') ? $e->getFile() : false;
-					$line =    method_exists($e, 'getLine') ? $e->getLine() : false;
-					$trace =   method_exists($e, 'getTraceAsString') ? $e->getTraceAsString() : false;
-
-				} else {
-
-					$message = $code = $file = $line = $trace = false;
-				}
-
-				if(is_object($this->form_object)) {
-
-					$form_id = $this->form_object->id;
-					$form_label = $this->form_object->label;
-					$form_url = WS_Form_Common::get_admin_url('ws-form-edit', $form_id);
-
-				} else {
-
-					$form_id = $form_label = $form_url = false;
-				}
+				default:
+					return false;
 			}
 
-			// Get options
-			$frequency = WS_Form_Common::option_get('report_submit_error_frequency', 'minute');
-			if(empty($frequency)) { $frequency = 'minute'; }
-			$email_to = WS_Form_Common::option_get('report_submit_error_email_to', get_bloginfo('admin_email'));
-			if(empty($email_to)) { $email_to = get_bloginfo('admin_email'); }
-			$email_subject = WS_Form_Common::option_get('report_submit_error_email_subject', __('WS Form - Form Submission Error', 'ws-form'));
-			if(empty($email_subject)) { $email_subject = __('WS Form - Form Submission Error', 'ws-form'); }
+			$is_full_name = false;
 
-			// Parse options
-			$email_to = trim(WS_Form_Common::parse_variables_process($email_to, false, false, 'text/plain'));
-			$email_subject = trim(WS_Form_Common::parse_variables_process($email_subject, false, false, 'text/plain'));
+			// Look for specific first, last or email type
+			$field_id = self::find_field_value_process($fields, $field_type, $possible_matches);
 
-			// Split email addresses
-			if(strpos($email_to, ' ') !== false) {
+			// If not found, look for possible full name matches
+			if(
+				($field_id === false) &&
+				in_array($field_type, array('first_name', 'last_name'))
+			) {
+				$possible_matches = [ 'full name', 'your name', 'name' ];
 
-				$email_to_array = explode(' ', $email_to);
+				$field_id = self::find_field_value_process($fields, $field_type, $possible_matches);
 
-			} else {
-
-				$email_to_array = explode(',', $email_to);
+				$is_full_name = true;
 			}
 
-			// Check options
-			if(!in_array($frequency, array('all', 'minute', 'hour', 'day'))) {
+			if($field_id === false) { return false; }
 
-				parent::db_throw_error(__('Invalid frequency', 'ws-form'));
-			}
+			// Build meta key and get value
+			$meta_key = sprintf( 'field_%u', $field_id );
+			$value    = trim( \WS_Form_Action::get_submit_value( $this, $meta_key ) );
 
-			foreach($email_to_array as $email_to) {
+			// Handle full name field using existing parser
+			if ( $is_full_name ) {
 
-				if(!filter_var($email_to, FILTER_VALIDATE_EMAIL)) {
+				$components = \WS_Form_Common::get_full_name_components( $value );
 
-					parent::db_throw_error(sprintf(
+				switch ( $field_type ) {
+					case 'first_name':
+						return !empty( $components['name_first'] ) ? $components['name_first'] : false;
 
-						/* translators: %s = Email address */
-						__('Invalid email address: %s', 'ws-form'),
-						$email_to
-					));
+					case 'last_name':
+						return !empty( $components['name_last'] ) ? $components['name_last'] : false;
+
+					default:
+						return false;
 				}
 			}
 
-			if(empty($email_subject)) {
+			return $value ?: false;
+		}
 
-				parent::db_throw_error(__('Invalid email subject', 'ws-form'));
-			}
+		public function find_field_value_process($fields, $field_type, $possible_matches) {
 
-			// Check when error notification was last sent
-			if($frequency != 'all') {
+			$field_id = false;
 
-				$report_submit_error_last = WS_Form_Common::option_get('report_submit_error_last', false);
+			foreach ( $fields as $field ) {
 
-				if(!empty($report_submit_error_last)) {
+				if ( empty( $field->type ) ) { continue; }
 
-					// Get time of last error
-					$report_submit_error_last_time = absint($report_submit_error_last['time']);
+				// Handle email field
+				if ( $field_type === 'email' ) {
 
-					// Get time delta
-					$report_submit_error_last_delta = time() - $report_submit_error_last_time;
+					if($field->type === 'email') {
 
-					// Get time delta max
-					switch($frequency) {
-
-						case 'day' :
-
-							$report_submit_error_last_delta_max = 86400;
-							break;
-
-						case 'hour' :
-
-							$report_submit_error_last_delta_max = 3600;
-							break;
-
-						default :
-
-							$report_submit_error_last_delta_max = 60;
-							break;
+						$field_id = $field->id;
+						break;
 					}
 
-					// Check delta, if too soon, do not proceed
-					if($report_submit_error_last_delta < $report_submit_error_last_delta_max) { return false; }
+					continue;
+				}
+
+				// Handle text-based fields for name detection
+				if ( $field->type === 'text' ) {
+
+					$label = strtolower( trim( $field->label ?? '' ) );
+
+					foreach ( $possible_matches as $match ) {
+						if ( preg_match( '/\b' . preg_quote( $match, '/' ) . '\b/', $label ) ) {
+							$field_id = $field->id;
+							break 2;
+						}
+					}
 				}
 			}
 
-			// Build email message
-
-			// URL
-			$email_message = sprintf(
-
-				'<p><strong>%1$s:</strong> <a href="%2$s" target="_blank">%2$s</a>',
-				__('URL', 'ws-form'),
-				WS_Form_Common::get_referrer()
-			);
-
-			// Build date range
-			$date_format = get_option('date_format');
-
-			if(
-				($form_url !== false) &&
-				($form_label !== false)
-			) {
-
-				$email_message .= sprintf(
-
-					'<p><strong>%s:</strong> <a href="%s" target="_blank">%s</a>',
-					__('Form', 'ws-form'),
-					$form_url,
-					esc_html($form_label)
-				);
-			}
-
-			// Build error table
-			if(
-				($message !== false) ||
-				($code !== false) ||
-				($file !== false) ||
-				($line !== false) ||
-				($trace !== false)
-			) {
-
-				$email_message .= '<table class="table-report">';
-
-				// Message
-				if($message !== false) {
-
-					$email_message .= sprintf('<tr><th>%s</th><td>%s</td></tr>', __('Message', 'ws-form'), esc_html($message));
-				}
-
-				// File
-				if($file !== false) {
-
-					$email_message .= sprintf('<tr><th>%s</th><td>%s</td></tr>', __('File', 'ws-form'), esc_html($file));
-				}
-
-				// Line
-				if($line !== false) {
-
-					$email_message .= sprintf('<tr><th>%s</th><td>%s</td></tr>', __('Line', 'ws-form'), esc_html($line));
-				}
-
-				// Code
-				if($code !== false) {
-
-					$email_message .= sprintf('<tr><th>%s</th><td>%s</td></tr>', __('Code', 'ws-form'), esc_html($code));
-				}
-
-				// Trace
-				if($trace !== false) {
-
-					$email_message .= sprintf('<tr><th>%s</th><td><pre>%s</pre></td></tr>', __('Trace', 'ws-form'), esc_html($trace));
-				}
-
-				$email_message .= '</table>';
-
-			} else {
-
-				$email_message .= sprintf(
-
-					'<p>%s</p>',
-					__('An unknown error occurred.', 'ws-form')
-				);
-
-				$email_message .= '<table class="table-report">';
-
-				// Type
-				$email_message .= sprintf('<tr><th>%s</th><td>%s</td></tr>', __('Type', 'ws-form'), esc_html(gettype($e)));
-
-				// Variable
-				$email_message .= sprintf('<tr><th>%s</th><td>%s</td></tr>', __('Variable', 'ws-form'), esc_html(print_r($e, true)));
-
-				$email_message .= '</table>';
-			}
-
-			// Get email template
-			$email_template = file_get_contents(sprintf('%sincludes/templates/email/html/error.html', WS_FORM_PLUGIN_DIR_PATH));
-
-			// Parse email template
-			$mask_values = array(
-
-				'email_subject' => esc_html($email_subject),
-				'email_title' => __('Form Submission Error', 'ws-form'),
-				'email_message' => $email_message
-			);
-
-			$wp_mail_message = WS_Form_Common::mask_parse($email_template, $mask_values);
-
-			// Build headers
-			$headers = array(
-
-				'Content-Type: text/html'
-			);
-
-			// Send email
-			wp_mail($email_to_array, $email_subject, $wp_mail_message, $headers);
-
-			// Store last error
-			if(!$test) {
-
-				WS_Form_Common::option_set('report_submit_error_last', array(
-
-					'time' => time(),
-					'form_id' => $form_id,
-					'form_label' => $form_label,
-					'message' => $message,
-					'code' => $code,
-					'file' => $file,
-					'line' => $line,
-					'trace' => $trace
-				));
-			}
+			return $field_id;
 		}
 
 		// Remove protected meta data
@@ -3940,5 +3854,14 @@
 
 			if(absint($this->id) === 0) { parent::db_throw_error(__('Invalid submit ID (WS_Form_Submit | db_check_id)', 'ws-form')); }
 			return true;
+		}
+
+		// Is valid
+		public function is_valid($submit_object) {
+
+			return (
+				is_object($submit_object) &&
+				property_exists($submit_object, 'id')
+			);
 		}
 	}

@@ -198,7 +198,8 @@
 			$settings->can_repost = $this->can_repost;
 
 			// Apply filter
-			$settings = apply_filters('wsf_action_' . $this->id . '_settings', $settings);
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			$settings = apply_filters('wsf_action_data_export_request_settings', $settings);
 
 			return $settings;
 		}

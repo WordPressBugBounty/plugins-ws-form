@@ -262,6 +262,7 @@
 
 						case 'post' :
 
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							$meta_key = 'data_grid_select';
 							$meta_return['select_field_label'] = 1;
 
@@ -288,6 +289,7 @@
 
 						case 'select' :
 
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							$meta_key = 'data_grid_select';
 							$meta_return['select_field_label'] = 1;
 
@@ -303,6 +305,7 @@
 
 						case 'checkbox' :
 
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							$meta_key = 'data_grid_checkbox';
 							$meta_return['checkbox_field_label'] = 1;
 
@@ -317,6 +320,7 @@
 
 						case 'checkboxes' :
 
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							$meta_key = 'data_grid_checkbox';
 							$meta_return['checkbox_field_label'] = 1;
 
@@ -332,6 +336,7 @@
 
 						case 'radio' :
 
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							$meta_key = 'data_grid_radio';
 							$meta_return['radio_field_label'] = 1;
 

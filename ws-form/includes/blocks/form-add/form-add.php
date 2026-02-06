@@ -42,7 +42,7 @@ class WS_Form_Block_Form_Add {
 			// Translations
 			'text_add_form_button' => __('Add New', 'ws-form'),
 
-			/* translators: %s = WS Form */
+			/* translators: %s: Presentable name (e.g. WS Form PRO) */
 			'text_description' => sprintf(__('Add a form to your web page using %s.', 'ws-form'), WS_FORM_NAME_PRESENTABLE),
 			'text_edit_form_button' => __('Edit', 'ws-form'),
 			'text_form_not_selected' => __('Select a form in the sidebar.', 'ws-form'),

@@ -23,11 +23,11 @@
 				var image_path = (ws_form_settings.url_plugin + 'public/images/external/');
 				if(ws_form_settings.styler_enabled) {
 
-					$('body').append("<style id=\"wsf-intl-tel-input\">\n	.iti__flag { background-image: url(\"" + image_path + "flags.png\");}\n	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {\n		.iti__flag { background-image: url(\"" + image_path + "flags@2x.png\"); }\n	}\n\n");
+					$('body').append("<style id=\"wsf-intl-tel-input\">\n	.iti__flag { background-image: url(\"" + image_path + "flags.png\");}\n	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {\n		.iti__flag { background-image: url(\"" + image_path + "flags2x.png\"); }\n	}\n\n");
 
 				} else {
 
-					$('body').append("<style id=\"wsf-intl-tel-input\">\n	.iti { width: 100%; }\n	.iti__flag { background-image: url(\"" + image_path + "flags.png\");}\n	.iti--allow-dropdown input, .iti--allow-dropdown input[type=tel], .iti--allow-dropdown input[type=text], .iti--separate-dial-code input, .iti--separate-dial-code input[type=tel], .iti--separate-dial-code input[type=text] {\n		padding-right: 6px;\n		padding-left: 52px;\n		margin-left: 0;\n	}\n	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {\n		.iti__flag { background-image: url(\"" + image_path + "flags@2x.png\"); }\n	}\n\n");
+					$('body').append("<style id=\"wsf-intl-tel-input\">\n	.iti { width: 100%; }\n	.iti__flag { background-image: url(\"" + image_path + "flags.png\");}\n	.iti--allow-dropdown input, .iti--allow-dropdown input[type=tel], .iti--allow-dropdown input[type=text], .iti--separate-dial-code input, .iti--separate-dial-code input[type=tel], .iti--separate-dial-code input[type=text] {\n		padding-right: 6px;\n		padding-left: 52px;\n		margin-left: 0;\n	}\n	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {\n		.iti__flag { background-image: url(\"" + image_path + "flags2x.png\"); }\n	}\n\n");
 				}
 			}
 

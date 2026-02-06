@@ -29,7 +29,7 @@
 		var recaptcha_version = ($('[data-recaptcha-type="v3_default"]', this.form_canvas_obj).length) ? 3 : 2;
 
 		// Should reCAPTCHA script be called?
-		if(!window['___grecaptcha_cfg'] && !$('#wsf-recaptcha-script-body').length) {
+		if(!window['grecaptcha'] && !$('#wsf-recaptcha-script-body').length) {
 
 			switch(recaptcha_version) {
 
@@ -46,7 +46,7 @@
 			}
 			$('body').append(recaptcha_script_body);
 
-		} else {
+		} else if(window['grecaptcha']) {
 
 			window.wsf_recaptcha_loaded = true;
 		}
@@ -297,8 +297,10 @@
 		}
 
 		// Check to see if reCAPTCHA loaded
-		if(wsf_recaptcha_loaded) {
-
+		if(
+			wsf_recaptcha_loaded &&
+			$('#' + recaptcha.recaptcha_id).length
+		) {
 			switch(recaptcha.type) {
 
 				case 'v2_default' :
@@ -702,7 +704,10 @@
 		}
 
 		// Check to see if hCaptcha loaded
-		if(wsf_hcaptcha_loaded) {
+		if(
+			wsf_hcaptcha_loaded &&
+			$('#' + hcaptcha_config.hcaptcha_id).length
+		) {
 
 			switch(hcaptcha_config.type) {
 
@@ -974,8 +979,10 @@
 		}
 
 		// Check to see if Turnstile loaded
-		if(wsf_turnstile_loaded) {
-
+		if(
+			wsf_turnstile_loaded &&
+			$('#' + turnstile_config.turnstile_id).length
+		) {
 			var id = turnstile.render('#' + turnstile_config.turnstile_id, turnstile_config.config);
 
 			turnstile_config.id = id;

@@ -19,7 +19,7 @@
 <div class="wsf-welcome-copy">
 <div class="wsf-welcome-logo"><svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 503.2 150" xml:space="preserve"><title><?php WS_Form_Common::echo_esc_html(sprintf(
 
-	/* translators: %s = Presentatable name (e.g. WS Form PRO) */
+	/* translators: %s: Presentatable name (e.g. WS Form PRO) */
 	__('%s - Smart. Fast. Forms.', 'ws-form'),
 
 	WS_FORM_NAME_PRESENTABLE
@@ -28,28 +28,28 @@
 <?php
 
 	// Partner
-	$partner_logo_text = getenv('wsf_partner_logo_text');
-	$partner_logo_url = getenv('wsf_partner_logo_url');
-	$partner_logo_width = getenv('wsf_partner_logo_width');
-	$partner_logo_height = getenv('wsf_partner_logo_height');
-	$partner_logo_alt = getenv('wsf_partner_logo_alt');
+	$ws_form_partner_logo_text = getenv('wsf_partner_logo_text');
+	$ws_form_partner_logo_url = getenv('wsf_partner_logo_url');
+	$ws_form_partner_logo_width = getenv('wsf_partner_logo_width');
+	$ws_form_partner_logo_height = getenv('wsf_partner_logo_height');
+	$ws_form_partner_logo_alt = getenv('wsf_partner_logo_alt');
 
 	if(
-		($partner_logo_text !== false) ||
-		($partner_logo_url !== false) 
+		($ws_form_partner_logo_text !== false) ||
+		($ws_form_partner_logo_url !== false) 
 	) {
 ?>
 <div class="wsf-welcome-partner">
 <?php
-		if($partner_logo_text !== false) {
+		if($ws_form_partner_logo_text !== false) {
 ?>
-<p><?php WS_Form_Common::echo_esc_html($partner_logo_text); ?></p>
+<p><?php WS_Form_Common::echo_esc_html($ws_form_partner_logo_text); ?></p>
 <?php
 		}
 
-		if($partner_logo_url !== false) {
+		if($ws_form_partner_logo_url !== false) {
 ?>
-<img src="<?php WS_Form_Common::echo_esc_attr($partner_logo_url); ?>"<?php if($partner_logo_width !== false) { ?> width="<?php WS_Form_Common::echo_esc_attr($partner_logo_width); ?>" <?php } ?><?php if($partner_logo_height !== false) { ?> height="<?php WS_Form_Common::echo_esc_attr($partner_logo_height); ?>" <?php } ?><?php if($partner_logo_alt !== false) { ?> alt="<?php WS_Form_Common::echo_esc_attr($partner_logo_alt); ?>" title="<?php WS_Form_Common::echo_esc_attr($partner_logo_alt); ?>" <?php } ?> />
+<img src="<?php WS_Form_Common::echo_esc_attr($ws_form_partner_logo_url); ?>"<?php if($ws_form_partner_logo_width !== false) { ?> width="<?php WS_Form_Common::echo_esc_attr($ws_form_partner_logo_width); ?>" <?php } ?><?php if($ws_form_partner_logo_height !== false) { ?> height="<?php WS_Form_Common::echo_esc_attr($ws_form_partner_logo_height); ?>" <?php } ?><?php if($ws_form_partner_logo_alt !== false) { ?> alt="<?php WS_Form_Common::echo_esc_attr($ws_form_partner_logo_alt); ?>" title="<?php WS_Form_Common::echo_esc_attr($ws_form_partner_logo_alt); ?>" <?php } ?> />
 <?php
 		}
 ?>
@@ -86,14 +86,13 @@
 <div class="wsf-welcome-copy">
 <div class="wsf-welcome-title"><?php
 
-	echo sprintf(	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_html(sprintf(	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-		/* translators: %s = Framework name (e.g. Bootstrap) */
-		__("You're using %s", 'ws-form'), 
+		/* translators: %s: Framework name (e.g. Bootstrap) */
+		esc_html__("You're using %s", 'ws-form'), 
 
 		'<span id="wsf-welcome-framework"></span>'
-
-	);
+	));
 
 ?></div>
 <div class="wsf-welcome-intro"><?php esc_html_e('Is that correct?', 'ws-form'); ?></div>
@@ -120,14 +119,14 @@
 <option value="<?php WS_Form_Common::echo_esc_attr(WS_FORM_DEFAULT_FRAMEWORK); ?>"><?php esc_html_e('No Framework', 'ws-form'); ?></option>
 <?php
 
-	$frameworks = WS_Form_Config::get_frameworks(false);
-	$framework_types = $frameworks['types'];
-	foreach($framework_types as $type => $framework) {
+	$ws_form_frameworks = WS_Form_Config::get_frameworks(false);
+	$ws_form_framework_types = $ws_form_frameworks['types'];
+	foreach($ws_form_framework_types as $ws_form_type => $ws_form_framework) {
 
 		// Skip default framework (ws-form)
-		if($type == WS_FORM_DEFAULT_FRAMEWORK) { continue; }
+		if($ws_form_type == WS_FORM_DEFAULT_FRAMEWORK) { continue; }
 
-?><option value="<?php WS_Form_Common::echo_esc_attr($type); ?>"><?php WS_Form_Common::echo_esc_html($framework['name']); ?></option>
+?><option value="<?php WS_Form_Common::echo_esc_attr($ws_form_type); ?>"><?php WS_Form_Common::echo_esc_html($ws_form_framework['name']); ?></option>
 <?php
 
 	}

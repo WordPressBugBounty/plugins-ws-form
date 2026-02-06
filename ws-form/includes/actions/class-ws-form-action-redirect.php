@@ -219,14 +219,15 @@
 			}
 
 			// Filter hook
-			$url = apply_filters('wsf_action_' . $this->id . '_url', $url, $form, $submit, $config);
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			$url = apply_filters('wsf_action_redirect_url', $url, $form, $submit, $config);
 
 			if($url !== '') {
 
 				// Redirect to URL
 				parent::success(sprintf(
 
-					/* translators: %s = URL */
+					/* translators: %s: URL */
 					__('Redirect added to queue: %s', 'ws-form')
 					, $url
 
@@ -297,7 +298,8 @@
 			$settings->can_repost = $this->can_repost;
 
 			// Apply filter
-			$settings = apply_filters('wsf_action_' . $this->id . '_settings', $settings);
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			$settings = apply_filters('wsf_action_redirect_settings', $settings);
 
 			return $settings;
 		}
@@ -334,7 +336,9 @@
 						array(
 
 							'logic'          => '==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'       => 'action_' . $this->id . '_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'     => ''
 						)
 					)
@@ -354,7 +358,9 @@
 						array(
 
 							'logic'          => '==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'       => 'action_' . $this->id . '_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'     => 'page'
 						)
 					)
@@ -372,7 +378,9 @@
 						array(
 
 							'logic'          => '==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'       => 'action_' . $this->id . '_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'     => 'post_id'
 						)
 					)
@@ -439,14 +447,18 @@
 						array(
 
 							'logic'          => '==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'       => 'action_' . $this->id . '_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'     => ''
 						),
 
 						array(
 
 							'logic'          => '==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'       => 'action_' . $this->id . '_fallback',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'     => 'on'
 						)
 					)
@@ -493,14 +505,18 @@
 						array(
 
 							'logic'          => '==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'       => 'action_' . $this->id . '_type',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'     => ''
 						),
 
 						array(
 
 							'logic'          => '==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'       => 'action_' . $this->id . '_fallback',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'     => 'on'
 						)
 					)
@@ -533,13 +549,12 @@
 
 			$results = array();
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$posts = $wpdb->get_results($wpdb->prepare(
 
 				"SELECT ID, post_title FROM {$wpdb->prefix}posts WHERE post_title LIKE %s AND post_type = 'page' AND NOT (post_status = 'trash');",
 				'%' . $term . '%'
-			);
-
-			$posts = $wpdb->get_results($sql);
+			));
 
 			foreach ($posts as $post) {
 

@@ -1,7 +1,7 @@
 <?php
 
 	// Get ID of form (0 = New)
-	$form_id = absint(WS_Form_Common::get_query_var('id', 0));
+	$ws_form_form_id = absint(WS_Form_Common::get_query_var('id', 0));
 
 	// Loader icon
 	WS_Form_Common::loader();
@@ -26,44 +26,45 @@
 
 	// Preview
 ?>
-<a data-action="wsf-preview" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_preview_url($form_id)); ?>" target="wsf-preview-<?php WS_Form_Common::echo_esc_attr($form_id); ?>"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview', 'ws-form'); ?></a>
+<a data-action="wsf-preview" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_preview_url($ws_form_form_id)); ?>" target="wsf-preview-<?php WS_Form_Common::echo_esc_attr($ws_form_form_id); ?>"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview', 'ws-form'); ?></a>
 <?php
 
 	// Style
 	if(WS_Form_Common::styler_visible_admin()) {
 ?>
-<a data-action="wsf-style" class="wsf-button wsf-button-small" href="#" target="wsf-style-<?php WS_Form_Common::echo_esc_attr($form_id); ?>"><?php WS_Form_Common::render_icon_16_svg('style'); ?> <?php esc_html_e('Style', 'ws-form'); ?></a>
+<a data-action="wsf-style" class="wsf-button wsf-button-small" href="#" target="wsf-style-<?php WS_Form_Common::echo_esc_attr($ws_form_form_id); ?>"><?php WS_Form_Common::render_icon_16_svg('style'); ?> <?php esc_html_e('Style', 'ws-form'); ?></a>
 <?php
 	}
 
 	// Submissions
 	if(WS_Form_Common::can_user('read_submission')) {
 ?>
-<a data-action="wsf-submission" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_url(admin_url('admin.php?page=ws-form-submit&id=' . $form_id)); ?>"><?php WS_Form_Common::render_icon_16_svg('table'); ?> <?php esc_html_e('Submissions', 'ws-form'); ?></a>
+<a data-action="wsf-submission" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_url(admin_url('admin.php?page=ws-form-submit&id=' . $ws_form_form_id)); ?>"><?php WS_Form_Common::render_icon_16_svg('table'); ?> <?php esc_html_e('Submissions', 'ws-form'); ?></a>
 <?php
 	}
 
 	// Hook for additional buttons
-	do_action('wsf_form_edit_nav_left', $form_id);
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+	do_action('wsf_form_edit_nav_left', $ws_form_form_id);
 ?>
 <ul class="wsf-settings wsf-settings-form">
 <?php
 	// Download
 	if(WS_Form_Common::can_user('export_form')) {
 ?>
-<li data-action="wsf-form-download"<?php WS_Form_Common::tooltip_e(__('Export Form', 'ws-form'), 'bottom-center'); ?>><?php WS_Form_Common::render_icon_16_svg('download'); ?></li>
+<li data-action="wsf-form-download"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Export Form', 'ws-form'), 'bottom-center'); ?>><?php WS_Form_Common::render_icon_16_svg('download'); ?></li>
 <?php
 	}
 	
 	// Upload
 	if(WS_Form_Common::can_user('import_form')) {
 ?>
-<li data-action="wsf-form-upload"<?php WS_Form_Common::tooltip_e(__('Import Form', 'ws-form'), 'bottom-center'); ?>><?php WS_Form_Common::render_icon_16_svg('upload'); ?></li>
+<li data-action="wsf-form-upload"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Import Form', 'ws-form'), 'bottom-center'); ?>><?php WS_Form_Common::render_icon_16_svg('upload'); ?></li>
 <?php
 	}
 ?>
-<li data-action="wsf-redo"<?php WS_Form_Common::tooltip_e(__('Redo', 'ws-form'), 'bottom-center'); ?> class="wsf-redo-inactive"><?php WS_Form_Common::render_icon_16_svg('redo'); ?></li>
-<li data-action="wsf-undo"<?php WS_Form_Common::tooltip_e(__('Undo', 'ws-form'), 'bottom-center'); ?> class="wsf-undo-inactive"><?php WS_Form_Common::render_icon_16_svg('undo'); ?></li>
+<li data-action="wsf-redo"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Redo', 'ws-form'), 'bottom-center'); ?> class="wsf-redo-inactive"><?php WS_Form_Common::render_icon_16_svg('redo'); ?></li>
+<li data-action="wsf-undo"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Undo', 'ws-form'), 'bottom-center'); ?> class="wsf-undo-inactive"><?php WS_Form_Common::render_icon_16_svg('undo'); ?></li>
 </ul>
 <?php
 
@@ -139,11 +140,11 @@
 
 <div class="wsf-modal-title"><?php
 
-	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 ?><h2><?php
 
-	WS_Form_Common::echo_esc_html(__('Variables', 'ws-form'));	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_esc_html(__('Variables', 'ws-form'));	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 ?></h2></div>
 
@@ -160,7 +161,7 @@
 
 <input id="wsf-variable-helper-search-input" class="wsf-field" type="search" placeholder="<?php
 
-	WS_Form_Common::echo_esc_html(__('Variable search...', 'ws-form'));	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_esc_html(__('Variable search...', 'ws-form'));	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 ?>" />
 
@@ -172,7 +173,7 @@
 	
 <p><?php
 
-	WS_Form_Common::echo_esc_html(__('No results', 'ws-form'));	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+	WS_Form_Common::echo_esc_html(__('No results', 'ws-form'));	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 ?>
 </div>
@@ -198,26 +199,24 @@
 	try {
 
 		$ws_form_form = new WS_Form_Form();
-		$ws_form_form->id = $form_id;
-		$form_object = $ws_form_form->db_read(true, true);
-		$json_form = wp_json_encode($form_object);
+		$ws_form_form->id = $ws_form_form_id;
+		$ws_form_form_object = $ws_form_form->db_read(true, true);
+		$ws_form_json_form = wp_json_encode($ws_form_form_object);
 
 	} catch(Exception $e) {
 
-		$json_form = false;
+		$ws_form_json_form = false;
 	}
 ?>
 
 	// Embed form data
 	var wsf_form_json = { <?php
 
-	WS_Form_Common::echo_esc_html(absint($form_id));
+	WS_Form_Common::echo_esc_html(absint($ws_form_form_id));
 
 ?>: <?php
 
-	echo $json_form;	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
-	$json_form = null;
-
+	WS_Form_Common::echo_json($ws_form_json_form);
 ?> };
 
 	var wsf_obj = null;
@@ -239,7 +238,7 @@
 			wsf_obj.render({
 
 				'obj': '#wsf-form',
-				'form_id': <?php WS_Form_Common::echo_esc_attr($form_id); ?>
+				'form_id': <?php WS_Form_Common::echo_esc_attr($ws_form_form_id); ?>
 			});
 		});
 

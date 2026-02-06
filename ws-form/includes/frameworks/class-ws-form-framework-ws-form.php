@@ -78,7 +78,7 @@
 					'admin' => array(
 
 						'mask_wrapper'		=>	'<ul class="wsf-group-tabs">#tabs</ul>',
-						'mask_single'		=>	'<li class="wsf-group-tab" data-id="#data_id" title="#label"><a href="#href"><div class="wsf-group-label"><span class="wsf-group-hidden" title="' . __('Hidden', 'ws-form') . '">' . self::get_icon_16_svg('hidden') . '</span><input type="text" value="#label" data-label="#data_id" readonly aria-label="' . __('Tab Label', 'ws-form') . '"></div></a></li>'
+						'mask_single'		=>	'<li class="wsf-group-tab" data-id="#data_id" title="#label"><a href="#href"><div class="wsf-group-label"><span class="wsf-group-hidden" title="' . esc_html(__('Hidden', 'ws-form')) . '">' . self::get_icon_16_svg('hidden') . '</span><input type="text" data-wsf-value="#label" data-label="#data_id" readonly aria-label="' . esc_attr(__('Tab Label', 'ws-form')) . '"></div></a></li>'
 					),
 
 					'public' => array(
@@ -134,8 +134,8 @@
 					'admin' => array(
 
 						'mask_wrapper' 	=> '<ul class="wsf-sections" id="#id" data-id="#data_id">#sections</ul>',
-						'mask_single' 	=> sprintf('<li class="#class" id="#id" data-id="#data_id"><div class="wsf-section-inner">#label<div class="wsf-section-type">%s#section_id</div>#section</div></li>', __('Section', 'ws-form')),
-						'mask_label' 	=> '<div class="wsf-section-label"><span class="wsf-section-repeatable">' . self::get_icon_16_svg('redo') . '</span><span class="wsf-section-hidden" title="' . __('Hidden', 'ws-form') . '">' . self::get_icon_16_svg('hidden') . '</span><span class="wsf-section-disabled" title="' . __('Disabled', 'ws-form') . '">' . self::get_icon_16_svg('disabled') . '</span><input type="text" value="#label" data-label="#data_id" readonly aria-label="' . __('Section Label', 'ws-form') . '"></div>',
+						'mask_single' 	=> sprintf('<li class="#class" id="#id" data-id="#data_id"><div class="wsf-section-inner">#label<div class="wsf-section-type">%s#section_id</div>#section</div></li>', esc_html(__('Section', 'ws-form'))),
+						'mask_label' 	=> '<div class="wsf-section-label"><span class="wsf-section-repeatable">' . self::get_icon_16_svg('redo') . '</span><span class="wsf-section-hidden" title="' . esc_attr(__('Hidden', 'ws-form')) . '">' . self::get_icon_16_svg('hidden') . '</span><span class="wsf-section-disabled" title="' . esc_attr(__('Disabled', 'ws-form')) . '">' . self::get_icon_16_svg('disabled') . '</span><input type="text" data-wsf-value="#label" data-label="#data_id" readonly aria-label="' . esc_attr(__('Section Label', 'ws-form')) . '" autocomplete="off" data-private="lipsum" data-lpignore="true" data-1p-ignore></div>',
 						'class_single'	=> array('wsf-section')
 					),
 

@@ -29,9 +29,25 @@
 
 			if($this->object == '') { parent::db_throw_error(__('Object not set', 'ws-form')); }
 
+			if(!self::db_object_valid()) { parent::db_throw_error(__('Invalid object', 'ws-form')); }
+
 			global $wpdb;
 
 			return sprintf('%s%s%s_meta', $wpdb->prefix, WS_FORM_DB_TABLE_PREFIX, $this->object);
+		}
+
+		// Check if object is valid
+		public function db_object_valid() {
+
+			return in_array($this->object, array(
+
+				'form',
+				'group',
+				'section',
+				'field',
+				'style',
+				'submit'
+			));
 		}
 
 		// Read meta data
@@ -46,24 +62,18 @@
 
 			if(absint($this->parent_id) === 0) { parent::db_throw_error(__('Parent ID not set', 'ws-form')); }
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+			$meta_value = $wpdb->get_var($wpdb->prepare(
 
-				"SELECT meta_value FROM " . self::db_get_table_name() . " WHERE parent_id = %d AND meta_key = %s LIMIT 1",
+				"SELECT meta_value FROM " . self::db_get_table_name() . " WHERE parent_id = %d AND meta_key = %s LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Database table name already escaped
 				$this->parent_id,
 				$meta_key
-			);
+			));
 
-			$meta_value = $wpdb->get_var($sql);
 			if(is_null($meta_value)) { return false; }
 
-			if(is_serialized($meta_value)) {
-
-				return unserialize($meta_value);
-
-			} else {
-
-				return $meta_value;
-			}
+			// Maybe unserialize
+			return WS_Form_Common::maybe_unserialize($meta_value);
 		}
 
 		// Read all meta data
@@ -78,28 +88,18 @@
 
 			if(absint($this->parent_id) === 0) { parent::db_throw_error(__('Parent ID not set', 'ws-form')); }
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+			$metas = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM " . self::db_get_table_name() . " WHERE parent_id = %d;",
+				"SELECT meta_key,meta_value FROM " . self::db_get_table_name() . " WHERE parent_id = %d;", // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Database table name already escaped
 				$this->parent_id
-			);
-			$metas = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($metas) {
 
 				foreach($metas as $key => $meta) {
 
-					if(is_serialized($meta['meta_value'])) {
-
-						$metas[$key]['meta_value'] = unserialize($meta['meta_value']);
-
-					} else {
-
-						$metas[$key]['meta_value'] = $meta['meta_value'];
-					}
-
-					// New meta object
-					$meta_object->{$metas[$key]['meta_key']} = $metas[$key]['meta_value'];
+					$meta_object->{$metas[$key]['meta_key']} = WS_Form_Common::maybe_unserialize($meta['meta_value']);
 				}
 			}
 
@@ -115,13 +115,16 @@
 			global $wpdb;
 
 			// Delete meta
-			$sql = $wpdb->prepare(
-
-				"DELETE FROM " . self::db_get_table_name() . " WHERE id = %d;",
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+			$delete_result = $wpdb->delete(
+				self::db_get_table_name(),
+				array( 'id' => $this->id ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting meta', 'ws-form')); }
+			if($delete_result === false) { 
+				parent::db_wpdb_handle_error(__('Error deleting meta', 'ws-form')); 
+			}
 		}
 
 		// Delete all meta in object
@@ -132,13 +135,17 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
-
-				"DELETE FROM " . self::db_get_table_name() . " WHERE parent_id = %d;",
-				$this->parent_id
+			// Delete meta
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+			$delete_result = $wpdb->delete(
+				self::db_get_table_name(),
+				array( 'parent_id' => $this->parent_id ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting object meta', 'ws-form')); }
+			if($delete_result === false) { 
+				parent::db_wpdb_handle_error(__('Error deleting object meta', 'ws-form')); 
+			}
 		}
 
 		// Clone - All
@@ -151,12 +158,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+			$metas = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM " . self::db_get_table_name() . " WHERE parent_id = %d;",
+				"SELECT meta_key,meta_value FROM " . self::db_get_table_name() . " WHERE parent_id = %d;", // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Database table name already escaped
 				$this->parent_id
-			);
-			$metas = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($metas) {
 
@@ -192,15 +199,22 @@
 			global $wpdb;
 
 			// Clone group
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO " . self::db_get_table_name() . " (" . self::DB_INSERT . ") VALUES (%s, %s, %d);",
-				$this->meta_key,
-				$this->meta_value,
-				$this->parent_id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				self::db_get_table_name(),
+				array(
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_key' => $this->meta_key,
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+					'meta_value' => $this->meta_value,
+					'parent_id' => $this->parent_id,
+				),
+				array( '%s', '%s', '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error cloning meta', 'ws-form')); }
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error cloning meta', 'ws-form')); 
+			}
 
 			// Get new group ID
 			$object_id = $wpdb->insert_id;
@@ -284,6 +298,7 @@
 			foreach($meta_data_array as $key => $value) {
 
 				// Run action for update
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$value = apply_filters('wsf_meta_update', $value, $key, $this->object, $this->parent_id, $meta_data_array);
 
 				// Comply with unfiltered_html capability
@@ -293,21 +308,27 @@
 				if(is_array($value) || is_object($value)) { $value = serialize($value); }
 
 				// Build meta data
-				$meta_data = array('parent_id' => $this->parent_id, 'meta_key' => $key, 'meta_value' => $value);
+				$meta_data = array(
+
+					'parent_id' => $this->parent_id,
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_key' => $key,
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+					'meta_value' => $value
+				);
 
 				global $wpdb;
 
 				if(!$replace_meta) {
 
 					// Get ID of existing meta record
-					$sql = $wpdb->prepare(
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+					$id = $wpdb->get_var($wpdb->prepare(
 
-						"SELECT id FROM " . self::db_get_table_name() . " WHERE parent_id = %d AND meta_key = %s LIMIT 1",
+						"SELECT id FROM " . self::db_get_table_name() . " WHERE parent_id = %d AND meta_key = %s LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Database table name already escaped
 						$this->parent_id,
 						$key
-					);
-
-					$id = $wpdb->get_var($sql);
+					));
 					if($id) {
 
 						// Existing
@@ -316,6 +337,7 @@
 				}
 
 				// Replace
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
 				$replace_count = $wpdb->replace(self::db_get_table_name(), $meta_data);
 				if($replace_count === false) {
 

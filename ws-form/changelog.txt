@@ -2,6 +2,93 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.73 - 12/06/2025 =
+* Added: Include Fields setting on Summary field
+* Bug Fix: Config select_cascade_no_match syntax error
+
+= 1.10.72 - 12/04/2025 =
+* Bug Fix: #email_log variable use outside of Send Email action
+* Bug Fix: reCAPTCHA race condition
+
+= 1.10.71 - 11/25/2025 =
+* Bug Fix: WP_Filesystem move method called with overwrite flag to simulate PHP rename method
+
+= 1.10.70 - 11/24/2025 =
+* Bug Fix: Review nag fix (due to HTML escaping)
+
+= 1.10.69 - 11/23/2025 =
+* Added: WordPress 6.9 compatibility
+* Added: Google Address Places API (New) fix to handle missing event firing when address selected
+* Bug Fix: Template record counts
+
+= 1.10.68 - 11/15/2025 =
+* Added: IP throttling support for proxied addresses
+
+= 1.10.67 - 11/11/2025 =
+* Added: Additional updates to support WordPress MCP adapter (0.3.0) / Abilities API (0.4.0)
+* Bug Fix: Google Address field Places API (New) custom attributes and Vacinity mapping
+
+= 1.10.66 - 11/10/2025 =
+* Added: Media Capture setting improvements
+
+= 1.10.65 - 11/10/2025 =
+* Added: Updates to support changes to WordPress MCP adapter (0.3.0) / Abilities API (0.4.0)
+* Added: Improvement to tabs CSS
+* Bug Fix: Form rendering in site editor
+
+= 1.10.64 - 11/08/2025 =
+* Added: PCP updates
+
+= 1.10.63 - 10/25/2025 =
+* Added: Media Capture field type
+* Added: CIDR support for IP blocking
+* Added: Improvements to Google Address field for Places API (New)
+* Added: PCP updates
+* Changed: Password strength JS library (zxcvbn) enqueue now uses WordPress copy
+* Bug Fix: Select random option in debug console
+* Bug Fix: Repeatable section delimiter usage and file objects in webhook action
+
+= 1.10.62 - 10/23/2025 =
+* Added: Some plugins call wp_footer more than once, added support for this scenario
+* Bug Fix: Repeatable section delimiter usage in server-side #field variables
+
+= 1.10.61 - 10/21/2025 =
+* Added: wsf_footer_script_attributes filter hook: https://wsform.com/knowledgebase/wsf_footer_script_attributes/
+* Bug Fix: Footer scripts were rendered too soon for some page builders
+* Bug Fix: Fix to KB slugs for local and session storage variables
+
+= 1.10.60 - 10/19/2025 =
+* Added: Integration with Angie Agentic AI https://wsform.com/angie-agentic-ai-meets-ws-form/
+* Added: Integration with WordPress Abilities API: https://github.com/WordPress/abilities-api
+* Added: Integration with WordPress MCP Server: https://github.com/Automattic/wordpress-mcp
+* Added: Integration with Hostinger Reach: https://wordpress.org/plugins/hostinger-reach/
+* Added: Initial set of abilities completed: https://wsform.com/knowledgebase/mcp-server/
+* Added: Google Map fields can now be mapped to ACPT address fields
+* Added: Public footer script now uses wp_add_inline_script
+* Added: Improvements to help prevent field autofill software causing problems in layout editor
+* Added: Improvements to Google Address usability on mobile
+* Added: Improvements to email error handling
+* Bug Fix: Caption font size for checkbox and radio fields
+* Bug Fix: #field with delimiter now returns values back in original order
+* Bug Fix: Fixed reference to #data_grid_row_wocommerce_cart in variables documentation
+
+= 1.10.59 - 10/06/2025 =
+* Added: Support for Google Maps JS 'Places API (New)' - Setting in WS Form > Settings > Advanced for accounts created after March 1st, 2025
+* Added: Timeout and High Accuracy settings for browser geo lookup in Google Address field
+* Added: Improved Google Maps JS API detection
+* Added: #post_date_modified, #post_time_modified, #post_date_modified_custom and #post_parent variables
+* Added: Demo post variable template
+* Added: Sidebar resizing on submissions page
+* Added: #field_max_value(id) now works for fields in repeatable sections
+* Added: Improved switcher true / false detection for JetEngine
+* Added: Improved admin CSS to handle body padding
+* Added: Translator comment improvements
+* Added: Translation language file updates
+* Added: Ability to use tracking variables client-side, where available (e.g. #tracking_referrer)
+* Added: Select2 theme setting
+* Bug Fix: Function detection for captcha fields in conditional logic
+* Bug Fix: Translation warnings during activation
+
 = 1.10.58 - 09/11/2025 =
 * Added: Resizable sidebar in layout editor
 * Added: Improvement to ACPT data source to avoid errors if field ID changes / missing

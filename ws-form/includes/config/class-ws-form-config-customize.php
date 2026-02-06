@@ -69,7 +69,7 @@
 
 					'label'				=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('%s - Conversational', 'ws-form'),
 						WS_FORM_NAME_GENERIC
 					),
@@ -143,6 +143,7 @@
 			}
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$skins = apply_filters('wsf_config_skins', $skins);
 
 			return $skins;
@@ -529,6 +530,7 @@
 			);
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$customize = apply_filters('wsf_config_customize', $customize);
 
 			return $customize;

@@ -30,8 +30,6 @@
 		const DB_UPDATE = 'label,date_updated';
 		const DB_SELECT = 'label,status,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,id';
 
-		const FILE_ACCEPTED_MIME_TYPES = 'application/json';
-
 		public function __construct() {
 
 			global $wpdb;
@@ -61,17 +59,22 @@
 			self::sanitize_label(__('New Form', 'ws-form'));
 
 			// Add form
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %d, %s, %s, %s);",
-				$this->label,
-				get_current_user_id(),
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				WS_FORM_VERSION
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'label' => $this->label,
+					'user_id' => get_current_user_id(),
+					'date_added' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'version' => WS_FORM_VERSION,
+				),
+				array( '%s', '%d', '%s', '%s', '%s' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error adding form', 'ws-form')); }
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error adding form', 'ws-form')); 
+			}
 
 			// Get inserted ID
 			$this->id = $wpdb->insert_id;
@@ -80,9 +83,11 @@
 			$settings_form_admin = WS_Form_Config::get_settings_form_admin();
 			$meta_data = $settings_form_admin['sidebars']['form']['meta'];
 			$meta_keys = WS_Form_Config::get_meta_keys();
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$meta_keys = apply_filters('wsf_form_create_meta_keys', $meta_keys);
 			$meta_data_array = array_merge(self::build_meta_data($meta_data, $meta_keys), $this->meta);
 			$meta_data_object = json_decode(wp_json_encode($meta_data_array));
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$meta_data_object = apply_filters('wsf_form_create_meta_data', $meta_data_object);
 
 			// Build meta data
@@ -100,6 +105,7 @@
 			}
 
 			// Run action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_form_create', $this);
 
 			return $this->id;
@@ -163,12 +169,13 @@
 			}
 		}
 
-		public function db_create_from_hook($hook) {
+		public function db_create_from_hook($hook, $description = false) {
 
 			// Run hook to determine $action_id, $list_id and $list_sub_id
 			try {
 
-				$hook_return = apply_filters($hook, false);
+				// phpcs:ignore ,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Intentionally dynamic
+				$hook_return = apply_filters($hook, $description);
 
 			} catch (Exception $e) {
 
@@ -292,13 +299,12 @@
 				self::db_check_id();
 
 				// Read form
-				$sql = $wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$form_array = $wpdb->get_row($wpdb->prepare(
 
-					"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
+					"SELECT label,status,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,id FROM {$wpdb->prefix}wsf_form WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
 					$this->id
-				);
-
-				$form_array = $wpdb->get_row($sql, 'ARRAY_A');
+				), 'ARRAY_A');
 				if(is_null($form_array)) { parent::db_wpdb_handle_error(__('Unable to read form', 'ws-form')); }
 
 				// Process groups (Done first in case we are requesting only fields)
@@ -351,13 +357,12 @@
 			global $wpdb;
 
 			// Get contents of published field
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$published_row = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT checksum, published FROM {$this->table_name} WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
+				"SELECT checksum, published FROM {$wpdb->prefix}wsf_form WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
 				$this->id
-			);
-
-			$published_row = $wpdb->get_row($sql);
+			));
 			if(is_null($published_row)) { parent::db_wpdb_handle_error(__('Unable to read published form data', 'ws-form')); }
 
 			// Read published JSON string
@@ -391,15 +396,22 @@
 			global $wpdb;
 
 			// Set form as published
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET status = 'publish', date_publish = %s, date_updated = %s WHERE id = %d LIMIT 1;",
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'status' => 'publish',
+					'date_publish' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+				),
+				array( 'id' => $this->id ),
+				array( '%s', '%s', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error publishing form', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error publishing form', 'ws-form')); 
+			}
 
 			// Read full form
 			$form_object = self::db_read(true, true, false, false, $bypass_user_capability_check);
@@ -412,23 +424,31 @@
 			$form_object->published_checksum = $this->checksum;
 
 			// Apply filters
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			apply_filters('wsf_form_publish', $form_object);
 
 			// JSON encode
 			$form_json = wp_json_encode($form_object);
 
 			// Publish form
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET published = %s, published_checksum = %s WHERE id = %d LIMIT 1;", 
-				$form_json,
-				$this->checksum,
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'published' => $form_json,
+					'published_checksum' => $this->checksum,
+				),
+				array( 'id' => $this->id ),
+				array( '%s', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error publishing form', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error publishing form', 'ws-form')); 
+			}
 
 			// Do action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_form_publish', $form_object);
 
 			if($data_source_schedule_reset) {
@@ -552,7 +572,8 @@
 				}
 
 				// WPAutoP
-				$wpautop_form_parse = isset($field_config['wpautop_form_parse']) ? $field_config['wpautop_form_parse'] : false;					
+				$wpautop_form_parse = isset($field_config['wpautop_form_parse']) ? $field_config['wpautop_form_parse'] : false;
+
 				if($wpautop_form_parse !== false) {
 
 					if(!is_array($wpautop_form_parse)) { $wpautop_form_parse = array($wpautop_form_parse); }
@@ -646,6 +667,7 @@
 			}
 
 			// Translate form
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$form_object = apply_filters('wsf_form_translate', $form_object);
 
 			return $form_object;
@@ -731,7 +753,8 @@
 			}
 
 			// Hidden fields - Added on form submit
-			$hidden_fields = apply_filters( 'wsf_submit_hidden_fields', array(), $form_object );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			$hidden_fields = apply_filters('wsf_submit_hidden_fields', array(), $form_object);
 			$submit_hidden_fields = array();
 
 			if(is_array($hidden_fields)) {
@@ -1037,14 +1060,24 @@
 			global $wpdb;
 
 			// Set form as draft
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET status = 'draft', date_publish = '', date_updated = %s, published = '', published_checksum = '' WHERE id = %d LIMIT 1;",
-				WS_Form_Common::get_mysql_date(),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'status' => 'draft',
+					'date_publish' => '',
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'published' => '',
+					'published_checksum' => '',
+				),
+				array( 'id' => $this->id ),
+				array( '%s', '%s', '%s', '%s', '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error drafting form', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error drafting form', 'ws-form')); 
+			}
 
 			// Read full form
 			$form_object = self::db_read(true, true);
@@ -1073,14 +1106,24 @@
 			$ws_form_group->db_delete_by_form(false);
 
 			// Set form as draft
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET status = 'draft', date_publish = NULL, date_updated = %s, published = '', published_checksum = NULL WHERE id = %d LIMIT 1;",
-				WS_Form_Common::get_mysql_date(),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'status' => 'draft',
+					'date_publish' => null,
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'published' => '',
+					'published_checksum' => null,
+				),
+				array( 'id' => $this->id ),
+				array( '%s', null, '%s', '%s', null ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error resetting form', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error resetting form', 'ws-form')); 
+			}
 		}
 
 		// Read - Recent
@@ -1102,7 +1145,7 @@
 
 			// Get form data
 			if($select == '') { $select = self::DB_SELECT; }
-			
+
 			if($join != '') {
 
 				$select_array = explode(',', $select);
@@ -1113,7 +1156,7 @@
 				$select = implode(',', $select_array);
 			}
 
-			$sql = "SELECT {$select} FROM {$this->table_name}";
+			$sql = "SELECT {$select} FROM {$wpdb->prefix}wsf_form";
 
 			if($join != '') { $sql .= sprintf(" %s", $join); }
 			if($where != '') { $sql .= sprintf(" WHERE %s", $where); }
@@ -1123,11 +1166,12 @@
 
 			$sql .= ';';
 
-			return $wpdb->get_results($sql, 'ARRAY_A');	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			return $wpdb->get_results($sql, 'ARRAY_A');
 		}
 
 		// Delete
-		public function db_delete() {
+		public function db_delete($permanent = false) {
 
 			// User capability check
 			WS_Form_Common::user_must('delete_form');
@@ -1137,18 +1181,19 @@
 			self::db_check_id();
 
 			// Get status
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$status = $wpdb->get_var($wpdb->prepare(
 
-				"SELECT status FROM {$this->table_name} WHERE id = %d;",
+				"SELECT status FROM {$wpdb->prefix}wsf_form WHERE id = %d;",
 				$this->id
-			);
-
-			$status = $wpdb->get_var($sql);
+			));
 			if(is_null($status)) { return false; }
 
-			// If status is trashed, do a permanent delete of the data
-			if($status == 'trash') {
-
+			// If status is trashed, or $permanent is true, do a permanent delete of the form
+			if(
+				($status == 'trash') ||
+				$permanent
+			) {
 				// Delete meta
 				$ws_form_meta = new WS_Form_Meta();
 				$ws_form_meta->object = 'form';
@@ -1165,19 +1210,23 @@
 				$ws_form_form_stat->form_id = $this->id;
 				$ws_form_form_stat->db_delete();
 
-				// Delete form
-				$sql = $wpdb->prepare(
-
-					"DELETE FROM {$this->table_name} WHERE id = %d;",
-					$this->id
+				// Delete form	
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$delete_result = $wpdb->delete(
+					"{$wpdb->prefix}wsf_form",
+					array( 'id' => $this->id ),
+					array( '%d' )
 				);
-	
-				if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting form', 'ws-form')); }
+
+				if($delete_result === false) { 
+					parent::db_wpdb_handle_error(__('Error deleting form', 'ws-form')); 
+				}
 
 				// Delete submission hidden column meta
 				delete_user_option(get_current_user_id(), 'managews-form_page_ws-form-submitcolumnshidden-' . $this->id, !is_multisite());
 
 				// Do action
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_form_delete', $this->id);
 
 			} else {
@@ -1186,6 +1235,7 @@
 				self::db_set_status('trash');
 
 				// Do action
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_form_trash', $this->id);
 			}
 
@@ -1223,22 +1273,26 @@
 			$form_object = self::db_read(true, true);
 
 			// Clone form
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %d, %s, %s, %s);",
-				sprintf(
-
-					'%s (%s)',
-					$this->label,
-					__('Copy', 'ws-form')
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'label' => sprintf(
+						'%s (%s)',
+						$this->label,
+						__('Copy', 'ws-form')
+					),
+					'user_id' => get_current_user_id(),
+					'date_added' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'version' => WS_FORM_VERSION,
 				),
-				get_current_user_id(),
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				WS_FORM_VERSION
+				array( '%s', '%d', '%s', '%s', '%s' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error cloning form', 'ws-form')); }
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error cloning form', 'ws-form')); 
+			}
 
 			// Get new form ID
 			$this->id = $wpdb->insert_id;
@@ -1255,19 +1309,24 @@
 			self::db_checksum();
 
 			// Update form label
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET label =  '%s' WHERE id = %d;",
-				sprintf(
-
-					'%s (%s)',
-					$this->label,
-					__('Copy', 'ws-form')
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'label' => sprintf(
+						'%s (%s)',
+						$this->label,
+						__('Copy', 'ws-form')
+					),
 				),
-				$this->id
+				array( 'id' => $this->id ),
+				array( '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error updating form label', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error updating form label', 'ws-form')); 
+			}
 
 			return $this->id;
 		}
@@ -1282,6 +1341,7 @@
 			self::db_draft();
 
 			// Do action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_form_restore', $this->id);
 		}
 
@@ -1298,19 +1358,25 @@
 			// Ensure provided form status is valid
 			if(WS_Form_Common::check_form_status($status) == '') {
 
-				/* translators: %s = Status */
+				/* translators: %s: Status */
 				parent::db_throw_error(sprintf(__('Invalid form status: %s', 'ws-form'), $status));
 			}
 
 			// Update form record
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET status = '%s' WHERE id = %d LIMIT 1;",
-				$status,
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'status' => $status,
+				),
+				array( 'id' => $this->id ),
+				array( '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error setting form status', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error setting form status', 'ws-form')); 
+			}
 
 			return true;
 		}
@@ -1334,13 +1400,12 @@
 			global $wpdb;
 
 			// Get all forms
-			$sql = "SELECT id,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread FROM {$this->table_name}";
-
-			$forms = $wpdb->get_results($sql, 'ARRAY_A');
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$forms = $wpdb->get_results("SELECT id,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread FROM {$wpdb->prefix}wsf_form");
 
 			foreach($forms as $form) {
 
-				$this->id = $form['id'];
+				$this->id = $form->id;
 
 				// Update
 				self::db_count_update($form, $bypass_user_capability_check);
@@ -1375,29 +1440,47 @@
 			$data_same = (
 
 				$form &&
-				(absint($count_array['count_view']) == $form['count_stat_view']) &&
-				(absint($count_array['count_save']) == $form['count_stat_save']) &&
-				(absint($count_array['count_submit']) == $form['count_stat_submit']) &&
-				(absint($count_submit) == $form['count_submit']) &&
-				(absint($count_submit_unread) == $form['count_submit_unread'])
+				(absint($count_array['count_view']) == $form->count_stat_view) &&
+				(absint($count_array['count_save']) == $form->count_stat_save) &&
+				(absint($count_array['count_submit']) == $form->count_stat_submit) &&
+				(absint($count_submit) == $form->count_submit) &&
+				(absint($count_submit_unread) == $form->count_submit_unread)
 			);
 
 			if(!$data_same) {
 
 				// Update form record
-				$sql = $wpdb->prepare(
-
-					"UPDATE {$this->table_name} SET count_stat_view = %d, count_stat_save = %d, count_stat_submit = %d, count_submit = %d, count_submit_unread = %d WHERE id = %d LIMIT 1;",
-					absint($count_array['count_view']),
-					absint($count_array['count_save']),
-					absint($count_array['count_submit']),
-					absint($count_submit),
-					absint($count_submit_unread),
-					$this->id
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$update_result = $wpdb->update(
+					"{$wpdb->prefix}wsf_form",
+					array(
+						'count_stat_view' => absint($count_array['count_view']),
+						'count_stat_save' => absint($count_array['count_save']),
+						'count_stat_submit' => absint($count_array['count_submit']),
+						'count_submit' => absint($count_submit),
+						'count_submit_unread' => absint($count_submit_unread),
+					),
+					array( 'id' => $this->id ),
+					array( '%d', '%d', '%d', '%d', '%d' ),
+					array( '%d' )
 				);
 
-				if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error updating counts', 'ws-form')); }
+				if($update_result === false) { 
+					parent::db_wpdb_handle_error(__('Error updating counts', 'ws-form')); 
+				}
 			}
+
+			if($form === false) { $form = (object) array(); }
+
+			// Update object properties
+			$form->id = $this->id;
+			$form->count_stat_view = $count_array['count_view'];
+			$form->count_stat_save = $count_array['count_save'];
+			$form->count_stat_submit = $count_array['count_submit'];
+			$form->count_submit = $count_submit;
+			$form->count_submit_unread = $count_submit_unread;
+
+			return $form;
 		}
 
 		// Reset count fields
@@ -1408,12 +1491,22 @@
 			self::db_check_id();
 
 			// Update form record
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET count_stat_view = 0, count_stat_save = 0, count_stat_submit = 0 WHERE id = %d LIMIT 1;",
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'count_stat_view' => 0,
+					'count_stat_save' => 0,
+					'count_stat_submit' => 0,
+				),
+				array( 'id' => $this->id ),
+				array( '%d', '%d', '%d' ),
+				array( '%d' )
 			);
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error resetting counts', 'ws-form')); }
+
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error resetting counts', 'ws-form')); 
+			}
 		}
 
 		// Set count_submit_unread
@@ -1429,14 +1522,20 @@
 			$count_submit_unread = $ws_form_submit->db_get_count_submit_unread_cached($bypass_user_capability_check);
 
 			// Update form record
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET count_submit_unread = %d WHERE id = %d LIMIT 1;",
-				absint($count_submit_unread),
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'count_submit_unread' => absint($count_submit_unread),
+				),
+				array( 'id' => $this->id ),
+				array( '%d' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error updating submit unread count', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error updating submit unread count', 'ws-form')); 
+			}
 		}
 
 		// Get total submissions unread
@@ -1444,9 +1543,8 @@
 
 			global $wpdb;
 
-			$sql = "SELECT SUM(count_submit_unread) AS count_submit_unread FROM {$this->table_name} WHERE status IN ('publish', 'draft');";
-
-			$count_submit_unread = $wpdb->get_var($sql);
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$count_submit_unread = $wpdb->get_var("SELECT SUM(count_submit_unread) AS count_submit_unread FROM {$wpdb->prefix}wsf_form WHERE status IN ('publish', 'draft');");
 
 			return empty($count_submit_unread) ? 0 : absint($count_submit_unread);
 		}
@@ -1465,14 +1563,20 @@
 			$this->checksum = self::db_checksum_process($form_object);
 
 			// Update form record
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET checksum = '%s' WHERE id = %d LIMIT 1;",
-				$this->checksum,
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_form",
+				array(
+					'checksum' => $this->checksum,
+				),
+				array( 'id' => $this->id ),
+				array( '%s' ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error setting checksum', 'ws-form')); }
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Error setting checksum', 'ws-form')); 
+			}
 
 			// Auto publish
 			if(
@@ -1511,18 +1615,19 @@
 
 			if($status == '') {
 
-				$sql = "SELECT COUNT(id) FROM {$this->table_name} WHERE NOT (status = 'trash')";
+				 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$form_count = $wpdb->get_var("SELECT COUNT(id) FROM {$wpdb->prefix}wsf_form WHERE NOT (status = 'trash')");
 
 			} else {
 
-				$sql = $wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$form_count = $wpdb->get_var($wpdb->prepare(
 
-					"SELECT COUNT(id) FROM {$this->table_name} WHERE status = %s",
+					"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_form WHERE status = %s",
 					$status
-				);
+				));
 			}
 
-			$form_count = $wpdb->get_var($sql);
 			if(is_null($form_count)) { $form_count = 0; }
 
 			return $form_count; 
@@ -1558,9 +1663,11 @@
 				$settings_form_admin = WS_Form_Config::get_settings_form_admin();
 				$meta_data = $settings_form_admin['sidebars']['form']['meta'];
 				$meta_keys = WS_Form_Config::get_meta_keys();
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$meta_keys = apply_filters('wsf_form_create_meta_keys', $meta_keys);
 				$meta_data_array = array_merge(self::build_meta_data($meta_data, $meta_keys), (array) $form_object->meta);
 				$meta_data_object = json_decode(wp_json_encode($meta_data_array));
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$form_object->meta = apply_filters('wsf_form_create_meta_data', $meta_data_object);
 			}
 
@@ -1751,14 +1858,25 @@
 				// Check for meta_keys that contain #section_id
 				if(isset($meta_key_config['default']) && ($meta_key_config['default'] === '#section_id')) {
 
-					$meta_key_check[$meta_key] = array('repeater' => false, 'section_id' => true, 'meta_key' => $meta_key);
+					$meta_key_check[$meta_key] = array(
+
+						'repeater' => false,
+						'section_id' => true,
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+						'meta_key' => $meta_key
+					);
 					continue;
 				}
 
 				// Check for meta_keys that use field for options
 				if(isset($meta_key_config['options']) && ($meta_key_config['options'] === 'fields')) {
 
-					$meta_key_check[$meta_key] = array('repeater' => false, 'section_id' => false, 'meta_key' => $meta_key);
+					$meta_key_check[$meta_key] = array(
+						'repeater' => false,
+						'section_id' => false,
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+						'meta_key' => $meta_key
+					);
 					continue;
 				}
 
@@ -1780,7 +1898,13 @@
 
 						if(isset($meta_key_repeater_config['options']) && ($meta_key_repeater_config['options'] === 'fields')) {
 
-							$meta_key_check[$meta_key] = array('repeater' => true, 'section_id' => false, 'meta_key' => $meta_key_repeater);
+							$meta_key_check[$meta_key] = array(
+
+								'repeater' => true,
+								'section_id' => false,
+								// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+								'meta_key' => $meta_key_repeater
+							);
 							continue;
 						}
 					}
@@ -1996,9 +2120,8 @@
 			global $wpdb;
 
 			// Get contents of published field
-			$sql = "SELECT id FROM {$this->table_name} ORDER BY date_updated DESC LIMIT 1;";
-
-			$form_id = $wpdb->get_var($sql);
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$form_id = $wpdb->get_var("SELECT id FROM {$wpdb->prefix}wsf_form ORDER BY date_updated DESC LIMIT 1;");
 
 			if(is_null($form_id)) { return 0; } else { return $form_id; }
 		}
@@ -2025,13 +2148,12 @@
 			global $wpdb;
 
 			// Read form
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			return $wpdb->get_var($wpdb->prepare(
 
-				"SELECT 1 FROM {$this->table_name} WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
+				"SELECT 1 FROM {$wpdb->prefix}wsf_form WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
 				absint($this->id)
-			);
-
-			return $wpdb->get_var($sql) ? true : false;
+			)) ? true : false;
 		}
 
 		// API - POST - Download - JSON
@@ -2079,7 +2201,7 @@
 
 			// Output JSON
 			WS_Form_Common::echo_wp_json_encode($form_object);
-			
+
 			exit;
 		}
 
@@ -2114,6 +2236,7 @@
 			);
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$args = apply_filters('wsf_get_locations_args', $args);
 
 			// Get posts
@@ -2158,6 +2281,7 @@
 				}
 
 				// Run filter
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$form_id_array = apply_filters('wsf_get_locations_post', $form_id_array, $post, $this->id);
 
 				if(count($form_id_array) > 0) {
@@ -2313,6 +2437,7 @@
 			if($ip_blocklist_message !== false) { return $ip_blocklist_message; }
 
 			// Custom limits filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$form_limit_message = apply_filters('wsf_form_limit', false, $form_object);
 			if($form_limit_message !== false) { return $form_limit_message; }
 
@@ -2394,10 +2519,12 @@
 
 			// Check for IP limits
 			$ip_blocklist = WS_Form_Common::get_object_meta_value($form_object, 'ip_blocklist', '');
+
 			if($ip_blocklist) {
 
 				// Check limit count
 				$ip_blocklist_ips = WS_Form_Common::get_object_meta_value($form_object, 'ip_blocklist_ips', '');
+
 				if(is_array($ip_blocklist_ips)) {
 
 					foreach($ip_blocklist_ips as $row) {
@@ -2407,16 +2534,17 @@
 						$ips[] = $row->ip_blocklist_ip;
 					}
 
-					// Sanitize before filter
-					$ips = WS_Form_Common::sanitize_ip_address_array($ips);
+					// Sanitize before filter (CIDR notation enabled)
+					$ips = WS_Form_Common::sanitize_ip_address_array($ips, true);
 				}
 			}
 
 			// Apply filters
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$ips = apply_filters('wsf_submit_block_ips', $ips, $form_object);
 
-			// Sanitize after filter
-			$ips = WS_Form_Common::sanitize_ip_address_array($ips);
+			// Sanitize after filter (CIDR notation enabled)
+			$ips = WS_Form_Common::sanitize_ip_address_array($ips, true);
 
 			// Check ips count
 			if(count($ips) == 0) { return false; }
@@ -2433,16 +2561,15 @@
 				// If IP is blank, skip
 				if($ip == '') { continue; }
 
-				// Check if IP is in IPs array
-				if(in_array($ip, $ips)) {
+				// Check if IP matches any blocked IP or CIDR range
+				if($this->is_ip_blocked($ip, $ips)) {
 
 					// Get message
 					$ip_blocklist_message = apply_filters(
 
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 						'wsf_submit_block_ips_message',
-
 						($ip_blocklist ? WS_Form_Common::get_object_meta_value($form_object, 'ip_blocklist_message', '') : ''),
-
 						$form_object
 					);
 
@@ -2452,10 +2579,9 @@
 					// Get message type
 					$ip_blocklist_message_type = apply_filters(
 
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 						'wsf_submit_block_ips_message_type',
-
 						WS_Form_Common::get_object_meta_value($form_object, 'ip_blocklist_message_type', ''),
-
 						$form_object
 					);
 
@@ -2465,6 +2591,95 @@
 			}
 
 			return false;
+		}
+
+		// Check if IP is blocked (supports individual IPs and CIDR ranges)
+		private function is_ip_blocked($ip, $blocked_list) {
+
+			$ip = trim($ip);
+
+			foreach($blocked_list as $blocked_entry) {
+
+				$blocked_entry = trim($blocked_entry);
+
+				// Check if it's a CIDR range
+				if(strpos($blocked_entry, '/') !== false) {
+
+					if($this->ip_in_cidr_range($ip, $blocked_entry)) {
+						return true;
+					}
+
+				} else {
+
+					// Direct IP match
+					if($ip === $blocked_entry) {
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		// Check if an IP address is within a CIDR range (supports IPv4 and IPv6)
+		private function ip_in_cidr_range($ip, $cidr) {
+			
+			// Split CIDR into IP and mask
+			list($subnet, $mask) = explode('/', $cidr);
+			
+			$mask = (int)$mask;
+			
+			// Detect if IPv6
+			if(filter_var($subnet, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+				
+				// IPv6 handling
+				$ip_bin = inet_pton($ip);
+				$subnet_bin = inet_pton($subnet);
+				
+				// Handle invalid IPs
+				if($ip_bin === false || $subnet_bin === false) {
+					return false;
+				}
+				
+				// Validate mask range
+				if($mask < 0 || $mask > 128) {
+					return false;
+				}
+				
+				// Convert binary strings to bit strings
+				$ip_bits = '';
+				$subnet_bits = '';
+				
+				for($i = 0; $i < strlen($ip_bin); $i++) {
+					$ip_bits .= str_pad(decbin(ord($ip_bin[$i])), 8, '0', STR_PAD_LEFT);
+					$subnet_bits .= str_pad(decbin(ord($subnet_bin[$i])), 8, '0', STR_PAD_LEFT);
+				}
+				
+				// Compare the first $mask bits
+				return substr($ip_bits, 0, $mask) === substr($subnet_bits, 0, $mask);
+				
+			} else {
+				
+				// IPv4 handling
+				$ip_long = ip2long($ip);
+				$subnet_long = ip2long($subnet);
+				
+				// Handle invalid IPs
+				if($ip_long === false || $subnet_long === false) {
+					return false;
+				}
+				
+				// Validate mask range
+				if($mask < 0 || $mask > 32) {
+					return false;
+				}
+				
+				// Calculate the network mask
+				$mask_long = -1 << (32 - $mask);
+				
+				// Apply mask to both IPs and compare
+				return ($ip_long & $mask_long) === ($subnet_long & $mask_long);
+			}
 		}
 
 		public function limit_return_message($type, $message, $form_object) {
@@ -2504,6 +2719,79 @@
 
 			// Standard parse
 			return WS_Form_Common::parse_variables_process($return_message, $form_object, false, 'text/html');
+		}
+
+		public function get_all($published = false, $order_by = 'label', $order = 'ASC', $select_sql = 'id,label') {
+
+			// Build WHERE SQL
+			$where_sql = $published ? 'status="publish"' : 'NOT status="trash"';
+
+			// Check SELECT
+			$allowed_fields = explode(',', self::DB_SELECT);
+
+			// Split the provided select string into fields and clean it up
+			$requested_fields = array_filter(array_map('trim', explode(',', $select_sql)));
+
+			// Keep only allowed fields
+			$valid_fields = array_intersect($requested_fields, $allowed_fields);
+
+			// Remove duplicates
+			$valid_fields = array_unique($valid_fields);
+
+			// If nothing valid is left, fall back to 'id,label'
+			if (empty($valid_fields)) {
+				$valid_fields = array('id', 'label');
+			}
+
+			// Rebuild sanitized select string
+			$select_sql = implode(',', $valid_fields);
+
+			// Build order_by — must be in both allowed fields and selected fields
+			if (!in_array($order_by, $valid_fields, true)) {
+				// if label exists, fallback to it, otherwise use the first selected field
+				$order_by = in_array('label', $valid_fields, true) ? 'label' : reset($valid_fields);
+			}
+
+			// Build order
+			$order = in_array($order, array('ASC', 'DESC'), true) ? $order : 'ASC';
+
+			// Build ORDER BY SQL
+			$order_by_sql = sprintf('%s %s', $order_by, $order);
+
+			// Read all forms
+			return self::db_read_all('', $where_sql, $order_by_sql, '', '', false, true, $select_sql);
+		}
+
+		public function get_all_key_value($published = false, $order_by = 'label', $order = 'ASC', $include_ids = true) {
+
+			// Get all forms
+			$forms = self::get_all($published, $order_by, $order, 'id,label');
+
+			// Build return array
+			$return_array = array();
+
+			if($include_ids) {
+
+				foreach($forms as $form) {
+
+					$return_array[$form['id']] = sprintf(
+
+						'%s (%s: %u)',
+						esc_html($form['label']),
+						esc_html(__('ID', 'ws-form')), 
+						$form['id']
+					);
+				}
+
+			} else {
+
+				foreach($forms as $form) {
+
+					$return_array[$form['id']] = esc_html($form['label']);
+				}
+			}
+
+			return $return_array;
 		}
 
 		public function get_svg($published = false) {
@@ -2793,6 +3081,7 @@
 				break;
 			}
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$field_type_buttons = apply_filters('wsf_template_svg_buttons', array(
 
 				'submit' => array('fill' => $ws_form_css->color_primary, 'color' => $ws_form_css->color_default_inverted),
@@ -2807,16 +3096,20 @@
 				'section_up' => array('fill' => $ws_form_css->color_default_lighter, 'color' => $ws_form_css->color_default),
 				'section_down' => array('fill' => $ws_form_css->color_default_lighter, 'color' => $ws_form_css->color_default)
 			));
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$field_type_buttons = apply_filters('wsf_wizard_svg_buttons', $field_type_buttons);	// Legacy
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$field_type_price_span = apply_filters('wsf_template_svg_price_span', array());
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$field_type_price_span = apply_filters('wsf_wizard_svg_price_span', $field_type_price_span);	// Legacy
 
 			// Build SVG
 			$svg = sprintf(
-				'<svg xmlns="http://www.w3.org/2000/svg" class="wsf-responsive" viewBox="0 0 %u %u"><rect height="100%%" width="100%%" fill="' . $ws_form_css->color_form_background . '"/>',
+				'<svg xmlns="http://www.w3.org/2000/svg" class="wsf-responsive" viewBox="0 0 %.4f %.4f"><rect height="100%%" width="100%%" fill="%s"/>',
 				$svg_width,
-				$svg_height
+				$svg_height,
+				esc_attr($ws_form_css->color_form_background)
 			);
 
 			// Definitions
@@ -2826,15 +3119,22 @@
 			$gradient_id = 'wsf-template-bottom' . (isset($form_object->checksum) ? '-' . $form_object->checksum : '');
 
 			// Definitions - Gradient - Bottom
-			$svg .= '<linearGradient id="' . $gradient_id . '" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:' . $ws_form_css->color_form_background . ';stop-opacity:0" /><stop offset="100%" style="stop-color:' . $ws_form_css->color_form_background . ';stop-opacity:1" /></linearGradient>';
+			$svg .= sprintf(
+			    '<linearGradient id="%s" x1="0%%" y1="0%%" x2="0%%" y2="100%%"><stop offset="0%%" style="stop-color:%s;stop-opacity:0" /><stop offset="100%%" style="stop-color:%s;stop-opacity:1" /></linearGradient>',
+			    esc_attr($gradient_id),
+			    esc_attr($ws_form_css->color_form_background),
+			    esc_attr($ws_form_css->color_form_background)
+			);
 
 			$svg .= '</defs>';
 
 			// Label
-			$svg .= sprintf('<text fill="%s" class="wsf-template-title"><tspan x="%u" y="16">%s</tspan></text>',
-				$ws_form_css->color_default,
+			$svg .= sprintf(
+
+				'<text fill="%s" class="wsf-template-title"><tspan x="%.4f" y="16">%s</tspan></text>',
+				esc_attr($ws_form_css->color_default),
 				is_rtl() ? ($svg_width - 5) : 5,
-				(($label !== false) ? $form_object->label : '#label')
+				esc_attr(($label !== false) ? $form_object->label : '#label')
 			);
 
 			// Process each field
@@ -2936,10 +3236,24 @@
 					}
 
 					// Button - Rectangle
-					$svg_field = '<rect x="' . $field_x . '" y="0" fill="' . $button_fill . '" stroke="' . $button_fill . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . $field_height . '"/>';
+					$svg_field = sprintf(
+						'<rect x="%.4f" y="0" fill="%s" stroke="%s" rx="%.4f" width="%.4f" height="%.4f"/>',
+						$field_x,
+						esc_attr( $button_fill ),
+						esc_attr( $button_fill ),
+						$ws_form_css->border_radius,
+						$field_width,
+						$field_height
+					);
 
 					// Button - Label
-					$svg_field .= '<text transform="translate(' . $label_button_x . ',' . $label_inside_y . ')" class="wsf-template-label" fill="' . $button_fill_label . '" text-anchor="middle">' . $field['label'] . '</text>';
+					$svg_field .= sprintf(
+						'<text transform="translate(%.4f,%.4f)" class="wsf-template-label" fill="%s" text-anchor="middle">%s</text>',
+						$label_button_x,
+						$label_inside_y,
+						esc_attr( $button_fill_label ),
+						$field['label']
+					);
 
 					// Add to SVG array
 					$svg_single = array('svg' => $svg_field, 'height' => $field_height);
@@ -2947,10 +3261,25 @@
 				} elseif (isset($field_type_price_span[$field['type']])) {
 
 					// Price Span - Rectangle
-					$svg_field = '<rect x="' . $field_x . '" y="0" fill="' . $ws_form_css->color_default_inverted . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" stroke-dasharray="2 1" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . $field_height . '"/>';
+					$svg_field = sprintf(
+						'<rect x="%.4f" y="0" fill="%s" stroke="%s" stroke-width="%.4f" stroke-dasharray="2 1" rx="%.4f" width="%.4f" height="%.4f"/>',
+						$field_x,
+						esc_attr( $ws_form_css->color_default_inverted ),
+						esc_attr( $ws_form_css->color_default_lighter ),
+						$ws_form_css->border_width,
+						$ws_form_css->border_radius,
+						$field_width,
+						$field_height
+					);
 
 					// Price Span - Label
-					$svg_field .= '<text fill="' . $ws_form_css->color_default . '" transform="translate(' . $label_inside_x . ',' . $label_inside_y . ')" class="wsf-template-label">' . $field['label'] . '</text>';
+					$svg_field .= sprintf(
+						'<text fill="%s" transform="translate(%.4f,%.4f)" class="wsf-template-label">%s</text>',
+						esc_attr( $ws_form_css->color_default ),
+						$label_inside_x,
+						$label_inside_y,
+						$field['label']
+					);
 
 					// Add to SVG array
 					$svg_single = array('svg' => $svg_field, 'height' => $field_height);
@@ -2977,7 +3306,15 @@
 					if($label_render) {
 
 						// Label (Origin is bottom left of text)
-						$svg_field = '<text fill="' . $ws_form_css->color_default . '" transform="translate(' . ($label_x + $label_offset_x) . ',' . $label_font_size . ')" class="wsf-template-label">' . $field['label'] . ($field['required'] ? '<tspan fill="' . $ws_form_css->color_danger . '"> *</tspan>' : '') . '</text>';
+						$svg_field = sprintf(
+							'<text fill="%s" transform="translate(%.4f,%.4f)" class="wsf-template-label">%s%s</text>',
+							esc_attr( $ws_form_css->color_default ),
+							$label_x + $label_offset_x,
+							$label_font_size,
+							$field['label'],
+							$field['required'] ? sprintf( '<tspan fill="%s"> *</tspan>', esc_attr( $ws_form_css->color_danger ) ) : ''
+						);
+
 						$label_offset_y = $label_font_size + $label_margin_bottom;
 						$label_found = true;
 
@@ -3002,7 +3339,13 @@
 							$label_x = (is_rtl() ? ($svg_width - $field_x) : $field_x);
 
 							// Legend
-							$svg_field = '<text fill="' . $ws_form_css->color_default . '" transform="translate(' . $label_x . ',' . $legend_font_size . ')" class="wsf-template-legend">' . $field['label'] . '</text>';
+							$svg_field = sprintf(
+								'<text fill="%s" transform="translate(%.4f,%.4f)" class="wsf-template-legend">%s</text>',
+								esc_attr( $ws_form_css->color_default ),
+								$label_x,
+								$legend_font_size,
+								$field['label']
+							);
 
 							// Add to SVG array
 							$svg_single = array('svg' => $svg_field, 'height' => $legend_font_size + $legend_margin_bottom);
@@ -3015,10 +3358,30 @@
 							$progress_width = wp_rand(round($field_width / 6), round($field_width - ($field_width / 6)));
 
 							// Progress - Rectangle - Outer
-							$svg_field .= '<rect x="' . $field_x . '" y="' . $label_offset_y . '" fill="' . $ws_form_css->color_default_lighter . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . ($field_height / 2) . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$field_x,
+								$label_offset_y,
+								esc_attr( $ws_form_css->color_default_lighter ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$field_width,
+								$field_height / 2
+							);
 
 							// Progress - Rectangle - Inner
-							$svg_field .= '<rect x="' . (is_rtl() ? ($field_x + $field_width - $progress_width) : $field_x) . '" y="' . $label_offset_y . '" fill="' . $ws_form_css->color_primary . '" stroke="' . $ws_form_css->color_primary . '" stroke-width="' . $ws_form_css->border_width . '" rx="' . $ws_form_css->border_radius . '" width="' . $progress_width . '" height="' . ($field_height / 2) . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" rx="%.4f" width="%.4f" height="%.4f"/>',
+								is_rtl() ? ( $field_x + $field_width - $progress_width ) : $field_x,
+								$label_offset_y,
+								esc_attr( $ws_form_css->color_primary ),
+								esc_attr( $ws_form_css->color_primary ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$progress_width,
+								$field_height / 2
+							);
 
 							// Add to SVG array
 							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + ($field_height / 2));
@@ -3032,11 +3395,24 @@
 							$range_x = wp_rand(round($field_width / 6), round($field_width - ($field_width / 6)));
 
 							// Range - Rectangle
-							$svg_field .= '<rect x="' . $field_x . '" y="' . (($label_offset_y + ($field_height / 2)) - 1) . '" fill="' . $ws_form_css->color_default_lightest . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . ($field_height / 4) . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$field_x,
+								( $label_offset_y + ( $field_height / 2 ) ) - 1,
+								esc_attr( $ws_form_css->color_default_lightest ),
+								$ws_form_css->border_radius,
+								$field_width,
+								$field_height / 4
+							);
 
 							// Range - Circle (Slider)
-							$svg_field .= '<circle cx="' . ($field_x + $range_x) . '" cy="' . ($label_offset_y + ($field_height / 2)) . '" r="' . ($field_height / 2) . '" fill="' . $ws_form_css->color_primary . '"/>
-							';
+							$svg_field .= sprintf(
+								'<circle cx="%.4f" cy="%.4f" r="%.4f" fill="%s"/>',
+								$field_x + $range_x,
+								$label_offset_y + ( $field_height / 2 ),
+								$field_height / 2,
+								esc_attr( $ws_form_css->color_primary )
+							);
 
 							// Add to SVG array
 							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + $field_height);
@@ -3065,13 +3441,33 @@
 								$message_fill_label = $ws_form_css->{$message_fill_label_var};
 							}
 
-
 							// Message - Rectangle
-							$svg_field = '<rect x="' . $field_x . '" y="0" fill="' . $message_fill . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . $field_height . '"/>';
-							$svg_field .= '<rect x="' . $field_x . '" y="0" fill="' . $message_fill_left . '" rx="' . $ws_form_css->border_radius . '" width="' . ($ws_form_css->border_width * 2) . '" height="' . $field_height . '"/>';
+							$svg_field = sprintf(
+								'<rect x="%.4f" y="0" fill="%s" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$field_x,
+								esc_attr( $message_fill ),
+								$ws_form_css->border_radius,
+								$field_width,
+								$field_height
+							);
+
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="0" fill="%s" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$field_x,
+								esc_attr( $message_fill_left ),
+								$ws_form_css->border_radius,
+								$ws_form_css->border_width * 2,
+								$field_height
+							);
 
 							// Message - Label
-							$svg_field .= '<text transform="translate(' . $label_inside_x . ',' . $label_inside_y . ')" class="wsf-template-label" fill="' . $message_fill_label . '">' . $field['label'] . '</text>';
+							$svg_field .= sprintf(
+								'<text transform="translate(%.4f,%.4f)" class="wsf-template-label" fill="%s">%s</text>',
+								$label_inside_x,
+								$label_inside_y,
+								esc_attr( $message_fill_label ),
+								$field['label']
+							);
 
 							// Add to SVG array
 							$svg_single = array('svg' => $svg_field, 'height' => $field_height);
@@ -3081,7 +3477,17 @@
 						case 'textarea' :
 
 							// Textarea - Rectangle
-							$svg_field .= '<rect x="' . $field_x . '" y="' . $label_offset_y . '" fill="' . $ws_form_css->color_default_inverted . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . ($field_height * 2) . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$field_x,
+								$label_offset_y,
+								esc_attr( $ws_form_css->color_default_inverted ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$field_width,
+								$field_height * 2
+							);
 
 							// Add to SVG array
 							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + ($field_height * 2));
@@ -3091,10 +3497,25 @@
 						case 'signature' :
 
 							// Signature - Rectangle
-							$svg_field .= '<rect x="' . $field_x . '" y="' . $label_offset_y . '" fill="' . $ws_form_css->color_default_inverted . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . ($field_height * 2) . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$field_x,
+								$label_offset_y,
+								esc_attr( $ws_form_css->color_default_inverted ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$field_width,
+								$field_height * 2
+							);
 
 							// Signature - Icon
-							$svg_field .= '<path transform="translate(' . ($field_x + (is_rtl() ? ($field_width - 16) : 3)) . ',' . ($label_offset_y + 2) . ') scale(0.75)" fill="' . $ws_form_css->color_default . '" d="M13.3 3.9l-.6-.2a1 1 0 00-.6.2c-1 .8-1.7 1.8-2.1 3-.3.6-.4 1.2-.3 1.7.9-.3 1.8-.7 2.5-1.3.8-.6 1.3-1.4 1.5-2.3v-.6l-.4-.5zM0 12.4h15.6v1.2H0v-1.2zM2.1 8l1.3-1.3.8.8-1.3 1.3 1.3 1.3-.8.8-1.3-1.3-1.3 1.3-.8-.8 1.3-1.3L0 7.5l.8-.8L2.1 8zm13.6 2.8v.4h-1.2l-.1-.7c-.3-.2-.9-.1-1.8.2l-.4.1c-.6.2-1.2.2-1.8.1-.6-.1-1.1-.5-1.5-1-.9.2-2 .2-3.5.2V8.9l3.1-.1c-.1-.7 0-1.5.2-2.3.3-.8.7-1.5 1.2-2.2.5-.7 1.1-1.2 1.7-1.5.8-.5 1.6-.4 2.4.2.4.3.7.8.9 1.4.1.3 0 .6-.1 1s-.3.9-.6 1.3c-.3.5-.7.9-1.1 1.2-.8.7-1.8 1.2-2.8 1.6.5.3 1.2.3 1.8.1l1-.3c.7-.1 1.2-.1 1.6 0 .5.2.7.4.8.8l.2.7z"/>';
+							$svg_field .= sprintf(
+								'<path transform="translate(%.4f,%.4f) scale(0.75)" fill="%s" d="M13.3 3.9l-.6-.2a1 1 0 00-.6.2c-1 .8-1.7 1.8-2.1 3-.3.6-.4 1.2-.3 1.7.9-.3 1.8-.7 2.5-1.3.8-.6 1.3-1.4 1.5-2.3v-.6l-.4-.5zM0 12.4h15.6v1.2H0v-1.2zM2.1 8l1.3-1.3.8.8-1.3 1.3 1.3 1.3-.8.8-1.3-1.3-1.3 1.3-.8-.8 1.3-1.3L0 7.5l.8-.8L2.1 8zm13.6 2.8v.4h-1.2l-.1-.7c-.3-.2-.9-.1-1.8.2l-.4.1c-.6.2-1.2.2-1.8.1-.6-.1-1.1-.5-1.5-1-.9.2-2 .2-3.5.2V8.9l3.1-.1c-.1-.7 0-1.5.2-2.3.3-.8.7-1.5 1.2-2.2.5-.7 1.1-1.2 1.7-1.5.8-.5 1.6-.4 2.4.2.4.3.7.8.9 1.4.1.3 0 .6-.1 1s-.3.9-.6 1.3c-.3.5-.7.9-1.1 1.2-.8.7-1.8 1.2-2.8 1.6.5.3 1.2.3 1.8.1l1-.3c.7-.1 1.2-.1 1.6 0 .5.2.7.4.8.8l.2.7z"/>',
+								$field_x + ( is_rtl() ? ( $field_width - 16 ) : 3 ),
+								$label_offset_y + 2,
+								esc_attr( $ws_form_css->color_default )
+							);
 
 							// Add to SVG array
 							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + ($field_height * 2));
@@ -3113,7 +3534,12 @@
 
 								$rating_color = ($rating_index < 3) ? $rating_color_on : $rating_color_off;
 
-								$svg_field .= '<path transform="translate(' . ($field_x + (is_rtl() ? $field_width - 8 - ($field_rating_offset_x) : $field_rating_offset_x)) . ',' . ($label_offset_y) . ') scale(0.5)" d="M12.9 15.8c-1.6-1.2-3.2-2.5-4.9-3.7-1.6 1.3-3.3 2.5-4.9 3.7 0 0-.1 0-.1-.1.6-2 1.2-4 1.9-6C3.3 8.4 1.7 7.2 0 5.9h6C6.7 3.9 7.3 2 8 0h.1c.7 1.9 1.3 3.9 2 5.9H16V6c-1.6 1.3-3.2 2.5-4.9 3.8.6 1.9 1.3 3.9 1.8 6 .1-.1 0 0 0 0z" fill="' . $rating_color . '" />';
+								$svg_field .= sprintf(
+									'<path transform="translate(%.4f,%.4f) scale(0.5)" d="M12.9 15.8c-1.6-1.2-3.2-2.5-4.9-3.7-1.6 1.3-3.3 2.5-4.9 3.7 0 0-.1 0-.1-.1.6-2 1.2-4 1.9-6C3.3 8.4 1.7 7.2 0 5.9h6C6.7 3.9 7.3 2 8 0h.1c.7 1.9 1.3 3.9 2 5.9H16V6c-1.6 1.3-3.2 2.5-4.9 3.8.6 1.9 1.3 3.9 1.8 6 .1-.1 0 0 0 0z" fill="%s"/>',
+									$field_x + ( is_rtl() ? $field_width - 8 - $field_rating_offset_x : $field_rating_offset_x ),
+									$label_offset_y,
+									esc_attr( $rating_color )
+								);
 							}
 
 							// Add to SVG array
@@ -3124,7 +3550,20 @@
 						case 'googlemap' :
 
 							// Map
-							$svg_field .= sprintf('<g transform="translate(%.4f,%.4f)"><g transform="scale(%.4f,%.4f)"><path fill="#f5ede1" d="M0 0h150v40H0z"/><path fill="#c1e1b2" d="M99.6 0L97 6.8l11.7 3.9 4.9 5.7L119.9 0zM10.3 38.7L9.1 40h3.7z"/><path d="M138.4 27.3c-3.4.3-6.9.4-10-.5-2.9-.8-5.3-2.7-8.2-4.4a41.8 41.8 0 00-9.3-4.4c-6.6-2-13.6-.6-19.7.3l-4 .8a105 105 0 01-38 .5c-7-1.5-13-5.8-19.5-11.7-1.3-1.2-4.1-4.8-6.6-8h-6.3a52.7 52.7 0 0035.1 25.4C69 28.2 91.3 23.7 92 23.6c5.7-.9 11.7-1.6 17.1 0 2.8.8 5.4 2.3 8.1 3.9 3 1.7 6.3 3.6 9.9 4.6 4.1 1.2 7.9.8 11.7.5 2.9-.2 5.7-.5 8.3 0 .8.1 1.8.4 2.8.8v-6.9l-1.2-.3c-3.3-.3-7.2.9-10.3 1.1z" fill="#8acdf1"/><path fill="#fff" d="M135.5 0h-3.7c7.7 2.8 15.8 5.8 17 6.4l1.2.6V5.6l-.6-.3c-1.2-.6-7.2-2.8-13.9-5.3zM94.3 31l-1.3-.3c-.7 2.6-1.8 6.4-2.8 9.3h1.3c1.1-3 2.1-6.6 2.8-9zM100.4 33.7c-.6-.2-1.2.1-1.4.6l-2.1 5.6h2.3l1.4-3.9c2.4.8 8.2 2.6 9.3 2.7.7.1 3.7.5 7.2 1.2h9c-5.6-2-15.8-3.3-15.9-3.3-.9 0-8.4-2.4-9.8-2.9z"/><path fill="#fff" d="M10.3 39l1.7 1h2.7c-1.4-.7-2.7-1.4-3.5-2l3.6-4.4c1.8 1.4 5.4 3.9 9.1 6.4H26c-4.1-2.7-8.6-5.9-10.6-7.4l1.5-2.2A493.2 493.2 0 0030.1 40h2.2l-3.6-2.6a374 374 0 01-11.1-8.1l.5-.8.8-1.4.9-1.6L36 36.2l-1.6 3.7h2.8l-.4-.1 6.1-14.6a68 68 0 008.1 2.5c1.7.4 4.5.7 7.9.9l-2.1 7.6 1.2.3 1.5-5.3c3.8 2 7 3.5 10.5 4.8l-1.1 4h1.3l2-7 6.7 2.5a9.4 9.4 0 00-.4 3.4v.1c.1.3.3.6 1.2 1.1h2.5c-1.3-.7-2.2-1.2-2.5-1.5-.1-1.3.9-4.8 1.7-7.4l.8-3c4.5-.4 8.5-1.1 11.5-2 3.3-1 14.9-.7 17.2 1.1a64.4 64.4 0 0016 8c1.1.3 2.5.5 4 .6l-2.8 4.2h1.5l2.7-4.2h7.6a78 78 0 018.5.1l-2.4 4.1h1.5l2.3-3.9h.2v-1.3c-2.7-.4-6.3-.3-10.1-.2a55 55 0 01-12.7-.6c-4.5-1.2-13.3-6-15.6-7.7-2.8-2.2-14.9-2.3-18.3-1.3a133 133 0 01-32.8 2.6l2-7.4 4.9.1a67 67 0 0011.2-.7l4.5-.7c12.5-2 17.1-2.9 18.4-3.7a25 25 0 0110.2 2l3.3 1.8c4.8 2.7 12 6.8 15.9 7.5 4.4.8 17.5-1.5 17.6-1.5h.2l1.2.1v-1.3l-1-.1-.8-.3.7-1.1 1-1.5V19c-.9.9-1.6 1.9-2.1 2.8a8 8 0 01-.8 1.1l.1.1-22.9-10.5-6.7-3.1 3.5-9.1h-1.3l-3.3 8.6-17-7.8.3-.8h-1.3L96 6.6a232.1 232.1 0 00-18.7-3.9c.6-.6 1-1.3 1.4-2L79 0h-2.6c-1.3 1.9-2.5 2.7-4 2.7-.6 0-3.8-1-7-2l-2.6-.8H55l4.7 1.4-1.2 4.9L51.3 5l2.1-5.1h-2.3l-2 4.7a32 32 0 01-3.1-.8l-4.7-2.4c.3-.4.5-.9.6-1.4h-1.3l-.2.8-1.5-.8h-2.6a203 203 0 009.5 5c.6.3 1.7.5 3.1.9l-1.1 2.6-3.2 7.7-2.6-1.1a52.7 52.7 0 01-10.5-8.9l4-6.1h-2.6l-.4.6-.4-.6h-1.5l1.2 1.7L30 4.6a132 132 0 01-4-4.5h-1.6a178 178 0 004.9 5.6l-4 6.6a22 22 0 00-5-4.1L19 6.3 14.9.2h-1.5C15 2.8 16.8 5.3 18 7.1l.4.6-1.3.2c-1.1.5-1.8 1.9-2.3 3l-.4.7.9.9.6-1c.4-.8.9-2 1.7-2.3 1.6-.7 4.4 1.8 7 4.4l-5.9 10-6.1-4 3.5-5.4-1.1-1a427 427 0 01-8.5 12.6c-1.7-1.7-4.3-4-6.5-5.8v1.7a196 196 0 015.8 5.2l-3.1 4.4-2.6-2.2v1.7l8.5 6.9L6.5 40h2.9l.9-1zm63.2-10.3l7.5-.5-.7 2.5-.9 3.5a81 81 0 01-6.7-2.5l.8-3zm-1.3 0l-1.7 6.1A94.4 94.4 0 0160 30l.3-1.3h11.9zM100.8 14A135 135 0 0183 17.4l-4.6.7-2.2.3-.8-8.5c4.1.5 11.4 1.3 12.6 1.3l1.9.2c2.7.3 7.6.8 11.1.8h.3c-.1.8-.3 1.6-.5 1.8zm1.4-.2l.7-2.8.3-1.3c2.7.9 5 1.8 6.4 2.8.6.5 1.5 1.9 2.3 3.2a25.8 25.8 0 00-9.7-1.9zm14.9-3.5l6.6 3.1 22.9 10.5c-3.9.6-12.4 1.8-15.4 1.2a73.5 73.5 0 01-16.7-8l2.6-6.8zM99 2l17 7.8-2.4 6.3c-1.1-2-2.2-3.9-3.2-4.6a46.6 46.6 0 00-13.1-4.8L99 2zM76.3 3.5l6.1 1.3A246 246 0 01102 9.3l-.3 1.4-.1.3c-3.5.1-8.7-.5-11.5-.8l-2-.2c-1 0-7.7-.7-12.7-1.3l-.3-4.4 1.2-.8zM75 18.6c-3.2.3-7.5.4-12 .2l2.7-10.3 6.8 1 .2.1 1.6.2c.1 3.2.5 6.5.7 8.8zM66.9 3.5c3.3 1 4.9 1.4 5.5 1.4l1.4-.2.3 3.8-1.2-.1c-.5-.2-2.1-.4-6.9-1.1l.9-3.8zm-5.8-1.8l3.7 1.1.9.3-1 4-4.8-.7 1.2-4.7zM49.7 9.3l1.3-3c3.8.7 9 1.4 13.4 2.1L63 13.6l-6.5-1.5-7.3-1.7.5-1.1zm-1 2.3l7.5 1.7 6.5 1.5-1 4c-5.3-.3-10.8-.9-15.1-2.1a133 133 0 002.1-5.1zm-2.6 6.3A75.6 75.6 0 0060.7 20h.6l-2 7.4a56 56 0 01-8-.9c-2.6-.6-5.3-1.4-7.9-2.4l2.7-6.2zM30.8 7.2c3.7 3.8 7.8 7.4 10.6 8.9l2.7 1.1-2.6 6.1a55.5 55.5 0 01-10.1-5.2c-1.3-.9-2.8-2.5-4.5-4.2l-.1-.1 4-6.6zm-4.7 7.7c1.7 1.7 3.2 3.3 4.6 4.3C33.3 21 37 22.9 41 24.5l-4.5 10.6-16-10.6 5.6-9.6zm-14.2 5.4l6.2 4-1 1.7-.8 1.4a2 2 0 01-.4.6 152 152 0 01-6.1-4.8l2.1-2.9zM5.3 33.5l-1.7-1.4 3.1-4.3.7.8c.6.8-.5 2.5-1.4 3.7l-.7 1.2zm1 .8l.8-1.3c1.1-1.6 2.4-3.6 1.3-5.1l-1-1.1 1.7-2.4 6.1 4.8c-1.6 2.4-3.6 5-5.9 7.6l-3-2.5z"/><path fill="#fff" d="M60.4 37.2l-1 2.8h1.3l.8-2.3-1.1-.5zM53.6 33.8l-1.2-.4-1 2.9-1.2 3.7h1.3l1.1-3.3 1-2.9zM2.4 7.8c1.7 0 3.3-.2 5-.4l3.9-.3-.1-1.3-4 .4c-2.4.2-4.9.5-7.2.3v1.3l.9.1L0 9.7v2.8l2.4-4.7z"/><path fill="#d1ccc4" d="M117.5 9.1l6.8 3.2 22.9 10.5.2.1-.1-.3.8-1.1c.5-.8 1.1-1.8 2-2.7v-.3c-1 .9-1.6 2-2.2 2.9-.3.4-.6 1-.8 1.1l-22.7-10.4-6.6-3.1 3.4-9.1h-.2l-3.5 9.2zM132 0h-.5a328.2 328.2 0 0118.6 7.1v-.2l-1.2-.6c-1.3-.6-9.2-3.5-16.9-6.3zM149 23.4l-.6-.3.7-1 1-1.4v-.3L149 22l-.7 1.1-.1.1h.1l.8.3 1 .1v-.2a2 2 0 01-1.1 0zM5.7 26.9l-3 4.3L0 29v.2l2.6 2.2.1.1.1-.1L5.9 27v-.1l-.1-.1a128 128 0 00-5.9-5.3v.2l5.8 5.2zM8.6 37.8v-.1l-8.6-7v.2a290 290 0 008.4 6.8L6.3 40h.2l2.1-2.2zM76.3 0c-1.3 1.8-2.5 2.6-3.9 2.6-.6 0-3.8-1-7-2L63.2 0h-.6l2.8.9c3.1 1 6.4 2 7 2 1.5 0 2.8-.9 4.1-2.8h-.2zM1 7.8l.1-.1H1l-1-.1v.2h.8L0 9.5v.4l1-2.1zM18.2 8.6l-.7.1c-.8.3-1.3 1.6-1.7 2.4l-.5.9-.8-.7.3-.7c.5-1 1.1-2.4 2.2-2.9.4-.2.8-.2 1.2-.2h.2l-.4-.7c-1.2-1.7-2.9-4.2-4.5-6.8h-.2c1.6 2.6 3.4 5.2 4.6 6.9l.3.4-1.1.2c-1.2.5-1.8 2-2.3 3l-.4.7.1.1-.1.1 1 .9.1-.1.6-1.1c.4-.8.9-2 1.6-2.3l.6-.1c1.6 0 4.1 2.3 6.3 4.5l-5.8 9.9-6-3.9 3.5-5.3v-.1l-1.3-.7v.1L6.6 25.7a202 202 0 00-6.5-5.8v.2c2.2 1.8 4.7 4.1 6.5 5.8l-.1.1.1-.1 8.5-12.5.9.6-3.5 5.3-.1.1.1.1 6.1 4 .1.1v-.1l5.9-10v-.2c-2.2-2.4-4.8-4.7-6.4-4.7z"/><path fill="#d1ccc4" d="M1.9 6.6l5.4-.3c1.2-.1 2.5-.3 3.8-.3v1.1l-3.8.3-4.9.3h-.1L0 12.2v.4l2.4-4.7c1.7 0 3.3-.2 4.9-.4l3.9-.3h.1l-.1-1.4h-.1l-3.9.3a47 47 0 01-5.3.3L0 6.3v.2l1.9.1zM32.8 0l-.3.4-.3-.4H32l.4.6.1.1.1-.1.4-.6h-.2zM148.8 24.7h-.2c-.1 0-9.6 1.7-15.1 1.7l-2.4-.2a74.4 74.4 0 01-15.9-7.5l-3.3-1.8c-3.3-1.6-7.7-2-9.6-2h-.7c-1.2.8-5.6 1.6-18.3 3.7l-4.5.7c-2.5.4-6.6.7-11.1.7l-4.9-.1h-.1v.1l-2 7.4v.1h.1l5.7.1c8.7 0 20.4-.7 27.1-2.7a28 28 0 016.8-.6c4.2 0 9.6.5 11.4 1.9a66.6 66.6 0 0015.6 7.8c2.3.6 5.7.7 8.4.7h8.5c2 0 4.1 0 5.9.3v-.2c-1.8-.2-3.9-.3-5.9-.3h-8.5c-2.7 0-6-.1-8.3-.7-4.5-1.2-13.3-6-15.5-7.7-1.8-1.4-7.3-1.9-11.5-1.9-3 0-5.5.2-6.9.6-6.7 2-18.4 2.7-27.1 2.7l-5.6-.1 1.9-7.2 4.8.1c4.6 0 8.7-.3 11.2-.7l4.5-.7c12.6-2 17.1-2.9 18.4-3.7h.6c1.9 0 6.3.4 9.5 2l3.3 1.8a74.4 74.4 0 0015.9 7.5l2.5.2c5.5 0 15.1-1.7 15.2-1.7h.1l.1.1V25l1.1.1v-.2c-.5-.2-.9-.2-1.2-.2zM72.8 8.5l1.3.2v-.1l-.2-3.9v-.1h-.1l-1.3.2c-.7 0-2.3-.4-5.5-1.4h-.1v.1L66 7.3v.1h.1c4.4.7 6.2.9 6.7 1.1zM67 3.6c3.2 1 4.7 1.4 5.5 1.4l1.3-.1.3 3.6-1.1-.1c-.6-.2-2.2-.4-6.8-1.1.2-1.5.5-2.8.8-3.7zM30.6 0h-.2l1.2 1.7-1.7 2.6L26 0h-.2l4 4.5.1.1.1-.1 1.8-2.8v-.2L30.6 0z"/><path fill="#d1ccc4" d="M72.4 9.5c-.5-.2-3.6-.6-6.8-1h-.1v.1l-2.7 10.3v.1h.1l4.5.1c2.7 0 5.3-.1 7.5-.3h.1v-.1l-.8-8.8v-.1h-.1l-1.6-.2-.1-.1zm2.5 9.1a83 83 0 01-7.4.3l-4.4-.1 2.6-10.1 6.7 1 .3.1 1.5.2c.1 2.9.4 6.2.7 8.6zM98.3 0L96 6.2c-4.6-1.1-9.4-2.1-13.3-2.8l-5.1-1L79 .5c-.1-.2 0-.4.1-.5h-.2l-.2.3-1.4 2-.1.1h.1l5.3 1.1c3.9.8 8.8 1.7 13.4 2.8h.1v-.1l2.4-6.4h-.2zM75.3 8.7c2.7.4 11.5 1.4 12.7 1.4l2 .2c2.6.3 7.5.8 11 .8h.7l.1-.4.3-1.4v-.1h-.1a187 187 0 00-19.6-4.5l-6.1-1.3-1.3.8h-.1v.1l.4 4.4zm1-5.1l6.1 1.3c5.3 1.1 13.4 2.6 19.5 4.5l-.3 1.3v.2c-3.5 0-8.7-.5-11.5-.8l-2-.2c-1.2 0-9.8-1-12.6-1.3l-.3-4.3 1.1-.7zM40.5 0l-.2.7L39 0h-.4l1.7.9.1.1V.9l.2-.8h-.1zM45.8 4.9c-1.2-.5-6.6-3.4-9.4-4.9H36c2.6 1.5 8.5 4.5 9.7 5.1l3 .8-4.2 10-2.5-1.1A54.5 54.5 0 0131.6 6l4-6.1h-.2l-4 6V6l.1.1C34 8.7 38.8 13.3 42 15c.7.4 1.6.8 2.6 1.1h.1l4.4-10.4H49a8.8 8.8 0 01-3.2-.8zM61 1.6l-1.2 4.8v.1h.1l4.8.7h.1v-.1l1-4V3l-1-.3L61 1.6zm3.8 1.3l.8.2-.9 3.8-4.6-.7 1.1-4.5 3.6 1.2zM101.1 12.1c-3.5 0-8.4-.5-11.1-.8l-1.9-.2c-1.1 0-8.4-.8-12.6-1.3h-.1v.1l.8 8.5v.1h.1l2.2-.3 4.6-.7c5.4-.9 16.7-2.7 17.9-3.5l.5-1.8v-.1h-.4zm-.3 1.9c-1.3.8-12.4 2.6-17.8 3.4l-4.6.7-2.1.3-.8-8.3c4.2.5 11.3 1.3 12.5 1.3l1.9.2c2.7.3 7.6.8 11.1.8h.2l-.4 1.6zM109.6 12.4c-1.3-.9-3.5-1.9-6.4-2.8h-.1v.1l-.3 1.3c-.2 1.1-.4 2.1-.7 2.8v.1h.1c2 0 6.2.4 9.6 1.9l.2.1-.1-.2a9.5 9.5 0 00-2.3-3.3zm-7.2 1.3l.6-2.7.3-1.2c2.9.9 5 1.9 6.3 2.8.5.3 1.2 1.3 2.1 2.9a27.1 27.1 0 00-9.3-1.8zM56.5 12.2l6.5 1.5h.1v-.1l1.3-5.2v-.1h-.1L51 6.2h-.1l-1.8 4.3h.1l7.3 1.7zM51 6.4l13.2 2.1-1.3 5-6.4-1.5-7.2-1.6 1.7-4z"/><path fill="#d1ccc4" d="M116.1 9.7L99 1.9h-.1V2l-1.7 4.6v.1h.1a41.2 41.2 0 0113 4.8c1 .7 2.1 2.6 3.2 4.6l.1.2.1-.2c.3-1.1 1.1-3.2 2.4-6.4zm-2.6 6.2a15 15 0 00-3.1-4.5 41.2 41.2 0 00-13-4.8l1.7-4.5 16.8 7.7-2.4 6.1zM117 10.3l-2.6 6.8v.1h.1l1.2.7a71 71 0 0015.5 7.3l2.2.1c3.5 0 9.3-.7 13.3-1.4h.3l-.3-.1-22.9-10.5-6.8-3zm5.7 2.7l1 .4 22.6 10.4c-3.9.6-9.5 1.3-12.9 1.3l-2.1-.1a76 76 0 01-15.5-7.3l-1.2-.7 2.6-6.6 5.5 2.6zM119.6 0l-3.2 8.5L99.6.8l.3-.8h-.2l-.3.8v.1h.1l17 7.8h.1v-.1l3.3-8.6h-.3zM31.3 18.2c2.5 1.8 6.1 3.6 10.1 5.2h.1l2.6-6.2H44l-2.7-1.1a53.3 53.3 0 01-10.6-8.9l.1-.2-.1.1-4 6.6v.1l.2.2c1.6 1.7 3.2 3.3 4.4 4.2zm-.5-10.9c2.5 2.6 7.2 7.1 10.5 8.9.8.4 1.6.8 2.6 1.1l-2.5 5.9c-4-1.6-7.5-3.4-10-5.2-1.3-.9-2.8-2.5-4.5-4.2l-.1-.1 4-6.4zM72.4 33.1l6.5 2.4a9.3 9.3 0 00-.4 3.3v.1c.1.3.3.6 1.1 1.1h.4c-1-.6-1.3-.9-1.3-1.2v-.1c-.1-.6.1-1.7.4-3.3v-.1H79a73 73 0 01-6.7-2.5h-.1v.1l-2 7.1h.2l2-6.9zM100.8 36.2a94.3 94.3 0 0016 3.8h1a135 135 0 00-7.6-1.3c-1.1-.1-6.4-1.8-9.3-2.7h-.1v.1L99.3 40h.2l1.3-3.8zM7.5 28.5l-.8-.8-.1-.1-.1.1L3.4 32v.1l.1.1 1.7 1.4.1.1.1-.1.8-1.2c.8-1.3 1.9-3 1.3-3.9zM6 32.2l-.7 1.2-1.5-1.3 3-4.2.7.7c.4.8-.7 2.4-1.5 3.6zM15.9 28.1h.1l.4-.6.8-1.3v-.1l1-1.7v-.1h-.1l-6.2-4h-.1v.1l-2 3v.1l.1.1 6 4.5zm-4-7.7l6 3.9-.9 1.6v.1l-.8 1.3-.3.5a135 135 0 01-5.9-4.6l1.9-2.8zM28.8 37.3l-11-8 .5-.8.8-1.4.9-1.5 16 10.6a104 104 0 00-1.6 3.7h.2l1.6-3.7v-.1h-.1L19.9 25.4l-.1-.1v.1l-.9 1.6-.8 1.4-.5.8v.1l.1.1 11.1 8.1 3.5 2.5h.3l-3.8-2.7z"/><path fill="#d1ccc4" d="M36.5 35.2h.1l4.5-10.6v-.1H41a54.2 54.2 0 01-10.3-5.3c-1.4-1-3-2.6-4.6-4.3l-.1-.1-5.6 9.6v.1h.1l16 10.7zM26.1 15c1.5 1.6 3.1 3.3 4.5 4.2 2.5 1.8 6.2 3.7 10.2 5.3l-4.4 10.4a1687 1687 0 00-15.9-10.5l5.6-9.4zM9.4 36.9c2.5-2.8 4.4-5.4 5.9-7.7V29c-2.8-2.1-4.8-3.6-6.1-4.8l-.1-.1-.1.2-1.7 2.4v.1l.1.1 1 1.1c1 1.5-.3 3.4-1.3 5a5 5 0 00-.8 1.4v.1h.1l3 2.4zM7.2 33c1.1-1.6 2.4-3.6 1.3-5.2l-1-1.1 1.6-2.2 6 4.7a86.4 86.4 0 01-5.8 7.5l-2.9-2.3.8-1.4zM55.5 0h-.7l5 1.4-1.2 4.7-7-1.1 2.1-5h-.2l-2.2 5.2h.1l7.2 1.2h.1v-.1L60 1.4v-.1h-.1L55.5 0zM10.3 39.1l1.5.9h.4l-1.8-1.1h-.1l-.1.1-1 1.1h.2l.9-1zM149.9 36.2h.1V36H149.7v.1l-2.3 4h.2l2.3-3.9zM132.4 35.9l3.3.1h8.5l4.2.1-2.3 4h.2l2.3-4 .1-.1h-.1l-4.3-.1h-8.5l-3.3-.1h-.1l-2.7 4.2h.2l2.5-4.1zM135.7 0h-.5A515.6 515.6 0 01150 5.7v-.2l-.6-.3c-1.1-.6-7-2.8-13.7-5.2zM24.4 0h-.2a178 178 0 004.9 5.6L25.2 12a26 26 0 00-4.9-4.1L19 6.1 14.9 0h-.2l4.1 6.2 1.3 1.9c1.7.9 3.5 2.6 5 4.1l.1.1.1-.1 4-6.6v-.2A77.3 77.3 0 0124.4 0zM37 39.8l6.1-14.4A51 51 0 0059 28.8l-2 7.5v.1l1.4.4v-.1l1.4-5.2c3.8 2 6.8 3.4 10.3 4.7L69 40.1h.2l1.1-3.9v-.1h-.1a94.4 94.4 0 01-10.5-4.8l-.1-.1v.1l-1.4 5.2-1-.3 2-7.5v-.1h-.1a51 51 0 01-16-3.4H43v.1l-6.1 14.6v.1h.1l.2.1h.6l-.8-.3z"/><path fill="#d1ccc4" d="M52.7 36.7l1-2.9v-.1l-1.4-.5v.1l-1 2.9-1.2 3.7h.2l1.2-3.7.9-2.8 1 .4-.9 2.8-1.1 3.3h.2l1.1-3.2zM61.6 37.8l-1.3-.7v.1l-1 2.8h.2l.9-2.7 1 .4-.8 2.2h.2l.8-2.1zM56.3 13.2l-7.5-1.7h-.1l-2.2 5.3h.1a78 78 0 0015.1 2.1h.1v-.1l1-4v-.1h-.1l-6.4-1.5zm5.3 5.5c-4.1-.2-10-.7-14.9-2l2.1-4.9 7.4 1.7 6.4 1.5-1 3.7zM51.2 0l-1.9 4.6-3-.8-4.7-2.4L42 0h-.2l-.4 1.4v.1h.1l4.7 2.4c.5.2 1.5.5 3.1.8h.1l2-4.8h-.2zM60.7 19.9c-4-.2-9.8-.8-14.6-2.1H46l-2.7 6.4h.1a52.6 52.6 0 0015.9 3.3h.1v-.1a278 278 0 012-7.4v-.1H61h-.3zm-1.4 7.4A51 51 0 0143.6 24l2.5-6a81.5 81.5 0 0014.6 2.1h.5l-1.9 7.2zM60.3 28.6l-.4 1.4h.1c3.9 2.1 7 3.5 10.5 4.9h.1v-.1l1.7-6.1v-.1h-.1l-5.8.1-6.1-.1zm6 .3l5.7-.1-1.6 5.9a92.4 92.4 0 01-10.3-4.8l.3-1.1 5.9.1zM79.3 34.3l.1-.1.9-3.5.7-2.5v-.1h-.1l-7.5.5h-.1v.1l-.8 3.1v.1h.1l6.7 2.4zm-5.7-5.5l7.3-.5-.7 2.4-.9 3.4c-2.1-.7-4.9-1.7-6.5-2.4l.8-2.9zM79.9 38.4c0-1.3.9-4.8 1.7-7.4l.8-2.9c4.8-.5 8.7-1.1 11.5-1.9 1.2-.3 3.5-.5 6.3-.5 4.2 0 9.4.5 10.8 1.6a63.5 63.5 0 0016.1 8c1 .3 2.3.5 3.8.6l-2.7 4.2h.2l2.8-4.2.1-.1h-.2c-1.6-.1-2.9-.3-3.9-.6a64.4 64.4 0 01-16-8c-1.4-1.1-6.5-1.7-10.9-1.7-2.8 0-5.1.2-6.3.6A62 62 0 0182.5 28h-.1v.1l-.8 3c-.7 2.6-1.7 6.2-1.7 7.5l2.4 1.5h.4c-1.4-.8-2.5-1.4-2.8-1.7z"/><path fill="#d1ccc4" d="M94.3 31l-1.3-.5v.1c-.6 2.4-1.8 6.3-2.8 9.4h.2l2.7-9.2 1 .3-2.6 9h.2l2.6-9.1zM110.3 36.6c-1-.1-8.5-2.5-9.9-2.9l-.4-.1c-.5 0-.9.3-1.1.8L96.8 40h.2l2.1-5.6c.1-.4.5-.6.9-.6l.3.1c1.3.5 8.9 2.8 9.9 3 .1 0 10 1.3 15.7 3.2h.5c-5.4-2.1-16-3.5-16.1-3.5zM15.6 32.6l1.4-2 10.9 8 2.1 1.5h.3L28 38.5l-11-8-.1-.1-.1.1-1.5 2.2-.1.1.1.1 10.4 7.3h.3l-10.4-7.6zM11.3 38l3.5-4.3c1.8 1.4 5.3 3.9 8.9 6.3h.3c-3.7-2.5-7.4-5.1-9.2-6.5l-.1-.1-.1.1-3.6 4.4v.1l.1.1 3.4 1.9h.4c-1.5-.8-2.8-1.4-3.6-2z"/><path fill="#ffe168" d="M58.6 34.9a680 680 0 01-41-20.7c-1.3-1.3-4.2-6.3-6.7-10.6L8.8 0H5.9l2.8 4.8c2.9 4.9 5.6 9.6 7.1 11.2a625 625 0 0041.8 21.3l5.7 2.7h5.9l-10.6-5.1zM95.4 32.8c-2.8-12-5.9-25.1-8.9-32.8h-2.7c3 7.4 6.4 22.1 9.1 33.3l1.6 6.7h2.6l-1.7-7.2zM111.2 39.7a44.4 44.4 0 018.9-21.9A219 219 0 01143.7 0h-4.4a188 188 0 00-21.1 16.1c-5.8 6.6-7.8 15-9.4 23.1l-.1.8h2.6l-.1-.3z"/><path fill="#d8b348" d="M57.7 37.2c-4-1.9-39.5-19-41.8-21.3-1.5-1.5-4.2-6.2-7.1-11.1L6 0h-.2l2.9 4.8c2.9 4.9 5.6 9.6 7.1 11.2 2.3 2.3 37.8 19.4 41.8 21.3l5.5 2.6h.4l-5.8-2.7zM95.5 32.7c-2.8-11.9-5.9-25-8.9-32.7h-.2c2.9 7.7 6 20.8 8.9 32.8L97 40h.2l-1.7-7.3zM108.8 39.2a46.6 46.6 0 019.4-23c2.3-2.6 11.1-9.1 21.2-16.2h-.3c-10 7-18.7 13.5-21 16.1-5.8 6.6-7.9 15-9.5 23.1l-.2.8h.2c.2-.3.2-.5.2-.8zM93 33.3A284.8 284.8 0 0083.9 0h-.2c3 7.4 6.4 22.1 9.1 33.4l1.6 6.6h.2L93 33.3z"/><path fill="#d8b348" d="M58.6 34.8a578.1 578.1 0 01-40.9-20.7c-1.3-1.3-4.2-6.3-6.7-10.6L9 0h-.3l2.1 3.6c2.5 4.4 5.4 9.3 6.8 10.7 1.4 1.3 19 10.2 40.9 20.7L69 40h.4l-10.8-5.2zM111.3 39.7a45.2 45.2 0 018.8-21.9A220 220 0 01143.8-.1h-.3c-11 7.7-21.2 15.1-23.5 17.8a44.8 44.8 0 00-8.9 21.9l-.1.3h.2l.1-.2z"/></g><rect x="0" y="0" fill="none" stroke="%s" stroke-width="%.4f" width="%.4f" height="%.4f"/><path fill="%s" transform="translate(%.4f,8)" d="M8 0c-2.8 0-5 2.2-5 5s4 11 5 11c1 0 5-8.2 5-11s-2.2-5-5-5zM8 8c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z"></path></g>', $field_x, $label_offset_y, ($field_width / 150), (($field_height * 4) / 40), $ws_form_css->color_default_lighter, $ws_form_css->border_width, $field_width, ($field_height * 4), $ws_form_css->color_primary, (($field_width / 2) - 8));
+							$svg_field .= sprintf(
+
+								'<g transform="translate(%.4f,%.4f)"><g transform="scale(%.4f,%.4f)"><path fill="#f5ede1" d="M0 0h150v40H0z"/><path fill="#c1e1b2" d="M99.6 0L97 6.8l11.7 3.9 4.9 5.7L119.9 0zM10.3 38.7L9.1 40h3.7z"/><path d="M138.4 27.3c-3.4.3-6.9.4-10-.5-2.9-.8-5.3-2.7-8.2-4.4a41.8 41.8 0 00-9.3-4.4c-6.6-2-13.6-.6-19.7.3l-4 .8a105 105 0 01-38 .5c-7-1.5-13-5.8-19.5-11.7-1.3-1.2-4.1-4.8-6.6-8h-6.3a52.7 52.7 0 0035.1 25.4C69 28.2 91.3 23.7 92 23.6c5.7-.9 11.7-1.6 17.1 0 2.8.8 5.4 2.3 8.1 3.9 3 1.7 6.3 3.6 9.9 4.6 4.1 1.2 7.9.8 11.7.5 2.9-.2 5.7-.5 8.3 0 .8.1 1.8.4 2.8.8v-6.9l-1.2-.3c-3.3-.3-7.2.9-10.3 1.1z" fill="#8acdf1"/><path fill="#fff" d="M135.5 0h-3.7c7.7 2.8 15.8 5.8 17 6.4l1.2.6V5.6l-.6-.3c-1.2-.6-7.2-2.8-13.9-5.3zM94.3 31l-1.3-.3c-.7 2.6-1.8 6.4-2.8 9.3h1.3c1.1-3 2.1-6.6 2.8-9zM100.4 33.7c-.6-.2-1.2.1-1.4.6l-2.1 5.6h2.3l1.4-3.9c2.4.8 8.2 2.6 9.3 2.7.7.1 3.7.5 7.2 1.2h9c-5.6-2-15.8-3.3-15.9-3.3-.9 0-8.4-2.4-9.8-2.9z"/><path fill="#fff" d="M10.3 39l1.7 1h2.7c-1.4-.7-2.7-1.4-3.5-2l3.6-4.4c1.8 1.4 5.4 3.9 9.1 6.4H26c-4.1-2.7-8.6-5.9-10.6-7.4l1.5-2.2A493.2 493.2 0 0030.1 40h2.2l-3.6-2.6a374 374 0 01-11.1-8.1l.5-.8.8-1.4.9-1.6L36 36.2l-1.6 3.7h2.8l-.4-.1 6.1-14.6a68 68 0 008.1 2.5c1.7.4 4.5.7 7.9.9l-2.1 7.6 1.2.3 1.5-5.3c3.8 2 7 3.5 10.5 4.8l-1.1 4h1.3l2-7 6.7 2.5a9.4 9.4 0 00-.4 3.4v.1c.1.3.3.6 1.2 1.1h2.5c-1.3-.7-2.2-1.2-2.5-1.5-.1-1.3.9-4.8 1.7-7.4l.8-3c4.5-.4 8.5-1.1 11.5-2 3.3-1 14.9-.7 17.2 1.1a64.4 64.4 0 0016 8c1.1.3 2.5.5 4 .6l-2.8 4.2h1.5l2.7-4.2h7.6a78 78 0 018.5.1l-2.4 4.1h1.5l2.3-3.9h.2v-1.3c-2.7-.4-6.3-.3-10.1-.2a55 55 0 01-12.7-.6c-4.5-1.2-13.3-6-15.6-7.7-2.8-2.2-14.9-2.3-18.3-1.3a133 133 0 01-32.8 2.6l2-7.4 4.9.1a67 67 0 0011.2-.7l4.5-.7c12.5-2 17.1-2.9 18.4-3.7a25 25 0 0110.2 2l3.3 1.8c4.8 2.7 12 6.8 15.9 7.5 4.4.8 17.5-1.5 17.6-1.5h.2l1.2.1v-1.3l-1-.1-.8-.3.7-1.1 1-1.5V19c-.9.9-1.6 1.9-2.1 2.8a8 8 0 01-.8 1.1l.1.1-22.9-10.5-6.7-3.1 3.5-9.1h-1.3l-3.3 8.6-17-7.8.3-.8h-1.3L96 6.6a232.1 232.1 0 00-18.7-3.9c.6-.6 1-1.3 1.4-2L79 0h-2.6c-1.3 1.9-2.5 2.7-4 2.7-.6 0-3.8-1-7-2l-2.6-.8H55l4.7 1.4-1.2 4.9L51.3 5l2.1-5.1h-2.3l-2 4.7a32 32 0 01-3.1-.8l-4.7-2.4c.3-.4.5-.9.6-1.4h-1.3l-.2.8-1.5-.8h-2.6a203 203 0 009.5 5c.6.3 1.7.5 3.1.9l-1.1 2.6-3.2 7.7-2.6-1.1a52.7 52.7 0 01-10.5-8.9l4-6.1h-2.6l-.4.6-.4-.6h-1.5l1.2 1.7L30 4.6a132 132 0 01-4-4.5h-1.6a178 178 0 004.9 5.6l-4 6.6a22 22 0 00-5-4.1L19 6.3 14.9.2h-1.5C15 2.8 16.8 5.3 18 7.1l.4.6-1.3.2c-1.1.5-1.8 1.9-2.3 3l-.4.7.9.9.6-1c.4-.8.9-2 1.7-2.3 1.6-.7 4.4 1.8 7 4.4l-5.9 10-6.1-4 3.5-5.4-1.1-1a427 427 0 01-8.5 12.6c-1.7-1.7-4.3-4-6.5-5.8v1.7a196 196 0 015.8 5.2l-3.1 4.4-2.6-2.2v1.7l8.5 6.9L6.5 40h2.9l.9-1zm63.2-10.3l7.5-.5-.7 2.5-.9 3.5a81 81 0 01-6.7-2.5l.8-3zm-1.3 0l-1.7 6.1A94.4 94.4 0 0160 30l.3-1.3h11.9zM100.8 14A135 135 0 0183 17.4l-4.6.7-2.2.3-.8-8.5c4.1.5 11.4 1.3 12.6 1.3l1.9.2c2.7.3 7.6.8 11.1.8h.3c-.1.8-.3 1.6-.5 1.8zm1.4-.2l.7-2.8.3-1.3c2.7.9 5 1.8 6.4 2.8.6.5 1.5 1.9 2.3 3.2a25.8 25.8 0 00-9.7-1.9zm14.9-3.5l6.6 3.1 22.9 10.5c-3.9.6-12.4 1.8-15.4 1.2a73.5 73.5 0 01-16.7-8l2.6-6.8zM99 2l17 7.8-2.4 6.3c-1.1-2-2.2-3.9-3.2-4.6a46.6 46.6 0 00-13.1-4.8L99 2zM76.3 3.5l6.1 1.3A246 246 0 01102 9.3l-.3 1.4-.1.3c-3.5.1-8.7-.5-11.5-.8l-2-.2c-1 0-7.7-.7-12.7-1.3l-.3-4.4 1.2-.8zM75 18.6c-3.2.3-7.5.4-12 .2l2.7-10.3 6.8 1 .2.1 1.6.2c.1 3.2.5 6.5.7 8.8zM66.9 3.5c3.3 1 4.9 1.4 5.5 1.4l1.4-.2.3 3.8-1.2-.1c-.5-.2-2.1-.4-6.9-1.1l.9-3.8zm-5.8-1.8l3.7 1.1.9.3-1 4-4.8-.7 1.2-4.7zM49.7 9.3l1.3-3c3.8.7 9 1.4 13.4 2.1L63 13.6l-6.5-1.5-7.3-1.7.5-1.1zm-1 2.3l7.5 1.7 6.5 1.5-1 4c-5.3-.3-10.8-.9-15.1-2.1a133 133 0 002.1-5.1zm-2.6 6.3A75.6 75.6 0 0060.7 20h.6l-2 7.4a56 56 0 01-8-.9c-2.6-.6-5.3-1.4-7.9-2.4l2.7-6.2zM30.8 7.2c3.7 3.8 7.8 7.4 10.6 8.9l2.7 1.1-2.6 6.1a55.5 55.5 0 01-10.1-5.2c-1.3-.9-2.8-2.5-4.5-4.2l-.1-.1 4-6.6zm-4.7 7.7c1.7 1.7 3.2 3.3 4.6 4.3C33.3 21 37 22.9 41 24.5l-4.5 10.6-16-10.6 5.6-9.6zm-14.2 5.4l6.2 4-1 1.7-.8 1.4a2 2 0 01-.4.6 152 152 0 01-6.1-4.8l2.1-2.9zM5.3 33.5l-1.7-1.4 3.1-4.3.7.8c.6.8-.5 2.5-1.4 3.7l-.7 1.2zm1 .8l.8-1.3c1.1-1.6 2.4-3.6 1.3-5.1l-1-1.1 1.7-2.4 6.1 4.8c-1.6 2.4-3.6 5-5.9 7.6l-3-2.5z"/><path fill="#fff" d="M60.4 37.2l-1 2.8h1.3l.8-2.3-1.1-.5zM53.6 33.8l-1.2-.4-1 2.9-1.2 3.7h1.3l1.1-3.3 1-2.9zM2.4 7.8c1.7 0 3.3-.2 5-.4l3.9-.3-.1-1.3-4 .4c-2.4.2-4.9.5-7.2.3v1.3l.9.1L0 9.7v2.8l2.4-4.7z"/><path fill="#d1ccc4" d="M117.5 9.1l6.8 3.2 22.9 10.5.2.1-.1-.3.8-1.1c.5-.8 1.1-1.8 2-2.7v-.3c-1 .9-1.6 2-2.2 2.9-.3.4-.6 1-.8 1.1l-22.7-10.4-6.6-3.1 3.4-9.1h-.2l-3.5 9.2zM132 0h-.5a328.2 328.2 0 0118.6 7.1v-.2l-1.2-.6c-1.3-.6-9.2-3.5-16.9-6.3zM149 23.4l-.6-.3.7-1 1-1.4v-.3L149 22l-.7 1.1-.1.1h.1l.8.3 1 .1v-.2a2 2 0 01-1.1 0zM5.7 26.9l-3 4.3L0 29v.2l2.6 2.2.1.1.1-.1L5.9 27v-.1l-.1-.1a128 128 0 00-5.9-5.3v.2l5.8 5.2zM8.6 37.8v-.1l-8.6-7v.2a290 290 0 008.4 6.8L6.3 40h.2l2.1-2.2zM76.3 0c-1.3 1.8-2.5 2.6-3.9 2.6-.6 0-3.8-1-7-2L63.2 0h-.6l2.8.9c3.1 1 6.4 2 7 2 1.5 0 2.8-.9 4.1-2.8h-.2zM1 7.8l.1-.1H1l-1-.1v.2h.8L0 9.5v.4l1-2.1zM18.2 8.6l-.7.1c-.8.3-1.3 1.6-1.7 2.4l-.5.9-.8-.7.3-.7c.5-1 1.1-2.4 2.2-2.9.4-.2.8-.2 1.2-.2h.2l-.4-.7c-1.2-1.7-2.9-4.2-4.5-6.8h-.2c1.6 2.6 3.4 5.2 4.6 6.9l.3.4-1.1.2c-1.2.5-1.8 2-2.3 3l-.4.7.1.1-.1.1 1 .9.1-.1.6-1.1c.4-.8.9-2 1.6-2.3l.6-.1c1.6 0 4.1 2.3 6.3 4.5l-5.8 9.9-6-3.9 3.5-5.3v-.1l-1.3-.7v.1L6.6 25.7a202 202 0 00-6.5-5.8v.2c2.2 1.8 4.7 4.1 6.5 5.8l-.1.1.1-.1 8.5-12.5.9.6-3.5 5.3-.1.1.1.1 6.1 4 .1.1v-.1l5.9-10v-.2c-2.2-2.4-4.8-4.7-6.4-4.7z"/><path fill="#d1ccc4" d="M1.9 6.6l5.4-.3c1.2-.1 2.5-.3 3.8-.3v1.1l-3.8.3-4.9.3h-.1L0 12.2v.4l2.4-4.7c1.7 0 3.3-.2 4.9-.4l3.9-.3h.1l-.1-1.4h-.1l-3.9.3a47 47 0 01-5.3.3L0 6.3v.2l1.9.1zM32.8 0l-.3.4-.3-.4H32l.4.6.1.1.1-.1.4-.6h-.2zM148.8 24.7h-.2c-.1 0-9.6 1.7-15.1 1.7l-2.4-.2a74.4 74.4 0 01-15.9-7.5l-3.3-1.8c-3.3-1.6-7.7-2-9.6-2h-.7c-1.2.8-5.6 1.6-18.3 3.7l-4.5.7c-2.5.4-6.6.7-11.1.7l-4.9-.1h-.1v.1l-2 7.4v.1h.1l5.7.1c8.7 0 20.4-.7 27.1-2.7a28 28 0 016.8-.6c4.2 0 9.6.5 11.4 1.9a66.6 66.6 0 0015.6 7.8c2.3.6 5.7.7 8.4.7h8.5c2 0 4.1 0 5.9.3v-.2c-1.8-.2-3.9-.3-5.9-.3h-8.5c-2.7 0-6-.1-8.3-.7-4.5-1.2-13.3-6-15.5-7.7-1.8-1.4-7.3-1.9-11.5-1.9-3 0-5.5.2-6.9.6-6.7 2-18.4 2.7-27.1 2.7l-5.6-.1 1.9-7.2 4.8.1c4.6 0 8.7-.3 11.2-.7l4.5-.7c12.6-2 17.1-2.9 18.4-3.7h.6c1.9 0 6.3.4 9.5 2l3.3 1.8a74.4 74.4 0 0015.9 7.5l2.5.2c5.5 0 15.1-1.7 15.2-1.7h.1l.1.1V25l1.1.1v-.2c-.5-.2-.9-.2-1.2-.2zM72.8 8.5l1.3.2v-.1l-.2-3.9v-.1h-.1l-1.3.2c-.7 0-2.3-.4-5.5-1.4h-.1v.1L66 7.3v.1h.1c4.4.7 6.2.9 6.7 1.1zM67 3.6c3.2 1 4.7 1.4 5.5 1.4l1.3-.1.3 3.6-1.1-.1c-.6-.2-2.2-.4-6.8-1.1.2-1.5.5-2.8.8-3.7zM30.6 0h-.2l1.2 1.7-1.7 2.6L26 0h-.2l4 4.5.1.1.1-.1 1.8-2.8v-.2L30.6 0z"/><path fill="#d1ccc4" d="M72.4 9.5c-.5-.2-3.6-.6-6.8-1h-.1v.1l-2.7 10.3v.1h.1l4.5.1c2.7 0 5.3-.1 7.5-.3h.1v-.1l-.8-8.8v-.1h-.1l-1.6-.2-.1-.1zm2.5 9.1a83 83 0 01-7.4.3l-4.4-.1 2.6-10.1 6.7 1 .3.1 1.5.2c.1 2.9.4 6.2.7 8.6zM98.3 0L96 6.2c-4.6-1.1-9.4-2.1-13.3-2.8l-5.1-1L79 .5c-.1-.2 0-.4.1-.5h-.2l-.2.3-1.4 2-.1.1h.1l5.3 1.1c3.9.8 8.8 1.7 13.4 2.8h.1v-.1l2.4-6.4h-.2zM75.3 8.7c2.7.4 11.5 1.4 12.7 1.4l2 .2c2.6.3 7.5.8 11 .8h.7l.1-.4.3-1.4v-.1h-.1a187 187 0 00-19.6-4.5l-6.1-1.3-1.3.8h-.1v.1l.4 4.4zm1-5.1l6.1 1.3c5.3 1.1 13.4 2.6 19.5 4.5l-.3 1.3v.2c-3.5 0-8.7-.5-11.5-.8l-2-.2c-1.2 0-9.8-1-12.6-1.3l-.3-4.3 1.1-.7zM40.5 0l-.2.7L39 0h-.4l1.7.9.1.1V.9l.2-.8h-.1zM45.8 4.9c-1.2-.5-6.6-3.4-9.4-4.9H36c2.6 1.5 8.5 4.5 9.7 5.1l3 .8-4.2 10-2.5-1.1A54.5 54.5 0 0131.6 6l4-6.1h-.2l-4 6V6l.1.1C34 8.7 38.8 13.3 42 15c.7.4 1.6.8 2.6 1.1h.1l4.4-10.4H49a8.8 8.8 0 01-3.2-.8zM61 1.6l-1.2 4.8v.1h.1l4.8.7h.1v-.1l1-4V3l-1-.3L61 1.6zm3.8 1.3l.8.2-.9 3.8-4.6-.7 1.1-4.5 3.6 1.2zM101.1 12.1c-3.5 0-8.4-.5-11.1-.8l-1.9-.2c-1.1 0-8.4-.8-12.6-1.3h-.1v.1l.8 8.5v.1h.1l2.2-.3 4.6-.7c5.4-.9 16.7-2.7 17.9-3.5l.5-1.8v-.1h-.4zm-.3 1.9c-1.3.8-12.4 2.6-17.8 3.4l-4.6.7-2.1.3-.8-8.3c4.2.5 11.3 1.3 12.5 1.3l1.9.2c2.7.3 7.6.8 11.1.8h.2l-.4 1.6zM109.6 12.4c-1.3-.9-3.5-1.9-6.4-2.8h-.1v.1l-.3 1.3c-.2 1.1-.4 2.1-.7 2.8v.1h.1c2 0 6.2.4 9.6 1.9l.2.1-.1-.2a9.5 9.5 0 00-2.3-3.3zm-7.2 1.3l.6-2.7.3-1.2c2.9.9 5 1.9 6.3 2.8.5.3 1.2 1.3 2.1 2.9a27.1 27.1 0 00-9.3-1.8zM56.5 12.2l6.5 1.5h.1v-.1l1.3-5.2v-.1h-.1L51 6.2h-.1l-1.8 4.3h.1l7.3 1.7zM51 6.4l13.2 2.1-1.3 5-6.4-1.5-7.2-1.6 1.7-4z"/><path fill="#d1ccc4" d="M116.1 9.7L99 1.9h-.1V2l-1.7 4.6v.1h.1a41.2 41.2 0 0113 4.8c1 .7 2.1 2.6 3.2 4.6l.1.2.1-.2c.3-1.1 1.1-3.2 2.4-6.4zm-2.6 6.2a15 15 0 00-3.1-4.5 41.2 41.2 0 00-13-4.8l1.7-4.5 16.8 7.7-2.4 6.1zM117 10.3l-2.6 6.8v.1h.1l1.2.7a71 71 0 0015.5 7.3l2.2.1c3.5 0 9.3-.7 13.3-1.4h.3l-.3-.1-22.9-10.5-6.8-3zm5.7 2.7l1 .4 22.6 10.4c-3.9.6-9.5 1.3-12.9 1.3l-2.1-.1a76 76 0 01-15.5-7.3l-1.2-.7 2.6-6.6 5.5 2.6zM119.6 0l-3.2 8.5L99.6.8l.3-.8h-.2l-.3.8v.1h.1l17 7.8h.1v-.1l3.3-8.6h-.3zM31.3 18.2c2.5 1.8 6.1 3.6 10.1 5.2h.1l2.6-6.2H44l-2.7-1.1a53.3 53.3 0 01-10.6-8.9l.1-.2-.1.1-4 6.6v.1l.2.2c1.6 1.7 3.2 3.3 4.4 4.2zm-.5-10.9c2.5 2.6 7.2 7.1 10.5 8.9.8.4 1.6.8 2.6 1.1l-2.5 5.9c-4-1.6-7.5-3.4-10-5.2-1.3-.9-2.8-2.5-4.5-4.2l-.1-.1 4-6.4zM72.4 33.1l6.5 2.4a9.3 9.3 0 00-.4 3.3v.1c.1.3.3.6 1.1 1.1h.4c-1-.6-1.3-.9-1.3-1.2v-.1c-.1-.6.1-1.7.4-3.3v-.1H79a73 73 0 01-6.7-2.5h-.1v.1l-2 7.1h.2l2-6.9zM100.8 36.2a94.3 94.3 0 0016 3.8h1a135 135 0 00-7.6-1.3c-1.1-.1-6.4-1.8-9.3-2.7h-.1v.1L99.3 40h.2l1.3-3.8zM7.5 28.5l-.8-.8-.1-.1-.1.1L3.4 32v.1l.1.1 1.7 1.4.1.1.1-.1.8-1.2c.8-1.3 1.9-3 1.3-3.9zM6 32.2l-.7 1.2-1.5-1.3 3-4.2.7.7c.4.8-.7 2.4-1.5 3.6zM15.9 28.1h.1l.4-.6.8-1.3v-.1l1-1.7v-.1h-.1l-6.2-4h-.1v.1l-2 3v.1l.1.1 6 4.5zm-4-7.7l6 3.9-.9 1.6v.1l-.8 1.3-.3.5a135 135 0 01-5.9-4.6l1.9-2.8zM28.8 37.3l-11-8 .5-.8.8-1.4.9-1.5 16 10.6a104 104 0 00-1.6 3.7h.2l1.6-3.7v-.1h-.1L19.9 25.4l-.1-.1v.1l-.9 1.6-.8 1.4-.5.8v.1l.1.1 11.1 8.1 3.5 2.5h.3l-3.8-2.7z"/><path fill="#d1ccc4" d="M36.5 35.2h.1l4.5-10.6v-.1H41a54.2 54.2 0 01-10.3-5.3c-1.4-1-3-2.6-4.6-4.3l-.1-.1-5.6 9.6v.1h.1l16 10.7zM26.1 15c1.5 1.6 3.1 3.3 4.5 4.2 2.5 1.8 6.2 3.7 10.2 5.3l-4.4 10.4a1687 1687 0 00-15.9-10.5l5.6-9.4zM9.4 36.9c2.5-2.8 4.4-5.4 5.9-7.7V29c-2.8-2.1-4.8-3.6-6.1-4.8l-.1-.1-.1.2-1.7 2.4v.1l.1.1 1 1.1c1 1.5-.3 3.4-1.3 5a5 5 0 00-.8 1.4v.1h.1l3 2.4zM7.2 33c1.1-1.6 2.4-3.6 1.3-5.2l-1-1.1 1.6-2.2 6 4.7a86.4 86.4 0 01-5.8 7.5l-2.9-2.3.8-1.4zM55.5 0h-.7l5 1.4-1.2 4.7-7-1.1 2.1-5h-.2l-2.2 5.2h.1l7.2 1.2h.1v-.1L60 1.4v-.1h-.1L55.5 0zM10.3 39.1l1.5.9h.4l-1.8-1.1h-.1l-.1.1-1 1.1h.2l.9-1zM149.9 36.2h.1V36H149.7v.1l-2.3 4h.2l2.3-3.9zM132.4 35.9l3.3.1h8.5l4.2.1-2.3 4h.2l2.3-4 .1-.1h-.1l-4.3-.1h-8.5l-3.3-.1h-.1l-2.7 4.2h.2l2.5-4.1zM135.7 0h-.5A515.6 515.6 0 01150 5.7v-.2l-.6-.3c-1.1-.6-7-2.8-13.7-5.2zM24.4 0h-.2a178 178 0 004.9 5.6L25.2 12a26 26 0 00-4.9-4.1L19 6.1 14.9 0h-.2l4.1 6.2 1.3 1.9c1.7.9 3.5 2.6 5 4.1l.1.1.1-.1 4-6.6v-.2A77.3 77.3 0 0124.4 0zM37 39.8l6.1-14.4A51 51 0 0059 28.8l-2 7.5v.1l1.4.4v-.1l1.4-5.2c3.8 2 6.8 3.4 10.3 4.7L69 40.1h.2l1.1-3.9v-.1h-.1a94.4 94.4 0 01-10.5-4.8l-.1-.1v.1l-1.4 5.2-1-.3 2-7.5v-.1h-.1a51 51 0 01-16-3.4H43v.1l-6.1 14.6v.1h.1l.2.1h.6l-.8-.3z"/><path fill="#d1ccc4" d="M52.7 36.7l1-2.9v-.1l-1.4-.5v.1l-1 2.9-1.2 3.7h.2l1.2-3.7.9-2.8 1 .4-.9 2.8-1.1 3.3h.2l1.1-3.2zM61.6 37.8l-1.3-.7v.1l-1 2.8h.2l.9-2.7 1 .4-.8 2.2h.2l.8-2.1zM56.3 13.2l-7.5-1.7h-.1l-2.2 5.3h.1a78 78 0 0015.1 2.1h.1v-.1l1-4v-.1h-.1l-6.4-1.5zm5.3 5.5c-4.1-.2-10-.7-14.9-2l2.1-4.9 7.4 1.7 6.4 1.5-1 3.7zM51.2 0l-1.9 4.6-3-.8-4.7-2.4L42 0h-.2l-.4 1.4v.1h.1l4.7 2.4c.5.2 1.5.5 3.1.8h.1l2-4.8h-.2zM60.7 19.9c-4-.2-9.8-.8-14.6-2.1H46l-2.7 6.4h.1a52.6 52.6 0 0015.9 3.3h.1v-.1a278 278 0 012-7.4v-.1H61h-.3zm-1.4 7.4A51 51 0 0143.6 24l2.5-6a81.5 81.5 0 0014.6 2.1h.5l-1.9 7.2zM60.3 28.6l-.4 1.4h.1c3.9 2.1 7 3.5 10.5 4.9h.1v-.1l1.7-6.1v-.1h-.1l-5.8.1-6.1-.1zm6 .3l5.7-.1-1.6 5.9a92.4 92.4 0 01-10.3-4.8l.3-1.1 5.9.1zM79.3 34.3l.1-.1.9-3.5.7-2.5v-.1h-.1l-7.5.5h-.1v.1l-.8 3.1v.1h.1l6.7 2.4zm-5.7-5.5l7.3-.5-.7 2.4-.9 3.4c-2.1-.7-4.9-1.7-6.5-2.4l.8-2.9zM79.9 38.4c0-1.3.9-4.8 1.7-7.4l.8-2.9c4.8-.5 8.7-1.1 11.5-1.9 1.2-.3 3.5-.5 6.3-.5 4.2 0 9.4.5 10.8 1.6a63.5 63.5 0 0016.1 8c1 .3 2.3.5 3.8.6l-2.7 4.2h.2l2.8-4.2.1-.1h-.2c-1.6-.1-2.9-.3-3.9-.6a64.4 64.4 0 01-16-8c-1.4-1.1-6.5-1.7-10.9-1.7-2.8 0-5.1.2-6.3.6A62 62 0 0182.5 28h-.1v.1l-.8 3c-.7 2.6-1.7 6.2-1.7 7.5l2.4 1.5h.4c-1.4-.8-2.5-1.4-2.8-1.7z"/><path fill="#d1ccc4" d="M94.3 31l-1.3-.5v.1c-.6 2.4-1.8 6.3-2.8 9.4h.2l2.7-9.2 1 .3-2.6 9h.2l2.6-9.1zM110.3 36.6c-1-.1-8.5-2.5-9.9-2.9l-.4-.1c-.5 0-.9.3-1.1.8L96.8 40h.2l2.1-5.6c.1-.4.5-.6.9-.6l.3.1c1.3.5 8.9 2.8 9.9 3 .1 0 10 1.3 15.7 3.2h.5c-5.4-2.1-16-3.5-16.1-3.5zM15.6 32.6l1.4-2 10.9 8 2.1 1.5h.3L28 38.5l-11-8-.1-.1-.1.1-1.5 2.2-.1.1.1.1 10.4 7.3h.3l-10.4-7.6zM11.3 38l3.5-4.3c1.8 1.4 5.3 3.9 8.9 6.3h.3c-3.7-2.5-7.4-5.1-9.2-6.5l-.1-.1-.1.1-3.6 4.4v.1l.1.1 3.4 1.9h.4c-1.5-.8-2.8-1.4-3.6-2z"/><path fill="#ffe168" d="M58.6 34.9a680 680 0 01-41-20.7c-1.3-1.3-4.2-6.3-6.7-10.6L8.8 0H5.9l2.8 4.8c2.9 4.9 5.6 9.6 7.1 11.2a625 625 0 0041.8 21.3l5.7 2.7h5.9l-10.6-5.1zM95.4 32.8c-2.8-12-5.9-25.1-8.9-32.8h-2.7c3 7.4 6.4 22.1 9.1 33.3l1.6 6.7h2.6l-1.7-7.2zM111.2 39.7a44.4 44.4 0 018.9-21.9A219 219 0 01143.7 0h-4.4a188 188 0 00-21.1 16.1c-5.8 6.6-7.8 15-9.4 23.1l-.1.8h2.6l-.1-.3z"/><path fill="#d8b348" d="M57.7 37.2c-4-1.9-39.5-19-41.8-21.3-1.5-1.5-4.2-6.2-7.1-11.1L6 0h-.2l2.9 4.8c2.9 4.9 5.6 9.6 7.1 11.2 2.3 2.3 37.8 19.4 41.8 21.3l5.5 2.6h.4l-5.8-2.7zM95.5 32.7c-2.8-11.9-5.9-25-8.9-32.7h-.2c2.9 7.7 6 20.8 8.9 32.8L97 40h.2l-1.7-7.3zM108.8 39.2a46.6 46.6 0 019.4-23c2.3-2.6 11.1-9.1 21.2-16.2h-.3c-10 7-18.7 13.5-21 16.1-5.8 6.6-7.9 15-9.5 23.1l-.2.8h.2c.2-.3.2-.5.2-.8zM93 33.3A284.8 284.8 0 0083.9 0h-.2c3 7.4 6.4 22.1 9.1 33.4l1.6 6.6h.2L93 33.3z"/><path fill="#d8b348" d="M58.6 34.8a578.1 578.1 0 01-40.9-20.7c-1.3-1.3-4.2-6.3-6.7-10.6L9 0h-.3l2.1 3.6c2.5 4.4 5.4 9.3 6.8 10.7 1.4 1.3 19 10.2 40.9 20.7L69 40h.4l-10.8-5.2zM111.3 39.7a45.2 45.2 0 018.8-21.9A220 220 0 01143.8-.1h-.3c-11 7.7-21.2 15.1-23.5 17.8a44.8 44.8 0 00-8.9 21.9l-.1.3h.2l.1-.2z"/></g><rect x="0" y="0" fill="none" stroke="%s" stroke-width="%.4f" width="%.4f" height="%.4f"/><path fill="%s" transform="translate(%.4f,8)" d="M8 0c-2.8 0-5 2.2-5 5s4 11 5 11c1 0 5-8.2 5-11s-2.2-5-5-5zM8 8c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z"></path></g>',
+								$field_x,
+								$label_offset_y,
+								($field_width / 150),
+								(($field_height * 4) / 40),
+								esc_attr($ws_form_css->color_default_lighter),
+								$ws_form_css->border_width,
+								$field_width,
+								($field_height * 4),
+								esc_attr($ws_form_css->color_primary),
+								(($field_width / 2) - 8)
+							);
 
 							// Add to SVG array
 							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + ($field_height * 4));
@@ -3135,10 +3574,26 @@
 						case 'html' :
 
 							// Rectangle
-							$svg_field .= '<rect x="' . $field_x . '" y="' . $label_offset_y . '" fill="' . $ws_form_css->color_default_inverted . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" stroke-dasharray="2 1" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . ($field_height * 2) . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" stroke-dasharray="2 1" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$field_x,
+								$label_offset_y,
+								esc_attr( $ws_form_css->color_default_inverted ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$field_width,
+								$field_height * 2
+							);
 
 							// Label
-							$svg_field .= '<text fill="' . $ws_form_css->color_default . '" transform="translate(' . $label_inside_x . ',' . $label_inside_y . ')" class="wsf-template-label">' . $field['label'] . '</text>';
+							$svg_field .= sprintf(
+								'<text fill="%s" transform="translate(%.4f,%.4f)" class="wsf-template-label">%s</text>',
+								esc_attr( $ws_form_css->color_default ),
+								$label_inside_x,
+								$label_inside_y,
+								$field['label']
+							);
 
 							// Add to SVG array
 							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + ($field_height * 2));
@@ -3150,29 +3605,53 @@
 						case 'turnstile' :
 
 							// Rectangle
-							$svg_field .= '<rect x="' . $field_x . '" y="' . $label_offset_y . '" fill="#f9f9f9" stroke="#d3d3d3" stroke-width="1" width="' . $field_width . '" height="' . ($field_height * 2) . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="#f9f9f9" stroke="#d3d3d3" stroke-width="1" width="%.4f" height="%.4f"/>',
+								$field_x,
+								$label_offset_y,
+								$field_width,
+								$field_height * 2
+							);
 
-							$checkbox_x = (is_rtl() ? ($field_x + $field_width - ($field_height + ($field_height / 2))) : $field_x + ($field_height / 2));
-							$label_x = (is_rtl() ? ($field_x + $field_width - ($field_height * 2)) : $field_x + ($field_height * 2));
+							$checkbox_x = is_rtl() ? ( $field_x + $field_width - ( $field_height + ( $field_height / 2 ) ) ) : $field_x + ( $field_height / 2 );
+							$label_x = is_rtl() ? ( $field_x + $field_width - ( $field_height * 2 ) ) : $field_x + ( $field_height * 2 );
 
 							// Checkbox
-							$svg_field .= '<rect x="' . $checkbox_x . '" y="' . ($label_offset_y + ($field_height / 2)) . '" fill="#ffffff" stroke="#d3d3d3" stroke-width="1" width="' . $field_height . '" height="' . $field_height . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="#ffffff" stroke="#d3d3d3" stroke-width="1" width="%.4f" height="%.4f"/>',
+								$checkbox_x,
+								$label_offset_y + ( $field_height / 2 ),
+								$field_height,
+								$field_height
+							);
 
 							// Label
-							$svg_field .= '<text fill="#000000" transform="translate(' . $label_x . ',' . ($label_inside_y + ($field_height / 2)) . ')" class="wsf-template-label">I\'m not a robot</text>';
+							$svg_field .= sprintf(
+								'<text fill="#000000" transform="translate(%.4f,%.4f)" class="wsf-template-label">I\'m not a robot</text>',
+								$label_x,
+								$label_inside_y + ( $field_height / 2 )
+							);
 
 							// Add to SVG array
-							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + ($field_height * 2));
+							$svg_single = array( 'svg' => $svg_field, 'height' => $label_offset_y + ( $field_height * 2 ) );
 
 							break;
 
 						case 'divider' :
 
 							// Divider - Line
-							$svg_field .= '<line x1="' . $field_x . '" x2="' . ($field_x + $field_width) . '" y1="' . ($label_offset_y + ($field_height / 2)) . '" y2="' . ($label_offset_y + ($field_height / 2)) . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '"/>';
+							$svg_field .= sprintf(
+								'<line x1="%.4f" x2="%.4f" y1="%.4f" y2="%.4f" stroke="%s" stroke-width="%.4f"/>',
+								$field_x,
+								$field_x + $field_width,
+								$label_offset_y + ( $field_height / 2 ),
+								$label_offset_y + ( $field_height / 2 ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width
+							);
 
 							// Add to SVG array
-							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + $field_height);
+							$svg_single = array( 'svg' => $svg_field, 'height' => $label_offset_y + $field_height );
 
 							break;
 
@@ -3186,86 +3665,166 @@
 						case 'section_icons' :
 
 							// Section Icons - Path +
-							$svg_field .= '<path transform="translate(' . ($field_x + (is_rtl() ? ($field_height + 3) : 0)) . ',' . $label_offset_y . ')" d="M7.7,1.3A4.82,4.82,0,0,0,4.5,0,4.82,4.82,0,0,0,1.3,1.3,4.22,4.22,0,0,0,0,4.5,4.82,4.82,0,0,0,1.3,7.7,4.22,4.22,0,0,0,4.5,9,4.82,4.82,0,0,0,7.7,7.7,4.22,4.22,0,0,0,9,4.5,4.82,4.82,0,0,0,7.7,1.3Zm-3.2,7A3.8,3.8,0,1,1,8.3,4.5,3.8,3.8,0,0,1,4.5,8.3Zm.4-4.2H6.5v.7H4.9V6.4H4.1V4.9H2.6V4.1H4.2V2.6h.7Z"/>';
+							$svg_field .= sprintf(
+								'<path transform="translate(%.4f,%.4f)" d="M7.7,1.3A4.82,4.82,0,0,0,4.5,0,4.82,4.82,0,0,0,1.3,1.3,4.22,4.22,0,0,0,0,4.5,4.82,4.82,0,0,0,1.3,7.7,4.22,4.22,0,0,0,4.5,9,4.82,4.82,0,0,0,7.7,7.7,4.22,4.22,0,0,0,9,4.5,4.82,4.82,0,0,0,7.7,1.3Zm-3.2,7A3.8,3.8,0,1,1,8.3,4.5,3.8,3.8,0,0,1,4.5,8.3Zm.4-4.2H6.5v.7H4.9V6.4H4.1V4.9H2.6V4.1H4.2V2.6h.7Z"/>',
+								$field_x + ( is_rtl() ? ( $field_height + 3 ) : 0 ),
+								$label_offset_y
+							);
 
 							// Section Icons - Path -
-							$svg_field .= '<path transform="translate(' . ($field_x + (is_rtl() ? 0 : ($field_height + 3))) . ',' . $label_offset_y . ')" d="M4.5,9A4.82,4.82,0,0,1,1.3,7.7,4.22,4.22,0,0,1,0,4.5,4.82,4.82,0,0,1,1.3,1.3,4.22,4.22,0,0,1,4.5,0,4.82,4.82,0,0,1,7.7,1.3,4.22,4.22,0,0,1,9,4.5,4.82,4.82,0,0,1,7.7,7.7,4.22,4.22,0,0,1,4.5,9ZM4.5.7A3.8,3.8,0,1,0,8.3,4.5,3.8,3.8,0,0,0,4.5.7ZM6.4,4.1H2.6v.7H6.5V4.1Z"/>';
+							$svg_field .= sprintf(
+								'<path transform="translate(%.4f,%.4f)" d="M4.5,9A4.82,4.82,0,0,1,1.3,7.7,4.22,4.22,0,0,1,0,4.5,4.82,4.82,0,0,1,1.3,1.3,4.22,4.22,0,0,1,4.5,0,4.82,4.82,0,0,1,7.7,1.3,4.22,4.22,0,0,1,9,4.5,4.82,4.82,0,0,1,7.7,7.7,4.22,4.22,0,0,1,4.5,9ZM4.5.7A3.8,3.8,0,1,0,8.3,4.5,3.8,3.8,0,0,0,4.5.7ZM6.4,4.1H2.6v.7H6.5V4.1Z"/>',
+								$field_x + ( is_rtl() ? 0 : ( $field_height + 3 ) ),
+								$label_offset_y
+							);
 
 							// Add to SVG array
-							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + $field_height);
+							$svg_single = array( 'svg' => $svg_field, 'height' => $label_offset_y + $field_height );
 
 							break;
 
 						case 'color' :
 
 							// Color - Random Fill
-							$rect_fill = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-							$rect_x = (is_rtl() ? ($field_x + $field_width - $field_height) : $field_x);
+							$rect_fill = sprintf( '#%06X', wp_rand( 0, 0xFFFFFF ) );
+							$rect_x = is_rtl() ? ( $field_x + $field_width - $field_height ) : $field_x;
 
 							// Default - Rectangle
-							$svg_field .= '<rect x="' . $field_x . '" y="' . $label_offset_y . '" fill="' . $ws_form_css->color_default_inverted . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . $field_height . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$field_x,
+								$label_offset_y,
+								esc_attr( $ws_form_css->color_default_inverted ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$field_width,
+								$field_height
+							);
 
 							// Color - Rectangle
-							$svg_field .= '<rect x="' . $rect_x . '" y="' . $label_offset_y . '" fill="' . $rect_fill . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_height . '" height="' . $field_height . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$rect_x,
+								$label_offset_y,
+								esc_attr( $rect_fill ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$field_height,
+								$field_height
+							);
 
 							// Add to SVG array
-							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + $field_height);
+							$svg_single = array( 'svg' => $svg_field, 'height' => $label_offset_y + $field_height );
 
 							break;
 
 						case 'checkbox' :
 						case 'price_checkbox' :
 
-							$rect_x = (is_rtl() ? ($svg_width - $field_x - $field_height) : $field_x);
+							$rect_x = is_rtl() ? ( $svg_width - $field_x - $field_height ) : $field_x;
 
 							// Checkbox - Rectangle
-							$svg_field .= '<rect x="' . $rect_x . '" y="0" fill="' . $ws_form_css->color_default_inverted . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_height . '" height="' . $field_height . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="0" fill="%s" stroke="%s" stroke-width="%.4f" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$rect_x,
+								esc_attr( $ws_form_css->color_default_inverted ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$field_height,
+								$field_height
+							);
 
 							// Add to SVG array
-							$svg_single = array('svg' => $svg_field, 'height' => $field_height);
+							$svg_single = array( 'svg' => $svg_field, 'height' => $field_height );
 
 							break;
 
 						case 'radio' :
 						case 'price_radio' :
 
-							$circle_x = ((is_rtl() ? ($svg_width - $field_x - $field_height) : $field_x) + ($field_height / 2));
+							$circle_x = ( is_rtl() ? ( $svg_width - $field_x - $field_height ) : $field_x ) + ( $field_height / 2 );
 
 							// Radio - Circle
-							$svg_field .= '<circle cx="' . $circle_x . '" cy="' . ($field_height / 2) . '" fill="' . $ws_form_css->color_default_inverted . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" r="' . ($field_height / 2) . '"/>';
+							$svg_field .= sprintf(
+								'<circle cx="%.4f" cy="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" r="%.4f"/>',
+								$circle_x,
+								$field_height / 2,
+								esc_attr( $ws_form_css->color_default_inverted ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$field_height / 2
+							);
 
 							// Add to SVG array
-							$svg_single = array('svg' => $svg_field, 'height' => $field_height);
+							$svg_single = array( 'svg' => $svg_field, 'height' => $field_height );
 
 							break;
 
 						case 'file' :
 
-							$button_width = ($field_width / 3);
-							$button_xpos = (is_rtl() ? ($field_x + $field_width - $button_width) : $field_x);
-							$label_button_x = $button_xpos + ($button_width / 2);
+							$button_width = $field_width / 3;
+							$button_xpos = is_rtl() ? ( $field_x + $field_width - $button_width ) : $field_x;
+							$label_button_x = $button_xpos + ( $button_width / 2 );
 
 							// File - Rectangle - Outer
-							$svg_field .= '<rect x="' . $field_x . '" y="' . $label_offset_y . '" fill="' . $ws_form_css->color_default_inverted . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . $field_height . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$field_x,
+								$label_offset_y,
+								esc_attr( $ws_form_css->color_default_inverted ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$field_width,
+								$field_height
+							);
 
 							// File - Rectangle - Button
-							$svg_field .= '<rect x="' . $button_xpos . '" y="' . $label_offset_y . '" fill="' . $ws_form_css->color_default_lightest . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" rx="' . $ws_form_css->border_radius . '" width="' . $button_width . '" height="' . $field_height . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$button_xpos,
+								$label_offset_y,
+								esc_attr( $ws_form_css->color_default_lightest ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$button_width,
+								$field_height
+							);
 
 							// File - Text - Button
-							$svg_field .= '<text fill="' . $ws_form_css->color_default . '" transform="translate(' . $label_button_x . ' ' . ($label_offset_y + $label_inside_y) . ')" class="wsf-template-label" text-anchor="middle">Choose File</text>';
+							$svg_field .= sprintf(
+								'<text fill="%s" transform="translate(%.4f %.4f)" class="wsf-template-label" text-anchor="middle">Choose File</text>',
+								esc_attr( $ws_form_css->color_default ),
+								$label_button_x,
+								$label_offset_y + $label_inside_y
+							);
 
 							// Add to SVG array
-							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + $field_height);
+							$svg_single = array( 'svg' => $svg_field, 'height' => $label_offset_y + $field_height );
 
 							break;
 
 						default :
 
 							// Default - Rectangle
-							$svg_field .= '<rect x="' . $field_x . '" y="' . $label_offset_y . '" fill="' . $ws_form_css->color_default_inverted . '" stroke="' . $ws_form_css->color_default_lighter . '" stroke-width="' . $ws_form_css->border_width . '" rx="' . $ws_form_css->border_radius . '" width="' . $field_width . '" height="' . $field_height . '"/>';
+							$svg_field .= sprintf(
+								'<rect x="%.4f" y="%.4f" fill="%s" stroke="%s" stroke-width="%.4f" rx="%.4f" width="%.4f" height="%.4f"/>',
+								$field_x,
+								$label_offset_y,
+								esc_attr( $ws_form_css->color_default_inverted ),
+								esc_attr( $ws_form_css->color_default_lighter ),
+								$ws_form_css->border_width,
+								$ws_form_css->border_radius,
+								$field_width,
+								$field_height
+							);
 
 							// Add to SVG array
-							$svg_single = array('svg' => $svg_field, 'height' => $label_offset_y + $field_height);
+							$svg_single = array( 'svg' => $svg_field, 'height' => $label_offset_y + $field_height );
 					}
 				}
 
@@ -3303,24 +3862,52 @@
 			}
 
 			// Add last row
-			if(count($svg_array) > 0) {
+			if ( count( $svg_array ) > 0 ) {
 
 				// Process row
-				$get_svg_row_return = self::get_svg_row($svg_array);
+				$get_svg_row_return = self::get_svg_row( $svg_array );
 
 				// Return row
-				$svg .= sprintf('<g transform="translate(0,%f)">%s</g>', $offset_y, $get_svg_row_return['svg']);
+				$svg .= sprintf(
+					'<g transform="translate(0,%.4f)">%s</g>',
+					$offset_y,
+					$get_svg_row_return['svg']
+				);
 			}
 
 			// Left rectangle
-			$svg .= sprintf('<rect x="0" y="0" width="%u" height="%u" fill="' . $ws_form_css->color_form_background . '" />', $origin_x - 1, $svg_height);
+			$svg .= sprintf(
+				'<rect x="0" y="0" width="%u" height="%u" fill="%s"/>',
+				$origin_x - 1,
+				$svg_height,
+				esc_attr( $ws_form_css->color_form_background )
+			);
 
 			// Right rectangle
-			$svg .= sprintf('<rect x="%f" y="0" width="%u" height="%u" fill="' . $ws_form_css->color_form_background . '" />', ($svg_width - $origin_x) + 1, $origin_x, $svg_height);
+			$svg .= sprintf(
+				'<rect x="%.4f" y="0" width="%u" height="%u" fill="%s"/>',
+				( $svg_width - $origin_x ) + 1,
+				$origin_x,
+				$svg_height,
+				esc_attr( $ws_form_css->color_form_background )
+			);
 
 			// Bottom rectangles
-			$svg .= sprintf('<rect x="0" y="%f" width="%u" height="%u" fill="url(#%s)" />', ($svg_height - $gradient_height - $origin_x), $svg_width, $gradient_height, $gradient_id);
-			$svg .= sprintf('<rect x="0" y="%f" width="%u" height="%u" fill="' . $ws_form_css->color_form_background . '" />', ($svg_height - $origin_x), $svg_width, $origin_x + 1);
+			$svg .= sprintf(
+				'<rect x="0" y="%.4f" width="%u" height="%u" fill="url(#%s)"/>',
+				$svg_height - $gradient_height - $origin_x,
+				$svg_width,
+				$gradient_height,
+				esc_attr( $gradient_id )
+			);
+
+			$svg .= sprintf(
+				'<rect x="0" y="%.4f" width="%u" height="%u" fill="%s"/>',
+				$svg_height - $origin_x,
+				$svg_width,
+				$origin_x + 1,
+				esc_attr( $ws_form_css->color_form_background )
+			);
 
 			// End of SVG
 			$svg .= '</svg>';
@@ -3348,7 +3935,7 @@
 				$svg_field_svg = $svg_field['svg'];
 				$svg_field_height = $svg_field['height'];
 
-				$svg .= sprintf('<g transform="translate(0,%f)">%s</g>', ($height - $svg_field_height), $svg_field_svg);
+				$svg .= sprintf('<g transform="translate(0,%.4f)">%s</g>', ($height - $svg_field_height), $svg_field_svg);
 			}
 
 			return array('svg' => $svg, 'height' => $height);
@@ -3362,15 +3949,13 @@
 			// Meta
 			$ws_form_meta = new WS_Form_Meta();
 			$ws_form_meta->object = 'form';
-			$form_meta_table_name = $ws_form_meta->db_get_table_name();
 
 			// Style
 			$ws_form_style = new WS_Form_Style();
 
 			// Get all forms with missing or invalid style_id meta values
-			$sql = "SELECT f.id FROM {$this->table_name} f LEFT JOIN $form_meta_table_name m ON m.parent_id = f.id AND m.meta_key = 'style_id' LEFT JOIN {$ws_form_style->table_name} s ON (m.meta_value = s.id OR m.meta_value = 0) AND s.status = 'publish' WHERE m.id IS NULL OR s.id IS NULL;";
-
-			$forms = $wpdb->get_results($sql);
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$forms = $wpdb->get_results("SELECT f.id FROM {$wpdb->prefix}wsf_form f LEFT JOIN {$wpdb->prefix}wsf_form_meta m ON m.parent_id = f.id AND m.meta_key = 'style_id' LEFT JOIN {$wpdb->prefix}wsf_style s ON (m.meta_value = s.id OR m.meta_value = 0) AND s.status = 'publish' WHERE m.id IS NULL OR s.id IS NULL;");
 
 			if($forms) {
 
@@ -3392,28 +3977,44 @@
 
 			global $wpdb;
 
+			// Meta
+			$ws_form_meta = new WS_Form_Meta();
+			$ws_form_meta->object = 'form';
+
 			// Set all forms with style ID of $old_style_id to 0
-			$sql = $wpdb->prepare(
+			 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$wpdb->query($wpdb->prepare(
 
-				"UPDATE {$this->table_name} f LEFT JOIN $form_meta_table_name m ON m.parent_id = f.id AND m.meta_key = 'style_id' SET m.meta_value = 0 WHERE m.meta_value = %d;",
+				"UPDATE {$wpdb->prefix}wsf_form_meta SET meta_value = 0 WHERE meta_key = 'style_id' AND meta_value = %d AND parent_id IN (SELECT id FROM {$wpdb->prefix}wsf_form);", // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse -- Has IN
 				$old_style_id
-			);
-
-			$wpdb->query($sql);
+			));
 		}
 
-		// Style ID converational to zero (Used by style db_default method)
+		// Style ID conversational to zero (Used by style db_default method)
 		public function style_id_conv_to_zero($old_style_id_conv) {
 
 			global $wpdb;
 
+			// Meta
+			$ws_form_meta = new WS_Form_Meta();
+			$ws_form_meta->object = 'form';
+
 			// Set all forms with style ID conv of $old_style_id_conv to 0
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$wpdb->query($wpdb->prepare(
 
-				"UPDATE {$this->table_name} f LEFT JOIN $form_meta_table_name m ON m.parent_id = f.id AND m.meta_key = 'style_id_conv' SET m.meta_value = 0 WHERE m.meta_value = %d;",
+				"UPDATE {$wpdb->prefix}wsf_form_meta SET meta_value = 0 WHERE meta_key = 'style_id_conv' AND meta_value = %d AND parent_id IN (SELECT id FROM {$wpdb->prefix}wsf_form);", // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse -- Has IN
 				$old_style_id_conv
-			);
+			));
+		}
 
-			$wpdb->query($sql);
+		// Is valid
+		public function is_valid($form_object) {
+
+			return (
+				is_object($form_object) &&
+				property_exists($form_object, 'id') &&
+				property_exists($form_object, 'label')
+			);
 		}
 	}

@@ -40,13 +40,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$meta_array = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT. " FROM " . self::get_table_name() . " WHERE parent_id = %d;",
+				"SELECT meta_key,meta_value,section_id,field_id,repeatable_index FROM {$wpdb->prefix}wsf_submit_meta WHERE parent_id = %d;",
 				$this->parent_id
-			);
-
-			$meta_array = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($meta_array) {
 
@@ -58,9 +57,10 @@
 					foreach($return_array as $key => $value) {
 
 						if(!isset($value['meta_value'])) { continue; }
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 						$return_array[$key]['meta_value'] = sprintf(
 
-							/* translators: %s = WS Form */
+							/* translators: %s: WS Form */
 							__('Encrypted. %s PRO required.', 'ws-form'),
 
 							WS_FORM_NAME_GENERIC
@@ -71,7 +71,9 @@
 				// Apply filters
 				foreach($return_array as $key => $value) {
 
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 					if(!isset($value['meta_key'])) { continue; }
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 					if(!isset($value['meta_value'])) { continue; }
 					if(!isset($value['field_id'])) { continue; }
 
@@ -80,6 +82,7 @@
 					if($field_id > 0) {
 
 						// Apply filter
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 						$return_array[$key]['meta_value'] = apply_filters('wsf_submit_meta_read', $return_array[$key]['meta_value'], $field_id);
 					}
 				}
@@ -99,17 +102,14 @@
 
 			global $wpdb;
 
-			$sql_prepare = sprintf('SELECT %1$s.parent_id FROM %1$s RIGHT JOIN %2$s ON %1$s.parent_id = %2$s.id WHERE %1$s.meta_key = %%s AND %1$s.meta_value = %%s AND %2$s.form_id = %%d LIMIT 1;', self::get_table_name(), $ws_form_submit->table_name);
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$parent_id = $wpdb->get_var($wpdb->prepare(
 
-			$sql = $wpdb->prepare(
-
-				$sql_prepare,
+				"SELECT {$wpdb->prefix}wsf_submit_meta.parent_id FROM {$wpdb->prefix}wsf_submit_meta RIGHT JOIN {$wpdb->prefix}wsf_submit ON {$wpdb->prefix}wsf_submit_meta.parent_id = {$wpdb->prefix}wsf_submit.id WHERE {$wpdb->prefix}wsf_submit_meta.meta_key = %s AND {$wpdb->prefix}wsf_submit_meta.meta_value = %s AND {$wpdb->prefix}wsf_submit.form_id = %d LIMIT 1;",
 				$meta_key,
 				$meta_value,
 				$form_id
-			);
-
-			$parent_id = $wpdb->get_var($sql);
+			));
 
 			return !is_null($parent_id) ? $parent_id : false;
 		}
@@ -123,26 +123,28 @@
 			global $wpdb;
 
 			// Read meta value to determine if this is file type (file or signature)
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$meta_value = $wpdb->get_var($wpdb->prepare(
 
-				"SELECT meta_value FROM " . self::get_table_name() . " WHERE id = %d;",
+				"SELECT meta_value FROM {$wpdb->prefix}wsf_submit_meta WHERE id = %d;",
 				$this->id
-			);
-
-			$meta_value = $wpdb->get_var($sql);
+			));
 			if(is_null($meta_value)) { parent::db_wpdb_handle_error(__('Unable to read file meta data', 'ws-form')); }
 
 			// Delete file
 			self::db_delete_file($meta_value);
 
 			// Delete meta
-			$sql = $wpdb->prepare(
-
-				"DELETE FROM " . self::get_table_name() . " WHERE id = %d;",
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$delete_result = $wpdb->delete(
+				"{$wpdb->prefix}wsf_submit_meta",
+				array( 'id' => $this->id ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting submit meta', 'ws-form')); }
+			if($delete_result === false) { 
+				parent::db_wpdb_handle_error(__('Error deleting submit meta', 'ws-form')); 
+			}
 		}
 
 		// Delete all meta in submit
@@ -154,13 +156,12 @@
 			global $wpdb;
 
 			// Read meta values to determine if any of them are a file type (file or signature)
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$metas = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT meta_value FROM " . self::get_table_name() . " WHERE parent_id = %d;",
+				"SELECT meta_value FROM {$wpdb->prefix}wsf_submit_meta WHERE parent_id = %d;",
 				$this->parent_id
-			);
-
-			$metas = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 			if(is_null($metas)) { return false; }
 
 			// Delete all files
@@ -170,13 +171,16 @@
 			}
 
 			// Delete submit meta
-			$sql = $wpdb->prepare(
-
-				"DELETE FROM " . self::get_table_name() . " WHERE parent_id = %d;",
-				$this->parent_id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$delete_result = $wpdb->delete(
+				"{$wpdb->prefix}wsf_submit_meta",
+				array( 'parent_id' => $this->parent_id ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting all submit meta', 'ws-form')); }
+			if($delete_result === false) { 
+				parent::db_wpdb_handle_error(__('Error deleting all submit meta', 'ws-form')); 
+			}
 		}
 
 		// Delete file associated with meta_value
@@ -210,10 +214,10 @@
 				$field_file_handler = isset($file_object['handler']) ? $file_object['handler'] : 'wsform';
 
 				// Check file handler is installed
-				if(!isset(WS_Form_File_Handler_WS_Form::$file_handlers[$field_file_handler])) { continue; }
+				if(!isset(WS_Form_File_Handler::$file_handlers[$field_file_handler])) { continue; }
 
 				// Delete file
-				WS_Form_File_Handler_WS_Form::$file_handlers[$field_file_handler]->delete($file_object);
+				WS_Form_File_Handler::$file_handlers[$field_file_handler]->delete($file_object);
 			}
 		}
 
@@ -243,7 +247,14 @@
 
 					// Build meta data (field)
 					$field_id = $meta_value['id'];
-					$db_data = array('parent_id' => $this->parent_id, 'field_id' => $field_id, 'meta_value' => $meta_value['value'], 'meta_key' => $meta_key);
+					$db_data = array(
+						'parent_id' => $this->parent_id,
+						'field_id' => $field_id,
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+						'meta_key' => $meta_key,
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+						'meta_value' => $meta_value['value']
+					);
 
 					// Repeatable index
 					if(
@@ -261,10 +272,17 @@
 
 					// Build meta data (meta_key)
 					$field_id = 0;
-					$db_data = array('parent_id' => $this->parent_id, 'meta_key' => $meta_key, 'meta_value' => $meta_value);
+					$db_data = array(
+						'parent_id' => $this->parent_id,
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+						'meta_key' => $meta_key,
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+						'meta_value' => $meta_value
+					);
 				}
 
 				// Serialize arrays
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 				if(is_array($db_data['meta_value'])) { $db_data['meta_value'] = serialize($db_data['meta_value']); }
 
 				global $wpdb;
@@ -272,35 +290,38 @@
 				// Get ID of existing meta record
 				if($is_repeatable) {
 
-					$sql = $wpdb->prepare(
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+					$id = $wpdb->get_var($wpdb->prepare(
 
-						"SELECT id FROM " . self::get_table_name() . " WHERE parent_id = %d AND meta_key = %s AND section_id = %d AND repeatable_index = %d LIMIT 1",
+						"SELECT id FROM {$wpdb->prefix}wsf_submit_meta WHERE parent_id = %d AND meta_key = %s AND section_id = %d AND repeatable_index = %d LIMIT 1",
 						$this->parent_id,
 						$meta_key,
 						$db_data['section_id'],
 						$db_data['repeatable_index']
-					);
+					));
 
 				} else {
 
-					$sql = $wpdb->prepare(
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+					$id = $wpdb->get_var($wpdb->prepare(
 
-						"SELECT id FROM " . self::get_table_name() . " WHERE parent_id = %d AND meta_key = %s LIMIT 1",
+						"SELECT id FROM {$wpdb->prefix}wsf_submit_meta WHERE parent_id = %d AND meta_key = %s LIMIT 1",
 						$this->parent_id,
 						$meta_key
-					);
+					));
 				}
 
-				$id = $wpdb->get_var($sql);
 				if($id) { $db_data['id'] = $id; }
 
 				// WordPress hook
 				if($field_id > 0) {
 
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$db_data['meta_value'] = apply_filters('wsf_submit_meta_update', $db_data['meta_value'], $field_id);
 				}
 
 				// Replace
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 				$replace_count = $wpdb->replace(self::get_table_name(), $db_data);
 				if($replace_count === false) {
 
@@ -380,7 +401,7 @@
 								$file_name = basename($file_path);
 
 								// Get file size
-								$file_size = filesize($upload_dir . '/' . $file_path);
+								$file_size = WS_Form_File::filesize($upload_dir . '/' . $file_path);
 								if($file_size === false) { $file_size = 0; }
 
 								// Get file type
@@ -433,7 +454,9 @@
 					$file_upload_path = $ws_form_submit->form_id . '/' . $ws_form_submit->hash . '/' . $field_id;
 
 					// Apply filter
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$file_upload_path = apply_filters('wsf_file_upload_path', $file_upload_path);
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$file_upload_path = apply_filters('wsf_file_upload_path_file', $file_upload_path);
 
 					$upload_dir = WS_Form_Common::upload_dir_create($file_upload_path);
@@ -452,7 +475,7 @@
 					}
 
 					// Get file size
-					$file_size = filesize($file_name);
+					$file_size = WS_Form_File::filesize($file_name);
 					if($file_size === false) { $file_size = 0; }
 
 					// Copy uploaded file to WordPress uploads folder
@@ -580,18 +603,12 @@
 
 			} else {
 
-				// Open the output file for writing
-				$file_pointer = fopen($temp_path, 'wb'); 
-
-				// Write data to temporary file
-				fwrite($file_pointer, $file_data);
-
-				// Clean up the file resource
-				fclose($file_pointer); 
+				// Write file
+				WS_Form_File::file_put_contents($temp_path, $file_data);
 			}
 
 			// Get file size
-			$file_size = filesize($temp_path);
+			$file_size = WS_Form_File::filesize($temp_path);
 
 			// Check file format (Security check to make sure something nasty wasn't uploaded)
 			if(function_exists('mime_content_type')) {
@@ -621,6 +638,7 @@
 	 		if($file_handler == '') { $file_handler = 'wsform'; }
 
 			// Run file handlers
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$file_objects = apply_filters('wsf_file_handler_' . $file_handler, $file_objects, $ws_form_submit, $field, $section_repeatable_index);
 
 			return $file_objects;
@@ -666,17 +684,15 @@
 			}
 
 			// Check for a duplicate record
-			$sql_prepare = sprintf('SELECT %1$s.id FROM %2$s LEFT JOIN %1$s ON %2$s.id = %1$s.parent_id WHERE %2$s.form_id = %%d AND %2$s.status = \'publish\' AND %1$s.field_id = %%d AND %1$s.meta_value = %%s%3$s LIMIT 1;', self::get_table_name(), $table_name_submit, $period_sql);
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+			$submit_meta_id = $wpdb->get_var($wpdb->prepare(
 
-			$sql = $wpdb->prepare(
-
-				$sql_prepare,
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Period SQL already escaped
+				"SELECT {$wpdb->prefix}wsf_submit_meta.id FROM {$wpdb->prefix}wsf_submit LEFT JOIN {$wpdb->prefix}wsf_submit_meta ON {$wpdb->prefix}wsf_submit.id = {$wpdb->prefix}wsf_submit_meta.parent_id WHERE {$wpdb->prefix}wsf_submit.form_id = %d AND {$wpdb->prefix}wsf_submit.status = 'publish' AND {$wpdb->prefix}wsf_submit_meta.field_id = %d AND {$wpdb->prefix}wsf_submit_meta.meta_value = %s{$period_sql} LIMIT 1;",
 				$form_id,
 				$field_id,
 				$value
-			);
-
-			$submit_meta_id = $wpdb->get_var($sql);
+			));
 
 			return !is_null($submit_meta_id);
 		}

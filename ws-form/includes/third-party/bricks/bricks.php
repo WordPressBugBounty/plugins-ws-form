@@ -10,19 +10,20 @@
 		});
 
 		// Bricks iframe
-		$bricks_iframe = (
+		$ws_form_bricks_iframe = (
 
 			(function_exists('bricks_is_builder_preview') && bricks_is_builder_preview()) ||
 			(function_exists('bricks_is_builder_iframe') && bricks_is_builder_iframe())
 		);
 
 		// Builder preview enqueues
-		if($bricks_iframe) {
+		if($ws_form_bricks_iframe) {
 
 			// Create public instance
 			$ws_form_public = new WS_Form_Public();
 
 			// Visual builder enqueues
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_enqueue_visual_builder');
 
 			// Enqueue scripts

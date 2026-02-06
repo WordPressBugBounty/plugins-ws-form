@@ -12,7 +12,7 @@
 		public $table_name;
 
 		const DB_INSERT = 'label,user_id,date_added,date_updated,sort_index,form_id';
-		const DB_UPDATE = 'label,user_id,date_updated';
+		const DB_UPDATE = 'label,user_id,date_updated,sort_index';
 		const DB_SELECT = 'label,sort_index,id';
 
 		public function __construct() {
@@ -48,17 +48,23 @@
 			self::sanitize_label(__('Tab', 'ws-form'));
 
 			// Add group
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %d, %s, %s, %d, %d);",
-				$this->label,
-				get_current_user_id(),
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				$sort_index,
-				$this->form_id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				"{$wpdb->prefix}wsf_group",
+				array(
+					'label' => $this->label,
+					'user_id' => get_current_user_id(),
+					'date_added' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'sort_index' => $sort_index,
+					'form_id' => $this->form_id,
+				),
+				array( '%s', '%d', '%s', '%s', '%d', '%d' )
 			);
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error adding group', 'ws-form')); }
+
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error adding group', 'ws-form')); 
+			}
 
 			// Get inserted ID
 			$this->id = $wpdb->insert_id;
@@ -97,13 +103,12 @@
 			global $wpdb;
 
 			// Add fields
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$group_array = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE id = %d LIMIT 1;",
+				"SELECT label,sort_index,id FROM {$wpdb->prefix}wsf_group WHERE id = %d LIMIT 1;",
 				$this->id
-			);
-
-			$group_array = $wpdb->get_row($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 			if(is_null($group_array)) { parent::db_wpdb_handle_error(__('Unable to read group', 'ws-form')); }
 
 			foreach($group_array as $key => $value) {
@@ -145,13 +150,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$return_array = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT id FROM {$this->table_name} WHERE id = %d LIMIT 1;",
+				"SELECT id FROM {$wpdb->prefix}wsf_group WHERE id = %d LIMIT 1;",
 				$this->id
-			);
-
-			$return_array = $wpdb->get_row($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			return !is_null($return_array);
 		}
@@ -168,13 +172,12 @@
 
 			$fields_array = array();
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$groups = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE form_id = %d ORDER BY sort_index",
+				"SELECT label,sort_index,id FROM {$wpdb->prefix}wsf_group WHERE form_id = %d ORDER BY sort_index",
 				$this->form_id
-			);
-
-			$groups = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($groups) {
 
@@ -335,13 +338,16 @@
 			global $wpdb;
 
 			// Delete group
-			$sql = $wpdb->prepare(
-
-				"DELETE FROM {$this->table_name} WHERE id = %d;",
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$delete_result = $wpdb->delete(
+				"{$wpdb->prefix}wsf_group",
+				array( 'id' => $this->id ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting group', 'ws-form')); }
+			if($delete_result === false) { 
+				parent::db_wpdb_handle_error(__('Error deleting group', 'ws-form')); 
+			}
 
 			// Delete meta
 			$ws_form_meta = new WS_Form_Meta();
@@ -384,13 +390,12 @@
 				$ws_form_form->id = $this->form_id;
 			}
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$groups = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE form_id = %d",
+				"SELECT label,sort_index,id FROM {$wpdb->prefix}wsf_group WHERE form_id = %d",
 				$this->form_id
-			);
-
-			$groups = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($groups) {
 
@@ -425,13 +430,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$groups = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE form_id = %d ORDER BY sort_index",
+				"SELECT label,sort_index,id FROM {$wpdb->prefix}wsf_group WHERE form_id = %d ORDER BY sort_index",
 				$this->form_id
-			);
-
-			$groups = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($groups) {
 
@@ -456,17 +460,23 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %d, %s, %s, %d, %d);", 
-				$this->label,
-				get_current_user_id(),
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				$this->sort_index,
-				$this->form_id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				"{$wpdb->prefix}wsf_group",
+				array(
+					'label' => $this->label,
+					'user_id' => get_current_user_id(),
+					'date_added' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'sort_index' => $this->sort_index,
+					'form_id' => $this->form_id,
+				),
+				array( '%s', '%d', '%s', '%s', '%d', '%d' )
 			);
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error cloning group', 'ws-form')); }
+
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error cloning group', 'ws-form')); 
+			}
 
 			// Get new group ID
 			$group_id_new = $wpdb->insert_id;
@@ -634,6 +644,7 @@
 			global $wpdb;
 
 			// Change date_updated to null for all records
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 			$wpdb->update($this->table_name, array('date_updated' => null), array('form_id' => $this->form_id));
 
 			foreach($groups as $group) {
@@ -642,6 +653,7 @@
 			}
 
 			// Delete any groups that were not updated
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 			$wpdb->delete($this->table_name, array('date_updated' => null, 'form_id' => $this->form_id));
 
 			return true;
@@ -687,5 +699,15 @@
 			}
 
 			return $form_tab_index;
+		}
+
+		// Is valid
+		public function is_valid($group_object) {
+
+			return (
+				is_object($group_object) &&
+				property_exists($group_object, 'id') &&
+				property_exists($group_object, 'label')
+			);
 		}
 	}

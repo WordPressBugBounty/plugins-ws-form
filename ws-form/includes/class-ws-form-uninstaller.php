@@ -24,7 +24,8 @@
 
 				// Find all custom option records (Excluding WooCommerce extension)
 				$sql = sprintf("SELECT option_name FROM {$wpdb->prefix}options WHERE option_name LIKE '%s_%%' AND NOT (option_name = 'ws_form_wc_pfc')", WS_FORM_OPTION_NAME);
-				$rows = $wpdb->get_results($sql);	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared -- Custom database table
+				$rows = $wpdb->get_results($sql);
 
 				foreach($rows as $row) {
 
@@ -61,7 +62,8 @@
 				foreach($tables as $table_name) {
 
 					$sql = sprintf("DROP TABLE IF EXISTS %s%s;", $table_prefix, $table_name);
-					$wpdb->query($sql);	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared -- Custom database table
+					$wpdb->query($sql);
 				}
 			}
 

@@ -1,14 +1,14 @@
 === WS Form LITE - Drag & Drop Contact Form Builder ===
 Contributors: westguard
-Tags: form, contact form, form builder, forms, custom form
+Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.4
-Tested up to: 6.8
-Stable tag: 1.10.58
-Requires PHP: 5.6
+Tested up to: 6.9
+Stable tag: 1.10.73
+Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Form builder for WordPress: Rapidly build professional, stylish, mobile-friendly, accessible forms for WordPress.
+Contact form builder for WordPress. Create professional, accessible, mobile-friendly forms in minutes without coding.
 
 == Description ==
 
@@ -16,11 +16,11 @@ Form builder for WordPress: Rapidly build professional, stylish, mobile-friendly
 
 WS Form LITE is a powerful, feature-rich form builder that lets you create fully styled, responsive, and accessible forms. Unlike other plugins, WS Form LITE includes premium-quality features at no cost, such as unlimited forms, customizable styling, submission exporting, and robust anti-spam protection. Perfect for websites of all sizes, WS Form LITE empowers you to build smarter forms with ease.
 
-Choose from single click templates or build your own form for WordPress using the unique drag and drop form editor.
+Choose from single-click templates or build your own form for WordPress using the unique drag and drop form editor.
 
 = Create Beautiful Forms with Ease =
 
-WS Form LITE includes an incredibly powerful and intuitive [form styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme), enabling you to design stunning forms directly within WordPress. Whether you're matching your site’s branding or building custom layouts from scratch, WS Form’s Styler gives you full control over the appearance of your forms—no coding required!
+WS Form LITE includes an incredibly powerful and intuitive [form styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme), enabling you to design stunning forms directly within WordPress. Whether you're matching your site’s branding or building custom layouts from scratch, WS Form’s Styler gives you full control over the appearance of your forms, no coding required.
 
 https://youtu.be/ZsTBBsdQxFQ
 
@@ -34,11 +34,12 @@ https://youtu.be/ZsTBBsdQxFQ
 * [Cloudflare Turnstile Captcha](https://wsform.com/knowledgebase/cloudflare-turnstile/?utm_source=wp_plugins&utm_medium=readme)
 * [Data Sources](https://wsform.com/knowledgebase/data-sources/?utm_source=wp_plugins&utm_medium=readme)
 * [Drag and Drop Layout Editor](https://wsform.com/knowledgebase/the-layout-editor/?utm_source=wp_plugins&utm_medium=readme)
+* [Elementor Angie Integration](https://wsform.com/angie-agentic-ai-meets-ws-form/?utm_source=wp_plugins&utm_medium=readme)
 * [Framework Friendly (Bootstrap, Foundation)](https://wsform.com/knowledgebase/responsive-forms/?utm_source=wp_plugins&utm_medium=readme)
 * [GDPR Ready](https://wsform.com/knowledgebase/what-is-gdpr/?utm_source=wp_plugins&utm_medium=readme)
 * [Google reCAPTCHA](https://wsform.com/knowledgebase/recaptcha/?utm_source=wp_plugins&utm_medium=readme)
-* [Gutenberg Block](https://wsform.com/knowledgebase/adding-forms-to-your-website/?utm_source=wp_plugins&utm_medium=readme)
 * [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
+* [MCP Server](https://wsform.com/knowledgebase/mcp-server/?utm_source=wp_plugins&utm_medium=readme)
 * [Mobile Friendly](https://wsform.com/knowledgebase/responsive-forms/?utm_source=wp_plugins&utm_medium=readme)
 * [Multiple Tab Forms](https://wsform.com/knowledgebase/tabs/?utm_source=wp_plugins&utm_medium=readme)
 * [Responsive Forms](https://wsform.com/knowledgebase/responsive-forms/?utm_source=wp_plugins&utm_medium=readme)
@@ -48,18 +49,48 @@ https://youtu.be/ZsTBBsdQxFQ
 * [Styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme)
 * [Variables](https://wsform.com/knowledgebase/variables/?utm_source=wp_plugins&utm_medium=readme)
 
+= Advanced Spam Protection =
+
+WS Form includes a powerful, multi-layer spam protection system to block unwanted submissions automatically. You get both built-in defenses and integrations with leading anti-spam services.
+
+== Built-in Defenses ==
+* Honeypot to silently trap bots
+* WordPress NONCE validation
+* Field validation (client-side and server-side)
+* [Duplicate submission detection and blocking](https://wsform.com/knowledgebase/deduplicating-form-submissions/?utm_source=wp_plugins&utm_medium=readme)
+* IP rate limiting and throttling
+* [Keyword](https://wsform.com/knowledgebase/how-to-block-form-submissions-by-keyword/?utm_source=wp_plugins&utm_medium=readme), [domain](https://wsform.com/knowledgebase/how-to-allow-form-submissions-by-domain-name/?utm_source=wp_plugins&utm_medium=readme), [user agent](https://wsform.com/knowledgebase/how-to-block-form-submissions-by-user-agent/?utm_source=wp_plugins&utm_medium=readme), and [IP blocking](https://wsform.com/knowledgebase/how-to-block-form-submissions-by-ip/?utm_source=wp_plugins&utm_medium=readme) rules
+* Optional [server-side custom validation hooks](https://wsform.com/knowledgebase/wsf_submit_field_validate/)
+
+== Anti-Spam Fields and Integrations ==
+* [Cloudflare Turnstile](https://wsform.com/knowledgebase/cloudflare-turnstile/?utm_source=wp_plugins&utm_medium=readme)
+* [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
+* [Google reCAPTCHA](https://wsform.com/knowledgebase/recaptcha/?utm_source=wp_plugins&utm_medium=readme) v2 and v3
+* [Akismet](https://wsform.com/knowledgebase/spam-check-with-akismet/?utm_source=wp_plugins&utm_medium=readme) spam checking
+* [Clearout](https://wsform.com/knowledgebase/spam-check-with-clearout/?utm_source=wp_plugins&utm_medium=readme) disposable email detection
+* Works alongside third-party services such as CleanTalk and OOPSpam
+
 = Page Builder Compatibility =
 
 Add forms to your website using your favorite WordPress page builder:
 
 * [Beaver Builder](https://wsform.com/knowledgebase/beaver-builder-module/?utm_source=wp_plugins&utm_medium=readme)
+* [Block Editor (Gutenberg)](https://wsform.com/knowledgebase/gutenberg-block/?utm_source=wp_plugins&utm_medium=readme)
 * [Breakdance](https://wsform.com/knowledgebase/breakdance-website-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
 * [Bricks](https://wsform.com/knowledgebase/bricks-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
 * [Classic Editor](https://wsform.com/knowledgebase/adding-forms-to-your-website/?utm_source=wp_plugins&utm_medium=readme)
 * [Divi](https://wsform.com/knowledgebase/divi-visual-builder-module/?utm_source=wp_plugins&utm_medium=readme)
 * [Elementor](https://wsform.com/knowledgebase/elementor-widget/?utm_source=wp_plugins&utm_medium=readme)
-* [Gutenberg](https://wsform.com/knowledgebase/gutenberg-block/?utm_source=wp_plugins&utm_medium=readme)
 * [Oxygen](https://wsform.com/knowledgebase/oxygen-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
+
+For other builders simply use the WS Form [shortcode](https://wsform.com/knowledgebase/the-ws-form-shortcode/?utm_source=wp_plugins&utm_medium=readme)!
+
+= How to Create a Contact Form in WordPress =
+
+1. Go to WS Form > Add New.
+2. Choose a template or start from a blank form.
+3. Use the drag-and-drop editor to add fields.
+4. Click "Publish" and embed the form using your preferred page builder.
 
 = Upgrade to PRO =
 
@@ -69,7 +100,7 @@ https://youtu.be/T9A98c9WHNE
 
 The PRO edition comes with unrivaled additional features:
 
-* [55+ Field Types](https://wsform.com/knowledgebase_category/field-types/?utm_source=wp_plugins&utm_medium=readme)
+* [65+ Feature Rich Field Types](https://wsform.com/knowledgebase_category/field-types/?utm_source=wp_plugins&utm_medium=readme)
 * [Calculated Fields](https://wsform.com/knowledgebase/calculated-fields/?utm_source=wp_plugins&utm_medium=readme)
 * [Cascading Select, Checkbox and Radio Fields](https://wsform.com/knowledgebase/cascade-select-and-radio-fields/?utm_source=wp_plugins&utm_medium=readme)
 * [Conditional Logic](https://wsform.com/knowledgebase/conditional-logic/?utm_source=wp_plugins&utm_medium=readme)
@@ -119,6 +150,7 @@ The PRO edition comes with unrivaled additional features:
 * [InstaWP](https://wsform.com/knowledgebase/instawp/?utm_source=wp_plugins&utm_medium=readme)
 * [Klaviyo](https://wsform.com/knowledgebase/klaviyo/?utm_source=wp_plugins&utm_medium=readme)
 * [Laposta](https://wsform.com/knowledgebase/laposta/?utm_source=wp_plugins&utm_medium=readme)
+* [LeadConnector](https://wsform.com/knowledgebase/leadconnector/?utm_source=wp_plugins&utm_medium=readme)
 * [Mailchimp](https://wsform.com/knowledgebase/mailchimp/?utm_source=wp_plugins&utm_medium=readme)
 * [MailerLite](https://wsform.com/knowledgebase/mailerlite/?utm_source=wp_plugins&utm_medium=readme)
 * [MailPoet](https://wsform.com/knowledgebase/mailpoet/?utm_source=wp_plugins&utm_medium=readme)
@@ -189,6 +221,7 @@ WS Form comes complete with all the field types you need to build a contact form
 * [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
 * [HTML](https://wsform.com/knowledgebase/html/?utm_source=wp_plugins&utm_medium=readme)
 * [Legal](https://wsform.com/knowledgebase/legal/?utm_source=wp_plugins&utm_medium=readme)
+* [Media Capture](https://wsform.com/knowledgebase/media-capture/?utm_source=wp_plugins&utm_medium=readme)
 * [Message](https://wsform.com/knowledgebase/message/?utm_source=wp_plugins&utm_medium=readme)
 * [Previous Tab](https://wsform.com/knowledgebase/tab_previous/?utm_source=wp_plugins&utm_medium=readme) / [Next Tab](https://wsform.com/knowledgebase/tab_next/?utm_source=wp_plugins&utm_medium=readme)
 * [Price](https://wsform.com/knowledgebase/price/?utm_source=wp_plugins&utm_medium=readme)
@@ -197,7 +230,8 @@ WS Form comes complete with all the field types you need to build a contact form
 * [Rating](https://wsform.com/knowledgebase/rating/?utm_source=wp_plugins&utm_medium=readme)
 * [reCAPTCHA](https://wsform.com/knowledgebase/recaptcha/?utm_source=wp_plugins&utm_medium=readme)
 * [Save](https://wsform.com/knowledgebase/save/?utm_source=wp_plugins&utm_medium=readme)
-* [Signatures](https://wsform.com/knowledgebase/signature/?utm_source=wp_plugins&utm_medium=readme)
+* [Signature](https://wsform.com/knowledgebase/signature/?utm_source=wp_plugins&utm_medium=readme)
+* [Validation](https://wsform.com/knowledgebase/validation/?utm_source=wp_plugins&utm_medium=readme)
 
 ... [and more](https://wsform.com/knowledgebase_category/field-types/?utm_source=wp_plugins&utm_medium=readme)!
 
@@ -262,11 +296,11 @@ This endpoint is called when the preset option is selected for a select, checkbo
 
 == Screenshots ==
 
-1. Form Layout Editor
-2. Welcome Screen
-3. Contact Form Submissions
-4. Example Front-End Form
-5. Styler
+1. Drag-and-drop form layout editor
+2. Simple onboarding process
+3. Contact form submissions in WordPress admin
+4. Responsive, accessible front-end form display
+5. Form Styler for customizing design without code
 
 == Installation ==
 
@@ -274,9 +308,38 @@ For help installing WS Form, please see our [Installation](https://wsform.com/kn
 
 == FAQ ==
 
-= How can I report security bugs? =
+= How do I add a contact form to a page? =
+Use the WS Form block in the WordPress Block Editor (Gutenberg) or your preferred page builder.
 
-You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team helps validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/ws-form)
+= Does WS Form support spam protection? =
+Yes. WS Form includes multiple layers of spam protection including honeypots, nonce validation, IP rate limiting, keyword and domain blocking, and built-in integrations with Cloudflare Turnstile, hCaptcha, Google reCAPTCHA, and Akismet. [Learn more](https://wsform.com/knowledgebase/preventing-form-spam/?utm_source=wp_plugins&utm_medium=readme)
+
+= Can I export form submissions? =
+Yes, you can export submissions in CSV format directly from the admin area. [Learn more](https://wsform.com/knowledgebase/submissions/?utm_source=wp_plugins&utm_medium=readme)
+
+= Is WS Form compatible with Page Builders? =
+Yes, WS Form integrates with all major WordPress page builders including Elementor, Divi, Bricks, and Beaver Builder. [Learn more](https://wsform.com/knowledgebase/adding-forms-to-your-website/?utm_source=wp_plugins&utm_medium=readme)
+
+= Can I style my forms to match my website? =
+Yes, the built-in Styler lets you design fully custom forms without coding. [Learn more](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme)
+
+= Is WS Form accessible? =
+Absolutely. WS Form meets modern accessibility standards and includes tools for creating accessible forms. [Learn more](https://wsform.com/knowledgebase/accessibility/?utm_source=wp_plugins&utm_medium=readme)
+
+= Can I upgrade to PRO later? =
+Yes, you can upgrade anytime to unlock all field types, integrations, and advanced features. None of your data will be lost.
+
+= Is WS Form GDPR compliant? =
+Yes, WS Form includes GDPR-friendly features such as explicit consent and data export tools. [Learn more](https://wsform.com/knowledgebase/what-is-gdpr/?utm_source=wp_plugins&utm_medium=readme)
+
+= Does WS Form work with multi-page forms? =
+Yes, you can create multi-tab or multi-step forms using the drag-and-drop editor. [Learn more](https://wsform.com/knowledgebase/tabs/?utm_source=wp_plugins&utm_medium=readme)
+
+= Where can I get help or documentation? =
+Visit the [WS Form Knowledge Base](https://wsform.com/knowledgebase/?utm_source=wp_plugins&utm_medium=readme) or the [Support Forum](https://wordpress.org/support/plugin/ws-form/).
+
+= How can I report security bugs? =
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team helps validate, triage, and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/ws-form)
 
 == Support ==
 
@@ -286,29 +349,15 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.10.58 - 09/11/2025 =
-* Added: Resizable sidebar in layout editor
-* Added: Improvement to ACPT data source to avoid errors if field ID changes / missing
-* Added: Translation updates
-* Bug Fix: Compiled rendering of layout CSS with RTL
+= 1.10.73 - 12/06/2025 =
+* Added: Include Fields setting on Summary field
+* Bug Fix: Config select_cascade_no_match syntax error
 
-= 1.10.57 - 09/04/2025 =
-* Added: Abilities class ready for WordPress abilities / MCP APIs
-* Added: Improve handling of visual builder includes
-* Added: Options and style initialization on activation moved to init action
-* Added: Accessibility improvements to Validation field
-* Bug Fix: Various CSS calc() fixes
-* Bug Fix: Spacer field markup in #email_submission
-* Bug Fix: Invalid feedback for radio fields in a fieldset
+= 1.10.72 - 12/04/2025 =
+* Bug Fix: #email_log variable use outside of Send Email action
+* Bug Fix: reCAPTCHA race condition
 
-= 1.10.56 - 08/27/2025 =
-* Added: Upgrades for ACPT integration
-* Bug Fix: #if variable string comparison
-
-= 1.10.55 - 08/20/2025 =
-* Added: E-commerce field lock / unlock methods for PayPal add-on
-* Bug Fix: Conditional logic "Matches Field" condition case sensitivity
-* Bug Fix: Currency formatting in submission e-commerce section
-* Bug Fix: Submission date editing
+= 1.10.71 - 11/25/2025 =
+* Bug Fix: WP_Filesystem move method called with overwrite flag to simulate PHP rename method
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

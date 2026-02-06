@@ -1,6 +1,6 @@
 <?php
 
-	class ET_Builder_Module_WS_Form extends ET_Builder_Module {
+	class WS_Form_ET_Builder_Module extends ET_Builder_Module {
 
 		public $slug       = 'ws_form_divi';
 		public $vb_support = 'on';
@@ -85,4 +85,4 @@
 		}
 	}
 
-	new ET_Builder_Module_WS_Form;
+	new WS_Form_ET_Builder_Module;

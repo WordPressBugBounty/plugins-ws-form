@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-class Angie_WS_Form {
+class WS_Form_Angie {
 
 	public function __construct() {
 
@@ -19,12 +19,12 @@ class Angie_WS_Form {
 		$abilities = WS_Form_Config::get_abilities();
 
 		// Register rest routes
-		foreach($abilities as $id => $ability) {
+		foreach($abilities as $ability_name => $ability) {
 
 			register_rest_route( 
 
 				WS_FORM_RESTFUL_NAMESPACE,
-				sprintf('/angie/%s/', $id),
+				sprintf('/angie/%s/', self::ability_name_to_angie_id($ability_name)),
 				array(
 					'methods' => 'POST',
 					'callback' => $ability['execute_callback'],
@@ -33,7 +33,7 @@ class Angie_WS_Form {
 			);
 		}
 
-		// Register endpoint for retrieving abilities
+		// Register endpoint for retrieving abilities, public data but we'll only return data if user is logged in (i.e. can see Angie)
 		register_rest_route(
 
 			WS_FORM_RESTFUL_NAMESPACE,
@@ -53,11 +53,13 @@ class Angie_WS_Form {
 
 		$abilities_return = array();
 
-		foreach($abilities as $id => $ability) {
+		foreach($abilities as $ability_name => $ability) {
 
 			$abilities_return[] = array(
 
-				'id' => $id,
+				'type' => $ability['type'],
+				'name' => self::ability_name_to_angie_id($ability_name),
+				'label' => $ability['label'],
 				'description' => $ability['description'],
 				'input_schema' => $ability['input_schema'],
 				'output_schema' => $ability['output_schema'],
@@ -71,12 +73,28 @@ class Angie_WS_Form {
 
 		wp_enqueue_script_module(
 			'angie-ws-form-mcp-server',
-			plugin_dir_url( __FILE__ ) . 'angie-ws-form-mcp-server.mjs',
+			plugin_dir_url( __FILE__ ) . 'angie-ws-form-mcp-server.js',
 			[],
 			WS_FORM_VERSION,
 			true
 		);
 	}
+
+	// Required because WordPress ability names throw this error in Angie:
+	// Invalid 'tools[0].function.name': string does not match pattern. Expected a string that matches the pattern '^[a-zA-Z0-9_-]+$'.
+	public function ability_name_to_angie_id($ability_name) {
+
+		// Remove namespace prefix if present
+		if (strpos($ability_name, WS_FORM_ABILITY_API_NAMESPACE) === 0) {
+
+			$ability_name = substr($ability_name, strlen(WS_FORM_ABILITY_API_NAMESPACE));
+		}
+
+		// Remove any characters not matching the regex
+		$ability_name = preg_replace('/[^a-zA-Z0-9_-]/', '', $ability_name);
+
+		return $ability_name;
+	}
 }
 
-new Angie_WS_Form();
+new WS_Form_Angie();

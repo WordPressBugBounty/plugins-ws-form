@@ -42,6 +42,7 @@
 			add_action('rest_api_init', array($this, 'rest_api_init'), 10, 0);
 
 			// Records per page
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$this->records_per_page = apply_filters('wsf_data_source_' . $this->id . '_records_per_age', $this->records_per_page);
 
 			// Register init actin
@@ -586,6 +587,7 @@
 				if(count($post_status) > 0) { $args['post_status'] = $post_status; }
 
 				// Term filtering
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				if(count($tax_query) > 0) { $args['tax_query'] = $tax_query; }
 
 				// Author filtering
@@ -597,6 +599,7 @@
 				// Customer filtering
 				if($this->data_source_post_filter_customer) {
 
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					$args['meta_query'] = array(
 
 						array(
@@ -613,6 +616,7 @@
 					case 'meta_value' :
 					case 'meta_value_num' :
 
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 						$args['meta_key'] = $this->data_source_post_meta_key;
 
 						if($this->data_source_post_order_by == 'meta_value') {
@@ -932,7 +936,15 @@
 			$meta_keys = parent::get_column_mapping(array(), $meta_value, $meta_key_config);
 
 			// Return data
-			return array('error' => false, 'error_message' => '', 'meta_value' => $meta_value, 'max_num_pages' => $max_num_pages, 'meta_keys' => $meta_keys);
+			return array(
+
+				'error' => false,
+				'error_message' => '',
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+				'meta_value' => $meta_value,
+				'max_num_pages' => $max_num_pages,
+				'meta_keys' => $meta_keys
+			);
 		}
 
 		// ACF get row data
@@ -1051,6 +1063,7 @@
 			$settings->endpoint_get = 'data-source/' . $this->id . '/';
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$settings = apply_filters('wsf_data_source_' . $this->id . '_settings', $settings);
 
 			return $settings;
@@ -1220,7 +1233,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'data_source_' . $this->id . '_order_by',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'meta_value'
 						),
 
@@ -1228,7 +1243,9 @@
 
 							'logic_previous'	=>	'||',
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'data_source_' . $this->id . '_order_by',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'meta_value_num'
 						)
 					)
@@ -1258,7 +1275,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'data_source_' . $this->id . '_order_by',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'meta_value'
 						)
 					)
@@ -1497,14 +1516,13 @@
 
 			$results = array();
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$terms = $wpdb->get_results($wpdb->prepare(
 
 				"SELECT DISTINCT t.term_id, t.name, tt.taxonomy FROM {$wpdb->prefix}terms AS t LEFT JOIN {$wpdb->prefix}term_taxonomy AS tt ON t.term_id = tt.term_id WHERE ((t.name LIKE %s) OR (t.slug LIKE %s)) ORDER BY t.name ASC",
 				$term . '%',
 				$term . '%'
-			);
-
-			$terms = $wpdb->get_results($sql);
+			));
 			foreach ($terms as $term) {
 
 				if(!isset($taxonomy_lookups[$term->taxonomy])) { continue; }

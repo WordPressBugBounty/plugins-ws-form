@@ -7,6 +7,7 @@
 	 *
 	 * @return Array $field_types
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_config_get_field_types() {
 
 		return WS_Form_Config::get_field_types_flat();	
@@ -21,6 +22,7 @@
 	 *
 	 * @return Object WS_Form_Form
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_object($form_id, $get_meta = true, $get_groups = true) {
 
 		// Get form ID
@@ -36,7 +38,7 @@
 		$ws_form_form->id = $form_id;
 
 		// Return for object
-		return $ws_form_form->db_read($get_meta, $get_groups, false, false, true );
+		return $ws_form_form->db_read($get_meta, $get_groups, false, false, true);
 	}
 
 	/**
@@ -46,6 +48,7 @@
 	 *
 	 * @return string|boolean      Form label or false if not found
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_label_by_id($form_id) {
 
 		// Get form ID
@@ -78,6 +81,7 @@
 	 *
 	 * @return integer Total submissions
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_count_submit_by_id($form_id) {
 
 		// Get form ID
@@ -103,53 +107,39 @@
 	 * Get an array containing all forms
 	 *
 	 * @param boolean $published  If true, only returned published forms
-	 * @param string order_by     Defaults to order by label
+	 * @param string order_by     id, label, date_added or date_modified (Defaults to label)
+	 * @param string order        ASC or DESC (Defaults to ASC)
 	 *
 	 * @return Array WS_Form_Form
 	 */
-	function wsf_form_get_all($published = false, $order_by = 'label') {
-
-		// Build WHERE SQL
-		$where_sql = $published ? 'status="publish"' : 'NOT status="trash"';
-
-		// Build order_by_sql
-		$order_by_sql = in_array($order_by, array('id', 'label', 'date_added', 'date_updated'), true) ? $order_by : 'label';
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_form_get_all($published = false, $order_by = 'label', $order = 'ASC') {
 
 		// Initiate instance of Form class
 		$ws_form_form = new WS_Form_Form();
 
 		// Read all forms
-		return $ws_form_form->db_read_all('', $where_sql, $order_by_sql, '', '', false, true);
+		return $ws_form_form->get_all($published, $order_by, $order);
 	}
 
 	/**
 	 * Get an array containing all forms in a simple key value format
 	 *
 	 * @param boolean $published   If true, only returned published forms
-	 * @param string order_by      Defaults to order by label
+	 * @param string order_by      id, label, date_added or date_modified (Defaults to label)
+	 * @param string order         ASC or DESC (Defaults to ASC)
+	 * @param string include_ids   If true ' (ID: xxx)' appended to values
 	 *
 	 * @return Array WS_Form_Form  id => label
 	 */
-	function wsf_form_get_all_key_value($published = false, $order_by = 'label') {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_form_get_all_key_value($published = false, $order_by = 'label', $order = 'ASC', $include_ids = true) {
 
-		// Get all forms
-		$forms = wsf_form_get_all($published = false, $order_by = 'label');
+		// Initiate instance of Form class
+		$ws_form_form = new WS_Form_Form();
 
-		// Build return array
-		$return_array = array();
-
-		foreach($forms as $form) {
-
-			$return_array[$form['id']] = sprintf(
-
-				'%s (%s: %u)',
-				esc_html($form['label']),
-				__('ID', 'ws-form'), 
-				$form['id']
-			);
-		}
-
-		return $return_array;
+		// Read all forms
+		return $ws_form_form->get_all_key_value($published, $order_by, $order, $include_ids);
 	}
 
 	/**
@@ -161,6 +151,7 @@
 	 *
 	 * @return Object WS_Form_Group
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_group_get_object($form_object, $group_id = false) {
 
 		// Check form object
@@ -185,6 +176,7 @@
 	 * @return Array WS_Form_Group          If no tab specified
 	 * @return WS_Form_Group                If group_id specified
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_group_get_objects($form_object, $group_id = false) {
 
 		// Check form object
@@ -229,6 +221,7 @@
 	 *
 	 * @return Object WS_Form_Section
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_section_get_object($form_object, $section_id = false) {
 
 		// Check form object
@@ -253,6 +246,7 @@
 	 * @return Array WS_Form_Section        If no section specified
 	 * @return WS_Form_Section              If section_id specified
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_section_get_objects($form_object, $section_id = false) {
 
 		// Check form object
@@ -295,6 +289,7 @@
 	 *
 	 * @return Object WS_Form_Field
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_field_get_object($form_object, $field_id = false) {
 
 		// Check form object
@@ -318,6 +313,7 @@
 	 *
 	 * @return Array WS_Form_Field
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_field_get_objects_by_label($form_object, $field_label = false) {
 
 		// Check form object
@@ -339,6 +335,7 @@
 	 *
 	 * @return Array WS_Form_Field
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_field_get_objects_by_meta($form_object, $field_meta_key = false, $field_meta_value = false) {
 
 		// Check form object
@@ -362,6 +359,7 @@
 	 *
 	 * @return Array WS_Form_Field
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_field_get_objects_by_class($form_object, $class_name = false) {
 
 		// Check form object
@@ -395,6 +393,7 @@
 	 * @return Array WS_Form_Field          If no field ID specified
 	 * @return WS_Form_Field                If field ID specified
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_field_get_objects($form_object, $field_id = false, $field_label = false, $field_meta_key = false, $field_meta_value = false) {
 
 		// Check form object
@@ -480,151 +479,91 @@
 	}
 
 	/**
-	 * Clear all rows in a field datagrid
+	 * Clear all rows in a field data grid
 	 *
 	 * @param WS_Form_Field $field_object    The field object
 	 * @param integer       $group_id        The group ID
 	 *
 	 * @return WS_Form_Field          The modified field
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_field_rows_clear($field_object, $group_id = false) {
 
-		// Check field object
-		wsf_field_check($field_object);
+		// Initiate instance of Data Grid class
+		$ws_form_data_grid = new WS_Form_Data_Grid($field_object);
 
-		// Get datagrid from field
-		$datagrid = wsf_field_get_datagrid($field_object);
-
-		// Get groups from datagrid
-		$groups = wsf_datagrid_get_groups($datagrid, $group_id);
-		
-		// Process each row
-		foreach($groups as $group) {
-
-			$group->rows = array();
-		}
-
-		return $field_object;
+		// Clear rows
+		return $ws_form_data_grid->rows_clear($group_id);
 	}
 
 	/**
-	 * Add a row to a field datagrid
+	 * Add a row to a field data grid
 	 *
-	 * @param WS_Form_Field        $field_object    The field object
-	 * @param WS_Form_Datagrid_Row $row             The row object
+	 * @param WS_Form_Field         $field_object          The field object
+	 * @param WS_Form_Data_Grid_Row $data_grid_row_object  The row object
 	 *
 	 * @return WS_Form_Field              The modified field
 	 */
-	function wsf_field_row_add($field_object, $row = false) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_field_row_add($field_object, $data_grid_row_object = false) {
 
-		// Check field object
-		wsf_field_check($field_object);
+		// Initiate instance of Data Grid class
+		$ws_form_data_grid = new WS_Form_Data_Grid($field_object);
 
-		// Check datagrid row
-		wsf_datagrid_row_check($row);
-
-		// Get datagrid from field
-		$datagrid = wsf_field_get_datagrid($field_object);
-
-		// Get first group from datagrid
-		$group = $datagrid->groups[0];
-
-		// Check group
-		wsf_datagrid_group_check($group);
-
-		// Set defaults if not already set
-		if(!isset($row->default)) { $row->default = false; }
-		if(!isset($row->required)) { $row->required = false; }
-		if(!isset($row->disabled)) { $row->disabled = false; }
-		if(!isset($row->hidden)) { $row->hidden = false; }
-
-		// Set row ID
-		$row->id = wsf_group_row_id_next($group);
-
-		// Add to rows
-		$group->rows[] = $row;
-
-		return $field_object;
+		// Add row
+		return $ws_form_data_grid->row_add($data_grid_row_object);
 	}
 
 	/**
-	 * Get a field datagrid
+	 * Get a field data grid
 	 *
-	 * @param WS_Form_Field $field_object  The field object
+	 * @param WS_Form_Field          $field_object  The field object
 	 *
-	 * @return WS_Form_Datagrid     The datagrid
+	 * @return WS_Form_Data_Grid     The data grid
 	 */
-	function wsf_field_get_datagrid($field_object) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_field_get_data_grid($field_object) {
 
-		// Check field object
-		wsf_field_check($field_object);
+		// Initiate instance of Data Grid class
+		$ws_form_data_grid = new WS_Form_Data_Grid($field_object);
 
-		// Check for meta data
-		if(!isset($field_object->meta)) { throw new Exception('Field meta data not found'); }
-
-		switch($field_object->type) {
-
-			case 'select' : $meta_key = 'data_grid_select'; break;
-			case 'price_select' : $meta_key = 'data_grid_select_price'; break;
-			case 'radio' : $meta_key = 'data_grid_radio'; break;
-			case 'price_radio' : $meta_key = 'data_grid_radio_price'; break;
-			case 'checkbox' : $meta_key = 'data_grid_checkbox'; break;
-			case 'price_checkbox' : $meta_key = 'data_grid_checkbox_price'; break;
-			default : $meta_key = 'data_grid';
-		}
-
-		if(!isset($field_object->meta->{$meta_key})) { throw new Exception('Field meta key ' . esc_html($meta_key) . ' not found'); }
-
-		return $field_object->meta->{$meta_key};
+		// Return data grid
+		return $ws_form_data_grid->data_grid;
 	}
 
 	/**
-	 * Get a field datagrid group
+	 * Get a field data grid group
 	 *
-	 * @param WS_Form_Datagrid $datagrid_object  The datagrid object
-	 * @param integer          $group_id         Group ID to filter by
+	 * @param WS_Form_Data_Grid         $data_grid_object  The data grid object
+	 * @param integer                   $group_id          Group ID to filter by
 	 *
-	 * @return WS_Form_Datagrid_Group     The datagrid group object
+	 * @return WS_Form_Data_Grid_Group  The data_grid group object
 	 */
-	function wsf_datagrid_get_groups($datagrid_object, $group_id = false) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_data_grid_get_groups($data_grid_object, $group_id = false) {
 
-		// Check the datagrid object
-		wsf_datagrid_check($datagrid_object);
+		// Initiate instance of Data Grid class
+		$ws_form_data_grid = new WS_Form_Data_Grid();
 
-		// Get the groups
-		$groups = $datagrid_object->groups;
-
-		// Check the group ID
-		if($group_id !== false) {
-
-			if(!isset($groups[$group_id])) { throw new Exception('Group ID not found'); }
-
-			return array($groups[$group_id]);
-		}
-
-		return $groups;
+		// Return groups
+		return $ws_form_data_grid->get_groups($data_grid_object, $group_id);
 	}
 
 	/**
-	 * Get next datagrid group row ID
+	 * Get next data grid group row ID
 	 *
-	 * @param WS_Form_Datagrid_Group $group_object  The datagrid group object
+	 * @param WS_Form_Data_Grid_Group  $group_object  The data grid group object
 	 *
-	 * @return WS_Form_Datagrid_Group     The datagrid group object
+	 * @return WS_Form_Data_Grid_Group The data grid group object
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_group_row_id_next($group_object) {
 
-		$rows = $group_object->rows;
+		// Initiate instance of Data Grid class
+		$ws_form_data_grid = new WS_Form_Data_Grid();
 
-		$id_max = 0;
-		foreach($rows as $row) {
-
-			if(!isset($row->id)) { throw new Exception('Row ID not found'); }
-
-			if($row->id > $id_max) { $id_max = $row->id; }
-		}
-
-		return ++$id_max;
+		// Return next row ID
+		return $ws_form_data_grid->get_group_row_id_next($group_object);
 	}
 
 	/**
@@ -635,14 +574,14 @@
 	 *
 	 * @return None
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_check($form_object) {
 
-		// Check form object
-		if(
-			!is_object($form_object) ||
-			!property_exists($form_object, 'id') ||
-			!property_exists($form_object, 'label')
-		) {
+		// Initiate instance of Form class
+		$ws_form_form = new WS_Form_Form();
+
+		if(!$ws_form_form->is_valid($form_object)) {
+
 			throw new Exception('Invalid form object');
 		}
 	}
@@ -655,14 +594,14 @@
 	 *
 	 * @return None
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_group_check($group_object) {
 
-		// Check group object
-		if(
-			!is_object($group_object) ||
-			!property_exists($group_object, 'id') ||
-			!property_exists($group_object, 'label')
-		) {
+		// Initiate instance of Group class
+		$ws_form_group = new WS_Form_Group();
+
+		if(!$ws_form_group->is_valid($group_object)) {
+
 			throw new Exception('Invalid group object');
 		}
 	}
@@ -675,14 +614,14 @@
 	 *
 	 * @return None
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_section_check($section_object) {
 
-		// Check section object
-		if(
-			!is_object($section_object) ||
-			!property_exists($section_object, 'id') ||
-			!property_exists($section_object, 'label')
-		) {
+		// Initiate instance of Section class
+		$ws_form_section = new WS_Form_Section();
+
+		if(!$ws_form_section->is_valid($section_object)) {
+
 			throw new Exception('Invalid section object');
 		}
 	}
@@ -695,14 +634,14 @@
 	 *
 	 * @return None
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_field_check($field_object) {
 
-		if(
-			!is_object($field_object) ||
-			!property_exists($field_object, 'id') ||
-			!property_exists($field_object, 'label') ||
-			!property_exists($field_object, 'type')
-		) {
+		// Initiate instance of Field class
+		$ws_form_field = new WS_Form_Field();
+
+		if(!$ws_form_field->is_valid($field_object)) {
+
 			throw new Exception('Invalid field');
 		}
 	}
@@ -715,64 +654,77 @@
 	 *
 	 * @return None
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_check($submit_object) {
 
-		if(
-			!is_object($submit_object) ||
-			!property_exists($submit_object, 'id')
-		) {
+		// Initiate instance of Submit class
+		$ws_form_submit = new WS_Form_Submit();
+
+		if(!$ws_form_submit->is_valid($submit_object)) {
+
 			throw new Exception('Invalid submit');
 		}
 	}
 
 	/**
-	 * Check a datagrid object
+	 * Check a data grid object
 	 *
-	 * @param WS_Form_Datagrid $datagrid  The datagrid object
+	 * @param WS_Form_Data_Grid $data_grid  The data grid object
 	 *
 	 * @return boolean true
 	 */
-	function wsf_datagrid_check($datagrid_object) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_data_grid_check($data_grid) {
 
-		if(
-			!is_object($datagrid_object) ||
-			!isset($datagrid_object->groups)
-		) { throw new Exception('Invalid datagrid'); }
+		// Initiate instance of Data Grid class
+		$ws_form_data_grid = new WS_Form_Data_Grid();
+
+		if(!$ws_form_data_grid->is_valid($data_grid)) {
+
+			throw new Exception('Invalid data grid');
+		}
 
 		return true;
 	}
 
 	/**
-	 * Check a datagrid group object
+	 * Check a data grid group object
 	 *
-	 * @param WS_Form_Datagrid_Group $datagrid_group  The datagrid group object
+	 * @param WS_Form_Data_Grid_Group $data_grid_group_object  The data grid group object
 	 *
 	 * @return boolean true
 	 */
-	function wsf_datagrid_group_check($datagrid_group_object) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_data_grid_group_check($data_grid_group_object) {
 
-		if(
-			!is_object($datagrid_group_object) ||
-			!isset($datagrid_group_object->rows)
-		) { throw new Exception('Invalid datagrid group'); }
+		// Initiate instance of Data Grid class
+		$ws_form_data_grid = new WS_Form_Data_Grid();
+
+		if(!$ws_form_data_grid->is_valid_group($data_grid_group_object)) {
+
+			throw new Exception('Invalid data grid group');
+		}
 
 		return true;
 	}
 
 	/**
-	 * Check a datagrid row object
+	 * Check a data grid row object
 	 *
-	 * @param WS_Form_Datagrid_Row $datagrid_row_object  The datagrid row object
+	 * @param WS_Form_Data_Grid_Row $data_grid_row_object  The data grid row object
 	 *
 	 * @return boolean true
 	 */
-	function wsf_datagrid_row_check($datagrid_row_object) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_data_grid_row_check($data_grid_row_object) {
 
-		if(
-			!is_object($datagrid_row_object) ||
-			!isset($datagrid_row_object->data) ||
-			!is_array($datagrid_row_object->data)
-		) { throw new Exception('Invalid datagrid row'); }
+		// Initiate instance of Data Grid class
+		$ws_form_data_grid = new WS_Form_Data_Grid();
+
+		if(!$ws_form_data_grid->is_valid_row($data_grid_row_object)) {
+
+			throw new Exception('Invalid data grid row');
+		}
 
 		return true;
 	}
@@ -784,10 +736,14 @@
 	 *
 	 * @return WS_Form_Submit
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_get_object($submit_id) {
 
+		// Initiate instance of Submit class
 		$ws_form_submit = new WS_Form_Submit();
+
 		$ws_form_submit->id = $submit_id;
+
 		$ws_form_submit->db_read(true, true, true);
 
 		return $ws_form_submit;
@@ -800,10 +756,14 @@
 	 *
 	 * @return WS_Form_Submit
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_get_by_hash($submit_hash) {
 
+		// Initiate instance of Submit class
 		$ws_form_submit = new WS_Form_Submit();
+
 		$ws_form_submit->hash = $submit_hash;
+
 		$ws_form_submit->db_read_by_hash(true, true, false, true);
 
 		return $ws_form_submit;
@@ -819,6 +779,7 @@
 	 *
 	 * @return $value (String or Object depending on the field type)
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_get_value($submit_object, $meta_key, $default_value = '', $protected = false) {
 
 		wsf_submit_check($submit_object);
@@ -842,6 +803,7 @@
 	 *
 	 * @return Array $meta_value (String or Object depending on the field type)
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_get_value_repeatable($submit_object, $meta_key, $default_value = '', $protected = false) {
 
 		wsf_submit_check($submit_object);
@@ -866,6 +828,7 @@
 	 *
 	 * @return mixed $field_value or Array of field values if more than one field found
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_get_value_by_field_class($form_object, $submit_object, $class_name = false, $default_value = '', $protected = false) {
 
 		// Check form object
@@ -922,6 +885,7 @@
 	 *
 	 * @return mixed $field_value
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_get_value_repeatable_by_field_class($form_object, $submit_object, $class_name = false, $default_value = '', $protected = false) {
 
 		// Check form object
@@ -976,6 +940,7 @@
 	 *
 	 * @return boolean true
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_set_value($submit_object, $meta_key = '', $meta_value = '') {
 
 		// Check submit object
@@ -1011,6 +976,7 @@
 	 *
 	 * @return boolean true
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_set_value_by_field_id($submit_object, $field_id, $meta_value = '') {
 
 		// Check submit object
@@ -1048,6 +1014,7 @@
 	 *
 	 * @return string      $meta_value      Returns $default_value if not found
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_helper_get_object_property($object, $property, $default_value = '') {
 
 		return WS_Form_Common::get_object_property($object, $property, $default_value);
@@ -1062,6 +1029,7 @@
 	 *
 	 * @return string      $meta_value      Returns $default_value if not found
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_helper_get_object_meta_value($object, $meta_key = false, $default_value = '') {
 
 		return WS_Form_Common::get_object_meta_value($object, $meta_key, $default_value);
@@ -1069,72 +1037,116 @@
 
 
 	// Legacy wrappers
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_form_object($form_id, $get_meta = true, $get_groups = true) {
 
 		return wsf_form_get_object($form_id, $get_meta, $get_groups);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_form_label($form_id) {
 
 		return wsf_form_get_label_by_id($form_id);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_tabs($form_object, $group_id = false) {
 
 		return wsf_group_get_objects($form_object, $group_id);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_tab($form_object, $group_id = false) {
 
 		return wsf_group_get_object($form_object, $group_id);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_group($form_object, $group_id = false) {
 
 		return wsf_group_get_object($form_object, $group_id);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_section($form_object, $section_id = false) {
 
 		return wsf_section_get_object($form_object, $section_id);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_field($form_object, $field_id = false) {
 
 		return wsf_field_get_object($form_object, $field_id);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_fields_by_label($form_object, $field_label = false) {
 
 		return wsf_field_get_objects_by_label($form_object, $field_label);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_fields_by_meta($form_object, $field_meta_key = false, $field_meta_value = false) {
 
 		return wsf_field_get_objects_by_meta($form_object, $field_meta_key, $field_meta_value);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_groups($form_object, $group_id = false) {
 
 		return wsf_group_get_objects($form_object, $group_id);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_sections($form_object, $section_id = false) {
 
 		return wsf_section_get_objects($form_object, $section_id);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_fields($form_object, $field_id = false) {
 
 		return wsf_field_get_objects($form_object, $field_id);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_set_field_value($submit_object, $field_id, $meta_value = '') {
 
 		return wsf_submit_set_value_by_field_id($submit_object, $field_id, $meta_value);
 	}
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_count_submit($form_id) {
 
 		return wsf_form_get_count_submit_by_id($form_id);
+	}
+
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_datagrid_check($data_grid) {
+
+		return wsf_data_grid_check($data_grid);
+	}
+
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_datagrid_group_check($data_grid_group_object) {
+
+		return wsf_data_grid_group_check($data_grid_group_object);
+	}
+
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_datagrid_get_groups($data_grid_object, $group_id = false) {
+
+		return wsf_data_grid_get_groups($data_grid_object, $group_id);
+	}
+
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_datagrid_row_check($data_grid_row_object) {
+
+		return wsf_data_grid_row_check($data_grid_row_object);
+	}
+
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_field_get_datagrid($field_object) {
+
+		return wsf_field_get_data_grid($field_object);
 	}

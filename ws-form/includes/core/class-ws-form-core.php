@@ -130,14 +130,15 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// See if ID already exists
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			if(is_null($wpdb->get_var($wpdb->prepare(
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress -- Database table name already escaped
 				"SELECT id FROM $table_name WHERE id = %d LIMIT 1",
 				$id
-			);
 
-			// See if ID already exists
-			if(is_null($wpdb->get_var($sql))) {
+			)))) {
 
 				// Get wpdb insert data and format
 				$wpdb_insert_array = self::get_wpdb_data(explode(',', $fields_insert), $object, true);
@@ -150,6 +151,7 @@
 				}
 
 				// Insert
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Database table name already escaped
 				$insert_count = $wpdb->insert($table_name, $wpdb_insert_array['data'], $wpdb_insert_array['format']);
 				if($insert_count === false) {
 
@@ -164,6 +166,7 @@
 				$wpdb_update_array = self::get_wpdb_data(explode(',', $fields_update), $object, false);
 
 				// Update
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Database table name already escaped
 				$update_count = $wpdb->update($table_name, $wpdb_update_array['data'], array('id' => $id), $wpdb_update_array['format'], array('%d'));
 				if($update_count === false) {
 
@@ -180,28 +183,30 @@
 			global $wpdb;
 
 			// Get current parent_id
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			$parent_id_old = $wpdb->get_var($wpdb->prepare(
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress -- Database table name and parent field already escaped
 				"SELECT $parent_field FROM $table_name WHERE id = %d LIMIT 1;",
 				$id
-			);
+			));
 
-			$parent_id_old = $wpdb->get_var($sql);
 			if(is_null($parent_id_old)) { self::db_wpdb_handle_error(__('Error getting current parent ID', 'ws-form')); }
 
 			// Get new sort index
 			$sort_index = self::db_object_sort_index_get($table_name, $parent_field, $parent_id, $next_sibling_id);
 
 			// Update sort index
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			if($wpdb->query($wpdb->prepare(
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress -- Database table name and parent field already escaped
 				"UPDATE $table_name SET $parent_field = %d, sort_index = %d WHERE id = %d;",
 				$parent_id,
 				$sort_index,
 				$this->id
-			);
 
-			if($wpdb->query($sql) === false) { self::db_wpdb_handle_error(__('Error adjusting sort index', 'ws-form')); }
+			)) === false) { self::db_wpdb_handle_error(__('Error adjusting sort index', 'ws-form')); }
 
 			// Clean up sort indexes
 			self::db_object_sort_index_clean($table_name, $parent_field, $parent_id);
@@ -221,16 +226,18 @@
 			global $wpdb;
 
 			// Clean up sort indexes
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->query('SET @i := 0;');
 
-			$sql = $wpdb->prepare(
-
-				"UPDATE $table_name SET sort_index = (@i := @i + 1) WHERE $parent_field = %d ORDER BY sort_index;",
-				$parent_id
-			);
-
 			if(
-				($wpdb->query($sql) === false) &&
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+				($wpdb->query($wpdb->prepare(
+
+					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress -- Database table name and parent field already escaped
+					"UPDATE $table_name SET sort_index = (@i := @i + 1) WHERE $parent_field = %d ORDER BY sort_index;",
+					$parent_id
+
+				)) === false) &&
 
 				// Don't throw error on WordPress Playground (SQLite)
 				!empty($_SERVER['SERVER_SOFTWARE']) &&
@@ -250,36 +257,40 @@
 			if($next_sibling_id == 0) {
 
 				// Get next sort_index
-				$sql = $wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+				$sort_index = $wpdb->get_var($wpdb->prepare(
 
-					"SELECT IFNULL(MAX(sort_index), 0) FROM $table_name WHERE $parent_field = %d;",
+ 					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress -- Database table name and parent field already escaped 
+ 					"SELECT IFNULL(MAX(sort_index), 0) FROM $table_name WHERE $parent_field = %d;",
 					$parent_id
-				);
 
-				$sort_index = $wpdb->get_var($sql) + 1;
+				)) + 1;
+
 				if(is_null($sort_index)) { self::db_wpdb_handle_error(__('Unable to determine sort index', 'ws-form')); }
 
 			} else {
 
 				// Adopt sort_index of next sibling
-				$sql = $wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+				$sort_index = $wpdb->get_var($wpdb->prepare(
 
-					"SELECT sort_index FROM $table_name WHERE id = %d LIMIT 1;",
+ 					// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress -- Database table name already escaped 
+ 					"SELECT sort_index FROM $table_name WHERE id = %d LIMIT 1;",
 					$next_sibling_id
-				);
+				));
 
-				$sort_index = $wpdb->get_var($sql);
 				if(is_null($sort_index)) { self::db_wpdb_handle_error('Unable to determine sort index'); }
 
 				// Increment records below and including current sort index
-				$sql = $wpdb->prepare(
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+				if($wpdb->query($wpdb->prepare(
 
+					 // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress -- Database table name and parent field already escaped
 					"UPDATE $table_name SET sort_index = (sort_index + 1) WHERE $parent_field = %d AND sort_index >= %d;",
 					$parent_id,
 					$sort_index
-				);
 
-				if($wpdb->query($sql) === false) { self::db_wpdb_handle_error(__('Error adjusting sort indexes', 'ws-form')); }
+				)) === false) { self::db_wpdb_handle_error(__('Error adjusting sort indexes', 'ws-form')); }
 			}
 
 			return $sort_index;
@@ -292,13 +303,14 @@
 
 			if($object_id == 0) { self::db_wpdb_handle_error(__('Object ID is zero, cannot get label', 'ws-form')); }
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+			$object_label = $wpdb->get_var($wpdb->prepare(
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress -- Database table name already escaped
 				"SELECT label FROM $table_name WHERE id = %d LIMIT 1;",
 				$object_id
-			);
+			));
 
-			$object_label = $wpdb->get_var($sql);
 			if($object_label === false) { self::db_wpdb_handle_error(__('Error getting object label', 'ws-form')); }
 
 			return $object_label;
@@ -381,6 +393,6 @@
 		// Throw error
 		public function db_throw_error($error) {
 			
-			throw new Exception($error);
+			throw new Exception(esc_html($error));
 		}
 	}

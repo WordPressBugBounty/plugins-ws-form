@@ -15,7 +15,7 @@
 		public $table_name;
 
 		const DB_INSERT = 'label,child_count,user_id,date_added,date_updated,sort_index,group_id,parent_section_id';
-		const DB_UPDATE = 'label,user_id,date_updated';
+		const DB_UPDATE = 'label,user_id,date_updated,sort_index';
 		const DB_SELECT = 'label,child_count,sort_index,id';
 
 		public function __construct() {
@@ -54,18 +54,25 @@
 			self::sanitize_label(__('Section', 'ws-form'));
 
 			// Add section
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, 0, %d, %s, %s, %d, %d, 0);",
-				$this->label,
-				get_current_user_id(),
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				$sort_index,
-				$this->group_id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				"{$wpdb->prefix}wsf_section",
+				array(
+					'label' => $this->label,
+					'child_count' => 0,
+					'user_id' => get_current_user_id(),
+					'date_added' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'sort_index' => $sort_index,
+					'group_id' => $this->group_id,
+					'parent_section_id' => 0,
+				),
+				array( '%s', '%d', '%d', '%s', '%s', '%d', '%d', '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error adding section', 'ws-form')); }
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error adding section', 'ws-form')); 
+			}
 
 			// Get inserted ID
 			$this->id = $wpdb->insert_id;
@@ -184,13 +191,12 @@
 			global $wpdb;
 
 			// Add fields
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$section_array = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE id = %d LIMIT 1;",
+				"SELECT label,child_count,sort_index,id FROM {$wpdb->prefix}wsf_section WHERE id = %d LIMIT 1;",
 				$this->id
-			);
-
-			$section_array = $wpdb->get_row($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 			if(is_null($section_array)) { parent::db_wpdb_handle_error(__('Unable to read section', 'ws-form')); }
 
 			foreach($section_array as $key => $value) {
@@ -233,12 +239,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$return_array = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT id FROM {$this->table_name} WHERE id = %d LIMIT 1;",
+				"SELECT id FROM {$wpdb->prefix}wsf_section WHERE id = %d LIMIT 1;",
 				$this->id
-			);
-			$return_array = $wpdb->get_row($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			return !is_null($return_array);
 		}
@@ -255,13 +261,12 @@
 
 			$fields_array = array();
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$sections = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE group_id = %d ORDER BY sort_index",
+				"SELECT label,child_count,sort_index,id FROM {$wpdb->prefix}wsf_section WHERE group_id = %d ORDER BY sort_index",
 				$this->group_id
-			);
-
-			$sections = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($sections) {
 
@@ -309,13 +314,16 @@
 			global $wpdb;
 
 			// Delete section
-			$sql = $wpdb->prepare(
-
-				"DELETE FROM {$this->table_name} WHERE id = %d;",
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$delete_result = $wpdb->delete(
+				"{$wpdb->prefix}wsf_section",
+				array( 'id' => $this->id ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting section', 'ws-form')); }
+			if($delete_result === false) { 
+				parent::db_wpdb_handle_error(__('Error deleting section', 'ws-form')); 
+			}
 
 			// Delete meta
 			$ws_form_meta = new WS_Form_Meta();
@@ -353,13 +361,12 @@
 				$ws_form_form->id = $this->form_id;
 			}
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$sections = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE group_id = %d",
+				"SELECT label,child_count,sort_index,id FROM {$wpdb->prefix}wsf_section WHERE group_id = %d",
 				$this->group_id
-			);
-
-			$sections = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($sections) {
 
@@ -392,13 +399,13 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$sections = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE group_id = %d AND parent_section_id = %d ORDER BY sort_index",
+				"SELECT label,child_count,sort_index,id FROM {$wpdb->prefix}wsf_section WHERE group_id = %d AND parent_section_id = %d ORDER BY sort_index",
 				$this->group_id,
 				$parent_section_id
-			);
-			$sections = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($sections) {
 
@@ -426,19 +433,25 @@
 			global $wpdb;
 
 			// Clone section
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %d, %d, %s, %s, %d, %d, %d);",
-				$this->label,
-				$this->child_count,
-				get_current_user_id(),
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				$this->sort_index,
-				$this->group_id,
-				$this->parent_section_id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				"{$wpdb->prefix}wsf_section",
+				array(
+					'label' => $this->label,
+					'child_count' => $this->child_count,
+					'user_id' => get_current_user_id(),
+					'date_added' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'sort_index' => $this->sort_index,
+					'group_id' => $this->group_id,
+					'parent_section_id' => $this->parent_section_id,
+				),
+				array( '%s', '%d', '%d', '%s', '%s', '%d', '%d', '%d' )
 			);
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error cloning section', 'ws-form')); }
+
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error cloning section', 'ws-form')); 
+			}
 
 			// Get new section ID
 			$section_id_new = $wpdb->insert_id;
@@ -479,7 +492,17 @@
 			WS_Form_Common::user_must('edit_form');
 
 			// Check for section ID in $section
-			if(isset($section_object->id) && !$new) { $this->id = absint($section_object->id); }
+			if(isset($section_object->id) && !$new) {
+
+				// Set section ID
+				$this->id = absint($section_object->id);
+
+				// Set group ID of section object (Required in case section moves)
+				if(!empty($this->group_id)) {
+
+					$section_object->group_id = $this->group_id;
+				}
+			}
 			if($new) {
 
 				$this->id = 0;
@@ -487,8 +510,18 @@
 				if(isset($section_object->id)) { unset($section_object->id); }
 			}
 
+			// Get DB_UPDATE
+			$db_update = self::DB_UPDATE;
+
+			// Add group ID if it needs to be updated
+			if(!empty($section_object->group_id)) {
+
+				$db_update .= ',group_id';
+			}
+
 			// Update / Insert
-			$this->id = parent::db_update_insert($this->table_name, self::DB_UPDATE, self::DB_INSERT, $section_object, 'section', $this->id);
+			$this->id = parent::db_update_insert($this->table_name, $db_update, self::DB_INSERT, $section_object, 'section', $this->id);
+
 			if($new && $section_object_id_old) { $this->new_lookup['section'][$section_object_id_old] = $this->id; }
 
 			// Base meta for new records
@@ -541,6 +574,7 @@
 			global $wpdb;
 
 			// Change date_updated to null for all records
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 			$wpdb->update($this->table_name, array('date_updated' => null), array('group_id' => $this->group_id, 'parent_section_id' => $this->parent_section_id));
 
 			foreach($sections as $section) {
@@ -549,6 +583,7 @@
 			}
 
 			// Delete any sections that were not updated
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 			$wpdb->delete($this->table_name, array('date_updated' => null, 'group_id' => $this->group_id, 'parent_section_id' => $this->parent_section_id));
 
 			return true;
@@ -565,22 +600,29 @@
 			global $wpdb;
 
 			// Get child_count
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$child_count = $wpdb->get_var($wpdb->prepare(
 
-				"SELECT IFNULL(COUNT(id), 0) FROM {$this->table_name} WHERE parent_section_id = %d;",
+				"SELECT IFNULL(COUNT(id), 0) FROM {$wpdb->prefix}wsf_section WHERE parent_section_id = %d;",
 				$this->id
-			);
-			$child_count = $wpdb->get_var($sql);
+			));
 			if(is_null($child_count)) { parent::db_wpdb_handle_error(__('Unable to determine section child count', 'ws-form')); }
 
 			// Update section child_count
-			$sql = $wpdb->prepare(
-
-				"UPDATE {$this->table_name} SET child_count = %d WHERE id = %d;",
-				$child_count,
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$update_result = $wpdb->update(
+				"{$wpdb->prefix}wsf_section",
+				array(
+					'child_count' => $child_count,
+				),
+				array( 'id' => $this->id ),
+				array( '%d' ),
+				array( '%d' )
 			);
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Unable to update section child count', 'ws-form')); }
+
+			if($update_result === false) { 
+				parent::db_wpdb_handle_error(__('Unable to update section child count', 'ws-form')); 
+			}
 		}
 
 		// Get group ID
@@ -593,13 +635,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$group_id = $wpdb->get_var($wpdb->prepare(
 
-				"SELECT group_id FROM {$this->table_name} WHERE id = %d LIMIT 1;",
+				"SELECT group_id FROM {$wpdb->prefix}wsf_section WHERE id = %d LIMIT 1;",
 				$this->id
-			);
-
-			$group_id = $wpdb->get_var($sql);
+			));
 			if($group_id === false) { parent::db_wpdb_handle_error(__('Error getting group ID', 'ws-form')); }
 
 			return $group_id;
@@ -615,13 +656,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$parent_section_id = $wpdb->get_var($wpdb->prepare(
 
-				"SELECT parent_section_id FROM {$this->table_name} WHERE id = %d LIMIT 1;",
+				"SELECT parent_section_id FROM {$wpdb->prefix}wsf_section WHERE id = %d LIMIT 1;",
 				$this->id
-			);
-
-			$parent_section_id = $wpdb->get_var($sql);
+			));
 			if($parent_section_id === false) { parent::db_wpdb_handle_error(__('Error getting section parent ID', 'ws-form')); }
 
 			return $parent_section_id;
@@ -635,13 +675,12 @@
 			self::db_check_group_id();
 
 			// Get column count of last section added
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$last_section_id = $wpdb->get_var($wpdb->prepare(
 
-				"SELECT id FROM {$this->table_name} WHERE group_id = %d AND parent_section_id = 0 ORDER BY sort_index DESC LIMIT 1",
+				"SELECT id FROM {$wpdb->prefix}wsf_section WHERE group_id = %d AND parent_section_id = 0 ORDER BY sort_index DESC LIMIT 1",
 				$this->group_id
-			);
-
-			$last_section_id = $wpdb->get_var($sql);
+			));
 			if($last_section_id === false) { parent::db_wpdb_handle_error(__('Unable to determine last section added', 'ws-form')); }
 			$inherit_last_meta = !is_null($last_section_id);
 
@@ -765,5 +804,15 @@
 			WS_Form_Common::user_must('read_form');
 
 			return parent::db_object_get_label($this->table_name, $this->id);
+		}
+
+		// Is valid
+		public function is_valid($section_object) {
+
+			return (
+				is_object($section_object) &&
+				property_exists($section_object, 'id') &&
+				property_exists($section_object, 'label')
+			);
 		}
 	}

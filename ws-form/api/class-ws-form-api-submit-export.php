@@ -32,13 +32,13 @@
 			// First page
 			if($page === 0) {
 
-				$csv_file_pointer = fopen($csv_file_name, 'w');
+				$csv_file_pointer = fopen($csv_file_name, 'w'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Required for CSV export streaming
 
 				if($csv_file_pointer === false) {
 
 					return self::api_export_error(sprintf(
 
-						/* translators: %s = CSV file name */
+						/* translators: %s: CSV file name */
 						__('Unable to create temporary file: %s', 'ws-form'),
 
 						$csv_file_name
@@ -47,18 +47,18 @@
 
 			} else {
 
-				if(!file_exists($csv_file_name)) {
+				if(!WS_Form_File::file_exists($csv_file_name)) {
 
 					return self::api_export_error(sprintf(
 
-						/* translators: %s = CSV file name */
+						/* translators: %s: CSV file name */
 						__('Unable to open temporary file %s', 'ws-form'),
 
 						$csv_file_name
 					));
 				}
 
-				$csv_file_pointer = fopen($csv_file_name, 'a');
+				$csv_file_pointer = fopen($csv_file_name, 'a'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Required for CSV export streaming
 			}
 
 			// Build page
@@ -72,6 +72,7 @@
 				WS_Form_Common::get_query_var_nonce('orderby'),
 				WS_Form_Common::get_query_var_nonce('order'),
 				false,																// Bypass capability check
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				apply_filters('wsf_submit_export_csv_clear_hidden_fields', true),	// Clear hidden fields
 				false																// Sanitize rows (Retain HTML for CSV files)
 			);
@@ -83,6 +84,7 @@
 			$records_total = $db_export_csv_page_return['records_total'];
 
 			// Get page size
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$page_size = apply_filters('wsf_submit_export_page_size', WS_FORM_SUBMIT_EXPORT_PAGE_SIZE);
 
 			// Complete?
@@ -116,12 +118,13 @@
 			$csv_file_name = self::api_get_csv_file_name($hash);
 
 			// Check file name
-			if(!file_exists($csv_file_name)) { throw new Exception(esc_html__('CSV file not found', 'ws-form')); }
+			if(!WS_Form_File::file_exists($csv_file_name)) { throw new Exception(esc_html__('CSV file not found', 'ws-form')); }
 
 			// Check file size
-			$csv_file_size = filesize($csv_file_name);
+			$csv_file_size = WS_Form_File::filesize($csv_file_name);
 
 			// If file size large, zip the file
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			if($csv_file_size > apply_filters('wsf_submit_export_file_size_zip', WS_FORM_SUBMIT_EXPORT_FILE_SIZE_ZIP)) {
 
 				// Create zip archive
@@ -165,7 +168,7 @@
 			if(ob_get_length()) { ob_clean(); }
 
 			// Read and output the CSV file
-			readfile($csv_file_name);
+			WS_Form_File::readfile($csv_file_name);
 
 			// Delete temporary file
 			wp_delete_file($csv_file_name);

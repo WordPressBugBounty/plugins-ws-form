@@ -158,11 +158,11 @@
 
 			// Get framework
 			$framework = WS_Form_Common::get_query_var_nonce('framework', '', $parameters);
-			if($framework == '') { self::api_throw_error(__('Framework not specified', 'ws-form')); }
+			if($framework == '') { self::api_throw_error(esc_html__('Framework not specified', 'ws-form')); }
 
 			// Check framework
 			$frameworks = WS_Form_Config::get_frameworks(false);
-			if(!isset($frameworks['types'][$framework])) { self::api_throw_error(__('Invalid framework specified', 'ws-form')); }
+			if(!isset($frameworks['types'][$framework])) { self::api_throw_error(esc_html__('Invalid framework specified', 'ws-form')); }
 
 			// Get mode
 			$mode = WS_Form_Common::get_query_var_nonce('mode', '', $parameters);
@@ -170,7 +170,7 @@
 
 			// Check mode
 			$modes = explode(',', WS_FORM_MODES);
-			if(!in_array($mode, $modes)) { self::api_throw_error(__('Invalid mode specified', 'ws-form')); }
+			if(!in_array($mode, $modes)) { self::api_throw_error(esc_html__('Invalid mode specified', 'ws-form')); }
 
 			// Set framework
 			WS_Form_Common::option_set('framework', $framework);
@@ -445,18 +445,18 @@
 
 			// Get submit hash
 			$hash = WS_Form_Common::get_query_var_nonce('hash', '', $parameters);
-			if(!WS_Form_Common::check_submit_hash($hash)) { wp_die(__('Hash not specified', 'ws-form')); }
+			if(!WS_Form_Common::check_submit_hash($hash)) { wp_die(esc_html__('Hash not specified', 'ws-form')); }
 
 			// Get field ID
 			$field_id = absint(WS_Form_Common::get_query_var_nonce('field_id', '', $parameters));
-			if($field_id == 0) { wp_die(__('Field ID not specified', 'ws-form')); }
+			if($field_id == 0) { wp_die(esc_html__('Field ID not specified', 'ws-form')); }
 
 			// Get section repeatable index
 			$section_repeatable_index = absint(WS_Form_Common::get_query_var_nonce('section_repeatable_index', '', $parameters));
 
 			// Get file index
 			$file_index = absint(WS_Form_Common::get_query_var_nonce('file_index', '', $parameters));
-			if($file_index < 0) { wp_die(__('File index invalid', 'ws-form')); }
+			if($file_index < 0) { wp_die(esc_html__('File index invalid', 'ws-form')); }
 
 			// Get submit record
 			$ws_form_submit = new WS_Form_Submit();
@@ -473,27 +473,27 @@
 
 			// Get field
 			$meta_key_suffix = (($section_repeatable_index > 0) ? ('_' . $section_repeatable_index) : '');
-			if(!isset($submit->meta[WS_FORM_FIELD_PREFIX . $field_id . $meta_key_suffix])) { self::api_throw_error(__('Field ID not found', 'ws-form')); }
+			if(!isset($submit->meta[WS_FORM_FIELD_PREFIX . $field_id . $meta_key_suffix])) { self::api_throw_error(esc_html__('Field ID not found', 'ws-form')); }
 			$field = $submit->meta[WS_FORM_FIELD_PREFIX . $field_id . $meta_key_suffix];
 
 			// Get files
-			if(!isset($field['value'])) { wp_die(__('Field data not found', 'ws-form')); }
+			if(!isset($field['value'])) { wp_die(esc_html__('Field data not found', 'ws-form')); }
 			$files = $field['value'];
 
 			// Get file
-			if(!isset($files[$file_index])) { wp_die(__('Field data not found', 'ws-form')); }
+			if(!isset($files[$file_index])) { wp_die(esc_html__('Field data not found', 'ws-form')); }
 			$file = $files[$file_index];
 
 			// Get file name
-			if(!isset($file['name'])) { wp_die(__('File name not found', 'ws-form')); }
+			if(!isset($file['name'])) { wp_die(esc_html__('File name not found', 'ws-form')); }
 			$file_name = $file['name'];
 
 			// Get file type
-			if(!isset($file['type'])) { wp_die(__('File type not found', 'ws-form')); }
+			if(!isset($file['type'])) { wp_die(esc_html__('File type not found', 'ws-form')); }
 			$file_type = $file['type'];
 
 			// Get file path
-			if(!isset($file['path'])) { wp_die(__('File path not found', 'ws-form')); }
+			if(!isset($file['path'])) { wp_die(esc_html__('File path not found', 'ws-form')); }
 			$file_path = $file['path'];
 
 			// Get base upload_dir
@@ -503,9 +503,9 @@
 			$file_path_full = $upload_dir . '/' . $file_path;
 
 			// Check file exists
-			if(!file_exists($file_path_full)) {
+			if(!WS_Form_File::file_exists($file_path_full)) {
 
-				wp_die(__('File not found', 'ws-form'));
+				wp_die(esc_html__('File not found', 'ws-form'));
 			}
 
 			// Set HTTP headers
@@ -522,7 +522,7 @@
 			if(ob_get_length()) { ob_clean(); }
 
 			// Push file to browser
-			readfile($file_path_full);
+			WS_Form_File::readfile($file_path_full);
 
 			exit;
 		}
@@ -558,6 +558,8 @@
 			// REST API test
 			wp_set_current_user(0);
 			setup_userdata(0);
+
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WordPress core filter hook
 			$access = apply_filters('rest_authentication_errors', true);
 
 			if(is_wp_error($access)) {

@@ -234,7 +234,7 @@
 
 										array(
 											'label'			=>	__('IP Blocklist', 'ws-form'),
-											'meta_keys'	=> array('ip_blocklist', 'ip_blocklist_ips', 'ip_blocklist_message', 'ip_blocklist_message_type', 'ip_blocklist_note')
+											'meta_keys'	=> array('ip_blocklist', 'ip_blocklist_ips', 'ip_blocklist_note', 'ip_blocklist_message', 'ip_blocklist_message_type')
 										),
 
 										array(
@@ -531,8 +531,6 @@
 					'field'				=>	__('Field', 'ws-form'),
 					'fields'			=>	__('Fields', 'ws-form'),
 					'field_label'		=>	__('Field Label', 'ws-form'),
-					/* translators: %s = Field type label, e.g. Text */
-					'field_label_aria'	=>	__('%s field label', 'ws-form'),
 					'action'			=>	__('Action', 'ws-form'),
 					'actions'			=>	__('Actions', 'ws-form'),
 					'submission'		=>	__('Submission', 'ws-form'),
@@ -588,13 +586,13 @@
 
 					// Error messages
 					'error_field_type_unknown'			=>	__('Unknown field type', 'ws-form'),
-					/* translators: %s = Breakpoint name */
+					/* translators: %s: Breakpoint name */
 					'error_admin_max_width'				=>	__('admin_max_width not defined for breakpoint: %s.', 'ws-form'),
 					'error_object'						=>	__('Unable to find object', 'ws-form'),
 					'error_object_data'					=>	__('Unable to retrieve object data', 'ws-form'),
 					'error_object_meta_value'			=>	__('Unable to retrieve object meta', 'ws-form'),
 					'error_object_type'					=>	__('Unable to determine object type', 'ws-form'),
-					/* translators: %s = Meta key */
+					/* translators: %s: Meta key */
 					'error_meta_key'					=>	__('Unknown meta_key: %s', 'ws-form'),
 					'error_data_grid'					=>	__('Data grid not specified', 'ws-form'),
 					'error_data_grid_groups'			=>	__('Data grid has no groups', 'ws-form'),
@@ -604,9 +602,9 @@
 					'error_data_grid_csv_no_data'		=>	__('No data to export', 'ws-form'),
 					'error_data_grid_row_id'			=>	__('Data grid row has no ID', 'ws-form'),
 					'error_timeout_codemirror'			=>	__('Timeout waiting for CodeMirror to load', 'ws-form'),
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'error_submit_export'				=>	__('Export error: %s', 'ws-form'),
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'error_api_reload'        			=> 	__('API reload error: %s', 'ws-form'),
 
 					// Popover
@@ -645,19 +643,19 @@
 
 					// Data grids - Data sources
 					'data_grid_data_source_error'			=>	__('Error retrieving data source', 'ws-form'),
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'data_grid_data_source_error_s'			=>	__('Error retrieving data source: %s', 'ws-form'),
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'data_grid_data_source_error_last'			=>	__('Error retrieving data source<br />%s', 'ws-form'),
-					/* translators: %s = Field label */
+					/* translators: %s: Field label */
 					'data_grid_data_source_error_last_field'	=>	__('Field: %s', 'ws-form'),
-					/* translators: %s = Field ID */
+					/* translators: %s: Field ID */
 					'data_grid_data_source_error_last_field_id'	=>	__('ID: %s', 'ws-form'),
-					/* translators: %s = Data source */
+					/* translators: %s: Data source */
 					'data_grid_data_source_error_last_source'	=>	__('Data source: %s', 'ws-form'),
-					/* translators: %s = Date */
+					/* translators: %s: Date */
 					'data_grid_data_source_error_last_date'		=>	__('Last attempt: %s', 'ws-form'),
-					/* translators: %s = Error message */
+					/* translators: %s: Error message */
 					'data_grid_data_source_error_last_error'	=>	__('Error: %s', 'ws-form'),
 
 					// Data grids - Groups
@@ -687,6 +685,8 @@
 					'data_grid_row_required'			=>	__('Required', 'ws-form'),
 					'data_grid_row_disabled'			=>	__('Disabled', 'ws-form'),
 					'data_grid_row_hidden'				=>	__('Hidden', 'ws-form'),
+					'data_grid_row_bulk_select'			=>	__('Bulk Select', 'ws-form'),
+					'data_grid_row_bulk_select_all'		=>	__('Bulk Select All', 'ws-form'),
 
 					// Data grids - Bulk actions
 					'data_grid_row_bulk_actions_select'			=>	__('Select...', 'ws-form'),
@@ -714,12 +714,9 @@
 
 					// Data grids - Actions
 					'data_grid_action_edit'					=>	__('Edit', 'ws-form'),
+					'data_grid_action_clone'				=>	__('Clone', 'ws-form'),
 					'data_grid_action_action'				=>	__('Action', 'ws-form'),
 					'data_grid_action_event'				=>	__('When Should This Action Run?', 'ws-form'),
-
-					// Data grids - Actions
-					'data_grid_action_edit'					=>	__('Edit', 'ws-form'),
-					'data_grid_action_clone'				=>	__('Clone', 'ws-form'),
 
 					// Data grids - Insert image
 					'data_grid_insert_image'				=>	__('Insert Image', 'ws-form'),
@@ -745,33 +742,60 @@
 					'field_search'							=>	__('Field search...', 'ws-form'),
 					'section_search'						=>	__('Section search...', 'ws-form'),
 
-					'field_selector_upgrade'	=>	sprintf(
+					'field_selector_upgrade' => sprintf(
 
-						/* translators: %1$s = URL, %2$s = URL, %3$s = URL, %4$s = URL */
-						__('<a href="%1$s" target="_blank">Upgrade to PRO</a> for <a href="%2$s" target="_blank">55+ field types</a>, <a href="%3$s" target="_blank">conditional logic</a>, <a href="%4$s" target="_blank">calculated fields</a> and more!', 'ws-form'),
-						WS_Form_Common::get_plugin_website_url('', 'sidebar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase_category/field-types/', 'sidebar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/calculated-fields/', 'sidebar_toolbox')
+					    /* translators: 
+					     * %1$s: Opening <a> tag for upgrade link, %2$s: Closing </a>
+					     * %3$s: Opening <a> tag for field types link, %4$s: Closing </a>
+					     * %5$s: Opening <a> tag for conditional logic link, %6$s: Closing </a>
+					     * %7$s: Opening <a> tag for calculated fields link, %8$s: Closing </a>
+					     */
+					    __('%1$sUpgrade to PRO%2$s for %3$s65+ field types%4$s, %5$sconditional logic%6$s, %7$scalculated fields%8$s and more!', 'ws-form'),
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('', 'sidebar_toolbox') ) . '" target="_blank">',
+					    '</a>',
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase_category/field-types/', 'sidebar_toolbox') ) . '" target="_blank">',
+					    '</a>',
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox') ) . '" target="_blank">',
+					    '</a>',
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/calculated-fields/', 'sidebar_toolbox') ) . '" target="_blank">',
+					    '</a>'
 					),
 
-					'section_selector_upgrade'	=>	sprintf(
+					'section_selector_upgrade' => sprintf(
 
-						/* translators: %1$s = URL, %2$s = URL, %3$s = URL, %4$s = URL */
-						__('<a href="%1$s" target="_blank">Upgrade to PRO</a> for <a href="%2$s" target="_blank">more sections</a>, <a href="%3$s" target="_blank">conditional logic</a>, <a href="%4$s" target="_blank">calculated fields</a> and more!', 'ws-form'),
-						WS_Form_Common::get_plugin_website_url('', 'sidebar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/section-library/', 'sidebar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/calculated-fields/', 'sidebar_toolbox')
+					    /* translators: %1$s/%2$s: Upgrade link, %3$s/%4$s: Sections link, %5$s/%6$s: Conditional logic link, %7$s/%8$s: Calculated fields link */
+					    __('%1$sUpgrade to PRO%2$s for %3$smore sections%4$s, %5$sconditional logic%6$s, %7$scalculated fields%8$s and more!', 'ws-form'),
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('', 'sidebar_toolbox') ) . '" target="_blank">',
+					    '</a>',
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/section-library/', 'sidebar_toolbox') ) . '" target="_blank">',
+					    '</a>',
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox') ) . '" target="_blank">',
+					    '</a>',
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/calculated-fields/', 'sidebar_toolbox') ) . '" target="_blank">',
+					    '</a>'
 					),
 
-					'action_upgrade'			=>	sprintf(
+					'action_upgrade' => sprintf(
 
-						/* translators: %1$s = URL, %2$s = URL, %3$s = URL */
-						__('<a href="%1$s" target="_blank">Upgrade to PRO</a> for <a href="%2$s" target="_blank">more actions</a> and the ability to run actions using <a href="%3$s" target="_blank">conditional logic</a>.', 'ws-form'),
-						WS_Form_Common::get_plugin_website_url('', 'siderbar_action'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase_category/actions/', 'sidebar_toolbox'),
-						WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox')
+					    /* translators: %1$s/%2$s: Upgrade link, %3$s/%4$s: Actions link, %5$s/%6$s: Conditional logic link */
+					    __('%1$sUpgrade to PRO%2$s for %3$smore actions%4$s and the ability to run actions using %5$sconditional logic%6$s.', 'ws-form'),
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('', 'sidebar_action') ) . '" target="_blank">',
+					    '</a>',
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase_category/actions/', 'sidebar_toolbox') ) . '" target="_blank">',
+					    '</a>',
+
+					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox') ) . '" target="_blank">',
+					    '</a>'
 					),
 					// Sidebar - Expand / Contract
 					'data_sidebar_expand'					=>	__('Expand', 'ws-form'),
@@ -794,20 +818,20 @@
 					'breakpoint_option_offset_plural'			=>	'%s',
 
 					// Orientation Breakpoint options
-					/* translators: %s = Breakpoint name */
+					/* translators: %s: Breakpoint name */
 					'orientation_breakpoint_label_width'					=>	__('%s Width', 'ws-form'),
-					/* translators: %s = Fraction */
+					/* translators: %s: Fraction */
 					'orientation_breakpoint_width'							=>	__(' = %s width', 'ws-form'),
 					'orientation_breakpoint_width_full'						=>	__(' = Full width', 'ws-form'),
 					'orientation_breakpoint_option_default'					=>	__('Default', 'ws-form'),
 					'orientation_breakpoint_option_inherit'					=>	__('Inherit', 'ws-form'),
-					/* translators: %s = Column count */
+					/* translators: %s: Column count */
 					'orientation_breakpoint_option_column_default_singular'	=>	'%s column',
-					/* translators: %s = Column count */
+					/* translators: %s: Column count */
 					'orientation_breakpoint_option_column_default_plural'	=>	'%s columns',
-					/* translators: %s = Column count */
+					/* translators: %s: Column count */
 					'orientation_breakpoint_option_column_singular'			=>	'%s column',
-					/* translators: %s = Column count */
+					/* translators: %s: Column count */
 					'orientation_breakpoint_option_column_plural'			=>	'%s columns',
 
 					'column_size_change'						=>	__('Change column size', 'ws-form'),
@@ -819,7 +843,6 @@
 					'submit_date_added'							=>	__('Added', 'ws-form'),
 					'submit_date_updated'						=>	__('Updated', 'ws-form'),
 					'submit_user'								=>	__('User', 'ws-form'),
-					'submit_status'								=>	__('Status', 'ws-form'),
 					'submit_duration'							=>	__('Duration', 'ws-form'),
 					'submit_tracking'							=>	__('Tracking', 'ws-form'),
 					'submit_tracking_geo_location_permission_denied'	=>	__('User denied the request for geo location.', 'ws-form'),
@@ -859,8 +882,11 @@
 
 					// Contact
 					'support_contact_thank_you'			=>	__('Thank you for your support request.', 'ws-form'),
-					/* translators: %s = Error message */
-					'support_contact_error'				=>	__('An error occurred when submitting your support request. Please email support@wsform.com (%s)', 'ws-form'),
+					'support_contact_error' => sprintf(
+						/* translators: %s: Support email address. */
+						__('An error occurred when submitting your support request. Please email %s', 'ws-form'),
+						'support@wsform.com'
+					) ,
 
 					// Starred
 					'starred_on'						=>	__('Starred', 'ws-form'),
@@ -871,7 +897,7 @@
 					'viewed_off'						=>	__('Mark as Read', 'ws-form'),
 
 					// Form location
-					/* translators: %s = Form location(s) */
+					/* translators: %s: Form location(s) */
 					'form_location_found'				=>	__('Form found in %s', 'ws-form'),
 					'form_location_not_found'			=>	__('Form not found in content', 'ws-form'),
 
@@ -936,6 +962,7 @@
 			}
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$settings_form_admin = apply_filters('wsf_config_settings_form_admin', $settings_form_admin);
 
 			// Cache
@@ -957,8 +984,14 @@
 
 					array('type' => 'select', 'source' => 'field', 'colspan' => 2, 'label' => __('Insert Field', 'ws-form'), 'action' => 'insert-select'),
 					array('type' => 'button', 'label' => __('del', 'ws-form'), 'class' => 'wsf-button-danger', 'title' => __('Delete', 'ws-form'), 'action' => 'delete'),
-					/* translators: AC = All Clear button on calculator */
-					array('type' => 'button', 'label' => __('AC', 'ws-form'), 'class' => 'wsf-button-danger', 'title' => __('All Clear', 'ws-form'), 'action' => 'clear'),
+					array(
+						'type' => 'button',
+						/* translators: AC = All Clear button on calculator */
+						'label' => __('AC', 'ws-form'),
+						'class' => 'wsf-button-danger',
+						'title' => __('All Clear', 'ws-form'),
+						'action' => 'clear'
+					),
 				),
 
 				// Row 2
@@ -966,7 +999,7 @@
 
 					array('type' => 'button', 'label' => '(', 'title' => __('Opening Parentheses', 'ws-form'), 'action' => 'insert', 'insert' => '('),
 					array('type' => 'button', 'label' => ')', 'title' => __('Closing Parentheses', 'ws-form'), 'action' => 'insert', 'insert' => ')'),
-					array('type' => 'button', 'label' => ',', 'title' => __('Percentage', 'ws-form'), 'action' => 'insert', 'insert' => ','),
+					array('type' => 'button', 'label' => ',', 'title' => __('Comma', 'ws-form'), 'action' => 'insert', 'insert' => ','),
 					array('type' => 'select', 'source' => 'variables', 'label' => 'f', 'class' => 'wsf-button-primary', 'title' => __('Variables', 'ws-form'), 'action' => 'insert-select-highlight-parameters', 'variables_group_id' => 'math'),
 				),
 
@@ -1007,6 +1040,7 @@
 			);
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$calc = apply_filters('wsf_config_calc', $calc);
 
 			// Cache
@@ -1103,10 +1137,11 @@
 					);
 				}
 
-				self::parse_variable_help_add($parse_variable_help, $parse_variable_help_single);
+				$parse_variable_help[] = $parse_variable_help_single;
 			}
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$parse_variable_help = apply_filters('wsf_config_parse_variable_help', $parse_variable_help);
 
 			// Sort parse variables
@@ -1127,27 +1162,13 @@
 			return $parse_variable_help;
 		}
 
-		// Parse variables help add
-		public static function parse_variable_help_add(&$parse_variable_help, $parse_variable_help_single) {
-
-			$passthrough_attributes = array('description', 'limit', 'kb_slug');
-
-			// Passthrough attributes
-			foreach($passthrough_attributes as $passthrough_attribute) {
-
-				if(isset($parse_variable[$passthrough_attribute])) { $parse_variable_help_single[$passthrough_attribute] = $parse_variable[$passthrough_attribute]; }
-
-			}
-
-			$parse_variable_help[] = $parse_variable_help_single;
-		}
-
 		// System report
 		public static function get_system() {
 
 			global $wpdb, $required_mysql_version;
 
 			// Get MySQL max_allowed_packet
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$mysql_max_allowed_packet = $wpdb->get_var('SELECT @@global.max_allowed_packet;');
 			if(is_null($mysql_max_allowed_packet)) { $mysql_max_allowed_packet = 0; }
 
@@ -1229,6 +1250,7 @@
 
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$system = apply_filters('wsf_config_system', $system);
 
 			return $system;
@@ -1301,6 +1323,7 @@
 			);
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$patterns = apply_filters('wsf_config_patterns', $patterns);
 
 			return $patterns;

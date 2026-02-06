@@ -278,7 +278,7 @@
 .wsf-form input[type=checkbox].wsf-field.wsf-image + label.wsf-label .wsf-image-caption {
   color: var(--wsf-field-help-color);
   display: block;
-  font-size: var(--wsf-field-font-size-small);
+  font-size: var(--wsf-form-font-size-small);
   line-height: var(--wsf-field-line-height);
   margin-top: var(--wsf-form-caption-gap);
 }

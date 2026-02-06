@@ -21,6 +21,7 @@
 			add_action('rest_api_init', array($this, 'rest_api_init'), 10, 0);
 
 			// Records per page
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$this->records_per_page = apply_filters('wsf_data_source_' . $this->id . '_records_per_age', $this->records_per_page);
 
 			// Register init actin
@@ -190,7 +191,15 @@
 			$meta_keys = parent::get_column_mapping(array(), $meta_value, $meta_key_config);
 
 			// Return data
-			return array('error' => false, 'error_message' => '', 'meta_value' => $meta_value, 'max_num_pages' => 0, 'meta_keys' => $meta_keys);
+			return array(
+
+				'error' => false,
+				'error_message' => '',
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+				'meta_value' => $meta_value,
+				'max_num_pages' => 0,
+				'meta_keys' => $meta_keys
+			);
 		}
 
 		// Get meta keys
@@ -229,6 +238,7 @@
 			$settings->endpoint_get = 'data-source/' . $this->id . '/';
 
 			// Apply filter
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$settings = apply_filters('wsf_data_source_' . $this->id . '_settings', $settings);
 
 			return $settings;
@@ -268,7 +278,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'data_source_' . $this->id . '_field_slug',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -283,7 +295,7 @@
 					'placeholder'				=>	'#post_id',
 					'help'						=>	sprintf(
 
-						/* translators: %s = WS Form */
+						/* translators: %s: WS Form */
 						__('Choose the post ID to filter by. This can be a number or %s variable. If blank, the ID of the post the form is shown on will be used.', 'ws-form'),
 
 						WS_FORM_NAME_GENERIC
@@ -293,7 +305,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'data_source_' . $this->id . '_field_slug',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						),
 
@@ -301,6 +315,7 @@
 
 							'logic_previous'	=>	'&&',
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'data_source_' . $this->id . '_filter_by_post'
 						)
 					)
@@ -316,7 +331,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'data_source_' . $this->id . '_field_slug',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					),

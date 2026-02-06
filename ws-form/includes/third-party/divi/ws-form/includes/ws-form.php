@@ -1,6 +1,6 @@
 <?php
 
-	class DiviExtension_WS_Form extends DiviExtension {
+	class WS_Form_DiviExtension extends DiviExtension {
 
 		public $gettext_domain = 'ws-form';
 		public $name = 'ws-form-divi';
@@ -30,9 +30,10 @@
 			} else {
 
 				// Core enqueues
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_enqueue_visual_builder');
 			}
 		}
 	}
 
-	new DiviExtension_WS_Form;
+	new WS_Form_DiviExtension;

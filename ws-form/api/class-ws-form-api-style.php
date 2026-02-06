@@ -77,7 +77,7 @@
 			WS_Form_Common::file_download_headers('wsf-css-variables.csv', 'text/csv');
 
 			// Use the output stream for fputcsv
-			$output = fopen('php://output', 'w');
+			$output = fopen('php://output', 'w'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Required for streaming output to browser
 
 			// Output rows
 			foreach($rows as $row) {
@@ -86,7 +86,7 @@
 			}
 
 			// Close the output stream
-			fclose($output);
+			fclose($output); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Required for streaming output to browser
 
 			exit;
 		}

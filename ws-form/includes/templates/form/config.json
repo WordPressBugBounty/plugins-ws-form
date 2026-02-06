@@ -830,6 +830,13 @@
 			},
 
 			{
+				"id"					:	"post-variables",
+				"label" 				: 	"Post Variables",
+				"file_json"				:	"wsf-form-post-variables.json",
+				"preview_url"			:	true
+			},
+
+			{
 				"id"					:	"prefix-suffix",
 				"label" 				: 	"Prefix / Suffix",
 				"file_json"				:	"wsf-form-prefix-suffix.json",

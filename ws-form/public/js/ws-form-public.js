@@ -675,10 +675,10 @@
 
 		var ws_this = this;
 
-		// Regular file fields
-		$('inputa[type="email"]:not([data-init-email])', this.form_canvas_obj).each(function() {
+		// Regular email fields
+		$('input[type="email"]:not([data-init-email])', this.form_canvas_obj).each(function() {
 
-	 		// Get field data
+			// Get field data
 			var field = ws_this.get_field($(this));
 
 			// Check for allow / deny
@@ -711,7 +711,7 @@
 		var field_value = obj.val();
 		if(field_value == '') { return; }
 
- 		// Get field data
+		// Get field data
 		var field = this.get_field(obj);
 
 		// Check for allow / deny
@@ -742,7 +742,7 @@
 
 			// Get message
 			var allow_deny_message = this.get_object_meta_value(field, 'allow_deny_message', '');
-			if(!allow_deny_message) { allow_deny_message = this.language('email_allow_deny_message'); }
+			if(!allow_deny_message) { allow_deny_message = this.language('error_email_allow_deny_message'); }
 
 			// Set invalid feedback
 			this.set_invalid_feedback(obj, allow_deny_message);
@@ -1865,7 +1865,7 @@
 			this.form_ecommerce_calculate();
 		}
 
-		// Mark form as validated
+		// Mark form as validatefd
 		this.form_canvas_obj.addClass(this.class_validated);
 
 		// Check validity of form
@@ -2015,7 +2015,7 @@
 	}
 
 	// Form - Validate - Real time
-	$.WS_Form.prototype.form_validate_real_time = function(form) {
+	$.WS_Form.prototype.form_validate_real_time = function() {
 
 		var ws_this = this;
 
@@ -2077,7 +2077,7 @@
 		}
 
 		// Inline validation on change - Sections
-		$('[data-wsf-section-validated-class]:not([data-wsf-section-validated-class-init])').each(function() {
+		$('[data-wsf-section-validated-class]:not([data-wsf-section-validated-class-init])', this.form_canvas_obj).each(function() {
 
 			// Mark as inititalized so it doesn't initialize again
 			$(this).attr('data-wsf-section-validated-class-init', '');
@@ -2102,7 +2102,7 @@
 		});
 
 		// Inline validation on change - Fields
-		$('[data-wsf-field-validated-class]:not([data-wsf-field-validated-class-init])').each(function() {
+		$('[data-wsf-field-validated-class]:not([data-wsf-field-validated-class-init])', this.form_canvas_obj).each(function() {
 
 			// Mark as inititalized so it doesn't initialize again
 			$(this).attr('data-wsf-field-validated-class-init', '');
@@ -2762,6 +2762,9 @@
 		// ITI tel field processing
 		if(typeof(this.form_tel_post) === 'function') { this.form_tel_post(form_data); }
 
+		// Media capture
+		if(typeof(this.form_media_capture_post) === 'function') { this.form_media_capture_post(form_data); }
+
 		// Call API
 		this.api_call('submit', 'POST', form_data, function(response) {
 
@@ -3070,6 +3073,13 @@
 
 		// Timer - Start
 		var timer_start = new Date();
+
+		// Check permalinks
+		if(ws_form_settings.use_rest_route) {
+
+			var ajax_path_parts = ajax_path.split('?');
+			ajax_path = encodeURIComponent(ajax_path_parts[0]) + (ajax_path_parts[1] ? '&' + ajax_path_parts[1] : '');
+		}
 
 		// Make AJAX request
 		var url = force_ajax_path ? (ws_form_settings.url_ajax + ajax_path) : ((ajax_path == 'submit') ? this.form_obj.attr('action') : (ws_form_settings.url_ajax + ajax_path));
@@ -3464,7 +3474,7 @@
 				// Process accessibility
 				this.form_accessibility();
 
-          		// Process next action
+				// Process next action
 				this.action_js_process_next();
 
 				break;
@@ -3512,7 +3522,7 @@
 				this.form_file_dropzonejs_populate(field_obj);
 
 				// Log event
-          		// Process next action
+				// Process next action
 				this.action_js_process_next();
 
 				break;

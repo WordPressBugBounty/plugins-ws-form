@@ -22,6 +22,7 @@
 		public function add_plus_section_content() {
 
 			// Add subsection content
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Third party
 			do_action("oxygen_add_plus_" . $this->section_slug . "_other");
 		}
 	}

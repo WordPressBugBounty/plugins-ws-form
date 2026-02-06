@@ -1054,7 +1054,28 @@
 	}
 
 	// Process custom attributes
-	$.WS_Form.prototype.custom_attributes = function(attributes, object, object_type, section_repeatable_index) {
+	$.WS_Form.prototype.custom_attributes = function(attributes, object, object_type, section_repeatable_index, obj) {
+
+		// Get custom attributes
+		var custom_attributes = this.custom_attributes_get(object, object_type, section_repeatable_index);
+
+		// Process each custom attribute
+		for(const attribute_name in custom_attributes) {
+
+			// Get custom attribute value
+			var attribute_value = custom_attributes[attribute_name];
+
+			// Build attribute (Only add value if one is specified)
+			attributes = this.attribute_modify(attributes, attribute_name, attribute_value, true);
+		}
+
+		return attributes;
+	}
+
+	// Process custom attributes
+	$.WS_Form.prototype.custom_attributes_get = function(object, object_type, section_repeatable_index) {
+
+		var custom_attributes = {};
 
 		var mask_field_attributes_custom = this.get_object_meta_value(object, 'custom_attributes', false);
 
@@ -1082,11 +1103,11 @@
 				mask_field_attribute_custom.custom_attribute_value = this.parse_variables_process(mask_field_attribute_custom.custom_attribute_value, section_repeatable_index, false, object).output;
 
 				// Build attribute (Only add value if one is specified)
-				attributes = this.attribute_modify(attributes, mask_field_attribute_custom.custom_attribute_name, mask_field_attribute_custom.custom_attribute_value, true);
+				custom_attributes[mask_field_attribute_custom.custom_attribute_name] = mask_field_attribute_custom.custom_attribute_value;
 			}
 		}
 
-		return attributes;
+		return custom_attributes;
 	}
 
 	// Get fields html
@@ -1431,11 +1452,15 @@
 	// Build field type cache
 	$.WS_Form.prototype.field_type_cache_build = function() {
 
-		// If public, set field_type_cache to field_types, already in corret format
-		if(!this.is_admin) { $.WS_Form.field_type_cache = $.WS_Form.field_types; }
+		// If public, set field_type_cache to field_types, already in correct format
+		if(!this.is_admin) {
+
+			$.WS_Form.field_type_cache = $.WS_Form.field_types;
+			return true;
+		}
 
 		// If already built, do not build
-		if($.WS_Form.field_type_cache.length > 0) { return true; }
+		if(Object.keys($.WS_Form.field_type_cache.length) > 0) { return true; }
 
 		// Add field types
 		for (var group_key in $.WS_Form.field_types) {
@@ -2178,8 +2203,7 @@
 								var field_max_value = 0;
 								var field_max_label = '';
 								var variable_attribute_array_index = 0;
-
-								var section_repeatable_section_id_to = (typeof(field_to.section_repeatable_section_id) !== 'undefined') ? parseInt(field_to.section_repeatable_section_id, 10) : false;
+								var field_value_index = 0;
 
 								// Loop through provided field ID's
 								while(!isNaN(variable_attribute_array[variable_attribute_array_index])) {
@@ -2196,45 +2220,51 @@
 									var field = this.field_data_cache[field_id];
 
 									// Get field value
-									var field_value = this.get_field_value(field, section_repeatable_index_to);
+									var field_value_array = this.get_field_value(field, field.section_repeatable);
+
 									if(
-										(typeof(field_value) == 'object') &&
-										(typeof(field_value[0]) !== 'undefined')
+										(typeof(field_value_array) != 'object') ||
+										(typeof(field_value_array[0]) === 'undefined')
 									) {
-										field_value = this.get_number(field_value[0], 0, true);
-
-									} else {
-
-										field_value = 0; 
+										field_value_array = [0];
 									}
 
 									/// Get field label
 									var field_label = field.label;
 
-									// Set min and max
-									if(variable_attribute_array_index == 0) {
+									// Process each field value (Multiple for repeatable sections)
+									for(var field_value of field_value_array) {
 
-										// Initial values
-										field_max_id = field_min_id = field_id;
-										field_max_value = field_min_value = field_value;
-										field_max_label = field_min_label = field_label;
+										// Convert to number
+										field_value = this.get_number(field_value, 0, true);
 
-									} else {
+										// Set min and max
+										if(field_value_index == 0) {
 
-										// Min / max calculations
-										if(field_value < field_min_value) {
+											// Initial values
+											field_max_id = field_min_id = field_id;
+											field_max_value = field_min_value = field_value;
+											field_max_label = field_min_label = field_label;
 
-											field_min_id = field_id;
-											field_min_value = field_value;
-											field_min_label = field_label;
+										} else {
+
+											// Min / max calculations
+											if(field_value < field_min_value) {
+
+												field_min_id = field_id;
+												field_min_value = field_value;
+												field_min_label = field_label;
+											}
+
+											if(field_value > field_max_value) {
+
+												field_max_id = field_id;
+												field_max_value = field_value;
+												field_max_label = field_label;
+											}
 										}
 
-										if(field_value > field_max_value) {
-
-											field_max_id = field_id;
-											field_max_value = field_value;
-											field_max_label = field_label;
-										}
+										field_value_index++;
 									}
 
 									// Go to next variable attribute
@@ -2973,6 +3003,7 @@
 								break;
 
 							case 'post_date_custom' :
+							case 'post_date_modified_custom' :
 							case 'server_date_custom' :
 							case 'blog_date_custom' :
 
@@ -3520,84 +3551,85 @@
 			}
 		}
 
-		// Process groups
-		var groups = data_grid.groups;
-		for(var group_index in groups) {
+		// Check if value matches
+		for(var parsed_variable_index in parsed_variable) {
 
-			if(!groups.hasOwnProperty(group_index)) { continue; }
+			if(!parsed_variable.hasOwnProperty(parsed_variable_index)) { continue; }
 
-			var group = groups[group_index];
+			var parsed_variable_single = parsed_variable[parsed_variable_index];
 
-			// Get rows
-			if(typeof(group.rows) === 'undefined') { continue; }
-			var rows = group.rows;
+			// Process groups
+			var groups = data_grid.groups;
+			for(var group_index in groups) {
 
-			// Process rows
-			for(var row_index in rows) {
+				if(!groups.hasOwnProperty(group_index)) { continue; }
 
-				if(!rows.hasOwnProperty(row_index)) { continue; }
+				var group = groups[group_index];
 
-				var row = rows[row_index];
+				// Get rows
+				if(typeof(group.rows) === 'undefined') { continue; }
+				var rows = group.rows;
 
-				// Get row data
-				if(
-					(row === null) ||
-					(typeof(row.data) !== 'object')
-				) {
-					continue;
-				}
-				var data = row.data;
+				// Process rows
+				for(var row_index in rows) {
 
-				// Clone row data
-				var data_cloned = $.extend(true, [], data);
+					if(!rows.hasOwnProperty(row_index)) { continue; }
 
-				// Check value and return indexes exist
-				if(typeof(data_cloned[value_column_index]) === 'undefined') { continue; }
-				if(typeof(data_cloned[return_column_index]) === 'undefined') { continue; }
+					var row = rows[row_index];
 
-				// Pre-parsing
-				var mask_values_row = {
+					// Get row data
+					if(
+						(row === null) ||
+						(typeof(row.data) !== 'object')
+					) {
+						continue;
+					}
+					var data = row.data;
 
-					'data_grid_row_value': data_cloned[value_column_index],
-					'data_grid_row_action_variable': '',
-					'data_grid_row_label': ''
-				};
+					// Clone row data
+					var data_cloned = $.extend(true, [], data);
 
-				// Label
-				if(
-					(label_column_index !== false) &&
-					(typeof(data_cloned[label_column_index]) !== 'undefined')
-				) {
+					// Check value and return indexes exist
+					if(typeof(data_cloned[value_column_index]) === 'undefined') { continue; }
+					if(typeof(data_cloned[return_column_index]) === 'undefined') { continue; }
 
-					mask_values_row.data_grid_row_label = data_cloned[label_column_index];
-				}
+					// Pre-parsing
+					var mask_values_row = {
 
-				// Parse Variable
-				if(
-					(parse_variable_column_index !== false) &&
-					(typeof(data_cloned[parse_variable_column_index]) !== 'undefined')
-				) {
+						'data_grid_row_value': data_cloned[value_column_index],
+						'data_grid_row_action_variable': '',
+						'data_grid_row_label': ''
+					};
 
-					mask_values_row.data_grid_row_action_variable = data_cloned[parse_variable_column_index];
-				}
+					// Label
+					if(
+						(label_column_index !== false) &&
+						(typeof(data_cloned[label_column_index]) !== 'undefined')
+					) {
 
-				// Parse columns
-				for(var data_index in data_cloned) {
+						mask_values_row.data_grid_row_label = data_cloned[label_column_index];
+					}
 
-					if(!data_cloned.hasOwnProperty(data_index)) { continue; }
+					// Parse Variable
+					if(
+						(parse_variable_column_index !== false) &&
+						(typeof(data_cloned[parse_variable_column_index]) !== 'undefined')
+					) {
 
-					if(typeof(data_cloned[data_index]) === 'number') { data_cloned[data_index] = data_cloned[data_index].toString(); }
+						mask_values_row.data_grid_row_action_variable = data_cloned[parse_variable_column_index];
+					}
 
-					data_cloned[data_index] = this.mask_parse(data_cloned[data_index], mask_values_row);
-				}
+					// Parse columns
+					for(var data_index in data_cloned) {
 
-				// Check if value matches
-				for(var parsed_variable_index in parsed_variable) {
+						if(!data_cloned.hasOwnProperty(data_index)) { continue; }
 
-					if(!parsed_variable.hasOwnProperty(parsed_variable_index)) { continue; }
+						if(typeof(data_cloned[data_index]) === 'number') { data_cloned[data_index] = data_cloned[data_index].toString(); }
 
-					var parsed_variable_single = parsed_variable[parsed_variable_index];
+						data_cloned[data_index] = this.mask_parse(data_cloned[data_index], mask_values_row);
+					}
 
+					// Check for value column match
 					if(parsed_variable_single === data_cloned[value_column_index].toString()) {
 
 						// Add data to default value
@@ -4614,6 +4646,21 @@
 
 		return true;
 	}
+
+	// Field parameter with language fallback
+	$.WS_Form.prototype.field_param_language = function(field, param, language_id) {
+		
+		// Get the parameter value from the field
+		var param_value = this.get_object_meta_value(field, param, '');
+		
+		// If parameter has a value, return it
+		if(param_value !== '') {
+			return param_value;
+		}
+		
+		// Otherwise, return the language fallback
+		return this.language(language_id);
+	};
 
 	// Get cookie
 	$.WS_Form.prototype.cookie_get = function(cookie_name, default_value, bind_to_form_id) {

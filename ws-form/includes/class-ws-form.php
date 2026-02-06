@@ -42,7 +42,6 @@ final class WS_Form {
 
 		$this->plugin_public = new WS_Form_Public();
 
-		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 		$this->define_public_shortcodes();
@@ -62,8 +61,6 @@ final class WS_Form {
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-loader.php';
 
 		// The class responsible for defining internationalization functionality of the plugin
-		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-i18n.php';
-
 		// The classes responsible for populating WP List Tables
 		if(is_admin()) {
 
@@ -95,12 +92,14 @@ final class WS_Form {
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-color.php';
 
 
-		// Object classes
+		// Core classes
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-meta.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-form.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-group.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-section.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-field.php';
+		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-file.php';
+		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-data-grid.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-submit-meta.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-submit.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-submit-export.php';
@@ -148,16 +147,27 @@ final class WS_Form {
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/blocks/form-add/form-add.php';
 		}
 
-		// Abilities
-		if(WS_FORM_ABILITIES_API || WS_FORM_ANGIE) {
-
+		// Ability class
+		if(
+			WS_Form_Common::abilities_api_enabled() ||
+			WS_Form_Common::angie_enabled()
+		) {
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-ability.php';
+			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-form-ai.php';
 		}
 
-		if(WS_FORM_ABILITIES_API && class_exists('WP_Ability')) {
+		// ability-api
+		if(WS_Form_Common::abilities_api_enabled()) {
 
 			$ws_form_ability = new WS_Form_Ability();
-			add_action('abilities_api_init', array($ws_form_ability, 'register'));
+
+			// Register ability categories
+			add_action('wp_abilities_api_categories_init', array($ws_form_ability, 'register_categories'));
+			add_action('abilities_api_categories_init', array($ws_form_ability, 'register_categories'));	// Legacy (This will eventually be removed)
+
+			// Register abilities - New hook
+			add_action('wp_abilities_api_init', array($ws_form_ability, 'register'));
+			add_action('abilities_api_init', array($ws_form_ability, 'register'));	// Legacy (This will eventually be removed)
 		}
 
 		// Third party
@@ -180,7 +190,7 @@ final class WS_Form {
 			}
 
 			// Angie
-			if(WS_FORM_ANGIE && defined('ANGIE_VERSION')) {
+			if(WS_Form_Common::angie_enabled()) {
 
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/angie/angie.php';
 			}
@@ -211,7 +221,7 @@ final class WS_Form {
 			if(
 				wp_get_theme()->get('Name') === 'Divi' ||
 				wp_get_theme()->get('Template') === 'Divi' ||
-				file_exists( WP_PLUGIN_DIR . '/divi-builder/divi-builder.php' ) ||
+				WS_Form_File::file_exists( WP_PLUGIN_DIR . '/divi-builder/divi-builder.php' ) ||
 				defined('ET_CORE_VERSION') ||
 				class_exists('ET_Builder_Module')
 			) {
@@ -222,6 +232,12 @@ final class WS_Form {
 			if(defined('ELEMENTOR_VERSION')) {
 
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/elementor/elementor.php';
+			}
+
+			// Hostinger Reach
+			if(defined('HOSTINGER_INTEGRATIONS_SUPPORTED')) {
+
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/hostinger-reach/class-ws-form-hostinger-reach.php';
 			}
 
 			// JetEngine
@@ -294,24 +310,123 @@ final class WS_Form {
 */
 
 			// Run wsf_loaded action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_loaded');
+		});
+
+		// Options and styles are initialized on init because of translated strings
+		// The activation script sets two options to initialize these because init is not called during activation
+		add_action('init', function() {
+
+			// Check if options need to be initialized
+			if(WS_Form_Common::option_get('options_init')) {
+
+				// Initialize options
+				self::options_init();
+
+				// Remove option
+				WS_Form_Common::option_remove('options_init');
+			}
+
+			// Check if styler needs to be initialized
+			if(WS_Form_Common::option_get('styler_init')) {
+
+				// Initialize styles
+				self::styler_init(WS_Form_Common::option_get('styler_init') == 'fresh_intall');
+
+				// Remove option
+				WS_Form_Common::option_remove('styler_init');
+			}
 		});
 
 		$this->loader = new WS_Form_Loader();
 	}
 
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the WS_Form_i18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 */
-	private function set_locale() {
+	private function options_init() {
 
-		$plugin_i18n = new WS_Form_i18n();
+		// Get mode
+		$mode = WS_Form_Common::option_get('mode', 'basic', true);
 
-		// Set priority to 0 to ensure it runs before register_widget is called otherwise it knocks out translations
-		$this->loader->add_action('init', $plugin_i18n, 'load_plugin_textdomain', 0);
+		// Get  options
+		$options = WS_Form_Config::get_options(false);
+
+		// Set up options with default values
+		foreach($options as $tab => $attributes) {
+
+			if(isset($attributes['fields'])) {
+
+				$fields = $attributes['fields'];
+				self::options_set($mode, $fields);
+			}
+
+			if(isset($attributes['groups'])) {
+
+				$groups = $attributes['groups'];
+
+				foreach($groups as $group) {
+
+					$fields = $group['fields'];
+					self::options_set($mode, $fields);
+				}
+			}
+		}
+
+		// Set skin option defaults
+		$ws_form_css = new WS_Form_CSS();
+		$ws_form_css->option_set_defaults();
+
+		// Clear compiled CSS
+		WS_Form_Common::option_set('css_public_layout', '');
+	}
+
+	private function options_set($mode, $fields) {
+
+		// File upload checks
+		$upload_checks = WS_Form_Common::uploads_check();
+		$max_upload_size = $upload_checks['max_upload_size'];
+		$max_uploads = $upload_checks['max_uploads'];
+
+		foreach($fields as $key => $attributes) {
+
+			if(
+				isset($attributes['type']) && 
+				($attributes['type'] != 'static')
+			) { 
+
+				if(
+					isset($attributes['mode']) &&
+					isset($attributes['mode'][$mode])
+				) {
+
+					// Use mode specific values
+					$value = $attributes['mode'][$mode];
+
+					WS_Form_Common::option_set($key, $value, false);
+
+				} else if(isset($attributes['default'])) {
+
+					// Use default value
+					$value = $attributes['default'];
+
+					// Value parsing
+					if($value === '#max_upload_size') { $value = $max_upload_size; }
+					if($value === '#max_uploads') { $value = $max_uploads; }
+
+					WS_Form_Common::option_set($key, $value, false);
+				}
+			}
+		}
+	}
+
+	private function styler_init($fresh_install = false) {
+
+		// Check style system has initialized
+		$ws_form_style = new WS_Form_Style();
+		$ws_form_style->check_initialized(true, !$fresh_install);
+
+		// Ensure all forms are configured with default style ID
+		$ws_form_form = new WS_Form_Form();
+		$ws_form_form->db_style_resolve(true);
 	}
 
 	/**
@@ -431,13 +546,9 @@ final class WS_Form {
 		// Initialize API
 		$this->loader->add_action('rest_api_init', $plugin_api, 'api_rest_api_init');
 
-		// Initialize MCP server
-		if(
-			WS_FORM_MCP_ADAPTER &&
-			class_exists('WP_Ability') &&
-			WS_FORM_ABILITIES_API &&
-			class_exists('WP\MCP\Plugin')
-		) {
+		// mcp-adapter
+		if(WS_Form_Common::mcp_adapter_enabled()) {
+
 			$this->loader->add_action('mcp_adapter_init', $plugin_api, 'mcp_adapter_init', 10, 1);
 		}
 	}

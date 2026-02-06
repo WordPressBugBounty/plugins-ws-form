@@ -40,10 +40,7 @@
 			// Grid
 			$css_return .= ".wsf-grid {\n";
 
-			$css_return .= "\tdisplay: -webkit-box;\n";
-			$css_return .= "\tdisplay: -ms-flexbox;\n";
 			$css_return .= "\tdisplay: flex;\n";
-			$css_return .= "\t-ms-flex-wrap: wrap;\n";
 			$css_return .= "\tflex-wrap: wrap;\n";
 			$css_return .= "}\n\n";
 
@@ -103,8 +100,6 @@
 
 					$css_return .= " {";
 
-					$css_return .= "\n" . $css_indent . "\t-webkit-box-flex: 0 !important;";
-					$css_return .= "\n" . $css_indent . "\t-ms-flex: 0 0 " . $column_width_percentage . "% !important;";
 					$css_return .= "\n" . $css_indent . "\tflex: 0 0 " . $column_width_percentage . "% !important;";
 					$css_return .= "\n" . $css_indent . "\tmax-width: " . $column_width_percentage . "% !important;";
 
@@ -194,6 +189,6 @@
 			$css_return .= "}\n\n";
 
 			// $css_return is already escaped. Further escaping will break any base64 SVG elements.
-			WS_Form_Common::echo_esc_css($css_return);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+			WS_Form_Common::echo_esc_css($css_return);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}

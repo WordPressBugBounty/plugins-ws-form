@@ -17,7 +17,7 @@
  		public $field_type_config_cache;
 
 		const DB_INSERT = 'label,type,user_id,date_added,date_updated,sort_index,section_id';
-		const DB_UPDATE = 'label,user_id,date_updated';
+		const DB_UPDATE = 'label,user_id,date_updated,sort_index';
 		const DB_SELECT = 'label,type,date_updated,sort_index,id';
 
 		public function __construct() {
@@ -73,25 +73,31 @@
 			global $wpdb;
 
 			// Add field
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %s, %d, %s, %s, %d, %d);",
-				$this->label,
-				$this->type,
-				get_current_user_id(),
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				$sort_index,
-				$this->section_id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				"{$wpdb->prefix}wsf_field",
+				array(
+					'label' => $this->label,
+					'type' => $this->type,
+					'user_id' => get_current_user_id(),
+					'date_added' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'sort_index' => $sort_index,
+					'section_id' => $this->section_id,
+				),
+				array( '%s', '%s', '%d', '%s', '%s', '%d', '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error adding field', 'ws-form')); }
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error adding field', 'ws-form')); 
+			}
 
 			// Get inserted ID
 			$this->id = $wpdb->insert_id;
 
 			// Build meta data array
 			$meta_keys = WS_Form_Config::get_meta_keys();
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$meta_keys = apply_filters('wsf_form_create_meta_keys', $meta_keys);
 			$meta_values = array(
 
@@ -139,14 +145,13 @@
 			// Get field types
 			$field_types = WS_Form_Config::get_field_types_flat();
 
-			// Add fields
-			$sql = $wpdb->prepare(
+			// Get row
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$field_array = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE id = %d LIMIT 1;",
+				"SELECT label,type,date_updated,sort_index,id FROM {$wpdb->prefix}wsf_field WHERE id = %d LIMIT 1;",
 				$this->id
-			);
-
-			$field_array = $wpdb->get_row($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 			if(is_null($field_array)) { return false; }
 
 			// Skip unlicensed field types
@@ -209,13 +214,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$return_array = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT id FROM {$this->table_name} WHERE id = %d LIMIT 1;",
+				"SELECT id FROM {$wpdb->prefix}wsf_field WHERE id = %d LIMIT 1;",
 				$this->id
-			);
-
-			$return_array = $wpdb->get_row($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 			return !is_null($return_array);
 		}
 
@@ -229,13 +233,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$fields = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE section_id = %d ORDER BY sort_index",
+				"SELECT label,type,date_updated,sort_index,id FROM {$wpdb->prefix}wsf_field WHERE section_id = %d ORDER BY sort_index",
 				$this->section_id
-			);
-
-			$fields = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($fields) {
 
@@ -372,13 +375,16 @@
 			global $wpdb;
 
 			// Delete field
-			$sql = $wpdb->prepare(
-
-				"DELETE FROM {$this->table_name} WHERE id = %d;",
-				$this->id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$delete_result = $wpdb->delete(
+				"{$wpdb->prefix}wsf_field",
+				array( 'id' => $this->id ),
+				array( '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error deleting field', 'ws-form')); }
+			if($delete_result === false) { 
+				parent::db_wpdb_handle_error(__('Error deleting field', 'ws-form')); 
+			}
 
 			// Delete meta
 			$ws_form_meta = new WS_Form_Meta();
@@ -419,13 +425,12 @@
 				$ws_form_form->id = $this->form_id;
 			}
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$fields = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE section_id = %d",
+				"SELECT label,type,date_updated,sort_index,id FROM {$wpdb->prefix}wsf_field WHERE section_id = %d",
 				$this->section_id
-			);
-
-			$fields = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($fields) {
 
@@ -463,13 +468,12 @@
 			// Get field types
 			$field_types = WS_Form_Config::get_field_types_flat();
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$fields = $wpdb->get_results($wpdb->prepare(
 
-				"SELECT " . self::DB_SELECT . " FROM {$this->table_name} WHERE section_id = %d ORDER BY sort_index",
+				"SELECT label,type,date_updated,sort_index,id FROM {$wpdb->prefix}wsf_field WHERE section_id = %d ORDER BY sort_index",
 				$this->section_id
-			);
-
-			$fields = $wpdb->get_results($sql, 'ARRAY_A');
+			), 'ARRAY_A');
 
 			if($fields) {
 
@@ -507,19 +511,24 @@
 			global $wpdb;
 
 			// Clone field
-			$sql = $wpdb->prepare(
-
-				"INSERT INTO {$this->table_name} (" . self::DB_INSERT . ") VALUES (%s, %s, %d, %s, %s, %d, %d);",
-				$this->label,
-				$this->type,
-				get_current_user_id(),
-				WS_Form_Common::get_mysql_date(),
-				WS_Form_Common::get_mysql_date(),
-				$this->sort_index,
-				$this->section_id
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
+			$insert_result = $wpdb->insert(
+				"{$wpdb->prefix}wsf_field",
+				array(
+					'label' => $this->label,
+					'type' => $this->type,
+					'user_id' => get_current_user_id(),
+					'date_added' => WS_Form_Common::get_mysql_date(),
+					'date_updated' => WS_Form_Common::get_mysql_date(),
+					'sort_index' => $this->sort_index,
+					'section_id' => $this->section_id,
+				),
+				array( '%s', '%s', '%d', '%s', '%s', '%d', '%d' )
 			);
 
-			if($wpdb->query($sql) === false) { parent::db_wpdb_handle_error(__('Error cloning field', 'ws-form')); }
+			if($insert_result === false) { 
+				parent::db_wpdb_handle_error(__('Error cloning field', 'ws-form')); 
+			}
 
 			// Get new field ID
 			$field_id_new = $wpdb->insert_id;
@@ -561,7 +570,17 @@
 			if(!self::db_check_licensed($field_object->type)) { return false; }
 
 			// Check for field ID in $field_object
-			if(isset($field_object->id) && !$new) { $this->id = absint($field_object->id); }
+			if(isset($field_object->id) && !$new) {
+
+				// Set field ID
+				$this->id = absint($field_object->id);
+
+				// Set section ID of field object (Required in case field moves)
+				if(!empty($this->section_id)) {
+
+					$field_object->section_id = $this->section_id;
+				}
+			}
 			if($new) {
 
 				$this->id = 0;
@@ -590,8 +609,17 @@
 				}
 			}
 
+			// Get DB_UPDATE
+			$db_update = self::DB_UPDATE;
+
+			// Add section ID if it needs to be updated
+			if(!empty($field_object->section_id)) {
+
+				$db_update .= ',section_id';
+			}
+
 			// Update / Insert
-			$this->id = parent::db_update_insert($this->table_name, self::DB_UPDATE, self::DB_INSERT, $field_object, 'field', $this->id);
+			$this->id = parent::db_update_insert($this->table_name, $db_update, self::DB_INSERT, $field_object, 'field', $this->id);
 			if($new) {
 
 				if($field_object_id_old) { $this->new_lookup['field'][$field_object_id_old] = $this->id; }
@@ -641,6 +669,7 @@
 			global $wpdb;
 
 			// Change date_updated to null for all records
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 			$wpdb->update($this->table_name, array('date_updated' => null), array('section_id' => $this->section_id));
 
 			foreach($fields as $field) {
@@ -649,6 +678,7 @@
 			}
 
 			// Delete any fields that were not updated
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 			$wpdb->delete($this->table_name, array('date_updated' => null, 'section_id' => $this->section_id));
 
 			return true;
@@ -664,13 +694,12 @@
 
 			global $wpdb;
 
-			$sql = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$section_id = $wpdb->get_var($wpdb->prepare(
 
-				"SELECT section_id FROM {$this->table_name} WHERE id = %d LIMIT 1;",
+				"SELECT section_id FROM {$wpdb->prefix}wsf_field WHERE id = %d LIMIT 1;",
 				$this->id
-			);
-
-			$section_id = $wpdb->get_var($sql);
+			));
 			if(is_null($section_id)) { parent::db_wpdb_handle_error(__('Error getting section ID', 'ws-form')); }
 
 			return $section_id;
@@ -767,5 +796,18 @@
 			$ws_form_meta->parent_id = $this->id;
 			$ws_form_meta->object = 'field';
 			$ws_form_meta->db_update_from_array($meta_array, false, true);
+		}
+
+		// Is valid
+		public function is_valid($field_object) {
+
+			return (
+
+				is_object($field_object) &&
+				property_exists($field_object, 'id') &&
+				property_exists($field_object, 'label') &&
+				property_exists($field_object, 'type') &&
+				property_exists($field_object, 'meta')
+			);
 		}
 	}

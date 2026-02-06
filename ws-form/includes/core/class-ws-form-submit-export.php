@@ -155,13 +155,15 @@
 					$value = isset($submit_object->meta[$field_name]) ? (isset($submit_object->meta[$field_name]['value']) ? $submit_object->meta[$field_name]['value'] : '') : '';
 
 					// Apply filter
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$value = apply_filters('wsf_submit_field_type_csv', $value, $id, $type);
 
 					// Process by type
 					switch($type) {
 
-						case 'signature' :
 						case 'file' :
+						case 'mediacapture' :
+						case 'signature' :
 
 							if(!is_array($value)) { break; }
 
@@ -219,6 +221,7 @@
 				}
 
 				// Add to rows
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$rows[] = apply_filters('wsf_submit_export_csv_row', $row, $this->form_id, $submit_object);
 			}
 
@@ -272,6 +275,7 @@
 		// Check limit
 		public function get_limit($limit = false) {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			return empty($limit) ? absint(apply_filters('wsf_submit_export_page_size', WS_FORM_SUBMIT_EXPORT_PAGE_SIZE)) : $limit;
 		}
 
@@ -291,6 +295,7 @@
 			$clear_hidden_fields = (get_user_meta(get_current_user_id(), 'ws_form_submissions_clear_hidden_fields', true) === 'on');
 
 			// Limit
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$limit = absint(apply_filters('wsf_submit_export_page_size', WS_FORM_SUBMIT_EXPORT_PAGE_SIZE));
 
 			// Offset
@@ -300,6 +305,7 @@
 			if($page === 0) {
 
 				// Get header and apply filter
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$row = apply_filters('wsf_submit_export_csv_header', $this->ws_form_submit->get_keys_all(), $this->form_id);
 
 				// Sanitize row
@@ -308,11 +314,11 @@
 					$csv_header = self::sanitize_row($row);
 				}
 
-				// Output first column
-				fwrite($file, '"ID",');	// To overcome issue with Excel thinking 'ID,' is an SYLK file
+				// Output first column - To overcome issue with Excel thinking 'ID,' is an SYLK file
+				fwrite($file, '"ID",'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- File stream
 
 				// Write escaped fputcsv
-				WS_Form_Common::esc_fputcsv($file, array_slice($row, 1));	// array_slice skips ID column
+				WS_Form_File::esc_fputcsv($file, array_slice($row, 1));	// array_slice skips ID column
 			}
 
 			// Get records
@@ -322,7 +328,7 @@
 			foreach($rows as $row) {
 
 				// Write escaped fputcsv
-				WS_Form_Common::esc_fputcsv($file, $row);
+				WS_Form_File::esc_fputcsv($file, $row);
 			}
 
 			// Return data

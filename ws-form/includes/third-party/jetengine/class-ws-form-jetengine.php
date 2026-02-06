@@ -1,8 +1,5 @@
 <?php
 
-$slug = 'test-options-page';
-
-
 	class WS_Form_JetEngine {
 
 		public static $jetengine_fields = array();
@@ -1203,7 +1200,7 @@ $slug = 'test-options-page';
 
 				case 'switcher' :
 
-					return empty($meta_value) ? 'false' : 'true';
+					return WS_Form_Common::is_true($meta_value) ? 'true' : 'false';
 
 				case 'select' :
 				case 'posts' :

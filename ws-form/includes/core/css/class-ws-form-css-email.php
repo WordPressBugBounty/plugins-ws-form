@@ -66,7 +66,9 @@
 			';
 
 			// Apply filters
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$css_return = apply_filters('wsf_action_email_css', $css_return);
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$css_return = apply_filters('wsf_get_email', $css_return);			// Legacy
 
 			// Minify

@@ -65,7 +65,7 @@
 				// Show the message
 				parent::success(sprintf(
 
-					/* translators: %s = Message */
+					/* translators: %s: Message */
 					__('Message added to queue: %s', 'ws-form'),
 					$this->message
 
@@ -149,7 +149,8 @@
 			$settings->can_repost = $this->can_repost;
 
 			// Apply filter
-			$settings = apply_filters('wsf_action_' . $this->id . '_settings', $settings);
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			$settings = apply_filters('wsf_action_message_settings', $settings);
 
 			return $settings;
 		}
@@ -235,7 +236,9 @@
 						array(
 
 							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'action_' . $this->id . '_scroll_top',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	''
 						)
 					)
@@ -252,7 +255,9 @@
 						array(
 
 							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'			=>	'action_' . $this->id . '_scroll_top',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'smooth'
 						)
 					)
@@ -288,7 +293,9 @@
 						array(
 
 							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'action_' . $this->id . '_duration',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	''
 						)
 					)
@@ -306,7 +313,9 @@
 						array(
 
 							'logic'			=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'action_' . $this->id . '_form_hide',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on',
 							'logic_previous'	=>	'&&'
 						),
@@ -314,7 +323,9 @@
 						array(
 
 							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 							'meta_key'		=>	'action_' . $this->id . '_duration',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'',
 							'logic_previous'	=>	'&&'
 						)

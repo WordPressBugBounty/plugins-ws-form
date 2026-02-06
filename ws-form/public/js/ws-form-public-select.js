@@ -102,6 +102,13 @@
 					args.maximumInputLength = parseInt(maximum_input_length, 10);
 				}
 
+				// Theme
+				var theme = ws_this.get_object_meta_value(field, 'select2_theme', '');
+				if(theme != '') {
+
+					args.theme = theme;
+				}
+
 				// Use AJAX? (Cannot be used if cascading is enabling)
 				var cascade = (ws_this.get_object_meta_value(field, field.type + '_cascade', '') == 'on');
 				var select2_ajax = !cascade && (ws_this.get_object_meta_value(field, 'select2_ajax', '') == 'on');

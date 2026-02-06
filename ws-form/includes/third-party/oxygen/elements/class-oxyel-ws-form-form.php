@@ -1,6 +1,6 @@
 <?php
 
-	class OxyEl_WS_Form_Form extends OxyEl {
+	class WS_Form_OxyEl_Form extends OxyEl {
 
 		public $slug = 'wsform_form';
 
@@ -56,6 +56,7 @@
 					$ws_form_public = new WS_Form_Public();
 
 					// Visual builder enqueues
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					do_action('wsf_enqueue_visual_builder');
 
 					// Enqueue scripts
@@ -144,7 +145,7 @@
 
 				$shortcode = sprintf('[ws_form id="%u"%s%s]', $form_id, ($form_element_id != '') ? sprintf(' element_id="%s"', esc_attr($form_element_id)) : '', ($this->is_oxygen_element ? ' visual_builder="true"' : ''));
 
-				echo do_shortcode($shortcode);	// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+				echo do_shortcode($shortcode);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				if($this->is_oxygen_element) {
 ?>
@@ -159,4 +160,4 @@
 		}
 	}
 
-	new OxyEl_WS_Form_Form();
+	new WS_Form_OxyEl_Form();
