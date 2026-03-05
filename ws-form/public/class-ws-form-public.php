@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	#[AllowDynamicProperties]
 	class WS_Form_Public {
 
@@ -881,6 +886,7 @@
 							case 'recaptcha' :
 							case 'hcaptcha' :
 							case 'turnstile' :
+							case 'captchafox' :
 
 								$this->enqueue_js_captcha = true;
 								break;

@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	class WS_Form_Form_AI extends WS_Form_Core {
 
 		public $id;
@@ -829,7 +834,7 @@
 				'required' => array(
 
 					'type' => 'string',
-					'description' => 'Whether or not the field is required. Set to \'on\' if required, blank string if not required.',
+					'description' => 'Whether or not the field is required. Set to \'on\' if required, blank string if not required. Only set to required if appropriate.',
 					'editable' => true
 				),
 
@@ -1051,7 +1056,6 @@
 			// Compare structures strictly
 			return $structure_original === $structure_modified;
 		}
-
 
 		// Get AI prompt for creating a new form by JSON
 		public function get_form_create_json_prompt() {

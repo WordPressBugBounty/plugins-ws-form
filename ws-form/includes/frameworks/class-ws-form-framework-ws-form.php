@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	//	Framework config: WS-Form
 
 	class WS_Form_Config_Framework_WS_Form extends WS_Form_Config {

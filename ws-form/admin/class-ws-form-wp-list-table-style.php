@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	class WS_Form_WP_List_Table_Style extends WP_List_Table {
 
 		public $ws_form_style;

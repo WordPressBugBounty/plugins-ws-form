@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	/**
 	 * Common functions used by this plugin
 	 */
@@ -1076,6 +1081,18 @@
 				apply_filters('wsf_angie_enabled', WS_FORM_ANGIE) &&
 				defined('ANGIE_VERSION') &&
 				($include_setting ? WS_Form_Common::option_get('angie', true) : true)
+			);
+		}
+
+		// Is WP AI client enabled?
+		public static function wp_ai_client_enabled() {
+
+			return (
+
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				apply_filters('wsf_ai_wp_client_enabled', WS_FORM_WP_AI_CLIENT) &&
+				class_exists('WordPress\AI_Client\AI_Client') &&	// WP AI Client
+				class_exists('WordPress\AiClient\AiClient')			// PHP AI Client
 			);
 		}
 

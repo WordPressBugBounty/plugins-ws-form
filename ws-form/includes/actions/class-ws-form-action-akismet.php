@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	class WS_Form_Action_Akismet_V1 extends WS_Form_Action {
 
 		public $id = 'akismetv1';

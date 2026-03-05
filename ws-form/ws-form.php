@@ -11,7 +11,7 @@
 	 * Plugin Name:       WS Form LITE - Drag & Drop Contact Form Builder
 	 * Plugin URI:        https://wsform.com/
 	 * Description:       Smart. Fast. Forms.
-	 * Version:           1.10.73
+	 * Version:           1.10.80
 	 * Requires at least: 5.4
 	 * Requires PHP:      7.2
 	 * Author:            WS Form
@@ -37,7 +37,7 @@
 	if(!is_plugin_active('ws-form-pro/ws-form.php')) {
 		// Constants
 		define('WS_FORM_NAME', 'ws-form');
-		define('WS_FORM_VERSION', '1.10.73');
+		define('WS_FORM_VERSION', '1.10.80');
 		define('WS_FORM_NAME_GENERIC', 'WS Form');
 		define('WS_FORM_NAME_PRESENTABLE', 'WS Form LITE');
 		define('WS_FORM_EDITION', 'basic');
@@ -88,6 +88,8 @@
 		define('WS_FORM_HCAPTCHA_QUERY_VAR', 'h-captcha-response');
 		define('WS_FORM_TURNSTILE_ENDPOINT', 'https://challenges.cloudflare.com/turnstile/v0/siteverify');
 		define('WS_FORM_TURNSTILE_QUERY_VAR', 'cf-turnstile-response');
+		define('WS_FORM_CAPTCHAFOX_ENDPOINT', 'https://api.captchafox.com/siteverify');
+		define('WS_FORM_CAPTCHAFOX_QUERY_VAR', 'cf-captcha-response');
 		define('WS_FORM_SPAM_LEVEL_MAX', 100);		// 0 = Not spam, 100 = Spam
 
 		// Labels
@@ -160,6 +162,7 @@
 		define('WS_FORM_ABILITY_API_NAMESPACE', 'ws-form/');
 		define('WS_FORM_MCP_ADAPTER', true);
 		define('WS_FORM_ANGIE', true);
+		define('WS_FORM_WP_AI_CLIENT', true);
 
 		// Resizable sidebar
 		define('WS_FORM_SIDEBAR_WIDTH_MIN', 340);

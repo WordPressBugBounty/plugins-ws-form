@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	class WS_Form_Action_Data_Erasure_Request extends WS_Form_Action {
 
 		public $id = 'data_erasure_request';

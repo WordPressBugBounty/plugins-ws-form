@@ -2,6 +2,40 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.80 - 03/04/2026 =
+* Added: Divi 5 module
+* Added: QR code reading in Media Library field
+* Added: Additional image mime types added for image conversion options in File Upload field
+* Added: Send Email action now supports media capture as attachments
+* Added: #checkbox_count now supports Price Checkbox fields
+* Bug Fix: ACF taxonomy field type population
+
+= 1.10.79 - 02/16/2026 =
+* Added: CaptchaFox field type https://wsform.com/knowledgebase/captchafox/
+* Bug Fix: Webhook data format for single select or checkbox selection
+
+= 1.10.78 - 01/23/2026 =
+* Added: Integration with the WP AI Client SDK https://github.com/WordPress/wp-ai-client
+* Added: New "Make AI Request" action https://wsform.com/knowledgebase/make-ai-request-action/
+* Added: New "Create from AI" form template https://wsform.com/knowledgebase/create-from-ai-template/
+* Bug Fix: Conditional logic visibility action now runs validation
+
+= 1.10.77 - 01/13/2026 =
+* Bug Fix: Namespace fix for Breakdance form element
+
+= 1.10.76 - 01/12/2026 =
+* Added: PCP updates
+* Bug Fix: Clear / reset help language text
+* Bug Fix: Angie script enqueue args parameter
+
+= 1.10.75 - 12/14/2025 =
+* Bug Fix: Webhook select, checkbox, radio empty values
+
+= 1.10.74 - 12/12/2025 =
+* Bug Fix: Bootstrap tab progression
+* Bug Fix: Webhook select, checkbox, radio undelimited format
+* Bug Fix: Media capture fields return file name instead of full JSON object
+
 = 1.10.73 - 12/06/2025 =
 * Added: Include Fields setting on Summary field
 * Bug Fix: Config select_cascade_no_match syntax error
@@ -53,7 +87,7 @@ Some changes only applicable to WS Form PRO.
 * Bug Fix: Repeatable section delimiter usage in server-side #field variables
 
 = 1.10.61 - 10/21/2025 =
-* Added: wsf_footer_script_attributes filter hook: https://wsform.com/knowledgebase/wsf_footer_script_attributes/
+* Added: wsf_footer_script_attributes filter hook https://wsform.com/knowledgebase/wsf_footer_script_attributes/
 * Bug Fix: Footer scripts were rendered too soon for some page builders
 * Bug Fix: Fix to KB slugs for local and session storage variables
 

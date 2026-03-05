@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	abstract class WS_Form_Data_Source {
 
 		// Variables global to this abstract class

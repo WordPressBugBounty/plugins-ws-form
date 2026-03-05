@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	class WS_Form_Config_Public extends WS_Form_Config {
 
 		// Configuration - Settings - Public
@@ -72,6 +77,10 @@
 					/* translators: %s: Error message */
 					'error_invalid_feedback'				=>	__('Invalid feedback set on field ID: %s', 'ws-form'),
 					'error_mask_invalid_feedback'			=>	__('No invalid feedback mask defined', 'ws-form'),
+
+					// Help text
+					'clear' => __('Clear', 'ws-form'),
+					'reset' => __('Reset', 'ws-form'),
 
 				)
 			);

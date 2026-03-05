@@ -1,0 +1,51 @@
+{"template_categories": [
+
+	{	
+
+		"id"			:	"ai",
+		"label" 		: 	"AI",
+		"file_path"		:	"",
+		"templates"		:	[
+
+			{
+				"id"					:	"ai-create",
+				"label" 				: 	"Create with AI",
+				"svg_icon"				:	"<g transform=\"translate(46.000000, 65.000000)\"><path d=\"M22.3 3.5C20 21.6 18 23.5 0 25.8c18.1 2.3 20 4.3 22.3 22.3 2.3-18.1 4.3-20 22.3-22.3-18.1-2.3-20-4.3-22.3-22.3Z\" fill=\"#002E5D\"/><path d=\"M38 0c-1.1 8.1-1.9 9-10 10 8.1 1.1 9 1.9 10 10 1.1-8.1 1.9-9 10-10-8.1-1.1-9-1.9-10-10Zm-2.7 31.3c-.8 5.9-1.4 6.5-7.4 7.4 5.9.8 6.5 1.4 7.4 7.4.8-5.9 1.4-6.5 7.4-7.4-5.9-.8-6.5-1.4-7.4-7.4Z\" fill=\"#A7A8AA\"/></g>",
+				"modal_form"			:	{
+
+					"label"		: "Create with AI",
+					"action"	: "wsf-add-hook",
+					"fields"	: [
+
+						{
+							"id"			:	"wsf-ai-prompt",
+							"name"			:	"ai_prompt",
+							"label" 		:	"Describe the form you would like to create.",
+							"type"			:	"textarea",
+							"placeholder"	:	"Example: Create a support request form. Add instructions to the top of it and require the user to upload a screenshot. First name, last name, email and license key are required as well as a description of the issue.",
+							"required"		:	true
+						}
+					]
+				},
+				"hook"					:	"wsf_wp_ai_client_create",
+				"pro_required"			:	false,
+				"popular"				:	true,
+				"priority"				:	200
+			},
+
+			{
+				"id"					:	"ai-generate-text",
+				"label" 				:	"Generate Text",
+				"file_json"				:	"wsf-form-ai-generate-text.json",
+				"pro_required"			:	true
+			},
+
+			{
+				"id"					:	"ai-generate-image",
+				"label" 				:	 "Generate Image",
+				"file_json"				:	"wsf-form-ai-generate-image.json",
+				"pro_required"			:	true
+			}
+		]
+	}
+]}

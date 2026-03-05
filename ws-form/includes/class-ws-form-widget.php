@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	// WS Form Widget
 
 	class WS_Form_Widget extends WP_Widget {

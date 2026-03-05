@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	class WS_Form_Template extends WS_Form_Core {
 
 		public $id = false;
@@ -176,13 +181,25 @@
 					$sort_templates = isset($template_category->sort) ? $template_category->sort : true;
 
 					if($sort_templates) {
-						
+
+						// Sort templates by priority first, then label
 						usort($template_category->templates, function($a, $b) {
 
-							$a_label = strtolower($a->label);
-							$b_label = strtolower($b->label);
+							$a_priority = isset($a->priority) ? (int) $a->priority : 0;
+							$b_priority = isset($b->priority) ? (int) $b->priority : 0;
 
-							return ($a_label === $b_label) ? 0 : (($a_label < $b_label) ? -1 : 1);
+							if ($a_priority !== $b_priority) {
+								return ($a_priority > $b_priority) ? -1 : 1;
+							}
+
+							$a_label = strtolower($a->label ?? '');
+							$b_label = strtolower($b->label ?? '');
+
+							if ($a_label === $b_label) {
+								return 0;
+							}
+
+							return ($a_label < $b_label) ? -1 : 1;
 						});
 					}
 
@@ -420,13 +437,24 @@
 			// Build popular category
 			if(count($popular_templates) > 0) {
 
-				// Sort templates
+				// Sort templates by priority first, then label
 				usort($popular_templates, function($a, $b) {
 
-					$a_label = strtolower($a->label);
-					$b_label = strtolower($b->label);
+					$a_priority = isset($a->priority) ? (int) $a->priority : 0;
+					$b_priority = isset($b->priority) ? (int) $b->priority : 0;
 
-					return ($a_label === $b_label) ? 0 : (($a_label < $b_label) ? -1 : 1);
+					if ($a_priority !== $b_priority) {
+						return ($a_priority > $b_priority) ? -1 : 1;
+					}
+
+					$a_label = strtolower($a->label ?? '');
+					$b_label = strtolower($b->label ?? '');
+
+					if ($a_label === $b_label) {
+						return 0;
+					}
+
+					return ($a_label < $b_label) ? -1 : 1;
 				});
 
 				// Insert at beginning of config

@@ -2,8 +2,8 @@
 Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.4
-Tested up to: 6.9
-Stable tag: 1.10.73
+Tested up to: 7.0
+Stable tag: 1.10.80
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -30,6 +30,7 @@ https://youtu.be/ZsTBBsdQxFQ
 * [Unlimited Submissions](https://wsform.com/knowledgebase/submissions/?utm_source=wp_plugins&utm_medium=readme)
 * [Unlimited Styles](https://wsform.com/knowledgebase/styles/?utm_source=wp_plugins&utm_medium=readme)
 * [Accessibility Friendly](https://wsform.com/knowledgebase/accessibility-and-web-forms/?utm_source=wp_plugins&utm_medium=readme)
+* [CaptchaFox](https://wsform.com/knowledgebase/captchafox/?utm_source=wp_plugins&utm_medium=readme)
 * [Clean HTML 5 Code](https://wsform.com/knowledgebase/responsive-forms/?utm_source=wp_plugins&utm_medium=readme)
 * [Cloudflare Turnstile Captcha](https://wsform.com/knowledgebase/cloudflare-turnstile/?utm_source=wp_plugins&utm_medium=readme)
 * [Data Sources](https://wsform.com/knowledgebase/data-sources/?utm_source=wp_plugins&utm_medium=readme)
@@ -63,11 +64,12 @@ WS Form includes a powerful, multi-layer spam protection system to block unwante
 * Optional [server-side custom validation hooks](https://wsform.com/knowledgebase/wsf_submit_field_validate/)
 
 == Anti-Spam Fields and Integrations ==
-* [Cloudflare Turnstile](https://wsform.com/knowledgebase/cloudflare-turnstile/?utm_source=wp_plugins&utm_medium=readme)
-* [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
-* [Google reCAPTCHA](https://wsform.com/knowledgebase/recaptcha/?utm_source=wp_plugins&utm_medium=readme) v2 and v3
 * [Akismet](https://wsform.com/knowledgebase/spam-check-with-akismet/?utm_source=wp_plugins&utm_medium=readme) spam checking
+* [CaptchaFox](https://wsform.com/knowledgebase/captchafox/?utm_source=wp_plugins&utm_medium=readme)
 * [Clearout](https://wsform.com/knowledgebase/spam-check-with-clearout/?utm_source=wp_plugins&utm_medium=readme) disposable email detection
+* [Cloudflare Turnstile](https://wsform.com/knowledgebase/cloudflare-turnstile/?utm_source=wp_plugins&utm_medium=readme)
+* [Google reCAPTCHA](https://wsform.com/knowledgebase/recaptcha/?utm_source=wp_plugins&utm_medium=readme) v2 and v3
+* [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
 * Works alongside third-party services such as CleanTalk and OOPSpam
 
 = Page Builder Compatibility =
@@ -79,8 +81,10 @@ Add forms to your website using your favorite WordPress page builder:
 * [Breakdance](https://wsform.com/knowledgebase/breakdance-website-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
 * [Bricks](https://wsform.com/knowledgebase/bricks-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
 * [Classic Editor](https://wsform.com/knowledgebase/adding-forms-to-your-website/?utm_source=wp_plugins&utm_medium=readme)
-* [Divi](https://wsform.com/knowledgebase/divi-visual-builder-module/?utm_source=wp_plugins&utm_medium=readme)
+* [Divi 4](https://wsform.com/knowledgebase/divi-visual-builder-module/?utm_source=wp_plugins&utm_medium=readme)
+* [Divi 5](https://wsform.com/knowledgebase/divi-5-visual-builder-module/?utm_source=wp_plugins&utm_medium=readme)
 * [Elementor](https://wsform.com/knowledgebase/elementor-widget/?utm_source=wp_plugins&utm_medium=readme)
+* [Etch](https://wsform.com/knowledgebase/etch-component/?utm_source=wp_plugins&utm_medium=readme)
 * [Oxygen](https://wsform.com/knowledgebase/oxygen-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
 
 For other builders simply use the WS Form [shortcode](https://wsform.com/knowledgebase/the-ws-form-shortcode/?utm_source=wp_plugins&utm_medium=readme)!
@@ -221,7 +225,7 @@ WS Form comes complete with all the field types you need to build a contact form
 * [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
 * [HTML](https://wsform.com/knowledgebase/html/?utm_source=wp_plugins&utm_medium=readme)
 * [Legal](https://wsform.com/knowledgebase/legal/?utm_source=wp_plugins&utm_medium=readme)
-* [Media Capture](https://wsform.com/knowledgebase/media-capture/?utm_source=wp_plugins&utm_medium=readme)
+* [Media Capture (Includes QR code reader)](https://wsform.com/knowledgebase/media-capture/?utm_source=wp_plugins&utm_medium=readme)
 * [Message](https://wsform.com/knowledgebase/message/?utm_source=wp_plugins&utm_medium=readme)
 * [Previous Tab](https://wsform.com/knowledgebase/tab_previous/?utm_source=wp_plugins&utm_medium=readme) / [Next Tab](https://wsform.com/knowledgebase/tab_next/?utm_source=wp_plugins&utm_medium=readme)
 * [Price](https://wsform.com/knowledgebase/price/?utm_source=wp_plugins&utm_medium=readme)
@@ -349,15 +353,22 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.10.73 - 12/06/2025 =
-* Added: Include Fields setting on Summary field
-* Bug Fix: Config select_cascade_no_match syntax error
+= 1.10.80 - 03/04/2026 =
+* Added: Divi 5 module
+* Added: QR code reading in Media Library field
+* Added: Additional image mime types added for image conversion options in File Upload field
+* Added: Send Email action now supports media capture as attachments
+* Added: #checkbox_count now supports Price Checkbox fields
+* Bug Fix: ACF taxonomy field type population
 
-= 1.10.72 - 12/04/2025 =
-* Bug Fix: #email_log variable use outside of Send Email action
-* Bug Fix: reCAPTCHA race condition
+= 1.10.79 - 02/16/2026 =
+* Added: CaptchaFox field type https://wsform.com/knowledgebase/captchafox/
+* Bug Fix: Webhook data format for single select or checkbox selection
 
-= 1.10.71 - 11/25/2025 =
-* Bug Fix: WP_Filesystem move method called with overwrite flag to simulate PHP rename method
+= 1.10.78 - 01/23/2026 =
+* Added: Integration with the WP AI Client SDK https://github.com/WordPress/wp-ai-client
+* Added: New "Make AI Request" action https://wsform.com/knowledgebase/make-ai-request-action/
+* Added: New "Create from AI" form template https://wsform.com/knowledgebase/create-from-ai-template/
+* Bug Fix: Conditional logic visibility action now runs validation
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

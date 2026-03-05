@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	// Fired during plugin activation
 	class WS_Form_Activator {
 
@@ -7,7 +12,7 @@
 
 			// These are set here to avoid problems if someone has both plugins installed and migrates from basic to PRO without de-activating the basic edition first. This ensures the PRO options are set up.
 			$ws_form_edition = 'basic';
-			$ws_form_version = '1.10.73';
+			$ws_form_version = '1.10.80';
 
 			$run_version_check = true;
 

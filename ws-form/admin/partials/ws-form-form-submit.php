@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	// Form - Submissions - Admin Page
 	$ws_form_form_id = absint($this->ws_form_wp_list_table_submit_obj->form_id);
 

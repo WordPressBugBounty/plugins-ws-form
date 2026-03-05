@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	class WS_Form_ACF {
 
 		// Get fields all
@@ -1427,6 +1432,7 @@
 				case 'page_link' :
 				case 'relationship' :
 				case 'select' :
+				case 'taxonomy' :
 				case 'user' :
 
 					// If not set as multiple, save as string

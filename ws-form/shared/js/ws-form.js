@@ -105,6 +105,13 @@
 		this.turnstiles_conditions = [];
 		this.timeout_turnstile = 30000;
 
+		// CaptchaFox
+		this.captchafoxes = [];
+		this.captchafoxes_default = [];
+		this.captchafoxes_invisible = [];
+		this.captchafoxes_conditions = [];
+		this.timeout_captchafox = 30000;
+
 		// Events reset array (Used on form rebuild)
 		this.form_events_reset = [];
 
@@ -2985,7 +2992,7 @@
 										var include_hidden = variable_attribute_array[1] && this.is_true(variable_attribute_array[1]);
 
 										// Get checked checkboxes
-										var field_obj = $('[data-type="checkbox"][data-id="' + field_id + '"] [data-row-checkbox]' + (include_hidden ? '' : ':not([style*="display: none"])') + ' input' + (include_hidden ? '' : ':not([data-hidden])') + ((parse_variable == 'checkbox_count') ? ':checked' : ''), this.form_canvas_obj);
+										var field_obj = $('[data-type="checkbox"][data-id="' + field_id + '"],[data-type="price_checkbox"][data-id="' + field_id + '"] [data-row-checkbox]' + (include_hidden ? '' : ':not([style*="display: none"])') + ' input' + (include_hidden ? '' : ':not([data-hidden])') + ((parse_variable == 'checkbox_count') ? ':checked' : ''), this.form_canvas_obj);
 
 										break;
 
@@ -4109,6 +4116,24 @@
 
 						return_array.push($(this).val());
 					}
+					break;
+
+				case 'mediacapture' :
+
+					var value = $(this).val();
+
+					if(value) {
+
+						var value_decoded = JSON.parse(value);
+
+						if(
+							(typeof(value_decoded) === 'object') &&
+							value_decoded.filename
+						) {
+							return_array.push(value_decoded.filename);
+						}
+					}
+
 					break;
 
 				case 'file' :

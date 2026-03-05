@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	//	Framework config: Bootstrap 3
 
 	class WS_Form_Config_Framework_Bootstrap_3 {

@@ -1,5 +1,10 @@
 <?php 
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	try {
 
 		// i18n category title

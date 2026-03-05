@@ -1,7 +1,12 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	// Register Elementor widget
-	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Third party
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Third party class
 	class Elementor_WS_Form_Widget extends \Elementor\Widget_Base {
 
 		public $is_edit_mode;

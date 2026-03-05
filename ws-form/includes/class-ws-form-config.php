@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	/**
 	 * Configuration settings
 	 * Basic Version
@@ -1778,6 +1783,84 @@
 
 									'label'			=>	__('Basic', 'ws-form'),
 									'meta_keys'		=>	array('turnstile_site_key', 'turnstile_secret_key', 'turnstile_theme', 'turnstile_size', 'turnstile_appearance', 'help'),
+								),
+
+								// Tab: Advanced
+								'advanced'	=>	array(
+
+									'label'			=>	__('Advanced', 'ws-form'),
+
+									'fieldsets'		=>	array(
+
+										array(
+											'label'		=>	__('Style', 'ws-form'),
+											'meta_keys'	=>	array('class_single_vertical_align')
+										),
+
+										array(
+											'label'		=>	__('Classes', 'ws-form'),
+											'meta_keys'	=> array('class_field_wrapper')
+										),
+
+										array(
+											'label'			=>	__('Restrictions', 'ws-form'),
+											'meta_keys'	=> array('field_user_status', 'field_user_roles', 'field_user_capabilities')
+										),
+
+										array(
+											'label'		=>	__('Validation', 'ws-form'),
+											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
+										),
+
+										array(
+											'label'		=>	__('Breakpoints', 'ws-form'),
+											'meta_keys'	=> array('breakpoint_sizes'),
+											'class'		=>	array('wsf-fieldset-panel')
+										)
+									)
+								)
+							)
+						),
+
+						'captchafox' => array (
+
+							'label'							=>	'CaptchaFox',
+							'pro_required'					=>	!WS_Form_Common::is_edition('basic'),
+							'kb_url'						=>	'/knowledgebase/captchafox/',
+							'label_default'					=>	'CaptchaFox',
+							'mask_field'					=>	'#pre_help<div id="#id" name="#name" style="border: none; padding: 0" required data-captchafox data-captcha-invalid#attributes></div>#invalid_feedback#post_help',
+							'mask_field_attributes'			=>	array('class', 'captchafox_site_key', 'captchafox_mode', 'captchafox_theme'),
+							'submit_save'					=>	false,
+							'submit_edit'					=>	false,
+							'calc_in'						=>	false,
+							'calc_out'						=>	false,
+							'text_in'						=>	false,
+							'text_out'						=>	false,
+							'value_out'						=>	false,
+							'mappable'						=>	false,
+							'has_required'					=>	false,
+							'progress'						=>	false,
+							'keyword'						=>	__('spam captcha', 'ws-form'),
+							'multiple'						=>	false,
+							'conditional'					=>	array(
+
+								'logics_enabled'	=>	array('captchafox', 'captchafox_not'),
+								'actions_enabled'	=>	array('visibility', 'class_add_wrapper', 'class_remove_wrapper'),
+								'condition_event'	=> 'captchafox'
+							),
+							'events'						=>	array(
+
+								'event'				=>	'mousedown touchstart',
+								'event_action'		=>	__('Field', 'ws-form')
+							),
+
+							'fieldsets'						=> array(
+
+								// Tab: Basic
+								'basic'		=> array(
+
+									'label'			=>	__('Basic', 'ws-form'),
+									'meta_keys'		=>	array('captchafox_site_key', 'captchafox_secret_key', 'captchafox_mode', 'captchafox_theme', 'help'),
 								),
 
 								// Tab: Advanced
@@ -4518,6 +4601,98 @@
 					),
 					'default'					=>	'always'
 				),
+
+				// CaptchaFox - Site key
+				'captchafox_site_key' => array(
+
+					'label'						=>	__('Site Key', 'ws-form'),
+					'mask'						=>	'data-site-key="#value"',
+					'mask_disregard_on_empty'	=>	true,
+					'type'						=>	'text',
+					'default'					=>	'',
+					'default_on_clone'			=>	true,
+					'help'						=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						sprintf(
+							/* translators: %s: Brand name */
+							__('%s site key.', 'ws-form'),
+							'CaptchaFox'
+						),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/captchafox/'),
+						__('Learn more', 'ws-form')
+					),
+					'required_setting'			=>	true,
+					'required_setting_global_meta_key'	=>	'captchafox_site_key',
+					'data_change'				=>	array('event' => 'change', 'action' => 'update')
+				),
+
+				// CaptchaFox - Secret key
+				'captchafox_secret_key' => array(
+
+					'label'						=>	__('Secret Key', 'ws-form'),
+					'type'						=>	'text',
+					'default'					=>	'',
+					'default_on_clone'			=>	true,
+					'help'						=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						sprintf(
+							/* translators: %s: Brand name */
+							__('%s secret key.', 'ws-form'),
+							'CaptchaFox'
+						),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/captchafox/'),
+						__('Learn more', 'ws-form')
+					),
+					'required_setting'			=>	true,
+					'required_setting_global_meta_key'	=>	'captchafox_secret_key',
+					'data_change'				=>	array('event' => 'change', 'action' => 'update')
+				),
+
+				// CaptchaFox - Mode
+				'captchafox_mode' => array(
+
+					'label'						=>	__('Mode', 'ws-form'),
+					'mask'						=>	'data-mode="#value"',
+					'mask_disregard_on_empty'	=>	true,
+					'type'						=>	'select',
+					'help'						=>	__('The mode the widget should be displayed in.', 'ws-form'),
+					'options'					=>	array(
+
+						array('value' => 'inline', 'text' => __('Inline', 'ws-form')),
+						array('value' => 'popup', 'text' => __('Popup', 'ws-form')),
+						array('value' => 'hidden', 'text' => __('Hidden', 'ws-form')),
+					),
+					'default'					=>	'inline'
+				),
+
+				// CaptchaFox - Theme
+				'captchafox_theme' => array(
+
+					'label'						=>	__('Theme', 'ws-form'),
+					'mask'						=>	'data-theme="#value"',
+					'mask_disregard_on_empty'	=>	true,
+					'type'						=>	'select',
+					'help'						=>	__('Light or dark theme.', 'ws-form'),
+					'options'					=>	array(
+
+						array('value' => 'light', 'text' => __('Light', 'ws-form')),
+						array('value' => 'dark', 'text' => __('Dark', 'ws-form')),
+					),
+					'default'					=>	'auto',
+					'condition'					=>	array(
+
+						array(
+
+							'logic'			=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+							'meta_key'		=>	'captchafox_mode',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+							'meta_value'	=>	'hidden'
+						)
+					)
+				),
 				'class_field_full_button_remove' => array(
 
 					'label'						=>	__('Remove Width', 'ws-form'),
@@ -5251,7 +5426,7 @@
 					'mask_disregard_on_empty'	=>	true,
 					'type'						=>	'text',
 					'default'					=>	'',
-					'help'						=>	__('Separate each class with spaces.', 'ws-form')
+					'help'						=>	__('Separate classes with a space.', 'ws-form')
 				),
 
 				'class_tabs_wrapper' => array(
@@ -5261,7 +5436,7 @@
 					'mask_disregard_on_empty'	=>	true,
 					'type'						=>	'text',
 					'default'					=>	'',
-					'help'						=>	__('Separate each class with spaces.', 'ws-form')
+					'help'						=>	__('Separate classes with a space.', 'ws-form')
 				),
 
 				'class_group_wrapper' => array(
@@ -5271,7 +5446,7 @@
 					'mask_disregard_on_empty'	=>	true,
 					'type'						=>	'text',
 					'default'					=>	'',
-					'help'						=>	__('Separate each class with spaces.', 'ws-form')
+					'help'						=>	__('Separate classes with a space.', 'ws-form')
 				),
 
 				'class_section_wrapper' => array(
@@ -5281,7 +5456,7 @@
 					'mask_disregard_on_empty'	=>	true,
 					'type'						=>	'text',
 					'default'					=>	'',
-					'help'						=>	__('Separate each class with spaces.', 'ws-form')
+					'help'						=>	__('Separate classes with a space.', 'ws-form')
 				),
 
 				'class_field_wrapper' => array(
@@ -5291,7 +5466,7 @@
 					'mask_disregard_on_empty'	=>	true,
 					'type'						=>	'text',
 					'default'					=>	'',
-					'help'						=>	__('Separate each class with spaces.', 'ws-form')
+					'help'						=>	__('Separate classes with a space.', 'ws-form')
 				),
 
 				// Classes
@@ -5302,7 +5477,7 @@
 					'mask_disregard_on_empty'	=>	true,
 					'type'						=>	'text',
 					'default'					=>	'',
-					'help'						=>	__('Separate each class with spaces.', 'ws-form')
+					'help'						=>	__('Separate classes with a space.', 'ws-form')
 				),
 
 				'class_datetime_picker' => array(
@@ -5310,7 +5485,7 @@
 					'label'						=>	__('Date/Time Picker', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'help'						=>	__('Separate each class with spaces.', 'ws-form')
+					'help'						=>	__('Separate classes with a space.', 'ws-form')
 				),
 
 				'parent_form' => array(
@@ -7045,7 +7220,7 @@
 					'type'							=>	'select',
 					'options'						=>	'fields',
 					'options_blank'					=>	__('Select...', 'ws-form'),
-					'fields_filter_type_exclude'	=>	array('file', 'signature'),
+					'fields_filter_type_exclude'	=>	array('file', 'signature', 'mediacapture'),
 					'key'							=>	'ws_form_field'
 				),
 
@@ -7065,7 +7240,7 @@
 					'type'						=>	'select',
 					'options'					=>	'fields',
 					'options_blank'				=>	__('Select...', 'ws-form'),
-					'fields_filter_type'		=>	array('signature', 'file'),
+					'fields_filter_type'		=>	array('signature', 'file', 'mediacapture'),
 					'key'						=>	'ws_form_field'
 				),
 
@@ -10404,7 +10579,7 @@
 								array('id' => 'field_id', 'type' => 'integer'),
 								array('id' => 'include_hidden', 'type' => 'boolean', 'required' => false)
 							),
-							'description' => __('Use this variable to return the total number of checkboxes in a checkbox field. For example: <code>#checkbox_count_total(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#checkbox_count_total(123))</code> to keep the value dynamically updated. Set <code>include_hidden</code> attribute to <code>true</code> to include hidden checkboxes.', 'ws-form'),
+							'description' => __('Use this variable to return the total number of checkboxes in a checkbox or price checkbox field. For example: <code>#checkbox_count_total(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#checkbox_count_total(123))</code> to keep the value dynamically updated. Set <code>include_hidden</code> attribute to <code>true</code> to include hidden checkboxes.', 'ws-form'),
 							'kb_slug' => 'checkbox',
 							'usage' => array('client'),
 							'repair_group' => 'field'
@@ -10418,7 +10593,7 @@
 								array('id' => 'field_id', 'type' => 'integer'),
 								array('id' => 'include_hidden', 'type' => 'boolean', 'required' => false)
 							),
-							'description' => __('Use this variable to return the number of checkboxes that have been checked in a checkbox field. For example: <code>#checkbox_count(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#checkbox_count(123))</code> to keep the value dynamically updated.', 'ws-form'),
+							'description' => __('Use this variable to return the number of checkboxes that have been checked in a checkbox or price checkbox field. For example: <code>#checkbox_count(123)</code> where \'123\' is the field ID shown in the layout editor. Use <code>#text(#checkbox_count(123))</code> to keep the value dynamically updated.', 'ws-form'),
 							'kb_slug' => 'checkbox',
 							'usage' => array('client'),
 							'repair_group' => 'field'

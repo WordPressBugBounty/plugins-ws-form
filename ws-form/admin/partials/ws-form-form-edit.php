@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	// Get ID of form (0 = New)
 	$ws_form_form_id = absint(WS_Form_Common::get_query_var('id', 0));
 

@@ -1,5 +1,10 @@
 <?php 
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	add_action('init', function() {
 
 		if(isset($_GET) && isset($_GET['breakdance_iframe'])) {	// phpcs:ignore WordPress.Security.NonceVerification

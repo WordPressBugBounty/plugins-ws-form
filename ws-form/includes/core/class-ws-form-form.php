@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	#[AllowDynamicProperties]
 	class WS_Form_Form extends WS_Form_Core {
 
@@ -199,6 +204,17 @@
 				}
 
 				return false;
+			}
+
+			// Check for form ID in hook return
+			if(
+				is_array($hook_return) &&
+				isset($hook_return['form_id']) &&
+				is_numeric($hook_return['form_id']) &&
+				($hook_return['form_id'] > 0)
+			) {
+				$this->id = absint($hook_return['form_id']);
+				return $this->id;
 			}
 
 			// Check hook return
@@ -1212,7 +1228,7 @@
 
 				// Delete form	
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
-			$delete_result = $wpdb->delete(
+				$delete_result = $wpdb->delete(
 					"{$wpdb->prefix}wsf_form",
 					array( 'id' => $this->id ),
 					array( '%d' )

@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	#[AllowDynamicProperties]
 	class WS_Form_Section extends WS_Form_Core {
 

@@ -1,5 +1,10 @@
 <?php
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * The file that defines the core plugin class
  *
@@ -170,6 +175,18 @@ final class WS_Form {
 			add_action('abilities_api_init', array($ws_form_ability, 'register'));	// Legacy (This will eventually be removed)
 		}
 
+		// WP AI client class (Run on init to ensure wp-ai-client is loaded, e.g. by AI Experiments plugin)
+		add_action('init', function() {
+
+			if(
+				WS_Form_Common::abilities_api_enabled() &&
+				WS_Form_Common::wp_ai_client_enabled()
+			) {
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-wp-ai-client.php';
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/actions/class-ws-form-action-wp-ai-client.php';
+			}
+		});
+
 		// Third party
 		add_action('plugins_loaded', function() {
 
@@ -217,15 +234,23 @@ final class WS_Form {
 
 			}, 11);
 
-			// Divi
+			// Divi (Can be loaded as plugin or theme)
 			if(
+				// Theme
 				wp_get_theme()->get('Name') === 'Divi' ||
 				wp_get_theme()->get('Template') === 'Divi' ||
+
+				// Plugin
 				WS_Form_File::file_exists( WP_PLUGIN_DIR . '/divi-builder/divi-builder.php' ) ||
 				defined('ET_CORE_VERSION') ||
 				class_exists('ET_Builder_Module')
 			) {
-				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/divi/ws-form/ws-form.php';
+
+				// Version 4
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/divi/4/ws-form.php';
+
+				// Version 5
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/divi/5/divi5.php';
 			}
 
 			// Elementor

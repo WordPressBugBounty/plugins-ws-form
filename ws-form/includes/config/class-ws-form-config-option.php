@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	class WS_Form_Config_Option extends WS_Form_Config {
 
 		// Configuration - Options
@@ -744,6 +749,52 @@
 											'Turnstile'
 										)),
 										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
+										esc_html(__('Learn more', 'ws-form'))
+									),
+									'default'		=>	'',
+									'admin'			=>	true
+								)
+							)
+						),
+
+						'captchafox'	=>	array(
+
+							'heading'	=>	'CaptchaFox',
+							'fields'	=>	array(
+
+								'captchafox_site_key' => array(
+
+									'label'		=>	__('Site Key', 'ws-form'),
+									'type'		=>	'key',
+									'help'		=>	sprintf(
+										'%s <a href="%s" target="_blank">%s</a>',
+										esc_html(sprintf(
+
+											/* translators: %s: Brand name */
+											__('%s site key.', 'ws-form'),
+											'CaptchaFox'
+										)),
+										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/captchafox/')),
+										esc_html(__('Learn more', 'ws-form'))
+									),
+									'default'		=>	'',
+									'admin'			=>	true,
+									'public'		=>	true
+								),
+
+								'captchafox_secret_key' => array(
+
+									'label'		=>	__('Secret Key', 'ws-form'),
+									'type'		=>	'key',
+									'help'		=>	sprintf(
+										'%s <a href="%s" target="_blank">%s</a>',
+										esc_html(sprintf(
+
+											/* translators: %s: Brand name */
+											__('%s secret key.', 'ws-form'),
+											'CaptchaFox'
+										)),
+										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/captchafox/')),
 										esc_html(__('Learn more', 'ws-form'))
 									),
 									'default'		=>	'',

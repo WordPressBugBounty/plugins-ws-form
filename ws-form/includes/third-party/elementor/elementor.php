@@ -1,8 +1,12 @@
 <?php
 
-	if(
-		isset($_GET) && isset($_GET['elementor-preview'])	// phpcs:ignore WordPress.Security.NonceVerification
-	) {
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
+	// phpcs:ignore WordPress.Security.NonceVerification
+	if(isset($_GET) && isset($_GET['elementor-preview'])) {
 
 		// Disable debug
 		add_filter('wsf_debug_enabled', function($debug_render) { return false; }, 10, 1);

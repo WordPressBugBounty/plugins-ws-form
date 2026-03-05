@@ -1,12 +1,16 @@
 <?php
 
-/**
- * You have access to two variables in this file: 
- * 
- * $module An instance of your module class.
- * $settings The module's settings.
- */
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
 
+	/**
+	 * You have access to two variables in this file: 
+	 * 
+	 * $module An instance of your module class.
+	 * $settings The module's settings.
+	 */
 ?>
 <div class="fl-ws-form">
 <?php

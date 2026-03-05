@@ -112,70 +112,94 @@
 					var recaptcha_obj_label = $('label', recaptcha_obj_wrapper);
 					var recaptcha_obj_invalid_feedback = $('#' + this.form_id_prefix + 'invalid-feedback-' + recaptcha_id, recaptcha_obj_wrapper, ws_this.form_canvas_obj);
 
-					var config = {'sitekey': recaptcha_site_key, 'type': recaptcha_type, 'theme': recaptcha_theme, 'size': recaptcha_size, 'callback': function(token) {
+					var config = {
 
-						// Completed - Label
-						recaptcha_obj_label.addClass(class_recaptcha_valid_label_array.join(' '));
-						recaptcha_obj_label.removeClass(class_recaptcha_invalid_label_array.join(' '));
+						'sitekey': recaptcha_site_key,
+						'type': recaptcha_type,
+						'theme': recaptcha_theme,
+						'size': recaptcha_size,
 
-						// Completed - Field
-						recaptcha_obj_field.addClass(class_recaptcha_valid_field_array.join(' '));
-						recaptcha_obj_field.removeClass(class_recaptcha_invalid_field_array.join(' '));
+						'callback': function(token) {
 
-						// Completed - Feedback
-						recaptcha_obj_invalid_feedback.addClass(class_recaptcha_valid_invalid_feedback_array.join(' '));
-						recaptcha_obj_invalid_feedback.removeClass(class_recaptcha_invalid_invalid_feedback_array.join(' '));
+							// Completed - Label
+							recaptcha_obj_label.addClass(class_recaptcha_valid_label_array.join(' '));
+							recaptcha_obj_label.removeClass(class_recaptcha_invalid_label_array.join(' '));
 
-						// Run conditions
-						ws_this.recaptcha_conditions_run();
+							// Completed - Field
+							recaptcha_obj_field.addClass(class_recaptcha_valid_field_array.join(' '));
+							recaptcha_obj_field.removeClass(class_recaptcha_invalid_field_array.join(' '));
+							recaptcha_obj_field.removeAttr('data-captcha-invalid');
 
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
+							// Completed - Feedback
+							recaptcha_obj_invalid_feedback.addClass(class_recaptcha_valid_invalid_feedback_array.join(' '));
+							recaptcha_obj_invalid_feedback.removeClass(class_recaptcha_invalid_invalid_feedback_array.join(' '));
 
-					}, 'expired-callback': function() {
+							// Run conditions
+							ws_this.recaptcha_conditions_run();
 
-						// Empty - Label
-						recaptcha_obj_label.addClass(class_recaptcha_invalid_label_array.join(' '));
-						recaptcha_obj_label.removeClass(class_recaptcha_valid_label_array.join(' '));
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+						},
 
-						// Empty - Field
-						recaptcha_obj_field.addClass(class_recaptcha_invalid_field_array.join(' '));
-						recaptcha_obj_field.removeClass(class_recaptcha_valid_field_array.join(' '));
+						'expired-callback': function() {
 
-						// Empty - Feedback
-						recaptcha_obj_invalid_feedback.addClass(class_recaptcha_invalid_invalid_feedback_array.join(' '));
-						recaptcha_obj_invalid_feedback.removeClass(class_recaptcha_valid_invalid_feedback_array.join(' '));
+							// Empty - Label
+							recaptcha_obj_label.addClass(class_recaptcha_invalid_label_array.join(' '));
+							recaptcha_obj_label.removeClass(class_recaptcha_valid_label_array.join(' '));
 
-						// Run conditions
-						ws_this.recaptcha_conditions_run();
+							// Empty - Field
+							recaptcha_obj_field.addClass(class_recaptcha_invalid_field_array.join(' '));
+							recaptcha_obj_field.removeClass(class_recaptcha_valid_field_array.join(' '));
+							recaptcha_obj_field.attr('data-captcha-invalid', '');
 
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
+							// Empty - Feedback
+							recaptcha_obj_invalid_feedback.addClass(class_recaptcha_invalid_invalid_feedback_array.join(' '));
+							recaptcha_obj_invalid_feedback.removeClass(class_recaptcha_valid_invalid_feedback_array.join(' '));
 
-					}, 'error-callback': function() {
+							// Run conditions
+							ws_this.recaptcha_conditions_run();
 
-						// Empty - Label
-						recaptcha_obj_label.addClass(class_recaptcha_invalid_label_array.join(' '));
-						recaptcha_obj_label.removeClass(class_recaptcha_valid_label_array.join(' '));
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
 
-						// Empty - Field
-						recaptcha_obj_field.addClass(class_recaptcha_invalid_field_array.join(' '));
-						recaptcha_obj_field.removeClass(class_recaptcha_valid_field_array.join(' '));
+						},
 
-						// Empty - Feedback
-						recaptcha_obj_invalid_feedback.addClass(class_recaptcha_invalid_invalid_feedback_array.join(' '));
-						recaptcha_obj_invalid_feedback.removeClass(class_recaptcha_valid_invalid_feedback_array.join(' '));
+						'error-callback': function() {
 
-						// Run conditions
-						ws_this.recaptcha_conditions_run();
+							// Empty - Label
+							recaptcha_obj_label.addClass(class_recaptcha_invalid_label_array.join(' '));
+							recaptcha_obj_label.removeClass(class_recaptcha_valid_label_array.join(' '));
 
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
-					}};
+							// Empty - Field
+							recaptcha_obj_field.addClass(class_recaptcha_invalid_field_array.join(' '));
+							recaptcha_obj_field.removeClass(class_recaptcha_valid_field_array.join(' '));
+							recaptcha_obj_field.attr('data-captcha-invalid', '');
+
+							// Empty - Feedback
+							recaptcha_obj_invalid_feedback.addClass(class_recaptcha_invalid_invalid_feedback_array.join(' '));
+							recaptcha_obj_invalid_feedback.removeClass(class_recaptcha_valid_invalid_feedback_array.join(' '));
+
+							// Run conditions
+							ws_this.recaptcha_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+						}
+					};
+
 					if(recaptcha_language != '') { config.hl = recaptcha_language; }
 
 					// Build recaptcha object
-					var recaptcha = {'id': false, 'recaptcha_site_key': recaptcha_site_key, 'name': name, 'recaptcha_id': recaptcha_id, 'config': config, 'recaptcha_recaptcha_type': recaptcha_recaptcha_type, 'type': 'v2_default'}
+					var recaptcha = {
+
+						'id': false,
+						'recaptcha_site_key': recaptcha_site_key,
+						'name': name,
+						'recaptcha_id': recaptcha_id,
+						'config': config,
+						'recaptcha_recaptcha_type': recaptcha_recaptcha_type,
+						'type': 'v2_default'
+					};
 
 					// Add to recaptcha arrays
 					ws_this.recaptchas_v2_default.push(recaptcha);
@@ -191,55 +215,60 @@
 					if((recaptcha_badge === undefined) || (['bottomright', 'bottomleft', 'inline'].indexOf(recaptcha_badge) == -1)) { recaptcha_badge = 'bottomright'; }
 
 					// Process recaptcha
-					var config = {'sitekey': recaptcha_site_key, 'badge': recaptcha_badge, 'size': 'invisible', 'callback': function() {
+					var config = {
 
-						// Run conditions
-						for(var recaptcha_conditions_index in ws_this.recaptchas_conditions) {
+						'sitekey': recaptcha_site_key,
+						'badge': recaptcha_badge,
+						'size': 'invisible',
 
-							if(!ws_this.recaptchas_conditions.hasOwnProperty(recaptcha_conditions_index)) { continue; }
+						'callback': function() {
 
-							ws_this.recaptchas_conditions[recaptcha_conditions_index]();
+							// Run conditions
+							ws_this.recaptcha_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+
+							// Form validated
+							ws_this.form_post('submit');
+						},
+
+						'expired-callback': function() {
+
+							// Run conditions
+							ws_this.recaptcha_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+
+						},
+
+						'error-callback': function() {
+
+							// Throw error
+							ws_this.error('error_recaptcha_v2_invisible');
+
+							// Run conditions
+							ws_this.recaptcha_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
 						}
+					};
 
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
-
-						// Form validated
-						ws_this.form_post('submit');
-
-					}, 'expired-callback': function() {
-
-						// Run conditions
-						for(var recaptcha_conditions_index in ws_this.recaptchas_conditions) {
-
-							if(!ws_this.recaptchas_conditions.hasOwnProperty(recaptcha_conditions_index)) { continue; }
-
-							ws_this.recaptchas_conditions[recaptcha_conditions_index]();
-						}
-
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
-
-					}, 'error-callback': function() {
-
-						// Throw error
-						ws_this.error('error_recaptcha_v2_invisible');
-
-						// Run conditions
-						for(var recaptcha_conditions_index in ws_this.recaptchas_conditions) {
-
-							if(!ws_this.recaptchas_conditions.hasOwnProperty(recaptcha_conditions_index)) { continue; }
-
-							ws_this.recaptchas_conditions[recaptcha_conditions_index]();
-						}
-
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
-					}};
 					if(recaptcha_language != '') { config.hl = recaptcha_language; }
 
 					// Build recaptcha object
-					var recaptcha = {'id': false, 'recaptcha_site_key': recaptcha_site_key, 'name': name, 'recaptcha_id': recaptcha_id, 'config': config, 'recaptcha_recaptcha_type': recaptcha_recaptcha_type, 'type': 'v2_invisible'}
+					var recaptcha = {
+
+						'id': false,
+						'recaptcha_site_key': recaptcha_site_key,
+						'name': name,
+						'recaptcha_id': recaptcha_id,
+						'config': config,
+						'recaptcha_recaptcha_type': recaptcha_recaptcha_type,
+						'type': 'v2_invisible'
+					};
 
 					// Add to recaptcha arrays
 					ws_this.recaptchas_v2_invisible.push(recaptcha);
@@ -258,7 +287,16 @@
 					var config = {'action': recaptcha_action};
 
 					// Build recaptcha object
-					var recaptcha = {'id': false, 'recaptcha_site_key': recaptcha_site_key, 'name': name, 'recaptcha_id': recaptcha_id, 'config': config, 'recaptcha_recaptcha_type': recaptcha_recaptcha_type, 'type': 'v3_default'}
+					var recaptcha = {
+
+						'id': false,
+						'recaptcha_site_key': recaptcha_site_key,
+						'name': name,
+						'recaptcha_id': recaptcha_id,
+						'config': config,
+						'recaptcha_recaptcha_type': recaptcha_recaptcha_type,
+						'type': 'v3_default'
+					};
 
 					// Add to recaptcha arrays
 					ws_this.recaptchas_v3_default.push(recaptcha)
@@ -448,7 +486,6 @@
 				(recaptcha.name == name) &&
 				(recaptcha_id !== false)
 			) {
-
 				return grecaptcha.getResponse(recaptcha_id);
 			}
 		}
@@ -538,66 +575,80 @@
 					var hcaptcha_obj_label = $('label', hcaptcha_obj_wrapper);
 					var hcaptcha_obj_invalid_feedback = $('#' + this.form_id_prefix + 'invalid-feedback-' + hcaptcha_id, hcaptcha_obj_wrapper, ws_this.form_canvas_obj);
 
-					var config = {'sitekey': hcaptcha_site_key, 'type': hcaptcha_type, 'theme': hcaptcha_theme, 'size': hcaptcha_size, 'callback': function(token) {
+					var config = {
 
-						// Completed - Label
-						hcaptcha_obj_label.addClass(class_hcaptcha_valid_label_array.join(' '));
-						hcaptcha_obj_label.removeClass(class_hcaptcha_invalid_label_array.join(' '));
+						'sitekey': hcaptcha_site_key,
+						'type': hcaptcha_type,
+						'theme': hcaptcha_theme,
+						'size': hcaptcha_size,
 
-						// Completed - Field
-						hcaptcha_obj_field.addClass(class_hcaptcha_valid_field_array.join(' '));
-						hcaptcha_obj_field.removeClass(class_hcaptcha_invalid_field_array.join(' '));
+						'callback': function(token) {
 
-						// Completed - Feedback
-						hcaptcha_obj_invalid_feedback.addClass(class_hcaptcha_valid_invalid_feedback_array.join(' '));
-						hcaptcha_obj_invalid_feedback.removeClass(class_hcaptcha_invalid_invalid_feedback_array.join(' '));
+							// Completed - Label
+							hcaptcha_obj_label.addClass(class_hcaptcha_valid_label_array.join(' '));
+							hcaptcha_obj_label.removeClass(class_hcaptcha_invalid_label_array.join(' '));
 
-						// Run conditions
-						ws_this.hcaptcha_conditions_run();
+							// Completed - Field
+							hcaptcha_obj_field.addClass(class_hcaptcha_valid_field_array.join(' '));
+							hcaptcha_obj_field.removeClass(class_hcaptcha_invalid_field_array.join(' '));
+							hcaptcha_obj_field.removeAttr('data-captcha-invalid');
 
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
+							// Completed - Feedback
+							hcaptcha_obj_invalid_feedback.addClass(class_hcaptcha_valid_invalid_feedback_array.join(' '));
+							hcaptcha_obj_invalid_feedback.removeClass(class_hcaptcha_invalid_invalid_feedback_array.join(' '));
 
-					}, 'expired-callback': function() {
+							// Run conditions
+							ws_this.hcaptcha_conditions_run();
 
-						// Empty - Label
-						hcaptcha_obj_label.addClass(class_hcaptcha_invalid_label_array.join(' '));
-						hcaptcha_obj_label.removeClass(class_hcaptcha_valid_label_array.join(' '));
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+						},
 
-						// Empty - Field
-						hcaptcha_obj_field.addClass(class_hcaptcha_invalid_field_array.join(' '));
-						hcaptcha_obj_field.removeClass(class_hcaptcha_valid_field_array.join(' '));
+						'expired-callback': function() {
 
-						// Empty - Feedback
-						hcaptcha_obj_invalid_feedback.addClass(class_hcaptcha_invalid_invalid_feedback_array.join(' '));
-						hcaptcha_obj_invalid_feedback.removeClass(class_hcaptcha_valid_invalid_feedback_array.join(' '));
+							// Empty - Label
+							hcaptcha_obj_label.addClass(class_hcaptcha_invalid_label_array.join(' '));
+							hcaptcha_obj_label.removeClass(class_hcaptcha_valid_label_array.join(' '));
 
-						// Run conditions
-						ws_this.hcaptcha_conditions_run();
+							// Empty - Field
+							hcaptcha_obj_field.addClass(class_hcaptcha_invalid_field_array.join(' '));
+							hcaptcha_obj_field.removeClass(class_hcaptcha_valid_field_array.join(' '));
+							hcaptcha_obj_field.attr('data-captcha-invalid', '');
 
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
+							// Empty - Feedback
+							hcaptcha_obj_invalid_feedback.addClass(class_hcaptcha_invalid_invalid_feedback_array.join(' '));
+							hcaptcha_obj_invalid_feedback.removeClass(class_hcaptcha_valid_invalid_feedback_array.join(' '));
 
-					}, 'error-callback': function() {
+							// Run conditions
+							ws_this.hcaptcha_conditions_run();
 
-						// Empty - Label
-						hcaptcha_obj_label.addClass(class_hcaptcha_invalid_label_array.join(' '));
-						hcaptcha_obj_label.removeClass(class_hcaptcha_valid_label_array.join(' '));
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+						},
 
-						// Empty - Field
-						hcaptcha_obj_field.addClass(class_hcaptcha_invalid_field_array.join(' '));
-						hcaptcha_obj_field.removeClass(class_hcaptcha_valid_field_array.join(' '));
+						'error-callback': function() {
 
-						// Empty - Feedback
-						hcaptcha_obj_invalid_feedback.addClass(class_hcaptcha_invalid_invalid_feedback_array.join(' '));
-						hcaptcha_obj_invalid_feedback.removeClass(class_hcaptcha_valid_invalid_feedback_array.join(' '));
+							// Empty - Label
+							hcaptcha_obj_label.addClass(class_hcaptcha_invalid_label_array.join(' '));
+							hcaptcha_obj_label.removeClass(class_hcaptcha_valid_label_array.join(' '));
 
-						// Run conditions
-						ws_this.hcaptcha_conditions_run();
+							// Empty - Field
+							hcaptcha_obj_field.addClass(class_hcaptcha_invalid_field_array.join(' '));
+							hcaptcha_obj_field.removeClass(class_hcaptcha_valid_field_array.join(' '));
+							hcaptcha_obj_field.attr('data-captcha-invalid', '');
 
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
-					}};
+							// Empty - Feedback
+							hcaptcha_obj_invalid_feedback.addClass(class_hcaptcha_invalid_invalid_feedback_array.join(' '));
+							hcaptcha_obj_invalid_feedback.removeClass(class_hcaptcha_valid_invalid_feedback_array.join(' '));
+
+							// Run conditions
+							ws_this.hcaptcha_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+						}
+					};
+
 					if(hcaptcha_language != '') { config.hl = hcaptcha_language; }
 
 					// Build hcaptcha object
@@ -617,55 +668,59 @@
 					if((hcaptcha_badge === undefined) || (['bottomright', 'bottomleft', 'inline'].indexOf(hcaptcha_badge) == -1)) { hcaptcha_badge = 'bottomright'; }
 
 					// Process hcaptcha
-					var config = {'sitekey': hcaptcha_site_key, 'badge': hcaptcha_badge, 'size': 'invisible', 'callback': function() {
+					var config = {
 
-						// Run conditions
-						for(var hcaptcha_conditions_index in ws_this.hcaptchas_conditions) {
+						'sitekey': hcaptcha_site_key,
+						'badge': hcaptcha_badge,
+						'size': 'invisible',
 
-							if(!ws_this.hcaptchas_conditions.hasOwnProperty(hcaptcha_conditions_index)) { continue; }
+						'callback': function() {
 
-							ws_this.hcaptchas_conditions[hcaptcha_conditions_index]();
+							// Run conditions
+							ws_this.hcaptcha_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+
+							// Form validated
+							ws_this.form_post('submit');
+						},
+
+						'expired-callback': function() {
+
+							// Run conditions
+							ws_this.hcaptcha_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+
+						},
+
+						'error-callback': function() {
+
+							// Throw error
+							ws_this.error('error_hcaptcha_invisible');
+
+							// Run conditions
+							ws_this.hcaptcha_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
 						}
+					};
 
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
-
-						// Form validated
-						ws_this.form_post('submit');
-
-					}, 'expired-callback': function() {
-
-						// Run conditions
-						for(var hcaptcha_conditions_index in ws_this.hcaptchas_conditions) {
-
-							if(!ws_this.hcaptchas_conditions.hasOwnProperty(hcaptcha_conditions_index)) { continue; }
-
-							ws_this.hcaptchas_conditions[hcaptcha_conditions_index]();
-						}
-
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
-
-					}, 'error-callback': function() {
-
-						// Throw error
-						ws_this.error('error_hcaptcha_invisible');
-
-						// Run conditions
-						for(var hcaptcha_conditions_index in ws_this.hcaptchas_conditions) {
-
-							if(!ws_this.hcaptchas_conditions.hasOwnProperty(hcaptcha_conditions_index)) { continue; }
-
-							ws_this.hcaptchas_conditions[hcaptcha_conditions_index]();
-						}
-
-						// Fire real time form validation
-						ws_this.form_validate_real_time_process(false, false);
-					}};
 					if(hcaptcha_language != '') { config.hl = hcaptcha_language; }
 
 					// Build hcaptcha object
-					var hcaptcha = {'id': false, 'hcaptcha_site_key': hcaptcha_site_key, 'name': name, 'hcaptcha_id': hcaptcha_id, 'config': config, 'type': 'invisible'}
+					var hcaptcha = {
+
+						'id': false,
+						'hcaptcha_site_key': hcaptcha_site_key,
+						'name': name,
+						'hcaptcha_id': hcaptcha_id,
+						'config': config,
+						'type': 'invisible'
+					};
 
 					// Add to hcaptcha array
 					ws_this.hcaptchas_invisible.push(hcaptcha)
@@ -791,13 +846,16 @@
 			var hcaptcha_id = hcaptcha_config.id;
 
 			// If name found, return response
-			if(hcaptcha_config.name == name) { return hcaptcha.getResponse(hcaptcha_id); }
+			if(hcaptcha_config.name == name) {
+
+				return hcaptcha.getResponse(hcaptcha_id);
+			}
 		}
 
 		return '';
 	}
 
-	// Adds turnstile elements
+	// Adds Turnstile elements
 	$.WS_Form.prototype.form_turnstile = function() {
 
 		var ws_this = this;
@@ -886,6 +944,7 @@
 					// Completed - Field
 					turnstile_obj_field.addClass(class_turnstile_valid_field_array.join(' '));
 					turnstile_obj_field.removeClass(class_turnstile_invalid_field_array.join(' '));
+					turnstile_obj_field.removeAttr('data-captcha-invalid');
 
 					// Completed - Feedback
 					turnstile_obj_invalid_feedback.addClass(class_turnstile_valid_invalid_feedback_array.join(' '));
@@ -908,6 +967,7 @@
 					// Empty - Field
 					turnstile_obj_field.addClass(class_turnstile_invalid_field_array.join(' '));
 					turnstile_obj_field.removeClass(class_turnstile_valid_field_array.join(' '));
+					turnstile_obj_field.attr('data-captcha-invalid', '');
 
 					// Empty - Feedback
 					turnstile_obj_invalid_feedback.addClass(class_turnstile_invalid_invalid_feedback_array.join(' '));
@@ -934,6 +994,7 @@
 					// Empty - Feedback
 					turnstile_obj_invalid_feedback.addClass(class_turnstile_invalid_invalid_feedback_array.join(' '));
 					turnstile_obj_invalid_feedback.removeClass(class_turnstile_valid_invalid_feedback_array.join(' '));
+					turnstile_obj_field.attr('data-captcha-invalid', '');
 
 					// Run conditions
 					ws_this.turnstile_conditions_run();
@@ -944,7 +1005,15 @@
 			};
 
 			// Build turnstile object
-			var turnstile = {'id': false, 'turnstile_site_key': turnstile_site_key, 'name': name, 'turnstile_id': turnstile_id, 'config': config, 'type': 'default'}
+			var turnstile = {
+
+				'id': false,
+				'turnstile_site_key': turnstile_site_key,
+				'name': name,
+				'turnstile_id': turnstile_id,
+				'config': config,
+				'type': 'default'
+			};
 
 			// Add to turnstile arrays
 			ws_this.turnstiles_default.push(turnstile);
@@ -1032,7 +1101,362 @@
 			var turnstile_id = turnstile_config.id;
 
 			// If name found, return response
-			if(turnstile_config.name == name) { return turnstile.getResponse(turnstile_id); }
+			if(turnstile_config.name == name) {
+
+				return turnstile.getResponse(turnstile_id);
+			}
+		}
+
+		return '';
+	}
+
+	// Adds CaptchaFox elements
+	$.WS_Form.prototype.form_captchafox = function() {
+
+		var ws_this = this;
+
+		// Get CaptchaFox objects
+		var captchafox_objects = $('[data-captchafox]', this.form_canvas_obj);
+		var captchafox_objects_count = captchafox_objects.length;
+		if(!captchafox_objects_count) { return false;}
+
+		// Should header script be loaded
+		if(!$('#wsf-captchafox-script-head').length) {
+
+			var captchafox_script_head = '<script id="wsf-captchafox-script-head">';
+			captchafox_script_head += 'var wsf_captchafox_loaded = false;';
+			captchafox_script_head += 'function wsf_captchafox_onload() {';
+			captchafox_script_head += 'wsf_captchafox_loaded = true;';
+			captchafox_script_head += '}';
+			captchafox_script_head += '</script>';
+
+			$('head').append(captchafox_script_head);
+		}
+
+		// Should CaptchaFox script be called?
+		if(!window['captchafox'] && !$('#wsf-captchafox-script-body').length) {
+
+			var captchafox_script_body = '<script id="wsf-captchafox-script-body" src="https://cdn.captchafox.com/api.js?onload=wsf_captchafox_onload&render=explicit" async defer></script>';
+			$('body').append(captchafox_script_body);
+		}
+
+		// Reset CaptchaFox arrays
+		this.captchafoxes = [];
+		this.captchafoxes_default = [];
+
+		captchafox_objects.each(function() {
+
+			// Name
+			var name = $(this).attr('name');
+
+			// ID
+			var captchafox_id = $(this).attr('id');
+			if((captchafox_id === undefined) || (captchafox_id == '')) { return false; }
+
+			// Site key
+			var captchafox_site_key = $(this).attr('data-site-key');
+			if((captchafox_site_key === undefined) || (captchafox_site_key == '')) { return false; }
+
+			// Theme
+			var captchafox_theme = $(this).attr('data-theme');
+			if((captchafox_theme === undefined) || (['light', 'dark'].indexOf(captchafox_theme) == -1)) { captchafox_theme = 'auto'; }
+
+			// Mode
+			var captchafox_mode = $(this).attr('data-mode');
+			if((captchafox_mode === undefined) || (['inline', 'popup', 'hidden'].indexOf(captchafox_mode) == -1)) { captchafox_mode = 'inline'; }
+
+			// Classes
+			var class_captchafox_invalid_label_array = ws_this.get_field_value_fallback('captchafox', false, 'class_invalid_label', []);
+			var class_captchafox_invalid_field_array = ws_this.get_field_value_fallback('captchafox', false, 'class_invalid_field', []);
+			var class_captchafox_invalid_invalid_feedback_array = ws_this.get_field_value_fallback('captchafox', false, 'class_invalid_invalid_feedback', []);
+			var class_captchafox_valid_label_array = ws_this.get_field_value_fallback('captchafox', false, 'class_valid_label', []);
+			var class_captchafox_valid_field_array = ws_this.get_field_value_fallback('captchafox', false, 'class_valid_field', []);
+			var class_captchafox_valid_invalid_feedback_array = ws_this.get_field_value_fallback('captchafox', false, 'class_valid_invalid_feedback', []);
+
+			// Process captchafox
+			var captchafox_obj_field = $(this);
+			var captchafox_obj_wrapper = captchafox_obj_field.closest('[data-id]');
+			var captchafox_obj_label = $('label', captchafox_obj_wrapper);
+			var captchafox_obj_invalid_feedback = $('#' + this.form_id_prefix + 'invalid-feedback-' + captchafox_id, captchafox_obj_wrapper, ws_this.form_canvas_obj);
+
+			switch(captchafox_mode) {
+
+				// Inline and pop-up
+				case 'inline' :
+				case 'popup' :
+
+					var config = {
+
+						'sitekey': captchafox_site_key,
+						'mode': captchafox_mode,
+						'theme': captchafox_theme,
+
+						'onVerify': function(token) {
+
+							// Completed - Label
+							captchafox_obj_label.addClass(class_captchafox_valid_label_array.join(' '));
+							captchafox_obj_label.removeClass(class_captchafox_invalid_label_array.join(' '));
+
+							// Completed - Field
+							captchafox_obj_field.addClass(class_captchafox_valid_field_array.join(' '));
+							captchafox_obj_field.removeClass(class_captchafox_invalid_field_array.join(' '));
+							captchafox_obj_field.removeAttr('data-captcha-invalid');
+
+							// Completed - Feedback
+							captchafox_obj_invalid_feedback.addClass(class_captchafox_valid_invalid_feedback_array.join(' '));
+							captchafox_obj_invalid_feedback.removeClass(class_captchafox_invalid_invalid_feedback_array.join(' '));
+
+							// Run conditions
+							ws_this.captchafox_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+						},
+
+						'onExpire': function() {
+
+							// Empty - Label
+							captchafox_obj_label.addClass(class_captchafox_invalid_label_array.join(' '));
+							captchafox_obj_label.removeClass(class_captchafox_valid_label_array.join(' '));
+
+							// Empty - Field
+							captchafox_obj_field.addClass(class_captchafox_invalid_field_array.join(' '));
+							captchafox_obj_field.removeClass(class_captchafox_valid_field_array.join(' '));
+							captchafox_obj_field.attr('data-captcha-invalid', '');
+
+							// Empty - Feedback
+							captchafox_obj_invalid_feedback.addClass(class_captchafox_invalid_invalid_feedback_array.join(' '));
+							captchafox_obj_invalid_feedback.removeClass(class_captchafox_valid_invalid_feedback_array.join(' '));
+
+							// Run conditions
+							ws_this.captchafox_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+						},
+
+						'onError': function() {
+
+							// Empty - Label
+							captchafox_obj_label.addClass(class_captchafox_invalid_label_array.join(' '));
+							captchafox_obj_label.removeClass(class_captchafox_valid_label_array.join(' '));
+
+							// Empty - Field
+							captchafox_obj_field.addClass(class_captchafox_invalid_field_array.join(' '));
+							captchafox_obj_field.removeClass(class_captchafox_valid_field_array.join(' '));
+							captchafox_obj_field.attr('data-captcha-invalid', '');
+
+							// Empty - Feedback
+							captchafox_obj_invalid_feedback.addClass(class_captchafox_invalid_invalid_feedback_array.join(' '));
+							captchafox_obj_invalid_feedback.removeClass(class_captchafox_valid_invalid_feedback_array.join(' '));
+
+							// Run conditions
+							ws_this.captchafox_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+						}
+					};
+
+					// Build captchafox object
+					var captchafox = {
+
+						'id': false,
+						'captchafox_site_key': captchafox_site_key,
+						'name': name,
+						'captchafox_id': captchafox_id,
+						'config': config,
+						'type': 'default'
+					};
+
+					// Add to captchafox arrays
+					ws_this.captchafoxes_default.push(captchafox);
+
+					ws_this.captchafox_process(captchafox);
+
+					break;
+
+				// Hidden
+				case 'hidden' :
+
+					var config = {
+
+						'sitekey': captchafox_site_key,
+						'mode': captchafox_mode,
+
+						'onVerify': function(token) {
+
+							// Completed - Field
+							captchafox_obj_field.removeAttr('data-captcha-invalid');
+
+							// Run conditions
+							ws_this.captchafox_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+
+							// Form validated
+							setTimeout(function() {
+
+								ws_this.form_post('submit');
+
+							}, 0);
+						},
+
+						'onExpire': function() {
+
+							// Empty - Field
+							captchafox_obj_field.attr('data-captcha-invalid', '');
+
+							// Run conditions
+							ws_this.captchafox_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+						},
+
+						'onError': function() {
+
+							// Empty - Field
+							captchafox_obj_field.attr('data-captcha-invalid', '');
+
+							// Throw error
+							ws_this.error('error_captchafox_invisible');
+
+							// Run conditions
+							ws_this.captchafox_conditions_run();
+
+							// Fire real time form validation
+							ws_this.form_validate_real_time_process(false, false);
+						}
+					};
+
+					// Build captchafox object
+					var captchafox = {
+
+						'id': false,
+						'captchafox_site_key': captchafox_site_key,
+						'name': name,
+						'captchafox_id': captchafox_id,
+						'config': config,
+						'type': 'default'
+					};
+
+					// Add to captchafox arrays
+					ws_this.captchafoxes_invisible.push(captchafox);
+
+					ws_this.captchafox_process(captchafox);
+
+					break;
+			}
+		});
+	}
+
+	// CaptchaFox run conditions
+	$.WS_Form.prototype.captchafox_conditions_run = function() {
+
+		// Run conditions
+		for(var captchafox_conditions_index in this.captchafoxes_conditions) {
+
+			if(!this.captchafoxes_conditions.hasOwnProperty(captchafox_conditions_index)) { continue; }
+
+			this.captchafoxes_conditions[captchafox_conditions_index]();
+		}
+	}
+
+	// Wait until CaptchaFox loaded, then process
+	$.WS_Form.prototype.captchafox_process = async function(captchafox_config, total_ms_start) {
+
+		var ws_this = this;
+
+		// Timeout check
+		if(typeof(total_ms_start) === 'undefined') { total_ms_start = new Date().getTime(); }
+		if((new Date().getTime() - total_ms_start) > this.timeout_captchafox) {
+
+			this.error('error_timeout_captchafox');
+			return false;
+		}
+
+		// Check to see if CaptchaFox loaded
+		if(
+			wsf_captchafox_loaded &&
+			$('#' + captchafox_config.captchafox_id).length
+		) {
+			var id = await captchafox.render('#' + captchafox_config.captchafox_id, captchafox_config.config);
+
+			captchafox_config.id = id;
+
+			this.form_validate_real_time_process(false, false);
+
+			// Add to captchafox array
+			this.captchafoxes.push(captchafox_config);
+
+			// Run conditions
+			this.captchafox_conditions_run();
+
+		} else {
+
+			var ws_this = this;
+			setTimeout(function() { ws_this.captchafox_process(captchafox_config, total_ms_start); }, this.timeout_interval);
+		}
+	}
+
+	// CaptchaFox invisible execute
+	$.WS_Form.prototype.captchafox_invisible_execute = async function() {
+
+		var ws_this = this;		
+
+		// Run through each hidden captcha for this form
+		for(var captchafoxes_invisible_index in this.captchafoxes_invisible) {
+
+			if(!this.captchafoxes_invisible.hasOwnProperty(captchafoxes_invisible_index)) { continue; }
+
+			// Get ID
+			var captchafox_config = this.captchafoxes_invisible[captchafoxes_invisible_index];
+			var captchafox_id = captchafox_config.id;
+
+			// Execute
+			var token = await captchafox.execute(captchafox_id);
+
+			// Fire real time form validation
+			ws_this.form_validate_real_time_process(false, false);
+		}
+	}
+
+	// CaptchaFox - Reset
+	$.WS_Form.prototype.captchafox_reset = function() {
+
+		// Run through each CaptchaFox for this form and reset it
+		for(var captchafoxes_index in this.captchafoxes) {
+
+			if(!this.captchafoxes.hasOwnProperty(captchafoxes_index)) { continue; }
+
+			// Get ID
+			var captchafox_config = this.captchafoxes[captchafoxes_index];
+			var captchafox_id = captchafox_config.id;
+
+			// Reset
+			captchafox.reset(captchafox_id);
+		}
+	}
+
+	// CaptchaFox - Get response by name
+	$.WS_Form.prototype.captchafox_get_response_by_name = function(name) {
+
+		// Run through each CaptchaFox and look for name
+		for(var captchafoxes_index in this.captchafoxes) {
+
+			if(!this.captchafoxes.hasOwnProperty(captchafoxes_index)) { continue; }
+
+			// Get ID
+			var captchafox_config = this.captchafoxes[captchafoxes_index];
+			var captchafox_id = captchafox_config.id;
+
+			// If name found, return response
+			if(captchafox_config.name == name) {
+
+				return captchafox.getResponse(captchafox_id);
+			}
 		}
 
 		return '';
@@ -1093,6 +1517,11 @@
 
 					captcha_response = turnstile.getResponse(captcha_id);
 					break;
+
+				case 'captchafox' :
+
+					captcha_response = captchafox.getResponse(captcha_id);
+					break;
 			}
 
 			// Execute
@@ -1105,6 +1534,7 @@
 				// Empty - Field
 				captcha_obj_field.addClass(class_captcha_invalid_field_array.join(' '));
 				captcha_obj_field.removeClass(class_captcha_valid_field_array.join(' '));
+				captcha_obj_field.attr('data-captcha-invalid', '');
 
 				// Empty - Feedback
 				captcha_obj_invalid_feedback.addClass(class_captcha_invalid_invalid_feedback_array.join(' '));
@@ -1126,6 +1556,7 @@
 				// Completed - Field
 				captcha_obj_field.addClass(class_captcha_valid_field_array.join(' '));
 				captcha_obj_field.removeClass(class_captcha_invalid_field_array.join(' '));
+				captcha_obj_field.removeAttr('data-captcha-invalid');
 
 				// Completed - Feedback
 				captcha_obj_invalid_feedback.addClass(class_captcha_valid_invalid_feedback_array.join(' '));
@@ -1177,6 +1608,11 @@
 				case 'turnstile' :
 
 					captcha_response = turnstile.getResponse(captcha_config.id);
+					break;
+
+				case 'captchafox' :
+
+					captcha_response = captchafox.getResponse(captcha_config.id);
 					break;
 			}
 

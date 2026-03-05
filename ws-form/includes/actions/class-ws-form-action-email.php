@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	class WS_Form_Action_Email extends WS_Form_Action {
 
 		public $id = 'email';
@@ -1051,13 +1056,13 @@
 				// Attachments - Media
 				'action_' . $this->id . '_attachments_media'	=> array(
 
-					'label'						=>	__('Media Attachments', 'ws-form'),
+					'label'						=>	__('Media Library Attachments', 'ws-form'),
 					'type'						=>	'repeater',
 					'meta_keys'					=>	array(
 
 						'action_' . $this->id . '_attachment'
 					),
-					'help'						=>	__('Add media files as email attachments.', 'ws-form')
+					'help'						=>	__('Add media library files as email attachments.', 'ws-form')
 				),
 
 				// Attachment URL

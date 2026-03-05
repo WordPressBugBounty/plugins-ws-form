@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	// All stats are stored in UTC
 	class WS_Form_Form_Stat extends WS_Form_Core {
 
@@ -534,8 +539,11 @@
 
 			// Build form stat array
 			$count_view_total = $form_stats->count_view;
+			if(empty($count_view_total)) { $count_view_total = 0; }
 			$count_save_total = $form_stats->count_save;
+			if(empty($count_save_total)) { $count_save_total = 0; }
 			$count_submit_total = $form_stats->count_submit;
+			if(empty($count_submit_total)) { $count_submit_total = 0; }
 
 			if(
 				($count_view_total === 0) &&

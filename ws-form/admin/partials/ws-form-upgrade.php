@@ -1,3 +1,10 @@
+<?php
+
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+?>
 <div id="wsf-wrapper" class="<?php WS_Form_Common::wrapper_classes(); ?>">
 <?php
 

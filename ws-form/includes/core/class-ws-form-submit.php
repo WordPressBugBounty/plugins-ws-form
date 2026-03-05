@@ -1,5 +1,10 @@
 <?php
 
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
+
 	#[AllowDynamicProperties]
 	class WS_Form_Submit extends WS_Form_Core {
 
@@ -2688,6 +2693,33 @@
 							try {
 
 								self::db_captcha_process($field_id, $section_repeatable_index, $turnstile_secret_key, WS_FORM_TURNSTILE_ENDPOINT, WS_FORM_TURNSTILE_QUERY_VAR);
+
+							} catch (Exception $e) {
+
+								self::db_throw_error_field_invalid_feedback($field_id, $section_repeatable_index, $e->getMessage());
+							}
+						}
+
+						break;
+
+					case 'captchafox' :
+
+						// Only process if form is being submitted
+						if($form_submit) {
+
+							// Get CaptchaFox secret
+							$captchafox_secret_key = WS_Form_Common::get_object_meta_value($field, 'captchafox_secret_key', '');
+
+							// If field setting is blank, check global setting
+							if(empty($captchafox_secret_key)) {
+
+								$captchafox_secret_key = WS_Form_Common::option_get('captchafox_secret_key', '');
+							}
+
+							// Process CaptchaFox
+							try {
+
+								self::db_captcha_process($field_id, $section_repeatable_index, $captchafox_secret_key, WS_FORM_CAPTCHAFOX_ENDPOINT, WS_FORM_CAPTCHAFOX_QUERY_VAR);
 
 							} catch (Exception $e) {
 
