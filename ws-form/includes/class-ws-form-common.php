@@ -895,7 +895,7 @@
 		// SVG Render
 		public static function render_icon_16_svg($id) {
 
-			WS_Form_Common::echo_esc_svg(WS_Form_Config::get_icon_16_svg($id));
+			self::echo_esc_svg(WS_Form_Config::get_icon_16_svg($id));
 		}
 
 		// Check form status
@@ -1068,7 +1068,7 @@
 				apply_filters('wsf_mcp_adapter_enabled', WS_FORM_MCP_ADAPTER) &&
 				self::abilities_api_enabled() &&
 				class_exists('WP\MCP\Plugin') &&
-				($include_setting ? WS_Form_Common::option_get('mcp_adapter', false) : true)
+				($include_setting ? self::option_get('mcp_adapter', false) : true)
 			);
 		}
 
@@ -1080,7 +1080,7 @@
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				apply_filters('wsf_angie_enabled', WS_FORM_ANGIE) &&
 				defined('ANGIE_VERSION') &&
-				($include_setting ? WS_Form_Common::option_get('angie', true) : true)
+				($include_setting ? self::option_get('angie', true) : true)
 			);
 		}
 
@@ -2615,7 +2615,7 @@
 												$section_key = sprintf('section_%u', $section_id);
 
 												// Get section repeatable data
-												$section_repeatable = is_serialized($submit->section_repeatable) ? unserialize($submit->section_repeatable) : false;
+												$section_repeatable = is_serialized($submit->section_repeatable) ? self::maybe_unserialize($submit->section_repeatable) : false;
 												if(
 													($section_repeatable !== false) &&
 													is_array($section_repeatable) &&
@@ -2642,8 +2642,8 @@
 											}
 
 											// Sanitize delimiters
-											$delimiter_section = WS_Form_Common::delimiter_sanitize($delimiter_section);
-											$delimiter_row = WS_Form_Common::delimiter_sanitize($delimiter_row);
+											$delimiter_section = self::delimiter_sanitize($delimiter_section);
+											$delimiter_row = self::delimiter_sanitize($delimiter_row);
 
 											// Build meta key array (One element per section row)
 											$meta_key_array = array();
@@ -3401,12 +3401,12 @@
 					// Get email logo
 					if(strpos($parse_string, '#email_logo') !== false)  {
 
-						$action_email_logo = absint(WS_Form_Common::option_get('action_email_logo'));
-						$action_email_logo_size = WS_Form_Common::option_get('action_email_logo_size');
+						$action_email_logo = absint(self::option_get('action_email_logo'));
+						$action_email_logo_size = self::option_get('action_email_logo_size');
 						if($action_email_logo_size == '') { $action_email_logo_size = 'full'; }
 						if($action_email_logo > 0) {
 
-							$variables['email_logo'] = WS_Form_Common::get_attachment_img_html($action_email_logo, $action_email_logo_size);
+							$variables['email_logo'] = self::get_attachment_img_html($action_email_logo, $action_email_logo_size);
 						}
 					}
 
@@ -3649,7 +3649,7 @@
 
 					case 'url' :
 
-						$value_url = WS_Form_Common::get_url($value);
+						$value_url = self::get_url($value);
 						$value = !empty($value_url) ? sprintf(
 
 							'<a href="%s" target="_blank">%s</a>',
@@ -3662,7 +3662,7 @@
 
 					case 'tel' :
 
-						$value_tel = WS_Form_Common::get_tel($value);
+						$value_tel = self::get_tel($value);
 						$value = !empty($value_tel) ? sprintf(
 
 							'<a href="%s">%s</a>',
@@ -3675,7 +3675,7 @@
 
 					case 'email' :
 
-						$value_email = WS_Form_Common::get_email($value);
+						$value_email = self::get_email($value);
 						$value = !empty($value_email) ? sprintf(
 
 							'<a href="%s">%s</a>',
@@ -3989,7 +3989,7 @@
 			$section_label_join = '';
 
 			// Unserialize section_repeatable
-			$section_repeatable = is_serialized($submit->section_repeatable) ? unserialize($submit->section_repeatable) : false;
+			$section_repeatable = is_serialized($submit->section_repeatable) ? self::maybe_unserialize($submit->section_repeatable) : false;
 
 			// Get field types in single dimension array
 			$field_types = WS_Form_Config::get_field_types_flat();
@@ -5122,7 +5122,7 @@
 			return (self::get_query_var('customize_theme') != '');
 		}
 
-		// Is string true?
+		// Is input true?
 		public static function is_true($input) {
 
 			// Check for boolean
@@ -5507,7 +5507,7 @@
 			if(!is_string($keyword)) { return ''; }
 
 			// Ensure keyword is lowercase for the purpose of searching
-			$keyword = mb_strtolower(trim($keyword));
+			$keyword = function_exists('mb_strtolower') ? mb_strtolower(trim($keyword), 'UTF-8') : strtolower(trim($keyword));
 
 			// Sanitize
 			return sanitize_text_field($keyword);
@@ -5538,14 +5538,13 @@
 			// IP address should be a string
 			if(!is_string($ip)) { return ''; }
 
-			// Ensure IP address is lowercase
-			// https://www.rfc-editor.org/rfc/rfc5952#section-4.3
-			$ip = mb_strtolower(trim($ip));
+			// Normalize
+			$ip = strtolower(trim($ip));
 
 			// Check if it's a CIDR range
 			if($cidr_allowed && strpos($ip, '/') !== false) {
 
-				list($ip_part, $mask) = explode('/', $ip);
+				list($ip_part, $mask) = explode('/', $ip, 2);
 
 				// Validate IP part
 				if(!filter_var($ip_part, FILTER_VALIDATE_IP)) {
@@ -7140,7 +7139,13 @@
 		// This function attempts to fix that if it occurs
 		public static function maybe_unserialize($serialized_string) {
 
-			// If we can't detect if the string is serialized, return it as is
+			// Prevent object injection attacks
+			$options = array(
+
+				'allowed_classes' => array('stdClass')
+			);
+
+			// If we can't detect a serialized string, return it as is
 			if(!is_serialized($serialized_string)) { 
 				return $serialized_string; 
 			}
@@ -7151,11 +7156,28 @@
 			}
 
 			// Attempt a regular unserialize
-			$unserialized_string = @unserialize($serialized_string);
+			$unserialized_string = @unserialize(
+
+				$serialized_string,
+				$options
+			);
 
 			// If the unserialize fails, attempt to fix it
-			// If the fix fails, we ultimate have to return false
-			return ($unserialized_string === false) ? @unserialize(self::repair_serialized($serialized_string)) : $unserialized_string;
+			if($unserialized_string === false) {
+
+				$unserialized_string = @unserialize(
+
+					self::repair_serialized($serialized_string),
+					$options
+				);
+			}
+
+			// Check if __PHP_Incomplete_Class returned from unserialize
+			if($unserialized_string instanceof __PHP_Incomplete_Class) {
+				return '';
+			}
+
+			return $unserialized_string;
 		}
 
 		// Attempt to fix a serialized string if the lengths are wrong

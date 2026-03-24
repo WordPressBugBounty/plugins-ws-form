@@ -1540,29 +1540,31 @@
 
 	// Escape attribute
 	$.WS_Form.prototype.esc_attr = function(value, encode_new_lines) {
+		if (typeof value === 'number') { value = value.toString(); }
+		if (typeof value !== 'string') { return ''; }
 
-		if(typeof(value) !== 'string') { return value; }
+		var return_html = value.replace(/[&<>"']/g, function(char) {
+			switch (char) {
+				case '&':  return '&amp;';
+				case '<':  return '&lt;';
+				case '>':  return '&gt;';
+				case '"':  return '&quot;';
+				case "'":  return '&apos;';
+			}
+		});
 
-		if(typeof(encode_new_lines) === 'undefined') { encode_new_lines = false; }
-
-		var return_html = this.replace_all(value, '&', '&amp;');
-		return_html = this.replace_all(return_html, '<', '&lt;');
-		return_html = this.replace_all(return_html, '>', '&gt;');
-		return_html = this.replace_all(return_html, "'", '&apos;');
-		return_html = this.replace_all(return_html, '"', '&quot;');
-
-		if(encode_new_lines) {
-
-			return_html = this.replace_all(return_html, '\n', '&#13;');
+		if (encode_new_lines) {
+			return_html = return_html.replace(/\n/g, '&#13;');
 		}
 
 		return return_html;
-	}
+	};
 
 	// Escape URL with support for relative paths
 	$.WS_Form.prototype.esc_url = function (url) {
 
 		try {
+
 			// Decode URL to catch encoded exploits
 			url = decodeURIComponent(url);
 
@@ -2580,11 +2582,15 @@
 												if(parsed_variable[0] === '') { parsed_variable = ''; break; }
 
 												var input_type_datetime = this.get_object_meta_value(field_from, 'input_type_datetime', 'date');
+
 												var format_date = this.get_object_meta_value(field_from, 'format_date', ws_form_settings.date_format);
 												if(!format_date) { format_date = ws_form_settings.date_format; }
 
+												var format_time = this.get_object_meta_value(field_from, 'format_time', ws_form_settings.time_format);
+												if(!format_time) { format_time = ws_form_settings.time_format; }
+
 												// Convert input to JS date
-												var input_datetime = this.get_date(parsed_variable[0], input_type_datetime, format_date);
+												var input_datetime = this.get_date(parsed_variable[0], input_type_datetime, format_date, format_time);
 
 												// Get date represented in seconds
 												parsed_variable = this.get_number(input_datetime.getTime()) / 1000;
@@ -2736,6 +2742,10 @@
 										var format_date_input = this.get_object_meta_value(field_from, 'format_date', ws_form_settings.date_format)
 										if(!format_date_input) { format_date_input = ws_form_settings.date_format; }
 
+										// Get input time format
+										var format_time_input = this.get_object_meta_value(field_from, 'format_time', ws_form_settings.time_format)
+										if(!format_time_input) { format_time_input = ws_form_settings.time_format; }
+
 										// Process as timestamp?
 										if(this.is_integer(date_input)) {
 
@@ -2745,7 +2755,7 @@
 
 											var input_type_datetime = this.get_object_meta_value(field_from, 'input_type_datetime', 'date');
 
-											parsed_variable_date = this.get_date(date_input, input_type_datetime, format_date_input);
+											parsed_variable_date = this.get_date(date_input, input_type_datetime, format_date_input, format_time_input);
 										}
 
 										// Ensure parsed_variable_date is a date
@@ -2789,6 +2799,10 @@
 										var format_date_input = this.get_object_meta_value(field_from, 'format_date', ws_form_settings.date_format)
 										if(!format_date_input) { format_date_input = ws_form_settings.date_format; }
 
+										// Get input time format
+										var format_time_input = this.get_object_meta_value(field_from, 'format_time', ws_form_settings.time_format)
+										if(!format_time_input) { format_time_input = ws_form_settings.time_format; }
+
 										// Process as timestamp?
 										if(this.is_integer(date_input)) {
 
@@ -2798,7 +2812,7 @@
 
 											var input_type_datetime = this.get_object_meta_value(field_from, 'input_type_datetime', 'date');
 
-											parsed_variable_date = this.get_date(date_input, input_type_datetime, format_date_input);
+											parsed_variable_date = this.get_date(date_input, input_type_datetime, format_date_input, format_time_input);
 										}
 
 										// Ensure parsed_variable_date is a date
@@ -2992,7 +3006,13 @@
 										var include_hidden = variable_attribute_array[1] && this.is_true(variable_attribute_array[1]);
 
 										// Get checked checkboxes
-										var field_obj = $('[data-type="checkbox"][data-id="' + field_id + '"],[data-type="price_checkbox"][data-id="' + field_id + '"] [data-row-checkbox]' + (include_hidden ? '' : ':not([style*="display: none"])') + ' input' + (include_hidden ? '' : ':not([data-hidden])') + ((parse_variable == 'checkbox_count') ? ':checked' : ''), this.form_canvas_obj);
+										var field_selector_suffix = ' [data-row-checkbox]' + (include_hidden ? '' : ':not([style*="display: none"])') + ' input' + (include_hidden ? '' : ':not([data-hidden])') + ((parse_variable == 'checkbox_count') ? ':checked' : '');
+
+										var field_obj = $(
+											'[data-type="checkbox"][data-id="' + field_id + '"]' + field_selector_suffix + ', ' +
+											'[data-type="price_checkbox"][data-id="' + field_id + '"]' + field_selector_suffix,
+											this.form_canvas_obj
+										);
 
 										break;
 
@@ -7364,10 +7384,11 @@
 	}
 
 	// Convert date in string format to JS Date
-	$.WS_Form.prototype.get_date = function(input_datetime, input_type_datetime, format_date) {
+	$.WS_Form.prototype.get_date = function(input_datetime, input_type_datetime, format_date, format_time) {
 
 		if(!input_type_datetime) { input_type_datetime = 'date'; }
 		if(!format_date) { format_date = ws_form_settings.date_format; }
+		if(!format_time) { format_time = ws_form_settings.time_format; }
 
 		// Process time
 		switch(input_type_datetime) {
@@ -7446,6 +7467,12 @@
 
 		// Change period characters to characters
 		input_datetime = this.replace_all(input_datetime, '.', ' ');
+
+		// Convert alternative time formats
+		if(format_time.indexOf(' \\h ') !== -1) {
+
+			input_datetime = input_datetime.replace(/\b(\d{1,2})\s*h\s*(\d{1,2})\b/gi, "$1:$2");
+		}
 
 		// Remove double spacing
 		input_datetime = this.replace_all(input_datetime, '  ', ' ');

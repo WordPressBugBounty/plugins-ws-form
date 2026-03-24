@@ -443,7 +443,7 @@
 
 				default :
 
-					$value = implode($submit_delimiter_row, array_map(function($value) use ($delimiter_row) { 
+					$value = implode($submit_delimiter_row, array_map(function($value) use ($delimiter_row) {
 
 						if(is_array($value)) {
 

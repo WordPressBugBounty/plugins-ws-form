@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WS Form PRO\n"
-"POT-Creation-Date: 2026-03-04 16:33-0500\n"
-"PO-Revision-Date: 2026-03-04 16:33-0500\n"
+"POT-Creation-Date: 2026-03-20 20:43-0500\n"
+"PO-Revision-Date: 2026-03-20 20:44-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: el\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: ws-form.php\n"
@@ -1772,7 +1772,7 @@ msgstr "Δεν βρέθηκαν δεδομένα σειράς"
 msgid "Unable to read meta data"
 msgstr "Δεν είναι δυνατή η ανάγνωση των μεταδεδομένων"
 
-#: api/class-ws-form-api-field.php:226 includes/class-ws-form-common.php:6875
+#: api/class-ws-form-api-field.php:226 includes/class-ws-form-common.php:6874
 msgid "No files found"
 msgstr "Δεν βρέθηκαν αρχεία"
 
@@ -5332,7 +5332,7 @@ msgid "Click here to learn more about %s"
 msgstr "Κάντε κλικ εδώ για να μάθετε περισσότερα σχετικά με %s"
 
 #: includes/class-ws-form-common.php:6088
-#: includes/class-ws-form-common.php:6885
+#: includes/class-ws-form-common.php:6884
 msgid "File upload error"
 msgstr "Σφάλμα μεταφόρτωσης αρχείου"
 
@@ -5385,73 +5385,73 @@ msgstr "Δεν βρέθηκαν ομάδες"
 msgid "Group[0] not found"
 msgstr "Ομάδα [0] δεν βρέθηκε"
 
-#: includes/class-ws-form-common.php:6789
+#: includes/class-ws-form-common.php:6788
 #, fuzzy
 msgid "Invalid form ID (WS_Form_Common | check_form_id)"
 msgstr "Μη έγκυρο αναγνωριστικό φόρμας (WS_Form_Common | check_form_id)"
 
-#: includes/class-ws-form-common.php:6886
+#: includes/class-ws-form-common.php:6885
 #, fuzzy
 msgid "File empty"
 msgstr "Αρχείο άδειο"
 
 #. translators: %s: Extension
-#: includes/class-ws-form-common.php:6893
+#: includes/class-ws-form-common.php:6892
 #, fuzzy, php-format
 msgid "Unsupported file extension: %s"
 msgstr "Μη υποστηριζόμενη επέκταση αρχείου: %s"
 
-#: includes/class-ws-form-common.php:6898
+#: includes/class-ws-form-common.php:6897
 #, fuzzy
 msgid "Unable to read uploaded file"
 msgstr "Δεν είναι δυνατή η ανάγνωση του αρχείου που μεταφορτώθηκε"
 
 #. translators: %s: json_decode last error message
-#: includes/class-ws-form-common.php:6923
+#: includes/class-ws-form-common.php:6922
 #, fuzzy, php-format
 msgid "JSON corrupt (%s)"
 msgstr "JSON κατεστραμμένο (%s)"
 
-#: includes/class-ws-form-common.php:6927
+#: includes/class-ws-form-common.php:6926
 #, fuzzy
 msgid "JSON corrupt (Not object)"
 msgstr "JSON κατεστραμμένο (Όχι αντικείμενο)"
 
-#: includes/class-ws-form-common.php:6935
+#: includes/class-ws-form-common.php:6934
 #, fuzzy
 msgid "JSON corrupt (Checksum error)"
 msgstr "JSON κατεστραμμένο (σφάλμα αθροίσματος ελέγχου)"
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-common.php:6947
+#: includes/class-ws-form-common.php:6946
 #, fuzzy, php-format
 msgid "JSON corrupt (Not a %s JSON file)"
 msgstr "JSON κατεστραμμένο (Δεν είναι αρχείο JSON %s)"
 
-#: includes/class-ws-form-common.php:6959
+#: includes/class-ws-form-common.php:6958
 #, fuzzy
 msgid "Import error (Invalid import type)"
 msgstr "Σφάλμα εισαγωγής (Μη έγκυρος τύπος εισαγωγής)"
 
-#: includes/class-ws-form-common.php:6963
+#: includes/class-ws-form-common.php:6962
 #, fuzzy
 msgid "JSON corrupt (No label)"
 msgstr "JSON κατεστραμμένο (Χωρίς ετικέτα)"
 
-#: includes/class-ws-form-common.php:6966
+#: includes/class-ws-form-common.php:6965
 #, fuzzy
 msgid "JSON corrupt (No meta data)"
 msgstr "JSON κατεστραμμένο (χωρίς μεταδεδομένα)"
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7108
+#: includes/class-ws-form-common.php:7107
 #, fuzzy, php-format
 msgid "Node %s not valid or duplicate node."
 msgstr "Ο κόμβος %s δεν είναι έγκυρος ή είναι διπλός κόμβος."
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7180
-#: includes/class-ws-form-common.php:7196
+#: includes/class-ws-form-common.php:7179
+#: includes/class-ws-form-common.php:7195
 #, fuzzy, php-format
 msgid "Node %s not found in response data."
 msgstr "Ο κόμβος %s δεν βρέθηκε στα δεδομένα απόκρισης."
@@ -16866,31 +16866,31 @@ msgstr "Κωδικός Συναλλαγής"
 msgid "Payment Method"
 msgstr "Τρόπος Πληρωμής"
 
-#: includes/class-ws-form-licensing.php:233
-#: includes/class-ws-form-licensing.php:337
-#: includes/class-ws-form-licensing.php:396
+#: includes/class-ws-form-licensing.php:234
+#: includes/class-ws-form-licensing.php:349
+#: includes/class-ws-form-licensing.php:408
 msgid "An error occurred, please try again."
 msgstr "Παρουσιάστηκε κάποιο σφάλμα. Παρακαλούμε δοκιμάστε ξανά."
 
 #. translators: %s: License key expiry date
-#: includes/class-ws-form-licensing.php:264
+#: includes/class-ws-form-licensing.php:267
 #, php-format
 msgid "Your license key expired on %s."
 msgstr "Το κλειδί άδειας χρήσης σας έληξε την %s."
 
-#: includes/class-ws-form-licensing.php:275
+#: includes/class-ws-form-licensing.php:279
 msgid "Your license key has been disabled."
 msgstr "Το κλειδί άδειας έχει απενεργοποιηθεί."
 
-#: includes/class-ws-form-licensing.php:279
+#: includes/class-ws-form-licensing.php:283
 msgid "Invalid license."
 msgstr "Μη έγκυρη άδεια."
 
-#: includes/class-ws-form-licensing.php:284
+#: includes/class-ws-form-licensing.php:288
 msgid "Your license is not active for this URL."
 msgstr "Η άδεια χρήσης σας δεν είναι ενεργή για αυτήν τη διεύθυνση URL."
 
-#: includes/class-ws-form-licensing.php:288
+#: includes/class-ws-form-licensing.php:292
 #, fuzzy
 msgid ""
 "License not activable. You are entering the license key for the package you "
@@ -16901,35 +16901,35 @@ msgstr ""
 "ίδιο το πρόσθετο."
 
 #. translators: %s: Plugin name
-#: includes/class-ws-form-licensing.php:295
+#: includes/class-ws-form-licensing.php:301
 #, php-format
 msgid "This appears to be an invalid license key for %s."
 msgstr "Αυτό φαίνεται να είναι ένα μη έγκυρο κλειδί άδειας χρήσης για το %s."
 
-#: includes/class-ws-form-licensing.php:302
+#: includes/class-ws-form-licensing.php:309
 msgid "Your license key has reached its activation limit."
 msgstr "Το κλειδί άδειας χρήσης σας έχει φτάσει το όριο ενεργοποίησης."
 
-#: includes/class-ws-form-licensing.php:306
+#: includes/class-ws-form-licensing.php:313
 #, fuzzy
 msgid "Invalid item ID."
 msgstr "Μη έγκυρο αναγνωριστικό στοιχείου."
 
-#: includes/class-ws-form-licensing.php:310
+#: includes/class-ws-form-licensing.php:317
 #, fuzzy
 msgid "License activation failed because the product ID was missing."
 msgstr ""
 "Η ενεργοποίηση της άδειας χρήσης απέτυχε επειδή έλειπε ο αναγνωριστικός "
 "κωδικός του προϊόντος."
 
-#: includes/class-ws-form-licensing.php:314
+#: includes/class-ws-form-licensing.php:321
 #, fuzzy
 msgid "License activation failed because no site URL was provided."
 msgstr ""
 "Η ενεργοποίηση της άδειας χρήσης απέτυχε επειδή δεν δόθηκε διεύθυνση URL "
 "ιστότοπου."
 
-#: includes/class-ws-form-licensing.php:318
+#: includes/class-ws-form-licensing.php:325
 #, fuzzy
 msgid ""
 "This license key belongs to a bundle and cannot be used to activate "
@@ -16940,23 +16940,23 @@ msgstr ""
 "χρησιμοποιηθεί για την ενεργοποίηση μεμονωμένων προσθηκών. Εισαγάγετε τον "
 "κωδικό άδειας χρήσης για αυτό το συγκεκριμένο προϊόν WS Form."
 
-#: includes/class-ws-form-licensing.php:322
+#: includes/class-ws-form-licensing.php:329
 #, fuzzy
 msgid "The provided license key does not match this product."
 msgstr "Ο κωδικός άδειας χρήσης που παρέχεται δεν ταιριάζει με αυτό το προϊόν."
 
 #. translators: %s: Licensing error message
-#: includes/class-ws-form-licensing.php:331
+#: includes/class-ws-form-licensing.php:341
 #, fuzzy, php-format
 msgid "License activation failed: %s"
 msgstr "Η ενεργοποίηση της άδειας χρήσης απέτυχε: %s"
 
-#: includes/class-ws-form-licensing.php:350
+#: includes/class-ws-form-licensing.php:362
 #, fuzzy
 msgid "License key successfully activated"
 msgstr "Ο κωδικός άδειας χρήσης ενεργοποιήθηκε με επιτυχία"
 
-#: includes/class-ws-form-licensing.php:411
+#: includes/class-ws-form-licensing.php:423
 #, fuzzy
 msgid ""
 "Your license key deactivation failed. If you have changed hostnames you can "
@@ -16965,13 +16965,13 @@ msgstr ""
 "Η απενεργοποίηση του κλειδιού άδειας χρήσης απέτυχε. Εάν έχετε αλλάξει τα "
 "ονόματα των κεντρικών υπολογιστών, μπορείτε να αγνοήσετε αυτό το μήνυμα."
 
-#: includes/class-ws-form-licensing.php:423
+#: includes/class-ws-form-licensing.php:435
 #, fuzzy
 msgid "License key successfully deactivated"
 msgstr "Ο κωδικός άδειας χρήσης απενεργοποιήθηκε με επιτυχία"
 
 #. translators: %1$s: Plugin name, %2$s: Opening anchor tag, %3$s: Closing anchor tag
-#: includes/class-ws-form-licensing.php:605
+#: includes/class-ws-form-licensing.php:620
 #, fuzzy, php-format
 msgid ""
 "%1$s is not licensed. Please enter your license key in %2$ssettings%3$s to "
@@ -18653,8 +18653,8 @@ msgstr "Αποθήκευση εάν επικυρωθεί"
 
 #: includes/config/class-ws-form-config-conditional.php:67
 #, fuzzy
-msgid "Clear session ID"
-msgstr "Διαγραφή αναγνωριστικού περιόδου λειτουργίας"
+msgid "Clear session hash"
+msgstr "Εκκαθάριση του κατακερματισμένου κωδικού της περιόδου λειτουργίας"
 
 #: includes/config/class-ws-form-config-conditional.php:70
 #: includes/config/class-ws-form-config-conditional.php:157
@@ -21577,8 +21577,8 @@ msgstr "Επαναφόρτωση"
 
 #: includes/config/class-ws-form-config-public.php:381
 #, fuzzy
-msgid "Clear Session ID"
-msgstr "Διαγραφή αναγνωριστικού περιόδου λειτουργίας"
+msgid "Clear Session Hash"
+msgstr "Εκκαθάριση του κωδικού πρόσβασης της περιόδου λειτουργίας"
 
 #: includes/config/class-ws-form-config-public.php:382
 msgid "Clear Log"
@@ -21609,8 +21609,8 @@ msgstr "Κόμβος"
 
 #: includes/config/class-ws-form-config-public.php:389
 #, fuzzy
-msgid "Session ID"
-msgstr "Αναγνωριστικό συνεδρίας"
+msgid "Session Hash"
+msgstr "Κωδικός συνεδρίας"
 
 #: includes/config/class-ws-form-config-public.php:391
 #, fuzzy
@@ -21718,18 +21718,18 @@ msgstr "Ανακτήθηκαν %s δεδομένα δράσης"
 #. translators: %s: Hash
 #: includes/config/class-ws-form-config-public.php:442
 #, fuzzy, php-format
-msgid "Session ID received: %s"
-msgstr "Λήψη αναγνωριστικού συνεδρίας: %s"
+msgid "Session hash received: %s"
+msgstr "Λήφθηκε κωδικός συνεδρίας: %s"
 
 #: includes/config/class-ws-form-config-public.php:443
 #, fuzzy
-msgid "Session ID not found"
-msgstr "Δεν βρέθηκε αναγνωριστικό συνεδρίας"
+msgid "Session hash not found"
+msgstr "Δεν βρέθηκε ο κωδικός καταγραφής της συνεδρίας"
 
 #: includes/config/class-ws-form-config-public.php:444
 #, fuzzy
-msgid "Session ID cleared"
-msgstr "Το αναγνωριστικό συνεδρίας διαγράφηκε"
+msgid "Session hash cleared"
+msgstr "Ο κωδικός κατακερματισμού της συνεδρίας διαγράφηκε"
 
 #. translators: %s: Token
 #: includes/config/class-ws-form-config-public.php:446
@@ -25654,6 +25654,30 @@ msgstr "https://wsform.com/"
 #, fuzzy
 msgid "Smart. Fast. Forms."
 msgstr "Έξυπνα. Γρήγορα. Έντυπα."
+
+#, fuzzy
+#~ msgid "Clear session ID"
+#~ msgstr "Διαγραφή αναγνωριστικού περιόδου λειτουργίας"
+
+#, fuzzy
+#~ msgid "Clear Session ID"
+#~ msgstr "Διαγραφή αναγνωριστικού περιόδου λειτουργίας"
+
+#, fuzzy
+#~ msgid "Session ID"
+#~ msgstr "Αναγνωριστικό συνεδρίας"
+
+#, fuzzy, php-format
+#~ msgid "Session ID received: %s"
+#~ msgstr "Λήψη αναγνωριστικού συνεδρίας: %s"
+
+#, fuzzy
+#~ msgid "Session ID not found"
+#~ msgstr "Δεν βρέθηκε αναγνωριστικό συνεδρίας"
+
+#, fuzzy
+#~ msgid "Session ID cleared"
+#~ msgstr "Το αναγνωριστικό συνεδρίας διαγράφηκε"
 
 #, fuzzy
 #~ msgid "Add file upload and signature fields as email attachments."

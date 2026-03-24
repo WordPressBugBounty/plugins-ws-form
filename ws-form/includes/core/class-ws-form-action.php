@@ -2111,7 +2111,7 @@
 						!is_array($submit->section_repeatable) &&
 						($submit->section_repeatable != '')
 					) {
-						$section_repeatable = is_serialized($submit->section_repeatable) ? unserialize($submit->section_repeatable) : false;
+						$section_repeatable = is_serialized($submit->section_repeatable) ? WS_Form_Common::maybe_unserialize($submit->section_repeatable) : false;
 					} else {
 
 						$section_repeatable = $submit->section_repeatable;

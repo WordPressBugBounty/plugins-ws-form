@@ -216,7 +216,7 @@
 				$this->ws_form_submit->db_form_object_read();
 
 				// Get submit actions
-				$actions = is_serialized($this->ws_form_submit->actions) ? unserialize($this->ws_form_submit->actions) : false;
+				$actions = is_serialized($this->ws_form_submit->actions) ? WS_Form_Common::maybe_unserialize($this->ws_form_submit->actions) : false;
 				if($actions === false) { self::api_throw_error(esc_html__('No actions found', 'ws-form')); }
 
 				// Get action

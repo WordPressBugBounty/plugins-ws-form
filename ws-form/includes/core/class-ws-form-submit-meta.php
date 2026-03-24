@@ -197,7 +197,7 @@
 			if(!is_serialized($meta_value)) { return false; }
 
 			// Unserialize to get array of files
-			$file_objects = unserialize($meta_value);
+			$file_objects = WS_Form_Common::maybe_unserialize($meta_value);
 
 			// Check file objects
 			if(!is_array($file_objects)) { return false; }

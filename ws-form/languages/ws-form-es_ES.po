@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WS Form PRO\n"
-"POT-Creation-Date: 2026-03-04 16:33-0500\n"
-"PO-Revision-Date: 2026-03-04 16:34-0500\n"
+"POT-Creation-Date: 2026-03-20 20:42-0500\n"
+"PO-Revision-Date: 2026-03-20 20:43-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: ws-form.php\n"
@@ -1699,7 +1699,7 @@ msgstr "Datos de la fila no encontrados"
 msgid "Unable to read meta data"
 msgstr "No se pueden leer los metadatos"
 
-#: api/class-ws-form-api-field.php:226 includes/class-ws-form-common.php:6875
+#: api/class-ws-form-api-field.php:226 includes/class-ws-form-common.php:6874
 msgid "No files found"
 msgstr "No se encontraron archivos"
 
@@ -5041,7 +5041,7 @@ msgid "Click here to learn more about %s"
 msgstr "Haga clic aquí para saber más sobre %s"
 
 #: includes/class-ws-form-common.php:6088
-#: includes/class-ws-form-common.php:6885
+#: includes/class-ws-form-common.php:6884
 msgid "File upload error"
 msgstr "¡Error de subida de archivo"
 
@@ -5087,67 +5087,67 @@ msgstr "Grupos no encontrados"
 msgid "Group[0] not found"
 msgstr "Grupo[0] no encontrado"
 
-#: includes/class-ws-form-common.php:6789
+#: includes/class-ws-form-common.php:6788
 #, fuzzy
 msgid "Invalid form ID (WS_Form_Common | check_form_id)"
 msgstr "ID de formulario no válido (WS_Form_Common | check_form_id)"
 
-#: includes/class-ws-form-common.php:6886
+#: includes/class-ws-form-common.php:6885
 msgid "File empty"
 msgstr "Archivo vacío"
 
 #. translators: %s: Extension
-#: includes/class-ws-form-common.php:6893
+#: includes/class-ws-form-common.php:6892
 #, php-format
 msgid "Unsupported file extension: %s"
 msgstr "Extensión de archivo no soportada: %s"
 
-#: includes/class-ws-form-common.php:6898
+#: includes/class-ws-form-common.php:6897
 msgid "Unable to read uploaded file"
 msgstr "No se puede leer el archivo cargado"
 
 #. translators: %s: json_decode last error message
-#: includes/class-ws-form-common.php:6923
+#: includes/class-ws-form-common.php:6922
 #, fuzzy, php-format
 msgid "JSON corrupt (%s)"
 msgstr "JSON dañado (%s)"
 
-#: includes/class-ws-form-common.php:6927
+#: includes/class-ws-form-common.php:6926
 msgid "JSON corrupt (Not object)"
 msgstr "JSON corrupto (No objeto)"
 
-#: includes/class-ws-form-common.php:6935
+#: includes/class-ws-form-common.php:6934
 msgid "JSON corrupt (Checksum error)"
 msgstr "JSON corrupto (error de suma de comprobación)"
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-common.php:6947
+#: includes/class-ws-form-common.php:6946
 #, php-format
 msgid "JSON corrupt (Not a %s JSON file)"
 msgstr "JSON corrupto (No es un archivo JSON %s)"
 
-#: includes/class-ws-form-common.php:6959
+#: includes/class-ws-form-common.php:6958
 #, fuzzy
 msgid "Import error (Invalid import type)"
 msgstr "Error de importación (tipo de importación no válido)"
 
-#: includes/class-ws-form-common.php:6963
+#: includes/class-ws-form-common.php:6962
 msgid "JSON corrupt (No label)"
 msgstr "JSON corrupto (Sin etiqueta)"
 
-#: includes/class-ws-form-common.php:6966
+#: includes/class-ws-form-common.php:6965
 msgid "JSON corrupt (No meta data)"
 msgstr "JSON corrupto (sin metadatos)"
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7108
+#: includes/class-ws-form-common.php:7107
 #, fuzzy, php-format
 msgid "Node %s not valid or duplicate node."
 msgstr "Nodo %s no válido o nodo duplicado."
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7180
-#: includes/class-ws-form-common.php:7196
+#: includes/class-ws-form-common.php:7179
+#: includes/class-ws-form-common.php:7195
 #, fuzzy, php-format
 msgid "Node %s not found in response data."
 msgstr "No se ha encontrado el nodo %s en los datos de respuesta."
@@ -15918,31 +15918,31 @@ msgstr "ID de Transacción"
 msgid "Payment Method"
 msgstr "Método de Pago"
 
-#: includes/class-ws-form-licensing.php:233
-#: includes/class-ws-form-licensing.php:337
-#: includes/class-ws-form-licensing.php:396
+#: includes/class-ws-form-licensing.php:234
+#: includes/class-ws-form-licensing.php:349
+#: includes/class-ws-form-licensing.php:408
 msgid "An error occurred, please try again."
 msgstr "Ha ocurrido un error, por favor inténtelo de nuevo."
 
 #. translators: %s: License key expiry date
-#: includes/class-ws-form-licensing.php:264
+#: includes/class-ws-form-licensing.php:267
 #, php-format
 msgid "Your license key expired on %s."
 msgstr "Su llave de licencia expira en %s."
 
-#: includes/class-ws-form-licensing.php:275
+#: includes/class-ws-form-licensing.php:279
 msgid "Your license key has been disabled."
 msgstr "Su clave de licencia ha sido deshabilitada."
 
-#: includes/class-ws-form-licensing.php:279
+#: includes/class-ws-form-licensing.php:283
 msgid "Invalid license."
 msgstr "Licencia no válida."
 
-#: includes/class-ws-form-licensing.php:284
+#: includes/class-ws-form-licensing.php:288
 msgid "Your license is not active for this URL."
 msgstr "Tu licencia no está activa para esta URL."
 
-#: includes/class-ws-form-licensing.php:288
+#: includes/class-ws-form-licensing.php:292
 msgid ""
 "License not activable. You are entering the license key for the package you "
 "purchased rather than the license key for the plugin itself."
@@ -15951,33 +15951,33 @@ msgstr ""
 "que ha comprado en lugar de la clave de licencia del propio plugin."
 
 #. translators: %s: Plugin name
-#: includes/class-ws-form-licensing.php:295
+#: includes/class-ws-form-licensing.php:301
 #, php-format
 msgid "This appears to be an invalid license key for %s."
 msgstr "Esto parece ser una clave de licencia no válida para %s."
 
-#: includes/class-ws-form-licensing.php:302
+#: includes/class-ws-form-licensing.php:309
 msgid "Your license key has reached its activation limit."
 msgstr "Su clave de licencia ha alcanzado su límite de activación."
 
-#: includes/class-ws-form-licensing.php:306
+#: includes/class-ws-form-licensing.php:313
 msgid "Invalid item ID."
 msgstr "ID de elemento no válido."
 
-#: includes/class-ws-form-licensing.php:310
+#: includes/class-ws-form-licensing.php:317
 #, fuzzy
 msgid "License activation failed because the product ID was missing."
 msgstr ""
 "La activación de la licencia ha fallado porque faltaba el ID del producto."
 
-#: includes/class-ws-form-licensing.php:314
+#: includes/class-ws-form-licensing.php:321
 #, fuzzy
 msgid "License activation failed because no site URL was provided."
 msgstr ""
 "La activación de la licencia ha fallado porque no se ha proporcionado "
 "ninguna URL del sitio."
 
-#: includes/class-ws-form-licensing.php:318
+#: includes/class-ws-form-licensing.php:325
 #, fuzzy
 msgid ""
 "This license key belongs to a bundle and cannot be used to activate "
@@ -15988,22 +15988,22 @@ msgstr ""
 "activar complementos individuales. Introduzca la clave de licencia para este "
 "producto específico de WS Form."
 
-#: includes/class-ws-form-licensing.php:322
+#: includes/class-ws-form-licensing.php:329
 #, fuzzy
 msgid "The provided license key does not match this product."
 msgstr "La clave de licencia proporcionada no coincide con este producto."
 
 #. translators: %s: Licensing error message
-#: includes/class-ws-form-licensing.php:331
+#: includes/class-ws-form-licensing.php:341
 #, fuzzy, php-format
 msgid "License activation failed: %s"
 msgstr "Error al activar la licencia: %s"
 
-#: includes/class-ws-form-licensing.php:350
+#: includes/class-ws-form-licensing.php:362
 msgid "License key successfully activated"
 msgstr "Clave de licencia activada con éxito"
 
-#: includes/class-ws-form-licensing.php:411
+#: includes/class-ws-form-licensing.php:423
 msgid ""
 "Your license key deactivation failed. If you have changed hostnames you can "
 "disregard this message."
@@ -16011,12 +16011,12 @@ msgstr ""
 "La desactivación de su clave de licencia ha fallado. Si ha cambiado los "
 "nombres de host puede ignorar este mensaje."
 
-#: includes/class-ws-form-licensing.php:423
+#: includes/class-ws-form-licensing.php:435
 msgid "License key successfully deactivated"
 msgstr "Clave de licencia desactivada con éxito"
 
 #. translators: %1$s: Plugin name, %2$s: Opening anchor tag, %3$s: Closing anchor tag
-#: includes/class-ws-form-licensing.php:605
+#: includes/class-ws-form-licensing.php:620
 #, fuzzy, php-format
 msgid ""
 "%1$s is not licensed. Please enter your license key in %2$ssettings%3$s to "
@@ -17567,8 +17567,9 @@ msgid "Save if validated"
 msgstr "Guardar si se valida"
 
 #: includes/config/class-ws-form-config-conditional.php:67
-msgid "Clear session ID"
-msgstr "Borrar el ID de la sesión"
+#, fuzzy
+msgid "Clear session hash"
+msgstr "Borrar el hash de la sesión"
 
 #: includes/config/class-ws-form-config-conditional.php:70
 #: includes/config/class-ws-form-config-conditional.php:157
@@ -20210,8 +20211,9 @@ msgid "Reload"
 msgstr "Recargar"
 
 #: includes/config/class-ws-form-config-public.php:381
-msgid "Clear Session ID"
-msgstr "Borrar el ID de la sesión"
+#, fuzzy
+msgid "Clear Session Hash"
+msgstr "Borrar el hash de la sesión"
 
 #: includes/config/class-ws-form-config-public.php:382
 msgid "Clear Log"
@@ -20240,8 +20242,9 @@ msgid "Instance"
 msgstr "Instancia"
 
 #: includes/config/class-ws-form-config-public.php:389
-msgid "Session ID"
-msgstr "Identificación de sesión"
+#, fuzzy
+msgid "Session Hash"
+msgstr "Hash de sesión"
 
 #: includes/config/class-ws-form-config-public.php:391
 msgid "Rendering Time"
@@ -20336,18 +20339,19 @@ msgstr "Recuperado %s datos de la acción"
 
 #. translators: %s: Hash
 #: includes/config/class-ws-form-config-public.php:442
-#, php-format
-msgid "Session ID received: %s"
-msgstr "ID de sesión recibido: %s"
+#, fuzzy, php-format
+msgid "Session hash received: %s"
+msgstr "Hash de sesión recibido: %s"
 
 #: includes/config/class-ws-form-config-public.php:443
 #, fuzzy
-msgid "Session ID not found"
-msgstr "No se ha encontrado el ID de sesión."
+msgid "Session hash not found"
+msgstr "No se ha encontrado el hash de la sesión"
 
 #: includes/config/class-ws-form-config-public.php:444
-msgid "Session ID cleared"
-msgstr "Identificación de la sesión borrada"
+#, fuzzy
+msgid "Session hash cleared"
+msgstr "Se ha borrado el hash de la sesión"
 
 #. translators: %s: Token
 #: includes/config/class-ws-form-config-public.php:446
@@ -24075,6 +24079,26 @@ msgstr "https://wsform.com/"
 #, fuzzy
 msgid "Smart. Fast. Forms."
 msgstr "Formularios inteligentes y rápidos."
+
+#~ msgid "Clear session ID"
+#~ msgstr "Borrar el ID de la sesión"
+
+#~ msgid "Clear Session ID"
+#~ msgstr "Borrar el ID de la sesión"
+
+#~ msgid "Session ID"
+#~ msgstr "Identificación de sesión"
+
+#, php-format
+#~ msgid "Session ID received: %s"
+#~ msgstr "ID de sesión recibido: %s"
+
+#, fuzzy
+#~ msgid "Session ID not found"
+#~ msgstr "No se ha encontrado el ID de sesión."
+
+#~ msgid "Session ID cleared"
+#~ msgstr "Identificación de la sesión borrada"
 
 #~ msgid "Add file upload and signature fields as email attachments."
 #~ msgstr ""

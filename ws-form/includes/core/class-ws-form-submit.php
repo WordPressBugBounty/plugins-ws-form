@@ -290,13 +290,13 @@
 			// Unserialize actions
 			if($expand_actions && isset($submit_object->actions)) {
 
-				$this->actions = $submit_object->actions = is_serialized($submit_object->actions) ? unserialize($submit_object->actions) : false;
+				$this->actions = $submit_object->actions = is_serialized($submit_object->actions) ? WS_Form_Common::maybe_unserialize($submit_object->actions) : false;
 			}
 
 			// Unserialize section_repeatable
 			if($expand_section_repeatable && isset($submit_object->section_repeatable)) {
 
-				$this->section_repeatable = $submit_object->section_repeatable = is_serialized($submit_object->section_repeatable) ? unserialize($submit_object->section_repeatable) : false;
+				$this->section_repeatable = $submit_object->section_repeatable = is_serialized($submit_object->section_repeatable) ? WS_Form_Common::maybe_unserialize($submit_object->section_repeatable) : false;
 			}
 
 			// File objects
@@ -1058,7 +1058,7 @@
 			foreach($meta_array as $index => $meta) {
 
 				// Get field value
-				$value = is_serialized($meta['meta_value']) ? unserialize($meta['meta_value']) : $meta['meta_value'];
+				$value = WS_Form_Common::maybe_unserialize($meta['meta_value']);
 
 				// Get field ID
 				$field_id = absint($meta['field_id']);
@@ -2560,6 +2560,9 @@
 					$meta_key_hidden = sprintf('%s_%u', $field_name, $section_repeatable_index);
 				}
 
+				// Filter serialized strings
+				if(is_serialized($field_value)) { $field_value = ''; }
+
 				// Field bypassed
 				$field_bypassed = in_array($field_name_post, $this->bypass_required_array);
 
@@ -3217,7 +3220,7 @@
 			$sections = WS_Form_Common::get_sections_from_form($form_object);
 
 			// Get section_repeatable
-			$section_repeatable = !empty($this->section_repeatable) ? unserialize($this->section_repeatable) : array();
+			$section_repeatable = !empty($this->section_repeatable) ? WS_Form_Common::maybe_unserialize($this->section_repeatable) : array();
 
 			// Is this a form submit?
 			$form_submit = ($this->post_mode == 'submit');
@@ -3541,7 +3544,7 @@
 
 				$section_repeatable_serialized = is_serialized($submit_object->section_repeatable);
 
-				$section_repeatable_array = $section_repeatable_serialized ? unserialize($submit_object->section_repeatable) : $submit_object->section_repeatable;
+				$section_repeatable_array = $section_repeatable_serialized ? WS_Form_Common::maybe_unserialize($submit_object->section_repeatable) : $submit_object->section_repeatable;
 
 				if(!is_array($section_repeatable_array)) { $section_repeatable_array = array(); }
 

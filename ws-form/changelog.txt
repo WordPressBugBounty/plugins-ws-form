@@ -2,6 +2,19 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.82 - 03/23/2026 =
+* Added: License activity logging https://wsform.com/knowledgebase/license-activity-logging/
+* Added: Support for French typographic time format (G \h i)
+* Bug Fix: #checkbox_count
+* Bug Fix: Serialized object instantiation filtering
+* Bug Fix: Dynamic setting of min and max attributes using #text/#calc when field is hidden
+
+= 1.10.81 - 03/20/2026 =
+* Added: Improved license activation and check methods
+* Changed: Removed dependency on mb_strtolower
+* Changed: Session ID to Session Hash
+* Bug Fix: Validation of Google address fields fixed when more than one field on a form
+
 = 1.10.80 - 03/04/2026 =
 * Added: Divi 5 module
 * Added: QR code reading in Media Library field
@@ -1006,7 +1019,7 @@ Some changes only applicable to WS Form PRO.
 * Bug Fix: Selector escaping in admin
 
 = 1.9.143 - 07/26/2023 =
-* Added: Session ID now automatically clears if the associated submission record has been trashed
+* Added: Session hash now automatically clears if the associated submission record has been trashed
 * Added: Improved text area formatting in submissions sidebar
 * Added: Improved JS selector escaping throughout
 * Added: Post data source now supports reading field data contained within a group
@@ -1826,7 +1839,7 @@ Some changes only applicable to WS Form PRO.
 * Bug Fix: ACF date field population if value is empty
 
 = 1.8.181 - 02/06/2022 =
-* Added: Clear session ID with Conditional Logic (Form --> Clear session ID)
+* Added: Clear session hash with Conditional Logic (Form --> Clear session hash)
 * Bug Fix: Typing enter in post editor label field cause Add Form modal to open. Not a WS Form bug but workaround implemented.
 * Bug Fix: Media library was not opening with recent jQuery UI sortable fix.
 

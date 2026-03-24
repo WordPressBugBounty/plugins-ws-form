@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WS Form PRO\n"
-"POT-Creation-Date: 2026-03-04 15:29-0500\n"
-"PO-Revision-Date: 2026-03-04 16:34-0500\n"
+"POT-Creation-Date: 2026-03-20 20:45-0500\n"
+"PO-Revision-Date: 2026-03-20 20:45-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: ws-form.php\n"
@@ -57,8 +57,8 @@ msgstr "Tab"
 #: includes/core/class-ws-form-migrate.php:717
 #: includes/core/class-ws-form-section.php:38
 #: includes/core/class-ws-form-section.php:59
-#: includes/core/migrate/gravity_forms.php:320
-#: includes/core/migrate/wpforms.php:288
+#: includes/core/migrate/gravity_forms.php:325
+#: includes/core/migrate/wpforms.php:293
 #: includes/frameworks/class-ws-form-framework-ws-form.php:147
 #: includes/third-party/jetengine/class-ws-form-jetengine.php:801
 #: includes/third-party/jetengine/class-ws-form-jetengine.php:821
@@ -69,7 +69,7 @@ msgstr "Sezione"
 #: admin/partials/ws-form-form-migrate.php:300
 #: admin/partials/ws-form-form-migrate.php:307
 #: includes/actions/class-ws-form-action-redirect.php:411
-#: includes/actions/class-ws-form-action-wp-ai-client.php:784
+#: includes/actions/class-ws-form-action-wp-ai-client.php:791
 #: includes/class-ws-form-config.php:271 includes/class-ws-form-config.php:433
 #: includes/class-ws-form-config.php:579 includes/class-ws-form-config.php:722
 #: includes/class-ws-form-config.php:874 includes/class-ws-form-config.php:1027
@@ -192,8 +192,8 @@ msgstr "Ho trovato un plugin migliore"
 #: includes/actions/class-ws-form-action-data-export-request.php:166
 #: includes/actions/class-ws-form-action-search.php:191
 #: includes/actions/class-ws-form-action-search.php:218
-#: includes/actions/class-ws-form-action-wp-ai-client.php:796
-#: includes/actions/class-ws-form-action-wp-ai-client.php:836
+#: includes/actions/class-ws-form-action-wp-ai-client.php:803
+#: includes/actions/class-ws-form-action-wp-ai-client.php:847
 #: includes/blocks/form-add/form-add.php:58
 #: includes/class-ws-form-config.php:7301
 #: includes/class-ws-form-config.php:8908
@@ -1766,7 +1766,7 @@ msgstr "Dati della riga non trovati"
 msgid "Unable to read meta data"
 msgstr "Impossibile leggere i metadati"
 
-#: api/class-ws-form-api-field.php:226 includes/class-ws-form-common.php:6875
+#: api/class-ws-form-api-field.php:226 includes/class-ws-form-common.php:6874
 msgid "No files found"
 msgstr "Nessun file trovato"
 
@@ -2494,7 +2494,7 @@ msgstr "Nessun tipo di tag di conversione nella configurazione dell'azione."
 #: includes/actions/class-ws-form-action-message.php:182
 #: includes/actions/class-ws-form-action-redirect.php:321
 #: includes/actions/class-ws-form-action-wp-ai-client.php:95
-#: includes/actions/class-ws-form-action-wp-ai-client.php:765
+#: includes/actions/class-ws-form-action-wp-ai-client.php:772
 #: includes/class-ws-form-config.php:8940
 #: includes/class-ws-form-config.php:10103
 #: includes/class-ws-form-config.php:10176
@@ -4548,7 +4548,7 @@ msgstr "Totale gettoni"
 msgid "Returns the total token count."
 msgstr "Restituisce il conteggio totale dei token."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:177
+#: includes/actions/class-ws-form-action-wp-ai-client.php:178
 #, fuzzy
 msgid ""
 "To generate text with AI, you’ll need to connect an AI provider first. Add "
@@ -4558,12 +4558,12 @@ msgstr ""
 "Aggiungi le tue credenziali nelle impostazioni AI di WordPress che "
 "supportano la generazione di testo."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:196
+#: includes/actions/class-ws-form-action-wp-ai-client.php:198
 #, fuzzy
 msgid "Successfully processed AI generate text request."
 msgstr "Richiesta di generazione di testo tramite IA elaborata con successo."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:232
+#: includes/actions/class-ws-form-action-wp-ai-client.php:234
 #, fuzzy
 msgid ""
 "To generate images with AI, you’ll need to connect an AI provider first. Add "
@@ -4573,7 +4573,7 @@ msgstr ""
 "Aggiungi le tue credenziali nelle impostazioni AI di WordPress che "
 "supportano la generazione di testo."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:255
+#: includes/actions/class-ws-form-action-wp-ai-client.php:257
 #, fuzzy
 msgid ""
 "To generate speech with AI, you’ll need to connect an AI provider first. Add "
@@ -4584,71 +4584,71 @@ msgstr ""
 "AI. Aggiungi le tue credenziali nelle impostazioni AI di WordPress che "
 "supportano la generazione del parlato."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:334
+#: includes/actions/class-ws-form-action-wp-ai-client.php:337
 #, fuzzy
 msgid "Unable to decode data URI."
 msgstr "Impossibile decodificare l'URI dei dati."
 
 #. translators: %s: File name
-#: includes/actions/class-ws-form-action-wp-ai-client.php:379
+#: includes/actions/class-ws-form-action-wp-ai-client.php:382
 #, fuzzy, php-format
 msgid "File is smaller than the minimum allowed size: %s"
 msgstr "Il file è più piccolo della dimensione minima consentita: %s"
 
 #. translators: %s: File name
-#: includes/actions/class-ws-form-action-wp-ai-client.php:391
+#: includes/actions/class-ws-form-action-wp-ai-client.php:394
 #, fuzzy, php-format
 msgid "File is larger than the maximum allowed size: %s"
 msgstr "Il file supera la dimensione massima consentita: %s"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:402
+#: includes/actions/class-ws-form-action-wp-ai-client.php:405
 #, fuzzy
 msgid "Unable to create temporary file."
 msgstr "Impossibile creare il file temporaneo."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:409
+#: includes/actions/class-ws-form-action-wp-ai-client.php:417
 #, fuzzy
 msgid "Unable to write temporary file."
 msgstr "Impossibile scrivere il file temporaneo."
 
 #. translators: %s: AI type
-#: includes/actions/class-ws-form-action-wp-ai-client.php:457
-#: includes/actions/class-ws-form-action-wp-ai-client.php:500
+#: includes/actions/class-ws-form-action-wp-ai-client.php:462
+#: includes/actions/class-ws-form-action-wp-ai-client.php:506
 #, fuzzy, php-format
 msgid "Successfully processed AI generate %s request."
 msgstr "Richiesta %s generata dall'IA elaborata con successo."
 
 #. translators: %u: Prompt tokens
-#: includes/actions/class-ws-form-action-wp-ai-client.php:537
+#: includes/actions/class-ws-form-action-wp-ai-client.php:543
 #, fuzzy, php-format
 msgid "Prompt tokens: %u"
 msgstr "Token di prompt: %u"
 
 #. translators: %u: Completion tokens
-#: includes/actions/class-ws-form-action-wp-ai-client.php:551
+#: includes/actions/class-ws-form-action-wp-ai-client.php:557
 #, fuzzy, php-format
 msgid "Completion tokens: %u"
 msgstr "Gettoni completamento: %u"
 
 #. translators: %u: Total tokens
-#: includes/actions/class-ws-form-action-wp-ai-client.php:565
+#: includes/actions/class-ws-form-action-wp-ai-client.php:571
 #, fuzzy, php-format
 msgid "Total tokens: %u"
 msgstr "Totale gettoni: %u"
 
 #. translators: %u: Provider and model
-#: includes/actions/class-ws-form-action-wp-ai-client.php:598
+#: includes/actions/class-ws-form-action-wp-ai-client.php:604
 #, fuzzy, php-format
 msgid "Set model preference: %s"
 msgstr "Imposta preferenza modello: %s"
 
 #. translators: %u: Timeout in seconds
-#: includes/actions/class-ws-form-action-wp-ai-client.php:619
+#: includes/actions/class-ws-form-action-wp-ai-client.php:625
 #, fuzzy, php-format
 msgid "Set timeout: %u"
 msgstr "Imposta timeout: %u"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:768
+#: includes/actions/class-ws-form-action-wp-ai-client.php:775
 #: includes/class-ws-form-config.php:242 includes/class-ws-form-config.php:246
 #: includes/class-ws-form-config.php:9342
 #: includes/class-ws-form-config.php:12476
@@ -4673,7 +4673,7 @@ msgstr "Imposta timeout: %u"
 msgid "Text"
 msgstr "Testo"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:769
+#: includes/actions/class-ws-form-action-wp-ai-client.php:776
 #: includes/class-ws-form-config.php:7649
 #: includes/class-ws-form-config.php:10591
 #: includes/config/class-ws-form-config-option.php:1352
@@ -4682,48 +4682,48 @@ msgstr "Testo"
 msgid "Image"
 msgstr "Immagine"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:772
+#: includes/actions/class-ws-form-action-wp-ai-client.php:779
 #, fuzzy
 msgid "Choose which type of content to generate."
 msgstr "Scegli il tipo di contenuto da generare."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:779
+#: includes/actions/class-ws-form-action-wp-ai-client.php:786
 #, fuzzy
 msgid "Prompt Type"
 msgstr "Tipo di prompt"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:781
+#: includes/actions/class-ws-form-action-wp-ai-client.php:788
 #, fuzzy
 msgid "Choose how to provide an input."
 msgstr "Scegli come fornire un input."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:785
+#: includes/actions/class-ws-form-action-wp-ai-client.php:792
 #: includes/class-ws-form-config.php:4668
 #: includes/class-ws-form-config.php:12789
 msgid "Mask"
 msgstr "Maschera"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:793
+#: includes/actions/class-ws-form-action-wp-ai-client.php:800
 #, fuzzy
 msgid "Prompt Field"
 msgstr "Campo prompt"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:798
+#: includes/actions/class-ws-form-action-wp-ai-client.php:805
 #, fuzzy
 msgid "Choose which field to use as the input."
 msgstr "Scegli quale campo utilizzare come input."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:813
+#: includes/actions/class-ws-form-action-wp-ai-client.php:822
 #, fuzzy
 msgid "Prompt Mask"
 msgstr "Maschera di prompt"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:815
+#: includes/actions/class-ws-form-action-wp-ai-client.php:824
 #, fuzzy
 msgid "e.g. #field(123)"
 msgstr "ad esempio #campo(123)"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:816
+#: includes/actions/class-ws-form-action-wp-ai-client.php:825
 #, fuzzy
 msgid ""
 "Use the input mask to build engineer prompts that contain WS Form variables."
@@ -4731,27 +4731,27 @@ msgstr ""
 "Utilizza la maschera di immissione per creare prompt di ingegneria che "
 "contengano variabili WS Form."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:833
+#: includes/actions/class-ws-form-action-wp-ai-client.php:844
 #, fuzzy
 msgid "Output Field"
 msgstr "Campo di output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:844
+#: includes/actions/class-ws-form-action-wp-ai-client.php:855
 #, fuzzy
 msgid "Use Output Mask"
 msgstr "Usa maschera di output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:862
+#: includes/actions/class-ws-form-action-wp-ai-client.php:875
 #, fuzzy
 msgid "Output Mask"
 msgstr "Maschera di output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:864
+#: includes/actions/class-ws-form-action-wp-ai-client.php:877
 #, fuzzy
 msgid "#output"
 msgstr "#output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:865
+#: includes/actions/class-ws-form-action-wp-ai-client.php:878
 #, fuzzy
 msgid ""
 "Create an output mask containing WS Form variables. Use #output to insert "
@@ -4760,12 +4760,12 @@ msgstr ""
 "Crea una maschera di output contenente variabili WS Form. Usa #output per "
 "inserire l'output AI. Non si applica se il campo di output è un campo file."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:891
+#: includes/actions/class-ws-form-action-wp-ai-client.php:908
 #, fuzzy
 msgid "Append Output"
 msgstr "Aggiungi output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:894
+#: includes/actions/class-ws-form-action-wp-ai-client.php:911
 #, fuzzy
 msgid ""
 "If checked, the AI output will be appended to the existing content in the "
@@ -4774,46 +4774,46 @@ msgstr ""
 "Se selezionato, l'output dell'IA verrà aggiunto al contenuto esistente nel "
 "campo di output."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:909
+#: includes/actions/class-ws-form-action-wp-ai-client.php:928
 #, fuzzy
 msgid "Trim Output"
 msgstr "Ritaglia output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:912
+#: includes/actions/class-ws-form-action-wp-ai-client.php:931
 #, fuzzy
 msgid "If checked, the output will be trimmed."
 msgstr "Se selezionato, l'output verrà troncato."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:927
+#: includes/actions/class-ws-form-action-wp-ai-client.php:948
 #, fuzzy
 msgid "Apply WPAutoP to Output"
 msgstr "Applica WPAutoP all'output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:930
+#: includes/actions/class-ws-form-action-wp-ai-client.php:951
 #, fuzzy
 msgid "If checked, wpautop will be applied to the output."
 msgstr "Se selezionato, wpautop verrà applicato all'output."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:946
+#: includes/actions/class-ws-form-action-wp-ai-client.php:969
 #, fuzzy
 msgid "Image count"
 msgstr "Numero di immagini"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:951
+#: includes/actions/class-ws-form-action-wp-ai-client.php:974
 #, fuzzy
 msgid "Specify how many images you would like to create."
 msgstr "Specificare il numero di immagini che si desidera creare."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:966
-#: includes/actions/class-ws-form-action-wp-ai-client.php:995
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1024
+#: includes/actions/class-ws-form-action-wp-ai-client.php:991
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1022
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1053
 #, fuzzy
 msgid "Model Preference"
 msgstr "Preferenza modello"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:972
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1001
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1030
+#: includes/actions/class-ws-form-action-wp-ai-client.php:997
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1028
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1059
 #, fuzzy
 msgid ""
 "Choose your preferred provider and models for this request. Leave blank for "
@@ -4822,17 +4822,17 @@ msgstr ""
 "Scegli il fornitore e i modelli preferiti per questa richiesta. Lascia vuoto "
 "per l'impostazione automatica."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:987
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1016
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1014
 #: includes/actions/class-ws-form-action-wp-ai-client.php:1045
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1076
 msgid "Model"
 msgstr "Modello"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1053
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1084
 msgid "Temperature"
 msgstr "Temperatura"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1059
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1090
 #, fuzzy
 msgid ""
 "Controls randomness: Lowering results in less random completions. As the "
@@ -4843,7 +4843,7 @@ msgstr ""
 "casuali. Man mano che la temperatura si avvicina allo zero, il modello "
 "diventerà deterministico e ripetitivo."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1074
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1107
 #, fuzzy
 msgid "API Request Timeout (Seconds)"
 msgstr "Timeout richiesta API (secondi)"
@@ -5297,7 +5297,7 @@ msgid "Click here to learn more about %s"
 msgstr "Clicca qui per saperne di più su %s"
 
 #: includes/class-ws-form-common.php:6088
-#: includes/class-ws-form-common.php:6885
+#: includes/class-ws-form-common.php:6884
 #, fuzzy
 msgid "File upload error"
 msgstr "Errore durante il caricamento del file"
@@ -5351,73 +5351,73 @@ msgstr "Gruppi non trovati"
 msgid "Group[0] not found"
 msgstr "Gruppo[0] non trovato"
 
-#: includes/class-ws-form-common.php:6789
+#: includes/class-ws-form-common.php:6788
 #, fuzzy
 msgid "Invalid form ID (WS_Form_Common | check_form_id)"
 msgstr "ID modulo non valido (WS_Form_Common | check_form_id)"
 
-#: includes/class-ws-form-common.php:6886
+#: includes/class-ws-form-common.php:6885
 #, fuzzy
 msgid "File empty"
 msgstr "File vuoto"
 
 #. translators: %s: Extension
-#: includes/class-ws-form-common.php:6893
+#: includes/class-ws-form-common.php:6892
 #, fuzzy, php-format
 msgid "Unsupported file extension: %s"
 msgstr "Estensione file non supportata: %s"
 
-#: includes/class-ws-form-common.php:6898
+#: includes/class-ws-form-common.php:6897
 #, fuzzy
 msgid "Unable to read uploaded file"
 msgstr "Impossibile leggere il file caricato"
 
 #. translators: %s: json_decode last error message
-#: includes/class-ws-form-common.php:6923
+#: includes/class-ws-form-common.php:6922
 #, fuzzy, php-format
 msgid "JSON corrupt (%s)"
 msgstr "JSON danneggiato (%s)"
 
-#: includes/class-ws-form-common.php:6927
+#: includes/class-ws-form-common.php:6926
 #, fuzzy
 msgid "JSON corrupt (Not object)"
 msgstr "JSON danneggiato (Non oggetto)"
 
-#: includes/class-ws-form-common.php:6935
+#: includes/class-ws-form-common.php:6934
 #, fuzzy
 msgid "JSON corrupt (Checksum error)"
 msgstr "JSON danneggiato (errore di checksum)"
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-common.php:6947
+#: includes/class-ws-form-common.php:6946
 #, fuzzy, php-format
 msgid "JSON corrupt (Not a %s JSON file)"
 msgstr "JSON danneggiato (Non è un file JSON %s)"
 
-#: includes/class-ws-form-common.php:6959
+#: includes/class-ws-form-common.php:6958
 #, fuzzy
 msgid "Import error (Invalid import type)"
 msgstr "Errore di importazione (tipo di importazione non valido)"
 
-#: includes/class-ws-form-common.php:6963
+#: includes/class-ws-form-common.php:6962
 #, fuzzy
 msgid "JSON corrupt (No label)"
 msgstr "JSON danneggiato (senza etichetta)"
 
-#: includes/class-ws-form-common.php:6966
+#: includes/class-ws-form-common.php:6965
 #, fuzzy
 msgid "JSON corrupt (No meta data)"
 msgstr "JSON danneggiato (nessun metadato)"
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7108
+#: includes/class-ws-form-common.php:7107
 #, fuzzy, php-format
 msgid "Node %s not valid or duplicate node."
 msgstr "Nodo %s non valido o nodo duplicato."
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7180
-#: includes/class-ws-form-common.php:7196
+#: includes/class-ws-form-common.php:7179
+#: includes/class-ws-form-common.php:7195
 #, fuzzy, php-format
 msgid "Node %s not found in response data."
 msgstr "Nodo %s non trovato nei dati di risposta."
@@ -6131,7 +6131,7 @@ msgstr "Layout"
 #: includes/class-ws-form-config.php:19697
 #: includes/class-ws-form-config.php:19878
 #: includes/class-ws-form-config.php:19924
-#: includes/core/migrate/gravity_forms.php:817
+#: includes/core/migrate/gravity_forms.php:822
 msgid "Checkboxes"
 msgstr "Caselle di controllo"
 
@@ -6477,7 +6477,7 @@ msgstr "Smistamento"
 msgid "Google Address"
 msgstr "Indirizzo Google"
 
-#: includes/class-ws-form-config.php:3441 includes/core/migrate/wpforms.php:449
+#: includes/class-ws-form-config.php:3441 includes/core/migrate/wpforms.php:454
 msgid "Address Line 1"
 msgstr "Indirizzo riga 1"
 
@@ -6549,7 +6549,7 @@ msgstr "Modulo affidabile"
 #: includes/class-ws-form-config.php:4061
 #: includes/class-ws-form-config.php:4064
 #: includes/config/class-ws-form-config-styler.php:4676
-#: includes/core/migrate/vfb.php:314
+#: includes/core/migrate/vfb.php:319
 msgid "Text Editor"
 msgstr "Editor di testo"
 
@@ -6668,7 +6668,7 @@ msgstr "Pulsanti"
 #: includes/config/class-ws-form-config-conditional.php:35
 #: includes/config/class-ws-form-config-conditional.php:64
 #: includes/config/class-ws-form-config-public.php:375
-#: includes/core/migrate/gravity_forms.php:69
+#: includes/core/migrate/gravity_forms.php:74
 msgid "Submit"
 msgstr "Invia"
 
@@ -8020,7 +8020,7 @@ msgstr "Mappatura geolocalizzata"
 msgid "Element"
 msgstr "Elemento"
 
-#: includes/class-ws-form-config.php:8893 includes/core/migrate/wpforms.php:455
+#: includes/class-ws-form-config.php:8893 includes/core/migrate/wpforms.php:460
 msgid "City"
 msgstr "Città"
 
@@ -9662,14 +9662,14 @@ msgstr ""
 #: includes/class-ws-form-config.php:12279
 #: includes/class-ws-form-config.php:23041
 #: includes/class-ws-form-config.php:23292
-#: includes/core/migrate/wpforms.php:846
+#: includes/core/migrate/wpforms.php:851
 msgid "First Name"
 msgstr "Nome"
 
 #: includes/class-ws-form-config.php:12286
 #: includes/class-ws-form-config.php:23049
 #: includes/class-ws-form-config.php:23300
-#: includes/core/migrate/wpforms.php:852
+#: includes/core/migrate/wpforms.php:857
 msgid "Last Name"
 msgstr "Cognome"
 
@@ -12887,7 +12887,7 @@ msgstr "Randomizza righe"
 #: includes/core/class-ws-form-action.php:1520
 #: includes/core/class-ws-form-data-grid.php:364
 #: includes/core/class-ws-form-migrate.php:1080
-#: includes/core/migrate/gravity_forms.php:809
+#: includes/core/migrate/gravity_forms.php:814
 #: includes/data-sources/class-ws-form-data-source-acf.php:74
 #: includes/data-sources/class-ws-form-data-source-acpt.php:74
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:169
@@ -16694,31 +16694,31 @@ msgstr "ID transazione"
 msgid "Payment Method"
 msgstr "Metodo di pagamento"
 
-#: includes/class-ws-form-licensing.php:233
-#: includes/class-ws-form-licensing.php:337
-#: includes/class-ws-form-licensing.php:396
+#: includes/class-ws-form-licensing.php:234
+#: includes/class-ws-form-licensing.php:349
+#: includes/class-ws-form-licensing.php:408
 msgid "An error occurred, please try again."
 msgstr "Si è verificato un errore. Per favore riprovare."
 
 #. translators: %s: License key expiry date
-#: includes/class-ws-form-licensing.php:264
+#: includes/class-ws-form-licensing.php:267
 #, php-format
 msgid "Your license key expired on %s."
 msgstr "La vostra chiave di licenza è scaduta il %s."
 
-#: includes/class-ws-form-licensing.php:275
+#: includes/class-ws-form-licensing.php:279
 msgid "Your license key has been disabled."
 msgstr "La vostra chiave di licenza è stata disabilitata."
 
-#: includes/class-ws-form-licensing.php:279
+#: includes/class-ws-form-licensing.php:283
 msgid "Invalid license."
 msgstr "Licenza non valida."
 
-#: includes/class-ws-form-licensing.php:284
+#: includes/class-ws-form-licensing.php:288
 msgid "Your license is not active for this URL."
 msgstr "La vostra licenza non è attiva per questo URL."
 
-#: includes/class-ws-form-licensing.php:288
+#: includes/class-ws-form-licensing.php:292
 #, fuzzy
 msgid ""
 "License not activable. You are entering the license key for the package you "
@@ -16728,34 +16728,34 @@ msgstr ""
 "acquistato anziché quella del plugin stesso."
 
 #. translators: %s: Plugin name
-#: includes/class-ws-form-licensing.php:295
+#: includes/class-ws-form-licensing.php:301
 #, php-format
 msgid "This appears to be an invalid license key for %s."
 msgstr "Questa sembra essere una chiave di licenza non valida per %s."
 
-#: includes/class-ws-form-licensing.php:302
+#: includes/class-ws-form-licensing.php:309
 msgid "Your license key has reached its activation limit."
 msgstr ""
 "La vostra chiave di licenza ha raggiunto il proprio limite di attivazioni."
 
-#: includes/class-ws-form-licensing.php:306
+#: includes/class-ws-form-licensing.php:313
 msgid "Invalid item ID."
 msgstr "ID articolo non valido."
 
-#: includes/class-ws-form-licensing.php:310
+#: includes/class-ws-form-licensing.php:317
 #, fuzzy
 msgid "License activation failed because the product ID was missing."
 msgstr ""
 "L'attivazione della licenza non è riuscita perché mancava l'ID del prodotto."
 
-#: includes/class-ws-form-licensing.php:314
+#: includes/class-ws-form-licensing.php:321
 #, fuzzy
 msgid "License activation failed because no site URL was provided."
 msgstr ""
 "L'attivazione della licenza non è riuscita perché non è stato fornito alcun "
 "URL del sito."
 
-#: includes/class-ws-form-licensing.php:318
+#: includes/class-ws-form-licensing.php:325
 #, fuzzy
 msgid ""
 "This license key belongs to a bundle and cannot be used to activate "
@@ -16766,23 +16766,23 @@ msgstr ""
 "utilizzata per attivare singoli plugin. Inserisci la chiave di licenza per "
 "questo specifico prodotto WS Form."
 
-#: includes/class-ws-form-licensing.php:322
+#: includes/class-ws-form-licensing.php:329
 #, fuzzy
 msgid "The provided license key does not match this product."
 msgstr "La chiave di licenza fornita non corrisponde a questo prodotto."
 
 #. translators: %s: Licensing error message
-#: includes/class-ws-form-licensing.php:331
+#: includes/class-ws-form-licensing.php:341
 #, fuzzy, php-format
 msgid "License activation failed: %s"
 msgstr "Attivazione della licenza non riuscita: %s"
 
-#: includes/class-ws-form-licensing.php:350
+#: includes/class-ws-form-licensing.php:362
 #, fuzzy
 msgid "License key successfully activated"
 msgstr "Chiave di licenza attivata con successo"
 
-#: includes/class-ws-form-licensing.php:411
+#: includes/class-ws-form-licensing.php:423
 #, fuzzy
 msgid ""
 "Your license key deactivation failed. If you have changed hostnames you can "
@@ -16791,13 +16791,13 @@ msgstr ""
 "La disattivazione della chiave di licenza non è riuscita. Se hai cambiato "
 "nome host, puoi ignorare questo messaggio."
 
-#: includes/class-ws-form-licensing.php:423
+#: includes/class-ws-form-licensing.php:435
 #, fuzzy
 msgid "License key successfully deactivated"
 msgstr "Chiave di licenza disattivata con successo"
 
 #. translators: %1$s: Plugin name, %2$s: Opening anchor tag, %3$s: Closing anchor tag
-#: includes/class-ws-form-licensing.php:605
+#: includes/class-ws-form-licensing.php:620
 #, fuzzy, php-format
 msgid ""
 "%1$s is not licensed. Please enter your license key in %2$ssettings%3$s to "
@@ -17346,9 +17346,9 @@ msgstr "Salta il tutorial"
 #: includes/core/class-ws-form-form-ai.php:18
 #: includes/core/class-ws-form-form.php:49
 #: includes/core/class-ws-form-form.php:64
-#: includes/core/migrate/formidable.php:47
-#: includes/core/migrate/gravity_forms.php:73 includes/core/migrate/vfb.php:47
-#: includes/core/migrate/wpforms.php:96
+#: includes/core/migrate/formidable.php:52
+#: includes/core/migrate/gravity_forms.php:78 includes/core/migrate/vfb.php:52
+#: includes/core/migrate/wpforms.php:101
 msgid "New Form"
 msgstr "Nuovo Form"
 
@@ -18448,8 +18448,8 @@ msgstr "Salva se convalidato"
 
 #: includes/config/class-ws-form-config-conditional.php:67
 #, fuzzy
-msgid "Clear session ID"
-msgstr "Cancella ID sessione"
+msgid "Clear session hash"
+msgstr "Cancella l'hash della sessione"
 
 #: includes/config/class-ws-form-config-conditional.php:70
 #: includes/config/class-ws-form-config-conditional.php:157
@@ -21131,7 +21131,6 @@ msgid "Icon %s must be in its own assigned section"
 msgstr "L'icona %s deve trovarsi nella sezione a essa assegnata."
 
 #: includes/config/class-ws-form-config-public.php:131
-#, fuzzy
 msgid "Sorry, your browser doesn't support embedded videos."
 msgstr "Spiacenti, il tuo browser non supporta i video incorporati."
 
@@ -21343,8 +21342,8 @@ msgstr "Ricarica"
 
 #: includes/config/class-ws-form-config-public.php:381
 #, fuzzy
-msgid "Clear Session ID"
-msgstr "Cancella ID sessione"
+msgid "Clear Session Hash"
+msgstr "Cancella l'hash della sessione"
 
 #: includes/config/class-ws-form-config-public.php:382
 msgid "Clear Log"
@@ -21374,8 +21373,9 @@ msgid "Instance"
 msgstr "Istanza"
 
 #: includes/config/class-ws-form-config-public.php:389
-msgid "Session ID"
-msgstr "ID sessione"
+#, fuzzy
+msgid "Session Hash"
+msgstr "Hash della sessione"
 
 #: includes/config/class-ws-form-config-public.php:391
 #, fuzzy
@@ -21483,18 +21483,18 @@ msgstr "Dati di azione recuperati %s"
 #. translators: %s: Hash
 #: includes/config/class-ws-form-config-public.php:442
 #, fuzzy, php-format
-msgid "Session ID received: %s"
-msgstr "ID sessione ricevuto: %s"
+msgid "Session hash received: %s"
+msgstr "Hash della sessione ricevuto: %s"
 
 #: includes/config/class-ws-form-config-public.php:443
 #, fuzzy
-msgid "Session ID not found"
-msgstr "ID sessione non trovato"
+msgid "Session hash not found"
+msgstr "Hash della sessione non trovato"
 
 #: includes/config/class-ws-form-config-public.php:444
 #, fuzzy
-msgid "Session ID cleared"
-msgstr "ID sessione cancellato"
+msgid "Session hash cleared"
+msgstr "Hash della sessione cancellato"
 
 #. translators: %s: Token
 #: includes/config/class-ws-form-config-public.php:446
@@ -24247,45 +24247,45 @@ msgstr "%s abilità non disponibile"
 msgid "Admin max width not defined: %s"
 msgstr "Larghezza massima Admin non definita: %s"
 
-#: includes/core/migrate/formidable.php:8
+#: includes/core/migrate/formidable.php:13
 #, fuzzy
 msgid "Formidable"
 msgstr "Formidabile"
 
-#: includes/core/migrate/gravity_forms.php:8
+#: includes/core/migrate/gravity_forms.php:13
 msgid "Gravity Forms"
 msgstr "Gravity Forms"
 
-#: includes/core/migrate/vfb.php:8
+#: includes/core/migrate/vfb.php:13
 #, fuzzy
 msgid "Visual Form Builder"
 msgstr "Generatore di moduli visivi"
 
-#: includes/core/migrate/wpforms.php:8
+#: includes/core/migrate/wpforms.php:13
 msgid "WPForms"
 msgstr "Contatti"
 
-#: includes/core/migrate/wpforms.php:452
+#: includes/core/migrate/wpforms.php:457
 msgid "Address Line 2"
 msgstr "Indirizzo 2"
 
-#: includes/core/migrate/wpforms.php:458
+#: includes/core/migrate/wpforms.php:463
 msgid "State"
 msgstr "Stato"
 
-#: includes/core/migrate/wpforms.php:514
+#: includes/core/migrate/wpforms.php:519
 msgid "State / Province / Region"
 msgstr "Stato / Provincia / Regione"
 
-#: includes/core/migrate/wpforms.php:517
+#: includes/core/migrate/wpforms.php:522
 msgid "Zip"
 msgstr "CAP"
 
-#: includes/core/migrate/wpforms.php:849
+#: includes/core/migrate/wpforms.php:854
 msgid "Middle Name"
 msgstr "Cognome"
 
-#: includes/core/migrate/wpforms.php:1009
+#: includes/core/migrate/wpforms.php:1014
 msgid "reCAPTCHA"
 msgstr "reCAPTCHA"
 
@@ -25350,6 +25350,29 @@ msgstr "https://wsform.com/"
 #, fuzzy
 msgid "Smart. Fast. Forms."
 msgstr "Moduli intelligenti. Veloci."
+
+#, fuzzy
+#~ msgid "Clear session ID"
+#~ msgstr "Cancella ID sessione"
+
+#, fuzzy
+#~ msgid "Clear Session ID"
+#~ msgstr "Cancella ID sessione"
+
+#~ msgid "Session ID"
+#~ msgstr "ID sessione"
+
+#, fuzzy, php-format
+#~ msgid "Session ID received: %s"
+#~ msgstr "ID sessione ricevuto: %s"
+
+#, fuzzy
+#~ msgid "Session ID not found"
+#~ msgstr "ID sessione non trovato"
+
+#, fuzzy
+#~ msgid "Session ID cleared"
+#~ msgstr "ID sessione cancellato"
 
 #, fuzzy
 #~ msgid "Add file upload and signature fields as email attachments."

@@ -89,7 +89,7 @@
 
 					case 'options_pages' :
 
-						$labels = maybe_unserialize($options_pages[$object]['labels']);
+						$labels = WS_Form_Common::maybe_unserialize($options_pages[$object]['labels']);
 
 						$jetengine_field_group_name = isset($labels['name']) ? $labels['name'] : __('Unknown', 'ws-form');
 						break;
@@ -136,10 +136,10 @@
 
 				if(!empty($object) && ($slug == $object)) {
 
-					return maybe_unserialize($options_page['meta_fields']);
+					return WS_Form_Common::maybe_unserialize($options_page['meta_fields']);
 				}
 
-				$jetengine_groups[$slug] = maybe_unserialize($options_page['meta_fields']);
+				$jetengine_groups[$slug] = WS_Form_Common::maybe_unserialize($options_page['meta_fields']);
 			}
 
 			return $jetengine_groups;

@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.4
 Tested up to: 7.0
-Stable tag: 1.10.80
+Stable tag: 1.10.82
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -84,7 +84,7 @@ Add forms to your website using your favorite WordPress page builder:
 * [Divi 4](https://wsform.com/knowledgebase/divi-visual-builder-module/?utm_source=wp_plugins&utm_medium=readme)
 * [Divi 5](https://wsform.com/knowledgebase/divi-5-visual-builder-module/?utm_source=wp_plugins&utm_medium=readme)
 * [Elementor](https://wsform.com/knowledgebase/elementor-widget/?utm_source=wp_plugins&utm_medium=readme)
-* [Etch](https://wsform.com/knowledgebase/etch-component/?utm_source=wp_plugins&utm_medium=readme)
+* [Etch](https://wsform.com/knowledgebase/etch/?utm_source=wp_plugins&utm_medium=readme)
 * [Oxygen](https://wsform.com/knowledgebase/oxygen-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
 
 For other builders simply use the WS Form [shortcode](https://wsform.com/knowledgebase/the-ws-form-shortcode/?utm_source=wp_plugins&utm_medium=readme)!
@@ -225,7 +225,7 @@ WS Form comes complete with all the field types you need to build a contact form
 * [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
 * [HTML](https://wsform.com/knowledgebase/html/?utm_source=wp_plugins&utm_medium=readme)
 * [Legal](https://wsform.com/knowledgebase/legal/?utm_source=wp_plugins&utm_medium=readme)
-* [Media Capture (Includes QR code reader)](https://wsform.com/knowledgebase/media-capture/?utm_source=wp_plugins&utm_medium=readme)
+* [Media Capture](https://wsform.com/knowledgebase/media-capture/?utm_source=wp_plugins&utm_medium=readme) (Includes QR code reader)
 * [Message](https://wsform.com/knowledgebase/message/?utm_source=wp_plugins&utm_medium=readme)
 * [Previous Tab](https://wsform.com/knowledgebase/tab_previous/?utm_source=wp_plugins&utm_medium=readme) / [Next Tab](https://wsform.com/knowledgebase/tab_next/?utm_source=wp_plugins&utm_medium=readme)
 * [Price](https://wsform.com/knowledgebase/price/?utm_source=wp_plugins&utm_medium=readme)
@@ -353,6 +353,19 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.10.82 - 03/23/2026 =
+* Added: License activity logging https://wsform.com/knowledgebase/license-activity-logging/
+* Added: Support for French typographic time format (G \h i)
+* Bug Fix: #checkbox_count
+* Bug Fix: Serialized object instantiation filtering
+* Bug Fix: Dynamic setting of min and max attributes using #text/#calc when field is hidden
+
+= 1.10.81 - 03/20/2026 =
+* Added: Improved license activation and check methods
+* Changed: Removed dependency on mb_strtolower
+* Changed: Session ID to Session Hash
+* Bug Fix: Validation of Google address fields fixed when more than one field on a form
+
 = 1.10.80 - 03/04/2026 =
 * Added: Divi 5 module
 * Added: QR code reading in Media Library field
@@ -360,15 +373,5 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 * Added: Send Email action now supports media capture as attachments
 * Added: #checkbox_count now supports Price Checkbox fields
 * Bug Fix: ACF taxonomy field type population
-
-= 1.10.79 - 02/16/2026 =
-* Added: CaptchaFox field type https://wsform.com/knowledgebase/captchafox/
-* Bug Fix: Webhook data format for single select or checkbox selection
-
-= 1.10.78 - 01/23/2026 =
-* Added: Integration with the WP AI Client SDK https://github.com/WordPress/wp-ai-client
-* Added: New "Make AI Request" action https://wsform.com/knowledgebase/make-ai-request-action/
-* Added: New "Create from AI" form template https://wsform.com/knowledgebase/create-from-ai-template/
-* Bug Fix: Conditional logic visibility action now runs validation
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)
