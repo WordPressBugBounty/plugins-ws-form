@@ -2,6 +2,9 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.87 - 04/10/2026 =
+* Bug Fix: Substring fix for WS Form variable parameters
+
 = 1.10.86 - 04/09/2026 =
 * Added: Support for Google Drive shared folders and drives for Media Capture field
 

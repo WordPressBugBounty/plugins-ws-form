@@ -361,9 +361,9 @@
 
 		var hex_array;
 		if(hex_color.length === 8) {
-			hex_array = [hex_color.substring(0, 2), hex_color.substring(2, 2), hex_color.substring(4, 2), hex_color.substring(6, 2)];
+			hex_array = [hex_color.substring(0, 2), hex_color.substring(2, 4), hex_color.substring(4, 6), hex_color.substring(6, 8)];
 		} else if(hex_color.length === 6) {
-			hex_array = [hex_color.substring(0, 2), hex_color.substring(2, 2), hex_color.substring(4, 2)];
+			hex_array = [hex_color.substring(0, 2), hex_color.substring(2, 4), hex_color.substring(4, 6)];
 		} else if(hex_color.length === 3) {
 			hex_array = [hex_color[0] + hex_color[0], hex_color[1] + hex_color[1], hex_color[2] + hex_color[2]];
 		} else {

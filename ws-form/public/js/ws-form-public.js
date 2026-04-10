@@ -2358,12 +2358,12 @@
 		if(!color_has_hash && (color.length != 6)) { return false; }
 
 		// Strip hash
-		var color = color_has_hash ? color.substring(1) : color;
+		var color = color_has_hash ? color.slice(1) : color;
 
 		// Get RGB values
-		var r = parseInt(color.substring(0,2), 16);
-		var g = parseInt(color.substring(2,2), 16);
-		var b = parseInt(color.substring(4,2), 16);
+		var r = parseInt(color.substring(0, 2), 16);
+		var g = parseInt(color.substring(2, 4), 16);
+		var b = parseInt(color.substring(4, 6), 16);
 
 		return {'r': r, 'g': g, 'b': b};
 	}

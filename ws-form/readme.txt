@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.10.86
+Stable tag: 1.10.87
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -353,14 +353,14 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.10.87 - 04/10/2026 =
+* Bug Fix: Substring fix for WS Form variable parameters
+
 = 1.10.86 - 04/09/2026 =
 * Added: Support for Google Drive shared folders and drives for Media Capture field
 
 = 1.10.85 - 04/06/2026 =
 * Bug Fix: ACF taxonomy field value handling for different sub field types
 * Bug Fix: Form checksum calculation during styler rendering
-
-= 1.10.84 - 04/04/2026 =
-* Bug Fix: Improved dependency checks for add-on enqueued scripts and styles
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

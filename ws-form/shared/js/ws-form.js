@@ -2031,10 +2031,10 @@
 							variable_index_start = variable_index_of_bracket_finish;
 
 							// Get attribute string
-							var variable_attribute_string = parse_string.substring(variable_index_of_bracket_start + 1, (variable_index_of_bracket_finish - 1) - variable_index_of_bracket_start);
+							var variable_attribute_string = parse_string.substring(variable_index_of_bracket_start + 1, variable_index_of_bracket_finish);
 
 							// Get full string to parse
-							var parse_variable_full = parse_string.substring(variable_index_of, (variable_index_of_bracket_finish + 1) - variable_index_of);
+							var parse_variable_full = parse_string.substring(variable_index_of, variable_index_of_bracket_finish + 1);
 
 							// Get separator
 							var separator = (typeof(parse_variable_config.attribute_separator) !== 'undefined') ? parse_variable_config.attribute_separator : ',';
@@ -3726,8 +3726,8 @@
 				}
 
 				var name = "<pre wp-pre-tag-" + index + "></pre>";
-				pre_tags[name] = i_part.substring( start ) + '</pre>';
-				i += i_part.substring( 0, start ) + name;
+				pre_tags[name] = i_part.slice(start) + '</pre>';
+				i += i_part.substring(0, start) + name;
 			});
 
 			i += last_i;
@@ -6997,7 +6997,7 @@
 			) {
 
 				// Convert decimal separators to periods so parseFloat works
-				if(number_input.substring(-3, 1) === decimal_separator) {
+				if(number_input.slice(-3, -2) === decimal_separator) {
 
 					var decimal_index = (number_input.length - 3);
 					number_input = number_input.substring(0, decimal_index) + '[dec]' + number_input.substring(decimal_index + 1);
@@ -7793,7 +7793,7 @@
 			L: function () { var L = this.getFullYear(); return (L % 400 === 0 || (L % 100 !== 0 && L % 4 === 0)) },
 			o: function () { var d = new Date(this.valueOf()); d.setDate(d.getDate() - ((this.getDay() + 6) % 7) + 3); return d.getFullYear() },
 			Y: function () { return this.getFullYear() },
-			y: function () { return ('' + this.getFullYear()).substring(2) },
+			y: function () { return ('' + this.getFullYear()).slice(2) },
 
 			// Time
 			a: function () { return this.getHours() < 12 ? 'am' : 'pm' },
