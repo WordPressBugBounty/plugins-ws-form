@@ -12,7 +12,7 @@
 
 			// These are set here to avoid problems if someone has both plugins installed and migrates from basic to PRO without de-activating the basic edition first. This ensures the PRO options are set up.
 			$ws_form_edition = 'basic';
-			$ws_form_version = '1.10.82';
+			$ws_form_version = '1.10.86';
 
 			$run_version_check = true;
 
@@ -113,15 +113,15 @@
 				published_checksum varchar(32) DEFAULT '' NOT NULL,
 				checksum varchar(32) DEFAULT '' NOT NULL,
 				version varchar(32) DEFAULT '' NOT NULL,
-				PRIMARY KEY (id),
-				KEY label (label(191)),
-				KEY date_added (date_added),
-				KEY status (status),
-				KEY count_stat_view (count_stat_view),
-				KEY count_stat_save (count_stat_save),
-				KEY count_stat_submit (count_stat_submit),
-				KEY count_submit (count_submit),
-				KEY count_submit_unread (count_submit_unread)
+				PRIMARY KEY  (id),
+				KEY  label (label(191)),
+				KEY  date_added (date_added),
+				KEY  status (status),
+				KEY  count_stat_view (count_stat_view),
+				KEY  count_stat_save (count_stat_save),
+				KEY  count_stat_submit (count_stat_submit),
+				KEY  count_submit (count_submit),
+				KEY  count_submit_unread (count_submit_unread)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -132,9 +132,9 @@
 				parent_id bigint(20) unsigned NOT NULL,
 				meta_key varchar(191) NOT NULL,
 				meta_value longtext NOT NULL,
-				PRIMARY KEY (id),
-				KEY parent_id (parent_id),
-				KEY meta_key (meta_key)
+				PRIMARY KEY  (id),
+				KEY  parent_id (parent_id),
+				KEY  meta_key (meta_key)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -147,9 +147,9 @@
 				count_view bigint(20) unsigned NOT NULL,
 				count_save bigint(20) unsigned NOT NULL,
 				count_submit bigint(20) unsigned NOT NULL,
-				PRIMARY KEY (id),
-				KEY form_id (form_id),
-				KEY date_added (date_added)
+				PRIMARY KEY  (id),
+				KEY  form_id (form_id),
+				KEY  date_added (date_added)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -163,10 +163,10 @@
 				sort_index bigint(20) unsigned NOT NULL,
 				date_added datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-				PRIMARY KEY (id),
-				KEY form_id (form_id),
-				KEY label (label(191)),
-				KEY sort_index (sort_index)
+				PRIMARY KEY  (id),
+				KEY  form_id (form_id),
+				KEY  label (label(191)),
+				KEY  sort_index (sort_index)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -177,9 +177,9 @@
 				parent_id bigint(20) unsigned NOT NULL,
 				meta_key varchar(191) NOT NULL,
 				meta_value longtext NOT NULL,
-				PRIMARY KEY (id),
-				KEY parent_id (parent_id),
-				KEY meta_key (meta_key)
+				PRIMARY KEY  (id),
+				KEY  parent_id (parent_id),
+				KEY  meta_key (meta_key)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -195,11 +195,11 @@
 				child_count bigint(20) unsigned DEFAULT 0 NOT NULL,
 				date_added datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-				PRIMARY KEY (id),
-				KEY parent_section_id (parent_section_id),
-				KEY label (label(191)),
-				KEY group_id (group_id),
-				KEY sort_index (sort_index)
+				PRIMARY KEY  (id),
+				KEY  parent_section_id (parent_section_id),
+				KEY  label (label(191)),
+				KEY  group_id (group_id),
+				KEY  sort_index (sort_index)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -210,9 +210,9 @@
 				parent_id bigint(20) unsigned NOT NULL,
 				meta_key varchar(191) NOT NULL,
 				meta_value longtext NOT NULL,
-				PRIMARY KEY (id),
-				KEY parent_id (parent_id),
-				KEY meta_key (meta_key)
+				PRIMARY KEY  (id),
+				KEY  parent_id (parent_id),
+				KEY  meta_key (meta_key)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -227,11 +227,11 @@
 				type varchar(32) NOT NULL,
 				date_added datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-				PRIMARY KEY (id),
-				KEY label (label(191)),
-				KEY type (type),
-				KEY section_id (section_id),
-				KEY section_id_sort_index (section_id, sort_index)
+				PRIMARY KEY  (id),
+				KEY  label (label(191)),
+				KEY  type (type),
+				KEY  section_id (section_id),
+				KEY  section_id_sort_index (section_id, sort_index)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -242,9 +242,9 @@
 				parent_id bigint(20) unsigned NOT NULL,
 				meta_key varchar(191) NOT NULL,
 				meta_value longtext NOT NULL,
-				PRIMARY KEY (id),
-				KEY parent_id (parent_id),
-				KEY meta_key (meta_key)
+				PRIMARY KEY  (id),
+				KEY  parent_id (parent_id),
+				KEY  meta_key (meta_key)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -270,17 +270,17 @@
 				encrypted tinyint(1) DEFAULT 0 NOT NULL,
 				token char(32) NOT NULL,
 				token_validated tinyint(1) DEFAULT 0 NOT NULL,
-				PRIMARY KEY (id),
-				KEY form_id (form_id),
-				KEY date_added (date_added),
-				KEY date_expire (date_expire),
-				KEY user_id (user_id),
-				KEY viewed (viewed),
-				KEY hash (hash),
-				KEY status (status),
-				KEY token (token),
-				KEY form_id_status (form_id, status),
-				KEY form_id_viewed_status (form_id, viewed, status)
+				PRIMARY KEY  (id),
+				KEY  form_id (form_id),
+				KEY  date_added (date_added),
+				KEY  date_expire (date_expire),
+				KEY  user_id (user_id),
+				KEY  viewed (viewed),
+				KEY  hash (hash),
+				KEY  status (status),
+				KEY  token (token),
+				KEY  form_id_status (form_id, status),
+				KEY  form_id_viewed_status (form_id, viewed, status)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -294,11 +294,11 @@
 				repeatable_index bigint(20) unsigned,
 				meta_key varchar(191),
 				meta_value longtext NOT NULL,
-				PRIMARY KEY (id),
-				KEY parent_id (parent_id),
-				KEY meta_key (meta_key),
-				KEY section_id (section_id),
-				KEY field_id (field_id)
+				PRIMARY KEY  (id),
+				KEY  parent_id (parent_id),
+				KEY  meta_key (meta_key),
+				KEY  section_id (section_id),
+				KEY  field_id (field_id)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -318,11 +318,11 @@
 				published_checksum varchar(32) DEFAULT '' NOT NULL,
 				checksum varchar(32) DEFAULT '' NOT NULL,
 				version varchar(32) DEFAULT '' NOT NULL,
-				PRIMARY KEY (id),
-				KEY label (label(191)),
-				KEY date_added (date_added),
-				KEY status (status),
-				KEY `default` (`default`)
+				PRIMARY KEY  (id),
+				KEY  label (label(191)),
+				KEY  date_added (date_added),
+				KEY  status (status),
+				KEY  `default` (`default`)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -333,9 +333,9 @@
 				parent_id bigint(20) unsigned NOT NULL,
 				meta_key varchar(191) NOT NULL,
 				meta_value longtext NOT NULL,
-				PRIMARY KEY (id),
-				KEY parent_id (parent_id),
-				KEY meta_key (meta_key)
+				PRIMARY KEY  (id),
+				KEY  parent_id (parent_id),
+				KEY  meta_key (meta_key)
 			) $charset_collate;";
 			dbDelta($table_sql);
 		}

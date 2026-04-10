@@ -983,6 +983,7 @@
 			) {
 				$options['ai'] = array(
 
+					/* translators: AI is the abbreviation for "Artificial Intelligence" */
 					'label'		=>	__('AI', 'ws-form'),
 
 					'groups'	=> array()

@@ -1865,36 +1865,43 @@
 			$colors = array(
 
 				array(
+					/* translators: Short for "Back" */
 					'title' => __('Back', 'ws-form'),
 					'color' => $form_color_background
 				),
 
 				array(
+					/* translators: Short for "Base" */
 					'title' => __('Base', 'ws-form'),
 					'color' => $form_color_base
 				),
 
 				array(
+					/* translators: Short for "Contrast" */
 					'title' => __('Cont', 'ws-form'),
 					'color' => WS_Form_Common::get_object_meta_value($style_object, 'form_color_base_contrast', WS_Form_Color::get_color_base_contrast())
 				),
 
 				array(
+					/* translators: Short for "Accent" */
 					'title' => __('Acc', 'ws-form'),
 					'color' => WS_Form_Common::get_object_meta_value($style_object, 'form_color_accent', WS_Form_Color::get_color_accent())
 				),
 
 				array(
+					/* translators: Short for "Neutral" */
 					'title' => __('Neut', 'ws-form'),
 					'color' => WS_Form_Common::get_object_meta_value($style_object, 'form_color_neutral', WS_Form_Color::get_color_neutral())
 				),
 
 				array(
+					/* translators: Short for "Primary" */
 					'title' => __('Pri', 'ws-form'),
 					'color' => WS_Form_Common::get_object_meta_value($style_object, 'form_color_primary', WS_Form_Color::get_color_primary())
 				),
 
 				array(
+					/* translators: Short for "Secondary" */
 					'title' => __('Sec', 'ws-form'),
 					'color' => WS_Form_Common::get_object_meta_value($style_object, 'form_color_secondary', WS_Form_Color::get_color_secondary())
 				),

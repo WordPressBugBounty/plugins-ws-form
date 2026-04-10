@@ -520,7 +520,7 @@
 
 				$this->hash = '';
 
-				parent::db_throw_error(__('Invalid hash', 'ws-form'));
+				self::return_forbidden();
 			}
 
 			// Check token
@@ -530,7 +530,7 @@
 
 					$this->token = '';
 
-					parent::db_throw_error(__('Invalid token', 'ws-form'));
+					self::return_forbidden();
 				}
 
 				$token_check = $this->token;
@@ -845,7 +845,6 @@
 					unset($submit_object->actions);
 					unset($submit_object->preview);
 					unset($submit_object->status);
-
 
 					// Push all submit data
 					foreach($submit_object as $key => $value) {
@@ -3852,7 +3851,7 @@
 			// Check hash
 			if(!WS_Form_Common::check_submit_hash($this->hash)) {
 
-				parent::db_throw_error(__('Invalid hash (db_create_hash).', 'ws-form'));
+				self::return_forbidden();
 			}
 
 			return $this->hash;
@@ -3863,7 +3862,7 @@
 
 			if(!WS_Form_Common::check_submit_hash($this->hash)) {
 
-				parent::db_throw_error(__('Invalid hash (db_create_token).', 'ws-form'));
+				self::return_forbidden();
 			}
 
 			if($this->token == '') { $this->token = esc_sql(wp_hash($this->id . '_' . $this->form_id . '_' . $this->token . '_' . time() . '_' . wp_rand())); }
@@ -3871,7 +3870,7 @@
 			// Check hash
 			if(!WS_Form_Common::check_submit_hash($this->token)) {
 
-				parent::db_throw_error(__('Invalid token (db_create_token).', 'ws-form'));
+				self::return_forbidden();
 			}
 
 			return $this->token;

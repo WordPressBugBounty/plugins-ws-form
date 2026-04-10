@@ -2,6 +2,22 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.10.86 - 04/09/2026 =
+* Added: Support for Google Drive shared folders and drives for Media Capture field
+
+= 1.10.85 - 04/06/2026 =
+* Bug Fix: ACF taxonomy field value handling for different sub field types
+* Bug Fix: Form checksum calculation during styler rendering
+
+= 1.10.84 - 04/04/2026 =
+* Bug Fix: Improved dependency checks for add-on enqueued scripts and styles
+
+= 1.10.83 - 04/02/2026 =
+* Added: Fix to license checks when hostname reported incorrectly due to WPML manipulating home_url()
+* Added: Updated translations
+* Bug Fix: count_* form fields now excluded from form checksum calculation
+* Bug Fix: Improved checks for already enqueued scripts and styles
+
 = 1.10.82 - 03/23/2026 =
 * Added: License activity logging https://wsform.com/knowledgebase/license-activity-logging/
 * Added: Support for French typographic time format (G \h i)

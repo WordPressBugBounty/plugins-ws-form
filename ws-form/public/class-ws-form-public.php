@@ -100,41 +100,14 @@
 		// Enqueued - CSS
 		public $enqueued_css_layout = false;
 		public $enqueued_css_skin = false;
-		public $enqueued_css_debug = false;
-		public $enqueued_css_styler = false;
 		public $enqueued_css_style = array();
-
-		// Enqueued - CSS - V2
-		public $enqueued_css_base = false;
-		public $enqueued_css_button = false;
-		public $enqueued_css_checkbox = false;
-		public $enqueued_css_color = false;
-		public $enqueued_css_number = false;
-		public $enqueued_css_radio = false;
-		public $enqueued_css_select = false;
-		public $enqueued_css_tel = false;
-		public $enqueued_css_tab = false;
-		public $enqueued_css_textarea = false;
 		public $enqueued_css_custom = false;
 
 		// Enqueued - JS
-		public $enqueued_js_common = false;
-		public $enqueued_js_public = false;
-		public $enqueued_js_styler = false;
-		public $enqueued_js_styler_scheme = false;
-
-		public $enqueued_js_captcha = false;
-		public $enqueued_js_checkbox = false;
-		public $enqueued_js_color = false;
-		public $enqueued_js_color_picker = false;
-		public $enqueued_js_input_mask = false;
-		public $enqueued_js_intl_tel_input = false;
-		public $enqueued_js_radio = false;
-		public $enqueued_js_sortable = false;
-		public $enqueued_js_select = false;
-		public $enqueued_js_tab = false;
-		public $enqueued_js_tel = false;
 		public $enqueued_js_custom = false;
+		public $enqueued_js_google_address = false;
+		public $enqueued_js_google_map = false;
+		public $enqueued_js_google_route = false;
 
 		public $enqueued_all = false;
 		public $enqueued_visual_builder = false;
@@ -943,20 +916,23 @@
 			$dependencies_base = apply_filters('wsf_enqueue_js_dependencies', array('jquery'));
 
 			// JS - Input Mask - 5.0.3
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-			if(apply_filters('wsf_enqueue_js_input_mask', $this->enqueue_js_input_mask)) {
-
+			if(
+				!wp_script_is($this->plugin_name . '-external-inputmask', 'enqueued') &&
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				apply_filters('wsf_enqueue_js_input_mask', $this->enqueue_js_input_mask)
+			) {
 				// External - Input Mask Bundle
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$dependencies = apply_filters('wsf_enqueue_js_input_mask_dependencies', $dependencies_base);
 				wp_enqueue_script($this->plugin_name . '-external-inputmask', $external['inputmask_js']['path'], $dependencies, $external['inputmask_js']['version'], $enqueue_args);
-				$this->enqueued_js_input_mask = true;
 			}
 
 			// JS - International telephone input - Version 17.0.13
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-			if(apply_filters('wsf_enqueue_js_intl_tel_input', $this->enqueue_js_intl_tel_input)) {
-
+			if(
+				!wp_script_is($this->plugin_name . '-external-intl-tel-input', 'enqueued') &&
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				apply_filters('wsf_enqueue_js_intl_tel_input', $this->enqueue_js_intl_tel_input)
+			) {
 				// External - International telephone input - JS
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$dependencies = apply_filters('wsf_enqueue_js_intl_tel_input_dependencies', $dependencies_base);
@@ -964,14 +940,14 @@
 
 				// External - International telephone input - CSS
 				wp_enqueue_style($this->plugin_name . '-external-intl-tel-input', $external['intl_tel_input_css']['path'], array(), $external['intl_tel_input_css']['version'], 'all');
-
-				$this->enqueued_js_intl_tel_input = true;
 			}
 
 			// JS - Color picker - Version 0.24.0
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-			if(apply_filters('wsf_enqueue_js_color_picker', $this->enqueue_js_color_picker)) {
-
+			if(
+				!wp_script_is($this->plugin_name . '-external-color-picker', 'enqueued') &&
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				apply_filters('wsf_enqueue_js_color_picker', $this->enqueue_js_color_picker)
+			) {
 				// External - Color picker - JS
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$dependencies = apply_filters('wsf_enqueue_js_color_picker_dependencies', $dependencies_base);
@@ -979,8 +955,6 @@
 
 				// External - Color picker - CSS
 				wp_enqueue_style($this->plugin_name . '-external-color-picker', $external['coloris_css']['path'], array(), $external['coloris_css']['version'], 'all');
-
-				$this->enqueued_js_color_picker = true;
 			}
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_enqueue_external');
@@ -1086,9 +1060,11 @@
 			$upload_dir_base_url = WS_Form_Common::get_upload_dir_base_url();
 
 			// JS - Common
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-			if(!$this->enqueued_js_common && apply_filters('wsf_enqueue_js_common', $this->enqueue_js_common)) {
-
+			if(
+				!wp_script_is($this->plugin_name . '-common', 'enqueued') &&
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				apply_filters('wsf_enqueue_js_common', $this->enqueue_js_common)
+			) {
 				// Enqueued scripts settings
 				$ws_form_settings = self::localization_object();
 
@@ -1117,8 +1093,6 @@
 
 					$this->plugin_name . '-common'
 				);
-
-				$this->enqueued_js_common = true;
 			}
 
 			// Base
@@ -1212,9 +1186,11 @@
 			}
 
 			// CSS - Skin
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-			if(WS_Form_Common::customizer_enabled() && apply_filters('wsf_enqueue_css_skin', $this->enqueue_css_skin)) {
-
+			if(
+				WS_Form_Common::customizer_enabled() &&
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				apply_filters('wsf_enqueue_css_skin', $this->enqueue_css_skin)
+			) {
 				if(WS_Form_Common::is_block_editor()) {
 
 					// If we are in the block editor, we enqueue the skin CSS using WS Form framework
@@ -1258,9 +1234,11 @@
 			}
 
 			// CSS - Style
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-			if(WS_Form_Common::styler_enabled() && apply_filters('wsf_enqueue_css_style', $this->enqueue_css_style)) {
-
+			if(
+				WS_Form_Common::styler_enabled() &&
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				apply_filters('wsf_enqueue_css_style', $this->enqueue_css_style)
+			) {
 				foreach($this->style_ids as $style_id) {
 
 					$enqueue_id = sprintf(
@@ -1368,7 +1346,6 @@
 			// JavaScript
 			$prop = str_replace('-', '_', $script);
 			$prop_enqueue = sprintf('enqueue_js_%s', $prop);
-			$prop_enqueued = sprintf('enqueued_js_%s', $prop);
 			$hook_name = sprintf('wsf_enqueue_js_%s', $prop);
 
 			// Prefix with public
@@ -1379,12 +1356,11 @@
 
 			// Check if already enqueued
 			if(
+				!wp_script_is($id, 'enqueued') &&
 				property_exists($this, $prop_enqueue) &&
-				property_exists($this, $prop_enqueued) &&
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Dynamic hook name
 				apply_filters($hook_name, $this->{$prop_enqueue})
 			) {
-
 				// Add script to dependencies for public
 				if(
 					($dependency !== true) &&
@@ -1396,6 +1372,15 @@
 				// Determine dependency
 				$dependency_js = ($dependency !== false) ? (($dependency === true) ? $this->public_dependencies_js : array(sprintf('%s-%s', $this->plugin_name, $dependency))) : array();
 
+				// Check dependencies
+				foreach($dependency_js as $dependency_js_handle) {
+
+					if(!wp_script_is($dependency_js_handle, 'enqueued')) {
+
+						return false;
+					}
+				}
+
 				// Enqueue JavaScript
 				wp_enqueue_script(
 
@@ -1405,9 +1390,6 @@
 					$this->version,
 					WS_Form_Common::get_enqueue_args()
 				);
-
-				// Set enqueued
-				$this->{$prop_enqueued} = true;
 
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- All hooks prefixed with wsf_
 				do_action(sprintf('wsf_enqueue_js_%s', $script));
@@ -1449,13 +1431,12 @@
 			// CSS
 			$prop = str_replace('-', '_', $script);
 			$prop_enqueue = sprintf('enqueue_css_%s', $prop);
-			$prop_enqueued = sprintf('enqueued_css_%s', $prop);
 			$hook_name = sprintf('wsf_enqueue_css_%s', $prop);
 
 			// Check if already enqueued
 			if(
+				!wp_style_is($id, 'enqueued') &&
 				property_exists($this, $prop_enqueue) &&
-				property_exists($this, $prop_enqueued) &&
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Dynamic hook name
 				apply_filters($hook_name, $this->{$prop_enqueue})
 			) {
@@ -1470,6 +1451,15 @@
 				// Determine dependency
 				$dependency_css = ($dependency !== false) ? (($dependency === true) ? $this->public_dependencies_css : array(sprintf('%s-base', $this->plugin_name))) : array();
 
+				// Check dependencies
+				foreach($dependency_css as $dependency_css_handle) {
+
+					if(!wp_style_is($dependency_css_handle, 'enqueued')) {
+
+						return false;
+					}
+				}
+
 				// Enqueue CSS (All require base dependency)
 				wp_enqueue_style(
 
@@ -1479,9 +1469,6 @@
 					$this->version,
 					'all'
 				);
-
-				// Set enqueued
-				$this->{$prop_enqueued} = true;
 
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- All hooks prefixed with wsf_
 				do_action(sprintf('wsf_enqueue_css_%s', $script));
@@ -1527,168 +1514,168 @@
 		// Form - HTML
 		public function form_html($form_instance, $form_object, $element = 'form', $published = true, $preview = false, $element_id = false, $visual_builder = false, $class = false) {
 
-		    if($form_object === false) { return __('Unpublished form', 'ws-form'); }
-		    if(!is_object($form_object)) { return __('Invalid form data', 'ws-form'); }
-		    if(!isset($form_object->id)) { return __('Invalid form data', 'ws-form'); }
+			if($form_object === false) { return __('Unpublished form', 'ws-form'); }
+			if(!is_object($form_object)) { return __('Invalid form data', 'ws-form'); }
+			if(!isset($form_object->id)) { return __('Invalid form data', 'ws-form'); }
 
-		    // Get form ID
-		    $form_id = $form_object->id;
+			// Get form ID
+			$form_id = $form_object->id;
 
-		    // Do not render if draft or trash
-		    switch($form_object->status) {
-		        case 'draft' :
-		        case 'trash' :
-		            if($published) { return ''; };
-		    }
+			// Do not render if draft or trash
+			switch($form_object->status) {
+				case 'draft' :
+				case 'trash' :
+					if($published) { return ''; };
+			}
 
-		    // Init framework config
-		    $framework_id = WS_Form_Common::option_get('framework', WS_FORM_DEFAULT_FRAMEWORK);
-		    $frameworks = WS_Form_Config::get_frameworks();
-		    $framework = $frameworks['types'][$framework_id];
+			// Init framework config
+			$framework_id = WS_Form_Common::option_get('framework', WS_FORM_DEFAULT_FRAMEWORK);
+			$frameworks = WS_Form_Config::get_frameworks();
+			$framework = $frameworks['types'][$framework_id];
 
-		    if(!$preview) {
-		        // Check form limits
-		        $ws_form_form = new WS_Form_Form();
-		        $check_limit_response = $ws_form_form->apply_limits($form_object);
-		        if($check_limit_response !== false) { return $check_limit_response; }
-		    }
+			if(!$preview) {
+				// Check form limits
+				$ws_form_form = new WS_Form_Form();
+				$check_limit_response = $ws_form_form->apply_limits($form_object);
+				if($check_limit_response !== false) { return $check_limit_response; }
+			}
 
-		    // Check for form attributes
-		    $attributes = array();
+			// Check for form attributes
+			$attributes = array();
 
-		    // Preview attribute
-		    if(!$published) { 
-		        $attributes['data-preview'] = ''; 
-		    }
+			// Preview attribute
+			if(!$published) { 
+				$attributes['data-preview'] = ''; 
+			}
 
-		    // Visual builder attribute
-		    if($visual_builder) { 
-		        $attributes['data-visual-builder'] = ''; 
-		    }
+			// Visual builder attribute
+			if($visual_builder) { 
+				$attributes['data-visual-builder'] = ''; 
+			}
 
-		    // CSS - Framework
-		    if((isset($framework['css_file'])) && ($framework['css_file'] != '')) {
-		        $css_file_path = plugin_dir_url(__FILE__) . 'css/frameworks/' . $framework['css_file'];
-		        wp_enqueue_style($this->plugin_name . '-framework', $css_file_path, array(), $this->version, 'all');
-		    }
+			// CSS - Framework
+			if((isset($framework['css_file'])) && ($framework['css_file'] != '')) {
+				$css_file_path = plugin_dir_url(__FILE__) . 'css/frameworks/' . $framework['css_file'];
+				wp_enqueue_style($this->plugin_name . '-framework', $css_file_path, array(), $this->version, 'all');
+			}
 
-		    // Form action
-		    $form_action = WS_Form_Common::get_api_path('submit');
+			// Form action
+			$form_action = WS_Form_Common::get_api_path('submit');
 
-		    // Check for custom form action
-		    $form_action_custom = trim(WS_Form_Common::get_object_meta_value($form_object, 'form_action', ''));
-		    if($form_action_custom != '') { 
-		        $form_action = $form_action_custom; 
-		    }
+			// Check for custom form action
+			$form_action_custom = trim(WS_Form_Common::get_object_meta_value($form_object, 'form_action', ''));
+			if($form_action_custom != '') { 
+				$form_action = $form_action_custom; 
+			}
 
-		    // Filter - Form action
+			// Filter - Form action
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-		    $form_action = apply_filters('wsf_shortcode_form_action', $form_action);
+			$form_action = apply_filters('wsf_shortcode_form_action', $form_action);
 
-		    // Form method
-		    $form_method = 'POST';
+			// Form method
+			$form_method = 'POST';
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-		    $form_method = apply_filters('wsf_shortcode_form_method', $form_method);
+			$form_method = apply_filters('wsf_shortcode_form_method', $form_method);
 
-		    // Form attribute - id
-		    $form_attr_id = ($element_id === false) ? 'ws-form-' . $form_instance : $element_id;
+			// Form attribute - id
+			$form_attr_id = ($element_id === false) ? 'ws-form-' . $form_instance : $element_id;
 
-		    // Form attribute - data-wsf-custom-id
-		    if($element_id !== false) {
-		        $attributes['data-wsf-custom-id'] = '';
-		    }
+			// Form attribute - data-wsf-custom-id
+			if($element_id !== false) {
+				$attributes['data-wsf-custom-id'] = '';
+			}
 
-		    // Form attribute - data-instance-id
-		    if($visual_builder) { 
-		        $form_instance = false; 
-		    }
-		    if($form_instance !== false) {
-		        $attributes['data-instance-id'] = $form_instance;
-		    }
+			// Form attribute - data-instance-id
+			if($visual_builder) { 
+				$form_instance = false; 
+			}
+			if($form_instance !== false) {
+				$attributes['data-instance-id'] = $form_instance;
+			}
 
-		    // Form attribute - class
-		    $form_attr_class = ($class === false) ? '' : ' ' . esc_attr($class);
+			// Form attribute - class
+			$form_attr_class = ($class === false) ? '' : ' ' . esc_attr($class);
 
-		    // RTL
-		    if(is_rtl()) { 
-		        $form_attr_class .= ' wsf-rtl'; 
-		    }
+			// RTL
+			if(is_rtl()) { 
+				$form_attr_class .= ' wsf-rtl'; 
+			}
 
-		    // Style attributes
-		    if(WS_Form_Common::styler_enabled()) {
-		        // Style ID
-		        $style_id = $this->ws_form_style->get_style_id_from_form_object($form_object, $this->conversational);
-		        $attributes['data-wsf-style-id'] = $style_id;
+			// Style attributes
+			if(WS_Form_Common::styler_enabled()) {
+				// Style ID
+				$style_id = $this->ws_form_style->get_style_id_from_form_object($form_object, $this->conversational);
+				$attributes['data-wsf-style-id'] = $style_id;
 
-		        // Styler ALT
-		        $this->ws_form_style->id = $style_id;
-		        if($this->ws_form_style->has_alt()) {
-		            $attributes['data-wsf-style-has-alt'] = '';
-		        }
-		    }
+				// Styler ALT
+				$this->ws_form_style->id = $style_id;
+				if($this->ws_form_style->has_alt()) {
+					$attributes['data-wsf-style-has-alt'] = '';
+				}
+			}
 
-		    // Sanitize element tag name (whitelist allowed elements)
-		    $allowed_elements = array('form', 'div', 'section', 'article');
-		    $element = in_array($element, $allowed_elements, true) ? $element : 'form';
+			// Sanitize element tag name (whitelist allowed elements)
+			$allowed_elements = array('form', 'div', 'section', 'article');
+			$element = in_array($element, $allowed_elements, true) ? $element : 'form';
 
-		    // Form wrapper
-		    switch($element) {
-		        case 'form' :
-		            $return_value = sprintf(
-		                '<form action="%s" class="wsf-form wsf-form-canvas%s" id="%s" data-id="%u" method="%s"%s></form>', 
-		                esc_url($form_action), 
-		                esc_attr($form_attr_class), 
-		                esc_attr($form_attr_id), 
-		                $form_id, 
-		                esc_attr($form_method), 
-		                WS_Form_Common::esc_attributes($attributes)
-		            );
-		            break;
+			// Form wrapper
+			switch($element) {
+				case 'form' :
+					$return_value = sprintf(
+						'<form action="%s" class="wsf-form wsf-form-canvas%s" id="%s" data-id="%u" method="%s"%s></form>', 
+						esc_url($form_action), 
+						esc_attr($form_attr_class), 
+						esc_attr($form_attr_id), 
+						$form_id, 
+						esc_attr($form_method), 
+						WS_Form_Common::esc_attributes($attributes)
+					);
+					break;
 
-		        default :
-		            $return_value = sprintf(
-		                '<%1$s class="wsf-form wsf-form-canvas%2$s" id="%3$s" data-id="%4$u"%5$s></%1$s>', 
-		                $element, 
-		                esc_attr($form_attr_class), 
-		                esc_attr($form_attr_id), 
-		                $form_id, 
-		                WS_Form_Common::esc_attributes($attributes)
-		            );
-		            break;
-		    }
+				default :
+					$return_value = sprintf(
+						'<%1$s class="wsf-form wsf-form-canvas%2$s" id="%3$s" data-id="%4$u"%5$s></%1$s>', 
+						$element, 
+						esc_attr($form_attr_class), 
+						esc_attr($form_attr_id), 
+						$form_id, 
+						WS_Form_Common::esc_attributes($attributes)
+					);
+					break;
+			}
 
-		    // Shortcode filter
+			// Shortcode filter
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-		    $return_value = apply_filters('wsf_shortcode', $return_value);
+			$return_value = apply_filters('wsf_shortcode', $return_value);
 
-		    // Build JSON
-		    $form_json = wp_json_encode($form_object);
+			// Build JSON
+			$form_json = wp_json_encode($form_object);
 
-		    // Form data (Only render once per form ID)
-		    if(!isset($this->wsf_form_json[$form_id])) {
-		        // Form JSON
-		        $this->footer_js .= sprintf("window.wsf_form_json[%u] = %s;", $form_id, $form_json) . "\n";
+			// Form data (Only render once per form ID)
+			if(!isset($this->wsf_form_json[$form_id])) {
+				// Form JSON
+				$this->footer_js .= sprintf("window.wsf_form_json[%u] = %s;", $form_id, $form_json) . "\n";
 
-		        // Form JSON populate
-		        $populate_array = self::get_populate_array($form_json);
+				// Form JSON populate
+				$populate_array = self::get_populate_array($form_json);
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-		        $populate_array = apply_filters('wsf_populate', $populate_array);
-		        if(($populate_array !== false) && count($populate_array) > 0) {
-		            $this->footer_js .= sprintf("window.wsf_form_json_populate[%u] = %s;", $form_id, wp_json_encode($populate_array)) . "\n";
-		        }
+				$populate_array = apply_filters('wsf_populate', $populate_array);
+				if(($populate_array !== false) && count($populate_array) > 0) {
+					$this->footer_js .= sprintf("window.wsf_form_json_populate[%u] = %s;", $form_id, wp_json_encode($populate_array)) . "\n";
+				}
 
-		        $this->wsf_form_json[$form_id] = true;
-		    }
+				$this->wsf_form_json[$form_id] = true;
+			}
 
-		    // Add view
-		    $ws_form_form_stat = new WS_Form_Form_Stat();
-		    if($ws_form_form_stat->form_stat_check() && (WS_Form_Common::option_get('add_view_method') == 'server')) {
-		        // Log view
-		        $ws_form_form_stat->form_id = $form_id;
-		        $ws_form_form_stat->db_add_view();
-		    }
+			// Add view
+			$ws_form_form_stat = new WS_Form_Form_Stat();
+			if($ws_form_form_stat->form_stat_check() && (WS_Form_Common::option_get('add_view_method') == 'server')) {
+				// Log view
+				$ws_form_form_stat->form_id = $form_id;
+				$ws_form_form_stat->db_add_view();
+			}
 
-		    return $return_value;
+			return $return_value;
 		}
 
 		public function localization_object() {

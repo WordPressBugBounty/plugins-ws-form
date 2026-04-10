@@ -2,8 +2,8 @@
 Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.4
-Tested up to: 7.0
-Stable tag: 1.10.82
+Tested up to: 6.9
+Stable tag: 1.10.86
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -353,25 +353,14 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.10.82 - 03/23/2026 =
-* Added: License activity logging https://wsform.com/knowledgebase/license-activity-logging/
-* Added: Support for French typographic time format (G \h i)
-* Bug Fix: #checkbox_count
-* Bug Fix: Serialized object instantiation filtering
-* Bug Fix: Dynamic setting of min and max attributes using #text/#calc when field is hidden
+= 1.10.86 - 04/09/2026 =
+* Added: Support for Google Drive shared folders and drives for Media Capture field
 
-= 1.10.81 - 03/20/2026 =
-* Added: Improved license activation and check methods
-* Changed: Removed dependency on mb_strtolower
-* Changed: Session ID to Session Hash
-* Bug Fix: Validation of Google address fields fixed when more than one field on a form
+= 1.10.85 - 04/06/2026 =
+* Bug Fix: ACF taxonomy field value handling for different sub field types
+* Bug Fix: Form checksum calculation during styler rendering
 
-= 1.10.80 - 03/04/2026 =
-* Added: Divi 5 module
-* Added: QR code reading in Media Library field
-* Added: Additional image mime types added for image conversion options in File Upload field
-* Added: Send Email action now supports media capture as attachments
-* Added: #checkbox_count now supports Price Checkbox fields
-* Bug Fix: ACF taxonomy field type population
+= 1.10.84 - 04/04/2026 =
+* Bug Fix: Improved dependency checks for add-on enqueued scripts and styles
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

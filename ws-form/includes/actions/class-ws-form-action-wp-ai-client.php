@@ -74,9 +74,11 @@
 //		public function init() {
 
 			// Set label
+			/* translators: AI is the abbreviation for "Artificial Intelligence" */
 			$this->label = __('AI', 'ws-form');
 
 			// Set label for actions pull down
+			/* translators: AI is the abbreviation for "Artificial Intelligence" */
 			$this->label_action = __('Make AI Request', 'ws-form');
 
 			// Register action
@@ -88,6 +90,7 @@
 
 			$parse_variables['ai'] = array(
 
+				/* translators: AI is the abbreviation for "Artificial Intelligence" */
 				'label' => __('AI', 'ws-form'),
 
 				'variables'	=> array(
@@ -822,7 +825,7 @@
 					'label'						=>	__('Prompt Mask', 'ws-form'),
 					'type'						=>	'html_editor',
 					'placeholder'				=>	__('e.g. #field(123)', 'ws-form'),
-					'help'						=>	__('Use the input mask to build engineer prompts that contain WS Form variables.', 'ws-form'),
+					'help'						=>	__('Use the input mask to create prompts that include WS Form variables.', 'ws-form'),
 					'select_list'				=>	true,
 					'rows'						=>	5,
 					'condition'					=>	array(

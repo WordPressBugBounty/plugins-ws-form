@@ -1609,9 +1609,22 @@
 		// Process checksum
 		public function db_checksum_process($form_object) {
 
+			// Clone to avoid mutating the original object
+			$form_object = clone $form_object;
+
 			// Remove any variables that change each time checksum calculated or don't affect the public form
+
+			// Form level
 			unset($form_object->checksum);
 			unset($form_object->published_checksum);
+			unset($form_object->status);
+			unset($form_object->count_stat_view);
+			unset($form_object->count_stat_save);
+			unset($form_object->count_stat_submit);
+			unset($form_object->count_submit);
+			unset($form_object->count_submit_unread);
+
+			// Form meta level
 			unset($form_object->meta->tab_index);
 			unset($form_object->meta->breakpoint);
 
@@ -3136,10 +3149,10 @@
 
 			// Definitions - Gradient - Bottom
 			$svg .= sprintf(
-			    '<linearGradient id="%s" x1="0%%" y1="0%%" x2="0%%" y2="100%%"><stop offset="0%%" style="stop-color:%s;stop-opacity:0" /><stop offset="100%%" style="stop-color:%s;stop-opacity:1" /></linearGradient>',
-			    esc_attr($gradient_id),
-			    esc_attr($ws_form_css->color_form_background),
-			    esc_attr($ws_form_css->color_form_background)
+				'<linearGradient id="%s" x1="0%%" y1="0%%" x2="0%%" y2="100%%"><stop offset="0%%" style="stop-color:%s;stop-opacity:0" /><stop offset="100%%" style="stop-color:%s;stop-opacity:1" /></linearGradient>',
+				esc_attr($gradient_id),
+				esc_attr($ws_form_css->color_form_background),
+				esc_attr($ws_form_css->color_form_background)
 			);
 
 			$svg .= '</defs>';

@@ -1432,10 +1432,9 @@
 				case 'page_link' :
 				case 'relationship' :
 				case 'select' :
-				case 'taxonomy' :
 				case 'user' :
 
-					// If not set as multiple, save as string
+					// ACF Multiple setting
 					if($acf_key !== false) {
 
 						$acf_field_object = get_field_object($acf_key);
@@ -1444,6 +1443,26 @@
 							is_array($acf_field_object) &&
 							isset($acf_field_object['multiple']) &&
 							!$acf_field_object['multiple'] &&
+							is_array($meta_value) &&
+							isset($meta_value[0])
+						) {
+							return $meta_value[0];
+						}
+					}
+
+					break;
+
+				case 'taxonomy' :
+
+					// ACF Appearance setting
+					if($acf_key !== false) {
+
+						$acf_field_object = get_field_object($acf_key);
+
+						if(
+							is_array($acf_field_object) &&
+							isset($acf_field_object['field_type']) &&
+							in_array($acf_field_object['field_type'], array('radio', 'select')) &&
 							is_array($meta_value) &&
 							isset($meta_value[0])
 						) {
