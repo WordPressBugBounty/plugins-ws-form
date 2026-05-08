@@ -7,7 +7,7 @@
 		// For editor when a form is added
 		elementorFrontend.hooks.addAction('frontend/element_ready/ws-form.default', function($scope, $) {
 
-			if(typeof(wsf_form_init) === 'function') {
+			if(typeof wsf_form_init === 'function') {
 
 				// Initialize form
 				wsf_form_init(true);

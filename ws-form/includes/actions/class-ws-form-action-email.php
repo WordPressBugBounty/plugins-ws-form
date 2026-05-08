@@ -822,7 +822,7 @@
 					'type'						=>	'text',
 					'help'						=>	__('Email address email sent from.', 'ws-form'),
 					'default'					=>	'#blog_admin_email',
-					'variable_helper'				=>	true
+					'variable_helper'			=>	true
 				),
 
 				// From - Display Name
@@ -832,7 +832,7 @@
 					'type'						=>	'text',
 					'help'						=>	__('Display name email sent from.', 'ws-form'),
 					'default'					=>	'#blog_name',
-					'variable_helper'				=>	true
+					'variable_helper'			=>	true
 				),
 
 				// To
@@ -855,7 +855,7 @@
 							'action_' . $this->id . '_name' 	=> '#blog_name'
 						)
 					),
-					'variable_helper'				=>	true
+					'variable_helper'			=>	true
 				),
 
 				// To - Round Robin
@@ -880,7 +880,7 @@
 						'action_' . $this->id . '_name'
 					),
 					'help'						=>	__('Email address(es) to carbon copy email to.', 'ws-form'),
-					'variable_helper'				=>	true
+					'variable_helper'			=>	true
 				),
 
 				// BCC
@@ -894,7 +894,7 @@
 						'action_' . $this->id . '_name'
 					),
 					'help'						=>	__('Email address(es) to blind carbon copy email to.', 'ws-form'),
-					'variable_helper'				=>	true
+					'variable_helper'			=>	true
 				),
 
 				// Reply-To - Email
@@ -904,7 +904,7 @@
 					'type'						=>	'text',
 					'help'						=>	__('Email address replies will be sent to.', 'ws-form'),
 					'default'					=>	'',
-					'variable_helper'				=>	true
+					'variable_helper'			=>	true
 				),
 
 				// Subject
@@ -914,7 +914,8 @@
 					'type'						=>	'text',
 					'help'						=>	__('Email subject.', 'ws-form'),
 					'default'					=>	'#form_label',
-					'variable_helper'				=>	true
+					'variable_helper'			=>	true,
+					'translate'					=>	true
 				),
 
 				// Message - Format
@@ -968,7 +969,7 @@
 							'meta_value'	=>	'text/plain'
 						),
 					),
-					'variable_helper'				=>	true
+					'variable_helper'			=>	true,
 				),
 
 				// Message - WordPress Editor
@@ -1000,7 +1001,8 @@
 							'logic_previous'	=>	'&&'
 						)
 					),
-					'variable_helper'				=>	true
+					'variable_helper'			=>	true,
+					'translate'					=>	true
 				),
 
 				// Message - HTML Editor
@@ -1031,7 +1033,8 @@
 							'logic_previous'	=>	'&&'
 						)
 					),
-					'variable_helper'				=>	true
+					'variable_helper'			=>	true,
+					'translate'					=>	true
 				),
 
 				// Clear hidden meta values

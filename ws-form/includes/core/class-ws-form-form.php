@@ -1210,6 +1210,10 @@
 				($status == 'trash') ||
 				$permanent
 			) {
+				// Before removing meta / row: integrations (e.g. WPML) may need form meta or a row that still exists.
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				do_action('wsf_form_delete', $this->id);
+
 				// Delete meta
 				$ws_form_meta = new WS_Form_Meta();
 				$ws_form_meta->object = 'form';
@@ -1241,18 +1245,15 @@
 				// Delete submission hidden column meta
 				delete_user_option(get_current_user_id(), 'managews-form_page_ws-form-submitcolumnshidden-' . $this->id, !is_multisite());
 
-				// Do action
-				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-				do_action('wsf_form_delete', $this->id);
 
 			} else {
-
-				// Set status to 'trash'
-				self::db_set_status('trash');
 
 				// Do action
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_form_trash', $this->id);
+
+				// Set status to 'trash'
+				self::db_set_status('trash');
 			}
 
 			// Clear data source scheduled events
@@ -1575,6 +1576,9 @@
 			// Get form data
 			$form_object = self::db_read(true, true, true, false, $bypass_user_capability_check);
 
+			// Store current status before checksum processing strips it
+			$form_status = isset($form_object->status) ? $form_object->status : '';
+
 			// MD5
 			$this->checksum = self::db_checksum_process($form_object);
 
@@ -1597,11 +1601,16 @@
 			// Auto publish
 			if(
 				!$bypass_publish_auto &&
+				($form_status === 'publish') &&
 				WS_Form_Common::user_must('publish_form', $bypass_user_capability_check) &&
 				WS_Form_Common::option_get('publish_auto', false)
 			) {
 				self::db_publish();
 			}
+
+			// Do action - Form updated
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			do_action('wsf_form_update', $this->id);
 
 			return $this->checksum;
 		}
@@ -1721,6 +1730,9 @@
 					$this->new_lookup['field'] = $this->new_lookup['field'] + $ws_form_group->new_lookup['field'];
 				}
 			}
+
+			// Form saved (create from object, import, template apply, or normal save)
+			$form_object->id = $this->id;
 
 			return $this->id;
 		}
@@ -2337,7 +2349,7 @@
 								'id'		=> $post->ID,
 								'type'		=> $post->post_type,
 								'type_name'	=> $post_type->labels->singular_name,
-								'title'		=> (empty($post->post_title) ? $post->ID : $post->post_title)
+								'title'		=> (($post->post_title === '') ? $post->ID : $post->post_title)
 							);
 						}
 					}

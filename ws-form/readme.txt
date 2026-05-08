@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 1.10.87
+Stable tag: 1.11.0
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,9 +48,34 @@ https://youtu.be/ZsTBBsdQxFQ
 * [Send Unlimited Emails](https://wsform.com/knowledgebase/send-email/?utm_source=wp_plugins&utm_medium=readme)
 * [Single Click Templates](https://wsform.com/templates/?utm_source=wp_plugins&utm_medium=readme)
 * [Styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme)
+* [Translation](https://wsform.com/knowledgebase/translate-forms/?utm_source=wp_plugins&utm_medium=readme) (Polylang, TranslatePress, Weglot, WPML, manual — details below)
 * [Variables](https://wsform.com/knowledgebase/variables/?utm_source=wp_plugins&utm_medium=readme)
 
-= Advanced Spam Protection =
+= How to Create a Form in WordPress =
+
+1. Go to WS Form > Add New.
+2. Choose a template or start from a blank form.
+3. Use the drag-and-drop editor to add fields.
+4. Click "Publish" and embed the form using your preferred page builder.
+
+= Page Builders =
+
+Add forms to your website using your favorite WordPress page builder:
+
+* [Beaver Builder](https://wsform.com/knowledgebase/beaver-builder-module/?utm_source=wp_plugins&utm_medium=readme)
+* [Block Editor (Gutenberg)](https://wsform.com/knowledgebase/gutenberg-block/?utm_source=wp_plugins&utm_medium=readme)
+* [Breakdance](https://wsform.com/knowledgebase/breakdance-website-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
+* [Bricks](https://wsform.com/knowledgebase/bricks-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
+* [Classic Editor](https://wsform.com/knowledgebase/adding-forms-to-your-website/?utm_source=wp_plugins&utm_medium=readme)
+* [Divi 4](https://wsform.com/knowledgebase/divi-visual-builder-module/?utm_source=wp_plugins&utm_medium=readme)
+* [Divi 5](https://wsform.com/knowledgebase/divi-5-visual-builder-module/?utm_source=wp_plugins&utm_medium=readme)
+* [Elementor](https://wsform.com/knowledgebase/elementor-widget/?utm_source=wp_plugins&utm_medium=readme)
+* [Etch](https://wsform.com/knowledgebase/etch/?utm_source=wp_plugins&utm_medium=readme)
+* [Oxygen](https://wsform.com/knowledgebase/oxygen-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
+
+For other builders simply use the WS Form [shortcode](https://wsform.com/knowledgebase/the-ws-form-shortcode/?utm_source=wp_plugins&utm_medium=readme)!
+
+= Spam Protection =
 
 WS Form includes a powerful, multi-layer spam protection system to block unwanted submissions automatically. You get both built-in defenses and integrations with leading anti-spam services.
 
@@ -72,29 +97,15 @@ WS Form includes a powerful, multi-layer spam protection system to block unwante
 * [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
 * Works alongside third-party services such as CleanTalk and OOPSpam
 
-= Page Builder Compatibility =
+= Multilingual Forms and Translation =
 
-Add forms to your website using your favorite WordPress page builder:
+Translate your forms using your favorite multilingual plugin, or create different forms per language:
 
-* [Beaver Builder](https://wsform.com/knowledgebase/beaver-builder-module/?utm_source=wp_plugins&utm_medium=readme)
-* [Block Editor (Gutenberg)](https://wsform.com/knowledgebase/gutenberg-block/?utm_source=wp_plugins&utm_medium=readme)
-* [Breakdance](https://wsform.com/knowledgebase/breakdance-website-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
-* [Bricks](https://wsform.com/knowledgebase/bricks-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
-* [Classic Editor](https://wsform.com/knowledgebase/adding-forms-to-your-website/?utm_source=wp_plugins&utm_medium=readme)
-* [Divi 4](https://wsform.com/knowledgebase/divi-visual-builder-module/?utm_source=wp_plugins&utm_medium=readme)
-* [Divi 5](https://wsform.com/knowledgebase/divi-5-visual-builder-module/?utm_source=wp_plugins&utm_medium=readme)
-* [Elementor](https://wsform.com/knowledgebase/elementor-widget/?utm_source=wp_plugins&utm_medium=readme)
-* [Etch](https://wsform.com/knowledgebase/etch/?utm_source=wp_plugins&utm_medium=readme)
-* [Oxygen](https://wsform.com/knowledgebase/oxygen-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
-
-For other builders simply use the WS Form [shortcode](https://wsform.com/knowledgebase/the-ws-form-shortcode/?utm_source=wp_plugins&utm_medium=readme)!
-
-= How to Create a Contact Form in WordPress =
-
-1. Go to WS Form > Add New.
-2. Choose a template or start from a blank form.
-3. Use the drag-and-drop editor to add fields.
-4. Click "Publish" and embed the form using your preferred page builder.
+* [Polylang](https://wsform.com/knowledgebase/translate-forms-with-polylang/?utm_source=wp_plugins&utm_medium=readme)
+* [TranslatePress](https://wsform.com/knowledgebase/translate-forms-with-translatepress/?utm_source=wp_plugins&utm_medium=readme)
+* [Weglot](https://wsform.com/knowledgebase/translate-forms-with-weglot/?utm_source=wp_plugins&utm_medium=readme)
+* [WPML](https://wsform.com/knowledgebase/translate-forms-with-wpml/?utm_source=wp_plugins&utm_medium=readme)
+* [Manual translation](https://wsform.com/knowledgebase/translate-forms-manually/?utm_source=wp_plugins&utm_medium=readme)
 
 = Upgrade to PRO =
 
@@ -333,6 +344,9 @@ Absolutely. WS Form meets modern accessibility standards and includes tools for 
 = Can I upgrade to PRO later? =
 Yes, you can upgrade anytime to unlock all field types, integrations, and advanced features. None of your data will be lost.
 
+= Can I translate my forms in the free version? =
+Yes. WS Form LITE includes per-form translation settings and integrations with Polylang, TranslatePress, Weglot, and WPML, plus a manual workflow. [Learn more](https://wsform.com/knowledgebase/translate-forms/?utm_source=wp_plugins&utm_medium=readme)
+
 = Is WS Form GDPR compliant? =
 Yes, WS Form includes GDPR-friendly features such as explicit consent and data export tools. [Learn more](https://wsform.com/knowledgebase/what-is-gdpr/?utm_source=wp_plugins&utm_medium=readme)
 
@@ -353,14 +367,22 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.10.87 - 04/10/2026 =
-* Bug Fix: Substring fix for WS Form variable parameters
+= 1.11.0 - 05/08/2026 =
+* Added: Per-form translation with automatically updated translatable strings https://wsform.com/knowledgebase/translate-forms/
+* Added: WPML integration
+* Added: Polylang integration
+* Added: Weglot integration
+* Changed: Auto publish no longer occurs if form changed to draft status
+* Bug Fix: Layout CSS for RTL
 
-= 1.10.86 - 04/09/2026 =
-* Added: Support for Google Drive shared folders and drives for Media Capture field
+= 1.10.89 - 04/26/2026 =
+* Added: Silent exit if add view fails to avoid unnecessary error logs (e.g. invalid form ID)
+* Added: Object filtering on submission view and export
 
-= 1.10.85 - 04/06/2026 =
-* Bug Fix: ACF taxonomy field value handling for different sub field types
-* Bug Fix: Form checksum calculation during styler rendering
+= 1.10.88 - 04/23/2026 =
+* Changed: Report wp_schedule_event args no longer uses key value pairs
+* Bug Fix: wsf_submit_set_value and wsf_submit_set_value_by_field_id functions
+* Bug Fix: Custom HTML for move up and move down buttons in repeatable section icons
+* Bug Fix: Minimum Date and Maximum Date setting on date field timezone issue
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

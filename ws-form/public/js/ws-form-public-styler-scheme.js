@@ -2,11 +2,11 @@
 
 	'use strict';
 
-	// Styler schjeme
+	// Styler scheme
 	$.WS_Form.prototype.styler_scheme = function(process_media_prefers_color_scheme, process_third_party) {
 
-		if(typeof(process_media_prefers_color_scheme) === 'undefined') { process_media_prefers_color_scheme = true; }
-		if(typeof(process_third_party) === 'undefined') { process_third_party = true; }
+		if(typeof process_media_prefers_color_scheme === 'undefined') { process_media_prefers_color_scheme = true; }
+		if(typeof process_third_party === 'undefined') { process_third_party = true; }
 
 		if(process_media_prefers_color_scheme) {
 
@@ -22,7 +22,7 @@
 
 		if(process_third_party) {
 
-			// Mutation processing roggle
+			// Mutation processing toggle
 			this.styler_scheme_mutation_process = true;
 
 			// Initial check for third party class theme switchers - To do
@@ -59,7 +59,7 @@
 
 		if(e.matches) {
 
-			if(ws_form_settings.scheme == 'light') {
+			if(ws_form_settings.scheme === 'light') {
 
 				$.WS_Form.this.styler_scheme_alt_enable();
 
@@ -70,7 +70,7 @@
 
 		} else {
 
-			if(ws_form_settings.scheme == 'light') {
+			if(ws_form_settings.scheme === 'light') {
 
 				$.WS_Form.this.styler_scheme_alt_disable();
 

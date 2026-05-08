@@ -315,24 +315,44 @@ final class WS_Form {
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/data-sources/class-ws-form-data-source-woocommerce.php';
 			}
 
-/*			// Translation
+			$translate_load = false;
 
-			// WPML
-			$translation_enabled = false;
+			// WPML (4.7+)
 			if(
 				defined('ICL_SITEPRESS_VERSION') &&
-				defined('WPML_ST_VERSION')
+				(WS_Form_Common::version_compare(ICL_SITEPRESS_VERSION, '4.7.0') >= 0) &&
+				defined('WPML_ST_VERSION') &&
+				(WS_Form_Common::version_compare(WPML_ST_VERSION, '3.3.0') >= 0)
 			) {
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/wpml/class-ws-form-wpml.php';
-
-				$translation_enabled = true;
+				$translate_load = true;
 			}
 
-			if($translation_enabled) {
+			// Polylang (2.8+)
+			if(
+				defined('POLYLANG_VERSION') &&
+				(WS_Form_Common::version_compare(POLYLANG_VERSION, '2.8.0') >= 0)
+			) {
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/polylang/class-ws-form-polylang.php';
+				$translate_load = true;
+			}
+
+			// Weglot (4.0+)
+			if(
+				defined('WEGLOT_VERSION') &&
+				(WS_Form_Common::version_compare(WEGLOT_VERSION, '4.0.0') >= 0)
+			) {
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/weglot/class-ws-form-weglot.php';
+				$translate_load = true;
+			}
+
+			// Load translate if enabled
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WS Form prefixed filter
+			if(apply_filters('wsf_translate_load', $translate_load)) {
 
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-translate.php';
 			}
-*/
+
 
 			// Run wsf_loaded action
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_

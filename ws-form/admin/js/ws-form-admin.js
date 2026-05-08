@@ -133,9 +133,9 @@
 			var keyCode = e.keyCode || e.which;
 
 			// Command (Mac) / Ctrl (PC)
-			var ctrl = ((typeof(e.metaKey) !== 'undefined') ? e.metaKey : false) || ((typeof(e.ctrlKey) !== 'undefined') ? e.ctrlKey : false);
+			var ctrl = ((typeof e.metaKey !== 'undefined') ? e.metaKey : false) || ((typeof e.ctrlKey !== 'undefined') ? e.ctrlKey : false);
 
-			if(typeof($.WS_Form.this.keydown[keyCode]) === 'object') {
+			if(typeof $.WS_Form.this.keydown[keyCode] === 'object') {
 
 				var keydown = $.WS_Form.this.keydown[keyCode];
 
@@ -152,13 +152,13 @@
 	$.WS_Form.prototype.set_globals = function(framework_override, admin_public) {
 
 		// Get framework ID
-		this.framework_id = (typeof(framework_override) !== 'undefined' ? framework_override : $.WS_Form.settings_plugin.framework);
+		this.framework_id = (typeof framework_override !== 'undefined' ? framework_override : $.WS_Form.settings_plugin.framework);
 
 		// Get framework settings
 		this.framework = $.WS_Form.frameworks.types[this.framework_id];
 
 		// Get current framework for tabs
-		this.framework_fields = this.framework.fields[typeof(admin_public) !== 'undefined' ? admin_public : 'admin'];
+		this.framework_fields = this.framework.fields[typeof admin_public !== 'undefined' ? admin_public : 'admin'];
 
 		// Set mobile breakpoint size
 		this.mobile_min_width = '851px';
@@ -170,7 +170,7 @@
 
 		// Intro
 		if(
-			(typeof(introJs) !== 'function') ||
+			(typeof introJs !== 'function') ||
 			!ws_form_settings.intro
 		) {
 			return;
@@ -186,7 +186,7 @@
 			// Loader off
 			$.WS_Form.this.loader_off();
 
-			if(typeof(hint_steps_config) !== 'object') { return; }
+			if(typeof hint_steps_config !== 'object') { return; }
 
 			// Build hint steps
 			var hints = [];
@@ -199,11 +199,11 @@
 				var hint_step_config = hint_steps_config[hint_config_index];
 				var hint_step = {}
 
-				if(typeof(hint_step_config.hint) !== 'undefined') { hint_step.hint = hint_step_config.hint; }
-				if(typeof(hint_step_config.position) !== 'undefined') { hint_step.hintPosition = hint_step_config.position; }
-				if(typeof(hint_step_config.element) !== 'undefined') { hint_step.element = $(hint_step_config.element)[0]; }
-				if(typeof(hint_step_config.sidebar_open) !== 'undefined') { hints_sidebar_open[hint_config_index] = hint_step_config.sidebar_open; }
-				if(typeof(hint_step_config.button_url) !== 'undefined') { hints_button_url[hint_config_index] = hint_step_config.button_url; }
+				if(typeof hint_step_config.hint !== 'undefined') { hint_step.hint = hint_step_config.hint; }
+				if(typeof hint_step_config.position !== 'undefined') { hint_step.hintPosition = hint_step_config.position; }
+				if(typeof hint_step_config.element !== 'undefined') { hint_step.element = $(hint_step_config.element)[0]; }
+				if(typeof hint_step_config.sidebar_open !== 'undefined') { hints_sidebar_open[hint_config_index] = hint_step_config.sidebar_open; }
+				if(typeof hint_step_config.button_url !== 'undefined') { hints_button_url[hint_config_index] = hint_step_config.button_url; }
 
 				hints.push(hint_step);
 			}
@@ -218,13 +218,13 @@
 			// On hint click
 			intro.onhintclick(function(hint_element, item, step_id) {
 
-				if(typeof(hints_sidebar_open[step_id]) !== 'undefined') {
+				if(typeof hints_sidebar_open[step_id] !== 'undefined') {
 
 					var id = hints_sidebar_open[step_id];
 
 					// Open
 					var meta_key_open_function = 'sidebar_' + id + '_open';
-					if(typeof(window[meta_key_open_function]) === 'function') {
+					if(typeof window[meta_key_open_function] === 'function') {
 
 						// Get dom objects
 						var obj_outer = $('#wsf-sidebar-' + id);
@@ -239,7 +239,7 @@
 					}
 				}
 
-				if(typeof(hints_button_url[step_id]) !== 'undefined') {
+				if(typeof hints_button_url[step_id] !== 'undefined') {
 
 					var url = hints_button_url[step_id];
 
@@ -477,9 +477,9 @@
 	// API - Form - PUT
 	$.WS_Form.prototype.form_put = function(full, form_build, history_suppress, preview_update, complete) {
 
-		if(typeof(full) === 'undefined') { full = false; }
-		if(typeof(form_build) === 'undefined') { form_build = true; }
-		if(typeof(history_suppress) === 'undefined') { history_suppress = false; }
+		if(typeof full === 'undefined') { full = false; }
+		if(typeof form_build === 'undefined') { form_build = true; }
+		if(typeof history_suppress === 'undefined') { history_suppress = false; }
 
 		var form = $.extend(true, {}, this.form); // Deep clone
 
@@ -495,7 +495,7 @@
 		// Call AJAX request
 		this.api_call('form/' + this.form_id + (full ? '/full' : '') + '/put/', 'POST', {'form': form}, function(response) {
 
-			if(typeof(complete) !== 'undefined') { complete(); }
+			if(typeof complete !== 'undefined') { complete(); }
 
 			// Update preview window
 			if(preview_update) {
@@ -562,9 +562,9 @@
 		try {
 
 			if(
-				(typeof(this.preview_window) !== 'undefined') &&
-				(typeof(this.preview_window.location) !== 'undefined') &&
-				(typeof(this.preview_window.location.reload) !== 'undefined') &&
+				(typeof this.preview_window !== 'undefined') &&
+				(typeof this.preview_window.location !== 'undefined') &&
+				(typeof this.preview_window.location.reload !== 'undefined') &&
 				$.WS_Form.settings_plugin.helper_live_preview
 			) {
 
@@ -580,7 +580,7 @@
 	// Object - Uploader
 	$.WS_Form.prototype.object_upload_json = function(files, upload_json_window_obj, obj, success_callback, error_callback, show_confirm) {
 
-		if(typeof(show_confirm) === 'undefined') { show_confirm = false; }
+		if(typeof show_confirm === 'undefined') { show_confirm = false; }
 
 		// Check file count
 		if(files.length == 0) {
@@ -640,14 +640,14 @@
 			case 'group' :
 
 				// Get next sibling ID (0 = Last or only element in form)
-				var next_sibling_id = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+				var next_sibling_id = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 				data.append('next_sibling_id', next_sibling_id);
 				break;
 
 			case 'section' :
 
 				// Get next sibling ID (0 = Last or only element in form)
-				var next_sibling_id = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+				var next_sibling_id = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 				data.append('next_sibling_id', next_sibling_id);
 
 				// Group ID
@@ -720,10 +720,10 @@
 				// Set progress bar to 100%
 				status_bar.set_progress(100);
 
-				if(typeof(response.form) !== 'undefined') {
+				if(typeof response.form !== 'undefined') {
 
 					// If full form returned by API, load it
-					if((typeof(response.form_full) !== 'undefined') && response.form_full) {
+					if((typeof response.form_full !== 'undefined') && response.form_full) {
 
 						// Replace this form with response form
 						$.WS_Form.this.form = response.form;
@@ -755,14 +755,14 @@
 				}
 
 				// Save if we are using undo function (Called after success_callback to ensure response returned is in caches)
-				if(typeof(response.history) !== 'undefined') {
+				if(typeof response.history !== 'undefined') {
 
 					// Push to history stack
 					$.WS_Form.this.history_push(response);
 				}
 
 				// Call success script
-				if(typeof(success_callback) === 'function') { success_callback(response); }
+				if(typeof success_callback === 'function') { success_callback(response); }
 			},
 
 			error: function(response) {
@@ -900,7 +900,7 @@
 	// Group - Tabs - Init
 	$.WS_Form.prototype.group_tabs_init = function(index) {
 
-		if(typeof(index) === 'undefined') {
+		if(typeof index === 'undefined') {
 
 			// If index not specified, use the form tab_index meta value, or use value of 0 and create meta
 			var index = this.get_object_meta_value(this.form, 'tab_index', 0, true);
@@ -1024,7 +1024,7 @@
 		this.set_object_meta_value(this.form, 'tab_index', tab_index);
 
 		// Get next sibling ID (0 = Last or only element in form)
-		var next_sibling_id = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+		var next_sibling_id = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 		if(this.next_sibling_id_old == next_sibling_id) { return false; }
 
 		// Loader on
@@ -1066,7 +1066,7 @@
 		this.set_object_meta_value(this.form, 'tab_index', tab_obj_index + 1);
 
 		// Get next sibling ID (0 = Last or only element in group)
-		var next_sibling_id = (typeof(obj_tab.next().attr('data-id')) !== 'undefined') ? obj_tab.next().attr('data-id') : 0;
+		var next_sibling_id = (typeof obj_tab.next().attr('data-id') !== 'undefined') ? obj_tab.next().attr('data-id') : 0;
 
 		// Build request parameters
 		var params = {
@@ -1254,7 +1254,7 @@
 		var group_id = obj.closest('.wsf-group').attr('data-id');
 
 		// Get next sibling ID (0 = Last or only element in section)
-		var next_sibling_id = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+		var next_sibling_id = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 
 		// Build request parameters
 		var params = {
@@ -1291,7 +1291,7 @@
 	$.WS_Form.prototype.section_put_sort_index = function(obj) {
 
 		// Get next sibling ID (0 = Last or only element in form)
-		var next_sibling_id = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+		var next_sibling_id = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 
 		// Get group_id section has been dragged to
 		var group_id = obj.closest('.wsf-group').attr('data-id');
@@ -1330,7 +1330,7 @@
 		var section_id = obj.attr('data-id');
 
 		// Get next sibling ID (0 = Last or only element in section)
-		var next_sibling_id = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+		var next_sibling_id = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 
 		// Build request parameters
 		var params = {
@@ -1374,7 +1374,7 @@
 	// Build field
 	$.WS_Form.prototype.field_render = function(obj, field) {
 
-		if(typeof(field) === 'undefined') {
+		if(typeof field === 'undefined') {
 
 			var field_id = obj.attr('data-id');
 			var field = this.field_data_cache[field_id];
@@ -1400,15 +1400,15 @@
 		// Variables for rendering field
 		var this_field_label = field.label;
 
-		if(typeof(field_type_config) !== 'undefined') {
+		if(typeof field_type_config !== 'undefined') {
 
 			var field_type_config_label = field_type_config.label;
 			var field_type_config_icon = field_type_config.icon;
-			var field_type_config_has_label = (typeof(field_type_config.mask_field_label) !== 'undefined');
-			var field_type_config_has_mask_preview = (typeof(field_type_config.mask_preview) !== 'undefined');
-			var field_type_config_multiple = (typeof(field_type_config.multiple) !== 'undefined') ? field_type_config.multiple : true;
-			var field_type_config_admin_hide_id = (typeof(field_type_config.admin_hide_id) !== 'undefined') ? field_type_config.admin_hide_id : false;
-			var field_type_config_mask_wrappers_drop = (typeof(field_type_config.mask_wrappers_drop) !== 'undefined') ? field_type_config.mask_wrappers_drop : false;
+			var field_type_config_has_label = (typeof field_type_config.mask_field_label !== 'undefined');
+			var field_type_config_has_mask_preview = (typeof field_type_config.mask_preview !== 'undefined');
+			var field_type_config_multiple = (typeof field_type_config.multiple !== 'undefined') ? field_type_config.multiple : true;
+			var field_type_config_admin_hide_id = (typeof field_type_config.admin_hide_id !== 'undefined') ? field_type_config.admin_hide_id : false;
+			var field_type_config_mask_wrappers_drop = (typeof field_type_config.mask_wrappers_drop !== 'undefined') ? field_type_config.mask_wrappers_drop : false;
 
 		} else {
 
@@ -1452,7 +1452,7 @@
 		if(field_source_last_api_error !== '') {
 
 			// Show error
-			if(typeof(this.form_obj.attr('data-data-source-error')) === 'undefined') {
+			if(typeof this.form_obj.attr('data-data-source-error') === 'undefined') {
 
 				// Show error
 				this.data_source_error(field, field_source_last_api_error);
@@ -1557,11 +1557,11 @@
 
 		var field_setting_error = [];
 
-		if(typeof(field.meta) === 'undefined') { return false; }
+		if(typeof field.meta === 'undefined') { return false; }
 
 		if(
-			(typeof($.WS_Form.meta_keys_required_setting[field.type]) === 'undefined') &&
-			(typeof($.WS_Form.field_type_cache[field.type]) !== 'undefined')
+			(typeof $.WS_Form.meta_keys_required_setting[field.type] === 'undefined') &&
+			(typeof $.WS_Form.field_type_cache[field.type] !== 'undefined')
 		) {
 
 			var field_type = $.WS_Form.field_type_cache[field.type];
@@ -1583,24 +1583,24 @@
 
 				// Check for blank
 				if(
-					(typeof(field.meta[meta_key]) === 'undefined') ||
+					(typeof field.meta[meta_key] === 'undefined') ||
 					(field.meta[meta_key] == '')
 
 				) { field_setting_error.push(meta_key); }
 
 				// Check value if this is a select for choosing a field
-				if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { continue; }
+				if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { continue; }
 				var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
-				if(typeof(meta_key_config.type) === 'undefined') { continue; }
+				if(typeof meta_key_config.type === 'undefined') { continue; }
 				if(meta_key_config.type == 'select') {
 
-					if(typeof(meta_key_config.options) === 'undefined') { continue; }
+					if(typeof meta_key_config.options === 'undefined') { continue; }
 					if(meta_key_config.options == 'fields') {
 
 						var field_id = field.meta[meta_key];
 
-						if(typeof(this.field_data_cache[field_id]) === 'undefined') {
+						if(typeof this.field_data_cache[field_id] === 'undefined') {
 
 							field_setting_error.push(meta_key);
 						}
@@ -1610,7 +1610,7 @@
 
 						var section_id = field.meta[meta_key];
 
-						if(typeof(this.section_data_cache[section_id]) === 'undefined') {
+						if(typeof this.section_data_cache[section_id] === 'undefined') {
 
 							field_setting_error.push(meta_key);
 						}
@@ -1625,7 +1625,7 @@
 	// Blank section / field update
 	$.WS_Form.prototype.object_blank_update = function(obj) {
 
-		if(typeof(obj) === 'undefined') { obj = $('.wsf-group'); }
+		if(typeof obj === 'undefined') { obj = $('.wsf-group'); }
 
 		// Sections
 		$('.wsf-sections', obj).each(function() {
@@ -1699,7 +1699,7 @@
 		var width_factor = obj.attr('data-width-factor');
 
 		// Get next sibling ID (0 = Last or only element in section)
-		var next_sibling_id = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+		var next_sibling_id = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 
 		// Build request parameters
 		var params = {
@@ -1747,11 +1747,11 @@
 		var group_index = this.get_object_meta_value(this.form, 'tab_index', 0, true);
 		if(!group_index) { group_index = 0; }
 
-		if(typeof(this.form.groups) === 'undefined') { return false; }
-		if(typeof(this.form.groups[group_index]) === 'undefined') { return false; }
+		if(typeof this.form.groups === 'undefined') { return false; }
+		if(typeof this.form.groups[group_index] === 'undefined') { return false; }
 
 		var group = this.form.groups[group_index];
-		if(typeof(group.sections) === 'undefined') { return false; }
+		if(typeof group.sections === 'undefined') { return false; }
 
 		var section_id = false;
 		var field_date_updated_max = false;
@@ -1764,7 +1764,7 @@
 			var section = group.sections[section_index];
 			if(section_id === false) { section_id = section.id; }
 
-			if(typeof(section.fields) === 'undefined') { return false; }
+			if(typeof section.fields === 'undefined') { return false; }
 
 			// If there are no fields in section, use it.
 			if(section.fields.length == 0) { section_id = section.id; break; }
@@ -1809,16 +1809,16 @@
 			if(!this.field_data_cache.hasOwnProperty(field_id)) { continue; }
 
 			// Get field
-			if(typeof(this.field_data_cache[field_id]) === 'undefined') { continue; }
+			if(typeof this.field_data_cache[field_id] === 'undefined') { continue; }
 			var field = this.field_data_cache[field_id];
-			if(typeof(field.type) === 'undefined') { continue; }
+			if(typeof field.type === 'undefined') { continue; }
 			var field_type_id = field.type;
 
 			// Get field type data
 			var field_type = $.WS_Form.field_type_cache[field_type_id];
 
 			// Check to see if multiple attribute is set
-			if(typeof(field_type.multiple) === 'undefined') { continue; }
+			if(typeof field_type.multiple === 'undefined') { continue; }
 
 			var multiple = field_type.multiple;
 
@@ -1855,7 +1855,7 @@
 		if(!obj.attr('data-id')) { return; }
 
 		// Get next sibling ID (0 = Last or only element in section)
-		var next_sibling_id = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+		var next_sibling_id = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 
 		// Get section_id section has been dragged to
 		var section_id = obj.closest('.wsf-section').attr('data-id');
@@ -1894,7 +1894,7 @@
 		var field_id = obj.attr('data-id');
 
 		// Get next sibling ID (0 = Last or only element in section)
-		var next_sibling_id = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+		var next_sibling_id = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 
 		// Build request parameters
 		var params = {
@@ -2261,7 +2261,7 @@
 		var sidebar_html = '';
 		var sidebar_html_buttons = '';
 		var sidebar_inits = [];
-		if(typeof(object_meta.fieldsets) !== 'undefined') {
+		if(typeof object_meta.fieldsets !== 'undefined') {
 
 			// Clear sidebar caches
 			this.sidebar_cache_clear(obj_sidebar_outer);
@@ -2329,7 +2329,7 @@
 	// Save changes to any open objects
 	$.WS_Form.prototype.object_save_changes = function(reload) {
 
-		if(typeof(reload) === 'undefined') { reload = false; }
+		if(typeof reload === 'undefined') { reload = false; }
 
 		// Check if sidebar is locked
 		if(this.sidebar_lock_count) { return false; }
@@ -2375,7 +2375,7 @@
 	// Edit - Button - Save
 	$.WS_Form.prototype.object_button_save = function(obj, close) {
 
-		if(typeof(close) === 'undefined') { close = false; }
+		if(typeof close === 'undefined') { close = false; }
 
 		// Save object
 		this.object_save(obj);
@@ -2512,7 +2512,7 @@
 	// Object - Save
 	$.WS_Form.prototype.object_save = function(obj, save) {
 
-		if(typeof(save) === 'undefined') { save = true; }
+		if(typeof save === 'undefined') { save = true; }
 
 		// Get object type
 		var object = this.get_object_type(obj);
@@ -2588,7 +2588,7 @@
 			var label_default = this.get_label_default(object);
 		}
 		var object_label = $('[name="label"]', obj_sidebar_inner).val();
-		if(typeof(object_label) !== 'undefined') {
+		if(typeof object_label !== 'undefined') {
 
 			this.object_data_scratch.label = (object_label == '') ? label_default : object_label;
 		}
@@ -2638,7 +2638,7 @@
 					this.breakpoint_optimize(this.object_data_scratch);
 
 					// Optimize orientation breakpoints
-					var field_type = (typeof(this.object_data_scratch.type) !== 'undefined') ? this.object_data_scratch.type : false;
+					var field_type = (typeof this.object_data_scratch.type !== 'undefined') ? this.object_data_scratch.type : false;
 					switch(field_type) {
 
 						case 'checkbox' :
@@ -2679,7 +2679,7 @@
 						case 'field' :
 
 							// If there is a meta preview, re-render the field. We run this after the API call finishes in case there is any server side formatting of content.
-							if((typeof(field_type_config.mask_preview) !== 'undefined') && field_type_config.mask_preview) {
+							if((typeof field_type_config.mask_preview !== 'undefined') && field_type_config.mask_preview) {
 
 								$.WS_Form.this.field_render(obj, $.WS_Form.this.field_data_cache[object_id]);
 							}
@@ -2984,7 +2984,7 @@
 		var meta_key_type = meta_key_config.type;
 
 		// Check for key change
-		if(typeof($.WS_Form.meta_keys[meta_key].key) !== 'undefined') { meta_key = $.WS_Form.meta_keys[meta_key].key; }
+		if(typeof $.WS_Form.meta_keys[meta_key].key !== 'undefined') { meta_key = $.WS_Form.meta_keys[meta_key].key; }
 
 		// Read meta_value from form elements
 		var field_obj = $('#wsf-sidebar-' + object + ' [data-meta-key="' + this.esc_selector(meta_key) + '"]');
@@ -3037,16 +3037,16 @@
 					var meta_keys_single = repeater.meta_keys[meta_keys_index];
 
 					// Ensure meta key is configured
-					if(typeof($.WS_Form.meta_keys[meta_keys_single]) === 'undefined') { continue; }
+					if(typeof $.WS_Form.meta_keys[meta_keys_single] === 'undefined') { continue; }
 
 					// Check for key change
-					if(typeof($.WS_Form.meta_keys[meta_keys_single].key) !== 'undefined') { meta_keys_single = $.WS_Form.meta_keys[meta_keys_single].key; }
+					if(typeof $.WS_Form.meta_keys[meta_keys_single].key !== 'undefined') { meta_keys_single = $.WS_Form.meta_keys[meta_keys_single].key; }
 
 					var repeater_row_index = 0;
 
 					$('[name="' + this.esc_selector(meta_key + '_' + meta_keys_single) + '[]"]').each(function() {
 
-						if(typeof(meta_value[repeater_row_index]) === 'undefined') { meta_value[repeater_row_index] = {}; }
+						if(typeof meta_value[repeater_row_index] === 'undefined') { meta_value[repeater_row_index] = {}; }
 						var meta_value_cell = $.WS_Form.this.get_meta_value_by_obj($(this), $(this).attr('data-meta-key-type'));
 						if(meta_value_cell !== false) { meta_value[repeater_row_index][meta_keys_single] = meta_value_cell; }
 						repeater_row_index++;
@@ -3069,15 +3069,15 @@
 	// Sidebar - Get HTML
 	$.WS_Form.prototype.sidebar_html = function(object, object_id, object_data, object_meta, repeater_meta_key, render_wrappers, render_field_wrappers, render_label, buttons, depth, inits, datetime_type) {
 
-		if(typeof(object_meta.fieldsets) === 'undefined') { return ''; }
-		if(typeof(repeater_meta_key) === 'undefined') { repeater_meta_key = false; }
-		if(typeof(render_wrappers) === 'undefined') { render_wrappers = true; }
-		if(typeof(render_field_wrappers) === 'undefined') { render_field_wrappers = true; }
-		if(typeof(render_label) === 'undefined') { render_label = true; }
-		if(typeof(buttons) === 'undefined') { buttons = true; }
-		if(typeof(depth) === 'undefined') { depth = 1; }
-		if(typeof(inits) === 'undefined') { inits = []; }
-		if(typeof(datetime_type) === 'undefined') { datetime_type = 'datetime-local'; }
+		if(typeof object_meta.fieldsets === 'undefined') { return ''; }
+		if(typeof repeater_meta_key === 'undefined') { repeater_meta_key = false; }
+		if(typeof render_wrappers === 'undefined') { render_wrappers = true; }
+		if(typeof render_field_wrappers === 'undefined') { render_field_wrappers = true; }
+		if(typeof render_label === 'undefined') { render_label = true; }
+		if(typeof buttons === 'undefined') { buttons = true; }
+		if(typeof depth === 'undefined') { depth = 1; }
+		if(typeof inits === 'undefined') { inits = []; }
+		if(typeof datetime_type === 'undefined') { datetime_type = 'datetime-local'; }
 
 		var repeater = (repeater_meta_key !== false);
 
@@ -3141,7 +3141,7 @@
 
 			/* Sidebar classes */
 			var sidebar_classes = ['wsf-fieldset'];
-			if(typeof(fieldset.class) !== 'undefined') {
+			if(typeof fieldset.class !== 'undefined') {
 
 				sidebar_classes = sidebar_classes.concat(fieldset.class);
 			}
@@ -3162,7 +3162,7 @@
 			}
 
 			// Render fieldset variables
-			if(typeof(fieldset.meta_keys) !== 'undefined') {
+			if(typeof fieldset.meta_keys !== 'undefined') {
 
 				for(var key in fieldset.meta_keys) {
 
@@ -3174,7 +3174,7 @@
 					var meta_key = fieldset.meta_keys[key];
 
 					// Check to see if meta_key is defined
-					if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') {
+					if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') {
 
 						this.error('error_meta_key', meta_key);
 						continue;
@@ -3184,16 +3184,16 @@
 					var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 					// meta_key override
-					if(typeof(meta_key_config.key) !== 'undefined') { meta_key = meta_key_config.key; }
+					if(typeof meta_key_config.key !== 'undefined') { meta_key = meta_key_config.key; }
 
 					// Option check
-					if(typeof(meta_key_config.option_check) !== 'undefined') {
+					if(typeof meta_key_config.option_check !== 'undefined') {
 
 						if($.WS_Form.settings_plugin[meta_key_config.option_check]) { continue; }
 					}
 
 					// Condition
-					if(typeof(meta_key_config.condition) !== 'undefined') {
+					if(typeof meta_key_config.condition !== 'undefined') {
 
 						for(var condition_index in meta_key_config.condition) {
 
@@ -3202,7 +3202,7 @@
 							var condition = meta_key_config.condition[condition_index];
 
 							// Push condition to sidebar conditions
-							this.sidebar_conditions.push({'logic': condition.logic, 'meta_key': condition.meta_key, 'meta_value': condition.meta_value, 'show': meta_key, 'logic_previous': (typeof(condition.logic_previous) !== 'undefined') ? condition.logic_previous : '&&', 'type': (typeof(condition.type) !== 'undefined') ? condition.type : 'sidebar_meta_key'});
+							this.sidebar_conditions.push({'logic': condition.logic, 'meta_key': condition.meta_key, 'meta_value': condition.meta_value, 'show': meta_key, 'logic_previous': (typeof condition.logic_previous !== 'undefined') ? condition.logic_previous : '&&', 'type': (typeof condition.type !== 'undefined') ? condition.type : 'sidebar_meta_key'});
 
 							// Initialize
 							inits.push('conditions');
@@ -3210,7 +3210,7 @@
 					}
 
 					// Get required
-					var meta_key_required = (typeof(meta_key_config.required) !== 'undefined') ? meta_key_config.required : false;
+					var meta_key_required = (typeof meta_key_config.required !== 'undefined') ? meta_key_config.required : false;
 
 					// Get label
 					var meta_key_label = meta_key_config.label;
@@ -3219,15 +3219,15 @@
 					var meta_key_type = meta_key_config.type;
 
 					// Get meta value
-					var meta_value_fallback = (typeof(meta_key_config.fallback) !== 'undefined') ? meta_key_config.fallback : false;
-					var meta_value_default = (meta_value_fallback === false) ? ((typeof(meta_key_config.default) !== 'undefined') ? meta_key_config.default : '') : meta_value_fallback;
+					var meta_value_fallback = (typeof meta_key_config.fallback !== 'undefined') ? meta_key_config.fallback : false;
+					var meta_value_default = (meta_value_fallback === false) ? ((typeof meta_key_config.default !== 'undefined') ? meta_key_config.default : '') : meta_value_fallback;
 					var meta_value = this.get_object_meta_value(object_data, meta_key, meta_value_default, true);
 
 					// Datetime types
 					if(meta_key == 'input_type_datetime') { datetime_type = meta_value; }
 
 					// Build help HTML
-					if((typeof(meta_key_config.help) !== 'undefined') && ($.WS_Form.settings_plugin.helper_field_help || (typeof(meta_key_config.help_force) !== 'undefined' ? meta_key_config.help_force : false)) && !repeater) {
+					if((typeof meta_key_config.help !== 'undefined') && ($.WS_Form.settings_plugin.helper_field_help || (typeof meta_key_config.help_force !== 'undefined' ? meta_key_config.help_force : false)) && !repeater) {
 
 						var sidebar_html_help = '<div class="wsf-helper">' + meta_key_config.help + '</div>';
 
@@ -3237,10 +3237,41 @@
 					}
 
 					// Build label HTML
-					var sidebar_html_label = (repeater || (typeof(meta_key_label) === 'undefined')) ? '' : '<label class="wsf-label"' + ((meta_key_type != 'repeater') ? ' for="wsf_' + this.esc_attr(meta_key) + '"' : '') + '>' + meta_key_label + (meta_key_required ? ' <span class="wsf-required"></span>' : '') + '</label>';
+					var sidebar_html_label = (repeater || (typeof meta_key_label === 'undefined')) ? '' : '<label class="wsf-label"' + ((meta_key_type != 'repeater') ? ' for="wsf_' + this.esc_attr(meta_key) + '"' : '') + '>' + meta_key_label + (meta_key_required ? ' <span class="wsf-required"></span>' : '') + '</label>';
 
-					// Field attributes - Standard
-					var class_field = (typeof(meta_key_config.class_field) !== 'undefined') ? ' ' + meta_key_config.class_field : '';
+					// Field attributes - Standard (class_field: string or string[] from PHP JSON)
+					var class_field = '';
+					var cf = meta_key_config.class_field;
+					if((typeof cf !== 'undefined') && (cf !== null)) {
+
+						if(Array.isArray(cf)) {
+
+							var cf_parts = [];
+							var cf_i;
+							var cf_t;
+
+							for(cf_i = 0; cf_i < cf.length; cf_i++) {
+
+								if(typeof cf[cf_i] === 'string') {
+
+									cf_t = cf[cf_i].trim();
+									if(cf_t !== '') {
+
+										cf_parts.push(cf_t);
+									}
+								}
+							}
+
+							if(cf_parts.length > 0) {
+
+								class_field = ' ' + cf_parts.join(' ');
+							}
+
+						} else if((typeof cf === 'string') && (cf !== '')) {
+
+							class_field = ' ' + cf.trim();
+						}
+					}
 
 					var field_attributes = ' ' + (repeater ? ' name="' + this.esc_attr(repeater_meta_key + '_' + meta_key) + '[]"' : 'id="wsf_' + this.esc_attr(meta_key) + '"') + ' class="wsf-field' + this.esc_attr(class_field) + (repeater ? ' wsf-field-small' : '') + '" data-meta-key="' + this.esc_attr(meta_key) + '" data-meta-key-type="' + this.esc_attr(meta_key_type) + '"';
 
@@ -3248,18 +3279,18 @@
 					var meta_key_options = [];
 
 					// Field options - Required setting
-					if((typeof(meta_key_config.required_setting) !== 'undefined') && meta_key_config.required_setting) {
+					if((typeof meta_key_config.required_setting !== 'undefined') && meta_key_config.required_setting) {
 
 						var required_setting = true;
 
 						// Check to see if a global setting exists
-						if((typeof(meta_key_config.required_setting_global_meta_key) !== 'undefined') && meta_key_config.required_setting_global_meta_key) {
+						if((typeof meta_key_config.required_setting_global_meta_key !== 'undefined') && meta_key_config.required_setting_global_meta_key) {
 
 							var required_setting_global_meta_key = meta_key_config.required_setting_global_meta_key;
 
 							// Check to see if a global override setting exists
 							if(
-								(typeof($.WS_Form.settings_plugin[required_setting_global_meta_key]) !== 'undefined') &&
+								(typeof $.WS_Form.settings_plugin[required_setting_global_meta_key] !== 'undefined') &&
 								($.WS_Form.settings_plugin[required_setting_global_meta_key] != '')
 							) {
 								// Override placeholder
@@ -3281,7 +3312,7 @@
 					}
 
 					// Field options - Compatibility
-					if((typeof(meta_key_config.compatibility_url) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility && !repeater) {
+					if((typeof meta_key_config.compatibility_url !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility && !repeater) {
 
 						meta_key_options.push('<li><a class="wsf-compatibility" href="' + this.esc_url(meta_key_config.compatibility_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('attribute_compatibility'), 'top-right') + ' tabindex="-1">' + this.svg('markup') + '</a></li>');
 					}
@@ -3289,13 +3320,13 @@
 					// Field options - Calc
 					if(
 						(object === 'field') &&
-						(typeof(meta_key_config.calc) !== 'undefined')
+						(typeof meta_key_config.calc !== 'undefined')
 					) {
 
 						var field_type = object_data.type;
 						var field_type_config = $.WS_Form.field_type_cache[field_type];
-						var calc_in = (typeof(field_type_config.calc_in) !== 'undefined') ? field_type_config.calc_in : false;
-						var calc_for_type = (typeof(meta_key_config.calc_for_type) !== 'undefined') ? meta_key_config.calc_for_type : false;
+						var calc_in = (typeof field_type_config.calc_in !== 'undefined') ? field_type_config.calc_in : false;
+						var calc_for_type = (typeof meta_key_config.calc_for_type !== 'undefined') ? meta_key_config.calc_for_type : false;
 
 						// Only show calc icon if this field can accept calculated input and meta key type matches or calc_for_type is not specified
 						if(
@@ -3311,7 +3342,7 @@
 					}
 
 					// Field options - Select list
-					if(typeof(meta_key_config.select_list) === 'object') {
+					if(typeof meta_key_config.select_list === 'object') {
 
 						meta_key_options.push('<li><div data-action="wsf-select-list" data-option-meta-key="' + this.esc_attr(meta_key) + '"' + this.esc_attr_tooltip(this.language('select_list'), 'top-right') + '>' + this.svg('menu') + '</div></li>');
 
@@ -3320,18 +3351,18 @@
 
 					// Field options - Variable helper
 					if(
-						((typeof(meta_key_config.variable_helper) !== 'undefined') && meta_key_config.variable_helper) ||
+						((typeof meta_key_config.variable_helper !== 'undefined') && meta_key_config.variable_helper) ||
 
 						// Legacy support for add-ons that specify select_list = true
-						((typeof(meta_key_config.select_list) !== 'undefined') && (meta_key_config.select_list === true)) 
+						((typeof meta_key_config.select_list !== 'undefined') && (meta_key_config.select_list === true)) 
 					) {
-						meta_key_options.push('<li><div data-action="wsf-variable-helper" data-option-meta-key="' + this.esc_attr(meta_key) + '"' + ((typeof(meta_key_config.variable_helper_group_id) !== 'undefined') ? (' data-group-id="' + this.esc_attr(meta_key_config.variable_helper_group_id) + '"') : '') + this.esc_attr_tooltip(this.language('variable_helper'), 'top-right') + '>' + this.svg('hash') + '</div></li>');
+						meta_key_options.push('<li><div data-action="wsf-variable-helper" data-option-meta-key="' + this.esc_attr(meta_key) + '"' + ((typeof meta_key_config.variable_helper_group_id !== 'undefined') ? (' data-group-id="' + this.esc_attr(meta_key_config.variable_helper_group_id) + '"') : '') + this.esc_attr_tooltip(this.language('variable_helper'), 'top-right') + '>' + this.svg('hash') + '</div></li>');
 
 						inits.push('variable-helper');
 					}
 
 					// Field options - Auto map
-					if((typeof(meta_key_config.auto_map) !== 'undefined') && !repeater) {
+					if((typeof meta_key_config.auto_map !== 'undefined') && !repeater) {
 
 						meta_key_options.push('<li><div data-action="wsf-auto-map" data-option-meta-key="' + this.esc_attr(meta_key) + '" data-object="' + this.esc_attr(object) + '" data-object-id="' + this.esc_attr(object_id) + '"' + this.esc_attr_tooltip(this.language('auto_map'), 'top-right') + '>' + this.svg('exchange') + '</div></li>');
 
@@ -3339,16 +3370,16 @@
 					}
 
 					// Field options - API reload
-					if((typeof(meta_key_config.reload) !== 'undefined')) {
+					if((typeof meta_key_config.reload !== 'undefined')) {
 
 						var reload_config = meta_key_config.reload;
 
 						// Reload attributes
 						var reload_attributes = '';
-						if(typeof(reload_config.action_id) !== 'undefined') { reload_attributes += ' data-action-id="' + this.esc_attr(reload_config.action_id) + '"'; }
-						if(typeof(reload_config.action_id_meta_key) !== 'undefined') { reload_attributes += ' data-action-id-meta-key="' + this.esc_attr(reload_config.action_id_meta_key) + '"'; }
-						if(typeof(reload_config.list_id_meta_key) !== 'undefined') { reload_attributes += ' data-list-id-meta-key="' + this.esc_attr(reload_config.list_id_meta_key) + '"'; }
-						if(typeof(reload_config.list_sub_id_meta_key) !== 'undefined') { reload_attributes += ' data-list-sub-id-meta-key="' + this.esc_attr(reload_config.list_sub_id_meta_key) + '"'; }
+						if(typeof reload_config.action_id !== 'undefined') { reload_attributes += ' data-action-id="' + this.esc_attr(reload_config.action_id) + '"'; }
+						if(typeof reload_config.action_id_meta_key !== 'undefined') { reload_attributes += ' data-action-id-meta-key="' + this.esc_attr(reload_config.action_id_meta_key) + '"'; }
+						if(typeof reload_config.list_id_meta_key !== 'undefined') { reload_attributes += ' data-list-id-meta-key="' + this.esc_attr(reload_config.list_id_meta_key) + '"'; }
+						if(typeof reload_config.list_sub_id_meta_key !== 'undefined') { reload_attributes += ' data-list-sub-id-meta-key="' + this.esc_attr(reload_config.list_sub_id_meta_key) + '"'; }
 						reload_attributes += ' data-method="' + this.esc_attr(reload_config.method) + '"';
 						if(repeater) { reload_attributes += ' data-repeater-meta-key="' + this.esc_attr(repeater_meta_key) + '"'; }
 
@@ -3365,7 +3396,7 @@
 					}
 
 					// Default option (Use for inheriting parent values)
-					if(typeof(meta_key_config.options_default) !== 'undefined') {
+					if(typeof meta_key_config.options_default !== 'undefined') {
 
 						// Get default options
 						var options_default_label = false;
@@ -3375,7 +3406,7 @@
 						var meta_key_config_default = $.WS_Form.meta_keys[options_default_meta_key];
 
 						// Get default value of default meta key
-						var meta_value_default = (typeof(meta_key_config_default.default) !== 'undefined') ? meta_key_config_default.default : false;
+						var meta_value_default = (typeof meta_key_config_default.default !== 'undefined') ? meta_key_config_default.default : false;
 
 						// Determine default meta value from form object meta value
 						var options_default_meta_value = this.get_object_meta_value(this.form, options_default_meta_key, meta_value_default);
@@ -3388,14 +3419,14 @@
 
 								case 'select' :
 
-									if(typeof(options_default_meta_key.options) !== 'undefined') {
+									if(typeof options_default_meta_key.options !== 'undefined') {
 
 										var options_default_options = options_default_meta_key.options;
 
 										for(var options_default_options_index in options_default_options) {
 
 											if(!options_default_options.hasOwnProperty(options_default_options_index)) { continue; }
-											if(typeof(options_default_options[options_default_options_index]) === 'function') { continue; }
+											if(typeof options_default_options[options_default_options_index] === 'function') { continue; }
 
 											var options_default_value = options_default_options[options_default_options_index].value;
 											if(options_default_value != options_default_meta_value) { continue; }
@@ -3419,17 +3450,17 @@
 					}
 
 					// Build options HTML
-					if(typeof(meta_key_config.options) !== 'undefined') {
+					if(typeof meta_key_config.options !== 'undefined') {
 
 						// Get options
 						var meta_key_options = meta_key_config.options;
 
 						// Option filtering by framework (e.g. to only show label positions available for the current framework)
 						var meta_key_options_filter = false;
-						if(typeof(meta_key_config.options_framework_filter) !== 'undefined') {
+						if(typeof meta_key_config.options_framework_filter !== 'undefined') {
 
 							// Get options filter from framework
-							if(typeof(this.framework[meta_key_config.options_framework_filter]) !== 'undefined') {
+							if(typeof this.framework[meta_key_config.options_framework_filter] !== 'undefined') {
 
 								meta_key_options_filter = this.framework[meta_key_config.options_framework_filter];
 							}
@@ -3441,7 +3472,7 @@
 							case 'sections' :
 
 								// Check cache
-								if(typeof(this.meta_key_options_cache.sections) !== 'undefined') {
+								if(typeof this.meta_key_options_cache.sections !== 'undefined') {
 
 									// Cached version found, so set meta_key_options to copy of that cached data
 									var meta_key_options = $.extend(true, [], this.meta_key_options_cache.sections);
@@ -3452,7 +3483,7 @@
 								var meta_key_options = [];
 
 								// Filter
-								var section_filter_attribute = (typeof(meta_key_config.section_filter_attribute) !== 'undefined') ? meta_key_config.section_filter_attribute : false;
+								var section_filter_attribute = (typeof meta_key_config.section_filter_attribute !== 'undefined') ? meta_key_config.section_filter_attribute : false;
 
 								// Build options
 								for(var section_index in this.section_data_cache) {
@@ -3493,7 +3524,7 @@
 								// Filter by mappable?
 								var fields_filter_mappable = (
 
-									(typeof(meta_key_config.fields_filter_mappable) === 'undefined') ||
+									(typeof meta_key_config.fields_filter_mappable === 'undefined') ||
 									meta_key_config.fields_filter_mappable
 								);
 
@@ -3501,7 +3532,7 @@
 								var cache_key = 'fields' + (fields_filter_mappable ? '_mappable' : '');
 
 								// Check cache
-								if(typeof(this.meta_key_options_cache[cache_key]) !== 'undefined') {
+								if(typeof this.meta_key_options_cache[cache_key] !== 'undefined') {
 
 									// Cached version found, so set meta_key_options to copy of that cached data
 									var meta_key_options = $.extend(true, [], this.meta_key_options_cache[cache_key]);
@@ -3519,7 +3550,7 @@
 							case 'data_source' :
 
 								// Check cache
-								if(typeof(this.meta_key_options_cache.data_source) !== 'undefined') {
+								if(typeof this.meta_key_options_cache.data_source !== 'undefined') {
 
 									// Cached version found, so set meta_key_options to copy of that cached data
 									var meta_key_options = $.extend(true, [], this.meta_key_options_cache.data_source);
@@ -3546,23 +3577,23 @@
 						}
 
 						// Insert blank option
-						if(typeof(meta_key_config.options_blank) !== 'undefined') {
+						if(typeof meta_key_config.options_blank !== 'undefined') {
 
 							meta_key_options.unshift({'value': '', 'text': meta_key_config.options_blank, 'disabled_never': true});
 						}
 
 						// Filters
-						var fields_filter_type = (typeof(meta_key_config.fields_filter_type) !== 'undefined') ? meta_key_config.fields_filter_type : false;
-						var fields_filter_type_exclude = (typeof(meta_key_config.fields_filter_type_exclude) !== 'undefined') ? meta_key_config.fields_filter_type_exclude : false;
-						var fields_filter_attribute = (typeof(meta_key_config.fields_filter_attribute) !== 'undefined') ? meta_key_config.fields_filter_attribute : false;
-						var fields_filter_include_self = (typeof(meta_key_config.fields_filter_include_self) !== 'undefined') ? meta_key_config.fields_filter_include_self : false;
+						var fields_filter_type = (typeof meta_key_config.fields_filter_type !== 'undefined') ? meta_key_config.fields_filter_type : false;
+						var fields_filter_type_exclude = (typeof meta_key_config.fields_filter_type_exclude !== 'undefined') ? meta_key_config.fields_filter_type_exclude : false;
+						var fields_filter_attribute = (typeof meta_key_config.fields_filter_attribute !== 'undefined') ? meta_key_config.fields_filter_attribute : false;
+						var fields_filter_include_self = (typeof meta_key_config.fields_filter_include_self !== 'undefined') ? meta_key_config.fields_filter_include_self : false;
 
 						// Build options
 						var optgroup_last = false;
 						for(var meta_key_option_index in meta_key_options) {
 
 							if(!meta_key_options.hasOwnProperty(meta_key_option_index)) { continue; }
-							if(typeof(meta_key_options[meta_key_option_index]) === 'function') { continue; }
+							if(typeof meta_key_options[meta_key_option_index] === 'function') { continue; }
 
 							// Option single
 							var meta_key_option = meta_key_options[meta_key_option_index];
@@ -3571,7 +3602,7 @@
 							if(fields_filter_type !== false) {
 
 								// Filter by field type
-								if(typeof(meta_key_option.type) !== 'undefined') {
+								if(typeof meta_key_option.type !== 'undefined') {
 
 									// Skip option if it does not match filter requirements
 									if(fields_filter_type.indexOf(meta_key_option.type) === -1) { continue; }
@@ -3590,7 +3621,7 @@
 							if(fields_filter_type_exclude !== false) {
 
 								// Filter by field type
-								if(typeof(meta_key_option.type) !== 'undefined') {
+								if(typeof meta_key_option.type !== 'undefined') {
 
 									// Skip option if it does not match filter requirements
 									if(fields_filter_type_exclude.indexOf(meta_key_option.type) !== -1) { continue; }
@@ -3609,8 +3640,8 @@
 
 								// Read field
 								if(
-									(typeof(meta_key_option.type) !== 'undefined') &&
-									(typeof($.WS_Form.field_type_cache[meta_key_option.type]) !== 'undefined')
+									(typeof meta_key_option.type !== 'undefined') &&
+									(typeof $.WS_Form.field_type_cache[meta_key_option.type] !== 'undefined')
 								) {
 
 									// Get field config
@@ -3621,7 +3652,7 @@
 
 										return (
 
-											(typeof(field_config[attribute]) !== 'undefined') &&
+											(typeof field_config[attribute] !== 'undefined') &&
 											field_config[attribute]
 										);
 									});
@@ -3640,22 +3671,22 @@
 
 							// Determine if it should be selected
 							if(meta_value === null) { meta_value = ''; }
-							var option_selected = ((typeof(meta_value) === 'object') ? (meta_value.indexOf(option_value) !== -1) : (meta_value == option_value)) ? ' selected' : '';
+							var option_selected = ((typeof meta_value === 'object') ? (meta_value.indexOf(option_value) !== -1) : (meta_value == option_value)) ? ' selected' : '';
 
 							// Determine if it should be disabled
-							var meta_key_option_disabled = (typeof(meta_key_option.disabled) !== 'undefined') ? meta_key_option.disabled : false;
+							var meta_key_option_disabled = (typeof meta_key_option.disabled !== 'undefined') ? meta_key_option.disabled : false;
 							var option_disabled = meta_key_option_disabled ? ' disabled' : '';
 
 							// Determine if it should be disabled always (prevents unique functionality from not disabling fields)
-							var meta_key_option_disabled_always = (typeof(meta_key_option.disabled_always) !== 'undefined') ? meta_key_option.disabled_always : false;
+							var meta_key_option_disabled_always = (typeof meta_key_option.disabled_always !== 'undefined') ? meta_key_option.disabled_always : false;
 							var option_disabled_always = meta_key_option_disabled_always ? ' data-disabled-always' : '';
 
 							// Determine if it should never be disabled (prevents 'Select...' from being disabled)
-							var meta_key_option_disabled_never = (typeof(meta_key_option.disabled_never) !== 'undefined') ? meta_key_option.disabled_never : false;
+							var meta_key_option_disabled_never = (typeof meta_key_option.disabled_never !== 'undefined') ? meta_key_option.disabled_never : false;
 							var option_disabled_never = meta_key_option_disabled_never ? ' data-disabled-never' : '';
 
 							// Check for optgroup
-							var optgroup = (typeof(meta_key_option.optgroup) !== 'undefined') ? meta_key_option.optgroup : false;
+							var optgroup = (typeof meta_key_option.optgroup !== 'undefined') ? meta_key_option.optgroup : false;
 							if(optgroup !== optgroup_last) {
 
 								// Close last optgroup
@@ -3698,21 +3729,21 @@
 						meta_key_config.select2_on_mousedown = true;
 					}
 
-					var select2 = (typeof(meta_key_config.select2) !== 'undefined') ? meta_key_config.select2 : false;
+					var select2 = (typeof meta_key_config.select2 !== 'undefined') ? meta_key_config.select2 : false;
 
 					if(select2) {
 
 						field_attributes += ' data-wsf-select2';
 
 						// Select2 on mousedown
-						if((typeof(meta_key_config.select2_on_mousedown) !== 'undefined') ? meta_key_config.select2_on_mousedown : false) {
+						if((typeof meta_key_config.select2_on_mousedown !== 'undefined') ? meta_key_config.select2_on_mousedown : false) {
 
 							field_attributes += ' data-wsf-select2-on-mousedown';
 						}
 
-						var select_ajax_method_search = (typeof(meta_key_config.select_ajax_method_search) !== 'undefined') ? meta_key_config.select_ajax_method_search : false;
-						var select_ajax_method_cache = (typeof(meta_key_config.select_ajax_method_cache) !== 'undefined') ? meta_key_config.select_ajax_method_cache : false;
-						var select_ajax_placeholder = (typeof(meta_key_config.select_ajax_placeholder) !== 'undefined') ? meta_key_config.select_ajax_placeholder : false;
+						var select_ajax_method_search = (typeof meta_key_config.select_ajax_method_search !== 'undefined') ? meta_key_config.select_ajax_method_search : false;
+						var select_ajax_method_cache = (typeof meta_key_config.select_ajax_method_cache !== 'undefined') ? meta_key_config.select_ajax_method_cache : false;
+						var select_ajax_placeholder = (typeof meta_key_config.select_ajax_placeholder !== 'undefined') ? meta_key_config.select_ajax_placeholder : false;
 
 						// AJAX
 						if(select_ajax_method_search) {
@@ -3733,21 +3764,21 @@
 						}
 
 						// Tags (Pills)
-						var select_tags = (typeof(meta_key_config.select2_tags) !== 'undefined') ? meta_key_config.select2_tags : false;
+						var select_tags = (typeof meta_key_config.select2_tags !== 'undefined') ? meta_key_config.select2_tags : false;
 						field_attributes += select_tags ? ' data-tags="true"' : '';
 
 						// Build default options
-						if(!select_ajax_method_cache && (typeof(meta_value) === 'object')) {
+						if(!select_ajax_method_cache && (typeof meta_value === 'object')) {
 
 							for(var meta_value_index in meta_value) {
 
 								if(!meta_value.hasOwnProperty(meta_value_index)) { continue; }
-								if(typeof(meta_value[meta_value_index]) === 'function') { continue; }
+								if(typeof meta_value[meta_value_index] === 'function') { continue; }
 
 								var meta_value_single = meta_value[meta_value_index];
 
 								// If it doesn't already exist in the options
-								if(typeof(sidebar_html_options_object[meta_value_single]) === 'undefined') {
+								if(typeof sidebar_html_options_object[meta_value_single] === 'undefined') {
 
 									// Build option
 									sidebar_html_options += '<option value="' + this.esc_attr(meta_value_single) + '" selected>' + this.esc_html(meta_value_single) + "</option>\n";
@@ -3761,8 +3792,8 @@
 					if(meta_key_type == 'select_number') {
 
 						// Get minimum and maximum values
-						var minimum = (typeof(meta_key_config.minimum) !== 'undefined') ? meta_key_config.minimum : 1;
-						var maximum = (typeof(meta_key_config.maximum) !== 'undefined') ? meta_key_config.maximum : 100;
+						var minimum = (typeof meta_key_config.minimum !== 'undefined') ? meta_key_config.minimum : 1;
+						var maximum = (typeof meta_key_config.maximum !== 'undefined') ? meta_key_config.maximum : 100;
 						if(maximum == 'framework_column_count') { maximum = ($.WS_Form.settings_plugin.framework_column_count - 1); }
 
 						for(var option_value = minimum; option_value <= maximum; option_value++) {
@@ -3779,7 +3810,7 @@
 					}
 
 					// Field attributes - Mask placeholder
-					if(typeof(meta_key_config.mask_placeholder) !== 'undefined') {
+					if(typeof meta_key_config.mask_placeholder !== 'undefined') {
 
 						var placeholder = meta_key_config.mask_placeholder;
 
@@ -3788,7 +3819,7 @@
 
 							var field_type = object_data.type;
 							var field_type_config = $.WS_Form.field_type_cache[field_type];
-							placeholder = (typeof(field_type_config.invalid_feedback) !== 'undefined') ? field_type_config.invalid_feedback : placeholder;
+							placeholder = (typeof field_type_config.invalid_feedback !== 'undefined') ? field_type_config.invalid_feedback : placeholder;
 						}
 
 						// Add data-placeholder to field attributes
@@ -3799,28 +3830,28 @@
 					}
 
 					// Field attributes - Placeholder
-					if(typeof(meta_key_config.placeholder) !== 'undefined') {
+					if(typeof meta_key_config.placeholder !== 'undefined') {
 
 						// Add placeholder to field attributes
 						field_attributes += ' placeholder="' + this.esc_attr(meta_key_config.placeholder) + '"';
 					}
 
 					// Field attributes - Multiple
-					if(typeof(meta_key_config.multiple) !== 'undefined') {
+					if(typeof meta_key_config.multiple !== 'undefined') {
 
 						// Add multiple to field attributes
 						field_attributes += ' multiple';
 					}
 
 					// Field attributes - Rows
-					if(typeof(meta_key_config.rows) !== 'undefined') {
+					if(typeof meta_key_config.rows !== 'undefined') {
 
 						// Add rows to field attributes
 						field_attributes += ' rows="' + this.esc_attr(meta_key_config.rows) + '"';
 					}
 
 					// Field attributes - Data change
-					if((typeof(meta_key_config.data_change) !== 'undefined')) {
+					if((typeof meta_key_config.data_change !== 'undefined')) {
 
 						// Add reload on change to field attributes
 						field_attributes += ' data-change-event="' + this.esc_attr(meta_key_config.data_change.event) + '"';
@@ -3828,24 +3859,24 @@
 					}
 
 					// Field attributes - Fields toggle
-					if((typeof(meta_key_config.fields_toggle) !== 'undefined')) {
+					if((typeof meta_key_config.fields_toggle !== 'undefined')) {
 
 						// Add fields toggle to field attributes
 						field_attributes += ' data-fields-toggle';
 					}
 
 					// Field attributes - Min, Max, Step
-					if(typeof(meta_key_config.min) !== 'undefined') { field_attributes += ' min="' + parseFloat(meta_key_config.min) + '"'; }
-					if(typeof(meta_key_config.max) !== 'undefined') { field_attributes += ' max="' + parseFloat(meta_key_config.max) + '"'; }
-					if(typeof(meta_key_config.step) !== 'undefined') { field_attributes += ' step="' + parseFloat(meta_key_config.step) + '"'; }
+					if(typeof meta_key_config.min !== 'undefined') { field_attributes += ' min="' + parseFloat(meta_key_config.min) + '"'; }
+					if(typeof meta_key_config.max !== 'undefined') { field_attributes += ' max="' + parseFloat(meta_key_config.max) + '"'; }
+					if(typeof meta_key_config.step !== 'undefined') { field_attributes += ' step="' + parseFloat(meta_key_config.step) + '"'; }
 
 					// Field attributes - Options - Action
-					if(((typeof(meta_key_config.options_action_id) !== 'undefined') || (typeof(meta_key_config.options_action_id_meta_key) !== 'undefined')) && (typeof(meta_key_config.options_action_api_populate) !== 'undefined')) {
+					if(((typeof meta_key_config.options_action_id !== 'undefined') || (typeof meta_key_config.options_action_id_meta_key !== 'undefined')) && (typeof meta_key_config.options_action_api_populate !== 'undefined')) {
 
-						if(typeof(meta_key_config.options_action_id) !== 'undefined') { field_attributes += ' data-options-action-id="' + this.esc_attr(meta_key_config.options_action_id) + '"'; }
-						if(typeof(meta_key_config.options_action_id_meta_key) !== 'undefined') { field_attributes += ' data-options-action-id-meta-key="' + this.esc_attr(meta_key_config.options_action_id_meta_key) + '"'; }
-						if(typeof(meta_key_config.options_list_id_meta_key) !== 'undefined') { field_attributes += ' data-options-list-id-meta-key="' + this.esc_attr(meta_key_config.options_list_id_meta_key) + '"'; }
-						if(typeof(meta_key_config.options_list_sub_id_meta_key) !== 'undefined') { field_attributes += ' data-options-list-sub-id-meta-key="' + this.esc_attr(meta_key_config.options_list_sub_id_meta_key) + '"'; }
+						if(typeof meta_key_config.options_action_id !== 'undefined') { field_attributes += ' data-options-action-id="' + this.esc_attr(meta_key_config.options_action_id) + '"'; }
+						if(typeof meta_key_config.options_action_id_meta_key !== 'undefined') { field_attributes += ' data-options-action-id-meta-key="' + this.esc_attr(meta_key_config.options_action_id_meta_key) + '"'; }
+						if(typeof meta_key_config.options_list_id_meta_key !== 'undefined') { field_attributes += ' data-options-list-id-meta-key="' + this.esc_attr(meta_key_config.options_list_id_meta_key) + '"'; }
+						if(typeof meta_key_config.options_list_sub_id_meta_key !== 'undefined') { field_attributes += ' data-options-list-sub-id-meta-key="' + this.esc_attr(meta_key_config.options_list_sub_id_meta_key) + '"'; }
 						field_attributes += ' data-options-action-api-populate="' + this.esc_attr(meta_key_config.options_action_api_populate) + '"';
 						field_attributes += ' data-object="' + this.esc_attr(object) + '"';
 						field_attributes += ' data-object-id="' + this.esc_attr(object_id) + '"';
@@ -3858,7 +3889,7 @@
 					if(meta_key_required) { field_attributes += ' required'; }
 
 					// Field attributes - Additional
-					if(typeof(meta_key_config.attributes) !== 'undefined') {
+					if(typeof meta_key_config.attributes !== 'undefined') {
 
 						for(var attribute in meta_key_config.attributes) {
 
@@ -3870,7 +3901,7 @@
 					}
 
 					// Field attributes - Column toggle
-					if((typeof(meta_key_config.column_toggle_meta_key) !== 'undefined') && (typeof(meta_key_config.column_toggle_column_id) !== 'undefined')) {
+					if((typeof meta_key_config.column_toggle_meta_key !== 'undefined') && (typeof meta_key_config.column_toggle_column_id !== 'undefined')) {
 
 						field_attributes += ' data-column-toggle-meta-key="' + this.esc_attr(meta_key_config.column_toggle_meta_key) + '"';
 						field_attributes += ' data-column-toggle-column-id="' + this.esc_attr(meta_key_config.column_toggle_column_id) + '"';
@@ -3885,24 +3916,24 @@
 					}
 
 					// Check to see if this field should render if groups_group is present
-					if(typeof(meta_key_config.show_if_groups_group) !== 'undefined') {
+					if(typeof meta_key_config.show_if_groups_group !== 'undefined') {
 
 						var field_type = object_data.type;
 						var field_type_config = $.WS_Form.field_type_cache[field_type];
 
-						var data_source = (typeof(field_type_config.data_source) !== 'undefined') ? field_type_config.data_source : false;
+						var data_source = (typeof field_type_config.data_source !== 'undefined') ? field_type_config.data_source : false;
 
 						// Get data source ID
 						if(
-							(typeof(data_source.id) !== 'undefined') &&
-							(typeof($.WS_Form.meta_keys[data_source.id]) !== 'undefined')
+							(typeof data_source.id !== 'undefined') &&
+							(typeof $.WS_Form.meta_keys[data_source.id] !== 'undefined')
 						) {
 
 							// Read meta key config
 							var data_source_meta_key_config = $.WS_Form.meta_keys[data_source.id]
 
 							// Check if data grid has groups_group set
-							var groups_group = (typeof(data_source_meta_key_config.groups_group) !== 'undefined') ? data_source_meta_key_config.groups_group : false;
+							var groups_group = (typeof data_source_meta_key_config.groups_group !== 'undefined') ? data_source_meta_key_config.groups_group : false;
 
 							// Render as hidden value
 							if(groups_group !== meta_key_config.show_if_groups_group) {
@@ -3935,7 +3966,7 @@
 						// Text Editor
 						case 'text_editor' :
 
-							field_attributes += (typeof(meta_key_config.css) !== 'undefined') ? ' data-helper-css="' + this.esc_attr(meta_key_config.css) + '"' : '';
+							field_attributes += (typeof meta_key_config.css !== 'undefined') ? ' data-helper-css="' + this.esc_attr(meta_key_config.css) + '"' : '';
 							var sidebar_html_field = meta_key_options_html + sidebar_html_label + '<textarea data-text-editor="true"' + field_attributes + '>' + this.esc_html(meta_value, true) + '</textarea>' + sidebar_html_help;
 							inits.push('text-editor');
 							break;
@@ -3943,7 +3974,7 @@
 						// HTML Editor
 						case 'html_editor' :
 
-							field_attributes += (typeof(meta_key_config.mode) !== 'undefined') ? ' data-html-editor-mode="' + this.esc_attr(meta_key_config.mode) + '"' : '';
+							field_attributes += (typeof meta_key_config.mode !== 'undefined') ? ' data-html-editor-mode="' + this.esc_attr(meta_key_config.mode) + '"' : '';
 							var sidebar_html_field = meta_key_options_html + sidebar_html_label + '<textarea data-html-editor="true"' + field_attributes + '>' + this.esc_html(meta_value, true) + '</textarea>' + sidebar_html_help;
 							inits.push('html-editor');
 							break;
@@ -3964,7 +3995,7 @@
 						// Range
 						case 'range' :
 
-							field_attributes += (typeof(meta_key_config.range_value_mask) !== 'undefined') ? ' data-range-value-mask="' + this.esc_attr(meta_key_config.range_value_mask) + '"' : '';
+							field_attributes += (typeof meta_key_config.range_value_mask !== 'undefined') ? ' data-range-value-mask="' + this.esc_attr(meta_key_config.range_value_mask) + '"' : '';
 							var sidebar_html_field = meta_key_options_html + sidebar_html_label + '<input type="range"' + field_attributes + ' value="' + this.esc_attr(meta_value) + '"' + ' /><small id="wsf_' + this.esc_attr(meta_key) + '_range_value"></small>' + sidebar_html_help;
 							inits.push('range');
 							break;
@@ -4073,6 +4104,22 @@
 							var sidebar_html_field = '<button class="wsf-button wsf-button-full' + class_field + '" id="wsf_' + this.esc_attr(meta_key) + '" data-object="' + this.esc_attr(object) + '" data-id="' + this.esc_attr(object_id) + '" data-meta-key="' + this.esc_attr(meta_key) + '" data-meta-key-type="' + this.esc_attr(meta_key_type) + '">' + this.esc_html(meta_key_label) + '</button>';
 							break;
 
+						// Button URL - Links to external or admin pages (mask_parse replaces #form_id when object is form)
+						case 'button_url' :
+
+							var button_url_href = (typeof meta_key_config.url !== 'undefined') ? meta_key_config.url : '';
+							if(
+								(object === 'form') &&
+								(typeof this.form_id !== 'undefined') &&
+								this.form_id
+							) {
+								button_url_href = this.mask_parse(button_url_href, { 'form_id' : String(parseInt(this.form_id, 10)) });
+							}
+							var button_url_target = (typeof meta_key_config.target !== 'undefined') ? meta_key_config.target : '_blank';
+							var button_url_rel = (button_url_target === '_blank') ? ' rel="noopener noreferrer"' : '';
+							var sidebar_html_field = '<a class="wsf-button wsf-button-full' + class_field + '" id="wsf_' + this.esc_attr(meta_key) + '" data-object="' + this.esc_attr(object) + '" data-id="' + this.esc_attr(object_id) + '" data-meta-key="' + this.esc_attr(meta_key) + '" data-meta-key-type="' + this.esc_attr(meta_key_type) + '" href="' + this.esc_url(button_url_href) + '"' + (button_url_target ? (' target="' + this.esc_attr(button_url_target) + '"') : '') + button_url_rel + '>' + this.esc_html(meta_key_label) + '</a>';
+							break;
+
 						// Image
 						case 'image' :
 
@@ -4096,7 +4143,7 @@
 									var media = {id: 0, filename: ''};
 								}
 
-								var media_filename = typeof(media.filename) ? media.filename : '';
+								var media_filename = typeof media.filename ? media.filename : '';
 
 							} else {
 
@@ -4111,7 +4158,7 @@
 						// HTML
 						case 'html' :
 
-							var html = (typeof(meta_key_config.html) !== 'undefined') ? meta_key_config.html : '';
+							var html = (typeof meta_key_config.html !== 'undefined') ? meta_key_config.html : '';
 							var sidebar_html_field = '<div class="wsf-sidebar-html"' + field_attributes + '>' + html + '</div>';
 							break;
 
@@ -4120,7 +4167,7 @@
 
 							var note_class_array = ['wsf-sidebar-note'];
 
-							var note_type = (typeof(meta_key_config.note_type) !== 'undefined') ? meta_key_config.note_type : '';
+							var note_type = (typeof meta_key_config.note_type !== 'undefined') ? meta_key_config.note_type : '';
 
 							switch(note_type) {
 
@@ -4137,7 +4184,7 @@
 									break;
 							}
 
-							var html = (typeof(meta_key_config.html) !== 'undefined') ? meta_key_config.html : '';
+							var html = (typeof meta_key_config.html !== 'undefined') ? meta_key_config.html : '';
 							var sidebar_html_field = '<div class="' + note_class_array.join(' ') + '"' + field_attributes + '>' + html + '</div>';
 
 							break;
@@ -4155,13 +4202,13 @@
 					}
 
 					// Indent HTML
-					var indent_html = (typeof(meta_key_config.indent) !== 'undefined') ? ' wsf-field-indent' : '';
+					var indent_html = (typeof meta_key_config.indent !== 'undefined') ? ' wsf-field-indent' : '';
 
 					// Add fieldset field HTML
-					var field_wrapper = (typeof(meta_key_config.field_wrapper) !== 'undefined') ? meta_key_config.field_wrapper : true;
+					var field_wrapper = (typeof meta_key_config.field_wrapper !== 'undefined') ? meta_key_config.field_wrapper : true;
 					if(render_field_wrappers && field_wrapper) {
 
-						var class_wrapper = (typeof(meta_key_config.class_wrapper) !== 'undefined') ? ' ' + meta_key_config.class_wrapper : '';
+						var class_wrapper = (typeof meta_key_config.class_wrapper !== 'undefined') ? ' ' + meta_key_config.class_wrapper : '';
 
 						sidebar_html += '<div class="wsf-field-wrapper' + class_wrapper + indent_html + '">' + sidebar_html_field + "</div>\n";
 
@@ -4173,7 +4220,7 @@
 			}
 
 			// Render child fieldset
-			if(typeof(fieldset.fieldsets) !== 'undefined') {
+			if(typeof fieldset.fieldsets !== 'undefined') {
 
 				var sidebar_return = this.sidebar_html(object, object_id, object_data, fieldset, repeater, render_wrappers, render_field_wrappers, render_label, buttons, (depth + 1), inits, datetime_type);
 				sidebar_html += sidebar_return.html;
@@ -4232,7 +4279,7 @@
 
 					if(fields_filter_mappable) {
 
-						var mappable = (typeof(field_type_config.mappable)) ? field_type_config.mappable : false;
+						var mappable = (typeof field_type_config.mappable) ? field_type_config.mappable : false;
 						if(!mappable) { continue; }
 					}
 
@@ -4254,7 +4301,7 @@
 			if(!$.WS_Form.data_sources.hasOwnProperty(data_source_id)) { continue; }
 
 			var data_source = $.WS_Form.data_sources[data_source_id];
-			if(typeof(data_source.label) === 'undefined') { continue; }
+			if(typeof data_source.label === 'undefined') { continue; }
 
 			options.push({'value': data_source_id, 'text': data_source.label});
 		}
@@ -4279,7 +4326,7 @@
 	// Sidebar - Set up input that need to match datetime type selected
 	$.WS_Form.prototype.sidebar_buttons_html = function(buttons) {
 
-		if((typeof(buttons) === 'undefined') || (buttons === true)) { buttons = [
+		if((typeof buttons === 'undefined') || (buttons === true)) { buttons = [
 
 				{'class': 'wsf-button-primary', 'action': 'wsf-sidebar-save-close', 'label': this.language('save_and_close')},
 				{'class': 'wsf-button-primary', 'action': 'wsf-sidebar-save', 'label': this.language('save')},
@@ -4300,11 +4347,11 @@
 
 			var button = buttons[button_index];
 
-			if(typeof(button.class) === 'undefined') { button.class = ''; }
-			if(typeof(button.action) === 'undefined') { continue; }
-			if(typeof(button.label) === 'undefined') { continue; }
-			if(typeof(button.disabled) === 'undefined') { button.disabled = false; }
-			if(typeof(button.right) === 'undefined') { button.right = false; }
+			if(typeof button.class === 'undefined') { button.class = ''; }
+			if(typeof button.action === 'undefined') { continue; }
+			if(typeof button.label === 'undefined') { continue; }
+			if(typeof button.disabled === 'undefined') { button.disabled = false; }
+			if(typeof button.right === 'undefined') { button.right = false; }
 
 			return_html += '<li' + (button.right ? ' class="wsf-button-right"' : '') + '><button class="wsf-button wsf-button-small' + ((button.class != '') ? ' ' + this.esc_attr(button.class) : '') + '" data-action="' + this.esc_attr(button.action) + '"' + ((button.id !== undefined) ? ' data-id="' + this.esc_attr(button.id) + '"' : '') + (button.disabled ? ' disabled' : '') + '>' + button.label + '</button></li>';
 		}
@@ -4318,10 +4365,10 @@
 	// Sidebar - Init
 	$.WS_Form.prototype.sidebar_inits = function(inits, obj_sidebar_outer, obj_sidebar_inner, object_data) {
 
-		if(typeof(inits) !== 'object') { inits = []; }
+		if(typeof inits !== 'object') { inits = []; }
 		if(!inits.length) { return; }
-		if(typeof(obj_sidebar_inner) === 'undefined') { obj_sidebar_inner = obj_sidebar_outer; }
-		if(typeof(object_data) === 'undefined') { object_data = []; }
+		if(typeof obj_sidebar_inner === 'undefined') { obj_sidebar_inner = obj_sidebar_outer; }
+		if(typeof object_data === 'undefined') { object_data = []; }
 
 		var mode = $.WS_Form.settings_plugin.mode;
 		var mode_basic = (mode == 'basic');
@@ -4550,23 +4597,23 @@
 			case 'field' :
 
 				var sidebar_label = object_meta.label;	// Function sidebar_title esc_html label
-				var sidebar_icon = (typeof(object_meta.icon) !== 'undefined' ? (object_meta.icon) : '');
+				var sidebar_icon = (typeof object_meta.icon !== 'undefined' ? (object_meta.icon) : '');
 
 				// Build knowledge base HTML
-				if((typeof(object_meta.kb_url) !== 'undefined')) {
+				if((typeof object_meta.kb_url !== 'undefined')) {
 
 					var kb_url = this.get_plugin_website_url(object_meta.kb_url, 'sidebar');
 					var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 				}
 
 				// Build compatibility icon HTML
-				if((typeof(object_meta.compatibility_url) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility) {
+				if((typeof object_meta.compatibility_url !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility) {
 
 					var sidebar_compatibility_html = '<a class="wsf-compatibility" href="' + this.esc_url(object_meta.compatibility_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_compatibility'), 'bottom-center') +  ' tabindex="-1">' + this.svg('markup-circle') + '</a>';
 				}
 
 				// Build ID html
-				var object_meta_admin_hide_id = (typeof(object_meta.admin_hide_id) !== 'undefined') ? object_meta.admin_hide_id : false;
+				var object_meta_admin_hide_id = (typeof object_meta.admin_hide_id !== 'undefined') ? object_meta.admin_hide_id : false;
 				var sidebar_field_id_html = object_meta_admin_hide_id ? '' : (($.WS_Form.settings_plugin.helper_field_id) ? '<code data-action="wsf-clipboard"' + this.esc_attr_tooltip(this.language('clipboard'), 'left') + '>#field(' + this.esc_html(object_id) + ')</code>' : '');
 
 				break;
@@ -4724,12 +4771,28 @@
 						break;
 				}
 
-				// Reload sidebar on change
-				if(change_action == 'reload') {
+				switch(change_action) {
 
-					$.WS_Form.this.object_save(obj, false);
-					obj.removeClass('wsf-editing')
-					$.WS_Form.this.object_edit(obj, true);
+					// Rebuilds sidebar HTML; active tab resets
+					case 'reload' :
+
+						$.WS_Form.this.object_save(obj, false);
+						obj.removeClass('wsf-editing');
+						$.WS_Form.this.object_edit(obj, true);
+						break;
+
+					// Persists without rebuilding sidebar (keeps active tab)
+					case 'save' :
+
+						$.WS_Form.this.object_save(obj);
+
+						var object_type_save = $.WS_Form.this.get_object_type(obj);
+						var obj_sidebar_outer_save = $('#wsf-sidebar-' + object_type_save);
+						if(obj_sidebar_outer_save.length) {
+
+							$.WS_Form.this.sidebar_condition_process(obj_sidebar_outer_save, obj_sidebar_outer_save, false);
+						}
+						break;
 				}
 			});
 		});
@@ -5060,15 +5123,15 @@
 			var object_id = $(this).attr('data-object-id');
 
 			// Get meta key config
-			if(typeof($.WS_Form.meta_keys[option_meta_key]) === 'undefined') { return false; }
+			if(typeof $.WS_Form.meta_keys[option_meta_key] === 'undefined') { return false; }
 			var meta_key_config = $.WS_Form.meta_keys[option_meta_key];
 
 			// Check type
-			if(typeof(meta_key_config.type) === 'undefined') { return false; }
+			if(typeof meta_key_config.type === 'undefined') { return false; }
 			if(meta_key_config.type !== 'repeater') { return false; }
 
 			// Get meta keys to map
-			if(typeof(meta_key_config.meta_keys) === 'undefined') { return false; }
+			if(typeof meta_key_config.meta_keys === 'undefined') { return false; }
 			var meta_keys = meta_key_config.meta_keys;
 			if(meta_keys.length !== 2) { return false; }
 
@@ -5089,23 +5152,23 @@
 				var meta_key = meta_keys[meta_key_index];
 
 				// Get meta key config
-				if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { return false; }
+				if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { return false; }
 				var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 				// Check type
-				if(typeof(meta_key_config.type) === 'undefined') { return false; }				
+				if(typeof meta_key_config.type === 'undefined') { return false; }				
 				var meta_key_type = meta_key_config.type;
 				if(meta_key_type != 'select') { return false; }
 
 				// Get options
-				if(typeof(meta_key_config.options) === 'undefined') { return false; }
+				if(typeof meta_key_config.options === 'undefined') { return false; }
 				var meta_key_options = meta_key_config.options;
 
 				switch(meta_key_options) {
 
 					case 'fields' :
 
-						key_field = (typeof(meta_key_config.key) !== 'undefined') ? meta_key_config.key : meta_key;
+						key_field = (typeof meta_key_config.key !== 'undefined') ? meta_key_config.key : meta_key;
 						index_fields = meta_key_index;
 						break;
 
@@ -5116,7 +5179,7 @@
 						options_list_id_meta_key = meta_key_config.options_list_id_meta_key;
 						options_list_sub_id_meta_key = meta_key_config.options_list_sub_id_meta_key;
 
-						if(typeof(meta_key_config.options_action_id_meta_key) !== 'undefined') {
+						if(typeof meta_key_config.options_action_id_meta_key !== 'undefined') {
 
 							options_action_id = $('[data-meta-key="' + $.WS_Form.this.esc_selector(meta_key_config.options_action_id_meta_key) + '"]').val();
 
@@ -5125,7 +5188,7 @@
 							options_action_id = meta_key_config.options_action_id;
 						}
 
-						options_action_api_populate = (typeof(meta_key_config.options_action_api_populate) !== 'undefined') ? meta_key_config.options_action_api_populate : 'list_fields_fetch';
+						options_action_api_populate = (typeof meta_key_config.options_action_api_populate !== 'undefined') ? meta_key_config.options_action_api_populate : 'list_fields_fetch';
 
 						break;
 				}
@@ -5153,7 +5216,7 @@
 			var fields_api = [];
 			$.WS_Form.this.api_call(api_call_path, 'GET', false, function(response) {
 
-				if(typeof(response.data) === 'undefined') { return false; }
+				if(typeof response.data === 'undefined') { return false; }
 
 				for(var api_field_index in response.data) {
 
@@ -5265,7 +5328,7 @@
 				$(this).addClass('wsf-select-list-open').attr('autocomplete', 'off');
 
 				// Get heading
-				var select_list_heading = (typeof($.WS_Form.meta_keys[meta_key].select_list_heading) !== 'undefined') ? $.WS_Form.meta_keys[meta_key].select_list_heading : false;
+				var select_list_heading = (typeof $.WS_Form.meta_keys[meta_key].select_list_heading !== 'undefined') ? $.WS_Form.meta_keys[meta_key].select_list_heading : false;
 
 				// List specified at meta key level
 				$.WS_Form.this.sidebar_select_list_process(field_wrapper, $.WS_Form.meta_keys[meta_key].select_list, meta_key, select_list_heading);
@@ -5276,7 +5339,7 @@
 	// Get list of options for a select containing the form fields
 	$.WS_Form.prototype.get_select_options_field = function(calc_out_filter) {
 
-		if(typeof(calc_out_filter) !== 'undefined') { calc_out_filter = false; }
+		if(typeof calc_out_filter !== 'undefined') { calc_out_filter = false; }
 
 		var list_fields = [];
 
@@ -5300,9 +5363,9 @@
 
 					var field_type_config = $.WS_Form.field_type_cache[field.type];
 
-					var value_out = (typeof(field_type_config.value_out)) ? field_type_config.value_out : false;
+					var value_out = (typeof field_type_config.value_out) ? field_type_config.value_out : false;
 
-					var calc_out = !calc_out_filter || ((typeof(field_type_config.calc_out)) ? field_type_config.calc_out : false);
+					var calc_out = !calc_out_filter || ((typeof field_type_config.calc_out) ? field_type_config.calc_out : false);
 
 					if(value_out && calc_out) {
 
@@ -5324,7 +5387,7 @@
 
 		var ws_this = this;
 
-		if(typeof(heading) === 'undefined') { heading = false; }
+		if(typeof heading === 'undefined') { heading = false; }
 
 		// Build list
 		var list_html = '<div class="wsf-select-list"><table>';
@@ -5341,7 +5404,7 @@
 
 			var list_item = list[list_index];
 
-			if(typeof(list_item.group_id) !== 'undefined') {
+			if(typeof list_item.group_id !== 'undefined') {
 
 				var group_id = list_item.group_id;
 				if(group_id !== group_id_last) {
@@ -5474,7 +5537,7 @@
 		var meta_key = options_action_obj.attr('data-meta-key');
 
 		// Get meta key config
-		var meta_key_config = (typeof($.WS_Form.meta_keys[meta_key]) !== 'undefined') ? $.WS_Form.meta_keys[meta_key] : false;
+		var meta_key_config = (typeof $.WS_Form.meta_keys[meta_key] !== 'undefined') ? $.WS_Form.meta_keys[meta_key] : false;
 		if(meta_key_config === false) {
 
 			// Process next
@@ -5499,14 +5562,14 @@
 			var repeater_meta_value_array = $.WS_Form.this.get_object_meta_value(object_data, repeater_meta_key, [], true);
 
 			// Get row data
-			var repeater_row_array = (typeof(repeater_meta_value_array[row_index]) !== 'undefined') ? repeater_meta_value_array[row_index] : [];
+			var repeater_row_array = (typeof repeater_meta_value_array[row_index] !== 'undefined') ? repeater_meta_value_array[row_index] : [];
 
 			// Get column (meta_value)
-			var meta_value = (typeof(repeater_row_array[meta_key]) !== 'undefined') ? repeater_row_array[meta_key] : '';
+			var meta_value = (typeof repeater_row_array[meta_key] !== 'undefined') ? repeater_row_array[meta_key] : '';
 		}
 
 		// Check if options exist in cache
-		if(typeof(this.options_action_cache[api_call_path]) === 'undefined') {
+		if(typeof this.options_action_cache[api_call_path] === 'undefined') {
 
 			// Lock sidebar
 			$.WS_Form.this.sidebar_lock();
@@ -5517,7 +5580,7 @@
 				// Build options for action
 				var options_action = [];
 
-				if(typeof(response.data) !== 'undefined') {
+				if(typeof response.data !== 'undefined') {
 
 					var rows = response.data;
 					for(var row_index in rows) {
@@ -5529,8 +5592,8 @@
 						if(row === null) { continue; }
 
 						var text = row.label;
-						if((typeof(row.required) !== 'undefined') && row.required) { text += ' *'; }
-						if((typeof(row.no_map) !== 'undefined') && row.no_map) { continue; }
+						if((typeof row.required !== 'undefined') && row.required) { text += ' *'; }
+						if((typeof row.no_map !== 'undefined') && row.no_map) { continue; }
 
 						options_action.push({'value': row.id, 'text': text});
 					}
@@ -5625,11 +5688,11 @@
 
 		// Read meta key config
 		var meta_key = options_action_obj.attr('data-meta-key');
-		if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { return this.sidebar_option_action_process(complete); }
+		if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { return this.sidebar_option_action_process(complete); }
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 		// Insert blank option
-		if(typeof(meta_key_config.options_blank) !== 'undefined') {
+		if(typeof meta_key_config.options_blank !== 'undefined') {
 
 			options_html += '<option value="">' + this.esc_html(meta_key_config.options_blank) + '</option>';
 		}
@@ -5638,7 +5701,7 @@
 		for(var options_action_index in options_action) {
 
 			if(!options_action.hasOwnProperty(options_action_index)) { continue; }
-			if(typeof(options_action[options_action_index]) === 'function') { continue; }
+			if(typeof options_action[options_action_index] === 'function') { continue; }
 
 			var option_action_single = options_action[options_action_index];
 
@@ -5690,7 +5753,7 @@
 				var meta_key_config = $.WS_Form.meta_keys[meta_key_unique];
 
 				// meta_key_unique override
-				if(typeof(meta_key_config.key) !== 'undefined') { meta_key_unique = meta_key_config.key; }
+				if(typeof meta_key_config.key !== 'undefined') { meta_key_unique = meta_key_config.key; }
 
 				this.sidebar_repeater_options_unique(meta_key_unique, obj);
 
@@ -5788,11 +5851,11 @@
 				// Get meta key
 				var meta_key = ui.item.closest('[data-meta-key]').attr('data-meta-key');
 				if(!meta_key) { return; }
-				if(typeof($.WS_Form.this.object_data_scratch.meta[meta_key]) === 'undefined') { return; }
+				if(typeof $.WS_Form.this.object_data_scratch.meta[meta_key] === 'undefined') { return; }
 
 				// Get repeater rows
 				var rows = $.WS_Form.this.object_data_scratch.meta[meta_key];
-				if(typeof(rows) !== 'object') { return; }
+				if(typeof rows !== 'object') { return; }
 
 				// Re-order
 				rows.splice(row_index_new, 0, rows.splice(row_index_old, 1)[0]);
@@ -5825,7 +5888,7 @@
 
 			if(!selected_values_all.hasOwnProperty(selected_values_index)) { continue; }
 
-			if(typeof(selected_values_all[selected_values_index]) === 'string') {
+			if(typeof selected_values_all[selected_values_index] === 'string') {
 
 				// Handle forward slashes
 				selected_values_all[selected_values_index] = this.replace_all(selected_values_all[selected_values_index], '\\', '\\\\');
@@ -5839,7 +5902,7 @@
 
 			// Remove the currently selected value
 			var val_current = $(this).val();
-			if(typeof(val_current) === 'string') {
+			if(typeof val_current === 'string') {
 
 				// Handle forward slashes
 				val_current = $.WS_Form.this.replace_all(val_current, '\\', '\\\\');
@@ -5869,11 +5932,11 @@
 			var meta_key = meta_keys[meta_keys_index];
 
 			// Ensure meta key is configured
-			if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { return false; }
+			if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { return false; }
 
-			var meta_value = (typeof($.WS_Form.meta_keys[meta_key].default) !== 'undefined') ? $.WS_Form.meta_keys[meta_key].default : '';
+			var meta_value = (typeof $.WS_Form.meta_keys[meta_key].default !== 'undefined') ? $.WS_Form.meta_keys[meta_key].default : '';
 
-			if(typeof($.WS_Form.meta_keys[meta_key].key) !== 'undefined') { meta_key = $.WS_Form.meta_keys[meta_key].key; }
+			if(typeof $.WS_Form.meta_keys[meta_key].key !== 'undefined') { meta_key = $.WS_Form.meta_keys[meta_key].key; }
 
 			repeater_row[meta_key] = meta_value;
 		}
@@ -5888,18 +5951,18 @@
 		var meta_key = obj.attr('data-meta-key');
 
 		// Read meta key config
-		if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { return false; }
+		if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { return false; }
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 		// Read meta keys for repeater
-		if(typeof(meta_key_config.meta_keys) !== 'object') { return false; }
+		if(typeof meta_key_config.meta_keys !== 'object') { return false; }
 		var meta_keys = meta_key_config.meta_keys;
 
 		// Custom column names
-		var columns = (typeof(meta_key_config.columns) !== 'undefined') ? meta_key_config.columns : false;
+		var columns = (typeof meta_key_config.columns !== 'undefined') ? meta_key_config.columns : false;
 
 		// Read meta keys unique
-		var meta_keys_unique = (typeof(meta_key_config.meta_keys_unique) !== 'undefined') ? meta_key_config.meta_keys_unique : false;
+		var meta_keys_unique = (typeof meta_key_config.meta_keys_unique !== 'undefined') ? meta_key_config.meta_keys_unique : false;
 
 		// Get object
 		var object = obj.attr('data-object');
@@ -5912,7 +5975,7 @@
 
 		// Get repeater data
 		var data = $.WS_Form.this.get_object_meta_value(object_data, meta_key, [], true);
-		if(typeof(data) !== 'object') { data = []; }
+		if(typeof data !== 'object') { data = []; }
 
 		return {'object': object, 'object_id': object_id, 'meta_key': meta_key, 'meta_keys': meta_keys, 'meta_keys_unique': meta_keys_unique, 'object_data': object_data, 'data': data, 'columns': columns};
 	}
@@ -5936,11 +5999,11 @@
 			var meta_keys_single = repeater.meta_keys[meta_keys_index];
 
 			// Ensure meta key is configured
-			if(typeof($.WS_Form.meta_keys[meta_keys_single]) === 'undefined') { return false; }
+			if(typeof $.WS_Form.meta_keys[meta_keys_single] === 'undefined') { return false; }
 
 			var meta_key_single = $.WS_Form.meta_keys[meta_keys_single];
 
-			var column_id = (typeof(meta_key_single.column_id) !== 'undefined') ? ' data-id="' + this.esc_attr(meta_key_single.column_id) + '"' : '';
+			var column_id = (typeof meta_key_single.column_id !== 'undefined') ? ' data-id="' + this.esc_attr(meta_key_single.column_id) + '"' : '';
 
 			if(repeater.columns && repeater.columns[meta_keys_index]) {
 
@@ -6006,7 +6069,7 @@
 
 			var meta_key_single = $.WS_Form.meta_keys[meta_keys_single];
 
-			var column_id = (typeof(meta_key_single.column_id) !== 'undefined') ? ' data-id="' + this.esc_attr(meta_key_single.column_id) + '"' : '';
+			var column_id = (typeof meta_key_single.column_id !== 'undefined') ? ' data-id="' + this.esc_attr(meta_key_single.column_id) + '"' : '';
 
 			var repeater_fieldset = {'fieldsets': {}};
 			repeater_fieldset.fieldsets[repeater.object_id] = {'meta_keys': [meta_keys_single]};
@@ -6046,7 +6109,7 @@
 
 		var value = obj.val();
 		var meta_key = obj.attr('data-meta-key');
-		var range_value_mask = (typeof(obj.attr('data-range-value-mask')) !== 'undefined') ? obj.attr('data-range-value-mask') : '#value';
+		var range_value_mask = (typeof obj.attr('data-range-value-mask') !== 'undefined') ? obj.attr('data-range-value-mask') : '#value';
 
 		var range_value_mask_lookups = {
 
@@ -6169,7 +6232,7 @@
 
 				// Build keyword
 				var keyword = field_type_config.label.toLowerCase();
-				if(typeof(field_type_config.keyword) !== 'undefined') {
+				if(typeof field_type_config.keyword !== 'undefined') {
 
 					keyword += ' ' + field_type_config.keyword.toLowerCase();
 				}
@@ -6227,7 +6290,7 @@
 
 					if(score > 0) {
 
-						if(typeof(types_matched[search_array_config.type]) === 'undefined') {
+						if(typeof types_matched[search_array_config.type] === 'undefined') {
 
 							types_matched[search_array_config.type] = score;
 
@@ -6324,7 +6387,7 @@
 				var field_type_config = $.WS_Form.field_type_cache[field_type];
 
 				// Check to see if multiple attribute is set
-				var multiple = (typeof(field_type_config.multiple) !== 'undefined') ? field_type_config.multiple : true;
+				var multiple = (typeof field_type_config.multiple !== 'undefined') ? field_type_config.multiple : true;
 				if(!multiple) { $(this).addClass('wsf-field-disabled'); }
 
 				// Get section ID
@@ -6384,7 +6447,7 @@
 				if(pro_required) { continue; }
 
 				// Build knowledge base HTML
-				if((typeof(field_type.kb_url) !== 'undefined')) {
+				if((typeof field_type.kb_url !== 'undefined')) {
 
 					var kb_url = this.get_plugin_website_url(field_type.kb_url, 'field_select');
 					field_select_html_fields += '<li class="wsf-field-wrapper' + (pro_required ? ' wsf-pro-required' : '') + '" data-type="' + this.esc_attr(type) + '">' + (pro_required ? '<a href="' + this.esc_url(kb_url) + '" target="_blank">' : '') + '<div class="wsf-field-inner"><div class="wsf-field-label">' + field_type.icon + '</div><div class="wsf-field-type">' + field_type.label + '</div></div>' + (pro_required ? '</a>' : '') + '</li>';
@@ -6421,11 +6484,11 @@
 			var template_category = $.WS_Form.templates_section[template_category_index];
 
 			// Get template category label
-			if(typeof(template_category.label) !== 'string') { continue; }
+			if(typeof template_category.label !== 'string') { continue; }
 			var template_category_label = template_category.label.toLowerCase();
 
 			// Get templates
-			if(typeof(template_category.templates) !== 'object') { continue; }
+			if(typeof template_category.templates !== 'object') { continue; }
 			var templates = template_category.templates;
 
 			// Skip empty template categories
@@ -6440,14 +6503,14 @@
 				var template = templates[template_key];
 
 				// Get template ID
-				if(typeof(template.id) === 'undefined') { continue; }
+				if(typeof template.id === 'undefined') { continue; }
 				var template_id = template.id;
 
 				// Build keyword
-				if(typeof(template.label) !== 'string') { continue; }
+				if(typeof template.label !== 'string') { continue; }
 				var keyword = template.label.toLowerCase();
 
-				if(typeof(template.keyword) !== 'undefined') {
+				if(typeof template.keyword !== 'undefined') {
 
 					keyword += ' ' + template.keyword.toLowerCase();
 				}
@@ -6632,7 +6695,7 @@
 
 					if(score > 0) {
 
-						if(typeof(ids_matched[search_array_config.id]) === 'undefined') {
+						if(typeof ids_matched[search_array_config.id] === 'undefined') {
 
 							ids_matched[search_array_config.id] = score;
 
@@ -6775,9 +6838,9 @@
 
 			var template_category_id = template_category.id;
 			var template_category_label = template_category.label;
-			var template_category_upload = (typeof(template_category.upload) !== 'undefined') ? template_category.upload : false;
-			var template_category_download = (typeof(template_category.download) !== 'undefined') ? template_category.download : false;
-			var template_category_delete = (typeof(template_category.delete) !== 'undefined') ? template_category.delete : false;
+			var template_category_upload = (typeof template_category.upload !== 'undefined') ? template_category.upload : false;
+			var template_category_download = (typeof template_category.download !== 'undefined') ? template_category.download : false;
+			var template_category_delete = (typeof template_category.delete !== 'undefined') ? template_category.delete : false;
 			var templates = template_category.templates;
 
 			// Skip empty template categories
@@ -6937,7 +7000,7 @@
 				status_bar.set_progress(100);
 
 				// Call success script
-				if(typeof(success_callback) === 'function') { success_callback(response); }
+				if(typeof success_callback === 'function') { success_callback(response); }
 			},
 
 			error: function(response) {
@@ -6974,10 +7037,10 @@
 	// Sidebar - TinyMCE - Init
 	$.WS_Form.prototype.sidebar_tinymce_init = function(obj_inner) {
 
-		if(typeof(wp) === 'undefined') { return false; }
-		if(typeof(wp.editor) === 'undefined') { return false; }
-		if(typeof(wp.editor.remove) === 'undefined') { return false; }
-		if(typeof(wp.editor.initialize) === 'undefined') { return false; }
+		if(typeof wp === 'undefined') { return false; }
+		if(typeof wp.editor === 'undefined') { return false; }
+		if(typeof wp.editor.remove === 'undefined') { return false; }
+		if(typeof wp.editor.initialize === 'undefined') { return false; }
 
 		$('[data-text-editor="true"]:visible', obj_inner).each(function() {
 
@@ -7067,7 +7130,7 @@
 
 		// Sidebar condition events
 		var sidebar_condition_added = [];
-		if(typeof(obj_sidebar_outer.attr('data-sidebar-conditions-init')) === 'undefined') {
+		if(typeof obj_sidebar_outer.attr('data-sidebar-conditions-init') === 'undefined') {
 
 			// Get main obj_sidebar_outer in case this is a data source obj
 			if(!obj_sidebar_outer.hasClass('wsf-sidebar')) {
@@ -7093,7 +7156,7 @@
 				if(data_meta_key.length == 0) { continue; }
 
 				// Ensure only one change event is added per meta key
-				if(typeof(sidebar_condition_added[sidebar_condition_meta_key]) !== 'undefined') { continue; }
+				if(typeof sidebar_condition_added[sidebar_condition_meta_key] !== 'undefined') { continue; }
 				sidebar_condition_added[sidebar_condition_meta_key] = true;
 
 				// Create on change event
@@ -7212,7 +7275,7 @@
 					if(meta_value === 'default') {
 
 						var meta_key_config = $.WS_Form.meta_keys[sidebar_condition_meta_key];
-						if(typeof(meta_key_config.options_default) !== 'undefined') {
+						if(typeof meta_key_config.options_default !== 'undefined') {
 
 							meta_value = this.get_object_meta_value(this.form, meta_key_config.options_default, '');
 						}
@@ -7243,7 +7306,7 @@
 			}
 
 			// Assign to result
-			if(typeof(condition_result_array[sidebar_condition_show]) === 'undefined') {
+			if(typeof condition_result_array[sidebar_condition_show] === 'undefined') {
 
 				condition_result_array[sidebar_condition_show] = result;
 
@@ -7470,7 +7533,7 @@
 			var breakpoint = framework_breakpoints[breakpoint_key];
 
 			// Get breakpoint icon (SVG from config)
-			if(typeof(framework_icons[breakpoint_key]) === 'undefined') {
+			if(typeof framework_icons[breakpoint_key] === 'undefined') {
 
 				var breakpoint_icon = '';
 
@@ -7481,9 +7544,9 @@
 
 			// Build help text
 			var breakpoint_help_text_array = [];
-			if(typeof(breakpoint.name) !== 'undefined') { breakpoint_help_text_array.push(breakpoint.name); }
-			if(typeof(breakpoint.min_width) !== 'undefined') { breakpoint_help_text_array.push('>= ' + breakpoint.min_width + 'px'); } else { breakpoint_help_text_array.push('> 0 px'); }
-			if(typeof(breakpoint.max_width) !== 'undefined') { breakpoint_help_text_array.push('<= ' + breakpoint.max_width + 'px'); }
+			if(typeof breakpoint.name !== 'undefined') { breakpoint_help_text_array.push(breakpoint.name); }
+			if(typeof breakpoint.min_width !== 'undefined') { breakpoint_help_text_array.push('>= ' + breakpoint.min_width + 'px'); } else { breakpoint_help_text_array.push('> 0 px'); }
+			if(typeof breakpoint.max_width !== 'undefined') { breakpoint_help_text_array.push('<= ' + breakpoint.max_width + 'px'); }
 			var breakpoint_help_text = breakpoint_help_text_array.join("\n");
 
 			// Add breakpoint to ul
@@ -7570,7 +7633,7 @@
 			// Get breakpoint default column size
 			if(breakpoint_index == 0) {
 
-				var column_size_value_old = (typeof(breakpoint.column_size_default) !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_value_old;
+				var column_size_value_old = (typeof breakpoint.column_size_default !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_value_old;
 				var offset_value_old;
 			}
 
@@ -7882,7 +7945,7 @@
 			if(breakpoint_index == 0) {
 
 				// Get breakpoint default column size
-				var column_size_default = (typeof(breakpoint.column_size_default) !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_default;
+				var column_size_default = (typeof breakpoint.column_size_default !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_default;
 
 				// Get breakpoint default offset size
 				var offset_default = 0;
@@ -7905,7 +7968,7 @@
 			return_html += '<div>';
 
 			// Get breakpoint icon (SVG from config)
-			if(typeof(framework_icons[breakpoint_key]) === 'undefined') {
+			if(typeof framework_icons[breakpoint_key] === 'undefined') {
 
 				var breakpoint_icon = '';
 
@@ -8019,7 +8082,7 @@
 			// Get breakpoint default column size
 			if(breakpoint_index == 0) {
 
-				var column_size_value_old = (typeof(breakpoint.column_size_default) !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_value_old;
+				var column_size_value_old = (typeof breakpoint.column_size_default !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_value_old;
 				var offset_value_old;
 			}
 
@@ -8205,7 +8268,7 @@
 			if(breakpoint_index == 0) {
 
 				// Get breakpoint default column size
-				var column_size_default = (typeof(breakpoint.column_size_default) !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_default;
+				var column_size_default = (typeof breakpoint.column_size_default !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_default;
 			}
 
 			// Get column size
@@ -8216,7 +8279,7 @@
 			return_html += '<div>';
 
 			// Get breakpoint icon (SVG from config)
-			if(typeof(framework_icons[breakpoint_key]) === 'undefined') {
+			if(typeof framework_icons[breakpoint_key] === 'undefined') {
 
 				var breakpoint_icon = '';
 
@@ -8327,7 +8390,7 @@
 			// Get breakpoint default column size
 			if(breakpoint_index == 0) {
 
-				var column_size_value_old = (typeof(breakpoint.column_size_default) !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_value_old;
+				var column_size_value_old = (typeof breakpoint.column_size_default !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_value_old;
 			}
 
 			// Get meta keys
@@ -8379,7 +8442,7 @@
 			// Get breakpoint default column size
 			if(breakpoint_index == 0) {
 
-				var column_size_value_old = (typeof(breakpoint.column_size_default) !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_value_old;
+				var column_size_value_old = (typeof breakpoint.column_size_default !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_value_old;
 			}
 
 			// Get meta keys
@@ -8470,7 +8533,7 @@
 			allowClear: true,
 
 			// Placeholder
-			placeholder: (typeof(obj.attr('placeholder')) !== 'undefined') ? obj.attr('placeholder') : '',
+			placeholder: (typeof obj.attr('placeholder') !== 'undefined') ? obj.attr('placeholder') : '',
 
 			// Language
 			language: language,
@@ -8524,7 +8587,7 @@
 
 			// Get meta_value
 			var data_meta_key = $(this).attr('data-meta-key');
-			if(typeof(data_meta_keys[data_meta_key]) === 'undefined') {
+			if(typeof data_meta_keys[data_meta_key] === 'undefined') {
 
 				data_meta_keys[data_meta_key] = $(this).attr('data-select-ajax-method-cache');
 			}
@@ -8555,7 +8618,7 @@
 
 			} else {
 
-				if(typeof(ws_this.select_ajax_cache[select_ajax_cache_id]) === 'undefined') {
+				if(typeof ws_this.select_ajax_cache[select_ajax_cache_id] === 'undefined') {
 
 					var params = {
 
@@ -8648,7 +8711,7 @@
 			// Get default value from cache
 			var select_ajax_id = $(this).attr('data-select-ajax-id');
 			var select_ajax_cache = ws_this.select_ajax_cache[select_ajax_cache_id];
-			if((typeof(select_ajax_id) !== 'undefined') && (select_ajax_cache !== false)) {
+			if((typeof select_ajax_id !== 'undefined') && (select_ajax_cache !== false)) {
 
 				config.data = [];
 
@@ -8660,7 +8723,7 @@
 
 					var select_ajax_id = select_ajax_id_array[select_ajax_id_array_index];
 
-					var option_text = (typeof(select_ajax_cache[select_ajax_id]) !== 'undefined') ? select_ajax_cache[select_ajax_id] : false;
+					var option_text = (typeof select_ajax_cache[select_ajax_id] !== 'undefined') ? select_ajax_cache[select_ajax_id] : false;
 					if(option_text !== false) {
 
 						config.data.push({ id: select_ajax_id, text: option_text, selected: true });
@@ -8669,7 +8732,7 @@
 			}
 
 			// Add selection to select AJAX cache
-			if((typeof($(this).select2) === 'function') && select_ajax_method_search) {
+			if((typeof $(this).select2 === 'function') && select_ajax_method_search) {
 
 				$(this).select2(config);
 
@@ -8695,12 +8758,12 @@
 	$.WS_Form.prototype.data_grid_html = function(meta_key, meta_value, data_source_id, read_only, bulk_action_row_ids) {
 
 		// Check data grid object
-		if(typeof(meta_value) !== 'object') { return ''; }
-		if(typeof(meta_value.columns) === 'undefined') { this.error('error_data_grid_columns'); }
-		if(typeof(meta_value.groups) === 'undefined') { this.error('error_data_grid_groups'); }
-		if(typeof(meta_value.rows_per_page) === 'undefined') { this.error('error_data_grid_rows_per_page'); }
-		if(typeof(data_source_id) === 'undefined') { data_source_id = ''; }
-		if(typeof(bulk_action_row_ids) === 'undefined') { bulk_action_row_ids = false; }
+		if(typeof meta_value !== 'object') { return ''; }
+		if(typeof meta_value.columns === 'undefined') { this.error('error_data_grid_columns'); }
+		if(typeof meta_value.groups === 'undefined') { this.error('error_data_grid_groups'); }
+		if(typeof meta_value.rows_per_page === 'undefined') { this.error('error_data_grid_rows_per_page'); }
+		if(typeof data_source_id === 'undefined') { data_source_id = ''; }
+		if(typeof bulk_action_row_ids === 'undefined') { bulk_action_row_ids = false; }
 
 		// Get columns and rows
 		var columns = meta_value.columns;
@@ -8714,16 +8777,16 @@
 		var groups_group = meta_key_config.groups_group;
 
 		// Conditional?
-		var conditional = ((typeof(meta_key_config.conditional) !== 'undefined') && meta_key_config.conditional);
+		var conditional = ((typeof meta_key_config.conditional !== 'undefined') && meta_key_config.conditional);
 
 		// Upload / download?
-		var upload_download = (typeof(meta_key_config.upload_download) !== 'undefined') && meta_key_config.upload_download;
+		var upload_download = (typeof meta_key_config.upload_download !== 'undefined') && meta_key_config.upload_download;
 
 		// Data source
-		var data_source = (typeof(meta_key_config.data_source) !== 'undefined') && meta_key_config.data_source;
+		var data_source = (typeof meta_key_config.data_source !== 'undefined') && meta_key_config.data_source;
 
 		// Overrides
-		if(typeof(rows_per_page_override) !== 'undefined') { rows_per_page = rows_per_page_override; }
+		if(typeof rows_per_page_override !== 'undefined') { rows_per_page = rows_per_page_override; }
 
 		// Get counts
 		var column_count = columns.length;
@@ -8750,7 +8813,7 @@
 		for(var group_index in groups) {
 
 			if(!groups.hasOwnProperty(group_index)) { continue; }
-			if(typeof(groups[group_index]) === 'function') { continue; }
+			if(typeof groups[group_index] === 'function') { continue; }
 
 			var group = groups[group_index];
 			var group_label = group.label;
@@ -8790,13 +8853,13 @@
 		}
 
 		// Compatibility
-		if((typeof(meta_key_config.compatibility_url) !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility) {
+		if((typeof meta_key_config.compatibility_url !== 'undefined') && $.WS_Form.settings_plugin.helper_compatibility) {
 
 			li_array.push('<li><div class="wsf-data-grid-compatibility"' + this.esc_attr_tooltip(this.language('field_compatibility'), 'bottom-right') + '><a class="wsf-compatibility" href="' + this.esc_url(meta_key_config.compatibility_url) + '" target="_blank" tabindex="-1">' + this.svg('markup') + '</a></div></li>');
 		}
 
 		// Variable helper
-		if((typeof(meta_key_config.variable_helper) !== 'undefined') && meta_key_config.variable_helper) {
+		if((typeof meta_key_config.variable_helper !== 'undefined') && meta_key_config.variable_helper) {
 
 			li_array.push('<li><div data-action="wsf-variable-helper"' + this.esc_attr_tooltip(this.language('variable_helper'), 'bottom-right') + '>' + this.svg('hash') + '</div></li>');
 		}
@@ -8809,7 +8872,7 @@
 		for(var group_index in groups) {
 
 			if(!groups.hasOwnProperty(group_index)) { continue; }
-			if(typeof(groups[group_index]) === 'function') { continue; }
+			if(typeof groups[group_index] === 'function') { continue; }
 
 			var group = groups[group_index];
 			return_html += this.data_grid_html_group(group, group_index, columns, rows_per_page, meta_key, read_only, bulk_action_row_ids);
@@ -8838,31 +8901,31 @@
 		var page = parseInt(group.page, 10);
 
 		// Get row count
-		if(typeof(group.rows) === 'undefined') { group.rows = []; }
+		if(typeof group.rows === 'undefined') { group.rows = []; }
 		var rows = group.rows;
 		var row_count = rows.length;
 
 		// Support attributes
-		var row_default = ((typeof(meta_key_config.row_default) !== 'undefined') ? meta_key_config.row_default : false);
-		var row_disabled = read_only ? false : ((typeof(meta_key_config.row_disabled) !== 'undefined') ? meta_key_config.row_disabled : false);
-		var row_required = ((typeof(meta_key_config.row_required) !== 'undefined') ? meta_key_config.row_required : false);
-		var row_hidden = read_only ? false : ((typeof(meta_key_config.row_hidden) !== 'undefined') ? meta_key_config.row_hidden : false);
+		var row_default = ((typeof meta_key_config.row_default !== 'undefined') ? meta_key_config.row_default : false);
+		var row_disabled = read_only ? false : ((typeof meta_key_config.row_disabled !== 'undefined') ? meta_key_config.row_disabled : false);
+		var row_required = ((typeof meta_key_config.row_required !== 'undefined') ? meta_key_config.row_required : false);
+		var row_hidden = read_only ? false : ((typeof meta_key_config.row_hidden !== 'undefined') ? meta_key_config.row_hidden : false);
 
 		// Group settings
-		var groups_label = (typeof(meta_key_config.groups_label) !== 'undefined') ? meta_key_config.groups_label : true;
-		var groups_label_label = (typeof(meta_key_config.groups_label_label) !== 'undefined') ? meta_key_config.groups_label_label : this.language('data_grid_groups_label');
+		var groups_label = (typeof meta_key_config.groups_label !== 'undefined') ? meta_key_config.groups_label : true;
+		var groups_label_label = (typeof meta_key_config.groups_label_label !== 'undefined') ? meta_key_config.groups_label_label : this.language('data_grid_groups_label');
 
-		var groups_label_render = (typeof(meta_key_config.groups_label_render) !== 'undefined') ? meta_key_config.groups_label_render : true;
-		var groups_label_render_label = (typeof(meta_key_config.groups_label_render_label) !== 'undefined') ? meta_key_config.groups_label_render_label : this.language('data_grid_groups_label_render');
+		var groups_label_render = (typeof meta_key_config.groups_label_render !== 'undefined') ? meta_key_config.groups_label_render : true;
+		var groups_label_render_label = (typeof meta_key_config.groups_label_render_label !== 'undefined') ? meta_key_config.groups_label_render_label : this.language('data_grid_groups_label_render');
 
-		var groups_group = (typeof(meta_key_config.groups_group) !== 'undefined') ? meta_key_config.groups_group : true;
-		var groups_group_label = (typeof(meta_key_config.groups_group_label) !== 'undefined') ? meta_key_config.groups_group_label : this.language('data_grid_groups_group');
+		var groups_group = (typeof meta_key_config.groups_group !== 'undefined') ? meta_key_config.groups_group : true;
+		var groups_group_label = (typeof meta_key_config.groups_group_label !== 'undefined') ? meta_key_config.groups_group_label : this.language('data_grid_groups_group');
 
-		var groups_disabled = (typeof(meta_key_config.groups_disabled) !== 'undefined') ? meta_key_config.groups_disabled : true;
-		var groups_auto_group = (typeof(meta_key_config.groups_auto_group) !== 'undefined') ? meta_key_config.groups_auto_group : false;
+		var groups_disabled = (typeof meta_key_config.groups_disabled !== 'undefined') ? meta_key_config.groups_disabled : true;
+		var groups_auto_group = (typeof meta_key_config.groups_auto_group !== 'undefined') ? meta_key_config.groups_auto_group : false;
 		var group_settings_show = groups_label || groups_auto_group || groups_group || groups_disabled;
 
-		var rows_randomize = (typeof(meta_key_config.rows_randomize) !== 'undefined') ? meta_key_config.rows_randomize : false;
+		var rows_randomize = (typeof meta_key_config.rows_randomize !== 'undefined') ? meta_key_config.rows_randomize : false;
 
 		// Build table
 		var return_html = '<div id="wsf-data-grid-group-' + this.esc_attr(group_index) + '" class="wsf-data-grid-group" data-group-index="' + this.esc_attr(group_index) + '">';
@@ -9040,9 +9103,9 @@
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 		// Config
-		var max_columns = ((typeof(meta_key_config.max_columns) !== 'undefined') ? meta_key_config.max_columns : 0);
-		var type_sub = (typeof(meta_key_config.type_sub) !== 'undefined') ? meta_key_config.type_sub : false;
-		var read_only_header = (typeof(meta_key_config.read_only_header) !== 'undefined') ? meta_key_config.read_only_header : false;
+		var max_columns = ((typeof meta_key_config.max_columns !== 'undefined') ? meta_key_config.max_columns : 0);
+		var type_sub = (typeof meta_key_config.type_sub !== 'undefined') ? meta_key_config.type_sub : false;
+		var read_only_header = (typeof meta_key_config.read_only_header !== 'undefined') ? meta_key_config.read_only_header : false;
 
 		// Build data grid header row HTML
 		var return_html = '<tr>'
@@ -9063,7 +9126,7 @@
 		for(var key in columns) {
 
 			if(!columns.hasOwnProperty(key)) { continue; }
-			if(typeof(columns[key]) === 'function') { continue; }
+			if(typeof columns[key] === 'function') { continue; }
 
 			var column = columns[key];
 			var column_id = column.id;
@@ -9118,23 +9181,23 @@
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 		// Config
-		var max_columns = ((typeof(meta_key_config.max_columns) !== 'undefined') ? meta_key_config.max_columns : 0);
-		var type_sub = (typeof(meta_key_config.type_sub) !== 'undefined') ? meta_key_config.type_sub : false;
-		var conditional = ((typeof(meta_key_config.conditional) !== 'undefined') && meta_key_config.conditional);
-		var insert_image = ((typeof(meta_key_config.insert_image) !== 'undefined') && meta_key_config.insert_image) && !read_only;
+		var max_columns = ((typeof meta_key_config.max_columns !== 'undefined') ? meta_key_config.max_columns : 0);
+		var type_sub = (typeof meta_key_config.type_sub !== 'undefined') ? meta_key_config.type_sub : false;
+		var conditional = ((typeof meta_key_config.conditional !== 'undefined') && meta_key_config.conditional);
+		var insert_image = ((typeof meta_key_config.insert_image !== 'undefined') && meta_key_config.insert_image) && !read_only;
 
 		// Read row data
 		if(
 			(row === null) ||
-			(typeof(row) !== 'object') ||
-			(typeof(row.data) !== 'object')
+			(typeof row !== 'object') ||
+			(typeof row.data !== 'object')
 		) {
 			return '';
 		}
 		var data = row.data;
 
 		// Get column count
-		if(typeof(data.length) === 'undefined') { return ''; }
+		if(typeof data.length === 'undefined') { return ''; }
 		var column_count = data.length;
 
 		// Build data grid row HTML
@@ -9148,7 +9211,7 @@
 			return_html += '<td data-fixed-sort><div data-action="wsf-data-grid-row-sort"' + this.esc_attr_tooltip(this.language('data_grid_row_sort'), 'top-left') + '>' + this.svg('sort') + '</div></td>'
 
 			// Selector
-			var bulk_action_row_checked = ((typeof(bulk_action_row_ids) === 'object') && (bulk_action_row_ids.indexOf(row_index) !== -1));
+			var bulk_action_row_checked = ((typeof bulk_action_row_ids === 'object') && (bulk_action_row_ids.indexOf(row_index) !== -1));
 			return_html += '<td data-fixed-select' + this.esc_attr_tooltip(this.language('data_grid_row_bulk_select'), 'right') + '><input data-action="wsf-data-grid-row-select" id="' + this.esc_attr(row_id) + '" class="wsf-field" type="checkbox" tabindex="-1"' + (bulk_action_row_checked ? ' checked' : '') + ' /><label for="' + this.esc_attr(row_id) + '" class="wsf-label"></label></td>'
 		}
 
@@ -9239,21 +9302,21 @@
 		element.render = function(read_only, row_index_focus, bulk_action_row_ids) {
 
 			// Read only?
-			if(typeof(read_only) === 'undefined') { read_only = false; }
+			if(typeof read_only === 'undefined') { read_only = false; }
 
 			// Focus row?
-			if(typeof(row_index_focus) === 'undefined') { row_index_focus = false; }
+			if(typeof row_index_focus === 'undefined') { row_index_focus = false; }
 
 			// Bulk action row ids?
-			if(typeof(bulk_action_row_ids) === 'undefined') { bulk_action_row_ids = false; }
+			if(typeof bulk_action_row_ids === 'undefined') { bulk_action_row_ids = false; }
 
 			// Get data grid attributes
 			var object = obj.attr('data-object');
 			var object_id = obj.attr('data-id');
 			var meta_key = obj.attr('data-meta-key');
 			var meta_key_config = $.WS_Form.meta_keys[meta_key];
-			var meta_key_type_sub = (typeof(meta_key_config.type_sub) !== 'undefined') ? meta_key_config.type_sub : false;
-			var data_source = (typeof(meta_key_config.data_source) !== 'undefined') ? meta_key_config.data_source : false;
+			var meta_key_type_sub = (typeof meta_key_config.type_sub !== 'undefined') ? meta_key_config.type_sub : false;
+			var data_source = (typeof meta_key_config.data_source !== 'undefined') ? meta_key_config.data_source : false;
 
 			// Get object data
 			var object_data = $.WS_Form.this.get_object_data(object, object_id, true);
@@ -9309,6 +9372,10 @@
 					// Get rows
 					var rows = group.rows;
 
+					// Ids for split groups: keep source group's id on first bucket, then monotonic new ids (sort must not change ids)
+					var id_next = $.WS_Form.this.data_grid_group_id_next(meta_value);
+					var first_split_group = true;
+
 					// Create new groups data
 					var groups_new = [];
 					for(var row_index in rows) {
@@ -9317,10 +9384,10 @@
 
 						// Get label
 						var group_label = rows[row_index].data[auto_group_index];
-						if(typeof(group_label) === 'undefined') { group_label = ''; }
+						if(typeof group_label === 'undefined') { group_label = ''; }
 
 						// See if this exists, if not create key
-						if(typeof(groups_new[group_label]) === 'undefined') {
+						if(typeof groups_new[group_label] === 'undefined') {
 
 							groups_new[group_label] = $.extend(true, {}, group);
 							groups_new[group_label].label = (group_label == '') ? $.WS_Form.this.language('data_grid_group_label_default') : group_label;
@@ -9328,6 +9395,17 @@
 							groups_new[group_label].mask_group = 'on';
 							groups_new[group_label].page = '0';
 							groups_new[group_label].disabled = '';
+
+							if(first_split_group) {
+
+								first_split_group = false;
+								var id_src = parseInt(group.id, 10);
+								groups_new[group_label].id = (!isNaN(id_src)) ? id_src : 0;
+							} else {
+
+								groups_new[group_label].id = id_next;
+								id_next++;
+							}
 						}
 
 						// Add row to group
@@ -9434,7 +9512,7 @@
 				});
 
 				// Media picker
-				var insert_image = ((typeof(meta_key_config.insert_image) !== 'undefined') && meta_key_config.insert_image);
+				var insert_image = ((typeof meta_key_config.insert_image !== 'undefined') && meta_key_config.insert_image);
 				if(insert_image) {
 
 					$('[data-action="wsf-insert-image"]', obj).on('click', function() {
@@ -9538,13 +9616,13 @@
 
 						case 'default' :
 
-							var row_default_multiple = (typeof(meta_key_config.row_default_multiple) !== 'undefined') ? meta_key_config.row_default_multiple : false;
+							var row_default_multiple = (typeof meta_key_config.row_default_multiple !== 'undefined') ? meta_key_config.row_default_multiple : false;
 							multiple = (multiple || row_default_multiple);
 							break;
 
 						case 'required' :
 
-							var row_required_multiple = (typeof(meta_key_config.row_required_multiple) !== 'undefined') ? meta_key_config.row_required_multiple : false;
+							var row_required_multiple = (typeof meta_key_config.row_required_multiple !== 'undefined') ? meta_key_config.row_required_multiple : false;
 							multiple = (multiple || row_required_multiple);
 							break;
 
@@ -9838,7 +9916,7 @@
 						var meta_value_old = $.WS_Form.this.get_object_meta_value(object_data_old, meta_key, false);
 						if(meta_value_old === false) { $.WS_Form.this.error('error_object_meta_value'); }
 
-						if(typeof(meta_value_old.groups[group_index_new]) !== 'undefined') {
+						if(typeof meta_value_old.groups[group_index_new] !== 'undefined') {
 
 							// Loader on
 							$.WS_Form.this.loader_on();
@@ -9922,7 +10000,7 @@
 					// Group tabs - Add
 					$('[data-action="wsf-data-grid-group-add"]', obj).on('click', function() {
 
-						if(typeof(meta_value.groups[0]) !== 'undefined') {
+						if(typeof meta_value.groups[0] !== 'undefined') {
 
 							// Build new group (Deep clone)
 							var group_new = $.extend(true, {}, meta_value.groups[0]);
@@ -9935,6 +10013,8 @@
 							group_new.disabled = '';
 							group_new.mask_group = '';
 							group_new.label_render = '';
+
+							group_new.id = $.WS_Form.this.data_grid_group_id_next(meta_value);
 
 							// Add group
 							meta_value.groups.push(group_new);
@@ -10178,7 +10258,7 @@
 
 						var inputs = $('input[type="text"]', obj);
 						var idx = inputs.index(this);
-						if(typeof(inputs[idx + 1]) !== 'undefined') { $(inputs[idx + 1]).trigger('focus'); }
+						if(typeof inputs[idx + 1] !== 'undefined') { $(inputs[idx + 1]).trigger('focus'); }
 						return false;
 					}
 
@@ -10271,7 +10351,7 @@
 					// Check rows element exists
 					if(
 						(group.rows === null) ||
-						(typeof(group.rows) !== 'object')
+						(typeof group.rows !== 'object')
 					) {
 						group.rows = [];
 					}
@@ -10507,7 +10587,7 @@
 		var object_id = obj.attr('data-id');
 		var meta_key = obj.attr('data-meta-key');
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
-		var data_source = (typeof(meta_key_config.data_source) !== 'undefined') ? meta_key_config.data_source : false;
+		var data_source = (typeof meta_key_config.data_source !== 'undefined') ? meta_key_config.data_source : false;
 
 		if(data_source) {
 
@@ -10531,8 +10611,8 @@
 		// Initial checks
 		if(
 			(meta_value === null) ||
-			(typeof(meta_value) !== 'object') ||
-			(typeof(meta_value.groups) !== 'object')
+			(typeof meta_value !== 'object') ||
+			(typeof meta_value.groups !== 'object')
 		) {
 			return meta_value;
 		}
@@ -10549,8 +10629,8 @@
 			// Check group
 			if(
 				(group === null) ||
-				(typeof(group) !== 'object') ||
-				(typeof(group.rows) !== 'object')
+				(typeof group !== 'object') ||
+				(typeof group.rows !== 'object')
 			) {
 				delete meta_value.groups[group_index];
 
@@ -10569,8 +10649,8 @@
 				// Check row
 				if(
 					(row === null) ||
-					(typeof(row) !== 'object') ||
-					(typeof(row.data) !== 'object')
+					(typeof row !== 'object') ||
+					(typeof row.data !== 'object')
 				) {
 					delete meta_value.groups[group_index].rows[row_index];
 
@@ -10579,7 +10659,7 @@
 
 				// Delete default if blank
 				if(
-					(typeof(row.default) !== 'undefined') &&
+					(typeof row.default !== 'undefined') &&
 					(row.default == '')
 				) {
 					delete meta_value.groups[group_index].rows[row_index].default;
@@ -10587,7 +10667,7 @@
 
 				// Delete required if blank
 				if(
-					(typeof(row.required) !== 'undefined') &&
+					(typeof row.required !== 'undefined') &&
 					(row.required == '')
 				) {
 					delete meta_value.groups[group_index].rows[row_index].required;
@@ -10595,7 +10675,7 @@
 
 				// Delete hidden if blank
 				if(
-					(typeof(row.hidden) !== 'undefined') &&
+					(typeof row.hidden !== 'undefined') &&
 					(row.hidden == '')
 				) {
 					delete meta_value.groups[group_index].rows[row_index].hidden;
@@ -10603,7 +10683,7 @@
 
 				// Delete disabled if blank
 				if(
-					(typeof(row.disabled) !== 'undefined') &&
+					(typeof row.disabled !== 'undefined') &&
 					(row.disabled == '')
 				) {
 					delete meta_value.groups[group_index].rows[row_index].disabled;
@@ -10627,7 +10707,7 @@
 		var data_source_id = $.WS_Form.this.get_object_meta_value(object_data, 'data_source_id', '');
 
 		// Check data source ID
-		if(typeof($.WS_Form.data_sources[data_source_id]) === 'undefined') { data_source_id = ''; }
+		if(typeof $.WS_Form.data_sources[data_source_id] === 'undefined') { data_source_id = ''; }
 
 		return data_source_id;
 	}
@@ -10640,7 +10720,7 @@
 		var object_id = obj.attr('data-id');
 		var meta_key = obj.attr('data-meta-key');
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
-		var data_source = (typeof(meta_key_config.data_source) !== 'undefined') ? meta_key_config.data_source : false;
+		var data_source = (typeof meta_key_config.data_source !== 'undefined') ? meta_key_config.data_source : false;
 
 		// Get object data
 		var object_data = $.WS_Form.this.get_object_data(object, object_id, true);
@@ -10657,9 +10737,9 @@
 
 		// Checks
 		if(
-			(typeof(data_source_meta.fieldsets) === 'undefined') ||
-			(typeof(data_source_meta.fieldsets[data_source_id]) === 'undefined') ||
-			(typeof(data_source_meta.fieldsets[data_source_id].meta_keys) === 'undefined')
+			(typeof data_source_meta.fieldsets === 'undefined') ||
+			(typeof data_source_meta.fieldsets[data_source_id] === 'undefined') ||
+			(typeof data_source_meta.fieldsets[data_source_id].meta_keys === 'undefined')
 		) {
 
 			// No data source
@@ -10679,16 +10759,16 @@
 			var meta_key = data_source_meta.fieldsets[data_source_id].meta_keys[meta_key_index];
 
 			// Check meta key exists
-			if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { continue; }
+			if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { continue; }
 
 			// Check if meta key exists in object data, if it does, don't add it
-			if(typeof(object_data.meta[meta_key]) !== 'undefined') { continue; }
+			if(typeof object_data.meta[meta_key] !== 'undefined') { continue; }
 
 			// Read meta key config to get default value
 			var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
 			// Check for default value
-			var value = (typeof(meta_key_config.default) !== 'undefined') ? meta_key_config.default : '';
+			var value = (typeof meta_key_config.default !== 'undefined') ? meta_key_config.default : '';
 
 			// Add to object_data
 			object_data.meta[meta_key] = value;
@@ -10756,14 +10836,14 @@
 	// Data source - Get
 	$.WS_Form.prototype.data_source_get = function(obj, page, status_bar) {
 
-		if(typeof(page) === 'undefined') { page = 1; }
+		if(typeof page === 'undefined') { page = 1; }
 
 		// Get data grid attributes
 		var object = obj.attr('data-object');
 		var object_id = obj.attr('data-id');
 		var meta_key = obj.attr('data-meta-key');
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
-		var data_source = (typeof(meta_key_config.data_source) !== 'undefined') ? meta_key_config.data_source : false;
+		var data_source = (typeof meta_key_config.data_source !== 'undefined') ? meta_key_config.data_source : false;
 
 		// Get object data
 		var object_data = $.WS_Form.this.get_object_data(object, object_id, true);
@@ -10789,7 +10869,7 @@
 
 			var mask_row_lookup = mask_row_lookups[mask_row_lookup_index];
 
-			var mask_row_lookup_meta_key = (typeof(meta_key_config[mask_row_lookup]) !== 'undefined') ? meta_key_config[mask_row_lookup] : false;
+			var mask_row_lookup_meta_key = (typeof meta_key_config[mask_row_lookup] !== 'undefined') ? meta_key_config[mask_row_lookup] : false;
 
 			if(mask_row_lookup_meta_key !== false) {
 
@@ -10802,10 +10882,10 @@
 
 		// Checks
 		if(
-			(typeof(data_source_meta.endpoint_get) === 'undefined') ||
-			(typeof(data_source_meta.fieldsets) === 'undefined') ||
-			(typeof(data_source_meta.fieldsets[data_source_id]) === 'undefined') ||
-			(typeof(data_source_meta.fieldsets[data_source_id].meta_keys) === 'undefined')
+			(typeof data_source_meta.endpoint_get === 'undefined') ||
+			(typeof data_source_meta.fieldsets === 'undefined') ||
+			(typeof data_source_meta.fieldsets[data_source_id] === 'undefined') ||
+			(typeof data_source_meta.fieldsets[data_source_id].meta_keys === 'undefined')
 		) {
 
 			return;
@@ -10832,7 +10912,7 @@
 			this.object_data_update_by_meta_key(object, object_data, meta_key_single);
 
 			// Check if meta key exists in object data, if it does, don't add it
-			if(typeof(object_data.meta[meta_key_single]) !== 'undefined') {
+			if(typeof object_data.meta[meta_key_single] !== 'undefined') {
 
 				params[meta_key_single] = object_data.meta[meta_key_single];
 			}
@@ -10842,7 +10922,7 @@
 		this.object_data_update_by_meta_key(object, object_data, meta_key);
 
 		// Set status bar
-		if(typeof(status_bar) === 'undefined') {
+		if(typeof status_bar === 'undefined') {
 
 			// Create status bar for this file
 			var status_bar = new this.upload_status_bar(this, obj, true, false, false)
@@ -10870,10 +10950,10 @@
 		// Retrieve data
 		this.api_call(data_source_meta.endpoint_get, 'POST', params, function(response) {
 
-			if(typeof(response.meta_value) !== 'object') { $.WS_Form.this.error('data_grid_data_source_error'); }
+			if(typeof response.meta_value !== 'object') { $.WS_Form.this.error('data_grid_data_source_error'); }
 
 			// Process page
-			var max_num_pages = (typeof(response.max_num_pages) !== 'undefined') ? response.max_num_pages : 1;
+			var max_num_pages = (typeof response.max_num_pages !== 'undefined') ? response.max_num_pages : 1;
 
 			// Set status
 			var progress = (max_num_pages > 1) ? Math.round((page / (max_num_pages - 1)) * 100) : 100;
@@ -10893,7 +10973,7 @@
 
 					var group = response.meta_value.groups[group_index];
 
-					if(typeof(group.rows) === 'undefined') { continue; }
+					if(typeof group.rows === 'undefined') { continue; }
 
 					for(var row_index in response.meta_value.groups[group_index].rows) {
 
@@ -10914,7 +10994,7 @@
 			} else {
 
 				// Check for meta keys (Used to set column selections)
-				if(typeof(response.meta_keys) === 'object') {
+				if(typeof response.meta_keys === 'object') {
 
 					for(var meta_key_single in response.meta_keys) {
 
@@ -10928,7 +11008,7 @@
 				$.WS_Form.this.data_grid_update_mask_row_lookups(object, object_id, meta_key);
 
 				// Deselect data source?
-				var deselect_data_source_id = (typeof(response.deselect_data_source_id) !== 'undefined') ? response.deselect_data_source_id : '';
+				var deselect_data_source_id = (typeof response.deselect_data_source_id !== 'undefined') ? response.deselect_data_source_id : '';
 				if(deselect_data_source_id) {
 
 					$.WS_Form.this.object_data_scratch.meta.data_source_id = '';
@@ -10954,7 +11034,7 @@
 		}, function(data) {
 
 			// Show error message
-			if(typeof(data.error_message) !== 'undefined') { $.WS_Form.this.data_source_error(object_data, data); }
+			if(typeof data.error_message !== 'undefined') { $.WS_Form.this.data_source_error(object_data, data); }
 
 			// Render data grid
 			obj.closest('.wsf-data-grid')[0].render(true);
@@ -10990,16 +11070,16 @@
 
 		// Get default value as fallback
 		var meta_key_config = $.WS_Form.meta_keys[meta_key];
-		if(typeof(meta_key_config.default) === 'undefined') { return; }
+		if(typeof meta_key_config.default === 'undefined') { return; }
 
 		// Get current value
 		var meta_value = this.get_object_meta_value(this.object_data_scratch, meta_key, $.extend(true, {}, meta_key_config.default));
 
 		// Clear rows
 		if(
-			(typeof(meta_value.groups) === 'object') &&
-			(typeof(meta_value.groups[0]) === 'object') &&
-			(typeof(meta_value.groups[0].rows) === 'object')
+			(typeof meta_value.groups === 'object') &&
+			(typeof meta_value.groups[0] === 'object') &&
+			(typeof meta_value.groups[0].rows === 'object')
 		) {
 
 			// Run through each group and reset the rows
@@ -11173,7 +11253,7 @@
 	// Data grid - Expand
 	$.WS_Form.prototype.data_grid_row_next_id = function(meta_value) {
 
-		var row_id = 0;
+		var row_id_max = -1;
 		var groups = meta_value.groups;
 
 		for(var group_index in groups) {
@@ -11192,20 +11272,16 @@
 
 				// Error checking
 				if(row === null) { continue; }
-				if(typeof(row.id) == 'undefined') { this.error('error_data_grid_row_id'); }
+				if(typeof row.id == 'undefined') { this.error('error_data_grid_row_id'); }
 
 				// Get row ID
 				var id = parseInt(row.id, 10);
 
-				// If higher row ID found, set row_id
-				if(id > row_id) { row_id = id; }
+				if(id > row_id_max) { row_id_max = id; }
 			}
 		}
 
-		// Increment row ID
-		row_id++;
-
-		return row_id;
+		return row_id_max + 1;
 	}
 
 	// Data grid - Uploader
@@ -11216,7 +11292,7 @@
 
 		if(files.length == 0) {
 
-			if(typeof(error_callback) === 'function') { error_callback(); }
+			if(typeof error_callback === 'function') { error_callback(); }
 
 			return false;
 		}
@@ -11261,7 +11337,7 @@
 	// Data grid - Download CSV
 	$.WS_Form.prototype.data_grid_download_csv = function(object, object_id, meta_key, group_index, use_scratch) {
 
-		if(typeof(use_scratch) === 'undefined') { use_scratch = true; }
+		if(typeof use_scratch === 'undefined') { use_scratch = true; }
 
 		// Should we use the scratch data? If so we need to send it to the API request
 		if(use_scratch) {
@@ -11371,7 +11447,7 @@
 				status_bar.set_progress(100);
 
 				// Call success script
-				if(typeof(success_callback) === 'function') { success_callback(response); }
+				if(typeof success_callback === 'function') { success_callback(response); }
 			},
 
 			error: function(response) {
@@ -11390,9 +11466,9 @@
 	// Data grid - Uploader status bar
 	$.WS_Form.prototype.upload_status_bar = function(ws_this, obj, render_file_name, render_file_size, render_abort) {
 
-		if(typeof(render_file_name) === 'undefined') { render_file_name = true; }
-		if(typeof(render_file_size) === 'undefined') { render_file_size = true; }
-		if(typeof(render_abort) === 'undefined') { render_abort = true; }
+		if(typeof render_file_name === 'undefined') { render_file_name = true; }
+		if(typeof render_file_size === 'undefined') { render_file_size = true; }
+		if(typeof render_abort === 'undefined') { render_abort = true; }
 
 		// Build status bar
 		this.status_bar = $('<div class="wsf-upload-status-bar"></div>');
@@ -11479,7 +11555,7 @@
 		if(object !== 'field') { return false; }
 
 		// Check for meta_value_reset
-		if(typeof(meta_value_reset) === 'undefined') { meta_value_reset = false; }
+		if(typeof meta_value_reset === 'undefined') { meta_value_reset = false; }
 
 		// Get object data of scratch field
 		var object_data = $.WS_Form.this.get_object_data(object, object_id, true);
@@ -11498,7 +11574,7 @@
 		// Get field type config
 		var field_type_config = $.WS_Form.field_type_cache[field_type];
 
-		if(typeof(field_type_config.mask_row_lookups) !== 'undefined') {
+		if(typeof field_type_config.mask_row_lookups !== 'undefined') {
 
 			// Read data mask fields
 			var mask_row_lookups = field_type_config.mask_row_lookups;
@@ -11510,7 +11586,7 @@
 			for(var data_mask_field_key in mask_row_lookups) {
 
 				if(!mask_row_lookups.hasOwnProperty(data_mask_field_key)) { continue; }
-				if(typeof(mask_row_lookups[data_mask_field_key]) === 'function') { continue; }
+				if(typeof mask_row_lookups[data_mask_field_key] === 'function') { continue; }
 
 				// Get data mask field ID
 				var data_mask_field = mask_row_lookups[data_mask_field_key];
@@ -11533,7 +11609,7 @@
 				for(var column_key in columns) {
 
 					if(!columns.hasOwnProperty(column_key)) { continue; }
-					if(typeof(columns[column_key]) === 'function') { continue; }
+					if(typeof columns[column_key] === 'function') { continue; }
 
 					var column = columns[column_key];
 
@@ -11550,10 +11626,10 @@
 				if(!meta_value_found || meta_value_reset) {
 
 					// Get default value
-					if(typeof($.WS_Form.meta_keys[data_mask_field]) !== 'undefined') {
+					if(typeof $.WS_Form.meta_keys[data_mask_field] !== 'undefined') {
 
 						var meta_key_config = $.WS_Form.meta_keys[data_mask_field];
-						var default_value = (typeof(meta_key_config.default) !== 'undefined') ? meta_key_config.default : 0;
+						var default_value = (typeof meta_key_config.default !== 'undefined') ? meta_key_config.default : 0;
 
 						// If default value is larger than the number of available columns, set it to zero
 						if(default_value > column_key) { default_value = '0'; }
@@ -11581,7 +11657,7 @@
 				for(var options_array_key in options_array) {
 
 					if(!options_array.hasOwnProperty(options_array_key)) { continue; }
-					if(typeof(options_array[options_array_key]) === 'function') { continue; }
+					if(typeof options_array[options_array_key] === 'function') { continue; }
 
 					var option_value = options_array[options_array_key].value;
 					var option_selected = auto_group ? '' : ((parseInt(option_value, 10) == parseInt(meta_value, 10)) ? ' selected' : '');
@@ -11597,8 +11673,8 @@
 	// Data grid - Bulk action button
 	$.WS_Form.prototype.data_grid_bulk_action_button = function(obj, object, object_id, meta_key, default_check, element) {
 
-		if(typeof(default_check) === 'undefined') { default_check = false; }
-		if(typeof(element) === 'undefined') { element = false; }
+		if(typeof default_check === 'undefined') { default_check = false; }
+		if(typeof element === 'undefined') { element = false; }
 
 		// Determine whether you can multi-select default values
 		var has_multiple = obj.closest('.wsf-sidebar').find('[data-meta-key="multiple"]').length;
@@ -11682,6 +11758,35 @@
 		});
 	}
 
+	// Data grid - Next group id (max existing + 1) for new groups
+	$.WS_Form.prototype.data_grid_group_id_next = function(meta_value) {
+
+		var id_max = -1;
+		if(
+			(typeof meta_value === 'undefined') ||
+			(typeof meta_value.groups === 'undefined')
+		) { return 0; }
+
+		var groups = meta_value.groups;
+		for(var i = 0; i < groups.length; i++) {
+
+			var g = groups[i];
+			if(!g) { continue; }
+
+			if(
+				(typeof g.id !== 'undefined') &&
+				(g.id !== '') &&
+				(g.id !== null)
+			) {
+
+				var n = parseInt(g.id, 10);
+				if(!isNaN(n) && (n > id_max)) { id_max = n; }
+			}
+		}
+
+		return id_max + 1;
+	}
+
 	// Data grid - Group page set
 	$.WS_Form.prototype.data_grid_group_page_set = function(group, group_index, page_new, object, object_id, meta_key, complete) {
 
@@ -11696,8 +11801,8 @@
 		var meta_value_old = $.WS_Form.this.get_object_meta_value(object_data_old, meta_key, false);
 		if(
 			(meta_value_old !== false) &&
-			(typeof(meta_value_old.groups) !== 'undefined') &&
-			(typeof(meta_value_old.groups[group_index]) !== 'undefined')
+			(typeof meta_value_old.groups !== 'undefined') &&
+			(typeof meta_value_old.groups[group_index] !== 'undefined')
 		) {
 
 			// Loader on
@@ -11725,7 +11830,7 @@
 		}
 
 		// Run complete function
-		if(typeof(complete) !== 'undefined') { complete(); }
+		if(typeof complete !== 'undefined') { complete(); }
 	}
 
 	// Save rows per page
@@ -11773,7 +11878,7 @@
 		params[object].history_suppress = 'on';
 
 		// Run complete function
-		if(typeof(complete) !== 'undefined') { complete(); }
+		if(typeof complete !== 'undefined') { complete(); }
 
 		// Call AJAX request
 		$.WS_Form.this.api_call(object + '/' + object_id + '/put/', 'POST', params, function(response) {
@@ -11787,8 +11892,8 @@
 	$.WS_Form.prototype.sidebar_html_editor_init = function(obj_sidebar_inner) {
 
 		if(
-			(typeof(wp) !== 'undefined') &&
-			(typeof(wp.codeEditor) !== 'undefined')
+			(typeof wp !== 'undefined') &&
+			(typeof wp.codeEditor !== 'undefined')
 		) {
 
 			// Kill existing
@@ -11886,7 +11991,7 @@
 		var action_id = this.action.id;
 
 		// Ensure action is still installed
-		if(typeof($.WS_Form.actions[action_id]) === 'undefined') { this.action = this.action_new(); action_id = ''; }
+		if(typeof $.WS_Form.actions[action_id] === 'undefined') { this.action = this.action_new(); action_id = ''; }
 
 		// Build action global fields
 		var action_header_html = '<fieldset class="wsf-fieldset wsf-fieldset-header" data-action-header="true" data-object="action" data-id="' + this.esc_attr(action_id) + '">';
@@ -11915,12 +12020,12 @@
 			}
 
 			// Get action_id
-			if(typeof(action_single.id) === 'undefined') { continue; }
+			if(typeof action_single.id === 'undefined') { continue; }
 			var action_single_id = action_single.id;
 
 			// Get multiple value
-			if(typeof($.WS_Form.actions[action_single_id]) === 'undefined') { continue }
-			if(typeof($.WS_Form.actions[action_single_id].multiple) === 'undefined') { continue }
+			if(typeof $.WS_Form.actions[action_single_id] === 'undefined') { continue }
+			if(typeof $.WS_Form.actions[action_single_id].multiple === 'undefined') { continue }
 
 			// If action can only be run once, hide it from the actions pull down
 			if(!$.WS_Form.actions[action_single_id].multiple) { action_single_use_exhausted_array.push(action_single_id); }
@@ -12018,7 +12123,7 @@
 
 				// Set default events
 				var action = $.WS_Form.actions[action_id];
-				if(typeof(action.events) !== 'undefined') {
+				if(typeof action.events !== 'undefined') {
 
 					for(var action_event_index in action.events) {
 
@@ -12155,10 +12260,10 @@
 	$.WS_Form.prototype.action_api_method_path = function(action_id, method, list_id, list_sub_id) {
 
 		// Check values
-		if((typeof(action_id) === 'undefined') || (action_id == '') || (action_id === null)) { return false; }
-		if((typeof(method) === 'undefined') || (method == '') || (method === null)) { return false; }
-		if((typeof(list_id) === 'undefined') || (list_id == '') || (list_id === null)) { list_id = false; }
-		if((typeof(list_sub_id) === 'undefined') || (list_sub_id == '') || (list_sub_id === null)) { list_sub_id = false; }
+		if((typeof action_id === 'undefined') || (action_id == '') || (action_id === null)) { return false; }
+		if((typeof method === 'undefined') || (method == '') || (method === null)) { return false; }
+		if((typeof list_id === 'undefined') || (list_id == '') || (list_id === null)) { list_id = false; }
+		if((typeof list_sub_id === 'undefined') || (list_sub_id == '') || (list_sub_id === null)) { list_sub_id = false; }
 
 		// Build API path and params
 		var api_call_path = 'action/' + action_id + '/';
@@ -12237,7 +12342,7 @@
 	// Set the action array variables
 	$.WS_Form.prototype.action_save = function(build_meta) {
 
-		if(typeof(build_meta) === 'undefined') { build_meta = false; }
+		if(typeof build_meta === 'undefined') { build_meta = false; }
 
 		// Check if sidebar is locked
 		if(this.sidebar_lock_count) { return false; }
@@ -12258,7 +12363,7 @@
 				if(!meta_data.hasOwnProperty(meta_key)) { continue; }
 
 				// Ensure meta key is configured
-				if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { continue; }
+				if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { continue; }
 
 				if(build_meta) {
 
@@ -12292,7 +12397,7 @@
 	// Build meta data for an object
 	$.WS_Form.prototype.build_meta_data = function(meta_data, meta_keys, return_array) {
 
-		if(typeof(return_array) == 'undefined') { return_array = []; }
+		if(typeof return_array == 'undefined') { return_array = []; }
 
 		for(var key in meta_data) {
 
@@ -12300,7 +12405,7 @@
 
 			var value = meta_data[key];
 
-			if(typeof(value) === 'object') {
+			if(typeof value === 'object') {
 
 				if(key === 'meta_keys') {
 
@@ -12311,13 +12416,13 @@
 						var meta_key = value[meta_key_index];
 
 						// Skip unknown meta_keys
-						if(typeof(meta_keys[meta_key]) === 'undefined') { continue; }
+						if(typeof meta_keys[meta_key] === 'undefined') { continue; }
 
 						// Skip dummy entries
-						if((typeof(meta_keys[meta_key].dummy !== 'undefined') && meta_keys[meta_key].dummy)) { continue; }
+						if((typeof meta_keys[meta_key].dummy !== 'undefined' && meta_keys[meta_key].dummy)) { continue; }
 
 						// Get default meta value
-						if(typeof(meta_keys[meta_key].default) !== 'undefined') {
+						if(typeof meta_keys[meta_key].default !== 'undefined') {
 
 							var meta_value = meta_keys[meta_key].default;
 
@@ -12327,10 +12432,10 @@
 						}
 
 						// Handle boolean values
-						meta_value = (typeof(meta_value) === 'boolean') ? (meta_value ? 'on' : '') : meta_value;
+						meta_value = (typeof meta_value === 'boolean') ? (meta_value ? 'on' : '') : meta_value;
 
 						// Handle key changes
-						if(typeof(meta_keys[meta_key].key) !== 'undefined') {
+						if(typeof meta_keys[meta_key].key !== 'undefined') {
 
 							meta_key = meta_keys[meta_key].key;
 						}
@@ -12353,12 +12458,12 @@
 	// Sidebar - Title
 	$.WS_Form.prototype.sidebar_title = function(sidebar_icon, sidebar_label, sidebar_compatibility_html, sidebar_kb_html, sidebar_field_id_html, sidebar_expand, sidebar_logo_html, sidebar_resize) {
 
-		if(typeof(sidebar_compatibility_html) === 'undefined') { sidebar_compatibility_html = ''; }
-		if(typeof(sidebar_kb_html) === 'undefined') { sidebar_kb_html = ''; }
-		if(typeof(sidebar_field_id_html) === 'undefined') { sidebar_field_id_html = ''; }
-		if(typeof(sidebar_expand) === 'undefined') { sidebar_expand = false; }
-		if(typeof(sidebar_logo_html) === 'undefined') { sidebar_logo_html = ''; }
-		if(typeof(sidebar_resize) === 'undefined') { sidebar_resize = true; }
+		if(typeof sidebar_compatibility_html === 'undefined') { sidebar_compatibility_html = ''; }
+		if(typeof sidebar_kb_html === 'undefined') { sidebar_kb_html = ''; }
+		if(typeof sidebar_field_id_html === 'undefined') { sidebar_field_id_html = ''; }
+		if(typeof sidebar_expand === 'undefined') { sidebar_expand = false; }
+		if(typeof sidebar_logo_html === 'undefined') { sidebar_logo_html = ''; }
+		if(typeof sidebar_resize === 'undefined') { sidebar_resize = true; }
 
 		// Expand / Contract
 		if(sidebar_expand) {
@@ -12386,11 +12491,11 @@
 		// Reset sidebar resize
 		this.sidebar_resize_reset();
 
-		if((typeof(sidebar_current) !== 'undefined') && (sidebar_current != id)) {
+		if((typeof sidebar_current !== 'undefined') && (sidebar_current != id)) {
 
 			// Different sidebar requested
 			var meta_key_close_function = 'sidebar_' + sidebar_current + '_close';
-			if(typeof(window[meta_key_close_function]) === 'function') {
+			if(typeof window[meta_key_close_function] === 'function') {
 
 				window[meta_key_close_function]($.WS_Form.this);
 			}
@@ -12465,7 +12570,7 @@
 
 			// Open sidebar
 			var meta_key_open_function = 'sidebar_' + id + '_open';
-			if(typeof(window[meta_key_open_function]) === 'function') {
+			if(typeof window[meta_key_open_function] === 'function') {
 
 				// Get dom objects
 				var obj_outer = $('#wsf-sidebar-' + id);
@@ -12542,13 +12647,13 @@
 
 		var sidebar_config = $.WS_Form.settings_form.sidebars[id];
 
-		var sidebar_static = (typeof(sidebar_config.static) !== 'undefined') ? sidebar_config.static : false;
-		var sidebar_buttons = (typeof(sidebar_config.buttons) !== 'undefined') ? sidebar_config.buttons : false;
-		var sidebar_nav = (typeof(sidebar_config.nav) !== 'undefined') ? sidebar_config.nav : false;
-		var sidebar_expand = (typeof(sidebar_config.expand) !== 'undefined') ? sidebar_config.expand : false;
-		var sidebar_url = (typeof(sidebar_config.url) !== 'undefined') ? sidebar_config.url : false;
-		var sidebar_label = (typeof(sidebar_config.label) !== 'undefined') ? sidebar_config.label : 'Title';
-		var sidebar_icon = (typeof(sidebar_config.icon) !== 'undefined') ? sidebar_config.icon : 'default';
+		var sidebar_static = (typeof sidebar_config.static !== 'undefined') ? sidebar_config.static : false;
+		var sidebar_buttons = (typeof sidebar_config.buttons !== 'undefined') ? sidebar_config.buttons : false;
+		var sidebar_nav = (typeof sidebar_config.nav !== 'undefined') ? sidebar_config.nav : false;
+		var sidebar_expand = (typeof sidebar_config.expand !== 'undefined') ? sidebar_config.expand : false;
+		var sidebar_url = (typeof sidebar_config.url !== 'undefined') ? sidebar_config.url : false;
+		var sidebar_label = (typeof sidebar_config.label !== 'undefined') ? sidebar_config.label : 'Title';
+		var sidebar_icon = (typeof sidebar_config.icon !== 'undefined') ? sidebar_config.icon : 'default';
 
 		// Create nav button
 		if(sidebar_nav) {
@@ -12571,19 +12676,19 @@
 		var obj_outer = $('#wsf-sidebar-' + id);
 
 		// Build knowledge base HTML
-		if((typeof(sidebar_config.kb_url) !== 'undefined')) {
+		if((typeof sidebar_config.kb_url !== 'undefined')) {
 
 			var kb_url = this.get_plugin_website_url(sidebar_config.kb_url, 'sidebar');
 			var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'bottom-right') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 		}
 
 		// Build logo HTML
-		var sidebar_logo_html = (typeof(sidebar_config.logo) !== 'undefined') ? sidebar_config.logo : '';
+		var sidebar_logo_html = (typeof sidebar_config.logo !== 'undefined') ? sidebar_config.logo : '';
 
 		obj_outer.html(this.sidebar_title(this.svg(sidebar_icon), sidebar_label, '', sidebar_kb_html, '', sidebar_expand, sidebar_logo_html));
 
 		// Render static sidebar content
-		if(sidebar_static && (typeof(sidebar_config.meta) !== 'undefined')) {
+		if(sidebar_static && (typeof sidebar_config.meta !== 'undefined')) {
 
 			// Clear sidebar caches
 			this.sidebar_cache_clear(obj_outer);
@@ -12622,7 +12727,7 @@
 
 				// Open
 				var meta_key_open_function = 'sidebar_' + id + '_open';
-				if(typeof(window[meta_key_open_function]) === 'function') {
+				if(typeof window[meta_key_open_function] === 'function') {
 
 					// Get dom objects
 					var obj_outer = $('#wsf-sidebar-' + id);
@@ -12640,7 +12745,7 @@
 
 				// Toggle
 				var meta_key_toggle_function = 'sidebar_' + id + '_toggle';
-				if(typeof(window[meta_key_toggle_function]) === 'function') {
+				if(typeof window[meta_key_toggle_function] === 'function') {
 
 					// Get dom objects
 					var obj_outer = $('#wsf-sidebar-' + id);
@@ -12762,12 +12867,12 @@
 				// Get object name
 				var direct_object = '';
 
-				if(typeof(form_history_single.id) !== 'undefined') {
+				if(typeof form_history_single.id !== 'undefined') {
 
 					var object_id = form_history_single.id;
 
 					// Add label
-					if(typeof(form_history_single.label) !== 'undefined') {
+					if(typeof form_history_single.label !== 'undefined') {
 
 						direct_object = ' <span class="wsf-history-highlight">' + this.esc_html(form_history_single.label) + '</span>';
 					}
@@ -12821,7 +12926,7 @@
 	// History - Update classes
 	$.WS_Form.prototype.sidebar_form_history_classes = function(index) {
 
-		if(typeof(index) === 'undefined') { index = this.history_index; }
+		if(typeof index === 'undefined') { index = this.history_index; }
 
 		$('.wsf-form-history ul li').each(function() {
 
@@ -12847,7 +12952,7 @@
 		var data = $.extend(true, {}, data); // Deep clone
 
 		// Add data to form_history
-		if(typeof(data.history) !== 'undefined') {
+		if(typeof data.history !== 'undefined') {
 
 			if(data.history !== false) {
 
@@ -12879,8 +12984,8 @@
 	// History - Pull
 	$.WS_Form.prototype.history_pull = function(index, push_to_api, preview_update) {
 
-		if(typeof(push_to_api) === 'undefined') { push_to_api = false; }
-		if(typeof(preview_update) === 'undefined') { preview_update = false; }
+		if(typeof push_to_api === 'undefined') { push_to_api = false; }
+		if(typeof preview_update === 'undefined') { preview_update = false; }
 
 		// Loader on
 		this.loader_on();
@@ -13044,7 +13149,7 @@
 			var button_action = button.action;
 			var button_class = '';
 
-			if(typeof(button.class) !== 'undefined') { button_class = button.class; }
+			if(typeof button.class !== 'undefined') { button_class = button.class; }
 
 			popover_html += '<button class="wsf-button wsf-button-small';
 			if(button_class != '') { popover_html += ' ' + button_class; }
@@ -13092,7 +13197,7 @@
 
 					case 'wsf-confirm' :
 
-					if(typeof(confirm_function) === 'function') {
+					if(typeof confirm_function === 'function') {
 
 						confirm_function();
 					}
@@ -13145,7 +13250,7 @@
 	// Settings - HTML
 	$.WS_Form.prototype.settings_html = function(object, object_id, multiple, no_resize) {
 
-		if(typeof(no_resize) === 'undefined') { no_resize = false; }
+		if(typeof no_resize === 'undefined') { no_resize = false; }
 
 		var settings_html = '<ul class="wsf-settings wsf-settings-' + object + (no_resize ? ' wsf-settings-no-resize' : '') + ' wsf-ui-cancel">';
 
@@ -13180,7 +13285,7 @@
 
 				var method_function = 'wsf_' + object + '_' + $(this).attr('data-action');
 
-				if(typeof(window[method_function], 'function') !== 'undefined') {
+				if(typeof window[method_function], 'function' !== 'undefined') {
 
 					var singleObj = $('.wsf-' + object + (object == 'field' ? '-wrapper' : '') + '[data-id="' + $.WS_Form.this.esc_selector($(this).attr('data-id')) + '"]').first();
 
@@ -13439,7 +13544,7 @@
 					api_params = {'field': object};
 
 					// Optimize orientation breakpoints
-					var field_type = (typeof(object.type) !== 'undefined') ? object.type : false;
+					var field_type = (typeof object.type !== 'undefined') ? object.type : false;
 					switch(field_type) {
 
 						case 'checkbox' :
@@ -13569,7 +13674,7 @@
 
 				if(breakpoint_index == 0) {
 
-					var column_size = (typeof(breakpoint.column_size_default) !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_default;
+					var column_size = (typeof breakpoint.column_size_default !== 'undefined') ? (breakpoint.column_size_default == 'column_count' ? framework_column_count : breakpoint.column_size_default) : column_size_default;
 				}
 
 				// Offset
@@ -13826,7 +13931,7 @@
 				obj.attr('style', styles);
 
 				// Get next sibling ID (0 = Last or only element in group)
-				$.WS_Form.this.next_sibling_id_old = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+				$.WS_Form.this.next_sibling_id_old = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 
 				// Set dragging
 				$.WS_Form.this.dragging = true;
@@ -13883,7 +13988,7 @@
 				$('.wsf-sections').sortable('refreshPositions');
 
 				// Get next sibling ID (0 = Last or only element in group)
-				$.WS_Form.this.next_sibling_id_old = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+				$.WS_Form.this.next_sibling_id_old = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 				$.WS_Form.this.group_id_old = obj.closest('.wsf-group').attr('data-id');
 
 				// Set dragging
@@ -13995,7 +14100,7 @@
 					$('.wsf-fields').sortable('refreshPositions');
 
 					// Get next sibling ID (0 = Last or only element in group)
-					$.WS_Form.this.next_sibling_id_old = (typeof(obj.next().attr('data-id')) !== 'undefined') ? obj.next().attr('data-id') : 0;
+					$.WS_Form.this.next_sibling_id_old = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 					$.WS_Form.this.section_id_old = obj.closest('.wsf-section').attr('data-id');
 
 					// Set dragging
@@ -14088,7 +14193,7 @@
 					var ul_dummy_selector = '.wsf-fields';
 				}
 
-				if(typeof(ul_dummy_selector) !== 'undefined') {
+				if(typeof ul_dummy_selector !== 'undefined') {
 
 					// Append to appropriate dummy UL container
 					var ul_dummy = $($(this).find('a').attr('href')).find(ul_dummy_selector).first();
@@ -14105,7 +14210,7 @@
 	// Get SVG
 	$.WS_Form.prototype.svg = function(id) {
 
-		return (typeof($.WS_Form.settings_form.icons[id]) !== 'undefined') ? $.WS_Form.settings_form.icons[id] : $.WS_Form.settings_form.icons.default;
+		return (typeof $.WS_Form.settings_form.icons[id] !== 'undefined') ? $.WS_Form.settings_form.icons[id] : $.WS_Form.settings_form.icons.default;
 	}
 
 	// Test API
@@ -14114,7 +14219,7 @@
 		this.api_call('helper/test/', 'GET', false, function(response) {
 
 			if(
-				(typeof(response.error) !== 'undefined') &&
+				(typeof response.error !== 'undefined') &&
 				!response.error
 			) {
 
@@ -14122,7 +14227,7 @@
 
 			} else {
 
-				error_callback((typeof(response.error_message) !== 'undefined') ? response.error_message : false);
+				error_callback((typeof response.error_message !== 'undefined') ? response.error_message : false);
 			}
 
 		}, function(response) {
@@ -14254,7 +14359,7 @@
 			var modal_form = $(this).attr('data-modal-form');
 
 			// Legacy fallback
-			if(typeof(modal_form) === 'undefined') {
+			if(typeof modal_form === 'undefined') {
 
 				// Get list sub label
 				var list_sub_modal_label_div = $(this).closest('[data-action-template-add-modal-label]');
@@ -14585,7 +14690,7 @@
 				var template_id = template.id;
 				var template_label = template.label;
 				var template_svg = template.svg;
-				var template_list_sub = (typeof(template.list_sub) !== 'undefined') ? template.list_sub : false;
+				var template_list_sub = (typeof template.list_sub !== 'undefined') ? template.list_sub : false;
 				var template_data_action = template_list_sub ? 'wsf-modal-form' : 'wsf-add-template-action';
 
 				template_content += '<li><div class="wsf-template" data-action-id="' + $.WS_Form.this.esc_attr(action_id) + '" data-list-id="' + $.WS_Form.this.esc_attr(template_id) + '" title="' + $.WS_Form.this.esc_attr(template_label) + '">';
@@ -14633,7 +14738,7 @@
 
 	$.WS_Form.prototype.template_api_response = function(response) {
 
-		if(typeof(response.data) !== 'undefined') {
+		if(typeof response.data !== 'undefined') {
 
 			$.WS_Form.templates_section = response.data;
 
@@ -14848,7 +14953,7 @@
 
 				var form_location_array = [];
 
-				if(typeof(response[form_id]) !== 'undefined') {
+				if(typeof response[form_id] !== 'undefined') {
 
 					// Render each location the form was found
 					for(var form_location_id in response[form_id]) {
@@ -15260,7 +15365,7 @@
 				$.WS_Form.this.api_call('submit/' + submit_id + '/viewed/off/', 'POST', false, function(response) {
 
 					// Update submission count in admin menu
-					if(typeof(window.wsf_admin_wp_count_submit_unread_ajax) === 'function') {
+					if(typeof window.wsf_admin_wp_count_submit_unread_ajax === 'function') {
 
 						window.wsf_admin_wp_count_submit_unread_ajax($.WS_Form.this.form_id);
 					}
@@ -15281,7 +15386,7 @@
 				$.WS_Form.this.api_call('submit/' + submit_id + '/viewed/on/', 'POST', false, function(response) {
 
 					// Update submission count in admin menu
-					if(typeof(window.wsf_admin_wp_count_submit_unread_ajax) === 'function') {
+					if(typeof window.wsf_admin_wp_count_submit_unread_ajax === 'function') {
 
 						window.wsf_admin_wp_count_submit_unread_ajax($.WS_Form.this.form_id);
 					}
@@ -15414,7 +15519,7 @@
 			'id': this.form_id
 		};
 
-		if(typeof(submit_ids) !== 'undefined') {
+		if(typeof submit_ids !== 'undefined') {
 
 			data.submit_ids = submit_ids;
 
@@ -15434,11 +15539,11 @@
 
 	$.WS_Form.prototype.submit_export_do = function(data, page, hash, records_total) {
 
-		if(typeof(page) === 'undefined') { page = 0; }
+		if(typeof page === 'undefined') { page = 0; }
 
 		data.page = page;
 
-		if(typeof(hash) !== 'undefined') { data.hash = hash; }
+		if(typeof hash !== 'undefined') { data.hash = hash; }
 
 		var url = ws_form_settings.url_ajax + 'submit/export/';
 
@@ -15468,7 +15573,7 @@
 				}
 
 				// Check response
-				if(typeof(response.complete) !== 'undefined') {
+				if(typeof response.complete !== 'undefined') {
 
 					var complete = response.complete;
 					var hash = response.hash;
@@ -15601,13 +15706,13 @@
 		// Make API call to get the submit record
 		this.api_call('submit/' + id, 'GET', false, function(response) {
 
-			if(typeof(response.data) === 'undefined') { return; }
+			if(typeof response.data === 'undefined') { return; }
 
 			// Get submit data
 			var submit = response.data;
 
 			// Preview?
-			var preview = (typeof(submit.preview) !== 'undefined') ? submit.preview : false;
+			var preview = (typeof submit.preview !== 'undefined') ? submit.preview : false;
 
 			if(!preview && $.WS_Form.this.form.published_checksum) {
 
@@ -15638,7 +15743,7 @@
 			}
 
 			// Update submission count in admin menu
-			if(typeof(window.wsf_admin_wp_count_submit_unread_ajax) === 'function') {
+			if(typeof window.wsf_admin_wp_count_submit_unread_ajax === 'function') {
 
 				window.wsf_admin_wp_count_submit_unread_ajax($.WS_Form.this.form_id);
 			}
@@ -15652,8 +15757,8 @@
 
 		// Checks
 		if(
-			(typeof(form) === 'undefined') ||
-			(typeof(form.groups) === 'undefined') ||
+			(typeof form === 'undefined') ||
+			(typeof form.groups === 'undefined') ||
 			(parseInt(submit.form_id) !== parseInt(this.form_id, 10))
 		) {
 			// Turn off loader
@@ -15669,13 +15774,13 @@
 		var has_groups = (form.groups.length > 1);
 
 		// Is there meta data?
-		var has_meta = (typeof(submit.meta) !== 'undefined');
+		var has_meta = (typeof submit.meta !== 'undefined');
 
 		// Encrypted?
 		var encrypted_html = (submit.encrypted) ? '<div class="wsf-encrypted"' + this.esc_attr_tooltip(this.language('submit_encrypted'), 'top-center') + '>' + this.svg('readonly') + '</div>' : '';
 
 		// Section repeatable
-		var section_repeatable = (typeof(submit.section_repeatable) !== 'undefined') ? submit.section_repeatable : false;
+		var section_repeatable = (typeof submit.section_repeatable !== 'undefined') ? submit.section_repeatable : false;
 
 		// Expand / Contract
 		var expand_contract = '<div data-action="wsf-sidebar-expand"' + this.esc_attr_tooltip(this.language('sidebar_expand'), 'bottom-right') + '>' + this.svg('expand') + '</div>';
@@ -15709,7 +15814,7 @@
 			var group = form.groups[group_index];
 
 			// Check for sections
-			if((typeof(group.sections) === 'undefined') || (group.sections.length == 0)) { continue; }
+			if((typeof group.sections === 'undefined') || (group.sections.length == 0)) { continue; }
 
 			// Run through each section
 			var group_label_rendered = false;
@@ -15728,8 +15833,8 @@
 				var section_repeatable_array = (
 
 					(section_repeatable !== false) &&
-					(typeof(section_repeatable[section_id_string]) !== 'undefined') &&
-					(typeof(section_repeatable[section_id_string].index) !== 'undefined')
+					(typeof section_repeatable[section_id_string] !== 'undefined') &&
+					(typeof section_repeatable[section_id_string].index !== 'undefined')
 
 				) ? section_repeatable[section_id_string].index : [false];
 
@@ -15740,13 +15845,13 @@
 
 					var field = section.fields[field_index];
 
-					if(typeof($.WS_Form.field_type_cache[field.type]) === 'undefined') { continue; }
+					if(typeof $.WS_Form.field_type_cache[field.type] === 'undefined') { continue; }
 
 					// Get field type
 					var field_type = $.WS_Form.field_type_cache[field.type];
 
 					// Determine if meta data would exist for this field type
-					var submit_save = (typeof(field_type.submit_save) !== 'undefined') ? field_type.submit_save : false;
+					var submit_save = (typeof field_type.submit_save !== 'undefined') ? field_type.submit_save : false;
 
 					// If not, delete it
 					if(!submit_save) { delete section.fields[field_index]; }
@@ -15756,7 +15861,7 @@
 				section.fields = this.array_remove_empty(section.fields);
 
 				// Check for fields
-				if((typeof(section.fields) === 'undefined') || (section.fields.length == 0)) { continue; }
+				if((typeof section.fields === 'undefined') || (section.fields.length == 0)) { continue; }
 
 				// Build fieldset HTML
 				var fieldset_html = '';
@@ -15796,7 +15901,7 @@
 
 						var field = section.fields[field_index];
 						var field_name = this.field_name_prefix + field.id + section_repeatable_suffix;
-						var value = (typeof(submit.meta[field_name]) !== 'undefined') ? submit.meta[field_name].value : '';
+						var value = (typeof submit.meta[field_name] !== 'undefined') ? submit.meta[field_name].value : '';
 
 
 						fieldset_html += '<div class="wsf-field-wrapper" data-id="' + this.esc_attr(field.id) + '" data-type="' + this.esc_attr(field.type) + '"' + (section_repeatable_index ? (' data-repeatable-index="' + this.esc_attr(section_repeatable_index) + '"') : '') + '>';
@@ -15805,7 +15910,7 @@
 						var field_type = field.type;
 
 						// Get field type config
-						if(typeof($.WS_Form.field_type_cache[field_type]) === 'undefined') { continue; }
+						if(typeof $.WS_Form.field_type_cache[field_type] === 'undefined') { continue; }
 						var field_type_config = $.WS_Form.field_type_cache[field_type];
 
 						// WPAutoP?
@@ -15813,14 +15918,14 @@
 						if(wpautop && view) { value = $.WS_Form.this.wpautop(value); }
 
 						// Get whether field can be edited or not
-						var submit_edit = (typeof(field_type_config.submit_edit) !== 'undefined') ? field_type_config.submit_edit : false;
+						var submit_edit = (typeof field_type_config.submit_edit !== 'undefined') ? field_type_config.submit_edit : false;
 
 						// Is this an e-commerce price? If so and price editing is allowed, set submit_edit to true
-						var submit_edit_ecommerce_field = (typeof(field_type_config.submit_edit_ecommerce) !== 'undefined') ? field_type_config.submit_edit_ecommerce : false;
+						var submit_edit_ecommerce_field = (typeof field_type_config.submit_edit_ecommerce !== 'undefined') ? field_type_config.submit_edit_ecommerce : false;
 						if(submit_edit_ecommerce && submit_edit_ecommerce_field) { submit_edit = true; }
 
 						// Get field type ID
-						var field_type_id = (typeof(field_type_config.submit_edit_type) !== 'undefined') ? field_type_config.submit_edit_type : field_type;
+						var field_type_id = (typeof field_type_config.submit_edit_type !== 'undefined') ? field_type_config.submit_edit_type : field_type;
 						if(field_type_id !== field.type) { field.type = field_type_id; }
 
 						// If editing, show fields in view mode if config says they cannot be edited
@@ -15829,7 +15934,7 @@
 						if(submit_edit) {
 
 							// Create blank scratch data if not found in original submit
-							if((typeof(submit.meta[field_name]) === 'undefined')) {
+							if((typeof submit.meta[field_name] === 'undefined')) {
 
 								submit_scratch.meta[field_name] = {
 
@@ -15883,7 +15988,7 @@
 
 								case 'textarea' :
 
-									if(typeof(value) === 'string') {
+									if(typeof value === 'string') {
 
 										// Add additional new lines to ending </p> tags to improve wpautop
 										value = this.replace_all(value, '</p>', "\n")
@@ -15901,19 +16006,19 @@
 						}
 
 						// HTML encode
-						if(typeof(value) === 'object') {
+						if(typeof value === 'object') {
 
 							for(var key in value) {
 
 								if(!value.hasOwnProperty(key)) { continue; }
 
-								if(typeof(value[key]) === 'string') {
+								if(typeof value[key] === 'string') {
 
 									value[key] = this.esc_html(value[key]);
 								}
 							}
 						}
-						if(typeof(value) === 'string') {
+						if(typeof value === 'string') {
 
 							value = this.esc_html(value);
 						}
@@ -15927,7 +16032,7 @@
 						} else {
 
 							// Format array values
-							if(typeof(value) === 'object') {
+							if(typeof value === 'object') {
 
 								var value_html = '';
 								var value_index = 0;
@@ -15936,7 +16041,7 @@
 
 									if(!value.hasOwnProperty(key)) { continue; }
 
-									if(typeof(value[key]) === 'string') {
+									if(typeof value[key] === 'string') {
 
 										// Already HTML encoded above
 										value_html += ((value_index > 0) ? '<br />' : '') + value[key];
@@ -15960,13 +16065,13 @@
 						fieldset_html += '</div>'
 
 						// Mark submit meta as processed
-						if(typeof(submit.meta[field_name]) === 'object') {
+						if(typeof submit.meta[field_name] === 'object') {
 
 							submit.meta[field_name].processed = true;
 						}
 
 						// Revert field type
-						if(typeof(field_type_old) !== 'undefined') { field.type = field_type_old; }
+						if(typeof field_type_old !== 'undefined') { field.type = field_type_old; }
 					}
 
 					// End of repeatable section
@@ -16043,7 +16148,7 @@
 			$('[data-action="wsf-sidebar-view"]', sidebar_outer_obj).on('click', function() {
 
 				var id = $(this).attr('data-id');
-				if(typeof(id) !== 'undefined') { $.WS_Form.this.submit_render(id, true); }
+				if(typeof id !== 'undefined') { $.WS_Form.this.submit_render(id, true); }
 
 				// Reset popovers
 				$.WS_Form.this.popover_reset();
@@ -16112,17 +16217,17 @@
 						// Success
 						ws_this.removeClass('wsf-api-method-calling');
 
-						if(typeof(response.data) === 'undefined') { return false; }
+						if(typeof response.data === 'undefined') { return false; }
 
 						// Process logs
-						if((typeof(response.data.logs) !== 'undefined') && response.data.logs.length) {
+						if((typeof response.data.logs !== 'undefined') && response.data.logs.length) {
 
 							var log_message = response.data.logs.join('<br />');
 							$.WS_Form.this.message(log_message, true, 'notice-success'); 
 						}
 
 						// Process errors
-						if((typeof(response.data.errors) !== 'undefined') && response.data.errors.length) {
+						if((typeof response.data.errors !== 'undefined') && response.data.errors.length) {
 
 							var error_message = response.data.errors.join('<br />');
 							$.WS_Form.this.message(error_message, true, 'notice-error'); 
@@ -16209,7 +16314,7 @@
 			if(meta_key.indexOf(this.field_name_prefix) == -1) { continue; }
 
 			// If meta data contains data from a delete field, skip it
-			if(typeof(submit_scratch.meta[meta_key].value) === 'undefined') { continue; }
+			if(typeof submit_scratch.meta[meta_key].value === 'undefined') { continue; }
 
 			// Check if repeatable
 			var section_repeatable_index = submit_scratch.meta[meta_key].repeatable_index;
@@ -16257,7 +16362,7 @@
 	$.WS_Form.prototype.sidebar_render_actions = function(submit) {
 
 		// Get actions
-		if(typeof(submit.actions) === 'undefined') { return false; }
+		if(typeof submit.actions === 'undefined') { return false; }
 		var submit_actions = submit.actions;
 
 		if(submit_actions === false) { return false; }
@@ -16294,11 +16399,11 @@
 			var submit_action_meta = submit_action.meta;
 
 			// Check to see if the action is installed so we can extract more data
-			var action_installed = (typeof($.WS_Form.actions[submit_action_id]) !== 'undefined');
+			var action_installed = (typeof $.WS_Form.actions[submit_action_id] !== 'undefined');
 			var action = (action_installed) ? $.WS_Form.actions[submit_action_id] : false;
 
 			// Can report action?
-			var action_can_repost = (typeof(action.can_repost) !== 'undefined') ? action.can_repost : false;
+			var action_can_repost = (typeof action.can_repost !== 'undefined') ? action.can_repost : false;
 
 			// Get action meta HTML
 			var sidebar_render_action_meta_html = this.sidebar_render_action_meta_html(action, submit_action);
@@ -16393,7 +16498,7 @@
 		var action_meta_key_cache = this.get_action_meta_key_cache(action, submit_action_id);
 
 		// Run through submit_action meta
-		if(typeof(submit_action.meta) === 'undefined') { return false; }
+		if(typeof submit_action.meta === 'undefined') { return false; }
 		var submit_action_meta = submit_action.meta;
 
 		if(submit_action_meta.length == 0) { return false; }
@@ -16412,18 +16517,18 @@
 			if(!submit_action_meta.hasOwnProperty(meta_key)) { continue; }
 
 			// Get label (Use meta_key if not found)
-			var meta_label = (typeof(action_meta_key_cache[meta_key]) !== 'undefined') ? action_meta_key_cache[meta_key].label : meta_key;
+			var meta_label = (typeof action_meta_key_cache[meta_key] !== 'undefined') ? action_meta_key_cache[meta_key].label : meta_key;
 
 			// Process meta_value
 			var meta_value = submit_action_meta[meta_key];
 
 			// If it is an object, its likely a repeater field so render that as a table
-			if(typeof(meta_value) === 'object') {
+			if(typeof meta_value === 'object') {
 
-				if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { continue; }
+				if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { continue; }
 				var meta_config = $.WS_Form.meta_keys[meta_key];
 
-				if(typeof(meta_config.type) === 'undefined') { continue; }
+				if(typeof meta_config.type === 'undefined') { continue; }
 				var meta_type = meta_config.type;
 
 				switch(meta_type) {
@@ -16481,7 +16586,7 @@
 	$.WS_Form.prototype.sidebar_render_action_logs_html = function(submit_action, key) {
 
 		// Run through submit_action log or error
-		if(typeof(submit_action[key]) === 'undefined') { return false; }
+		if(typeof submit_action[key] === 'undefined') { return false; }
 		var submit_action_logs = submit_action[key];
 
 		if(submit_action_logs.length == 0) { return false; }
@@ -16514,9 +16619,9 @@
 
 		var action_meta_key_cache = [];
 
-		if(typeof(action.fieldsets) === 'undefined') { return []; }
-		if(typeof(action.fieldsets[action_id]) === 'undefined') { return []; }
-		if(typeof(action.fieldsets[action_id].meta_keys) === 'undefined') { return []; }
+		if(typeof action.fieldsets === 'undefined') { return []; }
+		if(typeof action.fieldsets[action_id] === 'undefined') { return []; }
+		if(typeof action.fieldsets[action_id].meta_keys === 'undefined') { return []; }
 
 		for(var meta_key_index in action.fieldsets[action_id].meta_keys) {
 
@@ -16524,10 +16629,10 @@
 
 			var meta_key = action.fieldsets[action_id].meta_keys[meta_key_index];
 
-			if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { continue; }
+			if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { continue; }
 			var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
-			if(typeof(meta_key_config.label) === 'undefined') { continue; }
+			if(typeof meta_key_config.label === 'undefined') { continue; }
 
 			// Add to action_meta_key_cache
 			action_meta_key_cache[meta_key] = {'label': $.WS_Form.meta_keys[meta_key].label};
@@ -16539,11 +16644,11 @@
 	// Render submit row
 	$.WS_Form.prototype.submit_row_render = function(submit, field, label, type) {
 
-		if(typeof(submit[field]) === 'undefined') { return; }
-		if(typeof(type) === 'undefined') { type = 'default'; }
+		if(typeof submit[field] === 'undefined') { return; }
+		if(typeof type === 'undefined') { type = 'default'; }
 
 		// Preview?
-		var preview = (typeof(submit.preview) !== 'undefined') ? submit.preview : false;
+		var preview = (typeof submit.preview !== 'undefined') ? submit.preview : false;
 
 		var return_html = '<tr><th width="80">' + label + '</th><td>';
 
@@ -16567,7 +16672,7 @@
 
 				var user_id = parseInt(submit[field]);
 
-				if((user_id === 0) || (typeof(submit.user) === 'undefined')) {
+				if((user_id === 0) || (typeof submit.user === 'undefined')) {
 
 					return_html += '-';
 
@@ -16593,7 +16698,7 @@
 	// Generate random key
 	$.WS_Form.prototype.key_generate = function(length) {
 
-		if(typeof(length) === 'undefined') { length = 64; }
+		if(typeof length === 'undefined') { length = 64; }
 
 		var characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]\\{}|;\':",./<>?';
 		var key = '';
@@ -16645,14 +16750,14 @@
 	$.WS_Form.prototype.api_call_process = function(ajax_path, method, params, success_callback, error_callback, checksum_request, bypass_loader, bypass_form_processing, form_parse) {
 
 		// Defaults
-		if(typeof(method) === 'undefined') { method = 'POST'; }
-		if(typeof(params) === 'undefined') { params = false; }
-		if(typeof(success_callback) === 'undefined') { success_callback = false; }
-		if(typeof(error_callback) === 'undefined') { error_callback = false; }
-		if(typeof(checksum_request) === 'undefined') { checksum_request = false; }
-		if(typeof(bypass_loader) === 'undefined') { bypass_loader = false; }
-		if(typeof(bypass_form_processing) === 'undefined') { bypass_form_processing = false; }
-		if(typeof(form_parse) === 'undefined') { form_parse = false; }
+		if(typeof method === 'undefined') { method = 'POST'; }
+		if(typeof params === 'undefined') { params = false; }
+		if(typeof success_callback === 'undefined') { success_callback = false; }
+		if(typeof error_callback === 'undefined') { error_callback = false; }
+		if(typeof checksum_request === 'undefined') { checksum_request = false; }
+		if(typeof bypass_loader === 'undefined') { bypass_loader = false; }
+		if(typeof bypass_form_processing === 'undefined') { bypass_form_processing = false; }
+		if(typeof form_parse === 'undefined') { form_parse = false; }
 
 		// Show loader
 		if(!checksum_request && !bypass_loader) { this.loader_on(); }
@@ -16712,7 +16817,7 @@
 				// Reset checksum checking (Prevents form refreshing due to this API call)
 				if(!checksum_request) { $.WS_Form.checksum = false; }
 
-				if(!bypass_form_processing && (typeof(response.form) !== 'undefined')) {
+				if(!bypass_form_processing && (typeof response.form !== 'undefined')) {
 
 					// Process checksum
 					$.WS_Form.this.api_call_process_checksum(response);
@@ -16722,7 +16827,7 @@
 				if($.WS_Form.this.api_call_queue.length == 0) {
 
 					// If full form returned by API, load it
-					if((typeof(response.form_full) !== 'undefined') && response.form_full) {
+					if((typeof response.form_full !== 'undefined') && response.form_full) {
 
 						$.WS_Form.this.form = response.form;
 					}
@@ -16732,10 +16837,10 @@
 				}
 
 				// Call success function
-				if(typeof(success_callback) === 'function') { success_callback(response); } else { $.WS_Form.this.loader_off(); }
+				if(typeof success_callback === 'function') { success_callback(response); } else { $.WS_Form.this.loader_off(); }
 
 				// Save if we are using undo function (Called after success_callback to ensure response returned is in caches)
-				if(!bypass_form_processing && (typeof(response.history) !== 'undefined')) {
+				if(!bypass_form_processing && (typeof response.history !== 'undefined')) {
 
 					// Push to history stack
 					$.WS_Form.this.history_push(response);
@@ -16768,7 +16873,7 @@
 	$.WS_Form.prototype.api_call_process_checksum = function(response) {
 
 		// Look for checksum
-		if((typeof(response.form.checksum) !== 'undefined') && (typeof(response.form.published_checksum) !== 'undefined')) {
+		if((typeof response.form.checksum !== 'undefined') && (typeof response.form.published_checksum !== 'undefined')) {
 
 			// Save published checksum
 			this.published_checksum = response.form.published_checksum;
@@ -16782,7 +16887,7 @@
 	$.WS_Form.prototype.api_call_error_handler = function(response, url, error_callback) {
 
 		// Get response data
-		var data = (typeof(response.responseJSON) !== 'undefined') ? response.responseJSON : false;
+		var data = (typeof response.responseJSON !== 'undefined') ? response.responseJSON : false;
 
 		// Get status
 		var status = response.status;
@@ -16792,8 +16897,8 @@
 
 			// Reload if REST cookie is invalid
 			if(
-				(typeof(data) !== 'undefined') &&
-				(typeof(data.code) !== 'undefined') &&
+				(typeof data !== 'undefined') &&
+				(typeof data.code !== 'undefined') &&
 				(data.code === 'rest_cookie_invalid_nonce')
 			) {
 
@@ -16820,7 +16925,7 @@
 		}
 
 		// Call error call back
-		if(typeof(error_callback) === 'function') {
+		if(typeof error_callback === 'function') {
 
 			// Run error callback
 			error_callback(data);
@@ -16852,7 +16957,7 @@
 	$.WS_Form.prototype.error = function(language_id, variable) {
 
 		// Check for variable
-		if(typeof(variable) == 'undefined') { variable = ''; }
+		if(typeof variable == 'undefined') { variable = ''; }
 
 		var message = this.language(language_id, variable, false, true).replace(/%s/g, variable);
 
@@ -16862,9 +16967,9 @@
 	// Message
 	$.WS_Form.prototype.message = function(message, dismissable, type, insert_after_header_end) {
 
-		if(typeof(dismissable) == 'undefined') { dismissable = true; }
-		if(typeof(type) == 'undefined') { type = 'notice-success'; }
-		if(typeof(insert_after_header_end) == 'undefined') { insert_after_header_end = true; }
+		if(typeof dismissable == 'undefined') { dismissable = true; }
+		if(typeof type == 'undefined') { type = 'notice-success'; }
+		if(typeof insert_after_header_end == 'undefined') { insert_after_header_end = true; }
 
 		// Build notice
 		var notice = '<div class="notice ' + type + '"><p>' + message + '</p>' + (dismissable ? '<button type="button" class="notice-dismiss"><span class="screen-reader-text">' + this.language('dismiss', false, true, true) + '</span></button>' : '') + '</div>';
@@ -16922,7 +17027,7 @@
 		var sidebar_config = $.WS_Form.settings_form.sidebars.action;
 
 		// Build knowledge base HTML
-		if((typeof(sidebar_config.kb_url) !== 'undefined')) {
+		if((typeof sidebar_config.kb_url !== 'undefined')) {
 
 			var kb_url = ws_this.get_plugin_website_url(sidebar_config.kb_url, 'sidebar');
 			var sidebar_kb_html = '<a class="wsf-kb-url" href="' + ws_this.esc_url(kb_url) + '" target="_blank"' + ws_this.esc_attr_tooltip(ws_this.language('field_kb_url'), 'bottom-right') + ' tabindex="-1">' + ws_this.svg('question-circle') + '</a>';
@@ -17225,7 +17330,7 @@
 	// Insert function into an input
 	$.WS_Form.prototype.input_insert_function = function(input, function_name, check_existing, highlight_parameters) {
 
-		if(typeof(check_existing) === 'undefined') { check_existing = false; }
+		if(typeof check_existing === 'undefined') { check_existing = false; }
 
 		// Get existing value
 		var input_value = input.val();
@@ -17420,7 +17525,7 @@
 	// Highlight menu
 	$.WS_Form.prototype.menu_highlight = function(page) {
 
-		if(typeof(page) === 'undefined') { page = 'ws-form'; }
+		if(typeof page === 'undefined') { page = 'ws-form'; }
 
 		// Highlight menu
 		$('#toplevel_page_' + page).removeClass('wp-not-current-submenu').addClass('wp-has-current-submenu current').addClass('selected');
@@ -17430,8 +17535,8 @@
 	// Get website URL
 	$.WS_Form.prototype.get_plugin_website_url = function(path, medium) {
 
-		if(typeof(path) === 'undefined') { path = ''; }
-		var medium_parameter = (typeof(medium) == 'undefined') ? '' : '&utm_medium=' + medium;
+		if(typeof path === 'undefined') { path = ''; }
+		var medium_parameter = (typeof medium == 'undefined') ? '' : '&utm_medium=' + medium;
 		return 'https://wsform.com' + path + '?utm_source=ws_form' + medium_parameter;
 	}
 
@@ -17459,9 +17564,9 @@
 	$.WS_Form.prototype.drag_is_file = function(e) {
 
 		if(
-			(typeof(e.originalEvent) !== 'undefined') &&
-			(typeof(e.originalEvent.dataTransfer) !== 'undefined') &&
-			(typeof(e.originalEvent.dataTransfer.types) !== 'undefined')
+			(typeof e.originalEvent !== 'undefined') &&
+			(typeof e.originalEvent.dataTransfer !== 'undefined') &&
+			(typeof e.originalEvent.dataTransfer.types !== 'undefined')
 		) {
 
 			var data_transfer_types = e.originalEvent.dataTransfer.types;
@@ -17475,7 +17580,7 @@
 	// Tooltip
 	$.WS_Form.prototype.esc_attr_tooltip = function(title, position) {
 
-		if(typeof(position) === 'undefined') { position = 'bottom-center'; }
+		if(typeof position === 'undefined') { position = 'bottom-center'; }
 
 		if($.WS_Form.settings_plugin.helper_icon_tooltip) {
 
@@ -17844,7 +17949,7 @@
 
 					var field_type_config = $.WS_Form.field_type_cache[field.type];
 
-					if((typeof(field_type_config.value_out)) ? field_type_config.value_out : false) {
+					if((typeof field_type_config.value_out) ? field_type_config.value_out : false) {
 
 						// Build keyword
 						var keyword = '#field(' + field.id + ') #field(' + field.id + ', ' + field.label.toLowerCase();
@@ -17868,7 +17973,7 @@
 			keyword += ' #' + keyword;
 
 			// Add keywords
-			if(typeof(variable.keyword) !== 'undefined') {
+			if(typeof variable.keyword !== 'undefined') {
 
 				keyword += ' ' + variable.keyword.toLowerCase();
 			}
@@ -17934,7 +18039,7 @@
 
 					if(score > 0) {
 
-						if(typeof(variables_matched[search_array_config.key]) === 'undefined') {
+						if(typeof variables_matched[search_array_config.key] === 'undefined') {
 
 							variables_matched[search_array_config.key] = score;
 
@@ -18050,7 +18155,7 @@
 
 					var field_type_config = $.WS_Form.field_type_cache[field.type];
 
-					if((typeof(field_type_config.value_out)) ? field_type_config.value_out : false) {
+					if((typeof field_type_config.value_out) ? field_type_config.value_out : false) {
 
 						html_section += this.variable_helper_modal_var_html({
 
@@ -18178,7 +18283,7 @@
 
 		var input_val = input_obj.val();
 
-		var input_width_obj = $('<span' + ((typeof(dummy_class) !== 'undefined') ? ' class="' + this.esc_attr(dummy_class) + '"' : '') + '>' + this.esc_html(input_val) + '</span>');
+		var input_width_obj = $('<span' + ((typeof dummy_class !== 'undefined') ? ' class="' + this.esc_attr(dummy_class) + '"' : '') + '>' + this.esc_html(input_val) + '</span>');
 
 		input_width_obj.hide().appendTo(document.body);
 
@@ -18192,8 +18297,8 @@
 	// Get meta keys associated with a field type
 	$.WS_Form.prototype.field_type_meta_keys = function(field_type, config_filter, config_filter_global) {
 
-		if(typeof(config_filter) === 'undefined') { config_filter = false; }
-		if(typeof(config_filter_global) === 'undefined') { config_filter_global = false; }
+		if(typeof config_filter === 'undefined') { config_filter = false; }
+		if(typeof config_filter_global === 'undefined') { config_filter_global = false; }
 
 		var field_type_meta = [];
 
@@ -18207,7 +18312,7 @@
 			var fieldset = fieldsets[key];
 
 			// Render fieldset variables
-			if(typeof(fieldset.meta_keys) !== 'undefined') {
+			if(typeof fieldset.meta_keys !== 'undefined') {
 
 				for(var key in fieldset.meta_keys) {
 
@@ -18218,21 +18323,21 @@
 					if(config_filter) {
 
 						// Get meta key config
-						if(typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') { continue; }
+						if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { continue; }
 						var meta_key_config = $.WS_Form.meta_keys[meta_key];
 
-						var config_filter_true = (typeof(meta_key_config[config_filter]) !== 'undefined') ? meta_key_config[config_filter] : false;
+						var config_filter_true = (typeof meta_key_config[config_filter] !== 'undefined') ? meta_key_config[config_filter] : false;
 
 						if(config_filter_true) {
 
 							var required_setting = true;
 
 							// Check to see if a global override setting exists
-							var config_filter_global_value = (typeof(meta_key_config[config_filter_global]) !== 'undefined') ? meta_key_config[config_filter_global] : false;
+							var config_filter_global_value = (typeof meta_key_config[config_filter_global] !== 'undefined') ? meta_key_config[config_filter_global] : false;
 
 							if(
 								config_filter_global_value &&
-								(typeof($.WS_Form.settings_plugin[config_filter_global_value]) !== 'undefined') &&
+								(typeof $.WS_Form.settings_plugin[config_filter_global_value] !== 'undefined') &&
 								($.WS_Form.settings_plugin[config_filter_global_value] !== '') &&
 								($.WS_Form.settings_plugin[config_filter_global_value] !== false)
 							) {
@@ -18254,7 +18359,7 @@
 			}
 
 			// Render child fieldset
-			if(typeof(fieldset.fieldsets) !== 'undefined') {
+			if(typeof fieldset.fieldsets !== 'undefined') {
 
 				var field_type_meta_keys_return = this.field_type_meta_keys(fieldset, config_filter, config_filter_global);
 				if(field_type_meta_keys_return.length > 0) { field_type_meta = field_type_meta.concat(field_type_meta_keys_return); }
@@ -18280,10 +18385,10 @@
 
 	$.WS_Form.prototype.get_preview_url = function(form_id, template_id, style_id, conversational, submit_hash) {
 
-		if(typeof(form_id) === 'undefined') { form_id = 0; }
-		if(typeof(template_id) === 'undefined') { template_id = 'styler'; }
-		if(typeof(conversational) === 'undefined') { conversational = false; }
-		if(typeof(submit_hash) === 'undefined') { submit_hash = false; }
+		if(typeof form_id === 'undefined') { form_id = 0; }
+		if(typeof template_id === 'undefined') { template_id = 'styler'; }
+		if(typeof conversational === 'undefined') { conversational = false; }
+		if(typeof submit_hash === 'undefined') { submit_hash = false; }
 
 		// Form ID
 		var query_args = [];

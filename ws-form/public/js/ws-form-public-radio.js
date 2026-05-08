@@ -35,7 +35,7 @@
 		// Get radio fieldset (if set)
 		var radio_fieldset = radio_group.parent('fieldset');
 
-		// Check if it valid
+		// Check if valid
 		if(this.is_valid(obj)) {
 
 			// Remove attribute

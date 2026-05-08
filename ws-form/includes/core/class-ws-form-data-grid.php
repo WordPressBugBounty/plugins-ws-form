@@ -272,7 +272,7 @@
 
 			// Build new rows
 			$rows = array();
-			$id = 1;
+			$id = 0;
 			foreach($options as $option) {
 
 				// Check option
@@ -325,7 +325,7 @@
 
 			// Build new rows
 			$rows = array();
-			$id = 1;
+			$id = 0;
 			foreach($options as $option) {
 
 				if(is_object($option)) {
@@ -444,7 +444,7 @@
 
 			$rows = $group_object->rows;
 
-			$id_max = 0;
+			$id_max = -1;
 			foreach($rows as $row) {
 
 				if(!isset($row->id)) {
@@ -455,7 +455,7 @@
 				if($row->id > $id_max) { $id_max = $row->id; }
 			}
 
-			return ++$id_max;
+			return $id_max + 1;
 		}
 
 		// Clear rows

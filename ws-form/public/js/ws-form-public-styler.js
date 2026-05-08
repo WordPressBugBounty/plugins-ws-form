@@ -15,14 +15,14 @@
 			var form_id = parseInt(this.get_query_var(this.conversational ? 'wsf_preview_conversational_form_id' : 'wsf_preview_form_id'), 10)
 
 			// Check if preview form ID matches form being rendered
-			if(form_id == this.form.id) {
+			if(Number(this.form.id) === form_id) {
 
 				// Render styler
 				this.styler_init(style_id);
 			}
 
 			// Check style attribute is on form (Not included if form loaded dynamically via block editor)
-			if(typeof(this.form_obj.attr('data-wsf-style-id')) === 'undefined') {
+			if(typeof this.form_obj.attr('data-wsf-style-id') === 'undefined') {
 
 				// Add style ID attribute
 				this.form_obj.attr('data-wsf-style-id', style_id);
@@ -240,7 +240,7 @@
 			}
 
 			// Set the new position
-			if(ws_this.styler_panel_pos == 'float') {
+			if(ws_this.styler_panel_pos === 'float') {
 
 				panel_wrapper_obj.css('left', ws_this.styler_panel_x + 'px');
 				panel_wrapper_obj.css('top', ws_this.styler_panel_y + 'px');
@@ -252,7 +252,7 @@
 			}
 
 			// Panel position
-			if(styler_pos_old != ws_this.styler_panel_pos) {
+			if(styler_pos_old !== ws_this.styler_panel_pos) {
 
 				ws_this.styler_panel_position();
 			}
@@ -452,7 +452,7 @@
 
 				case 'checkbox' :
 
-					styler_html += '<input class="wsf-styler-setting-meta" type="checkbox" id="' + this.esc_attr(id) + '" name="' + this.esc_attr(meta_key) + '" data-wsf-styler-setting-type="' + meta_config.type + '"' + ((meta_value == 'on') ? ' checked' : '') + ' />';
+					styler_html += '<input class="wsf-styler-setting-meta" type="checkbox" id="' + this.esc_attr(id) + '" name="' + this.esc_attr(meta_key) + '" data-wsf-styler-setting-type="' + meta_config.type + '"' + ((meta_value === 'on') ? ' checked' : '') + ' />';
 					styler_html += '<label for="' + this.esc_attr(id) + '">' + this.esc_html(meta_config.label) + '</label>';
 					break;
 
@@ -537,7 +537,7 @@
 		for(var styler_index in children) {
 
 			// Skip settings
-			if(styler_index == 'setting') { continue; }
+			if(styler_index === 'setting') { continue; }
 
 			if(!children.hasOwnProperty(styler_index)) { continue; }
 
@@ -545,7 +545,7 @@
 
 			var styler_child_content_html = '';
 
-			if(typeof(styler_child.group_focus_selector) !== 'undefined') {
+			if(typeof styler_child.group_focus_selector !== 'undefined') {
 
 				group_focus_selector = styler_child.group_focus_selector;
 			}
@@ -592,7 +592,7 @@
 			var styler_var = meta[meta_key];
 
 			// Skip calcs
-			if(styler_var.type == 'calc') { continue; }
+			if(styler_var.type === 'calc') { continue; }
 
 			// Set ID from key
 			styler_var.meta_key = meta_key;
@@ -606,7 +606,7 @@
 			}
 
 			// Has alt?
-			var has_alt = (styler_var.type == 'color');
+			var has_alt = (styler_var.type === 'color');
 
 			// Outer wrapper
 			styler_html += '<div class="wsf-styler-var-wrapper" data-wsf-styler-var="' + this.esc_attr(styler_var.var) + '">';
@@ -731,9 +731,9 @@
 
 				// Bounds
 				var bounds_attributes = [];
-				if(typeof(styler_var.px_min) !== 'undefined') { bounds_attributes.push('data-wsf-styler-px-min="' + styler_var.px_min + '"'); }
-				if(typeof(styler_var.px_max) !== 'undefined') { bounds_attributes.push('data-wsf-styler-px-max="' + styler_var.px_max + '"'); }
-				if(typeof(styler_var.px_step) !== 'undefined') { bounds_attributes.push('data-wsf-styler-px-step="' + styler_var.px_step + '"'); }
+				if(typeof styler_var.px_min !== 'undefined') { bounds_attributes.push('data-wsf-styler-px-min="' + styler_var.px_min + '"'); }
+				if(typeof styler_var.px_max !== 'undefined') { bounds_attributes.push('data-wsf-styler-px-max="' + styler_var.px_max + '"'); }
+				if(typeof styler_var.px_step !== 'undefined') { bounds_attributes.push('data-wsf-styler-px-step="' + styler_var.px_step + '"'); }
 
 				// Range slider
 				styler_html += '<input type="range" id="' + this.esc_attr(meta_key_attribute) + '-range" class="wsf-styler-var-size-range"' + (bounds_attributes ? ' ' + bounds_attributes.join(' ') : '') + '>';
@@ -764,7 +764,7 @@
 
 						var option = styler_var.options[option_index];
 
-						var option_selected = (value == option.value);
+						var option_selected = (value === option.value);
 
 						styler_html += '<option value="' + this.esc_attr(option.value) + '"' + (option_selected ? ' selected' : '') + '>' + this.esc_html(option.text) + '</option>';
 					}
@@ -785,7 +785,7 @@
 		styler_html += '</div>';
 
 		return styler_html;
-	};
+	}
 
 	// Styler - Units
 	$.WS_Form.prototype.styler_units = function() {
@@ -807,7 +807,7 @@
 
 			if(
 				(ws_this.styler_obj_value_last !== false) &&
-				(ws_this.styler_obj_value_last[0] != $(this)[0])
+				(ws_this.styler_obj_value_last[0] !== $(this)[0])
 			) {
 				ws_this.styler_obj_value_last = false;
 			}
@@ -1125,7 +1125,7 @@
 					var obj_checkbox = $('[data-checkbox]', obj_wrapper);
 
 					// Set initial 
-					obj_checkbox.prop('checked', (obj_input.val() == '1'));
+					obj_checkbox.prop('checked', (obj_input.val() === '1'));
 
 					// Checkbox change
 					obj_checkbox.on('change', function() {
@@ -1137,7 +1137,7 @@
 					obj_input.on('change', function() {
 
 						// Set checkbox
-						obj_checkbox.prop('checked', ($(this).val() == '1'));
+						obj_checkbox.prop('checked', ($(this).val() === '1'));
 
 						// Update CSS var
 						ws_this.styler_var_set($(this));
@@ -1173,7 +1173,7 @@
 
 	$.WS_Form.prototype.styler_args_coloris_swatches = function(obj) {
 
-		if(typeof(obj.attr('data-coloris-alt')) === 'undefined') {
+		if(typeof obj.attr('data-coloris-alt') === 'undefined') {
 
 			return this.styler_coloris_swatches;
 
@@ -1261,14 +1261,14 @@
 			// Get undo value
 			var styler_var_undo = $(this).attr('data-wsf-styler-var-undo');
 
-			if(styler_var_undo != '') {
+			if(styler_var_undo !== '') {
 
 				switch(ws_this.styler_get_type($(this))) {
 
 					case 'checkbox' :
 
 						var styler_var_obj_input = ws_this.styler_get_input($(this));
-						styler_var_obj_input.prop('checked', (styler_var_undo == '1')).trigger('change');
+						styler_var_obj_input.prop('checked', (styler_var_undo === '1')).trigger('change');
 						break;
 
 					case 'select' :
@@ -1337,7 +1337,7 @@
 		return {
 
 			'value' : value,
-			'unit' : ((isNaN(value) && (value[0] != '-')) ? '' : unit)
+			'unit' : ((isNaN(value) && (value[0] !== '-')) ? '' : unit)
 		};
 	}
 
@@ -1393,7 +1393,7 @@
 		var value = obj_value.val();
 
 		// Get unit
-		if(isNaN(value) && (value[0] != '-')) {
+		if(isNaN(value) && (value[0] !== '-')) {
 
 			var unit = '';
 
@@ -1414,7 +1414,7 @@
 
 				var styler_unit = styler_units[styler_unit_index];
 
-				if(value_unit.unit[0] == styler_unit[0]) {
+				if(value_unit.unit[0] === styler_unit[0]) {
 
 					// Set unit
 					unit = styler_unit;
@@ -1439,8 +1439,8 @@
 			obj_value.val(value);
 		}
 
-		if(value == '-') { value = ''; }
-		var value_hidden = value + ((value != '') ? unit : '');
+		if(value === '-') { value = ''; }
+		var value_hidden = value + ((value !== '') ? unit : '');
 
 		// Set hidden value
 		$('.wsf-styler-var-input-hidden', obj_wrapper).val(value_hidden).trigger('change');
@@ -1473,7 +1473,7 @@
 		// Check for lock
 		if(
 			(this.styler_obj_value_last !== false) &&
-			(this.styler_obj_value_last[0] == obj_value[0])
+			(this.styler_obj_value_last[0] === obj_value[0])
 		) {
 			this.styler_obj_value_last = false;
 			return;
@@ -1486,58 +1486,58 @@
 		// From px
 		if(['px', ''].includes(unit_old)) {
 
-			if(unit == 'rem') {
+			if(unit === 'rem') {
 
 				value = value / this.styler_get_root_font_size();
 				value = parseFloat(value.toFixed(4));
 
-			} else if(unit == 'em') {
+			} else if(unit === 'em') {
 
 				value = 1;
 
-			} else if(unit == '%') {
+			} else if(unit === '%') {
 
 				value = 100;
 			}
 		}
 
 		// From rem
-		if((unit_old == 'rem')) {
+		if((unit_old === 'rem')) {
 
 			if(['px', ''].includes(unit)) {
 
 				value = value * this.styler_get_root_font_size();
 				value = parseFloat(value.toFixed(4));
 
-			} else if(unit == 'em') {
+			} else if(unit === 'em') {
 
 				value = 1;
 
-			} else if(unit == '%') {
+			} else if(unit === '%') {
 
 				value = 100;
 			}
 		}
 
 		// From em
-		if((unit_old == 'em')) {
+		if((unit_old === 'em')) {
 
 			if(['px', ''].includes(unit)) {
 
 				value = 16;
 
-			} else if(unit == 'rem') {
+			} else if(unit === 'rem') {
 
 				value = 1;
 
-			} else if(unit == '%') {
+			} else if(unit === '%') {
 
 				value = 100;
 			}
 		}
 
 		// From %
-		if((unit_old == '%')) {
+		if((unit_old === '%')) {
 
 			if(['px', ''].includes(unit)) {
 
@@ -1579,7 +1579,7 @@
 		var value = $('.wsf-styler-var-size-value', obj_wrapper).val();
 
 		// Check value
-		if(isNaN(value) && (value[0] != '-')) {
+		if(isNaN(value) && (value[0] !== '-')) {
 
 			$('.wsf-styler-var-size-unit, .wsf-styler-var-size-range', obj_wrapper).hide();
 
@@ -1587,7 +1587,7 @@
 
 			$('.wsf-styler-var-size-unit, .wsf-styler-var-size-range', obj_wrapper).show();
 
-			if(parseFloat($('.wsf-styler-var-size-range', obj_wrapper).val()) != parseFloat(value)) {
+			if(parseFloat($('.wsf-styler-var-size-range', obj_wrapper).val()) !== parseFloat(value)) {
 
 				$('.wsf-styler-var-size-range', obj_wrapper).val(parseFloat(value));
 			}
@@ -1987,7 +1987,7 @@
 
 				var keyword = keyword_array[keyword_array_index];
 
-				// Trim keywod
+				// Trim keyword
 				keyword = keyword.trim();
 
 				for(var search_array_index in search_array) {
@@ -2006,7 +2006,7 @@
 
 					if(score > 0) {
 
-						if(typeof(vars_matched[search_array_config.css_var]) === 'undefined') {
+						if(typeof vars_matched[search_array_config.css_var] === 'undefined') {
 
 							vars_matched[search_array_config.css_var] = score;
 
@@ -2015,7 +2015,7 @@
 							vars_matched[search_array_config.css_var] += score;
 						}
 					}
-				};
+				}
 			}
 
 			// Sort by score descending
@@ -2056,7 +2056,7 @@
 			// Check for children
 			if(styler_child.children) {
 
-				styler_search_array = styler_search_array.concat(this.styler_search_walker(styler_child.children, level + 1, ((level_breadcrumb != '') ? level_breadcrumb + ' ' : level_breadcrumb) + styler_child.label));
+				styler_search_array = styler_search_array.concat(this.styler_search_walker(styler_child.children, level + 1, ((level_breadcrumb !== '') ? level_breadcrumb + ' ' : level_breadcrumb) + styler_child.label));
 			}
 
 			// Check for meta
@@ -2095,7 +2095,7 @@
 					}
 
 					// Variable keyword
-					if(typeof(var_config.keyword) !== 'undefined') {
+					if(typeof var_config.keyword !== 'undefined') {
 
 						keyword_array.push(this.styler_keyword_tidy(var_config.keyword));
 					}
@@ -2128,7 +2128,7 @@
 	$.WS_Form.prototype.styler_api_call = function(ajax_path, method, params, success_callback, error_callback) {
 
 		// Defaults
-		if(typeof(method) === 'undefined') { method = 'POST'; }
+		if(typeof method === 'undefined') { method = 'POST'; }
 		if(!params) { params = {}; }
 
 		var ws_this = this;
@@ -2141,7 +2141,7 @@
 		// NONCE
 		if(
 			(
-				(typeof(data.get) === 'undefined') || // Do it anyway for IE 11
+				(typeof data.get === 'undefined') || // Do it anyway for IE 11
 				(data.get(ws_form_settings.wsf_nonce_field_name) === null)
 			) &&
 			(ws_form_settings.wsf_nonce)
@@ -2171,7 +2171,7 @@
 				200: function(response) {
 
 					// Call success function
-					var success_callback_result = (typeof(success_callback) === 'function') ? success_callback(response) : true;
+					var success_callback_result = (typeof success_callback === 'function') ? success_callback(response) : true;
 				},
 
 				// Bad request

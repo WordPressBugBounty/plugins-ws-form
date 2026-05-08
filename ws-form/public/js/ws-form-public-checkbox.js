@@ -14,8 +14,8 @@
 
 			// If neither attribute present, disregard this feature
 			if(
-				(typeof(checkbox_min) === 'undefined') &&
-				(typeof(checkbox_max) === 'undefined')
+				(typeof checkbox_min === 'undefined') &&
+				(typeof checkbox_max === 'undefined')
 			) {
 				return;
 			}
@@ -26,19 +26,14 @@
 			// Get repeatable suffix
 			var section_repeatable_suffix = ws_this.get_section_repeatable_suffix($(this));
 
-			// Get field label
-			var field_config = ws_this.field_data_cache[field_id];
-			var field_label = field_config.label;
-
 			// Build number input
 			var checkbox_min_max = $('<input type="number" id="' + ws_this.esc_attr(ws_this.form_id_prefix) + 'checkbox-min-max-' + ws_this.esc_attr(field_id + section_repeatable_suffix) + '" data-checkbox-min-max data-progress-include="change" style="display: none !important;" aria-label="Validator" />', ws_this.form_canvas_obj);
 
 			// Add min attribute
-			if(typeof(checkbox_min) !== 'undefined') { checkbox_min_max.attr('min', checkbox_min); }
+			if(typeof checkbox_min !== 'undefined') { checkbox_min_max.attr('min', checkbox_min); }
 
 			// Add max attribute
-			if(typeof(checkbox_max) !== 'undefined') { checkbox_min_max.attr('max', checkbox_max); }
-			checkbox_max = parseInt(checkbox_max, 10);
+			if(typeof checkbox_max !== 'undefined') { checkbox_min_max.attr('max', checkbox_max); }
 
 			// Add value attribute
 			var checked_count = $('input[type="checkbox"]:not([data-wsf-select-all]):checked', $(this)).length;
@@ -113,7 +108,7 @@
 				var select_all = $(this).is(':checked');
 				var select_all_name = $(this).attr('data-wsf-select-all');
 
-				// Get field wraper
+				// Get field wrapper
 				var field_wrapper_obj = $(this).closest('[data-id]');
 
 				// Is select all within a field set
@@ -127,7 +122,7 @@
 
 					$(this).prop('checked', select_all).trigger('change');
 				});
-			})
+			});
 		});
 	}
 

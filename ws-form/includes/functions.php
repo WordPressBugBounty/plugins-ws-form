@@ -15,15 +15,15 @@
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_config_get_field_types() {
 
-		return WS_Form_Config::get_field_types_flat();	
+		return WS_Form_Config::get_field_types_flat();
 	}
 
 	/**
 	 * Gets a form object by ID
 	 *
-	 * @param integer $form_id     The form ID
-	 * @param boolean $get_meta    If set to true then form, group, section and field meta data will be included
-	 * @param boolean $get_groups  If set to true, then group, section and field data will be included
+	 * @param int                     $form_id                The form ID
+	 * @param bool                    $get_meta               If set to true then form, group, section and field meta data will be included
+	 * @param bool                    $get_groups             If set to true, then group, section and field data will be included
 	 *
 	 * @return Object WS_Form_Form
 	 */
@@ -49,9 +49,9 @@
 	/**
 	 * Get the label of a form by ID
 	 *
-	 * @param integer $form_id     The form ID
+	 * @param int                     $form_id                The form ID
 	 *
-	 * @return string|boolean      Form label or false if not found
+	 * @return string|bool         Form label or false if not found
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_label_by_id($form_id) {
@@ -82,9 +82,9 @@
 	/**
 	 * Get the submission count of a form by ID
 	 *
-	 * @param integer $form_id     The form ID
+	 * @param int                     $form_id                The form ID
 	 *
-	 * @return integer Total submissions
+	 * @return int     Total submissions
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_form_get_count_submit_by_id($form_id) {
@@ -111,9 +111,9 @@
 	/**
 	 * Get an array containing all forms
 	 *
-	 * @param boolean $published  If true, only returned published forms
-	 * @param string order_by     id, label, date_added or date_modified (Defaults to label)
-	 * @param string order        ASC or DESC (Defaults to ASC)
+	 * @param bool                    $published              If true, only return published forms
+	 * @param string                  $order_by               id, label, date_added or date_modified (Defaults to label)
+	 * @param string                  $order                  ASC or DESC (Defaults to ASC)
 	 *
 	 * @return Array WS_Form_Form
 	 */
@@ -130,10 +130,10 @@
 	/**
 	 * Get an array containing all forms in a simple key value format
 	 *
-	 * @param boolean $published   If true, only returned published forms
-	 * @param string order_by      id, label, date_added or date_modified (Defaults to label)
-	 * @param string order         ASC or DESC (Defaults to ASC)
-	 * @param string include_ids   If true ' (ID: xxx)' appended to values
+	 * @param bool                    $published              If true, only return published forms
+	 * @param string                  $order_by               id, label, date_added or date_modified (Defaults to label)
+	 * @param string                  $order                  ASC or DESC (Defaults to ASC)
+	 * @param string                  $include_ids            If true ' (ID: xxx)' appended to values
 	 *
 	 * @return Array WS_Form_Form  id => label
 	 */
@@ -151,8 +151,8 @@
 	 * Get a group (tab) object by ID
 	 * Tabs in WS Form are known as groups in core
 	 *
-	 * @param WS_Form_Form $form_object     The form object
-	 * @param integer      $group_id        The group ID
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param int                     $group_id               The group ID
 	 *
 	 * @return Object WS_Form_Group
 	 */
@@ -175,8 +175,8 @@
 	/**
 	 * Get groups (tabs) or a group (tab) by ID from a form object
 	 *
-	 * @param WS_Form_Form $form_object     The form object
-	 * @param integer      $group_id        The group ID
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param int                     $group_id               The group ID
 	 *
 	 * @return Array WS_Form_Group          If no tab specified
 	 * @return WS_Form_Group                If group_id specified
@@ -221,8 +221,8 @@
 	/**
 	 * Get a section object by ID
 	 *
-	 * @param WS_Form_Form $form_object     The form object
-	 * @param integer      $section_id      The section ID
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param int                     $section_id             The section ID
 	 *
 	 * @return Object WS_Form_Section
 	 */
@@ -245,8 +245,8 @@
 	/**
 	 * Get sections or a section by ID from a form object
 	 *
-	 * @param WS_Form_Form $form_object     The form object
-	 * @param integer      $section_id      The section ID
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param int                     $section_id             The section ID
 	 *
 	 * @return Array WS_Form_Section        If no section specified
 	 * @return WS_Form_Section              If section_id specified
@@ -289,8 +289,8 @@
 	/**
 	 * Get a field object by ID
 	 *
-	 * @param WS_Form_Form $form_object     The form object
-	 * @param integer      $field_id        The field ID
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param int                     $field_id               The field ID
 	 *
 	 * @return Object WS_Form_Field
 	 */
@@ -313,8 +313,8 @@
 	/**
 	 * Get fields by label
 	 *
-	 * @param WS_Form_Form $form_object     The form object
-	 * @param string       $field_label     The field label
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param string                  $field_label            The field label
 	 *
 	 * @return Array WS_Form_Field
 	 */
@@ -334,9 +334,9 @@
 	/**
 	 * Get field objects by meta
 	 *
-	 * @param WS_Form_Form $form_object      The form object
-	 * @param string       $field_meta_key   The field meta key
-	 * @param string       $field_meta_value The field meta value
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param string                  $field_meta_key         The field meta key
+	 * @param string                  $field_meta_value       The field meta value
 	 *
 	 * @return Array WS_Form_Field
 	 */
@@ -359,8 +359,8 @@
 	/**
 	 * Get field objects by class (Field wrapper or field class name)
 	 *
-	 * @param WS_Form_Form $form_object      The form object
-	 * @param string       $class_name       The field class name or wrapper class name
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param string                  $class_name             The field class name or wrapper class name
 	 *
 	 * @return Array WS_Form_Field
 	 */
@@ -390,10 +390,11 @@
 	/**
 	 * Get fields or a field by ID from a form object
 	 *
-	 * @param WS_Form_Form $form_object     The form object
-	 * @param integer      $field_id        Filter by field ID
-	 * @param string       $field_label     Filter by field label
-	 * @param string       $field_class     Filter by field class
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param int                     $field_id               Filter by field ID
+	 * @param string                  $field_label            Filter by field label
+	 * @param string                  $field_meta_key         Filter by field meta key
+	 * @param string                  $field_meta_value       Filter by field meta value
 	 *
 	 * @return Array WS_Form_Field          If no field ID specified
 	 * @return WS_Form_Field                If field ID specified
@@ -478,7 +479,7 @@
 				'Field not found' :
 				sprintf('Field ID %u not found', absint($field_id))
 			);
- 		}
+		}
 
 		return $return_fields;
 	}
@@ -486,8 +487,8 @@
 	/**
 	 * Clear all rows in a field data grid
 	 *
-	 * @param WS_Form_Field $field_object    The field object
-	 * @param integer       $group_id        The group ID
+	 * @param WS_Form_Field           $field_object           The field object
+	 * @param int                     $group_id               The group ID
 	 *
 	 * @return WS_Form_Field          The modified field
 	 */
@@ -504,8 +505,8 @@
 	/**
 	 * Add a row to a field data grid
 	 *
-	 * @param WS_Form_Field         $field_object          The field object
-	 * @param WS_Form_Data_Grid_Row $data_grid_row_object  The row object
+	 * @param WS_Form_Field           $field_object           The field object
+	 * @param WS_Form_Data_Grid_Row   $data_grid_row_object   The row object
 	 *
 	 * @return WS_Form_Field              The modified field
 	 */
@@ -522,7 +523,7 @@
 	/**
 	 * Get a field data grid
 	 *
-	 * @param WS_Form_Field          $field_object  The field object
+	 * @param WS_Form_Field           $field_object           The field object
 	 *
 	 * @return WS_Form_Data_Grid     The data grid
 	 */
@@ -539,8 +540,8 @@
 	/**
 	 * Get a field data grid group
 	 *
-	 * @param WS_Form_Data_Grid         $data_grid_object  The data grid object
-	 * @param integer                   $group_id          Group ID to filter by
+	 * @param WS_Form_Data_Grid       $data_grid_object       The data grid object
+	 * @param int                     $group_id               Group ID to filter by
 	 *
 	 * @return WS_Form_Data_Grid_Group  The data_grid group object
 	 */
@@ -557,7 +558,7 @@
 	/**
 	 * Get next data grid group row ID
 	 *
-	 * @param WS_Form_Data_Grid_Group  $group_object  The data grid group object
+	 * @param WS_Form_Data_Grid_Group $group_object           The data grid group object
 	 *
 	 * @return WS_Form_Data_Grid_Group The data grid group object
 	 */
@@ -575,7 +576,7 @@
 	 * Check form object is valid
 	 * Throws an exception if form object is invalid
 	 *
-	 * @param WS_Form_Form $form_object    Form object
+	 * @param WS_Form_Form            $form_object            Form object
 	 *
 	 * @return None
 	 */
@@ -595,7 +596,7 @@
 	 * Check group object is valid
 	 * Throws an exception if group object is invalid
 	 *
-	 * @param WS_Form_Group $group_object    Group object
+	 * @param WS_Form_Group           $group_object           Group object
 	 *
 	 * @return None
 	 */
@@ -615,7 +616,7 @@
 	 * Check section object is valid
 	 * Throws an exception if section object is invalid
 	 *
-	 * @param WS_Form_Section $section_object    Group object
+	 * @param WS_Form_Section         $section_object         Section object
 	 *
 	 * @return None
 	 */
@@ -633,9 +634,9 @@
 
 	/**
 	 * Check a field object
-	 * Throws an exception if form object is invalid
+	 * Throws an exception if field object is invalid
 	 *
-	 * @param WS_Form_Field $field_object  The field object
+	 * @param WS_Form_Field           $field_object           The field object
 	 *
 	 * @return None
 	 */
@@ -653,9 +654,9 @@
 
 	/**
 	 * Check a submit object
-	 * Throws an exception if form object is invalid
+	 * Throws an exception if submit object is invalid
 	 *
-	 * @param WS_Form_Submit $submit_object  The submit object
+	 * @param WS_Form_Submit          $submit_object          The submit object
 	 *
 	 * @return None
 	 */
@@ -674,9 +675,9 @@
 	/**
 	 * Check a data grid object
 	 *
-	 * @param WS_Form_Data_Grid $data_grid  The data grid object
+	 * @param WS_Form_Data_Grid       $data_grid              The data grid object
 	 *
-	 * @return boolean true
+	 * @return bool    true
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_data_grid_check($data_grid) {
@@ -695,9 +696,9 @@
 	/**
 	 * Check a data grid group object
 	 *
-	 * @param WS_Form_Data_Grid_Group $data_grid_group_object  The data grid group object
+	 * @param WS_Form_Data_Grid_Group $data_grid_group_object The data grid group object
 	 *
-	 * @return boolean true
+	 * @return bool    true
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_data_grid_group_check($data_grid_group_object) {
@@ -716,9 +717,9 @@
 	/**
 	 * Check a data grid row object
 	 *
-	 * @param WS_Form_Data_Grid_Row $data_grid_row_object  The data grid row object
+	 * @param WS_Form_Data_Grid_Row   $data_grid_row_object   The data grid row object
 	 *
-	 * @return boolean true
+	 * @return bool    true
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_data_grid_row_check($data_grid_row_object) {
@@ -737,7 +738,7 @@
 	/**
 	 * Get a submit object by ID
 	 *
-	 * @param integer $submit_id  The submit ID
+	 * @param int                     $submit_id              The submit ID
 	 *
 	 * @return WS_Form_Submit
 	 */
@@ -757,7 +758,7 @@
 	/**
 	 * Get a submit object by hash
 	 *
-	 * @param string $submit_hash  The submit hash
+	 * @param string                  $submit_hash            The submit hash
 	 *
 	 * @return WS_Form_Submit
 	 */
@@ -777,12 +778,12 @@
 	/**
 	 * Get a submit value by meta key
 	 *
-	 * @param WS_Form_Submit $submit_object  The submit object
-	 * @param string $meta_key               The meta key (e.g. 'field_123')
-	 * @param string $default_value          Default value if not found
-	 * @param boolen $protected              Set to true for accessing protected data (e.g. password)
+	 * @param WS_Form_Submit          $submit_object          The submit object
+	 * @param string                  $meta_key               The meta key (e.g. 'field_123')
+	 * @param string                  $default_value          Default value if not found
+	 * @param bool                    $protected              Set to true for accessing protected data (e.g. password)
 	 *
-	 * @return $value (String or Object depending on the field type)
+	 * @return mixed Field value (string or object depending on field type)
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_get_value($submit_object, $meta_key, $default_value = '', $protected = false) {
@@ -801,12 +802,12 @@
 	/**
 	 * Get a repeatable submit value by meta key
 	 *
-	 * @param WS_Form_Submit $submit_object  The submit object
-	 * @param string $meta_key               The meta key (e.g. 'field_123')
-	 * @param string $default_value          Default value if not found
-	 * @param boolen $protected              Set to true for accessing protected data (e.g. password)
+	 * @param WS_Form_Submit          $submit_object          The submit object
+	 * @param string                  $meta_key               The meta key (e.g. 'field_123')
+	 * @param string                  $default_value          Default value if not found
+	 * @param bool                    $protected              Set to true for accessing protected data (e.g. password)
 	 *
-	 * @return Array $meta_value (String or Object depending on the field type)
+	 * @return mixed List of values or a single value (string or object depending on field type)
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_get_value_repeatable($submit_object, $meta_key, $default_value = '', $protected = false) {
@@ -825,11 +826,11 @@
 	/**
 	 * Get a submit field value by class (Field wrapper or field class name)
 	 *
-	 * @param WS_Form_Form   $form_object      The form object
-	 * @param WS_Form_Submit $submit_object    The submit object
-	 * @param string         $class_name       The field class name or wrapper class name
-	 * @param string         $default_value    Default value if not found
-	 * @param boolean        $protected        Set to true for accessing protected data (e.g. password)
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param WS_Form_Submit          $submit_object          The submit object
+	 * @param string                  $class_name             The field class name or wrapper class name
+	 * @param string                  $default_value          Default value if not found
+	 * @param bool                    $protected              Set to true for accessing protected data (e.g. password)
 	 *
 	 * @return mixed $field_value or Array of field values if more than one field found
 	 */
@@ -882,11 +883,11 @@
 	/**
 	 * Get a repeatable submit field value by class (Field wrapper or field class name)
 	 *
-	 * @param WS_Form_Form   $form_object      The form object
-	 * @param WS_Form_Submit $submit_object    The submit object
-	 * @param string         $class_name       The field class name or wrapper class name
-	 * @param string         $default_value    Default value if not found
-	 * @param boolean        $protected        Set to true for accessing protected data (e.g. password)
+	 * @param WS_Form_Form            $form_object            The form object
+	 * @param WS_Form_Submit          $submit_object          The submit object
+	 * @param string                  $class_name             The field class name or wrapper class name
+	 * @param string                  $default_value          Default value if not found
+	 * @param bool                    $protected              Set to true for accessing protected data (e.g. password)
 	 *
 	 * @return mixed $field_value
 	 */
@@ -937,13 +938,13 @@
 	}
 
 	/**
-	 * Set a submit meta value by field ID
+	 * Set a submit meta value by meta key
 	 *
-	 * @param WS_Form_Submit $submit  The submit object
-	 * @param string $meta_key        The meta key
-	 * @param string $meta_value      Meta value to set
+	 * @param WS_Form_Submit          $submit_object          The submit object
+	 * @param string                  $meta_key               The meta key
+	 * @param mixed                   $meta_value             Meta value to set
 	 *
-	 * @return boolean true
+	 * @return bool    true
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_set_value($submit_object, $meta_key = '', $meta_value = '') {
@@ -960,11 +961,29 @@
 		// Check meta key
 		if(empty($meta_key)) { throw new Exception('Invalid meta key'); }
 
+		// Keys exactly `field_{numeric_id}` must use the submit-meta field branch (field_id column, wsf_submit_meta_update)
+		if(strpos($meta_key, WS_FORM_FIELD_PREFIX) === 0) {
+
+			$field_id_suffix = substr($meta_key, strlen(WS_FORM_FIELD_PREFIX));
+			if(
+				($field_id_suffix !== '') &&
+				ctype_digit((string) $field_id_suffix) &&
+				(!is_array($meta_value) || !array_key_exists('id', $meta_value))
+			) {
+
+				$meta_value = array(
+
+					'id' => absint($field_id_suffix),
+					'value' => $meta_value
+				);
+			}
+		}
+
 		// Build meta data
-		$meta = array(array(
+		$meta = array(
 
 			$meta_key => $meta_value
-		));
+		);
 
 		// Update submit meta data
 		$ws_form_submit_meta = new WS_Form_Submit_Meta();
@@ -975,49 +994,30 @@
 	/**
 	 * Set a submit meta value by field ID
 	 *
-	 * @param WS_Form_Submit $submit  The submit object
-	 * @param integer $field_id       The field ID
-	 * @param $meta_value             Meta value to set
+	 * @param WS_Form_Submit          $submit_object          The submit object
+	 * @param int                     $field_id               The field ID
+	 * @param mixed                   $meta_value             Meta value to set
 	 *
-	 * @return boolean true
+	 * @return bool    true
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_submit_set_value_by_field_id($submit_object, $field_id, $meta_value = '') {
-
-		// Check submit object
-		wsf_submit_check($submit_object);
-
-		// Get submit ID
-		$submit_id = absint(isset($submit_object->id) ? $submit_object->id : false);
-
-		// Check submit ID
-		if($submit_id === 0) { throw new Exception('Invalid submit ID'); }
 
 		// Check field ID
 		$field_id = absint($field_id);
 		if($field_id === 0) { throw new Exception('Invalid field ID'); }
 
-		// Build meta data
-		$meta = array(array(
-
-			'id' => $field_id,
-			'value' => $meta_value
-		));
-
-		// Update submit meta data
-		$ws_form_submit_meta = new WS_Form_Submit_Meta();
-		$ws_form_submit_meta->parent_id = $submit_id;
-		return $ws_form_submit_meta->db_update_from_array($meta);
+		return wsf_submit_set_value($submit_object, WS_FORM_FIELD_PREFIX . $field_id, $meta_value);
 	}
 
 	/**
-	 * Get a meta value by meta key for an object
+	 * Get a property value from an object
 	 *
-	 * @param WS_Form_Form $form_object     The form object
-	 * @param string       $property        The object property
-	 * @param string       $default_value   The default value to return if the property is not found
+	 * @param object                  $object                 Object to read from
+	 * @param string                  $property               Property name
+	 * @param mixed                   $default_value          Value if the property is not found
 	 *
-	 * @return string      $meta_value      Returns $default_value if not found
+	 * @return mixed
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_helper_get_object_property($object, $property, $default_value = '') {
@@ -1026,13 +1026,13 @@
 	}
 
 	/**
-	 * Get a meta value by meta key for an object
+	 * Get a meta value from an object
 	 *
-	 * @param WS_Form_Form $form_object     The form object
-	 * @param string       $meta_key        The meta key
-	 * @param string       $default_value   The default value to return if the meta key is not found
+	 * @param object                  $object                 Object to read from
+	 * @param string|false            $meta_key               Meta key, or false
+	 * @param mixed                   $default_value          Value if the meta key is not found
 	 *
-	 * @return string      $meta_value      Returns $default_value if not found
+	 * @return mixed
 	 */
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
 	function wsf_helper_get_object_meta_value($object, $meta_key = false, $default_value = '') {

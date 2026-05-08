@@ -15,7 +15,7 @@
 			// Use color picker
 			($.WS_Form.settings_plugin.ui_color == 'on') ||
 
-			// If browser does not support native color picked, use Coloris
+			// If browser does not support native color picker, use Coloris
 			(
 				($.WS_Form.settings_plugin.ui_color == 'native') &&
 				!this.native_color
@@ -32,7 +32,7 @@
 		var ws_this = this;
 
 		// Check to see if Coloris loaded (https://github.com/mdbassit/Coloris)
-		if(typeof(Coloris) !== 'undefined') {
+		if(typeof Coloris !== 'undefined') {
 
 			// Get color inputs
 			var color_objs = $('[data-type="color"] input', this.form_canvas_obj);
@@ -72,7 +72,7 @@
 
 					// Format
 					var coloris_format = ws_this.get_object_meta_value(field, 'coloris_format', 'hex');
-					if(!['hex', 'rgb', 'hsl', 'auto', 'mixed'].includes(coloris_format)) { coloris_format = 'light'; }
+					if(!['hex', 'rgb', 'hsl', 'auto', 'mixed'].includes(coloris_format)) { coloris_format = 'hex'; }
 
 					// Format toggle
 					var coloris_format_toggle = (ws_this.get_object_meta_value(field, 'coloris_format_toggle', '') == 'on');
@@ -117,9 +117,9 @@
 
 		// Check for var
 		var var_match = color.match(/var\((--[\w-]+)\)/);
-  
-		if (var_match) {
- 
+
+		if(var_match) {
+
 			color = this.color_var_parse(var_match[1], style_id);
 		}
 
@@ -394,21 +394,6 @@
 	$.WS_Form.prototype.hex_color_strip_hash = function(hex_color) {
 
 		return hex_color.replace(/^#/, '').trim();
-	};
-
-	// Convert HSLA array to HSLA color
-	$.WS_Form.prototype.hsla_array_to_hsla_color = function(hsla_array) {
-
-		var h = hsla_array.h !== undefined ? hsla_array.h : 0;
-		var s = hsla_array.s !== undefined ? hsla_array.s + '%' : '0%';
-		var l = hsla_array.l !== undefined ? hsla_array.l + '%' : '0%';
-		var a = hsla_array.a !== undefined ? hsla_array.a : 1;
-
-		if(a === 1) {
-			return `hsl(${h}, ${s}, ${l})`;
-		}
-
-		return `hsla(${h}, ${s}, ${l}, ${a})`;
 	};
 
 	// Convert HSLA array to RGBA color

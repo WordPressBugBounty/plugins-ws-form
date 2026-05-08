@@ -171,6 +171,7 @@
 
 					'label'						=>	__('Content', 'ws-form'),
 					'type'						=>	'text_editor',
+					'translate'					=>	true,
 					'help'						=>	__('Message shown on the form', 'ws-form'),
 					'default'					=>	__('Thank you for your submission.', 'ws-form'),
 					'variable_helper'			=>	true

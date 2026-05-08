@@ -263,6 +263,9 @@
 			// Put form as object
 			$ws_form_form->db_update_from_object($form_object_new, true, false, false);
 
+			// Update checksum
+			$ws_form_form->db_checksum();
+
 			return self::form_get_json();
 		}
 
@@ -458,7 +461,7 @@
 
 							array(
 
-								'id'		=> 1,
+								'id'		=> 0,
 								'data'		=> array(__('I consent to #blog_name storing my submitted information so they can respond to my inquiry', 'ws-form'))
 							)
 						))
@@ -593,6 +596,9 @@
 
 			// Create field
 			$ws_form_field->db_create($next_sibling_id);
+
+			// Update checksum
+			$ws_form_field->db_checksum();
 
 			return $ws_form_field;
 		}

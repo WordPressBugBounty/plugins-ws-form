@@ -285,12 +285,6 @@
 
 					break;
 
-				// Just show stored value (already in correct format)
-//				case 'datetime' :
-
-//					$value = implode($submit_delimiter_row, array_map(function($datetime) use ($field) { return WS_Form_Common::get_date_by_type($datetime, $field); }, $values_array));
-//					break;
-
 				case 'googlemap' :
 
 					$value = implode($submit_delimiter_row, array_map(function($googlemap) {
@@ -378,7 +372,6 @@
 
 					break;
 
-
 				case 'rating' :
 
 					$rating_max = WS_Form_Common::get_object_meta_value($this->field_data_cache[$field_id], 'rating_max', 5);
@@ -449,14 +442,13 @@
 
 							$value = array_map(function($value) {
 
-								return is_string($value) ? esc_html($value) : $value;
+								if(is_string($value)) { $value = esc_html($value); }
+								return $value;
+
 							}, $value);
 						}
 
-						if(is_string($value)) {
-
-							$value = esc_html($value);
-						}
+						if(is_string($value)) { $value = esc_html($value); }
 
 						// Check for array (e.g. Checkboxes, Selects)
 						return is_array($value) ? implode($delimiter_row, $value) : $value;

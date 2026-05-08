@@ -72,7 +72,15 @@
 				if($expire_duration > 0) {
 
 					$submit->date_expire = WS_Form_Common::get_mysql_date('+' . $expire_duration . ' days');
+
+				} else {
+
+					$submit->date_expire = null;
 				}
+
+			} else {
+
+				$submit->date_expire = null;
 			}
 
 			// If form being submitted, set status to publish
@@ -237,7 +245,7 @@
 
 					'label'						=>	__('Expiry Duration (Days)', 'ws-form'),
 					'type'						=>	'number',
-					'help'						=>	__('How many days until a submission is automatically deleted?', 'ws-form'),
+					'help'						=>	__('How many days until a submission is automatically moved to trash?', 'ws-form'),
 					'default'					=>	'',
 					'min'						=>	1,
 					'step'						=>	1,

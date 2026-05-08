@@ -266,7 +266,6 @@
 				!$submit->return_hash &&
 				($id === 'database')
 			) {
-
 				$submit->return_hash = true;
 			}
 
@@ -424,6 +423,9 @@
 
 				// Ignore JSON data that cannot be decoded
 				if(is_null($config)) { continue; }
+
+				// Data grid row id (matches {@see WS_Form_Translate::get_form_action_row_string_name_suffix()} registration keys).
+				$config['row_id'] = $row_id;
 
 				// Get action ID
 				if(!isset($config['id'])) { continue; }
@@ -1529,7 +1531,7 @@
 
 						// Get tag category label
 						$tag_category_label = $tag_category['label'];
-						if(empty($tag_category_label)) { $tag_category_label = $tag_category_id; }
+						if($tag_category_label === '') { $tag_category_label = $tag_category_id; }
 
 						// Get tag category type
 						$tag_category_type = $tag_category['type'];
@@ -1547,7 +1549,7 @@
 
 							// Get tag label
 							$tag_label = $tag['label'];
-							if(empty($tag_label)) { $tag_label = $tag_id; }
+							if($tag_label === '') { $tag_label = $tag_id; }
 
 							$data_grid_rows[] = array(
 
@@ -1820,7 +1822,7 @@
 			$field_object = $ws_form_field->db_read();
 
 			// Label
-			if(!empty($label)) { $field_object->label = $label; }
+			if($label !== '') { $field_object->label = $label; }
 
 			// Width
 			if($width_factor !== false) {

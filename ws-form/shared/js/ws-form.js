@@ -4,7 +4,7 @@
 
 	$.WS_Form = function(atts) {
 
-		// Global this (Only for admin, public side needs multiple instances)
+		// Global "current" instance (admin UI); public pages with multiple forms should use ws_this in closures, not $.WS_Form.this
 		$.WS_Form.this = this;
 
 		// Admin?
@@ -243,9 +243,9 @@
 		var ws_this = this;
 
 		// Check attributes
-		if(typeof(atts) === 'undefined') { this.error('error_attributes'); }
-		if(typeof(atts.obj) === 'undefined') { this.error('error_attributes_obj'); }
-		if(typeof(atts.form_id) === 'undefined') { this.error('error_attributes_form_id'); }
+		if(typeof atts === 'undefined') { this.error('error_attributes'); }
+		if(typeof atts.obj === 'undefined') { this.error('error_attributes_obj'); }
+		if(typeof atts.form_id === 'undefined') { this.error('error_attributes_form_id'); }
 
 		// Form canvas (Could be something other than form if element defined)
 		this.form_canvas_obj = atts.obj instanceof $ ? atts.obj : $(atts.obj);
@@ -257,7 +257,7 @@
 		this.form_id = parseInt(atts.form_id, 10);
 		if(this.form_id === 0) { return; }
 
-		// Form instance
+		// Form instance (admin edit UI may omit data-instance-id; parseInt then is NaN — do not treat like 0)
 		this.form_instance_id = parseInt(this.form_canvas_obj.attr('data-instance-id'), 10);
 		if(this.form_instance_id === 0) { return; }
 
@@ -286,7 +286,7 @@
 			if(this.form_canvas_obj.hasClass('wsf-form')) { this.form_canvas_obj.removeClass('wsf-form'); }
 
 			// Move data-wsf-style-id from canvas to form
-			if(typeof(this.form_canvas_obj.attr('data-wsf-style-id')) !== 'undefined') {
+			if(typeof this.form_canvas_obj.attr('data-wsf-style-id') !== 'undefined') {
 
 				// Add data-wsf-style-id to form
 				this.form_obj.attr('data-wsf-style-id', this.form_canvas_obj.attr('data-wsf-style-id'));
@@ -335,8 +335,8 @@
 	// Get configuration
 	$.WS_Form.prototype.get_configuration = function(success_callback, force, bypass_loader) {
 
-		if(typeof(force) === 'undefined') { force = false; }
-		if(typeof(bypass_loader) === 'undefined') { bypass_loader = false; }
+		if(typeof force === 'undefined') { force = false; }
+		if(typeof bypass_loader === 'undefined') { bypass_loader = false; }
 
 		// Clear caches
 		this.options_action_cache = [];
@@ -346,7 +346,7 @@
 
 		if(!$.WS_Form.configured || force) {
 
-			if(typeof(wsf_form_json_config) === 'undefined') {
+			if(typeof wsf_form_json_config === 'undefined') {
 
 				// Get configuration via AJAX
 				var ws_this = this;
@@ -357,7 +357,7 @@
 
 					window.wsf_form_json_config = response.data;
 
-					if(typeof(success_callback) === 'function') { success_callback(); }
+					if(typeof success_callback === 'function') { success_callback(); }
 
 				}, false, bypass_loader);
 
@@ -366,13 +366,13 @@
 				// Get configuration from dom
 				this.set_configuration(wsf_form_json_config);
 
-				if(typeof(success_callback) === 'function') { success_callback(); }
+				if(typeof success_callback === 'function') { success_callback(); }
 			}
 
 		} else {
 
 			// Get form without configuration (Configuration already loaded)
-			if(typeof(success_callback) === 'function') { success_callback(); }
+			if(typeof success_callback === 'function') { success_callback(); }
 		}
 	}
 
@@ -417,8 +417,8 @@
 		$('#' + this.form_obj_id).attr('data-id', this.form_id);
 
 		if(
-			(typeof(window.wsf_form_json) === 'undefined') ||
-			(typeof(window.wsf_form_json[this.form_id]) === 'undefined')
+			(typeof window.wsf_form_json === 'undefined') ||
+			(typeof window.wsf_form_json[this.form_id] === 'undefined')
 		) {
 
 			// Get form from API
@@ -429,14 +429,14 @@
 				ws_this.form = response.form;
 
 				// Build cache
-				if(typeof(window.wsf_form_json) === 'undefined') { window.wsf_form_json = []; }
+				if(typeof window.wsf_form_json === 'undefined') { window.wsf_form_json = []; }
 				window.wsf_form_json[ws_this.form_id] = response.form;
 
 				// Build data cache
 				ws_this.data_cache_build();
 
 				// Success callback
-				if(typeof(success_callback) === 'function') { success_callback(); }
+				if(typeof success_callback === 'function') { success_callback(); }
 
 				// Loader off
 				ws_this.loader_off();
@@ -451,7 +451,7 @@
 			this.data_cache_build();
 
 			// Success callback
-			if(typeof(success_callback) === 'function') { success_callback(); }
+			if(typeof success_callback === 'function') { success_callback(); }
 
 			// Loader off
 			this.loader_off();
@@ -508,8 +508,8 @@
 	$.WS_Form.prototype.get_form_html = function(form) {
 
 		// Form
-		if(typeof(form) === 'undefined') { return ''; }
-		if(typeof(form.groups) === 'undefined') { return ''; }
+		if(typeof form === 'undefined') { return ''; }
+		if(typeof form.groups === 'undefined') { return ''; }
 
 		// Get current framework
 		var framework = this.get_framework();
@@ -554,7 +554,7 @@
 	$.WS_Form.prototype.get_tabs_html = function(form) {
 
 		// Get groups
-		if(typeof(form.groups) === 'undefined') { return ''; }
+		if(typeof form.groups === 'undefined') { return ''; }
 		var groups = form.groups;
 
 		// Get group count
@@ -630,8 +630,8 @@
 	// Get tab HTML
 	$.WS_Form.prototype.get_tab_html = function(group, index, is_active) {
 
-		if(typeof(index) === 'undefined') { index = 0; }
-		if(typeof(is_active) === 'undefined') { is_active = false; }
+		if(typeof index === 'undefined') { index = 0; }
+		if(typeof is_active === 'undefined') { is_active = false; }
 
 		// Get current framework for tabs
 		var framework = this.get_framework();
@@ -661,7 +661,7 @@
 		};
 
 		// Active tab
-		if(is_active && (typeof(framework_tabs.active) !== 'undefined')) {
+		if(is_active && (typeof framework_tabs.active !== 'undefined')) {
 
 			mask_values.active = framework_tabs.active;
 
@@ -679,7 +679,7 @@
 		var group_html = '';
 
 		// Check groups
-		if(typeof(groups) === 'undefined') { return ''; }
+		if(typeof groups === 'undefined') { return ''; }
 
 		// Get group count
 		var group_count = Object.keys(groups).length;
@@ -758,7 +758,7 @@
 		var class_array = [];
 
 		// Class - Base
-		if(typeof(framework_groups.class) !== 'undefined') {
+		if(typeof framework_groups.class !== 'undefined') {
 
 			class_array.push(framework_groups.class);
 		}
@@ -824,9 +824,9 @@
 
 		// Check to see if section_repeatable data is available
 		var section_repeatable = {};
-		if(typeof(this.submit) === 'object') {
+		if(typeof this.submit === 'object') {
 
-			if(typeof(this.submit.section_repeatable) !== 'undefined') {
+			if(typeof this.submit.section_repeatable !== 'undefined') {
 
 				section_repeatable = this.submit.section_repeatable;
 			}
@@ -836,7 +836,7 @@
 			// Check to see if auto populate data exists
 			if(this.submit_auto_populate !== false) {
 
-				if(typeof(this.submit_auto_populate.section_repeatable) !== 'undefined') {
+				if(typeof this.submit_auto_populate.section_repeatable !== 'undefined') {
 
 					section_repeatable = this.submit_auto_populate.section_repeatable;
 				}
@@ -844,7 +844,7 @@
 		}
 
 		// Sections
-		if(typeof(sections) === 'undefined') { return ''; }
+		if(typeof sections === 'undefined') { return ''; }
 
 		for(var section_index in sections) {
 
@@ -857,8 +857,8 @@
 			var section_repeatable_array = (
 
 				(section_repeatable !== false) &&
-				(typeof(section_repeatable[section_id_string]) !== 'undefined') &&
-				(typeof(section_repeatable[section_id_string].index) !== 'undefined')
+				(typeof section_repeatable[section_id_string] !== 'undefined') &&
+				(typeof section_repeatable[section_id_string].index !== 'undefined')
 
 			) ? section_repeatable[section_id_string].index : [false];
 
@@ -892,7 +892,7 @@
 	// Get section html
 	$.WS_Form.prototype.get_section_html = function(section, section_repeatable_index) {
 
-		if(typeof(section_repeatable_index) === 'undefined') { section_repeatable_index = false; }
+		if(typeof section_repeatable_index === 'undefined') { section_repeatable_index = false; }
 
 		// Is section repeatable?
 		var section_repeatable = false;
@@ -933,7 +933,7 @@
 		}
 
 		// Add any base classes
-		if(typeof(framework_sections.class_single) !== 'undefined') { class_array = class_array.concat(framework_sections.class_single); }
+		if(typeof framework_sections.class_single !== 'undefined') { class_array = class_array.concat(framework_sections.class_single); }
 
 		// Public
 		if(!this.is_admin) {
@@ -952,7 +952,7 @@
 
 				var class_single_vertical_align_config = this.get_field_value_fallback(false, false, 'class_single_vertical_align');
 
-				if(typeof(class_single_vertical_align_config[class_single_vertical_align]) !== 'undefined') {
+				if(typeof class_single_vertical_align_config[class_single_vertical_align] !== 'undefined') {
 
 					class_array.push(class_single_vertical_align_config[class_single_vertical_align]);
 				}
@@ -962,7 +962,7 @@
 			var validate_inline = this.get_object_meta_value(section, 'validate_inline', '');
 			if(validate_inline != '') {
 
-				var class_validated_array = (typeof(this.framework.fields.public.class_form_validated) !== 'undefined') ? this.framework.fields.public.class_form_validated : [];
+				var class_validated_array = (typeof this.framework.fields.public.class_form_validated !== 'undefined') ? this.framework.fields.public.class_form_validated : [];
 
 				switch(validate_inline) {
 
@@ -1088,7 +1088,7 @@
 
 		if(
 			(mask_field_attributes_custom !== false) &&
-			(typeof(mask_field_attributes_custom) === 'object') &&
+			(typeof mask_field_attributes_custom === 'object') &&
 			(mask_field_attributes_custom.length > 0)
 		) {
 
@@ -1122,7 +1122,7 @@
 
 		// Is section repeatable?
 		var section_repeatable = (this.get_object_meta_value(section, 'section_repeatable', '') == 'on') ? true : false;
-		if(typeof(section_repeatable_index) === 'undefined') { section_repeatable_index = (section_repeatable ? 0 : false); }
+		if(typeof section_repeatable_index === 'undefined') { section_repeatable_index = (section_repeatable ? 0 : false); }
 
 		var fields_html = '';
 
@@ -1150,7 +1150,7 @@
 		}
 
 		// Fields
-		if(typeof(fields) === 'undefined') { return ''; }
+		if(typeof fields === 'undefined') { return ''; }
 
 		for(var field_index in fields) {
 
@@ -1186,7 +1186,7 @@
 
 			case 'datetime' :
 
-				return ((typeof(this.get_date_by_type) === 'function') ? this.get_date_by_type(value, field) : '');
+				return ((typeof this.get_date_by_type === 'function') ? this.get_date_by_type(value, field) : '');
 
 			case 'select' :
 			case 'checkbox' :
@@ -1224,7 +1224,7 @@
 	// Get field html
 	$.WS_Form.prototype.get_field_html = function(field, section_repeatable_index) {
 
-		if(typeof(section_repeatable_index) === 'undefined') { section_repeatable_index = false; }
+		if(typeof section_repeatable_index === 'undefined') { section_repeatable_index = false; }
 
 		// Attributes
 		var attributes = [];
@@ -1271,7 +1271,7 @@
 
 				var class_single_vertical_align_config = this.get_field_value_fallback(field.type, false, 'class_single_vertical_align', false, framework_fields, sub_type);
 
-				if(typeof(class_single_vertical_align_config[class_single_vertical_align]) !== 'undefined') {
+				if(typeof class_single_vertical_align_config[class_single_vertical_align] !== 'undefined') {
 
 					class_array.push(class_single_vertical_align_config[class_single_vertical_align]);
 				}
@@ -1281,7 +1281,7 @@
 			var validate_inline = this.get_object_meta_value(field, 'validate_inline', '');
 			if(validate_inline != '') {
 
-				var class_validated_array = (typeof(this.framework.fields.public.class_form_validated) !== 'undefined') ? this.framework.fields.public.class_form_validated : [];
+				var class_validated_array = (typeof this.framework.fields.public.class_form_validated !== 'undefined') ? this.framework.fields.public.class_form_validated : [];
 
 				switch(validate_inline) {
 
@@ -1311,12 +1311,12 @@
 		// Check to see if this field is available in the submit data
 		var repeatable_suffix = ((section_repeatable_index !== false) ? '_' + section_repeatable_index : '');
 		var submit_meta_key = ws_form_settings.field_prefix + field.id + repeatable_suffix;
-		if(typeof(this.submit) === 'object') {
+		if(typeof this.submit === 'object') {
 
 			if(
-				(typeof(this.submit.meta) !== 'undefined') &&
-				(typeof(this.submit.meta[submit_meta_key]) !== 'undefined') &&
-				(typeof(this.submit.meta[submit_meta_key].value) !== 'undefined') &&
+				(typeof this.submit.meta !== 'undefined') &&
+				(typeof this.submit.meta[submit_meta_key] !== 'undefined') &&
+				(typeof this.submit.meta[submit_meta_key].value !== 'undefined') &&
 				(this.submit.meta[submit_meta_key].value !== null)
 			) {
 
@@ -1331,8 +1331,8 @@
 			if(this.submit_auto_populate !== false) {
 
 				if(
-					(typeof(this.submit_auto_populate.data) !== 'undefined') &&
-					(typeof(this.submit_auto_populate.data[submit_meta_key]) !== 'undefined') &&
+					(typeof this.submit_auto_populate.data !== 'undefined') &&
+					(typeof this.submit_auto_populate.data[submit_meta_key] !== 'undefined') &&
 					(this.submit_auto_populate.data[submit_meta_key] !== null)
 				) {
 
@@ -1350,11 +1350,11 @@
 		var field_label = this.esc_html(field.label)
 
 		// Get field type config
-		if(typeof($.WS_Form.field_type_cache[field.type]) === 'undefined') { return ''; }
+		if(typeof $.WS_Form.field_type_cache[field.type] === 'undefined') { return ''; }
 		var field_config = $.WS_Form.field_type_cache[field.type];
 
 		// Check field is licensed
-		if((typeof(field_config.pro_required) !== 'undefined') && field_config.pro_required) {
+		if((typeof field_config.pro_required !== 'undefined') && field_config.pro_required) {
 
 			return '';
 		}
@@ -1487,12 +1487,12 @@
 	// HTML encode string
 	$.WS_Form.prototype.esc_html = function(value, encode_new_lines) {
 
-		if(typeof(value) !== 'string') { return value; }
+		if(typeof value !== 'string') { return value; }
 
-		if(typeof(encode_new_lines) === 'undefined') { encode_new_lines = false; }
+		if(typeof encode_new_lines === 'undefined') { encode_new_lines = false; }
 
 		// Process by value type
-		switch(typeof(value)) {
+		switch(typeof value) {
 
 			// String
 			case 'string' :
@@ -1507,7 +1507,7 @@
 
 					if(!value.hasOwnProperty(value_index)) { continue; }
 
-					if(typeof(value[value_index]) === 'string') {
+					if(typeof value[value_index] === 'string') {
 
 						value[value_index] = this.esc_html_do(value[value_index], encode_new_lines);
 					}
@@ -1519,7 +1519,7 @@
 
 	$.WS_Form.prototype.esc_html_do = function(value, encode_new_lines) {
 
-		if(typeof(encode_new_lines) === 'undefined') { encode_new_lines = false; }
+		if(typeof encode_new_lines === 'undefined') { encode_new_lines = false; }
 
 		var return_html = this.replace_all(value, '&', '&#38;');
 		return_html = this.replace_all(return_html, '<', '&lt;');
@@ -1550,6 +1550,7 @@
 				case '>':  return '&gt;';
 				case '"':  return '&quot;';
 				case "'":  return '&apos;';
+				default:  return char;
 			}
 		});
 
@@ -1558,7 +1559,7 @@
 		}
 
 		return return_html;
-	};
+	}
 
 	// Escape URL with support for relative paths
 	$.WS_Form.prototype.esc_url = function (url) {
@@ -1625,12 +1626,12 @@
 			// If URL is invalid or cannot be parsed, return an empty string
 			return '';
 		}
-	};
+	}
 
 	// Escape selector
 	$.WS_Form.prototype.esc_selector = function(value) {
 
-		if(typeof(value) !== 'string') { return value; }
+		if(typeof value !== 'string') { return value; }
 
 		var return_html = this.replace_all(value, '"', '\\"');
 		return_html = this.replace_all(return_html, "'", "\\'");
@@ -1646,7 +1647,7 @@
 	$.WS_Form.prototype.html_strip = function(value) {
 
 		// Process by value type
-		switch(typeof(value)) {
+		switch(typeof value) {
 
 			// String
 			case 'string' :
@@ -1661,7 +1662,7 @@
 
 					if(!value.hasOwnProperty(value_index)) { continue; }
 
-					if(typeof(value[value_index]) === 'string') {
+					if(typeof value[value_index] === 'string') {
 
 						value[value_index] = this.html_strip_do(value[value_index]);
 					}
@@ -1679,7 +1680,7 @@
 	// JS string encode so it can be used in single quotes
 	$.WS_Form.prototype.js_string_encode = function(input) {
 
-		if(typeof(input) !== 'string') { return input; }
+		if(typeof input !== 'string') { return input; }
 
 		var return_html = this.replace_all(input, "'", "\\'");
 
@@ -1701,7 +1702,7 @@
 	// HTML encode string
 	$.WS_Form.prototype.comment_html = function(string, end) {
 
-		if(typeof(end) === 'undefined') { end = false; }
+		if(typeof end === 'undefined') { end = false; }
 
 		return ('<!-- ' + (end ? '/' : '') + string + " -->\n") + (end ? "\n" : '');
 	}
@@ -1726,9 +1727,9 @@
 	// Get object value (with fallback)
 	$.WS_Form.prototype.get_field_value_fallback = function(field_type, label_position, element, default_return, framework_fields, sub_type) {
 
-		if(typeof(default_return) === 'undefined') { default_return = false; }
+		if(typeof default_return === 'undefined') { default_return = false; }
 		if(!framework_fields) { framework_fields = this.framework_fields; }
-		if(typeof(sub_type) === 'undefined') { sub_type = false; }
+		if(typeof sub_type === 'undefined') { sub_type = false; }
 
 		if(sub_type === false) {
 
@@ -1757,32 +1758,32 @@
 		if(label_position !== false) {
 
 			// object[label_position].field_types[field_type][element]
-			var object_not_found = (typeof(object) === 'undefined') || (typeof(object[label_position]) === 'undefined') || (typeof(object[label_position].field_types) === 'undefined') || (typeof(object[label_position].field_types[field_type]) === 'undefined') || (typeof(object[label_position].field_types[field_type][element]) === 'undefined');
+			var object_not_found = (typeof object === 'undefined') || (typeof object[label_position] === 'undefined') || (typeof object[label_position].field_types === 'undefined') || (typeof object[label_position].field_types[field_type] === 'undefined') || (typeof object[label_position].field_types[field_type][element] === 'undefined');
 			if(!object_not_found) { return object[label_position].field_types[field_type][element]; }
 
 			// object[label_position][element]
-			var object_not_found = (typeof(object) === 'undefined') || (typeof(object[label_position]) === 'undefined') || (typeof (object[label_position][element]) === 'undefined');
+			var object_not_found = (typeof object === 'undefined') || (typeof object[label_position] === 'undefined') || (typeof (object[label_position][element]) === 'undefined');
 			if(!object_not_found) { return object[label_position][element]; }
 		}
 
 		// object.field_types[field_type][element]
-		var object_not_found = (typeof(object) === 'undefined') || (typeof(object.field_types) === 'undefined') || (typeof(object.field_types[field_type]) === 'undefined') || (typeof(object.field_types[field_type][element]) === 'undefined');
+		var object_not_found = (typeof object === 'undefined') || (typeof object.field_types === 'undefined') || (typeof object.field_types[field_type] === 'undefined') || (typeof object.field_types[field_type][element] === 'undefined');
 		if(!object_not_found) { return object.field_types[field_type][element]; }
 
 		// object[element]
-		var object_not_found = (typeof(object) === 'undefined') || (typeof(object[element]) === 'undefined');
+		var object_not_found = (typeof object === 'undefined') || (typeof object[element] === 'undefined');
 		if(!object_not_found) { return object[element]; }
 
 		// object_fallback[element]
-		if(typeof(object_fallback) === 'undefined') { return default_return; }
-		if(typeof(object_fallback[element]) === 'undefined') { return default_return; }
+		if(typeof object_fallback === 'undefined') { return default_return; }
+		if(typeof object_fallback[element] === 'undefined') { return default_return; }
 		return object_fallback[element];
 	}
 
 	// Get object data
 	$.WS_Form.prototype.get_object_data = function(object, object_id, use_scratch) {
 
-		if(typeof(use_scratch) === 'undefined') { use_scratch = false; }
+		if(typeof use_scratch === 'undefined') { use_scratch = false; }
 
 		// Get object data
 		switch(object) {
@@ -1846,17 +1847,17 @@
 	// Get object meta value
 	$.WS_Form.prototype.get_object_meta_value = function(object, key, default_return, create, parse_variables_process) {
 
-		if(typeof(default_return) === 'undefined') { default_return = false; }
+		if(typeof default_return === 'undefined') { default_return = false; }
 
-		if(typeof(create) === 'undefined') { create = false; }
+		if(typeof create === 'undefined') { create = false; }
 
-		if(typeof(parse_variables_process) === 'undefined') { parse_variables_process = false; }
+		if(typeof parse_variables_process === 'undefined') { parse_variables_process = false; }
 
-		if(typeof(object) === 'undefined') { return default_return; }
+		if(typeof object === 'undefined') { return default_return; }
 
-		if(typeof(object.meta) === 'undefined') { return default_return; }
+		if(typeof object.meta === 'undefined') { return default_return; }
 
-		if(typeof(object.meta[key]) === 'undefined') {
+		if(typeof object.meta[key] === 'undefined') {
 
 			if(create) {
 
@@ -1867,7 +1868,7 @@
 				return default_return;
 			}
 		}
-		return (parse_variables_process && (typeof(object.meta[key]) === 'string')) ? this.parse_variables_process(object.meta[key]).output : object.meta[key];	
+		return (parse_variables_process && (typeof object.meta[key] === 'string')) ? this.parse_variables_process(object.meta[key]).output : object.meta[key];	
 	}
 
 	// Get object meta value
@@ -1875,9 +1876,9 @@
 
 		return (
 
-			(typeof(object) !== 'undefined') &&
-			(typeof(object.meta) !== 'undefined') &&
-			(typeof(object.meta[key]) !== 'undefined') &&
+			(typeof object !== 'undefined') &&
+			(typeof object.meta !== 'undefined') &&
+			(typeof object.meta[key] !== 'undefined') &&
 			(object.meta[key] != '')
 		);
 	}
@@ -1888,36 +1889,36 @@
 		var ws_this = this;
 
 		// Checks parse_string
-		if(typeof(parse_string) !== 'string') { return this.parse_variables_process_error(parse_string); }
+		if(typeof parse_string !== 'string') { return this.parse_variables_process_error(parse_string); }
 		if(parse_string.indexOf('#') == -1) { return this.parse_variables_process_error(parse_string); }
 
 		// Check section_repeatable_index
-		if(typeof(section_repeatable_index) === 'undefined') { section_repeatable_index = false; }
+		if(typeof section_repeatable_index === 'undefined') { section_repeatable_index = false; }
 
 		// Check calc type
-		if(typeof(calc_type) === 'undefined') { calc_type = false; }
+		if(typeof calc_type === 'undefined') { calc_type = false; }
 		var calc = (calc_type === 'calc');
 
 		// Check field_to
-		if(typeof(field_to) === 'undefined') { field_to = false; }
+		if(typeof field_to === 'undefined') { field_to = false; }
 
 		// Check field_part
-		if(typeof(field_part) === 'undefined') { field_part = false; }
+		if(typeof field_part === 'undefined') { field_part = false; }
 
 		// Check calc_register
-		if(typeof(calc_register) === 'undefined') { calc_register = true; }
+		if(typeof calc_register === 'undefined') { calc_register = true; }
 
 		// Check section_id
-		if(typeof(section_id) === 'undefined') { section_id = false; }
+		if(typeof section_id === 'undefined') { section_id = false; }
 
 		// Check for too many iterations
-		if(typeof(depth) === 'undefined') { depth = 1; }
+		if(typeof depth === 'undefined') { depth = 1; }
 
 		// Check for original parse string (used for calc)
-		if(typeof(parse_string_original) === 'undefined') { parse_string_original = parse_string; }
+		if(typeof parse_string_original === 'undefined') { parse_string_original = parse_string; }
 
 		// Check for original field (used for calc)
-		if(typeof(field_to_original) === 'undefined') { field_to_original = field_to; }
+		if(typeof field_to_original === 'undefined') { field_to_original = field_to; }
 
 		// Initialize variables
 		var variables = {};
@@ -1971,17 +1972,17 @@
 				var parse_variable_config = parse_variables.variables[parse_variable];
 
 				// Assign value
-				var parse_variable_value = (typeof(parse_variable_config.value) !== 'undefined') ? parse_variable_config.value : false;
-				var parse_variable_attributes = (typeof(parse_variable_config.attributes) === 'object') ? parse_variable_config.attributes : false;
+				var parse_variable_value = (typeof parse_variable_config.value !== 'undefined') ? parse_variable_config.value : false;
+				var parse_variable_attributes = (typeof parse_variable_config.attributes === 'object') ? parse_variable_config.attributes : false;
 
 				// Single parse? (Used if different value returned each parse, e.g. random_number)
-				var parse_variable_single_parse = (typeof(parse_variable_config.single_parse) !== 'undefined') ? parse_variable_config.single_parse : false;
+				var parse_variable_single_parse = (typeof parse_variable_config.single_parse !== 'undefined') ? parse_variable_config.single_parse : false;
 
 				// If no attributes specified, then just set the value
 				if((parse_variable_attributes === false) && (parse_variable_value !== false)) { variables[parse_variable] = parse_variable_value; continue; }
 
 				// Get number of attributes required
-				var variable_attribute_count = (typeof(parse_variable_config.attributes) === 'object') ? parse_variable_config.attributes.length : 0;
+				var variable_attribute_count = (typeof parse_variable_config.attributes === 'object') ? parse_variable_config.attributes.length : 0;
 
 				if(variable_attribute_count > 0) {
 
@@ -2037,7 +2038,7 @@
 							var parse_variable_full = parse_string.substring(variable_index_of, variable_index_of_bracket_finish + 1);
 
 							// Get separator
-							var separator = (typeof(parse_variable_config.attribute_separator) !== 'undefined') ? parse_variable_config.attribute_separator : ',';
+							var separator = (typeof parse_variable_config.attribute_separator !== 'undefined') ? parse_variable_config.attribute_separator : ',';
 
 							// Convert string to attributes
 							var variable_attribute_array = this.string_to_attributes(variable_attribute_string, separator);
@@ -2053,10 +2054,10 @@
 							var parse_variable_attribute_id = parse_variable_attribute.id;
 
 							// Was attribute provided for this index?
-							var parse_variable_attribute_supplied = (typeof(variable_attribute_array[parse_variable_attributes_index]) !== 'undefined');
+							var parse_variable_attribute_supplied = (typeof variable_attribute_array[parse_variable_attributes_index] !== 'undefined');
 
 							// Check required
-							var parse_variable_attribute_required = (typeof(parse_variable_attribute.required) !== 'undefined') ? parse_variable_attribute.required : true;
+							var parse_variable_attribute_required = (typeof parse_variable_attribute.required !== 'undefined') ? parse_variable_attribute.required : true;
 							if(parse_variable_attribute_required && !parse_variable_attribute_supplied) {
 
 								// Syntax error - Attribute count
@@ -2065,26 +2066,26 @@
 							}
 
 							// Check default
-							var parse_variable_attribute_default = (typeof(parse_variable_attribute.default) !== 'undefined') ? parse_variable_attribute.default : false;
+							var parse_variable_attribute_default = (typeof parse_variable_attribute.default !== 'undefined') ? parse_variable_attribute.default : false;
 							if((parse_variable_attribute_default !== false) && !parse_variable_attribute_supplied) {
 
 								variable_attribute_array[parse_variable_attributes_index] = parse_variable_attribute_default;
 							}
 
 							// Check trim
-							var parse_variable_attribute_trim = (typeof(parse_variable_attribute.trim) !== 'undefined') ? parse_variable_attribute.trim : true;
+							var parse_variable_attribute_trim = (typeof parse_variable_attribute.trim !== 'undefined') ? parse_variable_attribute.trim : true;
 							if(parse_variable_attribute_trim) {
 
 								var parse_variable_attribute_value = variable_attribute_array[parse_variable_attributes_index];
 
-								if(typeof(parse_variable_attribute_value) === 'string') {
+								if(typeof parse_variable_attribute_value === 'string') {
 
 									variable_attribute_array[parse_variable_attributes_index] = parse_variable_attribute_value.trim();
 								}
 							}
 
 							// Check valid
-							var parse_variable_attribute_valid = (typeof(parse_variable_attribute.valid) !== 'undefined') ? parse_variable_attribute.valid : false;
+							var parse_variable_attribute_valid = (typeof parse_variable_attribute.valid !== 'undefined') ? parse_variable_attribute.valid : false;
 							if(parse_variable_attribute_valid !== false) {
 
 								if(!parse_variable_attribute_valid.includes(variable_attribute_array[parse_variable_attributes_index])) {
@@ -2112,8 +2113,8 @@
 								var group_id = parseInt(variable_attribute_array[0], 10);
 
 								if(
-									(typeof(this.group_data_cache[group_id]) !== 'undefined') &&
-									(typeof(this.group_data_cache[group_id]).label !== 'undefined')
+									(typeof this.group_data_cache[group_id] !== 'undefined') &&
+									(typeof this.group_data_cache[group_id].label !== 'undefined')
 								) {
 
 									parsed_variable = this.group_data_cache[group_id].label;
@@ -2137,8 +2138,8 @@
 								var section_id_label = parseInt(variable_attribute_array[0], 10);
 
 								if(
-									(typeof(this.section_data_cache[section_id_label]) !== 'undefined') &&
-									(typeof(this.section_data_cache[section_id_label]).label !== 'undefined')
+									(typeof this.section_data_cache[section_id_label] !== 'undefined') &&
+									(typeof this.section_data_cache[section_id_label].label !== 'undefined')
 								) {
 
 									parsed_variable = this.section_data_cache[section_id_label].label;
@@ -2183,8 +2184,8 @@
 								var field_id = parseInt(variable_attribute_array[0], 10);
 
 								if(
-									(typeof(this.field_data_cache[field_id]) !== 'undefined') &&
-									(typeof(this.field_data_cache[field_id]).label !== 'undefined')
+									(typeof this.field_data_cache[field_id] !== 'undefined') &&
+									(typeof this.field_data_cache[field_id].label !== 'undefined')
 								) {
 
 									parsed_variable = this.field_data_cache[field_id].label;
@@ -2225,15 +2226,15 @@
 									variable_fields.push(field_id);
 
 									// Get field
-									if(typeof(this.field_data_cache[field_id]) !== 'object') { continue; }
+									if(typeof this.field_data_cache[field_id] !== 'object') { continue; }
 									var field = this.field_data_cache[field_id];
 
 									// Get field value
 									var field_value_array = this.get_field_value(field, field.section_repeatable);
 
 									if(
-										(typeof(field_value_array) != 'object') ||
-										(typeof(field_value_array[0]) === 'undefined')
+										(typeof field_value_array != 'object') ||
+										(typeof field_value_array[0] === 'undefined')
 									) {
 										field_value_array = [0];
 									}
@@ -2370,7 +2371,7 @@
 								}
 
 								// Check field exists
-								if(typeof(this.field_data_cache[field_id]) === 'undefined') {
+								if(typeof this.field_data_cache[field_id] === 'undefined') {
 
 									this.error('error_parse_variable_syntax_error_field_id', field_id, 'error-parse-variables');
 									return this.parse_variables_process_error(this.language('error_parse_variable_syntax_error_field_id', field_id));
@@ -2384,14 +2385,14 @@
 
 								// Get field config
 								var field_from = this.field_data_cache[field_id];
-								if(typeof($.WS_Form.field_type_cache[field_from.type]) === 'undefined') { break; }
+								if(typeof $.WS_Form.field_type_cache[field_from.type] === 'undefined') { break; }
 								var field_type_config_from = $.WS_Form.field_type_cache[field_from.type];
 
 								// Check #calc and #text
 								if(calc_type !== false) {
 
 									// Check field configuration calc_out / text_out
-									var allow_out = typeof(field_type_config_from[calc_type + '_out']) ? field_type_config_from[calc_type + '_out'] : false;
+									var allow_out = typeof field_type_config_from[calc_type + '_out'] ? field_type_config_from[calc_type + '_out'] : false;
 									if(!allow_out) {
 
 										this.error('error_parse_variable_syntax_error_' + calc_type + '_out', field_from.label + ' (ID: ' + field_from.id + ')', 'error-parse-variables');
@@ -2400,14 +2401,14 @@
 								}
 
 								// Check for static value
-								var field_static = typeof(field_type_config_from.static) ? field_type_config_from.static : false;
+								var field_static = typeof field_type_config_from.static ? field_type_config_from.static : false;
 
 								if(field_static) {
 
 									if(field_static === true) {
 
 										// If static set to true, we use the mask_field
-										var value = (typeof(field_type_config_from.mask_field_static) !== 'undefined') ? field_type_config_from.mask_field_static : '';
+										var value = (typeof field_type_config_from.mask_field_static !== 'undefined') ? field_type_config_from.mask_field_static : '';
 
 									} else {
 
@@ -2423,25 +2424,25 @@
 									}
 
 									var parse_variables_process_return = this.parse_variables_process(value, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original);
-									if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 									parsed_variable = [parse_variables_process_return.output];
 
 									break;
 								}
 
 								// Check if submitted as array
-								var submit_array_from = (typeof(field_type_config_from.submit_array) !== 'undefined') ? field_type_config_from.submit_array : false;
+								var submit_array_from = (typeof field_type_config_from.submit_array !== 'undefined') ? field_type_config_from.submit_array : false;
 
 								// Get criteria needed to work out how to get field value
-								var section_repeatable_section_id_from = (typeof(field_from.section_repeatable_section_id) !== 'undefined') ? parseInt(field_from.section_repeatable_section_id, 10) : false;
-								var section_repeatable_section_id_to = (typeof(field_to.section_repeatable_section_id) !== 'undefined') ? parseInt(field_to.section_repeatable_section_id, 10) : false;
+								var section_repeatable_section_id_from = (typeof field_from.section_repeatable_section_id !== 'undefined') ? parseInt(field_from.section_repeatable_section_id, 10) : false;
+								var section_repeatable_section_id_to = (typeof field_to.section_repeatable_section_id !== 'undefined') ? parseInt(field_to.section_repeatable_section_id, 10) : false;
 								var section_repeatable_index_to = section_repeatable_index;
 
 								var parsed_variable = false;
 
-								var delimiter = (typeof(variable_attribute_array[1]) !== 'undefined') ? variable_attribute_array[1] : ',';
+								var delimiter = (typeof variable_attribute_array[1] !== 'undefined') ? variable_attribute_array[1] : ',';
 
-								var column = (typeof(variable_attribute_array[2]) !== 'undefined') ? variable_attribute_array[2] : false;
+								var column = (typeof variable_attribute_array[2] !== 'undefined') ? variable_attribute_array[2] : false;
 
 								// REPEATABLE TO REPEATABLE
 								// In this scenario, we want the single field in the from section
@@ -2514,7 +2515,7 @@
 											// Get default value from field
 											var default_value = this.get_object_meta_value(field_from, 'default_value', '');
 											var parse_variables_process_return = this.parse_variables_process(default_value, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original);
-											if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+											if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 											parsed_variable = [parse_variables_process_return.output];
 									}
 								}
@@ -2533,9 +2534,9 @@
 									case 'field_count_char' :
 									case 'field_count_word' :
 
-										var parsed_variable_string = ((typeof(parsed_variable) === 'object') ? parsed_variable.join(delimiter) : '');
+										var parsed_variable_string = ((typeof parsed_variable === 'object') ? parsed_variable.join(delimiter) : '');
 
-										if(typeof(variable_attribute_array[1]) !== 'undefined') {
+										if(typeof variable_attribute_array[1] !== 'undefined') {
 
 											var regex_parts = /\/(.*)\/(.*)/.exec(variable_attribute_array[1]);
 											parsed_variable_string = parsed_variable_string.replace(new RegExp(regex_parts[1], regex_parts[2]), '');
@@ -2638,7 +2639,7 @@
 
 									case 'field_date_age' :
 
-										var date_start = new Date((typeof(parsed_variable) == 'number') ? (parsed_variable * 1000) : parsed_variable);
+										var date_start = new Date((typeof parsed_variable == 'number') ? (parsed_variable * 1000) : parsed_variable);
 										var date_end = new Date();
 
 										// Check start date
@@ -2648,7 +2649,7 @@
 										}
 
 										// Check for period
-										var period = (typeof(variable_attribute_array[1]) === 'string') ? variable_attribute_array[1] : 'y';
+										var period = (typeof variable_attribute_array[1] === 'string') ? variable_attribute_array[1] : 'y';
 										period = period.toLowerCase();
 										if(![
 
@@ -2766,7 +2767,7 @@
 
 											// Check for format
 											if(
-												(typeof(variable_attribute_array[1]) !== 'undefined') &&
+												(typeof variable_attribute_array[1] !== 'undefined') &&
 												(variable_attribute_array[1] != '')
 											) {
 
@@ -2779,7 +2780,7 @@
 											if(!format_date) { format_date = ws_form_settings.date_format; }
 
 											// Process date
-											parsed_variable = ((typeof(this.date_format) === 'function') ? this.date_format(parsed_variable_date, format_date) : '');
+											parsed_variable = ((typeof this.date_format === 'function') ? this.date_format(parsed_variable_date, format_date) : '');
 										}
 
 										break;
@@ -2831,7 +2832,7 @@
 
 											// Check for format
 											if(
-												(typeof(variable_attribute_array[2]) !== 'undefined') &&
+												(typeof variable_attribute_array[2] !== 'undefined') &&
 												(variable_attribute_array[2] != '')
 											) {
 
@@ -2844,7 +2845,7 @@
 											if(!format_date) { format_date = ws_form_settings.date_format; }
 
 											// Process date
-											parsed_variable = ((typeof(this.date_format) === 'function') ? this.date_format(parsed_variable_date, format_date) : '');
+											parsed_variable = ((typeof this.date_format === 'function') ? this.date_format(parsed_variable_date, format_date) : '');
 										}
 
 										break;
@@ -2870,7 +2871,7 @@
 							case 'ecommerce_price' :
 
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 								var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 
 								var parsed_variable = this.get_price(number_input);
@@ -2881,7 +2882,7 @@
 
 								// Get num
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 								var num = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 
 								// Get decimals
@@ -2908,7 +2909,7 @@
 								// Read attributes
 								var field_id = parseInt(variable_attribute_array[0], 10);
 								var delimiter = variable_attribute_array[1];
-								if(typeof(delimiter) === 'undefined') { delimiter = ', '; }
+								if(typeof delimiter === 'undefined') { delimiter = ', '; }
 
 								// Add to fields touched array if we are still dealing with the original field
 								if(field_to.id === field_to_original.id) {
@@ -2948,7 +2949,7 @@
 								// Read attributes
 								var field_id = parseInt(variable_attribute_array[0], 10);
 								var delimiter = variable_attribute_array[1];
-								if(typeof(delimiter) === 'undefined') { delimiter = ', '; }
+								if(typeof delimiter === 'undefined') { delimiter = ', '; }
 
 								// Add to fields touched array if we are still dealing with the original field
 								if(field_to.id === field_to_original.id) {
@@ -3036,7 +3037,7 @@
 
 								var parsed_variable_date = this.get_new_date(parse_variable_value);
 
-								if(typeof(variable_attribute_array[1]) !== 'undefined') {
+								if(typeof variable_attribute_array[1] !== 'undefined') {
 
 									var seconds_offset = parseInt(this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth).output, 10);
 
@@ -3046,7 +3047,7 @@
 									}
 								}
 
-								parsed_variable = ((typeof(this.date_format) === 'function') ? this.date_format(parsed_variable_date, variable_attribute_array[0]) : '');
+								parsed_variable = ((typeof this.date_format === 'function') ? this.date_format(parsed_variable_date, variable_attribute_array[0]) : '');
 
 								break;
 
@@ -3054,7 +3055,7 @@
 
 								var parsed_variable_date = new Date();
 
-								if(typeof(variable_attribute_array[1]) !== 'undefined') {
+								if(typeof variable_attribute_array[1] !== 'undefined') {
 
 									var seconds_offset = parseInt(this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth).output, 10);
 
@@ -3064,7 +3065,7 @@
 									}
 								}
 
-								parsed_variable = ((typeof(this.date_format) === 'function') ? this.date_format(parsed_variable_date, variable_attribute_array[0]) : '');
+								parsed_variable = ((typeof this.date_format === 'function') ? this.date_format(parsed_variable_date, variable_attribute_array[0]) : '');
 
 								break;
 
@@ -3100,7 +3101,7 @@
 							case 'tan' :
 
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 								var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 
 								switch(parse_variable) {
@@ -3189,10 +3190,10 @@
 							case 'name_last' :
 							case 'name_suffix' :
 
-								if(typeof(variable_attribute_array[0]) === 'string') {
+								if(typeof variable_attribute_array[0] === 'string') {
 
 									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-									if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 									parsed_variable = parse_variables_process_return.output;
 
 									switch(parse_variable) {
@@ -3261,12 +3262,12 @@
 
 								// Base
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 								var base = this.calc_string(parse_variables_process_return.output, parse_string_original, decimals, field_to_original, field_part);
 
 								// Exponent
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 								var exponent = this.calc_string(parse_variables_process_return.output, parse_string_original, decimals, field_to_original, field_part);
 
 								parsed_variable = Math.pow(base, exponent);
@@ -3278,7 +3279,7 @@
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
 								var decimals = this.get_number(parse_variables_process_return.output);
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 								parsed_variable = this.calc_string(parse_variables_process_return.output, parse_string_original, decimals, field_to_original, field_part);
 
 								break;
@@ -3292,7 +3293,7 @@
 								if(variable_attribute_array.length === 1) {
 
 									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-									if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 									variable_attribute_array = this.string_to_attributes(parse_variables_process_return.output);
 								}
 
@@ -3301,7 +3302,7 @@
 									if(!variable_attribute_array.hasOwnProperty(variable_attribute_array_index)) { continue; }
 
 									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[variable_attribute_array_index], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-									if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 									var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 									values.push(number_input);
 								}
@@ -3318,7 +3319,7 @@
 								if(variable_attribute_array.length === 1) {
 
 									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-									if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 									variable_attribute_array = this.string_to_attributes(parse_variables_process_return.output);
 								}
 
@@ -3328,7 +3329,7 @@
 									if(!variable_attribute_array.hasOwnProperty(variable_attribute_array_index)) { continue; }
 
 									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[variable_attribute_array_index], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-									if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 									var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 									parsed_variable_total += number_input;
 								}
@@ -3389,14 +3390,14 @@
 			if(
 				(section_id === false) &&
 				(field_to !== false) &&
-				(typeof(field_to.section_id) !== 'undefined') &&
+				(typeof field_to.section_id !== 'undefined') &&
 				(parseInt(field_to.section_id, 10) > 0)
 			) {
 
 				section_id = parseInt(field_to.section_id, 10);
 			}
 
-			if(typeof(this.section_repeatable_indexes['section_' + section_id]) === 'object') {
+			if(typeof this.section_repeatable_indexes['section_' + section_id] === 'object') {
 
 				section_row_number = this.section_repeatable_indexes['section_' + section_id].indexOf(section_repeatable_index.toString()) + 1;
 				if(section_row_number <= 0) { section_row_number = 1; }
@@ -3416,8 +3417,8 @@
 
 			var client_date_time = new Date();
 
-			variables.client_time = ((typeof(this.date_format) === 'function') ? this.date_format(client_date_time, ws_form_settings.time_format) : '');
-			variables.client_date = ((typeof(this.date_format) === 'function') ? this.date_format(client_date_time, ws_form_settings.date_format) : '');
+			variables.client_time = ((typeof this.date_format === 'function') ? this.date_format(client_date_time, ws_form_settings.time_format) : '');
+			variables.client_date = ((typeof this.date_format === 'function') ? this.date_format(client_date_time, ws_form_settings.date_format) : '');
 		}
 
 		// Seconds
@@ -3447,7 +3448,7 @@
 			var parse_variables_process_return = this.parse_variables_process(parse_string, section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original);
 			parse_string = parse_variables_process_return.output;
 
-			if(typeof(parse_variables_process_return.fields) === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+			if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
 		}
 
 		var return_object = {
@@ -3511,8 +3512,8 @@
 
 		// Check for columns and groups
 		if(
-			(typeof(data_grid.columns) !== 'object') ||
-			(typeof(data_grid.groups) !== 'object')
+			(typeof data_grid.columns !== 'object') ||
+			(typeof data_grid.groups !== 'object')
 		) {
 			return parsed_variable;
 		}
@@ -3535,8 +3536,8 @@
 			var column_single = columns[column_index];
 
 			if(
-				(typeof(column_single.id) === 'undefined') ||
-				(typeof(column_single.label) === 'undefined')
+				(typeof column_single.id === 'undefined') ||
+				(typeof column_single.label === 'undefined')
 			) {
 				continue;
 			}
@@ -3594,7 +3595,7 @@
 				var group = groups[group_index];
 
 				// Get rows
-				if(typeof(group.rows) === 'undefined') { continue; }
+				if(typeof group.rows === 'undefined') { continue; }
 				var rows = group.rows;
 
 				// Process rows
@@ -3607,7 +3608,7 @@
 					// Get row data
 					if(
 						(row === null) ||
-						(typeof(row.data) !== 'object')
+						(typeof row.data !== 'object')
 					) {
 						continue;
 					}
@@ -3617,8 +3618,8 @@
 					var data_cloned = $.extend(true, [], data);
 
 					// Check value and return indexes exist
-					if(typeof(data_cloned[value_column_index]) === 'undefined') { continue; }
-					if(typeof(data_cloned[return_column_index]) === 'undefined') { continue; }
+					if(typeof data_cloned[value_column_index] === 'undefined') { continue; }
+					if(typeof data_cloned[return_column_index] === 'undefined') { continue; }
 
 					// Pre-parsing
 					var mask_values_row = {
@@ -3631,7 +3632,7 @@
 					// Label
 					if(
 						(label_column_index !== false) &&
-						(typeof(data_cloned[label_column_index]) !== 'undefined')
+						(typeof data_cloned[label_column_index] !== 'undefined')
 					) {
 
 						mask_values_row.data_grid_row_label = data_cloned[label_column_index];
@@ -3640,7 +3641,7 @@
 					// Parse Variable
 					if(
 						(parse_variable_column_index !== false) &&
-						(typeof(data_cloned[parse_variable_column_index]) !== 'undefined')
+						(typeof data_cloned[parse_variable_column_index] !== 'undefined')
 					) {
 
 						mask_values_row.data_grid_row_action_variable = data_cloned[parse_variable_column_index];
@@ -3651,7 +3652,7 @@
 
 						if(!data_cloned.hasOwnProperty(data_index)) { continue; }
 
-						if(typeof(data_cloned[data_index]) === 'number') { data_cloned[data_index] = data_cloned[data_index].toString(); }
+						if(typeof data_cloned[data_index] === 'number') { data_cloned[data_index] = data_cloned[data_index].toString(); }
 
 						data_cloned[data_index] = this.mask_parse(data_cloned[data_index], mask_values_row);
 					}
@@ -3660,7 +3661,7 @@
 					if(parsed_variable_single === data_cloned[value_column_index].toString()) {
 
 						// Add data to default value
-						if(typeof(row.data[return_column_index]) === 'undefined') { continue; }
+						if(typeof row.data[return_column_index] === 'undefined') { continue; }
 						parsed_variable_return.push(row.data[return_column_index]);
 					}
 				}
@@ -3677,9 +3678,9 @@
 		if(this.get_object_meta_value(field, 'wpautop_do_not_process', '') == 'on') { return false; }
 
 		// Meta wpautop
-		var wpautop_parse_variable = (typeof(field_type_config.wpautop_parse_variable) !== 'undefined') ? field_type_config.wpautop_parse_variable : false;	
+		var wpautop_parse_variable = (typeof field_type_config.wpautop_parse_variable !== 'undefined') ? field_type_config.wpautop_parse_variable : false;	
 
-		if(typeof(wpautop_parse_variable) === 'object') {
+		if(typeof wpautop_parse_variable === 'object') {
 
 			var condition_output = false;
 
@@ -3703,8 +3704,8 @@
 
 	$.WS_Form.prototype.wpautop = function(i, br) {
 
-		if(typeof(i) !== 'string') { return ''; }
-		if(typeof(br) === 'undefined') { br = true; }
+		if(typeof i !== 'string') { return ''; }
+		if(typeof br === 'undefined') { br = true; }
 
 		var pre_tags = new Map;
 		if(i.trim() === '') { return ''; }
@@ -3824,9 +3825,9 @@
 
 			// Handle calc error
 			if(
-				(typeof(field) === 'object') &&
-				(typeof(field.id) !== 'undefined') &&
-				(typeof(field.label) !== 'undefined')
+				(typeof field === 'object') &&
+				(typeof field.id !== 'undefined') &&
+				(typeof field.label !== 'undefined')
 			) {
 
 				this.error('error_parse_variable_syntax_error_calc', field.id + ' | ' + this.esc_html(field.label) + (field_part ? ' | ' + this.esc_html(field_part) : '') + ' | ' + e.message + ': ' + this.esc_html(parse_string_original));
@@ -3886,13 +3887,13 @@
 	$.WS_Form.prototype.string_to_attributes = function(input_string, separator) {
 
 		if(
-			(typeof(input_string) !== 'string') ||
+			(typeof input_string !== 'string') ||
 			(input_string == '')
 		) {
 			return [];
 		}
 
-		if(typeof(separator) !== 'string') { separator = ','; }
+		if(typeof separator !== 'string') { separator = ','; }
 
 		var bracket_index = 1;
 		var input_string_index = 0;
@@ -4058,9 +4059,9 @@
 
 		var ws_this = this;
 
-		if(typeof(section_repeatable_index) === 'undefined') { section_repeatable_index = false; }
-		if(typeof(submit_array) === 'undefined') { submit_array = false; }
-		if(typeof(column) === 'undefined') { column = false; }
+		if(typeof section_repeatable_index === 'undefined') { section_repeatable_index = false; }
+		if(typeof submit_array === 'undefined') { submit_array = false; }
+		if(typeof column === 'undefined') { column = false; }
 
 		if(section_repeatable_index === false) {
 
@@ -4147,7 +4148,7 @@
 						var value_decoded = JSON.parse(value);
 
 						if(
-							(typeof(value_decoded) === 'object') &&
+							(typeof value_decoded === 'object') &&
 							value_decoded.filename
 						) {
 							return_array.push(value_decoded.filename);
@@ -4210,8 +4211,8 @@
 					} catch(e) { break; }
 
 					if(
-						(typeof(value.lat) !== 'undefined') &&
-						(typeof(value.lng) !== 'undefined')
+						(typeof value.lat !== 'undefined') &&
+						(typeof value.lng !== 'undefined')
 					) {
 
 						return_array.push(value.lat + ',' + value.lng);
@@ -4244,15 +4245,15 @@
 
 		// Get field config
 		var field = this.field_data_cache[field.id];
-		if(typeof($.WS_Form.field_type_cache[field.type]) === 'undefined') { return false; }
+		if(typeof $.WS_Form.field_type_cache[field.type] === 'undefined') { return false; }
 		var field_type_config = $.WS_Form.field_type_cache[field.type];
 
 		// Get data source
-		if(typeof(field_type_config.data_source) === 'undefined') { return false; }
+		if(typeof field_type_config.data_source === 'undefined') { return false; }
 		var data_source = field_type_config.data_source;
 
 		// Get data source type
-		if(typeof(data_source.type) === 'undefined') { return false; }
+		if(typeof data_source.type === 'undefined') { return false; }
 		data_source_return.type = data_source.type;
 
 		// Get data source by type
@@ -4261,11 +4262,11 @@
 			case 'data_grid' :
 
 				// Get data source meta key
-				if(typeof(data_source.id) === 'undefined') { return false; }
+				if(typeof data_source.id === 'undefined') { return false; }
 				data_source_return.meta_key_data_grid = data_source.id;
 
 				// Get data source value key
-				data_source_return.meta_key_value_column = (typeof(field_type_config.datagrid_column_value === 'undefined') ? field_type_config.datagrid_column_value : false);
+				data_source_return.meta_key_value_column = (typeof field_type_config.datagrid_column_value === 'undefined' ? field_type_config.datagrid_column_value : false);
 
 				// Get data grid
 				data_source_return.data_grid = this.get_object_meta_value(field, data_source_return.meta_key_data_grid, false);
@@ -4274,7 +4275,7 @@
 				data_source_return.value_column_id = this.get_object_meta_value(field, data_source_return.meta_key_value_column, false);
 
 				// Run through the data grid columns until we find the ID
-				var data_columns = (typeof(data_source_return.data_grid.columns)) ? data_source_return.data_grid.columns : [];
+				var data_columns = (typeof data_source_return.data_grid.columns) ? data_source_return.data_grid.columns : [];
 
 				data_source_return.value_column_index = false;
 				for(var data_columns_index in data_columns) {
@@ -4283,7 +4284,7 @@
 
 					var data_column = data_columns[data_columns_index];
 
-					if(typeof(data_column.id) === 'undefined') { continue; }
+					if(typeof data_column.id === 'undefined') { continue; }
 
 					// Match found, store in cache
 					if(data_column.id == data_source_return.value_column_id) { data_source_return.value_column_index = data_columns_index; break; }
@@ -4292,7 +4293,7 @@
 				// Build default value
 				if(
 					(data_source_return.value_column_id !== false) &&
-					(typeof(data_source_return.data_grid.groups) !== 'undefined')
+					(typeof data_source_return.data_grid.groups !== 'undefined')
 				) {
 
 					// Process groups
@@ -4304,7 +4305,7 @@
 						var group = groups[group_index];
 
 						// Get rows
-						if(typeof(group.rows) === 'undefined') { continue; }
+						if(typeof group.rows === 'undefined') { continue; }
 						var rows = group.rows;
 
 						// Process rows
@@ -4317,11 +4318,11 @@
 							if(row === null) { continue; }
 
 							// Process default row
-							var row_default = (typeof(row.default) !== 'undefined') ? (row.default === 'on') : false;
+							var row_default = (typeof row.default !== 'undefined') ? (row.default === 'on') : false;
 							if(row_default) {
 
-								if(typeof(row.data) === 'undefined') { continue; }
-								if(typeof(row.data[data_source_return.value_column_index]) === 'undefined') { continue; }
+								if(typeof row.data === 'undefined') { continue; }
+								if(typeof row.data[data_source_return.value_column_index] === 'undefined') { continue; }
 
 								// Add data to default value
 								data_source_return.default_value.push(row.data[data_source_return.value_column_index]);
@@ -4382,7 +4383,7 @@
 	// Get column class array
 	$.WS_Form.prototype.column_class_array = function(object, type) {
 
-		if(typeof(type) === 'undefined') { type = 'breakpoint'; }
+		if(typeof type === 'undefined') { type = 'breakpoint'; }
 
 		var column_class_array = [];
 
@@ -4538,8 +4539,8 @@
 	// Mask parse
 	$.WS_Form.prototype.mask_parse = function(mask, lookups, single_parse) {
 
-		if(typeof(mask) !== 'string') { return ''; }
-		if(typeof(single_parse) === 'undefined') { single_parse = false; }
+		if(typeof mask !== 'string') { return ''; }
+		if(typeof single_parse === 'undefined') { single_parse = false; }
 
 		// Sort variables descending by key
 		var lookups_sorted = [];
@@ -4592,9 +4593,9 @@
 	// Get localized language string
 	$.WS_Form.prototype.language = function(id, value, esc_html, bypass_error) {
 
-		if(typeof(value) === 'undefined') { value = false; }
-		if(typeof(esc_html) === 'undefined') { esc_html = true; }
-		if(typeof(bypass_error) === 'undefined') { bypass_error = false; }
+		if(typeof value === 'undefined') { value = false; }
+		if(typeof esc_html === 'undefined') { esc_html = true; }
+		if(typeof bypass_error === 'undefined') { bypass_error = false; }
 
 		var language_string = '';
 		var return_string = '';
@@ -4607,9 +4608,9 @@
 
 			if($.WS_Form.settings_form !== null) {
 
-				if(typeof($.WS_Form.settings_form.language) !== 'undefined') {
+				if(typeof $.WS_Form.settings_form.language !== 'undefined') {
 
-					if(typeof($.WS_Form.settings_form.language[id]) !== 'undefined') {
+					if(typeof $.WS_Form.settings_form.language[id] !== 'undefined') {
 
 						var language_string = $.WS_Form.settings_form.language[id];
 					}
@@ -4645,8 +4646,8 @@
 	// Set cookie
 	$.WS_Form.prototype.cookie_set = function(cookie_name, cookie_value, cookie_expiry, bind_to_form_id) {
 
-		if(typeof(cookie_expiry) === 'undefined') { cookie_expiry = true; }
-		if(typeof(bind_to_form_id) === 'undefined') { bind_to_form_id = true; }
+		if(typeof cookie_expiry === 'undefined') { cookie_expiry = true; }
+		if(typeof bind_to_form_id === 'undefined') { bind_to_form_id = true; }
 
 		// Read cookie prefix
 		var cookie_prefix = this.get_object_value($.WS_Form.settings_plugin, 'cookie_prefix');
@@ -4705,14 +4706,14 @@
 		
 		// Otherwise, return the language fallback
 		return this.language(language_id);
-	};
+	}
 
 	// Get cookie
 	$.WS_Form.prototype.cookie_get = function(cookie_name, default_value, bind_to_form_id) {
 
-		if(typeof(bind_to_form_id) === 'undefined') { bind_to_form_id = true; }
+		if(typeof bind_to_form_id === 'undefined') { bind_to_form_id = true; }
 
-		// Read cookie configurtion
+		// Read cookie configuration
 		var cookie_prefix = this.get_object_value($.WS_Form.settings_plugin, 'cookie_prefix');
 		if(!cookie_prefix) { return default_value; }
 
@@ -4727,13 +4728,13 @@
 	$.WS_Form.prototype.cookie_get_raw = function(cookie_name, default_value) {
 
 		// Check default value
-		if(typeof(default_value) === 'undefined') { default_value = ''; }
+		if(typeof default_value === 'undefined') { default_value = ''; }
 
 		// Check cookie name and docuent.cookie
 		if(
 			(cookie_name === '') ||
 			!document.cookie ||
-			(typeof(document.cookie) !== 'string')
+			(typeof document.cookie !== 'string')
 		) {
 			return default_value;
 		}
@@ -4779,7 +4780,7 @@
 	// Clear cookie
 	$.WS_Form.prototype.cookie_clear = function(cookie_name, bind_to_form_id) {
 
-		if(typeof(bind_to_form_id) === 'undefined') { bind_to_form_id = true; }
+		if(typeof bind_to_form_id === 'undefined') { bind_to_form_id = true; }
 
 		// Read cookie prefix
 		var cookie_prefix = this.get_object_value($.WS_Form.settings_plugin, 'cookie_prefix');
@@ -4799,11 +4800,11 @@
 	// Get session storage raw
 	$.WS_Form.prototype.session_storage_get_raw = function(key, default_value) {
 
-		if(typeof(default_value) === 'undefined') { default_value = ''; }
+		if(typeof default_value === 'undefined') { default_value = ''; }
 
 		if(
 			(key === '') ||
-			(typeof(sessionStorage) !== 'object') ||
+			(typeof sessionStorage !== 'object') ||
 			(sessionStorage.getItem(key) === null)
 		) {
 			return default_value;
@@ -4815,11 +4816,11 @@
 	// Get local storage raw
 	$.WS_Form.prototype.local_storage_get_raw = function(key, default_value) {
 
-		if(typeof(default_value) === 'undefined') { default_value = ''; }
+		if(typeof default_value === 'undefined') { default_value = ''; }
 
 		if(
 			(key === '') ||
-			(typeof(localStorage) !== 'object') ||
+			(typeof localStorage !== 'object') ||
 			(localStorage.getItem(key) === null)
 		) {
 			return default_value;
@@ -4831,10 +4832,11 @@
 	// Tabs
 	$.WS_Form.prototype.tabs = function(obj, atts) {
 
-		if(typeof(atts) === 'undefined') { atts = {}; };
-		var tab_selector = (typeof(atts.selector) !== 'undefined') ? atts.selector : 'li';
-		var tab_active_index = (typeof(atts.active) !== 'undefined') ? atts.active : 0;
-		var tab_activate = (typeof(atts.activate) !== 'undefined') ? atts.activate : false;
+		if(typeof atts === 'undefined') { atts = {}; }
+		var tab_selector = (typeof atts.selector !== 'undefined') ? atts.selector : 'li';
+		var tab_active_index = (typeof atts.active !== 'undefined') ? parseInt(atts.active, 10) : 0;
+		if(isNaN(tab_active_index)) { tab_active_index = 0; }
+		var tab_activate = (typeof atts.activate !== 'undefined') ? atts.activate : false;
 
 		var ws_this = this;
 		var tab_index = 0;
@@ -4866,7 +4868,7 @@
 				});
 
 				// Initialize tab
-				if(tab_index == tab_active_index) {
+				if(tab_index === tab_active_index) {
 					
 					ws_this.tab_show($(this), tab_obj_outer);
 				}
@@ -4879,7 +4881,7 @@
 	// Tabs - Destroy
 	$.WS_Form.prototype.tabs_destroy = function(obj, atts) {
 
-		if(typeof atts === 'undefined') { atts = {}; };
+		if(typeof atts === 'undefined') { atts = {}; }
 		var tab_selector = (typeof atts.selector !== 'undefined') ? atts.selector : 'li';
 
 		$(tab_selector, obj).each(function() {
@@ -4918,7 +4920,7 @@
 		$(tab_hash).show();
 
 		// Tab activate function
-		if(typeof(tab_activate) === 'function') {
+		if(typeof tab_activate === 'function') {
 
 			var tab_index = tab_obj.attr('data-tab-index');
 			tab_activate(tab_index);
@@ -4967,9 +4969,9 @@
 		var action = this.get_object_meta_value(this.form, 'action', false);
 		if(!(
 			(action === false) ||
-			(typeof(action.groups) === 'undefined') ||
-			(typeof(action.groups[0]) === 'undefined') ||
-			(typeof(action.groups[0].rows) !== 'object') ||
+			(typeof action.groups === 'undefined') ||
+			(typeof action.groups[0] === 'undefined') ||
+			(typeof action.groups[0].rows !== 'object') ||
 			(action.groups[0].rows.length == 0)
 		)) {
 
@@ -4982,8 +4984,8 @@
 
 				if(
 					(row === null) ||
-					(typeof(row) !== 'object') ||
-					(typeof(row.data) !== 'object') ||
+					(typeof row !== 'object') ||
+					(typeof row.data !== 'object') ||
 					(row.data.length == 0)
 				) {
 					continue;
@@ -5023,8 +5025,8 @@
 
 		var section_repeatable = (
 
-			(typeof(section.meta) !== 'undefined') &&
-			(typeof(section.meta.section_repeatable) !== 'undefined') &&
+			(typeof section.meta !== 'undefined') &&
+			(typeof section.meta.section_repeatable !== 'undefined') &&
 			(section.meta.section_repeatable == 'on')
 		);
 
@@ -5042,7 +5044,7 @@
 			}
 
 			// Skip fields that are unlicensed (Required for published data)
-			if(typeof($.WS_Form.field_type_cache[field.type]) === 'undefined') { continue; }
+			if(typeof $.WS_Form.field_type_cache[field.type] === 'undefined') { continue; }
 
 			// Store to field_data_cache array
 			this.field_data_cache[field.id] = field;
@@ -5068,7 +5070,7 @@
 	// Get nice duration
 	$.WS_Form.prototype.get_nice_duration = function(duration, show_seconds) {
 
-		if(typeof(show_seconds) == 'undefined') { show_seconds = true; }
+		if(typeof show_seconds == 'undefined') { show_seconds = true; }
 
 		if(duration == 0) { return '-'; }
 
@@ -5248,12 +5250,12 @@
 	// Get field html
 	$.WS_Form.prototype.get_field_html_single = function(field, value, is_submit, section_repeatable_index) {
 
-		if(typeof(is_submit) === 'undefined') { is_submit = false; }
-		if(typeof(section_repeatable_index) === 'undefined') { section_repeatable_index = false; }
+		if(typeof is_submit === 'undefined') { is_submit = false; }
+		if(typeof section_repeatable_index === 'undefined') { section_repeatable_index = false; }
 
 		var field_html = '';
 		var attributes_values_field = [];
-		var has_value = (typeof(value) !== 'undefined');
+		var has_value = (typeof value !== 'undefined');
 
 		// If we are rendering a field for submission editing, don't register calculations
 		var calc_register = !is_submit;
@@ -5271,7 +5273,7 @@
 		var submit_attributes_field = ['default', 'class', 'input_type_datetime', 'multiple', 'min', 'max', 'step'];
 		var submit_attributes_field_label = ['class'];
 
-		if(typeof($.WS_Form.field_type_cache[field.type]) === 'undefined') { return ''; }
+		if(typeof $.WS_Form.field_type_cache[field.type] === 'undefined') { return ''; }
 
 		// Get field type
 		var field_type_config = $.WS_Form.field_type_cache[field.type];
@@ -5388,7 +5390,7 @@
 				if(value) {
 
 					// Split comma separate values into a trimmed value array
-					value = (typeof(value) === 'string') ? value.split(',').map(function(value) { return value.trim(); }) : value;
+					value = (typeof value === 'string') ? value.split(',').map(function(value) { return value.trim(); }) : value;
 
 					has_value = true;
 				}
@@ -5417,7 +5419,7 @@
 			if(!this.get_object_meta_value(field, 'class_field_full_button_remove', '')) {
 
 				var class_field_full_button = this.get_field_value_fallback(field.type, label_position, 'class_field_full_button', '', false, sub_type);
-				if(typeof(class_field_full_button) === 'object') {
+				if(typeof class_field_full_button === 'object') {
 					class_field_array.push(class_field_full_button.join(' '));
 				}
 			}
@@ -5431,7 +5433,7 @@
 			if(class_field_button_type) {
 
 				var class_field_button_type_config = this.get_field_value_fallback(field.type, label_position, 'class_field_button_type', '', false, sub_type);
-				if(typeof(class_field_button_type_config[class_field_button_type]) !== 'undefined') {
+				if(typeof class_field_button_type_config[class_field_button_type] !== 'undefined') {
 
 					class_field_array.push(class_field_button_type_config[class_field_button_type]);
 				}
@@ -5475,7 +5477,7 @@
 			}
 
 			// Label position
-			var label_inside = (typeof(field_type_config.label_inside) !== 'undefined') ? field_type_config.label_inside : false;
+			var label_inside = (typeof field_type_config.label_inside !== 'undefined') ? field_type_config.label_inside : false;
 			if(
 				label_inside &&
 				(label_position === 'inside')
@@ -5577,14 +5579,14 @@
 			var meta_key = meta_key_parse_variables[meta_key_parse_variables_index];
 
 			// Get default value
-			var meta_key_config = (typeof($.WS_Form.meta_keys[meta_key]) === 'undefined') ? false : $.WS_Form.meta_keys[meta_key];
-			var meta_key_value_default = (meta_key_config !== false) ? ((typeof(meta_key_config.d) === 'undefined') ? '' : meta_key_config.d) : '';
+			var meta_key_config = (typeof $.WS_Form.meta_keys[meta_key] === 'undefined') ? false : $.WS_Form.meta_keys[meta_key];
+			var meta_key_value_default = (meta_key_config !== false) ? ((typeof meta_key_config.d === 'undefined') ? '' : meta_key_config.d) : '';
 
 			// Get meta value
 			var meta_value = this.get_object_meta_value(field, meta_key, meta_key_value_default);
 
 			// If value is an array, turn it into a JSON string
-			if(typeof(meta_value) === 'object') { meta_value = JSON.stringify(meta_value); }
+			if(typeof meta_value === 'object') { meta_value = JSON.stringify(meta_value); }
 
 			// Encode single quotes for JS purposes
 			meta_value = this.replace_all(meta_value, "'", '&#39;');
@@ -5777,7 +5779,7 @@
 		if(data_source_process) {
 
 			// Get data source type
-			if(typeof(data_source.type) === 'undefined') {
+			if(typeof data_source.type === 'undefined') {
 
 				data_source_process = false;
 
@@ -5787,7 +5789,7 @@
 			}
 			
 			// Get data source ID
-			if(typeof(data_source.id) === 'undefined') {
+			if(typeof data_source.id === 'undefined') {
 
 				data_source_process = false;
 
@@ -5810,7 +5812,7 @@
 			if(data_source_object_data === false) { data_source_process = false; }
 
 			// Columns
-			if(typeof(data_source_object_data.columns) === 'undefined') {
+			if(typeof data_source_object_data.columns === 'undefined') {
 
 				data_source_process = false;
 
@@ -5867,17 +5869,17 @@
 			}
 
 			// Value should be an array
-			if(has_value && (typeof(value) !== 'object')) {
+			if(has_value && (typeof value !== 'object')) {
 
 				// If value is a number, change it to a string (Ensures indexOf works below)
-				if(typeof(value) !== 'string') { value = value.toString(); }
+				if(typeof value !== 'string') { value = value.toString(); }
 
 				// Convert to array
 				value = [value];
 			}
 
 			// Has value an index of
-			var has_value_indexof = has_value && (typeof(value.indexOf) !== 'undefined');
+			var has_value_indexof = has_value && (typeof value.indexOf !== 'undefined');
 
 			// Build mask lookup cache
 			var mask_row_lookup_array = [];
@@ -5899,12 +5901,12 @@
 				// If not found...
 				if(mask_row_lookup_value === false) { 
 
-					if(typeof($.WS_Form.meta_keys[mask_row_lookup]) !== 'undefined') {
+					if(typeof $.WS_Form.meta_keys[mask_row_lookup] !== 'undefined') {
 
 						// Check for a default value
 						var meta_key_config = $.WS_Form.meta_keys[mask_row_lookup];
 
-						mask_row_lookup_value = (typeof(meta_key_config.d) !== 'undefined') ? meta_key_config.d : 0;
+						mask_row_lookup_value = (typeof meta_key_config.d !== 'undefined') ? meta_key_config.d : 0;
 
 						// If default value is larger than the number of available columns, set it to zero
 						if(mask_row_lookup_value > data_columns.length) { mask_row_lookup_value = 0; }
@@ -5953,13 +5955,13 @@
 				// Check group
 				if(
 					(data_group == null) ||
-					(typeof(data_group) !== 'object')
+					(typeof data_group !== 'object')
 				) {
 					continue;
 				}
 
 				// Get group label
-				if(typeof(data_group.label) === 'undefined') { this.error('error_data_group_label'); return ''; }
+				if(typeof data_group.label === 'undefined') { this.error('error_data_group_label'); return ''; }
 				switch(field.type) {
 
 					case 'select' :
@@ -5970,7 +5972,7 @@
 
 					default :
 
-						var mask_values_group_label_render = (typeof(data_group.label_render) === 'undefined') ? true : data_group.label_render;
+						var mask_values_group_label_render = (typeof data_group.label_render === 'undefined') ? true : data_group.label_render;
 				}
 
 				// Group label mask values
@@ -5989,17 +5991,17 @@
 				}
 
 				// Get group disabled (optional)
-				mask_values_group.disabled = (typeof(data_group.disabled) !== 'undefined') ? (data_group.disabled == 'on' ? ' disabled' : '') : '';
+				mask_values_group.disabled = (typeof data_group.disabled !== 'undefined') ? (data_group.disabled == 'on' ? ' disabled' : '') : '';
 
 				// Should group data mask be used?
-				var mask_group_use = ((typeof(data_group.mask_group) !== 'undefined') ? (data_group.mask_group == 'on') : false) || mask_group_always;
+				var mask_group_use = ((typeof data_group.mask_group !== 'undefined') ? (data_group.mask_group == 'on') : false) || mask_group_always;
 
 				// Should field label be hidden if groups are in use
 				if(mask_group_use && mask_field_label_hide_group) { mask_field_label = ''; }
 
 				// Get group rows (If there are no rows, data_group.rows = undefined)
 				var group = '';
-				if(typeof(data_group.rows) !== 'undefined') {
+				if(typeof data_group.rows !== 'undefined') {
 
 					// Clone data group rows
 					var data_rows = JSON.parse(JSON.stringify(data_group.rows));
@@ -6055,8 +6057,8 @@
 						// Skip null rows
 						if(
 							(data_row === null) ||
-							(typeof(data_row) !== 'object') ||
-							(typeof(data_row.data) !== 'object')
+							(typeof data_row !== 'object') ||
+							(typeof data_row.data !== 'object')
 						) {
 							continue;
 						}
@@ -6086,7 +6088,7 @@
 							var data_column_index = mask_row_lookup_array[mask_row_lookup];
 
 							if(data_column_index === false) { continue; }
-							if(typeof(data_row.data[data_column_index]) === 'undefined') { continue; }
+							if(typeof data_row.data[data_column_index] === 'undefined') { continue; }
 
 							var mask_row_lookup_value = data_row.data[data_column_index];
 							if(mask_row_lookup_value === null) { mask_row_lookup_value = ''; }
@@ -6133,17 +6135,17 @@
 
 							// Check for HTML encoding or a price
 							var price = false;
-							if(typeof($.WS_Form.meta_keys[mask_row_lookup]) !== 'undefined') {
+							if(typeof $.WS_Form.meta_keys[mask_row_lookup] !== 'undefined') {
 
 								// Get meta key config
 								var mask_row_lookup_config = $.WS_Form.meta_keys[mask_row_lookup];
 
 								// Check for HTML encoding
-								var esc_html = (typeof(mask_row_lookup_config.h) !== 'undefined') ? mask_row_lookup_config.h : false;
+								var esc_html = (typeof mask_row_lookup_config.h !== 'undefined') ? mask_row_lookup_config.h : false;
 								if(esc_html) { mask_row_lookup_value = this.esc_html(mask_row_lookup_value); }
 
 								// Check for price
-								var price = (typeof(mask_row_lookup_config.pr) !== 'undefined') ? mask_row_lookup_config.pr : false;
+								var price = (typeof mask_row_lookup_config.pr !== 'undefined') ? mask_row_lookup_config.pr : false;
 							}
 
 							if(price) {
@@ -6171,7 +6173,7 @@
 						}
 
 						// Check for row value mask (Used by price_select, price_radio and price_checkbox)
-						if(typeof(field_type_config.mask_row_value) !== 'undefined') {
+						if(typeof field_type_config.mask_row_value !== 'undefined') {
 
 							mask_values_row.row_value = this.mask_parse(field_type_config.mask_row_value, mask_values_row);
 
@@ -6181,7 +6183,7 @@
 								mask_values_row.row_value = this.mask_parse(mask_values_row.row_value, mask_values_row);
 							}
 						}
-						if(typeof(field_type_config.mask_row_price) !== 'undefined') {
+						if(typeof field_type_config.mask_row_price !== 'undefined') {
 
 							mask_values_row.row_price = this.mask_parse(field_type_config.mask_row_price, mask_values_row);
 						}
@@ -6208,7 +6210,7 @@
 						if(
 							(!has_value && data_row.default) ||
 							(has_value && (datagrid_column_value !== false) && has_value_indexof && (value.indexOf(mask_values_row[datagrid_column_value + '_compare']) > -1)) ||
-							(has_value && (typeof(mask_values_row.row_value) !== 'undefined') && has_value_indexof && (value.indexOf(mask_values_row.row_value) > -1))
+							(has_value && (typeof mask_values_row.row_value !== 'undefined') && has_value_indexof && (value.indexOf(mask_values_row.row_value) > -1))
 						) { extra_values_default.default = mask_row_default; }
 						if(data_row.disabled) { extra_values_default.disabled = mask_row_disabled; }
 						if(data_row.required) { extra_values_default.required = mask_row_required; }
@@ -6249,7 +6251,7 @@
 						}
 
 						// Skip hidden rows
-						if((typeof(data_row.hidden) !== 'undefined') && data_row.hidden && !is_submit) {
+						if((typeof data_row.hidden !== 'undefined') && data_row.hidden && !is_submit) {
 
 							switch(field.type) {
 
@@ -6338,14 +6340,14 @@
 						}
 						if(mask_values_row_field.attributes != '') { mask_values_row_field.attributes = ' ' + mask_values_row_field.attributes; }
 
-						if(typeof(data_row.select_all) !== 'undefined') {
+						if(typeof data_row.select_all !== 'undefined') {
 
 							mask_values_row_field.attributes += ' data-wsf-select-all';
 						}
 
 						// Hierarchy (Vertical only)
 						if(
-							(typeof(data_row.hierarchy) !== 'undefined') &&
+							(typeof data_row.hierarchy !== 'undefined') &&
 							(orientation == '') &&
 							!rows_randomize
 						) {
@@ -6456,9 +6458,9 @@
 			var extra_values = [];
 
 			// list
-			if(typeof(mask_values_group) !== 'undefined') {
+			if(typeof mask_values_group !== 'undefined') {
 				if(
-					(typeof(mask_values_group.group_id) !== 'undefined') &&
+					(typeof mask_values_group.group_id !== 'undefined') &&
 					data_row_count > 0
 
 				) { extra_values.list = mask_values_group.group_id; }
@@ -6816,7 +6818,7 @@
 	// Get attributes
 	$.WS_Form.prototype.get_attributes = function(object, mask_attributes, extra_values, section_repeatable_index) {
 
-		if(typeof(extra_values) !== 'object') { extra_values = false; }
+		if(typeof extra_values !== 'object') { extra_values = false; }
 
 		// Build attributes array
 		var attributes = [];
@@ -6831,30 +6833,30 @@
 				var mask_attribute_meta_key = mask_attributes[mask_attributes_key];
 
 				// Skip unknown meta_keys
-				if(typeof($.WS_Form.meta_keys[mask_attribute_meta_key]) === 'undefined') { continue; }
+				if(typeof $.WS_Form.meta_keys[mask_attribute_meta_key] === 'undefined') { continue; }
 
 				var meta_key = $.WS_Form.meta_keys[mask_attribute_meta_key];
 
 				// Read meta key mask data
 				if(this.is_admin) {
 	
-					var meta_key_mask = (typeof(meta_key.mask) !== 'undefined') ? meta_key.mask : '';
+					var meta_key_mask = (typeof meta_key.mask !== 'undefined') ? meta_key.mask : '';
 					var meta_key_mask_disregard_on_empty = (typeof meta_key.mask_disregard_on_empty !== 'undefined') ? meta_key.mask_disregard_on_empty : false;
 					var meta_key_mask_disregard_on_zero = (typeof meta_key.mask_disregard_on_zero !== 'undefined') ? meta_key.mask_disregard_on_zero : false;
-					var meta_key_default = (typeof(meta_key.default) !== 'undefined') ? meta_key.default : '';
+					var meta_key_default = (typeof meta_key.default !== 'undefined') ? meta_key.default : '';
 
 				} else {
 
-					var meta_key_mask = (typeof(meta_key.m) !== 'undefined') ? meta_key.m : '';
+					var meta_key_mask = (typeof meta_key.m !== 'undefined') ? meta_key.m : '';
 					var meta_key_mask_disregard_on_empty = (typeof meta_key.e !== 'undefined') ? meta_key.e : false;
 					var meta_key_mask_disregard_on_zero = (typeof meta_key.z !== 'undefined') ? meta_key.z : false;
-					var meta_key_default = (typeof(meta_key.d) !== 'undefined') ? meta_key.d : '';
+					var meta_key_default = (typeof meta_key.d !== 'undefined') ? meta_key.d : '';
 				}
 
 				if(extra_values !== false) {
 
 					// Use extra values
-					if(typeof(extra_values[mask_attribute_meta_key]) !== 'undefined') {
+					if(typeof extra_values[mask_attribute_meta_key] !== 'undefined') {
 
 						var meta_value = extra_values[mask_attribute_meta_key].trim();
 
@@ -6868,15 +6870,15 @@
 					// If meta_key key parameter is set, use that to get the object meta value
 					if(this.is_admin) {
 
-						var get_object_meta_value_key = (typeof(meta_key.key) !== 'undefined') ? meta_key.key : mask_attribute_meta_key;
+						var get_object_meta_value_key = (typeof meta_key.key !== 'undefined') ? meta_key.key : mask_attribute_meta_key;
 
 					} else {
 
-						var get_object_meta_value_key = (typeof(meta_key.k) !== 'undefined') ? meta_key.k : mask_attribute_meta_key;
+						var get_object_meta_value_key = (typeof meta_key.k !== 'undefined') ? meta_key.k : mask_attribute_meta_key;
 					}
 
 					// Get value
-					var field_part = (typeof(meta_key.c) !== 'undefined') ? meta_key.c : false;
+					var field_part = (typeof meta_key.c !== 'undefined') ? meta_key.c : false;
 					if(field_part !== false) {
 
 						var meta_value = this.get_object_meta_value(object, get_object_meta_value_key, meta_key_default, false, false);
@@ -6890,12 +6892,12 @@
 					// Check for global fallback
 					if(
 						(meta_value == '') &&
-						(typeof(meta_key.g) !== 'undefined')
+						(typeof meta_key.g !== 'undefined')
 					) {
 
 						var required_setting_global_meta_key = meta_key.g;
 
-						if(typeof($.WS_Form.settings_plugin[required_setting_global_meta_key]) !== 'undefined') {
+						if(typeof $.WS_Form.settings_plugin[required_setting_global_meta_key] !== 'undefined') {
 
 							if($.WS_Form.settings_plugin[required_setting_global_meta_key]) {
 
@@ -6946,15 +6948,15 @@
 	// Get number
 	$.WS_Form.prototype.get_number = function(number_input, default_value, process_currency, decimals) {
 
-		if(typeof(default_value) === 'undefined') { default_value = 0; }
-		if(typeof(process_currency) === 'undefined') { process_currency = true; }
-		if(typeof(decimals) === 'undefined') { decimals = false; }
+		if(typeof default_value === 'undefined') { default_value = 0; }
+		if(typeof process_currency === 'undefined') { process_currency = true; }
+		if(typeof decimals === 'undefined') { decimals = false; }
 
 		// Convert numbers to text
-		if(typeof(number_input) === 'number') { number_input = number_input.toString(); }
+		if(typeof number_input === 'number') { number_input = number_input.toString(); }
 
 		// Check input is a string
-		if(typeof(number_input) !== 'string') { return 0; }
+		if(typeof number_input !== 'string') { return 0; }
 
 		// Trim input
 		number_input = number_input.trim();
@@ -7055,13 +7057,13 @@
 	// Get float
 	$.WS_Form.prototype.get_float = function(number_input, default_value) {
 
-		if(typeof(default_value) === 'undefined') { default_value = 0; }
+		if(typeof default_value === 'undefined') { default_value = 0; }
 
 		// Convert numbers to text
-		if(typeof(number_input) === 'number') { number_input = number_input.toString(); }
+		if(typeof number_input === 'number') { number_input = number_input.toString(); }
 
 		// Check input is a string
-		if(typeof(number_input) !== 'string') { return 0; }
+		if(typeof number_input !== 'string') { return 0; }
 
 		// Trim input
 		number_input = number_input.trim();
@@ -7113,9 +7115,9 @@
 	// Get price
 	$.WS_Form.prototype.get_price = function(price_float, currency, currency_symbol_render) {
 
-		if(typeof(price_float) !== 'number') { price_float = parseFloat(price_float); }
-		if(typeof(currency) === 'undefined') { currency = this.get_currency(); }
-		if(typeof(currency_symbol_render) === 'undefined') { currency_symbol_render = true; }
+		if(typeof price_float !== 'number') { price_float = parseFloat(price_float); }
+		if(typeof currency === 'undefined') { currency = this.get_currency(); }
+		if(typeof currency_symbol_render === 'undefined') { currency_symbol_render = true; }
 
 		var price = (currency_symbol_render ? currency.prefix : '') + this.replace_all(this.replace_all(price_float.toFixed(currency.decimals).replace(/\B(?=(\d{3})+(?!\d))/g, '[thousand]'), '.', currency.decimal_separator), '[thousand]', currency.thousand_separator) + (currency_symbol_render ? currency.suffix : '');
 
@@ -7186,11 +7188,11 @@
 		}
 
 		// Check function attributes
-		if(typeof(value) === 'undefined') { value = ''; }
-		if(typeof(id) === 'undefined') { id = false; }
-		if(typeof(attributes) === 'undefined') { attributes = false; }
-		if(typeof(single_quote) === 'undefined') { single_quote = false; }
-		if(typeof(type) === 'undefined') { type = 'hidden'; }
+		if(typeof value === 'undefined') { value = ''; }
+		if(typeof id === 'undefined') { id = false; }
+		if(typeof attributes === 'undefined') { attributes = false; }
+		if(typeof single_quote === 'undefined') { single_quote = false; }
+		if(typeof type === 'undefined') { type = 'hidden'; }
 
 		// Append to form
 		this.form_canvas_obj.append('<input type="' + this.esc_attr(type) + '" name="' + this.esc_attr(name) + '" value=' + (single_quote ? "'" : '"') + this.esc_attr(value) + (single_quote ? "'" : '"') + ((id !== false) ? (' id="' + this.esc_attr(id) + '"') : '') + ((attributes !== false) ? (' ' + attributes) : '') + ' />');
@@ -7199,8 +7201,8 @@
 	// Get part ID
 	$.WS_Form.prototype.get_part_id = function(field_id, section_repeatable_index, identifier) {
 
-		if(typeof(section_repeatable_index) === 'undefined') { section_repeatable_index = false; }
-		if(typeof(identifier) === 'undefined') { identifier = 'field'; }
+		if(typeof section_repeatable_index === 'undefined') { section_repeatable_index = false; }
+		if(typeof identifier === 'undefined') { identifier = 'field'; }
 
 		var repeatable_suffix = ((section_repeatable_index !== false) ? '-repeat-' + section_repeatable_index : '');
 		return this.form_id_prefix + identifier + '-' + field_id + repeatable_suffix;
@@ -7209,8 +7211,8 @@
 	// Get field name
 	$.WS_Form.prototype.get_field_name = function(field_id, section_repeatable_index, is_submit) {
 
-		if(typeof(section_repeatable_index) === 'undefined') { section_repeatable_index = false; }
-		if(typeof(is_submit) === 'undefined') { is_submit = false; }
+		if(typeof section_repeatable_index === 'undefined') { section_repeatable_index = false; }
+		if(typeof is_submit === 'undefined') { is_submit = false; }
 
 		var repeatable_suffix = ((section_repeatable_index !== false) ? '-repeat-' + section_repeatable_index : '');
 		return this.field_name_prefix + field_id + ((section_repeatable_index !== false) ? (is_submit ? ('_' + section_repeatable_index) : ('[' + section_repeatable_index + ']')) : '');
@@ -7221,7 +7223,7 @@
 
 		if(obj == null) { return false; }
 
-		if(typeof(obj) !== 'object') { return false; }
+		if(typeof obj !== 'object') { return false; }
 
 		return typeof obj[Symbol.iterator] === 'function';
 	}
@@ -7256,7 +7258,7 @@
 		return (
 
 			isNaN(input_number) ||
-			(typeof(input_number) === 'boolean') ||
+			(typeof input_number === 'boolean') ||
 			(input_number === '')
 		);
 	}
@@ -7265,12 +7267,12 @@
 	$.WS_Form.prototype.is_true = function(input) {
 
 		// Check for boolean
-		if(typeof(input) === 'boolean') {
+		if(typeof input === 'boolean') {
 			return input;
 		}
 
 		// Check for object (including arrays)
-		if(typeof(input) === 'object' && input !== null) {
+		if(typeof input === 'object' && input !== null) {
 			// If it's an array, get the first element
 			if(Array.isArray(input)) {
 				input = input[0] !== undefined ? input[0] : '';
@@ -7281,12 +7283,12 @@
 		}
 
 		// If numeric, convert to string
-		if(typeof(input) === 'number') {
+		if(typeof input === 'number') {
 			input = String(input);
 		}
 
 		// If not a string at this point, return false
-		if(typeof(input) !== 'string') {
+		if(typeof input !== 'string') {
 			return false;
 		}
 
@@ -7309,7 +7311,7 @@
 	// Remove empty and null elements from an array
 	$.WS_Form.prototype.array_remove_empty = function(arr) {
 
-		if(typeof(arr) !== 'object') { return arr; }
+		if(typeof arr !== 'object') { return arr; }
 
 		var arr_out = [];
 
@@ -7334,7 +7336,7 @@
 		var attribute_value = obj.attr(attribute_name);
 
 		// If attribute exists
-		if(typeof(attribute_value) !== 'undefined') {
+		if(typeof attribute_value !== 'undefined') {
 
 			// If existing aria-describedby exists and invalid feedback ID is not in the string
 			if(attribute_value.indexOf(item) === -1) {
@@ -7358,7 +7360,7 @@
 
 		// If attribute exists and it contains item
 		if(
-			(typeof(attribute_value) !== 'undefined') &&
+			(typeof attribute_value !== 'undefined') &&
 			(attribute_value.indexOf(item) !== -1)
 		) {
 			// Split attribute value into array
@@ -7525,10 +7527,10 @@
 
 		var object_row_id = condition.object_row_id;
 
-		if((typeof(object_row_id) === 'undefined') || (object_row_id == '')) { return false; }
+		if((typeof object_row_id === 'undefined') || (object_row_id == '')) { return false; }
 
 		// Process object_id so values are integers
-		if(typeof(object_row_id) === 'object') {
+		if(typeof object_row_id === 'object') {
 
 			object_row_id = object_row_id.map(function(id) { return parseInt(id, 10); });
 			if(!object_row_id.length) { object_row_id = false; }
@@ -7565,14 +7567,14 @@
 
 						var date_time_array = (date.indexOf(' ') !== -1) ? [date.substring(0, date.indexOf(' ')), date.substring(date.indexOf(' ') + 1)] : [date];
 						var date_array = date_time_array[0].split('/');
-						date = date_array[1] + '/' + date_array[0] + '/' + date_array[2] + ((typeof(date_time_array[1]) !== 'undefined') ? ' ' + date_time_array[1] : '');
+						date = date_array[1] + '/' + date_array[0] + '/' + date_array[2] + ((typeof date_time_array[1] !== 'undefined') ? ' ' + date_time_array[1] : '');
 						break;
 
 					case 'd-m-Y' :
 
 						var date_time_array = (date.indexOf(' ') !== -1) ? [date.substring(0, date.indexOf(' ')), date.substring(date.indexOf(' ') + 1)] : [date];
 						var date_array = date_time_array.split('-');
-						date = date_array[1] + '/' + date_array[0] + '/' + date_array[2] + ((typeof(date_time_array[1]) !== 'undefined') ? ' ' + date_time_array[1] : '');
+						date = date_array[1] + '/' + date_array[0] + '/' + date_array[2] + ((typeof date_time_array[1] !== 'undefined') ? ' ' + date_time_array[1] : '');
 						break;
 
 					case 'd.m.Y' :
@@ -7580,7 +7582,7 @@
 
 						var date_time_array = (date.indexOf(' ') !== -1) ? [date.substring(0, date.indexOf(' ')), date.substring(date.indexOf(' ') + 1)] : [date];
 						var date_array = date_time_array[0].split('.');
-						date = date_array[1] + '/' + date_array[0] + '/' + date_array[2] + ((typeof(date_time_array[1]) !== 'undefined') ? ' ' + date_time_array[1] : '');
+						date = date_array[1] + '/' + date_array[0] + '/' + date_array[2] + ((typeof date_time_array[1] !== 'undefined') ? ' ' + date_time_array[1] : '');
 						break;
 				}
 		}
@@ -7628,7 +7630,7 @@
 	$.WS_Form.prototype.number_format = function(num, decimals, decimal_separator, thousands_separator) {
 
 		// Check num
-		if((typeof(num) === 'undefined') || num == null || !isFinite(num)) { return 0; }
+		if((typeof num === 'undefined') || num == null || !isFinite(num)) { return 0; }
 
 		// Check decimals
 		if(!decimals) {
@@ -7638,13 +7640,13 @@
 		}
 
 		// Check decimal points
-		if(typeof(decimal_separator) === 'undefined') {
+		if(typeof decimal_separator === 'undefined') {
 
 			decimal_separator = '.';
 		}
 
 		// Check thousands point
-		if(typeof(thousands_separator) === 'undefined') {
+		if(typeof thousands_separator === 'undefined') {
 
 			thousands_separator = ',';
 		}
@@ -7673,7 +7675,7 @@
 
 	$.WS_Form.prototype.get_full_name_components = function(full_name) {
 
-		if(typeof(full_name) !== 'string') {
+		if(typeof full_name !== 'string') {
 
 			return {
 
@@ -7695,7 +7697,7 @@
 
 		// Remove and save prefix
 		var prefixes = $.WS_Form.settings_form.name.prefixes;
-		if(typeof(prefixes) !== 'object') { prefixes = []; }
+		if(typeof prefixes !== 'object') { prefixes = []; }
 		if(parts.length && prefixes.includes(parts[0].toLowerCase().replace(/\./g, ''))) {
 
 			name_prefix = parts.shift();
@@ -7703,7 +7705,7 @@
 
 		// Remove and save suffix
 		var suffixes = $.WS_Form.settings_form.name.suffixes;
-		if(typeof(suffixes) !== 'object') { prefixes = []; }
+		if(typeof suffixes !== 'object') { prefixes = []; }
 		if(parts.length > 1 && suffixes.includes(parts[parts.length - 1].toLowerCase().replace(/\./g, ''))) {
 
 			name_suffix = parts.pop();

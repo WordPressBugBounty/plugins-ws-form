@@ -3461,6 +3461,7 @@
 					'default'					=>	'',
 					'help'						=>	__('Enter the message you would like to show if the submisson limit is reached. Leave blank to hide form.', 'ws-form'),
 					'variable_helper'			=>	true,
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -3471,8 +3472,7 @@
 							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
-					),
-					'translate'					=>	true
+					)
 				),
 
 				// IP throttling - Message type
@@ -3573,6 +3573,7 @@
 					'default'					=>	'',
 					'help'						=>	__('Enter the message you would like to show if a submission is blocked due to a matching IP address. Leave blank to hide form.', 'ws-form'),
 					'variable_helper'			=>	true,
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -3583,8 +3584,7 @@
 							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
-					),
-					'translate'					=>	true
+					)
 				),
 
 				// IP blocklist - Message type
@@ -3684,6 +3684,7 @@
 					'default'					=>	'',
 					'help'						=>	__('Enter the invalid feedback you would like to show if a field contains a matching keyword.', 'ws-form'),
 					'variable_helper'			=>	true,
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -3694,8 +3695,7 @@
 							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
-					),
-					'translate'					=>	true
+					)
 				),
 
 				// Keyword blocklist - Message type
@@ -4886,7 +4886,8 @@
 					'help'						=>	__('Default value entered in field', 'ws-form'),
 					'key'						=>	'default_value',
 					'variable_helper'			=>	true,
-					'calc'						=>	true
+					'calc'						=>	true,
+					'translate'					=>	true
 				),
 
 				// Sets default value attribute (unless saved value exists)
@@ -5130,6 +5131,7 @@
 					'label'						=>	__('Invalid number', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	__('Invalid number', 'ws-form'),
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -5149,6 +5151,7 @@
 					'label'						=>	__('Invalid country code', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	__('Invalid country code', 'ws-form'),
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -5168,6 +5171,7 @@
 					'label'						=>	__('Too short', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	__('Too short', 'ws-form'),
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -5187,6 +5191,7 @@
 					'label'						=>	__('Too long', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	__('Too long', 'ws-form'),
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -5391,7 +5396,8 @@
 					'type'						=>	'text',
 					'default'					=>	'',
 					'help'						=>	__('Example: &lt;h2&gt;#label&lt;/h2&gt;', 'ws-form'),
-					'placeholder'				=>	'<h2>#label</h2>'
+					'placeholder'				=>	'<h2>#label</h2>',
+					'translate'					=>	true
 				),
 
 				// Group label mask (Allows user to define custom mask)
@@ -5403,7 +5409,8 @@
 					'type'						=>	'text',
 					'default'					=>	'',
 					'help'						=>	__('Example: &lt;h3&gt;#label&lt;/h3&gt;', 'ws-form'),
-					'placeholder'				=>	'<h3>#label</h3>'
+					'placeholder'				=>	'<h3>#label</h3>',
+					'translate'					=>	true
 				),
 
 				// Section label mask (Allows user to define custom mask)
@@ -5415,7 +5422,8 @@
 					'type'						=>	'text',
 					'default'					=>	'',
 					'help'						=>	__('Example: &lt;legend&gt;#label&lt;/legend&gt;', 'ws-form'),
-					'placeholder'				=>	'<legend>#label</legend>'
+					'placeholder'				=>	'<legend>#label</legend>',
+					'translate'					=>	true
 				),
 
 				// Wrapper classes
@@ -5561,7 +5569,7 @@
 					'label'						=>	__('Request Support', 'ws-form'),
 					'type'						=>	'button',
 					'data-action'				=>	'wsf-contact-us',
-					'class_field'				=>	'wsf-button-primary'
+					'class_field'				=>	array('wsf-button-primary'),
 				),
 
 				'contact_intro_lite' => array(
@@ -5579,7 +5587,7 @@
 					'label'						=>	__('Visit WS Form LITE Support Page', 'ws-form'),
 					'type'						=>	'button',
 					'data-action'				=>	'wsf-lite-support',
-					'class_field'				=>	'wsf-button-primary'
+					'class_field'				=>	array('wsf-button-primary'),
 				),
 
 				'help' => array(
@@ -5670,7 +5678,6 @@
 					'compatibility_id'			=>	'input-inputmode'
 				),
 
-
 				'validate_form' => array(
 
 					'label'						=>	__('Validate Before Saving', 'ws-form'),
@@ -5684,7 +5691,9 @@
 					'label'						=>	__('Clear', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Clear', 'ws-form')
+					'placeholder'				=>	__('Clear', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder'
 				),
 
 				'text_reset' => array(
@@ -5692,7 +5701,9 @@
 					'label'						=>	__('Reset', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Reset', 'ws-form')
+					'placeholder'				=>	__('Reset', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder'
 				),
 
 				'text_password_strength_short' => array(
@@ -5700,7 +5711,9 @@
 					'label'						=>	__('Very Weak', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Very Weak', 'ws-form')
+					'placeholder'				=>	__('Very Weak', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder'
 				),
 
 				'text_password_strength_bad' => array(
@@ -5708,7 +5721,9 @@
 					'label'						=>	__('Weak', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Weak', 'ws-form')
+					'placeholder'				=>	__('Weak', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder'
 				),
 
 				'text_password_strength_good' => array(
@@ -5716,7 +5731,9 @@
 					'label'						=>	__('Medium', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Medium', 'ws-form')
+					'placeholder'				=>	__('Medium', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder'
 				),
 
 				'text_password_strength_strong' => array(
@@ -5724,7 +5741,9 @@
 					'label'						=>	__('Strong', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Strong', 'ws-form')
+					'placeholder'				=>	__('Strong', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder'
 				),
 
 				'text_password_visibility_toggle_off' => array(
@@ -5732,7 +5751,9 @@
 					'label'						=>	__('Show password', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Show password', 'ws-form')
+					'placeholder'				=>	__('Show password', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder'
 				),
 
 				'text_password_visibility_toggle_on' => array(
@@ -5740,7 +5761,9 @@
 					'label'						=>	__('Hide password', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Hide password', 'ws-form')
+					'placeholder'				=>	__('Hide password', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder'
 				),
 
 				'text_password_generate' => array(
@@ -5748,7 +5771,9 @@
 					'label'						=>	__('Suggest password', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Suggest password', 'ws-form')
+					'placeholder'				=>	__('Suggest password', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder'
 				),
 
 				'text_password_strength_invalid' => array(
@@ -5756,7 +5781,9 @@
 					'label'						=>	__('Strength invalid', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Please choose a stronger password.', 'ws-form')
+					'placeholder'				=>	__('Please choose a stronger password.', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder'
 				),
 
 				'invalid_feedback_mask' => array(
@@ -5775,7 +5802,9 @@
 						__('Description', 'ws-form'),
 						__('Field label', 'ws-form'),
 						__('Field label lowercase', 'ws-form')
-					)
+					),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'mask_placeholder'
 				),
 
 				'invalid_field_focus' => array(
@@ -5809,6 +5838,7 @@
 						__('Field label lowercase', 'ws-form')
 					),
 					'mask_placeholder'			=>	'#invalid_feedback_mask',
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -5820,7 +5850,7 @@
 							'meta_value'	=>	'on'
 						)
 					),
-					'variables'					=> true
+					'variables'					=> true,
 				),
 
 				'invalid_feedback_legal' => array(
@@ -5829,6 +5859,7 @@
 					'type'						=>	'textarea',
 					'help'						=>	__('Text to show if this field is incorrectly completed.', 'ws-form'),
 					'mask_placeholder'			=>	'#invalid_feedback_mask',
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -5842,7 +5873,7 @@
 					),
 					'variables'					=>	true,
 					'default'					=>	__('Please read the entire legal agreement.', 'ws-form'),
-					'key'						=>	'invalid_feedback'
+					'key'						=>	'invalid_feedback',
 				),
 
 				'validate_inline' => array(
@@ -5885,7 +5916,8 @@
 						$capability_unfiltered_html ? __('Content saved to this setting is unfiltered to allow for JavaScript.', 'ws-form') : __('Content saved to this setting is filtered to disallow JavaScript.', 'ws-form')
 					),
 					'variable_helper'			=>	true,
-					'calc'						=>	true
+					'calc'						=>	true,
+					'translate'					=>	true
 				),
 
 				'text_editor_note' => array(
@@ -6722,6 +6754,7 @@
 					'placeholder'				=>	__('Click or drop files to upload.', 'ws-form'),
 					'variable_helper'			=>	true,
 					'key'						=>	'placeholder',
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -6732,8 +6765,7 @@
 							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'dropzonejs'
 						)
-					),
-					'translate'					=>	true
+					)
 				),
 
 				'placeholder_url' => array(
@@ -6780,6 +6812,7 @@
 					'type'						=>	'text',
 					'default'					=>	__('Select...', 'ws-form'),
 					'help'						=>	__('First value in the select pulldown.', 'ws-form'),
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -6800,8 +6833,7 @@
 							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
 						)
-					),
-					'translate'					=>	true
+					)
 				),
 
 				'readonly' => array(
@@ -7115,6 +7147,8 @@
 					'default'					=>	'',
 					'placeholder'				=>	__('Select All', 'ws-form'),
 					'help'						=>	__('Enter custom label for \'Select All\' row.', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder',
 					'condition'					=>	array(
 
 						array(
@@ -7126,7 +7160,6 @@
 							'meta_value'		=>	'on'
 						)
 					),
-					'translate'					=>	true
 				),
 
 				'spellcheck' => array(
@@ -7321,6 +7354,7 @@
 
 							array(
 
+								'id'			=> 0,
 								'label' 		=> __('Actions', 'ws-form'),
 								'page'			=> 0,
 								'disabled'		=> '',
@@ -7541,6 +7575,8 @@
 					'type'						=>	'text',
 					'default'					=>	'',
 					'placeholder'				=>	__('Select...', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder',
 					'condition'					=>	array(
 
 						array(
@@ -7561,7 +7597,7 @@
 							'meta_value'		=>	'on',
 							'logic_previous'	=>	'&&'
 						)
-					)
+					),
 				),
 
 				'select_cascade_ajax' => array(
@@ -7597,6 +7633,8 @@
 					'type'						=>	'text',
 					'default'					=>	'',
 					'placeholder'				=>	__('Loading...', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder',
 					'condition'					=>	array(
 
 						array(
@@ -7617,7 +7655,7 @@
 							'meta_value'		=>	'on',
 							'logic_previous'	=>	'&&'
 						)
-					)
+					),
 				),
 
 				'checkbox_style' => array(
@@ -8091,9 +8129,12 @@
 				'allow_deny_message' => array(
 
 					'label'						=>	__('Message', 'ws-form'),
+					'default'					=>	'',
 					'placeholder'				=>	__('The email address entered is not allowed.', 'ws-form'),
 					'type'						=>	'textarea',
 					'help'						=>	__('Enter a message to be shown if the email address entered is not allowed.', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder',
 					'condition'					=>	array(
 
 						array(
@@ -8172,9 +8213,12 @@
 				'dedupe_message' => array(
 
 					'label'						=>	__('Message', 'ws-form'),
+					'default'					=>	'',
 					'placeholder'				=>	__('The value entered has already been used.', 'ws-form'),
 					'type'						=>	'textarea',
 					'help'						=>	__('Enter a message to be shown if a duplicate value is entered for this field. Leave blank for the default message.', 'ws-form'),
+					'translate'					=>	true,
+					'translate_empty_key'		=>	'placeholder',
 					'condition'					=>	array(
 
 						array(
@@ -8230,7 +8274,8 @@
 					'mask_disregard_on_empty'	=>	true,
 					'mask_placeholder'			=>	'#label',
 					'compatibility_id'			=>	'wai-aria',
-					'variable_helper'			=>	true
+					'variable_helper'			=>	true,
+					'translate'					=>	true
 				),
 
 				'aria_labelledby' => array(
@@ -8520,6 +8565,7 @@
 
 							array(
 
+								'id'			=> 0,
 								'label' 		=> __('Values', 'ws-form'),
 								'page'			=> 0,
 								'disabled'		=> '',
@@ -8557,6 +8603,7 @@
 					'data_source'			=>	true,
 
 					'upload_download'		=>	true,
+					'translate'				=>	true,
 
 					'default'			=>	array(
 
@@ -8576,6 +8623,7 @@
 
 							array(
 
+								'id'			=> 0,
 								'label' 		=> __('Options', 'ws-form'),
 								'page'			=> 0,
 								'disabled'		=> '',
@@ -8585,17 +8633,17 @@
 								'rows' 		=> array(
 									array(
 
-										'id'		=> 1,
+										'id'		=> 0,
 										'data'		=> array(__('Option 1', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 2,
+										'id'		=> 1,
 										'data'		=> array(__('Option 2', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 3,
+										'id'		=> 2,
 										'data'		=> array(__('Option 3', 'ws-form'))
 									)
 								)
@@ -8631,6 +8679,7 @@
 					'meta_key_parse_variable'	=>	'checkbox_field_parse_variable',
 					'data_source'				=>	true,
 					'insert_image'				=>	true,
+					'translate'					=>	true,
 
 					'default'			=>	array(
 
@@ -8650,6 +8699,7 @@
 
 							array(
 
+								'id'			=> 0,
 								'label' 		=> __('Checkboxes', 'ws-form'),
 								'page'			=> 0,
 								'disabled'		=> '',
@@ -8661,17 +8711,17 @@
 
 									array(
 
-										'id'		=> 1,
+										'id'		=> 0,
 										'data'		=> array(__('Checkbox 1', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 2,
+										'id'		=> 1,
 										'data'		=> array(__('Checkbox 2', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 3,
+										'id'		=> 2,
 										'data'		=> array(__('Checkbox 3', 'ws-form'))
 									)
 								)
@@ -8707,6 +8757,7 @@
 					'meta_key_parse_variable'	=>	'radio_field_parse_variable',
 					'data_source'			=>	true,
 					'insert_image'				=>	true,
+					'translate'					=>	true,
 
 					'default'			=>	array(
 
@@ -8726,6 +8777,7 @@
 
 							array(
 
+								'id'			=> 0,
 								'label' 		=> __('Radios', 'ws-form'),
 								'page'			=> 0,
 								'disabled'		=> '',
@@ -8737,17 +8789,17 @@
 
 									array(
 
-										'id'		=> 1,
+										'id'		=> 0,
 										'data'		=> array(__('Radio 1', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 2,
+										'id'		=> 1,
 										'data'		=> array(__('Radio 2', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 3,
+										'id'		=> 2,
 										'data'		=> array(__('Radio 3', 'ws-form'))
 									)
 								)
@@ -11794,7 +11846,7 @@
 				array('value' => 'gu', 'text' => 'Gujarati'),
 				array('value' => 'iw', 'text' => 'Hebrew'),
 				array('value' => 'hi', 'text' => 'Hindi'),
-				array('value' => 'hu', 'text' => 'Hungarain'),
+				array('value' => 'hu', 'text' => 'Hungarian'),
 				array('value' => 'is', 'text' => 'Icelandic'),
 				array('value' => 'id', 'text' => 'Indonesian'),
 				array('value' => 'it', 'text' => 'Italian'),

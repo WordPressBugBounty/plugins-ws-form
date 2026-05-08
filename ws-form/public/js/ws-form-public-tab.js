@@ -10,7 +10,7 @@
 		var ws_this = this;
 
 		// Get selector href
-		var selector_href = (typeof(this.framework.tabs.public.selector_href) !== 'undefined') ? this.framework.tabs.public.selector_href : 'href';
+		var selector_href = (typeof this.framework.tabs.public.selector_href !== 'undefined') ? this.framework.tabs.public.selector_href : 'href';
 
 		// Get tab index cookie if settings require it
 		var index = parseInt((this.get_object_meta_value(this.form, 'cookie_tab_index')) ? this.cookie_get('tab_index', 0) : 0, 10);
@@ -26,8 +26,8 @@
 		var tabs_obj = $('.wsf-group-tabs', this.form_canvas_obj);
 		var li_obj = tabs_obj.children();
 		if(
-			(typeof(li_obj[index]) === 'undefined') ||
-			(typeof($(li_obj[index]).attr('data-wsf-group-hidden')) !== 'undefined')
+			(typeof li_obj[index] === 'undefined') ||
+			(typeof $(li_obj[index]).attr('data-wsf-group-hidden') !== 'undefined')
 		) {
 
 			index = 0;
@@ -64,12 +64,12 @@
 
 		var framework_tabs = this.framework.tabs.public;
 
-		if(typeof(framework_tabs.event_js) !== 'undefined') {
+		if(typeof framework_tabs.event_js !== 'undefined') {
 
 			var event_js = framework_tabs.event_js;
-			var event_type_js = (typeof(framework_tabs.event_type_js) !== 'undefined') ? framework_tabs.event_type_js : false;
-			var event_selector_wrapper_js = (typeof(framework_tabs.event_selector_wrapper_js) !== 'undefined') ? framework_tabs.event_selector_wrapper_js : false;
-			var event_selector_active_js = (typeof(framework_tabs.event_selector_active_js) !== 'undefined') ? framework_tabs.event_selector_active_js : false;
+			var event_type_js = (typeof framework_tabs.event_type_js !== 'undefined') ? framework_tabs.event_type_js : false;
+			var event_selector_wrapper_js = (typeof framework_tabs.event_selector_wrapper_js !== 'undefined') ? framework_tabs.event_selector_wrapper_js : false;
+			var event_selector_active_js = (typeof framework_tabs.event_selector_active_js !== 'undefined') ? framework_tabs.event_selector_active_js : false;
 
 			switch(event_type_js) {
 
@@ -168,7 +168,7 @@
 		var tab_validated_previous = true;
 
 		// Get selector href
-		var selector_href = (typeof(this.framework.tabs.public.selector_href) !== 'undefined') ? this.framework.tabs.public.selector_href : 'href';
+		var selector_href = (typeof this.framework.tabs.public.selector_href !== 'undefined') ? this.framework.tabs.public.selector_href : 'href';
 
 		// Get tabs
 		var tabs = $('.wsf-group-tabs > :not([data-wsf-group-hidden]) > [' + selector_href + ']', this.form_canvas_obj);
@@ -190,6 +190,8 @@
 
 		tabs.each(function(tab_index) {
 
+			var tab_validated_current = true;
+
 			// Render validation for previous tab
 			ws_this.form_tab_validation_previous($(this), tab_validated_previous);
 
@@ -198,11 +200,11 @@
 
 				if(tab_validated_previous === true) {
 
-					var tab_validated_current = ws_this.object_validate($($(this).attr(selector_href)));
+					tab_validated_current = ws_this.object_validate($($(this).attr(selector_href)));
 
 				} else {
 
-					var tab_validated_current = false;
+					tab_validated_current = false;
 				}
 
 				// Render validation for current tab
@@ -230,7 +232,7 @@
 	$.WS_Form.prototype.form_tab_validation_current = function(obj, tab_validated) {
 
 		// Get selector href
-		var selector_href = (typeof(this.framework.tabs.public.selector_href) !== 'undefined') ? this.framework.tabs.public.selector_href : 'href';
+		var selector_href = (typeof this.framework.tabs.public.selector_href !== 'undefined') ? this.framework.tabs.public.selector_href : 'href';
 
 		var tab_id = obj.attr(selector_href);
 		var tab_content_obj = $(tab_id, this.form_canvas_obj);
@@ -267,7 +269,7 @@
 
 		var framework_tabs = this.framework.tabs.public;
 
-		if(typeof(framework_tabs.class_disabled) !== 'undefined') {
+		if(typeof framework_tabs.class_disabled !== 'undefined') {
 
 			if(tab_validated) {
 
@@ -279,7 +281,7 @@
 			}
 		}
 
-		if(typeof(framework_tabs.class_parent_disabled) !== 'undefined') {
+		if(typeof framework_tabs.class_parent_disabled !== 'undefined') {
 
 			if(tab_validated) {
 
@@ -303,7 +305,7 @@
 		var field = this.field_data_cache[field_id];
 		var scroll_to_top = this.get_object_meta_value(field, 'scroll_to_top', '');
 		var scroll_to_top_offset = this.get_object_meta_value(field, 'scroll_to_top_offset', '0');
-		scroll_to_top_offset = (scroll_to_top_offset == '') ? 0 : parseInt(scroll_to_top_offset, 10);
+		scroll_to_top_offset = (scroll_to_top_offset === '') ? 0 : parseInt(scroll_to_top_offset, 10);
 		var scroll_position = this.form_canvas_obj.offset().top - scroll_to_top_offset;
 
 		switch(scroll_to_top) {
@@ -319,7 +321,7 @@
 			case 'smooth' :
 
 				var scroll_to_top_duration = this.get_object_meta_value(field, 'scroll_to_top_duration', '0');
-				scroll_to_top_duration = (scroll_to_top_duration == '') ? 0 : parseInt(scroll_to_top_duration, 10);
+				scroll_to_top_duration = (scroll_to_top_duration === '') ? 0 : parseInt(scroll_to_top_duration, 10);
 
 				$('html,body').animate({
 
@@ -339,11 +341,11 @@
 
 		var framework_tabs = this.framework.tabs.public;
 
-		if(typeof(framework_tabs.activate_js) !== 'undefined') {
+		if(typeof framework_tabs.activate_js !== 'undefined') {
 
 			var activate_js = framework_tabs.activate_js;	
 
-			if(activate_js != '') {
+			if(activate_js !== '') {
 
 				// Parse activate_js
 				var mask_values = {'form': '#' + this.form_obj_id, 'index': group_index};

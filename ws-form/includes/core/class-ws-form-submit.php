@@ -1035,6 +1035,34 @@
 			return $form_count; 
 		}
 
+		// Remove objects from meta after maybe_unserialize() (allowed_classes includes stdClass). Legitimate values are scalars or nested arrays only.
+		private static function submit_meta_value_strip_objects($value, $depth = 0) {
+
+			if($depth > 100) {
+
+				return '';
+			}
+
+			if(is_object($value)) {
+
+				return '';
+			}
+
+			if(is_array($value)) {
+
+				$result = array();
+
+				foreach($value as $key => $item) {
+
+					$result[$key] = self::submit_meta_value_strip_objects($item, $depth + 1);
+				}
+
+				return $result;
+			}
+
+			return $value;
+		}
+
 		// Get submit meta
 		public function db_get_submit_meta($submit_object, $meta_array = false, $bypass_user_capability_check = false) {
 
@@ -1058,6 +1086,9 @@
 
 				// Get field value
 				$value = WS_Form_Common::maybe_unserialize($meta['meta_value']);
+
+				// Normalize after unserialize (all meta rows, including non-field keys).
+				$value = self::submit_meta_value_strip_objects($value);
 
 				// Get field ID
 				$field_id = absint($meta['field_id']);
@@ -1092,7 +1123,7 @@
 
 					// If field type not known, skip
 					if($this->field_types === false) { $this->field_types = WS_Form_Config::get_field_types_flat(); }
-					if(!isset($this->field_types[$field_type])) { continue; };
+					if(!isset($this->field_types[$field_type])) { continue; }
 					$field_type_config = $this->field_types[$field_type];
 
 					// Legacy date format support
@@ -1105,7 +1136,7 @@
 					}
 
 					// Submit array
-					$field_submit_array = (isset($field_type_config['submit_array'])) ? $field_type_config['submit_array'] : false; 
+					$field_submit_array = (isset($field_type_config['submit_array'])) ? $field_type_config['submit_array'] : false;
 
 					// Build meta key
 					$meta_key = is_null($meta['meta_key']) ? (WS_FORM_FIELD_PREFIX . $field_id) : $meta['meta_key'];

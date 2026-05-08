@@ -2,6 +2,24 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.11.0 - 05/08/2026 =
+* Added: Per-form translation with automatically updated translatable strings https://wsform.com/knowledgebase/translate-forms/
+* Added: WPML integration
+* Added: Polylang integration
+* Added: Weglot integration
+* Changed: Auto publish no longer occurs if form changed to draft status
+* Bug Fix: Layout CSS for RTL
+
+= 1.10.89 - 04/26/2026 =
+* Added: Silent exit if add view fails to avoid unnecessary error logs (e.g. invalid form ID)
+* Added: Object filtering on submission view and export
+
+= 1.10.88 - 04/23/2026 =
+* Changed: Report wp_schedule_event args no longer uses key value pairs
+* Bug Fix: wsf_submit_set_value and wsf_submit_set_value_by_field_id functions
+* Bug Fix: Custom HTML for move up and move down buttons in repeatable section icons
+* Bug Fix: Minimum Date and Maximum Date setting on date field timezone issue
+
 = 1.10.87 - 04/10/2026 =
 * Bug Fix: Substring fix for WS Form variable parameters
 

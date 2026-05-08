@@ -150,6 +150,20 @@
 				}
 			}
 
+			// Translation data (can be large; keep out of main options — same idea as css_* → ws_form_css)
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			if(apply_filters('wsf_option_separate_translate', WS_FORM_OPTION_SEPARATE_TRANSLATE)) {
+
+				if(strpos($key, 'translate_') === 0) {
+
+					$key_prefix = 'translate';
+
+					$option_name = sprintf('%s_%s', WS_FORM_OPTION_NAME, $key_prefix);
+
+					$options = self::get_options_by_option_name($option_name, $key_prefix, $enable_cache);
+				}
+			}
+
 			// Load options if they haven't been loaded already
 			if($options === false) {
 
@@ -5356,6 +5370,7 @@
 
 				// UTF-8 encode the row
 				$row_id = -1;
+				$id = null;
 				$column_index = 0;
 				$data = [];
 				$default = '';
@@ -5374,7 +5389,7 @@
 						case $column_key_wsf_id:
 
 							$row_id = is_numeric($field_lower) ? absint($field_lower) : -1;
-							if($row_id > 0) { $id = $row_id; }
+							if($row_id >= 0) { $id = $row_id; }
 							break;
 
 						case $column_key_wsf_default:
@@ -5400,7 +5415,9 @@
 						case $column_key_id :
 
 							$row_id = is_numeric($field_lower) ? absint($field_lower) : -1;
-							if($row_id > 0) { $id = $row_id; }
+							if($row_id >= 0) { $id = $row_id; }
+
+							// Fall through — include cell in row data (same as original behavior)
 
 						default :
 
@@ -5410,9 +5427,9 @@
 				}
 
 				// Check for duplicate row IDs (Attempt to fix import data errors)
-				if($row_id > 0) {
+				if($row_id >= 0) {
 
-					if(in_array($row_id, $id_array)) {
+					if(in_array($row_id, $id_array, true)) {
 
 						$row_id = -1;
 					}
@@ -5421,10 +5438,10 @@
 				// ID row not found
 				if($row_id == -1) {
 
-					$max_id = 0;
-					foreach($id_array as $id) {
+					$max_id = -1;
+					foreach($id_array as $existing_id) {
 
-						if($id > $max_id) { $max_id = $id; }
+						if($existing_id > $max_id) { $max_id = $existing_id; }
 					}
 					$id = $max_id + 1;
 				}

@@ -190,16 +190,6 @@
 
 							break;
 
-						case 'datetime' :
-
-							if(
-								is_array($value) &&
-								isset($value['mysql'])
-							) {
-								$value = $value['mysql'];
-							}
-							break;
-
 						case 'googlemap' :
 
 							if(

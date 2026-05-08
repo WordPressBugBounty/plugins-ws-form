@@ -110,7 +110,7 @@
 					var recaptcha_obj_field = $(this);
 					var recaptcha_obj_wrapper = recaptcha_obj_field.closest('[data-id]');
 					var recaptcha_obj_label = $('label', recaptcha_obj_wrapper);
-					var recaptcha_obj_invalid_feedback = $('#' + this.form_id_prefix + 'invalid-feedback-' + recaptcha_id, recaptcha_obj_wrapper, ws_this.form_canvas_obj);
+					var recaptcha_obj_invalid_feedback = $('#' + ws_this.form_id_prefix + 'invalid-feedback-' + recaptcha_id, recaptcha_obj_wrapper, ws_this.form_canvas_obj);
 
 					var config = {
 
@@ -327,7 +327,7 @@
 		var ws_this = this;
 
 		// Timeout check
-		if(typeof(total_ms_start) === 'undefined') { total_ms_start = new Date().getTime(); }
+		if(typeof total_ms_start === 'undefined') { total_ms_start = new Date().getTime(); }
 		if((new Date().getTime() - total_ms_start) > this.timeout_recaptcha) {
 
 			this.error('error_timeout_recaptcha');
@@ -573,7 +573,7 @@
 					var hcaptcha_obj_field = $(this);
 					var hcaptcha_obj_wrapper = hcaptcha_obj_field.closest('[data-id]');
 					var hcaptcha_obj_label = $('label', hcaptcha_obj_wrapper);
-					var hcaptcha_obj_invalid_feedback = $('#' + this.form_id_prefix + 'invalid-feedback-' + hcaptcha_id, hcaptcha_obj_wrapper, ws_this.form_canvas_obj);
+					var hcaptcha_obj_invalid_feedback = $('#' + ws_this.form_id_prefix + 'invalid-feedback-' + hcaptcha_id, hcaptcha_obj_wrapper, ws_this.form_canvas_obj);
 
 					var config = {
 
@@ -751,7 +751,7 @@
 		var ws_this = this;
 
 		// Timeout check
-		if(typeof(total_ms_start) === 'undefined') { total_ms_start = new Date().getTime(); }
+		if(typeof total_ms_start === 'undefined') { total_ms_start = new Date().getTime(); }
 		if((new Date().getTime() - total_ms_start) > this.timeout_hcaptcha) {
 
 			this.error('error_timeout_hcaptcha');
@@ -926,7 +926,7 @@
 			var turnstile_obj_field = $(this);
 			var turnstile_obj_wrapper = turnstile_obj_field.closest('[data-id]');
 			var turnstile_obj_label = $('label', turnstile_obj_wrapper);
-			var turnstile_obj_invalid_feedback = $('#' + this.form_id_prefix + 'invalid-feedback-' + turnstile_id, turnstile_obj_wrapper, ws_this.form_canvas_obj);
+			var turnstile_obj_invalid_feedback = $('#' + ws_this.form_id_prefix + 'invalid-feedback-' + turnstile_id, turnstile_obj_wrapper, ws_this.form_canvas_obj);
 
 			var config = {
 
@@ -1040,7 +1040,7 @@
 		var ws_this = this;
 
 		// Timeout check
-		if(typeof(total_ms_start) === 'undefined') { total_ms_start = new Date().getTime(); }
+		if(typeof total_ms_start === 'undefined') { total_ms_start = new Date().getTime(); }
 		if((new Date().getTime() - total_ms_start) > this.timeout_turnstile) {
 
 			this.error('error_timeout_turnstile');
@@ -1177,7 +1177,7 @@
 			var captchafox_obj_field = $(this);
 			var captchafox_obj_wrapper = captchafox_obj_field.closest('[data-id]');
 			var captchafox_obj_label = $('label', captchafox_obj_wrapper);
-			var captchafox_obj_invalid_feedback = $('#' + this.form_id_prefix + 'invalid-feedback-' + captchafox_id, captchafox_obj_wrapper, ws_this.form_canvas_obj);
+			var captchafox_obj_invalid_feedback = $('#' + ws_this.form_id_prefix + 'invalid-feedback-' + captchafox_id, captchafox_obj_wrapper, ws_this.form_canvas_obj);
 
 			switch(captchafox_mode) {
 
@@ -1370,7 +1370,7 @@
 		var ws_this = this;
 
 		// Timeout check
-		if(typeof(total_ms_start) === 'undefined') { total_ms_start = new Date().getTime(); }
+		if(typeof total_ms_start === 'undefined') { total_ms_start = new Date().getTime(); }
 		if((new Date().getTime() - total_ms_start) > this.timeout_captchafox) {
 
 			this.error('error_timeout_captchafox');

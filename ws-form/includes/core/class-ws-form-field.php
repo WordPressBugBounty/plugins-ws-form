@@ -57,7 +57,7 @@
 			$sort_index = self::db_object_sort_index_get($this->table_name, 'section_id', $this->section_id, $next_sibling_id);
 
 			// Process label
-			if(empty($this->label)) {
+			if($this->label === '') {
 
 				$field_type_config = self::db_field_type_config($this->type);
 				if(isset($field_type_config['label_default'])) {
@@ -599,7 +599,7 @@
 				self::db_read();
 				$field_object->label = $this->label;
 			}
-			if(empty($field_object->label)) {
+			if($field_object->label === '') {
 
 				$field_type_config = self::db_field_type_config($field_object->type);
 				if(isset($field_type_config['label_default'])) {

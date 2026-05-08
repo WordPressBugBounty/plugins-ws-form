@@ -44,40 +44,40 @@
 			var field = ws_this.field_data_cache[field_id];
 
 			// Config - Allow dropdown
-			config.allowDropdown = (ws_this.get_object_meta_value(field, 'intl_tel_input_allow_dropdown', 'on') == 'on');
+			config.allowDropdown = (ws_this.get_object_meta_value(field, 'intl_tel_input_allow_dropdown', 'on') === 'on');
 
 			// Config - Auto placeholder
-			config.autoPlaceholder = (ws_this.get_object_meta_value(field, 'intl_tel_input_auto_placeholder', 'on') == 'on') ? 'polite' : 'off';
+			config.autoPlaceholder = (ws_this.get_object_meta_value(field, 'intl_tel_input_auto_placeholder', 'on') === 'on') ? 'polite' : 'off';
 
 			// Config - National mode
-			config.nationalMode = (ws_this.get_object_meta_value(field, 'intl_tel_input_national_mode', 'on') == 'on');
+			config.nationalMode = (ws_this.get_object_meta_value(field, 'intl_tel_input_national_mode', 'on') === 'on');
 
 			// Config - Separate dial code
-			config.separateDialCode = (ws_this.get_object_meta_value(field, 'intl_tel_input_separate_dial_code', '') == 'on');
+			config.separateDialCode = (ws_this.get_object_meta_value(field, 'intl_tel_input_separate_dial_code', '') === 'on');
 
 			// Config - Initial country
 			config.initialCountry = ws_this.get_object_meta_value(field, 'intl_tel_input_initial_country', '');
 
 			// ITI requires 2 character country code to be lowercase
-			if(typeof(config.initialCountry) == 'string') { config.initialCountry = config.initialCountry.toLowerCase(); }
+			if(typeof config.initialCountry === 'string') { config.initialCountry = config.initialCountry.toLowerCase(); }
 
 			// Config - Geolookup
 			if(
-				(config.initialCountry == 'auto') &&
-				(typeof(ws_this.form_geo) === 'function')
+				(config.initialCountry === 'auto') &&
+				(typeof ws_this.form_geo === 'function')
 			) {
 				config.geoIpLookup = function(callback) {
 
 					// Get geo data
 					var geo = ws_this.form_geo_get_element('country_short', 'us', callback);
-				};
+				}
 			}
 
 			// Config - Only countries
 			var only_countries = ws_this.get_object_meta_value(field, 'intl_tel_input_only_countries', []);
 
 			if(
-				(typeof(only_countries) === 'object') &&
+				(typeof only_countries === 'object') &&
 				(only_countries.length > 0)
 			) {
 
@@ -88,7 +88,7 @@
 			var preferred_countries = ws_this.get_object_meta_value(field, 'intl_tel_input_preferred_countries', []);
 
 			if(
-				(typeof(preferred_countries) === 'object') &&
+				(typeof preferred_countries === 'object') &&
 				(preferred_countries.length > 0)
 			) {
 
@@ -121,7 +121,7 @@
 			}
 
 			// Move label if position is set to inside
-			if(ws_this.get_label_position(field) == 'inside') {
+			if(ws_this.get_label_position(field) === 'inside') {
 
 				// Get label object
 				var label_obj = ws_this.get_label_obj($(this));
@@ -139,7 +139,7 @@
 			}
 
 			// Validation
-			var validate_number = (ws_this.get_object_meta_value(field, 'intl_tel_input_validate_number', '') == 'on');
+			var validate_number = (ws_this.get_object_meta_value(field, 'intl_tel_input_validate_number', '') === 'on');
 
 			if(validate_number) {
 
@@ -161,7 +161,7 @@
 
 		// Check if valid
 		if(
-			(obj.val() == '') ||
+			(obj.val() === '') ||
 			iti.isValidNumber()
 		) {
 
@@ -191,7 +191,7 @@
 			error_code = (error_code >= 0 && error_code <= 4) ? error_code : 0;
 
 			// Get invalid feedback
-			var invalid_feedback = (typeof(intl_tel_input_errors[error_code]) !== 'undefined') ? intl_tel_input_errors[error_code] : this.language('iti_number');
+			var invalid_feedback = (typeof intl_tel_input_errors[error_code] !== 'undefined') ? intl_tel_input_errors[error_code] : this.language('iti_number');
 
 			// Invalid feedback
 			this.set_invalid_feedback(obj, invalid_feedback);
@@ -240,7 +240,7 @@
 				case 'RFC3966' :
 
 					// Return if intlTelInputUtils is not yet initialized on the page (prevents JS error if form submitted immediately)
-					if(typeof(intlTelInputUtils) === 'undefined') { return; }
+					if(typeof intlTelInputUtils === 'undefined') { return; }
 
 					var field_value = iti.getNumber(intlTelInputUtils.numberFormat[return_format]);
 

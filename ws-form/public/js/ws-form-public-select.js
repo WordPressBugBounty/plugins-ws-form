@@ -20,10 +20,10 @@
 
 		var ws_this = this;
 
-		if(typeof(obj) === 'undefined') { obj = $('[data-wsf-select2]', this.form_canvas_obj); }
+		if(typeof obj === 'undefined') { obj = $('[data-wsf-select2]', this.form_canvas_obj); }
 
 		// Check Select2 is loaded
-		if(typeof(jQuery().select2) !== 'undefined') {
+		if(typeof jQuery().select2 !== 'undefined') {
 
 			obj.each(function() {
 
@@ -41,7 +41,7 @@
 				var language = locale.substring(0, 2);
 
 				// Check for language overrides
-				var language_custom = {}
+				var language_custom = {};
 
 				ws_this.form_select2_language_add(language_custom, field, 'select2_language_error_loading', 'errorLoading');
 				ws_this.form_select2_language_add(language_custom, field, 'select2_language_input_too_short', 'inputTooShort');
@@ -63,7 +63,7 @@
 					// Custom selection template to support e-commerce fields
 					templateSelection: function(container) {
 
-						if(typeof(container.data_price) !== 'undefined') {
+						if(typeof container.data_price !== 'undefined') {
 
 							$(container.element).attr('data-price', container.data_price);
 						}
@@ -90,28 +90,28 @@
 
 				// Minimum input length
 				var minimum_input_length = ws_this.get_object_meta_value(field, 'select2_minimum_input_length', '');
-				if(minimum_input_length != '') {
+				if(minimum_input_length !== '') {
 
 					args.minimumInputLength = parseInt(minimum_input_length, 10);
 				}
 
 				// Maximum input length
 				var maximum_input_length = ws_this.get_object_meta_value(field, 'select2_maximum_input_length', '');
-				if(maximum_input_length != '') {
+				if(maximum_input_length !== '') {
 
 					args.maximumInputLength = parseInt(maximum_input_length, 10);
 				}
 
 				// Theme
 				var theme = ws_this.get_object_meta_value(field, 'select2_theme', '');
-				if(theme != '') {
+				if(theme !== '') {
 
 					args.theme = theme;
 				}
 
 				// Use AJAX? (Cannot be used if cascading is enabling)
-				var cascade = (ws_this.get_object_meta_value(field, field.type + '_cascade', '') == 'on');
-				var select2_ajax = !cascade && (ws_this.get_object_meta_value(field, 'select2_ajax', '') == 'on');
+				var cascade = (ws_this.get_object_meta_value(field, field.type + '_cascade', '') === 'on');
+				var select2_ajax = !cascade && (ws_this.get_object_meta_value(field, 'select2_ajax', '') === 'on');
 				if(select2_ajax) {
 
 					var field_obj = $(this);
@@ -135,18 +135,18 @@
 							};
 
 							// Check for initial population
-							if(typeof($(this).attr('data-wsf-populate')) !== 'undefined') {
+							if(typeof field_obj.attr('data-wsf-populate') !== 'undefined') {
 
-								var select2_populate = $(this).attr('data-wsf-populate');
+								var select2_populate = field_obj.attr('data-wsf-populate');
 
 								if(select2_populate !== '') {
 
 									query.value = select2_populate;
 								}
 
-								if(typeof($(this).attr('data-cascade-ajax')) === 'undefined') {
+								if(typeof field_obj.attr('data-cascade-ajax') === 'undefined') {
 
-									$(this).removeAttr('data-wsf-populate');
+									field_obj.removeAttr('data-wsf-populate');
 								}
 							}
 
@@ -193,8 +193,8 @@
 				}
 
 				// Tagging
-				var multiple = (ws_this.get_object_meta_value(field, 'multiple', '') == 'on');
-				var select2_tags = (ws_this.get_object_meta_value(field, 'select2_tags', '') == 'on');
+				var multiple = (ws_this.get_object_meta_value(field, 'multiple', '') === 'on');
+				var select2_tags = (ws_this.get_object_meta_value(field, 'select2_tags', '') === 'on');
 
 				if(multiple && select2_tags) {
 
@@ -229,7 +229,7 @@
 				});
 
 				// Check for pre-population
-				var select2_populate = typeof($(this).attr('data-wsf-populate')) !== 'undefined' ? $(this).attr('data-wsf-populate') : '';
+				var select2_populate = typeof $(this).attr('data-wsf-populate') !== 'undefined' ? $(this).attr('data-wsf-populate') : '';
 				if(select2_populate !== '') {
 
 					// Build params
@@ -255,7 +255,7 @@
 
 								var result = data.results[result_index];
 
-								if(typeof(result.children) !== 'undefined') {
+								if(typeof result.children !== 'undefined') {
 
 									// Add optgroup
 									var optgroup = $('<optgroup>');
@@ -286,7 +286,7 @@
 							// Trigger change
 							select2_obj.trigger('change');
 						}
-					})
+					});
 				}
 			});
 		}
@@ -294,9 +294,9 @@
 
 	$.WS_Form.prototype.form_select2_language_add = function(language_custom, field, meta_key, language_key) {
 
-		var custom_message = this.get_object_meta_value(field, meta_key, '')
+		var custom_message = this.get_object_meta_value(field, meta_key, '');
 
-		if(custom_message == '') { return; }
+		if(custom_message === '') { return; }
 
 		var ws_this = this;
 
@@ -308,30 +308,30 @@
 
 				case 'searching' :
 
-					mask_lookups['term'] = (typeof(args.term) !== 'undefined') ? args.term : '';
+					mask_lookups['term'] = (typeof args.term !== 'undefined') ? args.term : '';
 					break;
 
 				case 'inputTooShort' :
 
-					mask_lookups['term'] = (typeof(args.input) !== 'undefined') ? args.input : '';
+					mask_lookups['term'] = (typeof args.input !== 'undefined') ? args.input : '';
 
 					var remaining_chars = args.minimum - args.input.length;
 					mask_lookups['char_remaining'] = remaining_chars;
-					mask_lookups['char_plural'] = (remaining_chars != 1) ? 's' : '';
+					mask_lookups['char_plural'] = (remaining_chars !== 1) ? 's' : '';
 					break;
 
 				case 'inputTooLong' :
 
-					mask_lookups['term'] = (typeof(args.input) !== 'undefined') ? args.input : '';
+					mask_lookups['term'] = (typeof args.input !== 'undefined') ? args.input : '';
 
 					var over_chars = args.input.length - args.maximum;
 					mask_lookups['char_over'] = over_chars;
-					mask_lookups['char_plural'] = (over_chars != 1) ? 's' : '';
+					mask_lookups['char_plural'] = (over_chars !== 1) ? 's' : '';
 					break;
 			}
 
 			return ws_this.mask_parse(custom_message, mask_lookups);
-		}
+		};
 	}
 
 	// Select Min / Max
@@ -346,8 +346,8 @@
 
 			// If neither attribute present, disregard this feature
 			if(
-				(typeof(select_min) === 'undefined') &&
-				(typeof(select_max) === 'undefined')
+				(typeof select_min === 'undefined') &&
+				(typeof select_max === 'undefined')
 			) {
 
 				return;
@@ -363,10 +363,10 @@
 			var select_min_max = $('<input type="number" id="' + ws_this.esc_attr(ws_this.form_id_prefix + 'select-min-max-' + field_id + section_repeatable_suffix) + '" data-select-min-max data-progress-include="change" style="display: none !important;" aria-label="Validator" />', ws_this.form_canvas_obj);
 
 			// Add min attribute
-			if(typeof(select_min) !== 'undefined') { select_min_max.attr('min', select_min); }
+			if(typeof select_min !== 'undefined') { select_min_max.attr('min', select_min); }
 
 			// Add max attribute
-			if(typeof(select_max) !== 'undefined') { select_min_max.attr('max', select_max); }
+			if(typeof select_max !== 'undefined') { select_min_max.attr('max', select_max); }
 			select_max = parseInt(select_max, 10);
 
 			// Add value attribute
