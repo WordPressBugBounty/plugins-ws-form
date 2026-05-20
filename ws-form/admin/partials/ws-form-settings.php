@@ -553,11 +553,15 @@
 						// MCP adapter URL
 						case 'mcp_adapter_url' :
 
-							WS_Form_Common::echo_html(sprintf(
-
-								'<code>%s</code>',
-								esc_url(WS_Form_Common::get_api_path('mcp'))
-							));
+							WS_Form_Common::echo_html(
+								sprintf(
+									'<span class="wsf-settings-copy-inline"><code class="wsf-settings-copy-target" tabindex="0" role="button" data-action="wsf-clipboard" data-copy-text="%1$s">%1$s</code><button type="button" class="wsf-settings-copy-button" data-action="wsf-clipboard" data-copy-text="%1$s" aria-label="%2$s" title="%2$s"><span class="wsf-settings-copy-button-icon" aria-hidden="true">%3$s</span></button></span>',
+									esc_url(WS_Form_Common::get_api_path('mcp')),
+									esc_attr(__('Copy to clipboard', 'ws-form')),
+									WS_Form_Config::get_icon_16_svg('clone')
+								),
+								WS_Form_Common::get_allowed_html_settings_copy_inline()
+							);
 							break;
 
 						default :

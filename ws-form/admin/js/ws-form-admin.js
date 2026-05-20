@@ -56,6 +56,12 @@
 
 		// Window resizing
 		this.window_resize_init();
+
+		// Settings (admin.php?page=ws-form-settings) — copy-to-clipboard for .wsf-settings-copy-inline
+		if($('#wsf-settings').length) {
+
+			this.clipboard($('#wsf-settings'));
+		}
 	}
 
 	// Set CSS root variables - Once
@@ -10280,6 +10286,177 @@
 					rows[row_index].data[column_index] = $(this).val();
 				});
 
+				// Rows - Paste (multi-row / multi-column expansion)
+				$('td input[type="text"]', obj).on('paste', function(e) {
+
+					// Skip for grids that store JSON in cells
+					if((meta_key_type_sub === 'conditional') || (meta_key_type_sub === 'action')) { return; }
+
+					// Get clipboard text
+					var clipboard_data = (e.originalEvent && e.originalEvent.clipboardData) ? e.originalEvent.clipboardData : window.clipboardData;
+					if(!clipboard_data) { return; }
+					var paste_text = clipboard_data.getData('text');
+					if((typeof paste_text !== 'string') || (paste_text === '')) { return; }
+
+					// Parse clipboard data into a 2D array (delimiter auto-detected)
+					var paste_data = $.WS_Form.this.data_grid_parse_clipboard(paste_text);
+					if(paste_data.length === 0) { return; }
+
+					// If a single cell, let the browser handle the paste natively
+					if((paste_data.length === 1) && (paste_data[0].length <= 1)) { return; }
+
+					// We are taking over the paste
+					e.preventDefault();
+
+					// Resolve target group and start cell
+					var $input = $(this);
+					var group_index_paste = $input.closest('.wsf-data-grid-group').attr('data-group-index');
+					var group_paste = meta_value.groups[group_index_paste];
+					if(!group_paste) { return; }
+
+					var rows_per_page_paste = meta_value.rows_per_page;
+					var page_paste = (rows_per_page_paste == 0) ? 0 : group_paste.page;
+					var row_offset_paste = (page_paste * rows_per_page_paste);
+
+					var start_row_index = row_offset_paste + ($input.closest('tr').index());
+					var start_column_index = parseInt($input.attr('data-column'), 10);
+					if(isNaN(start_column_index)) { start_column_index = 0; }
+
+					// Ensure rows array exists
+					if((group_paste.rows === null) || (typeof group_paste.rows !== 'object')) {
+
+						group_paste.rows = [];
+					}
+
+					// Determine column capacity
+					var max_columns_paste = ((typeof meta_key_config.max_columns !== 'undefined') ? meta_key_config.max_columns : 0);
+					var columns_added = 0;
+
+					// Calculate maximum required column index from paste data
+					var paste_max_columns = 0;
+					for(var pr_index = 0; pr_index < paste_data.length; pr_index++) {
+
+						if(paste_data[pr_index].length > paste_max_columns) { paste_max_columns = paste_data[pr_index].length; }
+					}
+					var required_column_count = start_column_index + paste_max_columns;
+
+					// Cap to max_columns if set
+					if((max_columns_paste > 0) && (required_column_count > max_columns_paste)) { required_column_count = max_columns_paste; }
+
+					// Add columns if needed
+					while(meta_value.columns.length < required_column_count) {
+
+						// Get highest column id
+						var col_id_new = 0;
+						for(var col_id_key in meta_value.columns) {
+
+							if(!meta_value.columns.hasOwnProperty(col_id_key)) { continue; }
+
+							if(meta_value.columns[col_id_key].id > col_id_new) { col_id_new = meta_value.columns[col_id_key].id; }
+						}
+						col_id_new++;
+
+						meta_value.columns.push({
+
+							'id':		col_id_new,
+							'label':	$.WS_Form.this.language('data_grid_column_label_default')
+						});
+
+						// Sync existing rows in all groups
+						var sync_groups = meta_value.groups;
+						for(var sync_group_key in sync_groups) {
+
+							if(!sync_groups.hasOwnProperty(sync_group_key)) { continue; }
+
+							var sync_group = sync_groups[sync_group_key];
+							if(!sync_group || (sync_group.rows === null) || (typeof sync_group.rows !== 'object')) { continue; }
+
+							for(var sync_row_key in sync_group.rows) {
+
+								if(!sync_group.rows.hasOwnProperty(sync_row_key)) { continue; }
+								if(sync_group.rows[sync_row_key] === null) { continue; }
+
+								sync_group.rows[sync_row_key].data.push('');
+							}
+						}
+
+						columns_added++;
+					}
+
+					var column_count_paste = meta_value.columns.length;
+
+					// Apply paste
+					var rows_paste = group_paste.rows;
+					var last_row_index_written = start_row_index;
+
+					for(var paste_row_index = 0; paste_row_index < paste_data.length; paste_row_index++) {
+
+						var paste_row = paste_data[paste_row_index];
+						var target_row_index = start_row_index + paste_row_index;
+
+						// Create row if it doesn't exist
+						while(rows_paste.length <= target_row_index) {
+
+							var blank_data = new Array(column_count_paste).join('.').split('.');
+
+							rows_paste.push({
+
+								'id':	$.WS_Form.this.data_grid_row_next_id(meta_value),
+								'data':	blank_data
+							});
+						}
+
+						// Ensure row data array is long enough
+						var target_row = rows_paste[target_row_index];
+						if(target_row === null) {
+
+							// Replace null entries with a fresh row
+							target_row = {
+
+								'id':	$.WS_Form.this.data_grid_row_next_id(meta_value),
+								'data':	new Array(column_count_paste).join('.').split('.')
+							};
+							rows_paste[target_row_index] = target_row;
+						}
+						while(target_row.data.length < column_count_paste) { target_row.data.push(''); }
+
+						// Write cells
+						for(var paste_column_index = 0; paste_column_index < paste_row.length; paste_column_index++) {
+
+							var target_column_index = start_column_index + paste_column_index;
+							if(target_column_index >= column_count_paste) { break; }
+
+							target_row.data[target_column_index] = paste_row[paste_column_index];
+						}
+
+						last_row_index_written = target_row_index;
+					}
+
+					// Update data mask fields if columns were added
+					if(columns_added > 0) {
+
+						$.WS_Form.this.data_grid_update_mask_row_lookups(object, object_id, meta_key);
+					}
+
+					// Determine the page that contains the start row, switch to it if needed
+					var row_count_after = rows_paste.length;
+					var pages_after = (rows_per_page_paste == 0) ? 1 : Math.ceil(row_count_after / rows_per_page_paste);
+					var target_page = (rows_per_page_paste == 0) ? 0 : Math.floor(start_row_index / rows_per_page_paste);
+					if(target_page > (pages_after - 1)) { target_page = pages_after - 1; }
+
+					if((rows_per_page_paste != 0) && (target_page != page_paste)) {
+
+						$.WS_Form.this.data_grid_group_page_set(group_paste, group_index_paste, target_page, object, object_id, meta_key, function() {
+
+							element.render(read_only, start_row_index);
+						});
+
+					} else {
+
+						element.render(read_only, start_row_index);
+					}
+				});
+
 				// Rows - Sortable
 				$('table.wsf-data-grid-table', obj).sortable({
 
@@ -11251,6 +11428,131 @@
 	}
 
 	// Data grid - Expand
+	// Data grid - Parse clipboard text into a 2D array (rows of cells)
+	// Auto-detects delimiter: tab (TSV from spreadsheets) preferred over comma (CSV).
+	// Supports RFC 4180-style quoted fields with "" as an escaped quote.
+	$.WS_Form.prototype.data_grid_parse_clipboard = function(text) {
+
+		// Normalize line endings handled inline (CR is skipped, LF terminates rows)
+		if(typeof text !== 'string') { return []; }
+
+		// Strip UTF-8 BOM if present
+		if(text.charCodeAt(0) === 0xFEFF) { text = text.substring(1); }
+
+		// Detect delimiter: tab wins over comma (Excel/Sheets default copy is TSV)
+		var delimiter;
+		if(text.indexOf('\t') !== -1) {
+
+			delimiter = '\t';
+
+		} else if(text.indexOf(',') !== -1) {
+
+			delimiter = ',';
+
+		} else {
+
+			delimiter = '\t';
+		}
+
+		var rows = [];
+		var row = [];
+		var cell = '';
+		var in_quotes = false;
+		var i = 0;
+		var len = text.length;
+
+		while(i < len) {
+
+			var c = text.charAt(i);
+
+			if(in_quotes) {
+
+				if(c === '"') {
+
+					// Escaped quote
+					if((i + 1) < len && text.charAt(i + 1) === '"') {
+
+						cell += '"';
+						i += 2;
+						continue;
+					}
+
+					in_quotes = false;
+					i++;
+					continue;
+				}
+
+				cell += c;
+				i++;
+				continue;
+			}
+
+			if(c === '"') {
+
+				in_quotes = true;
+				i++;
+				continue;
+			}
+
+			if(c === delimiter) {
+
+				row.push(cell);
+				cell = '';
+				i++;
+				continue;
+			}
+
+			if(c === '\r') {
+
+				// Treat CRLF as a single newline; standalone CR also ends a row
+				if((i + 1) < len && text.charAt(i + 1) === '\n') {
+
+					row.push(cell);
+					rows.push(row);
+					row = [];
+					cell = '';
+					i += 2;
+					continue;
+				}
+
+				row.push(cell);
+				rows.push(row);
+				row = [];
+				cell = '';
+				i++;
+				continue;
+			}
+
+			if(c === '\n') {
+
+				row.push(cell);
+				rows.push(row);
+				row = [];
+				cell = '';
+				i++;
+				continue;
+			}
+
+			cell += c;
+			i++;
+		}
+
+		// Push final cell/row
+		if((cell !== '') || (row.length > 0)) {
+
+			row.push(cell);
+			rows.push(row);
+		}
+
+		// Drop a single trailing empty row (caused by a trailing newline)
+		if((rows.length > 0) && (rows[rows.length - 1].length === 1) && (rows[rows.length - 1][0] === '')) {
+
+			rows.pop();
+		}
+
+		return rows;
+	}
+
 	$.WS_Form.prototype.data_grid_row_next_id = function(meta_value) {
 
 		var row_id_max = -1;
@@ -11548,6 +11850,62 @@
 		}
 	}
 
+	// Data grid - Common CSV / column labels for heuristic mask mapping (lowercase)
+	$.WS_Form.prototype.data_grid_mask_field_header_aliases = function(data_mask_field) {
+
+		var df = String(data_mask_field).toLowerCase();
+
+		if(df === 'wsf-data-grid-auto-group') { return false; }
+
+		if(df.indexOf('parse_variable') !== -1 || df === 'meta_key_parse_variable') {
+
+			return ['parse variable', 'variable', 'action variable', 'action', 'parse'];
+		}
+
+		if(df.indexOf('field_price') !== -1 || df === 'meta_key_price') {
+
+			return ['price', 'cost', 'amount', 'fee'];
+		}
+
+		if(df.indexOf('field_label') !== -1 || df.indexOf('field_text') !== -1 || df === 'meta_key_label') {
+
+			return ['label', 'labels', 'text', 'name', 'title', 'display', 'description'];
+		}
+
+		if(df.indexOf('field_value') !== -1 || df === 'meta_key_value') {
+
+			return ['value', 'values', 'val', 'key', 'slug', 'id', 'stored value', 'option value', 'data'];
+		}
+
+		return false;
+	}
+
+	// Data grid - First column whose label exactly matches a header alias (case-insensitive trim)
+	$.WS_Form.prototype.data_grid_guess_mask_column_id_from_headers = function(columns, data_mask_field) {
+
+		var aliases = $.WS_Form.this.data_grid_mask_field_header_aliases(data_mask_field);
+		if((aliases === false) || (aliases.length === 0)) { return false; }
+
+		for(var column_key in columns) {
+
+			if(!columns.hasOwnProperty(column_key)) { continue; }
+			if(typeof columns[column_key] === 'function') { continue; }
+
+			var column = columns[column_key];
+			if((typeof column.label === 'undefined') || (column.label === null)) { continue; }
+
+			var label_norm = $.trim(String(column.label)).toLowerCase();
+			if(label_norm === '') { continue; }
+
+			for(var i = 0; i < aliases.length; i++) {
+
+				if(label_norm === aliases[i]) { return column.id; }
+			}
+		}
+
+		return false;
+	}
+
 	// Data grid - Update data mask fields (Updates the select dropdowns with the column headings)
 	$.WS_Form.prototype.data_grid_update_mask_row_lookups = function(object, object_id, meta_key, meta_value_reset) {
 
@@ -11625,22 +11983,37 @@
 				// If the current meta value (column ID) is no longer found (e.g. Column deleted) reset meta_value to default
 				if(!meta_value_found || meta_value_reset) {
 
-					// Get default value
-					if(typeof $.WS_Form.meta_keys[data_mask_field] !== 'undefined') {
+					var chosen_column_id = false;
 
-						var meta_key_config = $.WS_Form.meta_keys[data_mask_field];
-						var default_value = (typeof meta_key_config.default !== 'undefined') ? meta_key_config.default : 0;
+					if(!auto_group) {
 
-						// If default value is larger than the number of available columns, set it to zero
-						if(default_value > column_key) { default_value = '0'; }
+						chosen_column_id = $.WS_Form.this.data_grid_guess_mask_column_id_from_headers(columns, data_mask_field);
+					}
+
+					if(chosen_column_id !== false) {
+
+						this.set_object_meta_value(object_data, data_mask_field, String(chosen_column_id));
+						meta_value = String(chosen_column_id);
 
 					} else {
 
-						default_value = '0';
-					}
+						// Get default value
+						if(typeof $.WS_Form.meta_keys[data_mask_field] !== 'undefined') {
 
-					this.set_object_meta_value(object_data, data_mask_field, default_value);
-					meta_value = default_value;
+							var meta_key_config = $.WS_Form.meta_keys[data_mask_field];
+							var default_value = (typeof meta_key_config.default !== 'undefined') ? meta_key_config.default : 0;
+
+							// If default value is larger than the number of available columns, set it to zero
+							if(default_value > column_key) { default_value = '0'; }
+
+						} else {
+
+							default_value = '0';
+						}
+
+						this.set_object_meta_value(object_data, data_mask_field, default_value);
+						meta_value = default_value;
+					}
 				}
 
 				// Sort array
@@ -15187,8 +15560,7 @@
 
 		var ws_this = this;
 
-		// Copy shortcode to clipboard
-		$('[data-action="wsf-clipboard"]', obj).on('click', function(e) {
+		var clipboard_click = function(e) {
 
 			e.preventDefault();
 
@@ -15209,6 +15581,16 @@
 			copy_to_obj.val(copy_text).trigger('select');
 			document.execCommand('copy');
 			copy_to_obj.remove();
+
+			var settings_feedback_parent = $(this).closest('.wsf-settings-copy-inline');
+			if(settings_feedback_parent.length) {
+
+				var msg = (typeof ws_form_settings !== 'undefined' && typeof ws_form_settings.settings_copy_feedback === 'string') ? ws_form_settings.settings_copy_feedback : 'Copied';
+				$('.wsf-settings-copy-feedback', settings_feedback_parent).remove();
+				settings_feedback_parent.append('<div class="wsf-helper wsf-settings-copy-feedback">' + ws_this.esc_html(msg) + '</div>');
+				setTimeout(function() { $('.wsf-settings-copy-feedback', settings_feedback_parent).remove(); }, 2000);
+				return;
+			}
 
 			if(language_id !== undefined) {
 
@@ -15244,6 +15626,17 @@
 						}, 2000);
 				}
 			}
+		};
+
+		// Copy shortcode to clipboard
+		$('[data-action="wsf-clipboard"]', obj).on('click', clipboard_click);
+
+		// Settings copy targets — keyboard (Enter / Space)
+		$('.wsf-settings-copy-target[data-action="wsf-clipboard"]', obj).on('keydown', function(e) {
+
+			if(e.key !== 'Enter' && e.key !== ' ') { return; }
+			e.preventDefault();
+			clipboard_click.call(this, e);
 		});
 	}
 

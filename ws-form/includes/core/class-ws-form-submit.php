@@ -983,7 +983,7 @@
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 			$rows_affected = $wpdb->query($wpdb->prepare(
 
-				"UPDATE {$wpdb->prefix}wsf_submit SET status = 'trash' WHERE (NOT date_expire IS NULL) AND (NOT date_expire = '0000-00-00 00:00:00') AND (NOT status = 'trash') AND (date_expire < %s)", // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse -- Needed for complex WHERE
+				"UPDATE {$wpdb->prefix}wsf_submit SET status = 'trash', date_expire = NULL WHERE (NOT date_expire IS NULL) AND (NOT date_expire = '0000-00-00 00:00:00') AND (NOT status = 'trash') AND (date_expire < %s)", // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse -- Needed for complex WHERE
 				WS_Form_Common::get_mysql_date()
 			));
 

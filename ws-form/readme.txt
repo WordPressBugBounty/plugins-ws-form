@@ -2,8 +2,8 @@
 Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.4
-Tested up to: 6.9
-Stable tag: 1.11.0
+Tested up to: 7
+Stable tag: 1.11.4
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,7 +48,7 @@ https://youtu.be/ZsTBBsdQxFQ
 * [Send Unlimited Emails](https://wsform.com/knowledgebase/send-email/?utm_source=wp_plugins&utm_medium=readme)
 * [Single Click Templates](https://wsform.com/templates/?utm_source=wp_plugins&utm_medium=readme)
 * [Styler](https://wsform.com/knowledgebase/styler/?utm_source=wp_plugins&utm_medium=readme)
-* [Translation](https://wsform.com/knowledgebase/translate-forms/?utm_source=wp_plugins&utm_medium=readme) (Polylang, TranslatePress, Weglot, WPML, manual — details below)
+* [Translation](https://wsform.com/knowledgebase/translate-forms/?utm_source=wp_plugins&utm_medium=readme)
 * [Variables](https://wsform.com/knowledgebase/variables/?utm_source=wp_plugins&utm_medium=readme)
 
 = How to Create a Form in WordPress =
@@ -367,22 +367,17 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.11.0 - 05/08/2026 =
-* Added: Per-form translation with automatically updated translatable strings https://wsform.com/knowledgebase/translate-forms/
-* Added: WPML integration
-* Added: Polylang integration
-* Added: Weglot integration
-* Changed: Auto publish no longer occurs if form changed to draft status
-* Bug Fix: Layout CSS for RTL
+= 1.11.4 - 05/20/2026 =
+* Added: WordPress 7 readiness
+* Added: Input mask library version updated
+* Bug Fix: Expired submission date_expire fix
+* Bug Fix: Places API (New) type fix
 
-= 1.10.89 - 04/26/2026 =
-* Added: Silent exit if add view fails to avoid unnecessary error logs (e.g. invalid form ID)
-* Added: Object filtering on submission view and export
+= 1.11.3 - 05/15/2026 =
+* Added: Updated for new WordPress 7 wp_ai_client_prompt method
 
-= 1.10.88 - 04/23/2026 =
-* Changed: Report wp_schedule_event args no longer uses key value pairs
-* Bug Fix: wsf_submit_set_value and wsf_submit_set_value_by_field_id functions
-* Bug Fix: Custom HTML for move up and move down buttons in repeatable section icons
-* Bug Fix: Minimum Date and Maximum Date setting on date field timezone issue
+= 1.11.2 - 05/14/2026 =
+* Added: Upgraded input mask library to version 5.0.9
+* Added: Default value, prefix and suffix added to translatable strings
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

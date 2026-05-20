@@ -388,6 +388,69 @@ body.admin_page_ws-form-welcome .error {
   margin-right: 12px;
   padding: 12px;
 }
+#wsf-settings .wsf-settings-copy-inline {
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  max-width: 100%;
+  position: relative;
+  vertical-align: middle;
+}
+#wsf-settings .wsf-settings-copy-inline .wsf-settings-copy-target {
+  background: rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+  direction: ltr;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 11px;
+  margin: 0;
+  padding: 2px 3px;
+  text-align: left;
+  unicode-bidi: -webkit-isolate;
+  unicode-bidi: -moz-isolate;
+  unicode-bidi: isolate;
+  word-break: break-all;
+}
+#wsf-settings .wsf-settings-copy-inline .wsf-settings-copy-button {
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  box-sizing: content-box;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 24px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 24px;
+}
+#wsf-settings .wsf-settings-copy-inline .wsf-settings-copy-button:focus {
+  border-color: #666666;
+  outline: none;
+}
+#wsf-settings .wsf-settings-copy-inline .wsf-settings-copy-button:hover .wsf-settings-copy-button-icon svg path {
+  fill: #000000;
+}
+#wsf-settings .wsf-settings-copy-inline .wsf-settings-copy-button-icon {
+  display: flex;
+  line-height: 0;
+}
+#wsf-settings .wsf-settings-copy-inline .wsf-settings-copy-button-icon svg {
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+#wsf-settings .wsf-settings-copy-inline .wsf-settings-copy-button-icon svg path {
+  fill: #666666;
+  transition: fill 200ms ease-in-out;
+}
+#wsf-settings .wsf-settings-copy-inline .wsf-settings-copy-feedback {
+  flex: 0 0 auto;
+  margin: 0;
+  white-space: nowrap;
+}
 #wsf-settings .wsf-settings-image-preview {
   display: inline-block;
   margin: 0 6px -4px 0;
@@ -4495,6 +4558,8 @@ select.wsf-field[data-wsf-select2] ~ .select2-container .select2-selection--mult
 }
 
 textarea.wsf-field {
+  field-sizing: content;
+  min-height: 44px;
   overflow: auto;
   resize: vertical;
 }
@@ -5995,6 +6060,8 @@ body.admin_page_ws-form-edit.mobile #wsf-sidebars .wsf-data-grid-group-tabs > li
 [data-action=wsf-section-upload]:focus,
 .wsf-meta-key-options a:focus,
 [data-action=wsf-select-list]:focus,
+[data-action=wsf-conditional-variable-helper]:focus,
+[data-action=wsf-conditional-value-helper]:focus,
 [data-action=wsf-variable-helper]:focus,
 .wsf-compatibility:focus,
 .wsf-kb-url:focus {
@@ -6003,6 +6070,8 @@ body.admin_page_ws-form-edit.mobile #wsf-sidebars .wsf-data-grid-group-tabs > li
 [data-action=wsf-section-upload] svg,
 .wsf-meta-key-options a svg,
 [data-action=wsf-select-list] svg,
+[data-action=wsf-conditional-variable-helper] svg,
+[data-action=wsf-conditional-value-helper] svg,
 [data-action=wsf-variable-helper] svg,
 .wsf-compatibility svg,
 .wsf-kb-url svg {
@@ -6012,6 +6081,8 @@ body.admin_page_ws-form-edit.mobile #wsf-sidebars .wsf-data-grid-group-tabs > li
 [data-action=wsf-section-upload] svg path,
 .wsf-meta-key-options a svg path,
 [data-action=wsf-select-list] svg path,
+[data-action=wsf-conditional-variable-helper] svg path,
+[data-action=wsf-conditional-value-helper] svg path,
 [data-action=wsf-variable-helper] svg path,
 .wsf-compatibility svg path,
 .wsf-kb-url svg path {
@@ -6021,6 +6092,8 @@ body.admin_page_ws-form-edit.mobile #wsf-sidebars .wsf-data-grid-group-tabs > li
 [data-action=wsf-section-upload]:hover svg path,
 .wsf-meta-key-options a:hover svg path,
 [data-action=wsf-select-list]:hover svg path,
+[data-action=wsf-conditional-variable-helper]:hover svg path,
+[data-action=wsf-conditional-value-helper]:hover svg path,
 [data-action=wsf-variable-helper]:hover svg path,
 .wsf-compatibility:hover svg path,
 .wsf-kb-url:hover svg path {

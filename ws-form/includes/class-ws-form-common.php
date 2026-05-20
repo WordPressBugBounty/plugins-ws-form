@@ -1104,9 +1104,9 @@
 			return (
 
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-				apply_filters('wsf_ai_wp_client_enabled', WS_FORM_WP_AI_CLIENT) &&
-				class_exists('WordPress\AI_Client\AI_Client') &&	// WP AI Client
-				class_exists('WordPress\AiClient\AiClient')			// PHP AI Client
+                apply_filters('wsf_ai_wp_client_enabled', WS_FORM_WP_AI_CLIENT) &&
+				class_exists('WordPress\AiClient\AiClient') &&
+				function_exists('wp_ai_client_prompt')	// WP AI Client
 			);
 		}
 
@@ -2034,6 +2034,115 @@
 			}
 
 			return $tracking_data;
+		}
+
+		/**
+		 * Normalize a BCP47 language tag or POSIX-style locale to WordPress/POSIX form (underscore separator).
+		 *
+		 * @param mixed $language_tag Language tag or locale string.
+		 *
+		 * @return string Normalized locale (e.g. en_US) or empty string if invalid.
+		 */
+		public static function language_tag_to_locale( $language_tag ) {
+
+			if ( ! is_string( $language_tag ) ) {
+
+				return '';
+			}
+
+			$language_tag = trim( $language_tag );
+
+			if ( $language_tag === '' ) {
+
+				return '';
+			}
+
+			return str_replace( '-', '_', $language_tag );
+		}
+
+		/**
+		 * Convert a POSIX-style locale to a BCP47 language tag (hyphen separator; language lower, region upper).
+		 *
+		 * @param mixed $locale Locale string (e.g. en_US, es).
+		 *
+		 * @return string BCP47-style tag (e.g. en-US, es) or empty string if invalid.
+		 */
+		public static function locale_to_language_tag( $locale ) {
+
+			if ( ! is_string( $locale ) ) {
+
+				return '';
+			}
+
+			$locale = self::language_tag_to_locale( $locale );
+
+			if ( $locale === '' ) {
+
+				return '';
+			}
+
+			$parts = explode( '_', $locale, 3 );
+
+			$language = isset( $parts[0] ) ? strtolower( $parts[0] ) : '';
+
+			if ( $language === '' ) {
+
+				return '';
+			}
+
+			if ( ! isset( $parts[1] ) || ( $parts[1] === '' ) ) {
+
+				return $language;
+			}
+
+			return $language . '-' . strtoupper( $parts[1] );
+		}
+
+		/**
+		 * Extract the primary language subtag from a locale or language tag.
+		 *
+		 * @param mixed $locale Locale or tag.
+		 *
+		 * @return string Lowercase language code (e.g. en, fr) or empty string.
+		 */
+		public static function get_language_code( $locale ) {
+
+			$locale = self::language_tag_to_locale( $locale );
+
+			if ( $locale === '' ) {
+
+				return '';
+			}
+
+			$parts = explode( '_', $locale, 3 );
+
+			return isset( $parts[0] ) ? strtolower( $parts[0] ) : '';
+		}
+
+		/**
+		 * Extract the region/country subtag from a locale or language tag.
+		 *
+		 * @param mixed $locale Locale or tag.
+		 *
+		 * @return string Uppercase region code (e.g. US, CA) or empty string if none.
+		 */
+		public static function get_country_code( $locale ) {
+
+			$locale = self::language_tag_to_locale( $locale );
+
+			if ( $locale === '' ) {
+
+				return '';
+			}
+
+			$parts = explode( '_', $locale, 3 );
+
+			if ( ! isset( $parts[1] ) || ( $parts[1] === '' ) ) {
+
+				return '';
+			}
+
+			return strtoupper( $parts[1] );
 		}
 
 		// Parse WS Form variables
@@ -3330,6 +3439,14 @@
 					$variables['user_nickname'] = (($user_id > 0) ? get_user_meta($user_id, 'nickname', true) : '');
 					$variables['user_admin_color'] = (($user_id > 0) ? get_user_meta($user_id, 'admin_color', true) : '');
 					$variables['user_lost_password_key'] = (($user_id > 0) ? $user->lost_password_key : '');
+
+					// User locale (get_user_locale(); falls back to site locale; respects multilingual plugins via WordPress).
+					$user_locale_raw = get_user_locale();
+					$user_locale = is_string( $user_locale_raw ) ? self::language_tag_to_locale( $user_locale_raw ) : '';
+					$variables['user_locale'] = $user_locale;
+					$variables['user_language'] = self::locale_to_language_tag( $user_locale );
+					$variables['user_locale_language_code'] = self::get_language_code( $user_locale );
+					$variables['user_locale_country_code'] = self::get_country_code( $user_locale );
 				}
 
 				// Author
@@ -5306,6 +5423,7 @@
 			$column_key_wsf_required = -1;
 			$column_key_wsf_disabled = -1;
 			$column_key_wsf_hidden = -1;
+			$column_key_wsf_group = -1;
 
 			$column_index = 0;
 			foreach($columns as $key => $column) {
@@ -5337,6 +5455,11 @@
 						$column_key_wsf_hidden = $key;
 						break;
 
+					case 'wsf_group' :
+
+						$column_key_wsf_group = $key;
+						break;
+
 					case 'id' :
 						$column_key_id = $key;
 
@@ -5361,9 +5484,14 @@
 
 			$group = json_decode(wp_json_encode($meta_keys[$meta_key]['default']['groups'][0]));
 
+			$use_wsf_group = ($column_key_wsf_group !== -1);
+			$grouped_row_map = array();
+			$group_order = array();
+
 			// Re-process array to match required format for data grid
-			$id_array = [];
+			$id_array = array();
 			$key = 0;
+			$array = array();
 			while($row = fgetcsv($fp)) { // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fgetcsv -- Stream wrapper not supported by WP_Filesystem
 
 				if(($row === false) || is_null($row)) { continue; }
@@ -5372,11 +5500,12 @@
 				$row_id = -1;
 				$id = null;
 				$column_index = 0;
-				$data = [];
+				$data = array();
 				$default = '';
 				$required = '';
 				$disabled = '';
 				$hidden = '';
+				$row_group_label = '';
 
 				foreach($row as $column_key => $field) {
 
@@ -5410,6 +5539,11 @@
 						case $column_key_wsf_hidden :
 
 							$hidden = ($field_lower != '') ? 'on' : '';
+							break;
+
+						case $column_key_wsf_group :
+
+							$row_group_label = $field;
 							break;
 
 						case $column_key_id :
@@ -5461,12 +5595,29 @@
 				if($required == 'on') { $row_new->required = 'on'; }
 				if($hidden == 'on') { $row_new->hidden = 'on'; }
 
-				$array[$key] = $row_new;
+				if($use_wsf_group) {
+
+					$bucket_label = trim($row_group_label);
+					if($bucket_label === '') {
+
+						$bucket_label = __('Default', 'ws-form');
+					}
+					if(!isset($grouped_row_map[ $bucket_label ])) {
+
+						$grouped_row_map[ $bucket_label ] = array();
+						$group_order[] = $bucket_label;
+					}
+					$grouped_row_map[ $bucket_label ][] = $row_new;
+
+				} else {
+
+					$array[ $key ] = $row_new;
+				}
 
 				$key++;
 			}
 
-			// Build group label
+			// Build group label (single-group import and header-only wsf_group import)
 			if(isset($file['group_label'])) {
 
 				$group_label = $file['group_label'];
@@ -5480,14 +5631,41 @@
 				$group_label = ucwords($group_label);
 			}
 
-			// Build group
-			$group->label = $group_label;
-			$group->page = 0;
-			$group->rows = $array;
+			if($use_wsf_group) {
 
-			// Add to meta value
-			$meta_value->groups = array($group);
-			$meta_value->group_index = 0;
+				if(count($group_order) === 0) {
+
+					$group_new = json_decode(wp_json_encode($meta_keys[ $meta_key ]['default']['groups'][0]));
+					$group_new->label = $group_label;
+					$group_new->page = 0;
+					$group_new->rows = array();
+					$meta_value->groups = array($group_new);
+
+				} else {
+
+					$meta_value->groups = array();
+					foreach($group_order as $bucket_label) {
+
+						$group_new = json_decode(wp_json_encode($meta_keys[ $meta_key ]['default']['groups'][0]));
+						$group_new->label = $bucket_label;
+						$group_new->page = 0;
+						$group_new->rows = $grouped_row_map[ $bucket_label ];
+						$meta_value->groups[] = $group_new;
+					}
+				}
+				$meta_value->group_index = 0;
+
+			} else {
+
+				// Build group
+				$group->label = $group_label;
+				$group->page = 0;
+				$group->rows = $array;
+
+				// Add to meta value
+				$meta_value->groups = array($group);
+				$meta_value->group_index = 0;
+			}
 
 			return $meta_value;
 		}
@@ -5691,9 +5869,10 @@
 			return $css_value;
 		}
 
-		// Escape SVG output
-		public static function esc_svg($svg) {
-			return wp_kses($svg, array(
+		// Allowed HTML tags/attributes for inline SVG (used by esc_svg() and echo_html() with SVG fragments).
+		public static function get_allowed_html_svg() {
+
+			return array(
 				'svg' => array(
 					'id' => true,
 					'class' => true,
@@ -5803,7 +5982,48 @@
 					'stroke' => true,
 					'stroke-width' => true,
 				),
+			);
+		}
+
+		/**
+		 * wp_kses rules for settings copy-inline row: post content tags plus SVG plus clipboard UI attributes.
+		 */
+		public static function get_allowed_html_settings_copy_inline() {
+
+			$allowed = array_merge(wp_kses_allowed_html('post'), self::get_allowed_html_svg());
+
+			foreach (array('code', 'button') as $tag) {
+
+				$base = (isset($allowed[ $tag ]) && is_array($allowed[ $tag ])) ? $allowed[ $tag ] : array();
+				$merge = array(
+					'tabindex'       => true,
+					'role'           => true,
+					'data-action'    => true,
+					'data-copy-text' => true,
+					'class'          => true,
+				);
+				if ('button' === $tag) {
+
+					$merge['title']      = true;
+					$merge['aria-label'] = true;
+					$merge['type']       = true;
+				}
+				$allowed[ $tag ] = array_merge($base, $merge);
+			}
+
+			$span_base = (isset($allowed['span']) && is_array($allowed['span'])) ? $allowed['span'] : array();
+			$allowed['span'] = array_merge($span_base, array(
+				'aria-hidden' => true,
+				'class'       => true,
 			));
+
+			return $allowed;
+		}
+
+		// Escape SVG output
+		public static function esc_svg($svg) {
+
+			return wp_kses($svg, self::get_allowed_html_svg());
 		}
 
 		// Echo escaped SVG content

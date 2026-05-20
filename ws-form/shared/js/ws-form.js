@@ -332,6 +332,67 @@
 	$.WS_Form.data_sources;
 	$.WS_Form.templates_section;
 
+	/**
+	 * Normalize a BCP47 language tag to POSIX-style locale (underscore separator).
+	 *
+	 * @param {string} language_tag Tag or locale string.
+	 * @returns {string} Normalized locale or empty string.
+	 */
+	$.WS_Form.language_tag_to_locale = function(language_tag) {
+
+		if(typeof language_tag !== 'string') { return ''; }
+		language_tag = language_tag.trim();
+		if(language_tag === '') { return ''; }
+		return language_tag.replace(/-/g, '_');
+	};
+
+	/**
+	 * Convert POSIX-style locale to BCP47 language tag (hyphen; language lower, region upper).
+	 *
+	 * @param {string} locale Locale string.
+	 * @returns {string} BCP47-style tag or empty string.
+	 */
+	$.WS_Form.locale_to_language_tag = function(locale) {
+
+		if(typeof locale !== 'string') { return ''; }
+		var posix = $.WS_Form.language_tag_to_locale(locale);
+		if(posix === '') { return ''; }
+		var parts = posix.split('_');
+		var lang = parts[0] ? parts[0].toLowerCase() : '';
+		if(lang === '') { return ''; }
+		if((typeof parts[1] === 'undefined') || (parts[1] === '')) { return lang; }
+		return lang + '-' + parts[1].toUpperCase();
+	};
+
+	/**
+	 * Primary language subtag from a locale or tag.
+	 *
+	 * @param {string} locale Locale or tag.
+	 * @returns {string} Lowercase language code or empty string.
+	 */
+	$.WS_Form.get_language_code = function(locale) {
+
+		var posix = $.WS_Form.language_tag_to_locale(locale);
+		if(posix === '') { return ''; }
+		var parts = posix.split('_');
+		return (parts[0] ? parts[0].toLowerCase() : '');
+	};
+
+	/**
+	 * Region subtag from a locale or tag.
+	 *
+	 * @param {string} locale Locale or tag.
+	 * @returns {string} Uppercase region code or empty string.
+	 */
+	$.WS_Form.get_country_code = function(locale) {
+
+		var posix = $.WS_Form.language_tag_to_locale(locale);
+		if(posix === '') { return ''; }
+		var parts = posix.split('_');
+		if((typeof parts[1] === 'undefined') || (parts[1] === '')) { return ''; }
+		return parts[1].toUpperCase();
+	};
+
 	// Get configuration
 	$.WS_Form.prototype.get_configuration = function(success_callback, force, bypass_loader) {
 
@@ -1927,8 +1988,25 @@
 		// Parse type
 		var lookups_contain_singles = false;
 
+		// Groups touched
+		var variable_groups = [];
+
+		// Sections touched
+		var variable_sections = [];
+
 		// Fields touched
 		var variable_fields = [];
+
+		// Dynamic variables should be assessed on each validation pass
+		var variable_dynamic = false;
+
+		var variable_dependencies_merge = function(parse_variables_process_return) {
+
+			if(typeof parse_variables_process_return.groups === 'object') { variable_groups = variable_groups.concat(parse_variables_process_return.groups); }
+			if(typeof parse_variables_process_return.sections === 'object') { variable_sections = variable_sections.concat(parse_variables_process_return.sections); }
+			if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+			if(parse_variables_process_return.dynamic) { variable_dynamic = true; }
+		};
 
 		// Check for too many iterations
 		if(depth > 100) {
@@ -1977,6 +2055,7 @@
 
 				// Single parse? (Used if different value returned each parse, e.g. random_number)
 				var parse_variable_single_parse = (typeof parse_variable_config.single_parse !== 'undefined') ? parse_variable_config.single_parse : false;
+				if(parse_variable_single_parse) { variable_dynamic = true; }
 
 				// If no attributes specified, then just set the value
 				if((parse_variable_attributes === false) && (parse_variable_value !== false)) { variables[parse_variable] = parse_variable_value; continue; }
@@ -2111,6 +2190,7 @@
 								}
 
 								var group_id = parseInt(variable_attribute_array[0], 10);
+								variable_groups.push(group_id);
 
 								if(
 									(typeof this.group_data_cache[group_id] !== 'undefined') &&
@@ -2136,6 +2216,7 @@
 								}
 
 								var section_id_label = parseInt(variable_attribute_array[0], 10);
+								variable_sections.push(section_id_label);
 
 								if(
 									(typeof this.section_data_cache[section_id_label] !== 'undefined') &&
@@ -2182,6 +2263,7 @@
 								}
 
 								var field_id = parseInt(variable_attribute_array[0], 10);
+								variable_fields.push(field_id);
 
 								if(
 									(typeof this.field_data_cache[field_id] !== 'undefined') &&
@@ -2424,7 +2506,7 @@
 									}
 
 									var parse_variables_process_return = this.parse_variables_process(value, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original);
-									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									variable_dependencies_merge(parse_variables_process_return);
 									parsed_variable = [parse_variables_process_return.output];
 
 									break;
@@ -2515,7 +2597,7 @@
 											// Get default value from field
 											var default_value = this.get_object_meta_value(field_from, 'default_value', '');
 											var parse_variables_process_return = this.parse_variables_process(default_value, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original);
-											if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+											variable_dependencies_merge(parse_variables_process_return);
 											parsed_variable = [parse_variables_process_return.output];
 									}
 								}
@@ -2871,7 +2953,7 @@
 							case 'ecommerce_price' :
 
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								variable_dependencies_merge(parse_variables_process_return);
 								var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 
 								var parsed_variable = this.get_price(number_input);
@@ -2882,7 +2964,7 @@
 
 								// Get num
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								variable_dependencies_merge(parse_variables_process_return);
 								var num = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 
 								// Get decimals
@@ -3101,7 +3183,7 @@
 							case 'tan' :
 
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								variable_dependencies_merge(parse_variables_process_return);
 								var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 
 								switch(parse_variable) {
@@ -3193,7 +3275,7 @@
 								if(typeof variable_attribute_array[0] === 'string') {
 
 									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									variable_dependencies_merge(parse_variables_process_return);
 									parsed_variable = parse_variables_process_return.output;
 
 									switch(parse_variable) {
@@ -3262,12 +3344,12 @@
 
 								// Base
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								variable_dependencies_merge(parse_variables_process_return);
 								var base = this.calc_string(parse_variables_process_return.output, parse_string_original, decimals, field_to_original, field_part);
 
 								// Exponent
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								variable_dependencies_merge(parse_variables_process_return);
 								var exponent = this.calc_string(parse_variables_process_return.output, parse_string_original, decimals, field_to_original, field_part);
 
 								parsed_variable = Math.pow(base, exponent);
@@ -3279,7 +3361,7 @@
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
 								var decimals = this.get_number(parse_variables_process_return.output);
 								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-								if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+								variable_dependencies_merge(parse_variables_process_return);
 								parsed_variable = this.calc_string(parse_variables_process_return.output, parse_string_original, decimals, field_to_original, field_part);
 
 								break;
@@ -3293,7 +3375,7 @@
 								if(variable_attribute_array.length === 1) {
 
 									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									variable_dependencies_merge(parse_variables_process_return);
 									variable_attribute_array = this.string_to_attributes(parse_variables_process_return.output);
 								}
 
@@ -3302,7 +3384,7 @@
 									if(!variable_attribute_array.hasOwnProperty(variable_attribute_array_index)) { continue; }
 
 									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[variable_attribute_array_index], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									variable_dependencies_merge(parse_variables_process_return);
 									var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 									values.push(number_input);
 								}
@@ -3319,7 +3401,7 @@
 								if(variable_attribute_array.length === 1) {
 
 									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									variable_dependencies_merge(parse_variables_process_return);
 									variable_attribute_array = this.string_to_attributes(parse_variables_process_return.output);
 								}
 
@@ -3329,7 +3411,7 @@
 									if(!variable_attribute_array.hasOwnProperty(variable_attribute_array_index)) { continue; }
 
 									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[variable_attribute_array_index], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
-									if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+									variable_dependencies_merge(parse_variables_process_return);
 									var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 									parsed_variable_total += number_input;
 								}
@@ -3419,6 +3501,18 @@
 
 			variables.client_time = ((typeof this.date_format === 'function') ? this.date_format(client_date_time, ws_form_settings.time_format) : '');
 			variables.client_date = ((typeof this.date_format === 'function') ? this.date_format(client_date_time, ws_form_settings.date_format) : '');
+
+			// Browser language (navigator.language); BCP47 vs POSIX aligned with WS_Form_Common PHP helpers.
+			var nav_lang = '';
+			if((typeof navigator !== 'undefined') && (typeof navigator.language === 'string')) {
+
+				nav_lang = navigator.language.trim();
+			}
+			var client_locale = $.WS_Form.language_tag_to_locale(nav_lang);
+			variables.client_locale = client_locale;
+			variables.client_language = client_locale ? $.WS_Form.locale_to_language_tag(client_locale) : '';
+			variables.client_locale_language_code = $.WS_Form.get_language_code(client_locale);
+			variables.client_locale_country_code = $.WS_Form.get_country_code(client_locale);
 		}
 
 		// Seconds
@@ -3448,13 +3542,16 @@
 			var parse_variables_process_return = this.parse_variables_process(parse_string, section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original);
 			parse_string = parse_variables_process_return.output;
 
-			if(typeof parse_variables_process_return.fields === 'object') { variable_fields = variable_fields.concat(parse_variables_process_return.fields); }
+			variable_dependencies_merge(parse_variables_process_return);
 		}
 
 		var return_object = {
 
 			'output' : parse_string,
-			'fields' : variable_fields
+			'groups' : variable_groups.filter(function(value, index, self) { return self.indexOf(value) === index; }),
+			'sections' : variable_sections.filter(function(value, index, self) { return self.indexOf(value) === index; }),
+			'fields' : variable_fields.filter(function(value, index, self) { return self.indexOf(value) === index; }),
+			'dynamic' : variable_dynamic
 		};
 
 		return return_object;
@@ -4051,7 +4148,7 @@
 	// Parse variable error
 	$.WS_Form.prototype.parse_variables_process_error = function(error_message) {
 
-		return {'output' : error_message, 'functions': [], 'fields': []};
+		return {'output' : error_message, 'functions': [], 'groups': [], 'sections': [], 'fields': [], 'dynamic': false};
 	}
 
 	// Get value from field

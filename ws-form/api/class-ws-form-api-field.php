@@ -133,30 +133,15 @@
 				if($meta_value == '') { parent::api_throw_error(__('Meta value empty', 'ws-form')); }
 			}
 
-			// Get file index
-			$group_index = WS_Form_Common::get_query_var_nonce('group_index', false, $parameters);
-			if($group_index === false) { parent::api_throw_error(__('Group index not specified', 'ws-form')); }
-			$group_index = absint($group_index);
-			if($group_index < 0) { parent::api_throw_error(__('Group index invalid', 'ws-form')); }
-
 			// Get columns
 			if(!isset($meta_value->columns)) { parent::api_throw_error(__('Columns not found', 'ws-form')); }
 			$columns = $meta_value->columns;
 
-			// Get group
-			if(!isset($meta_value->groups[$group_index])) { parent::api_throw_error(__('Group index invalid', 'ws-form')); }
-			$group = $meta_value->groups[$group_index];
-
-			// Get group label
-			if(!isset($group->label)) { parent::api_throw_error(__('Group label not found', 'ws-form')); }
-			$group_label = $group->label;
-
-			// Get group rows
-			if(!isset($group->rows)) { parent::api_throw_error(__('Group rows not found', 'ws-form')); }
-			$rows = $group->rows;
+			// Groups (export includes every group; group_index in POST is ignored for backward compatibility)
+			if(!isset($meta_value->groups) || !is_array($meta_value->groups)) { parent::api_throw_error(__('Groups not found', 'ws-form')); }
 
 			// Build filename
-			$filename = strtolower($group_label) . '.csv';
+			$filename = 'ws-form-data-grid-export.csv';
 
 			// HTTP headers
 			WS_Form_Common::file_download_headers($filename, 'text/csv');
@@ -165,7 +150,7 @@
 			$out = fopen('php://output', 'w'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Required for streaming output to browser
 
 			// Build header
-			$row_array = array('wsf_id', 'wsf_default', 'wsf_required', 'wsf_disabled', 'wsf_hidden');
+			$row_array = array('wsf_id', 'wsf_default', 'wsf_required', 'wsf_disabled', 'wsf_hidden', 'wsf_group');
 			foreach($columns as $column) {
 
 				if(!isset($column->label)) { parent::api_throw_error(__('Column label not found', 'ws-form')); }
@@ -173,20 +158,28 @@
 			}
 			WS_Form_File::esc_fputcsv($out, $row_array);
 
-			// Build rows
-			foreach($rows as $row) {
+			// Build rows (all groups; wsf_group column carries each row's group label)
+			foreach($meta_value->groups as $group) {
 
-				if(!isset($row->data)) { parent::api_throw_error(__('Row data not found', 'ws-form')); }
+				if(!is_object($group)) { continue; }
 
-				$default = isset($row->default) ? $row->default : '';
-				$required = isset($row->required) ? $row->required : '';
-				$disabled = isset($row->disabled) ? $row->disabled : '';
-				$hidden = isset($row->hidden) ? $row->hidden : '';
+				$group_label = isset($group->label) ? $group->label : '';
+				if(!isset($group->rows) || !is_array($group->rows)) { continue; }
 
-				$data = array($row->id, $default, $required, $disabled, $hidden);
-				$data = array_merge($data, (array)$row->data);
+				foreach($group->rows as $row) {
 
-				WS_Form_File::esc_fputcsv($out, $data);
+					if(!isset($row->data)) { parent::api_throw_error(__('Row data not found', 'ws-form')); }
+
+					$default = isset($row->default) ? $row->default : '';
+					$required = isset($row->required) ? $row->required : '';
+					$disabled = isset($row->disabled) ? $row->disabled : '';
+					$hidden = isset($row->hidden) ? $row->hidden : '';
+
+					$data = array($row->id, $default, $required, $disabled, $hidden, $group_label);
+					$data = array_merge($data, (array)$row->data);
+
+					WS_Form_File::esc_fputcsv($out, $data);
+				}
 			}
 
 			// Close stream

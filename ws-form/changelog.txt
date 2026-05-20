@@ -2,6 +2,28 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.11.4 - 05/20/2026 =
+* Added: WordPress 7 readiness
+* Added: Input mask library version updated
+* Bug Fix: Expired submission date_expire fix
+* Bug Fix: Places API (New) type fix
+
+= 1.11.3 - 05/15/2026 =
+* Added: Updated for new WordPress 7 wp_ai_client_prompt method
+
+= 1.11.2 - 05/14/2026 =
+* Added: Upgraded input mask library to version 5.0.9
+* Added: Default value, prefix and suffix added to translatable strings
+
+= 1.11.1 - 05/12/2026 =
+* Added: Conditional logic "Variable" IF condition that allows you to test any string containing WS Form variables
+* Added: Data grid now supports pasting of multiple rows or a CSV file into it https://wsform.com/knowledgebase/pasting-content-into-data-grids/
+* Added: Data grid CSV import/export now includes a wsf_group column for groups https://wsform.com/knowledgebase/data-grid-csv-import-and-export/
+* Added: New #blog_locale, #blog_locale_language_code, and #blog_locale_country_code variables
+* Added: New #client_language, #client_locale, #client_locale_language_code, and #client_locale_country_code variables
+* Added: New #user_language, #user_locale, #user_locale_language_code, and #user_locale_country_code variables
+* Added: Multiple setting on conditional logic string comparisons
+
 = 1.11.0 - 05/08/2026 =
 * Added: Per-form translation with automatically updated translatable strings https://wsform.com/knowledgebase/translate-forms/
 * Added: WPML integration

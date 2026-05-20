@@ -306,6 +306,9 @@
 				// Shortcode
 				'shortcode'						=> WS_FORM_SHORTCODE,
 
+				// Settings screen — copy-to-clipboard feedback (see ws-form-admin.js init_partial + clipboard)
+				'settings_copy_feedback'		=> __('Copied', 'ws-form'),
+
 				// Intro
 				'intro'							=> $this->intro,
 

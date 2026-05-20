@@ -540,6 +540,7 @@
 					'actions'			=>	__('Actions', 'ws-form'),
 					'submission'		=>	__('Submission', 'ws-form'),
 					'user'				=>	__('User', 'ws-form'),
+					'variable'			=>	__('Variable', 'ws-form'),
 					'conditional'		=>	__('Conditional Logic', 'ws-form'),
 					'id'				=>	__('ID', 'ws-form'),
 					'unknown'			=>	__('Unknown', 'ws-form'),
@@ -803,11 +804,11 @@
 					    '</a>'
 					),
 					// Sidebar - Expand / Contract
-					'data_sidebar_expand'					=>	__('Expand', 'ws-form'),
-					'data_sidebar_contract'					=>	__('Contract', 'ws-form'),
+					'data_sidebar_expand'						=>	__('Expand', 'ws-form'),
+					'data_sidebar_contract'						=>	__('Contract', 'ws-form'),
 
 					// Actions
-					'action_label_default'					=>	__('New Action', 'ws-form'),
+					'action_label_default'						=>	__('New Action', 'ws-form'),
 					// Breakpoint options
 					'breakpoint_offset_column_width'			=>	__('Width - Columns', 'ws-form'),
 					'breakpoint_offset_column_offset'			=>	__('Offset - Columns', 'ws-form'),

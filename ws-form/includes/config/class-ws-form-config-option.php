@@ -1059,7 +1059,7 @@
 								esc_html(sprintf(
 
 									/* translators: %s: Presentable name (e.g. WS Form PRO) */
-									__('Enable the %s MCP (Model Context Protocol) server. Requires the WordPress Abilities API and MCP adapter.', 'ws-form'),
+									__('Enable the %s MCP (Model Context Protocol) server.', 'ws-form'),
 									WS_FORM_NAME_PRESENTABLE
 								)),
 

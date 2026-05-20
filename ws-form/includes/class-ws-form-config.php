@@ -4791,7 +4791,8 @@
 					'default'					=>	'',
 					'help'						=>	__('Default value entered in field.', 'ws-form'),
 					'variable_helper'			=>	true,
-					'calc'						=>	true
+					'calc'						=>	true,
+					'translate'					=>	true,
 				),
 
 				// Sets default value attribute (unless saved value exists)
@@ -8050,6 +8051,7 @@
 					'label'						=>	__('Prefix', 'ws-form'),
 					'type'						=>	'text',
 					'variable_helper'			=>	true,
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -8068,6 +8070,7 @@
 					'label'						=>	__('Suffix', 'ws-form'),
 					'type'						=>	'text',
 					'variable_helper'			=>	true,
+					'translate'					=>	true,
 					'condition'					=>	array(
 
 						array(
@@ -9035,6 +9038,12 @@
 			// Check WordPress version
 			$wp_new = WS_Form_Common::wp_version_at_least('5.3');
 
+			// Blog/site locale (get_locale(); multilingual plugins filter this at runtime).
+			$blog_locale_raw = get_locale();
+			$blog_locale = is_string( $blog_locale_raw ) ? WS_Form_Common::language_tag_to_locale( $blog_locale_raw ) : '';
+			$blog_locale_language_code = WS_Form_Common::get_language_code( $blog_locale );
+			$blog_locale_country_code = WS_Form_Common::get_country_code( $blog_locale );
+
 			// Variable elements
 			// label - Variable label
 			// value - Predetermined value
@@ -9071,11 +9080,37 @@
 							'usage' => array('client', 'action')
 						),
 
+						// #blog_language: Site Language from WordPress Settings > General (get_bloginfo( 'language' )).
 						'blog_language' => array(
 
-							'label' => __('Language', 'ws-form'),
+							'label' => __('Language (Site)', 'ws-form'),
 							'value' => get_bloginfo('language'),
-							'description' => __('Returns the <strong>Language</strong> setting in <strong>WordPress Settings &gt; General</strong>.', 'ws-form'),
+							'description' => __('Returns the Site Language from WordPress Settings &gt; General via get_bloginfo( \'language\' ). WordPress stores this using ISO 639 (with optional ISO 3166-1 alpha-2 region when present; RFC 5646 formatting such as en-US). May differ from #blog_locale (get_locale()) on some installs or with multilingual plugins.', 'ws-form'),
+							'usage' => array('client', 'action')
+						),
+
+						// #blog_locale: POSIX-style site locale from WordPress (canonical source for #blog_locale_language_code and #blog_locale_country_code).
+						'blog_locale' => array(
+
+							'label' => __('Locale (Site)', 'ws-form'),
+							'value' => $blog_locale,
+							'description' => __('POSIX-style locale identifier from <code>get_locale()</code>: language and optional region separated by an underscore, as WordPress uses for translations (similar to POSIX / C locale naming; for example <code>en_US</code>, <code>fr_FR</code>, or <code>es</code>). When a region is present it follows ISO 3166-1 alpha-2 (uppercase). Respects multilingual plugins that filter the WordPress locale.', 'ws-form'),
+							'usage' => array('client', 'action')
+						),
+
+						'blog_locale_language_code' => array(
+
+							'label' => __('Language Code (Site)', 'ws-form'),
+							'value' => $blog_locale_language_code,
+							'description' => __('Primary language subtag from the site locale in ISO 639-1 format (e.g. <code>en</code>, <code>fr</code>, or <code>pt</code>).', 'ws-form'),
+							'usage' => array('client', 'action')
+						),
+
+						'blog_locale_country_code' => array(
+
+							'label' => __('Country Code (Site)', 'ws-form'),
+							'value' => $blog_locale_country_code,
+							'description' => __('Region subtag from the site locale in ISO 3166-1 alpha-2 format (e.g. <code>US</code>, <code>CA</code>), or blank if the locale has no region.', 'ws-form'),
 							'usage' => array('client', 'action')
 						),
 
@@ -9138,6 +9173,35 @@
 					'label'		=>__('Client', 'ws-form'),
 
 					'variables'	=> array(
+
+						// #client_language / #client_*: populated in the browser from navigator.language (see ws-form.js); no value on the server.
+						'client_language' => array(
+
+							'label' => __('Language (Browser)', 'ws-form'),
+							'description' => __('Language tag from the visitor\'s browser <code>navigator.language</code> (RFC 5646; ISO 639 with optional ISO 3166-1 alpha-2 region; hyphen-separated; for example <code>en-US</code>). Client-side only; empty when parsed on the server.', 'ws-form'),
+							'usage' => array('client')
+						),
+
+						'client_locale' => array(
+
+							'label' => __('Locale (Browser)', 'ws-form'),
+							'description' => __('POSIX-style locale derived from the browser tag: underscores instead of hyphens (WordPress/POSIX-style; for example <code>en_US</code>). Region uses ISO 3166-1 alpha-2 when present. Client-side only; empty when parsed on the server.', 'ws-form'),
+							'usage' => array('client')
+						),
+
+						'client_locale_language_code' => array(
+
+							'label' => __('Language Code (Browser)', 'ws-form'),
+							'description' => __('Primary language subtag from the browser locale (ISO 639; lowercase, typically ISO 639-1). Client-side only; empty when parsed on the server.', 'ws-form'),
+							'usage' => array('client')
+						),
+
+						'client_locale_country_code' => array(
+
+							'label' => __('Country Code (Browser)', 'ws-form'),
+							'description' => __('Region subtag from the browser locale using ISO 3166-1 alpha-2, or blank if none. Client-side only; empty when parsed on the server.', 'ws-form'),
+							'usage' => array('client')
+						),
 
 						'client_time' => array(
 
@@ -11285,6 +11349,13 @@
 
 			$user_full_name = implode(' ', $user_full_name_array);
 
+			// #user_language / #user_*: from get_user_locale() (WordPress user preference; falls back to site locale).
+			$user_locale_raw = get_user_locale();
+			$user_locale = is_string( $user_locale_raw ) ? WS_Form_Common::language_tag_to_locale( $user_locale_raw ) : '';
+			$user_language = WS_Form_Common::locale_to_language_tag( $user_locale );
+			$user_locale_language_code = WS_Form_Common::get_language_code( $user_locale );
+			$user_locale_country_code = WS_Form_Common::get_country_code( $user_locale );
+
 			$parse_variables['user'] = array(
 
 				'label'		=> __('User', 'ws-form'),
@@ -11344,6 +11415,38 @@
 						'label' 		=> __('Registration Date', 'ws-form'),
 						'description' 	=> __('Returns the user registration date if logged in.', 'ws-form'),
 						'value' 		=> ($user_id > 0) ? $user->user_registered : '',
+						'usage' 		=> array('client', 'action')
+					),
+
+					'user_language'		=>	array(
+
+						'label' 		=> __('Language (User)', 'ws-form'),
+						'description' 	=> __('Language tag (RFC 5646) derived from <code>get_user_locale()</code>: ISO 639 with optional ISO 3166-1 alpha-2 region, hyphen-separated (for example <code>en-US</code>). When logged out, matches the site locale. Respects multilingual plugins via WordPress.', 'ws-form'),
+						'value' 		=> $user_language,
+						'usage' 		=> array('client', 'action')
+					),
+
+					'user_locale'		=>	array(
+
+						'label' 		=> __('Locale (User)', 'ws-form'),
+						'description' 	=> __('POSIX-style locale identifier from <code>get_user_locale()</code> (underscore separator; for example <code>en_US</code>). Region uses ISO 3166-1 alpha-2 when present. When logged out, matches the site locale.', 'ws-form'),
+						'value' 		=> $user_locale,
+						'usage' 		=> array('client', 'action')
+					),
+
+					'user_locale_language_code'	=>	array(
+
+						'label' 		=> __('Language Code (User)', 'ws-form'),
+						'description' 	=> __('Primary language subtag from the user locale (ISO 639; lowercase, typically ISO 639-1).', 'ws-form'),
+						'value' 		=> $user_locale_language_code,
+						'usage' 		=> array('client', 'action')
+					),
+
+					'user_locale_country_code'	=>	array(
+
+						'label' 		=> __('Country Code (User)', 'ws-form'),
+						'description' 	=> __('Region subtag from the user locale using ISO 3166-1 alpha-2, or blank if none.', 'ws-form'),
+						'value' 		=> $user_locale_country_code,
 						'usage' 		=> array('client', 'action')
 					),
 
@@ -11530,7 +11633,7 @@
 				'coloris_css' => array('path' => $coloris_css_local, 'version' => '0.24.0'),
 
 				// Input mask bundle
-				'inputmask_js' => array('path' => $inputmask_js_local, 'version' => '5.0.7'),
+				'inputmask_js' => array('path' => $inputmask_js_local, 'version' => '5.0.9'),
 
 				// International Telephone Input
 				'intl_tel_input_js' => array('path' => $intl_tel_input_js_local, 'version' => '17.0.9'),

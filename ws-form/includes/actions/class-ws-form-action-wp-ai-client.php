@@ -5,7 +5,6 @@
 		exit;
 	}
 
-	use WordPress\AI_Client\AI_Client;
 	use WordPress\AiClient\AiClient;
 	use WordPress\AiClient\Providers\Models\DTO\ModelRequirements;
 	use WordPress\AiClient\Providers\Models\Enums\CapabilityEnum;
@@ -139,7 +138,7 @@
 			}
 
 			// Set up prompt
-			$prompt = AI_Client::prompt($this->input);
+			$prompt = wp_ai_client_prompt($this->input);
 
 			// Process by type
 			switch($this->type) {

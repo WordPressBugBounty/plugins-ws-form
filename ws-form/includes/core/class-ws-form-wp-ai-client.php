@@ -5,14 +5,9 @@
 		exit;
 	}
 
-	use WordPress\AI_Client\AI_Client;
-
 	class WS_Form_WP_AI_Client {
 
 		public function __construct() {
-
-			// Initialize
-			AI_Client::init();
 
 			// Register AI config file for templates
 			add_filter('wsf_template_form_config_files', array($this, 'wsf_template_form_config_files'), 10, 1);
@@ -57,14 +52,14 @@
 				}, 10, 1);
 
 				// Initiate prompt
-				$prompt = AI_Client::prompt($prompt);
+				$prompt = wp_ai_client_prompt($prompt);
 
 				// Set model preferences
 				$prompt->using_model_preference(
 
+					array('openai', 'gpt-4.1'),
 					array('anthropic', 'claude-sonnet-4-5'),
-					array('google', 'gemini-2.5-flash'),
-					array('openai', 'gpt-4.1')
+					array('google', 'gemini-2.5-flash')
 				);
 
 				// Set temperature
@@ -78,12 +73,18 @@
 
 				} else {
 
-					throw new ErrorException(__('To create a form with AI, you’ll need to connect an AI provider first. Add your credentials in the WordPress AI settings that supports text generation.', 'ws-form'));
+					throw new ErrorException(sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						__('To create a form with AI, you’ll need to connect an AI provider first.', 'ws-form'),
+						WS_Form_Common::get_plugin_website_url('/knowledgebase/create-from-ai-template/', 'wp_ai_client'),
+						__('Learn more', 'ws-form')
+					));
 				}
 
 			} catch(Exception $e) {
 
-				throw new ErrorException(esc_html($e->getMessage()));
+				throw new ErrorException(wp_kses_post($e->getMessage()));
 			}
 
 			// Run the form-create-json ability

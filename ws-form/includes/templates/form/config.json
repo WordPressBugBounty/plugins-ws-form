@@ -807,6 +807,14 @@
 			},
 
 			{
+				"id"					:	"locale-variables",
+				"label" 				: 	"Locale Variables",
+				"file_json"				:	"wsf-form-locale-variables.json",
+				"pro_required"			:	true,
+				"preview_url"			:	true
+			},
+
+			{
 				"id"					:	"message",
 				"label" 				: 	"Messages",
 				"file_json"				:	"wsf-form-message.json",

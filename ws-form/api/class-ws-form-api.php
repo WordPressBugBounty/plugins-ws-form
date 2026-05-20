@@ -157,12 +157,14 @@
 			$plugin_api_config = new WS_Form_API_Config();
 
 			// API - Config (Public)
+			// Intentionally public endpoint. This route serves config data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/config/', array('methods' => 'GET', 'callback' => array($plugin_api_config, 'api_get'), 'permission_callback' => function () { return true; }));
 
 			// API - Helper
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'api/class-ws-form-api-helper.php';
 			$plugin_api_helper = new WS_Form_API_Helper();
 
+			// Intentionally public endpoint. This route serves test data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/test/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_test'), 'permission_callback' => function () { return true; }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/system/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_system'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
@@ -173,17 +175,21 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/setup-push/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_setup_push'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
 
+			// Intentionally public endpoint. This route serves CSS data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/ws-form-css/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_ws_form_css'), 'permission_callback' => function () { return true; }));
 
 			if(WS_Form_Common::customizer_enabled()) {
 
+				// Intentionally public endpoint. This route serves CSS data only and does not expose sensitive data.
 				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/ws-form-css-skin/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_ws_form_css_skin'), 'permission_callback' => function () { return true; }));
 			}
 
+			// Intentionally public endpoint. This route serves CSS data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/ws-form-css-conversational/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_ws_form_css_conversational'), 'permission_callback' => function () { return true; }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/ws-form-css-admin/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_ws_form_css_admin'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form'); }));
 
+			// Intentionally public endpoint. This route serves CSS data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/css-email/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_css_email'), 'permission_callback' => function () { return true; }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/file_download/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_file_download'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_submission'); }));
@@ -209,6 +215,7 @@
 
 				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/', array('methods' => 'GET', 'callback' => array($plugin_api_style, 'api_get'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_form_style'); }));
 
+				// Intentionally public endpoint. This route serves generated CSS only and does not expose sensitive data.
 				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/css/', array('methods' => 'GET', 'callback' => array($plugin_api_style, 'api_get_css'), 'permission_callback' => function () { return true; }));
 
 				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/put/', array('methods' => 'POST', 'callback' => array($plugin_api_style, 'api_put'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form_style'); }));
@@ -232,6 +239,7 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/full/', array('methods' => 'GET', 'callback' => array($plugin_api_form, 'api_get_full'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_form'); }));
 
+			// Intentionally public endpoint. This route serves published form data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/published/', array('methods' => 'GET', 'callback' => array($plugin_api_form, 'api_get_published'), 'permission_callback' => function () { return true; }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/full/put/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_put_full'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form'); }));
@@ -313,8 +321,10 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/field/(?P<field_id>[\d]+)/delete/', array('methods' => 'POST', 'callback' => array($plugin_api_field, 'api_delete'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form'); }));
 
+			// Intentionally public endpoint. This route serves field cascade data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/field/(?P<field_id>[\d]+)/cascade/', array('methods' => 'GET', 'callback' => array($plugin_api_field, 'api_cascade'), 'permission_callback' => function () { return true; }));
 
+			// Intentionally public endpoint. This route serves field select AJAX data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/field/(?P<field_id>[\d]+)/select-ajax/', array('methods' => 'GET', 'callback' => array($plugin_api_field, 'api_select_ajax'), 'permission_callback' => function () { return true; }));
 			// API - Submit
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'api/class-ws-form-api-submit.php';
@@ -322,14 +332,17 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/(?P<submit_id>[\d]+)/', array('methods' => 'GET', 'callback' => array($plugin_api_submit, 'api_get'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_submission'); }));
 
+			// Intentionally public endpoint. This route serves submit data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/', array('methods' => 'POST', 'callback' => array($plugin_api_submit, 'api_post'), 'permission_callback' => function () { return true; }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/(?P<submit_id>[\d]+)/action/', array('methods' => 'POST', 'callback' => array($plugin_api_submit, 'api_repost'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_submission'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/(?P<submit_id>[\d]+)/put/', array('methods' => 'POST', 'callback' => array($plugin_api_submit, 'api_put'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_submission'); }));
 
+			// Intentionally public endpoint. This route serves submit data by hash only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/hash/(?P<wsf_hash>[a-zA-Z0-9]+)/', array('methods' => 'GET', 'callback' => array($plugin_api_submit, 'api_get_by_hash'), 'permission_callback' => function () { return true; }));
 
+			// Intentionally public endpoint. This route serves submit data by hash and token only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/hash/(?P<wsf_hash>[a-zA-Z0-9]+)/(?P<wsf_token>[a-zA-Z0-9]+)/', array('methods' => 'GET', 'callback' => array($plugin_api_submit, 'api_get_by_hash'), 'permission_callback' => function () { return true; }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/(?P<submit_id>[\d]+)/starred/on/', array('methods' => 'POST', 'callback' => array($plugin_api_submit, 'api_put_starred_on'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_submission'); }));
