@@ -1127,15 +1127,7 @@
 
 		var field_id = this.get_field_id(obj);
 		var section_repeatable_suffix = this.get_section_repeatable_suffix(obj);
-		var row_suffix = '';
-
-		if(
-			(object_row_id !== false) &&
-			!this.is_not_number(object_row_id)
-		) {
-
-			row_suffix = '-row-' + parseInt(object_row_id, 10);
-		}
+		var row_suffix = (object_row_id ? '-row-' + object_row_id : '');
 
 		return this.form_id_prefix + 'invalid-feedback-' + field_id + row_suffix + section_repeatable_suffix;
 	}
@@ -3862,7 +3854,6 @@
 		var message_div = $('<div/>', { html: this.mask_parse(mask_wrapper, mask_wrapper_values) });
 		message_div.attr('role', 'alert');
 		message_div.attr('data-wsf-message', '');
-		message_div.attr('data-id', this.form_id);
 		message_div.attr('data-wsf-instance-id', this.form_instance_id);
 
 		// Add style ID

@@ -2,8 +2,8 @@
 Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.4
-Tested up to: 7
-Stable tag: 1.11.4
+Tested up to: 7.0
+Stable tag: 1.11.5
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -366,6 +366,9 @@ Need help? Check out our extensive [knowledge base](https://wsform.com/knowledge
 For support, please visit the WS Form LITE [support forum](https://wordpress.org/support/plugin/ws-form/).
 
 == Changelog ==
+
+= 1.11.5 - 05/21/2026 =
+* Bug Fix: Data grid row IDs
 
 = 1.11.4 - 05/20/2026 =
 * Added: WordPress 7 readiness

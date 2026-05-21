@@ -2,6 +2,9 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.11.5 - 05/21/2026 =
+* Bug Fix: Data grid row IDs
+
 = 1.11.4 - 05/20/2026 =
 * Added: WordPress 7 readiness
 * Added: Input mask library version updated

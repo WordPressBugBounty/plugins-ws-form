@@ -8636,17 +8636,17 @@
 								'rows' 		=> array(
 									array(
 
-										'id'		=> 0,
+										'id'		=> 1,
 										'data'		=> array(__('Option 1', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 1,
+										'id'		=> 2,
 										'data'		=> array(__('Option 2', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 2,
+										'id'		=> 3,
 										'data'		=> array(__('Option 3', 'ws-form'))
 									)
 								)
@@ -8714,17 +8714,17 @@
 
 									array(
 
-										'id'		=> 0,
+										'id'		=> 1,
 										'data'		=> array(__('Checkbox 1', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 1,
+										'id'		=> 2,
 										'data'		=> array(__('Checkbox 2', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 2,
+										'id'		=> 3,
 										'data'		=> array(__('Checkbox 3', 'ws-form'))
 									)
 								)
@@ -8792,17 +8792,17 @@
 
 									array(
 
-										'id'		=> 0,
+										'id'		=> 1,
 										'data'		=> array(__('Radio 1', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 1,
+										'id'		=> 2,
 										'data'		=> array(__('Radio 2', 'ws-form'))
 									),
 									array(
 
-										'id'		=> 2,
+										'id'		=> 3,
 										'data'		=> array(__('Radio 3', 'ws-form'))
 									)
 								)

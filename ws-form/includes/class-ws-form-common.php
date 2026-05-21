@@ -5518,7 +5518,7 @@
 						case $column_key_wsf_id:
 
 							$row_id = is_numeric($field_lower) ? absint($field_lower) : -1;
-							if($row_id >= 0) { $id = $row_id; }
+							if($row_id > 0) { $id = $row_id; }
 							break;
 
 						case $column_key_wsf_default:
@@ -5549,9 +5549,7 @@
 						case $column_key_id :
 
 							$row_id = is_numeric($field_lower) ? absint($field_lower) : -1;
-							if($row_id >= 0) { $id = $row_id; }
-
-							// Fall through — include cell in row data (same as original behavior)
+							if($row_id > 0) { $id = $row_id; }
 
 						default :
 
@@ -5561,7 +5559,7 @@
 				}
 
 				// Check for duplicate row IDs (Attempt to fix import data errors)
-				if($row_id >= 0) {
+				if($row_id > 0) {
 
 					if(in_array($row_id, $id_array, true)) {
 
@@ -5572,10 +5570,10 @@
 				// ID row not found
 				if($row_id == -1) {
 
-					$max_id = -1;
-					foreach($id_array as $existing_id) {
+					$max_id = 0;
+					foreach($id_array as $id) {
 
-						if($existing_id > $max_id) { $max_id = $existing_id; }
+						if($id > $max_id) { $max_id = $id; }
 					}
 					$id = $max_id + 1;
 				}

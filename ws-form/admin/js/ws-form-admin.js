@@ -11555,7 +11555,7 @@
 
 	$.WS_Form.prototype.data_grid_row_next_id = function(meta_value) {
 
-		var row_id_max = -1;
+		var row_id = 0;
 		var groups = meta_value.groups;
 
 		for(var group_index in groups) {
@@ -11579,11 +11579,15 @@
 				// Get row ID
 				var id = parseInt(row.id, 10);
 
-				if(id > row_id_max) { row_id_max = id; }
+				// If higher row ID found, set row_id
+				if(id > row_id) { row_id = id; }
 			}
 		}
 
-		return row_id_max + 1;
+		// Increment row ID
+		row_id++;
+
+		return row_id;
 	}
 
 	// Data grid - Uploader

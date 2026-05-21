@@ -203,8 +203,6 @@
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/count-submit-unread/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_count_submit_unread'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_submission'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/review-nag/dismiss/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_review_nag_dismiss'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
-
-			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/shortcode/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_review_nag_dismiss'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/styler/(?P<helper_styler>[a-z]+)/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_styler'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
 
 			// API - Style

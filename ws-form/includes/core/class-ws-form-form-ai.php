@@ -461,7 +461,7 @@
 
 							array(
 
-								'id'		=> 0,
+								'id'		=> 1,
 								'data'		=> array(__('I consent to #blog_name storing my submitted information so they can respond to my inquiry', 'ws-form'))
 							)
 						))
