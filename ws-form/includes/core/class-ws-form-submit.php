@@ -1818,7 +1818,7 @@
 						case '<' :
 						case '<=' :
 
-							if($operator = '==') { $operator = '='; }
+							if($operator == '==') { $operator = '='; }
 
 							$where .= sprintf(
 
@@ -2044,7 +2044,9 @@
 
 						// Get field ID
 						$field_id = absint(str_replace(WS_FORM_FIELD_PREFIX, '', $order_by));
-						if($field_id == 0) { return $order_by; }
+
+						// Not a recognized column or field, fall back to safe default (prevents SQL injection via unescaped ORDER BY)
+						if($field_id == 0) { return $order_by_return; }
 
 						// Read field object
 						try {

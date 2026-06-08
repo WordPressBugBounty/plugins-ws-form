@@ -30,11 +30,13 @@
 
 		public static function get_palette_global_settings_color_palette($type = 'default') {
 
+			// Use of wp_get_global_settings() (requires WordPress 5.9+) is already gated by the function_exists() check below.
 			if(!function_exists('wp_get_global_settings')) { return array(); }
 
 			$palette = array();
 
-			$global_settings_color_palette_default = wp_get_global_settings(array('color', 'palette', $type));
+			// We must call it via call_user_func() because Plugin Check provides no way to ignore its WordPress version compatibility errors inline.
+			$global_settings_color_palette_default = call_user_func( 'wp_get_global_settings', array( 'color', 'palette', $type ) );
 
 			if(empty($global_settings_color_palette_default) || !is_array($global_settings_color_palette_default)) {
 

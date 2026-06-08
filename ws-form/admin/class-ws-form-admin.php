@@ -1768,6 +1768,8 @@
 				// Settings
 				case 'ws-form-settings' :
 
+					if(!WS_Form_Common::can_user('manage_options_wsform')) { break; }
+
 					// Read form ID and action
 					$action = WS_Form_Common::get_query_var_nonce('action', '', false, false, true, 'POST');
 

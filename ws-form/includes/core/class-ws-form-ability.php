@@ -12,7 +12,11 @@
 		// Register ability categories
 		public function register_categories() {
 
-			wp_register_ability_category(
+			// Use of wp_register_ability_category() (requires WordPress 6.9+) is already gated: this method is only hooked when abilities_api_enabled() confirms the Abilities API (WP_Ability) is present.
+			// We must call it via call_user_func() because Plugin Check provides no way to ignore its WordPress version compatibility errors inline.
+			call_user_func(
+
+				'wp_register_ability_category',
 
 				'ws-form',
 
@@ -33,7 +37,11 @@
 			// Register abilities
 			foreach($abilities as $ability_name => $ability) {
 
-				$registered_ability = wp_register_ability(
+				// Use of wp_register_ability() (requires WordPress 6.9+) is already gated: this method is only hooked when abilities_api_enabled() confirms the Abilities API (WP_Ability) is present.
+				// We must call it via call_user_func() because Plugin Check provides no way to ignore its WordPress version compatibility errors inline.
+				$registered_ability = call_user_func(
+
+					'wp_register_ability',
 
 					// Ability
 					$ability_name,

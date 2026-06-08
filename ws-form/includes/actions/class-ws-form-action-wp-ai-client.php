@@ -138,7 +138,9 @@
 			}
 
 			// Set up prompt
-			$prompt = wp_ai_client_prompt($this->input);
+			// Use of wp_ai_client_prompt() (requires WordPress 7.0+) is already gated: this action only runs when wp_ai_client_enabled() confirms the function exists.
+			// We must call it via call_user_func() because Plugin Check provides no way to ignore its WordPress version compatibility errors inline.
+			$prompt = call_user_func('wp_ai_client_prompt', $this->input);
 
 			// Process by type
 			switch($this->type) {

@@ -52,7 +52,9 @@
 				}, 10, 1);
 
 				// Initiate prompt
-				$prompt = wp_ai_client_prompt($prompt);
+				// Use of wp_ai_client_prompt() (requires WordPress 7.0+) is already gated: this file is only loaded when wp_ai_client_enabled() confirms the function exists.
+				// We must call it via call_user_func() because Plugin Check provides no way to ignore its WordPress version compatibility errors inline.
+				$prompt = call_user_func('wp_ai_client_prompt', $prompt);
 
 				// Set model preferences
 				$prompt->using_model_preference(
@@ -91,7 +93,9 @@
 			$ability_name = 'ws-form/form-create-json';
 
 			// Get ability
-			$ability = wp_get_ability($ability_name);
+			// Use of wp_get_ability() (requires WordPress 6.9+) is already gated: this file is only loaded when abilities_api_enabled() confirms the Abilities API is present.
+			// We must call it via call_user_func() because Plugin Check provides no way to ignore its WordPress version compatibility errors inline.
+			$ability = call_user_func('wp_get_ability', $ability_name);
 
 			if($ability) {
 

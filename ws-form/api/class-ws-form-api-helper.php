@@ -507,27 +507,33 @@
 			// Build file path
 			$file_path_full = $upload_dir . '/' . $file_path;
 
-			// Check file exists
-			if(!WS_Form_File::file_exists($file_path_full)) {
-
+			// Prevent path traversal: ensure the resolved file path stays within the uploads directory.
+			// realpath() resolves '..' and symlinks and returns false if the file does not exist.
+			$upload_dir_real = realpath($upload_dir);
+			$file_path_real = realpath($file_path_full);
+			if(
+				($upload_dir_real === false) ||
+				($file_path_real === false) ||
+				(strpos($file_path_real, $upload_dir_real . DIRECTORY_SEPARATOR) !== 0)
+			) {
 				wp_die(esc_html__('File not found', 'ws-form'));
 			}
 
-			// Set HTTP headers
-			header('Content-Type: ' . $file_type);
+			// Set HTTP headers (strip CR/LF to prevent header injection via stored file metadata)
+			header('Content-Type: ' . str_replace(array("\r", "\n"), '', $file_type));
 
 			// Make browser download file instead of viewing it
 			if(WS_Form_Common::get_query_var_nonce('download', '', $parameters) !== '') {
 
 				header("Content-Transfer-Encoding: Binary"); 
-				header("Content-disposition: attachment; filename=\"" . $file_name . "\""); 
+				header('Content-disposition: attachment; filename="' . str_replace(array("\r", "\n", '"'), '', $file_name) . '"');
 			}
 
 			// Clear output buffer
 			if(ob_get_length()) { ob_clean(); }
 
 			// Push file to browser
-			WS_Form_File::readfile($file_path_full);
+			WS_Form_File::readfile($file_path_real);
 
 			exit;
 		}

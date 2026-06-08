@@ -1,9 +1,9 @@
 === WS Form LITE - Drag & Drop Contact Form Builder ===
 Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
-Requires at least: 5.4
+Requires at least: 5.5
 Tested up to: 7.0
-Stable tag: 1.11.5
+Stable tag: 1.11.8
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -367,20 +367,13 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.11.5 - 05/21/2026 =
-* Bug Fix: Data grid row IDs
+= 1.11.8 - 06/08/2026 =
+* Added: Hardened capability checks on settings updates
 
-= 1.11.4 - 05/20/2026 =
-* Added: WordPress 7 readiness
-* Added: Input mask library version updated
-* Bug Fix: Expired submission date_expire fix
-* Bug Fix: Places API (New) type fix
+= 1.11.7 - 06/01/2026 =
+* Bug Fix: Inside label on Price field type
 
-= 1.11.3 - 05/15/2026 =
-* Added: Updated for new WordPress 7 wp_ai_client_prompt method
-
-= 1.11.2 - 05/14/2026 =
-* Added: Upgraded input mask library to version 5.0.9
-* Added: Default value, prefix and suffix added to translatable strings
+= 1.11.6 - 05/26/2026 =
+* Added: Redirect action URL now translatable
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

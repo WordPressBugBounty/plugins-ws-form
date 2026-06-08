@@ -2,6 +2,15 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.11.8 - 06/08/2026 =
+* Added: Hardened capability checks on settings updates
+
+= 1.11.7 - 06/01/2026 =
+* Bug Fix: Inside label on Price field type
+
+= 1.11.6 - 05/26/2026 =
+* Added: Redirect action URL now translatable
+
 = 1.11.5 - 05/21/2026 =
 * Bug Fix: Data grid row IDs
 

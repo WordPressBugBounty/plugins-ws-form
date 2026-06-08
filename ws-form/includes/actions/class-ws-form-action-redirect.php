@@ -336,6 +336,7 @@
 					'help'				=>	__('URL to redirect to.', 'ws-form'),
 					'default'			=>	'/',
 					'variable_helper'	=>	true,
+					'translate'			=>	true,
 					'condition'			=>	array(
 
 						array(
@@ -505,6 +506,7 @@
 					'help'				=>	__('The URL to redirect to if the above conditions are met.', 'ws-form'),
 					'default'			=>	'/',
 					'variable_helper'	=>	true,
+					'translate'			=>	true,
 					'condition'			=>	array(
 
 						array(

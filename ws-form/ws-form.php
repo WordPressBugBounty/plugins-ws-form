@@ -11,8 +11,8 @@
 	 * Plugin Name:       WS Form LITE - Drag & Drop Contact Form Builder
 	 * Plugin URI:        https://wsform.com/
 	 * Description:       Smart. Fast. Forms.
-	 * Version:           1.11.5
-	 * Requires at least: 5.4
+	 * Version:           1.11.8
+	 * Requires at least: 5.5
 	 * Requires PHP:      7.2
 	 * Author:            WS Form
 	 * Author URI:        https://wsform.com/
@@ -37,7 +37,7 @@
 	if(!is_plugin_active('ws-form-pro/ws-form.php')) {
 		// Constants
 		define('WS_FORM_NAME', 'ws-form');
-		define('WS_FORM_VERSION', '1.11.5');
+		define('WS_FORM_VERSION', '1.11.8');
 		define('WS_FORM_NAME_GENERIC', 'WS Form');
 		define('WS_FORM_NAME_PRESENTABLE', 'WS Form LITE');
 		define('WS_FORM_EDITION', 'basic');
@@ -109,7 +109,7 @@
 		define('WS_FORM_SETTINGS_IMAGE_PREVIEW_SIZE', 'full');
 
 		// Settings - System
-		define('WS_FORM_MIN_VERSION_WORDPRESS', '5.4');
+		define('WS_FORM_MIN_VERSION_WORDPRESS', '5.5');
 		define('WS_FORM_MIN_VERSION_PHP', '7.2');
 		define('WS_FORM_MIN_VERSION_MYSQL', '5.6');
 		define('WS_FORM_MIN_INPUT_VARS', 100);

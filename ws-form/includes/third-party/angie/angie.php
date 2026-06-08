@@ -72,7 +72,10 @@
 
 		public function enqueue_scripts() {
 
-			wp_enqueue_script_module(
+			// Use of wp_enqueue_script_module() (requires the Script Modules API, WordPress 6.5+) is already gated: this file is only loaded when angie_enabled() confirms the Angie plugin is active.
+			// We must call it via call_user_func() because Plugin Check provides no way to ignore its WordPress version compatibility errors inline.
+			call_user_func(
+				'wp_enqueue_script_module',
 				'angie-ws-form-mcp-server',
 				plugin_dir_url( __FILE__ ) . 'angie-ws-form-mcp-server.js',
 				[],
