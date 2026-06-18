@@ -1110,6 +1110,22 @@
 			);
 		}
 
+		// Is WP AI client usable?
+		public static function wp_ai_client_usable() {
+
+			if(!self::wp_ai_client_enabled()) { return false; }
+
+			try {
+
+				// Returns true only if a configured, text-capable AI provider is available
+				return \WordPress\AiClient\AiClient::prompt()->isSupportedForTextGeneration();
+
+			} catch(Exception $e) {
+
+				return false;
+			}
+		}
+
 		// Is styler enabled?
 		public static function styler_enabled() {
 

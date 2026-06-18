@@ -1270,7 +1270,7 @@
 			var honeypot_attributes = (typeof fields.honeypot_attributes !== 'undefined') ? ' ' + fields.honeypot_attributes.join(' ') : '';
 
 			// Add to form
-			var honeypot_html = '<label for="field_' + honeypot_hash + '" aria-hidden="true" style="position: absolute !important; ' + (ws_form_settings.rtl ? 'right' : 'left') + ': -9999em !important; height: 0 !important; margin: 0 !important; padding: 0 !important;">' + this.esc_html(honeypot_hash) + '<input type="text" id="field_' + this.esc_attr(honeypot_hash) + '" name="field_' + this.esc_attr(honeypot_hash) + '" value="" autocomplete="off" tab-index="-1" style="display: none !important;"' + honeypot_attributes + '></label>';
+			var honeypot_html = '<label for="field_' + honeypot_hash + '" aria-hidden="true" style="position: absolute !important; ' + (ws_form_settings.rtl ? 'right' : 'left') + ': -9999em !important; height: 0 !important; margin: 0 !important; padding: 0 !important;">' + this.esc_html(honeypot_hash) + '<input type="text" id="field_' + this.esc_attr(honeypot_hash) + '" name="field_' + this.esc_attr(honeypot_hash) + '" value="" autocomplete="off" tabindex="-1" style="display: none !important;"' + honeypot_attributes + '></label>';
 			this.form_canvas_obj.append(honeypot_html);
 
 		}

@@ -28,6 +28,7 @@
 					]
 				},
 				"hook"					:	"wsf_wp_ai_client_create",
+				"wp_ai_client_required"	:	true,
 				"pro_required"			:	false,
 				"popular"				:	true,
 				"priority"				:	200
@@ -37,6 +38,7 @@
 				"id"					:	"ai-generate-text",
 				"label" 				:	"Generate Text",
 				"file_json"				:	"wsf-form-ai-generate-text.json",
+				"wp_ai_client_required"	:	true,
 				"pro_required"			:	true
 			},
 
@@ -44,6 +46,7 @@
 				"id"					:	"ai-generate-image",
 				"label" 				:	 "Generate Image",
 				"file_json"				:	"wsf-form-ai-generate-image.json",
+				"wp_ai_client_required"	:	true,
 				"pro_required"			:	true
 			}
 		]

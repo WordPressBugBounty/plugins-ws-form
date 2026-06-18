@@ -7,6 +7,36 @@
 .wsf-form .iti .iti__flag-container .iti__selected-flag {
   padding: var(--wsf-field-padding);
 }
+.wsf-form .iti .iti__dropdown-content {
+  background-color: var(--wsf-field-color-background);
+  color: var(--wsf-field-color);
+  border-color: var(--wsf-field-border-color);
+}
+.wsf-form .iti .iti__search-input {
+  background-color: var(--wsf-field-color-background);
+  color: var(--wsf-field-color);
+}
+.wsf-form .iti .iti__search-input::-webkit-input-placeholder {
+  color: var(--wsf-field-color-placeholder);
+}
+.wsf-form .iti .iti__search-input::-moz-placeholder {
+  color: var(--wsf-field-color-placeholder);
+}
+.wsf-form .iti .iti__search-input::-ms-input-placeholder {
+  color: var(--wsf-field-color-placeholder);
+}
+.wsf-form .iti .iti__search-input::placeholder {
+  color: var(--wsf-field-color-placeholder);
+}
+.wsf-form .iti .iti__dial-code {
+  color: var(--wsf-field-color);
+}
+.wsf-form .iti .iti__arrow {
+  border-top-color: var(--wsf-field-color);
+}
+.wsf-form .iti .iti__arrow--up {
+  border-bottom-color: var(--wsf-field-color);
+}
 .wsf-form .iti.iti--allow-dropdown input,
 .wsf-form .iti.iti--allow-dropdown input[type=tel],
 .wsf-form .iti.iti--allow-dropdown input[type=text], .wsf-form .iti.iti--separate-dial-code input,

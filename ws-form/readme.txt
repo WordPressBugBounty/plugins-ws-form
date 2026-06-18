@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.5
 Tested up to: 7.0
-Stable tag: 1.11.8
+Stable tag: 1.11.11
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -367,13 +367,17 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.11.8 - 06/08/2026 =
-* Added: Hardened capability checks on settings updates
+= 1.11.11 - 06/18/2026 =
+* Added: Workaround for a third party plugin bug that could cause a fatal error on the WordPress plugin update screens
+* Bug Fix: Honeypot spam protection field now uses the correct tabindex attribute
+* Bug Fix: Cloudflare Turnstile using the Interaction Only appearance mode was hidden by CSS, preventing visitors from completing the interactive challenge (field spacing now also collapses when no challenge is shown)
 
-= 1.11.7 - 06/01/2026 =
-* Bug Fix: Inside label on Price field type
+= 1.11.10 - 06/17/2026 =
+* Added: New JavaScript hook for resolving custom parse variables client-side
+* Bug Fix: Phone field International Telephone Input (ITI) country dropdown now uses the WS Form color system instead of hardcoded colors
 
-= 1.11.6 - 05/26/2026 =
-* Added: Redirect action URL now translatable
+= 1.11.9 - 06/12/2026 =
+* Added: AI action temperature is now optional and accepts a value from 0.0 to 2.0 (some models do not support temperature)
+* Bug Fix: AI action now handles errors returned by the WordPress AI Client
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

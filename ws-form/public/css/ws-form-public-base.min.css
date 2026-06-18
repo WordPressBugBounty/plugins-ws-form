@@ -745,13 +745,18 @@
   display: block;
 }
 .wsf-form [data-type=captchafox]:has([data-mode=hidden]),
-.wsf-form [data-type=recaptcha]:has([data-recaptcha-type=v2_invisible], [data-recaptcha-type=v3_default]),
-.wsf-form [data-type=turnstile]:has([data-appearance=interaction-only]) {
+.wsf-form [data-type=recaptcha]:has([data-recaptcha-type=v2_invisible], [data-recaptcha-type=v3_default]) {
   height: 0;
   margin: 0;
   overflow: hidden;
   padding: 0;
   width: 0;
+}
+.wsf-form .wsf-field-wrapper[data-type=turnstile]:has([data-appearance=interaction-only]) {
+  margin-bottom: 0;
+}
+.wsf-form .wsf-field-wrapper[data-type=turnstile]:has([data-appearance=interaction-only]).wsf-turnstile-interactive {
+  margin-bottom: var(--wsf-form-grid-gap);
 }
 .wsf-form.wsf-field-border-placement-bottom [data-wsf-legal].wsf-field,
 .wsf-form.wsf-field-border-placement-bottom input.wsf-field[type=text] ~ canvas,

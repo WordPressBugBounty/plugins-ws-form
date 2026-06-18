@@ -14763,27 +14763,60 @@
 				modal_form = JSON.parse(modal_form);
 			}
 
-			// Setup create button
+			// Setup buttons
+			var modal_button = modal_form.button;
 
-			// Template ID
-			$('#wsf-modal-buttons-create button').attr('data-id', $(this).attr('data-id'));
+			if(modal_button && modal_button.url) {
 
-			// Action
-			$('#wsf-modal-buttons-create button').attr('data-action', modal_form.action);
+				// Link button (e.g. shown when prerequisites must be configured before a form can be created)
 
-			// Action ID
-			$('#wsf-modal-buttons-create button').attr('data-action-id', $(this).attr('data-action-id'));
+				// Hide create button
+				$('#wsf-modal-buttons-create button').hide();
 
-			// List ID
-			$('#wsf-modal-buttons-create button').attr('data-list-id', $(this).attr('data-list-id'));
+				// Build link button if it does not exist yet
+				if(!$('#wsf-modal-buttons-link').length) {
 
-			// Disable create button
-			$('#wsf-modal-buttons-create button').prop('disabled', true);
+					$('#wsf-modal-buttons-create').append('<div id="wsf-modal-buttons-link"><a class="button button-primary"></a></div>');
+				}
+
+				// Configure and show link button
+				$('#wsf-modal-buttons-link a').attr('href', modal_button.url).text(modal_button.label);
+				$('#wsf-modal-buttons-link').show();
+
+			} else {
+
+				// Hide link button (if previously shown)
+				$('#wsf-modal-buttons-link').hide();
+
+				// Show create button
+				$('#wsf-modal-buttons-create button').show();
+
+				// Template ID
+				$('#wsf-modal-buttons-create button').attr('data-id', $(this).attr('data-id'));
+
+				// Action
+				$('#wsf-modal-buttons-create button').attr('data-action', modal_form.action);
+
+				// Action ID
+				$('#wsf-modal-buttons-create button').attr('data-action-id', $(this).attr('data-action-id'));
+
+				// List ID
+				$('#wsf-modal-buttons-create button').attr('data-list-id', $(this).attr('data-list-id'));
+
+				// Disable create button
+				$('#wsf-modal-buttons-create button').prop('disabled', true);
+			}
 
 			// Generate form
 			var fields = modal_form.fields;
 
 			var form_html = '';
+
+			// Intro text
+			if(modal_form.intro) {
+
+				form_html += '<div class="wsf-template-add-modal-intro">' + modal_form.intro + '</div>';
+			}
 
 			for(var field_index in fields) {
 

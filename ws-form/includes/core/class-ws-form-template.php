@@ -419,6 +419,9 @@
 							$config_object->template_categories[$template_category_index]->templates[$template_index]->modal_form = $modal_form;
 						}
 
+						// WP AI client required (e.g. AI templates that need a configured AI provider)
+						$config_object->template_categories[$template_category_index]->templates[$template_index]->wp_ai_client_required = isset($template->wp_ai_client_required) ? (bool) $template->wp_ai_client_required : false;
+
 						// Hook
 						if($get_hook) {
 
@@ -812,15 +815,27 @@
 	<a class="wsf-button wsf-button-primary wsf-button-full" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_plugin_website_url('', 'add_form')); ?>" target="_blank"><?php esc_html_e('Upgrade to PRO', 'ws-form'); ?></a>
 <?php
 					} else {
+						
+						if(
+							!empty($template->wp_ai_client_required) &&
+							!WS_Form_Common::wp_ai_client_usable()
+						) {
+							// AI provider required but not configured - show the connectors setup modal instead
+							$modal_form = self::get_wp_ai_client_required_modal();
+							$data_action = 'wsf-modal-form';
 
-						$data_action = isset($template->modal_form) ? 'wsf-modal-form' : sprintf('wsf-add-%s', $action_id);
+						} else {
+
+							$modal_form = isset($template->modal_form) ? $template->modal_form : false;
+							$data_action = isset($template->modal_form) ? 'wsf-modal-form' : sprintf('wsf-add-%s', $action_id);
+						}
 ?>
 	<button class="wsf-button wsf-button-primary wsf-button-full" data-action="<?php WS_Form_Common::echo_esc_attr($data_action); ?>" data-id="<?php WS_Form_Common::echo_esc_attr($template->id); ?>" data-id="<?php WS_Form_Common::echo_esc_attr($template->label); ?>" data-label="<?php WS_Form_Common::echo_esc_attr($template->label); ?>"<?php
 
 						// Modal form
-						if(isset($template->modal_form)) {
+						if($modal_form) {
 
-?> data-modal-form="<?php WS_Form_Common::echo_esc_attr(wp_json_encode($template->modal_form)); ?>"<?php
+?> data-modal-form="<?php WS_Form_Common::echo_esc_attr(wp_json_encode($modal_form)); ?>"<?php
 
 						}
 
@@ -840,6 +855,21 @@
 <?php
 				}
 			}
+		}
+
+		// Modal shown when a template requires a configured AI provider but none is available
+		public static function get_wp_ai_client_required_modal() {
+
+			return array(
+
+				'label'		=> __('Connect an AI Provider', 'ws-form'),
+				'intro'		=> '<p>' . esc_html__('Before you can use AI templates, you need to connect an AI provider. Set up your connectors in Settings > Connectors.', 'ws-form') . '</p>',
+				'button'	=> array(
+
+					'label'	=> __('Set Up Connectors', 'ws-form'),
+					'url'	=> admin_url('options-connectors.php')
+				)
+			);
 		}
 
 		// Legacy

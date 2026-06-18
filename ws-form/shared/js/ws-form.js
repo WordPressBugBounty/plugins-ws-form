@@ -235,6 +235,33 @@
 		this.form_geo_cache = false;
 		this.form_geo_cache_request = false;
 		this.form_geo_stack = [];
+
+		// Client-side parse variable resolver registry
+		//
+		// Add-ons can register handlers to resolve their own parameterized parse
+		// variables (e.g. #my_var("arg")) live in the browser, e.g.:
+		//
+		//   $.WS_Form.parse_variable_handlers = $.WS_Form.parse_variable_handlers || {};
+		//   $.WS_Form.parse_variable_handlers['my_var'] = function(attributes, context) {
+		//
+		//       // attributes:           Parsed argument array, e.g. ['pa_color']
+		//       // context.ws_form:      WS Form instance (also bound to 'this')
+		//       // context.field_to:     Field object the value is being resolved for
+		//       // context.field_part:   Field part
+		//       // context.section_id:   Section ID
+		//       // context.section_repeatable_index: Repeatable section row index
+		//       // context.parse_variable:           Variable name, e.g. 'my_var'
+		//       // context.parse_variable_full:      Full match, e.g. '#my_var("pa_color")'
+		//       // context.current_value:            Value resolved so far (string)
+		//
+		//       return '<string value>';
+		//   };
+		//
+		// The variable must still be declared in PHP via the
+		// wsf_config_parse_variables filter (with 'attributes' defined). Set
+		// 'single_parse' => true in its config to make it dynamic so dependent
+		// conditional logic, calculations, default values and merge tags update live.
+		$.WS_Form.parse_variable_handlers = $.WS_Form.parse_variable_handlers || {};
 	}
 
 	// Render
@@ -2058,7 +2085,45 @@
 				if(parse_variable_single_parse) { variable_dynamic = true; }
 
 				// If no attributes specified, then just set the value
-				if((parse_variable_attributes === false) && (parse_variable_value !== false)) { variables[parse_variable] = parse_variable_value; continue; }
+				if(parse_variable_attributes === false) {
+
+					// Prefer a registered client-side resolver over the static config value
+					// so add-ons can use the same mechanism for no-arg and parameterized variables
+					if(
+						(typeof $.WS_Form.parse_variable_handlers === 'object') &&
+						(typeof $.WS_Form.parse_variable_handlers[parse_variable] === 'function')
+					) {
+
+						var parsed_variable = $.WS_Form.parse_variable_handlers[parse_variable].call(
+
+							this,
+							[],
+							{
+								ws_form: this,
+								section_repeatable_index: section_repeatable_index,
+								field_to: field_to,
+								field_part: field_part,
+								section_id: section_id,
+								parse_variable: parse_variable,
+								parse_variable_full: '#' + parse_variable,
+								current_value: (parse_variable_value !== false) ? parse_variable_value : ''
+							}
+						);
+
+						if(parse_variable_single_parse) {
+
+							variables_single_parse[parse_variable] = parsed_variable;
+
+						} else {
+
+							variables[parse_variable] = parsed_variable;
+						}
+
+						continue;
+					}
+
+					if(parse_variable_value !== false) { variables[parse_variable] = parse_variable_value; continue; }
+				}
 
 				// Get number of attributes required
 				var variable_attribute_count = (typeof parse_variable_config.attributes === 'object') ? parse_variable_config.attributes.length : 0;
@@ -3420,6 +3485,33 @@
 								parsed_variable = parsed_variable_total / variable_attribute_array.length;
 
 								break;
+						}
+
+						// Client-side parse variable resolver registry
+						//
+						// Allow add-ons to resolve their own parameterized parse variables
+						// in the browser. Runs after the core switch so registered handlers
+						// can resolve variables that are not handled in core.
+						if(
+							(typeof $.WS_Form.parse_variable_handlers === 'object') &&
+							(typeof $.WS_Form.parse_variable_handlers[parse_variable] === 'function')
+						) {
+
+							parsed_variable = $.WS_Form.parse_variable_handlers[parse_variable].call(
+
+								this,
+								variable_attribute_array,
+								{
+									ws_form: this,
+									section_repeatable_index: section_repeatable_index,
+									field_to: field_to,
+									field_part: field_part,
+									section_id: section_id,
+									parse_variable: parse_variable,
+									parse_variable_full: parse_variable_full,
+									current_value: parsed_variable
+								}
+							);
 						}
 
 						// Assign value

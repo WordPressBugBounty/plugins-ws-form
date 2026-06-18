@@ -928,6 +928,16 @@
 			var turnstile_obj_label = $('label', turnstile_obj_wrapper);
 			var turnstile_obj_invalid_feedback = $('#' + ws_this.form_id_prefix + 'invalid-feedback-' + turnstile_id, turnstile_obj_wrapper, ws_this.form_canvas_obj);
 
+			// Interaction only - Cloudflare renders the silent widget out of flow (0 height), so collapse field spacing until an interactive challenge is shown
+			if((turnstile_appearance === 'interaction-only') && (typeof ResizeObserver !== 'undefined')) {
+
+				new ResizeObserver(function() {
+
+					turnstile_obj_wrapper.toggleClass('wsf-turnstile-interactive', (turnstile_obj_field[0].offsetHeight > 1));
+
+				}).observe(turnstile_obj_field[0]);
+			}
+
 			var config = {
 
 				'sitekey': turnstile_site_key,

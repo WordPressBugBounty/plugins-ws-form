@@ -154,7 +154,11 @@
 						self::set_model_preferences($prompt, $this->models_text, 'text');
 
 						// Set temperature
-						$prompt->using_temperature($this->temperature);
+						// Only sent when a value has been entered. Some models (such as certain reasoning models) do not support the temperature parameter
+						if($this->temperature !== '') {
+
+							$prompt->using_temperature($this->temperature);
+						}
 
 						// Set candidate count
 						$prompt->using_candidate_count(1);
@@ -164,6 +168,14 @@
 
 							// Generate result
 							$result = $prompt->generate_text_result();
+
+							// Check for error
+							if(is_wp_error($result)) {
+
+								self::error($result->get_error_message());
+
+								return true;
+							}
 
 							// Get texts
 							$texts = $result->toTexts();
@@ -179,7 +191,7 @@
 
 						} else {
 
-							self::error(__('To generate text with AI, you’ll need to connect an AI provider first. Add your credentials in the WordPress AI settings that supports text generation.', 'ws-form'));
+							self::error(__('To generate text with AI, you’ll need to connect an AI provider that supports text generation first. Set up your connectors in Settings > Connectors.', 'ws-form'));
 
 							return true;
 						}
@@ -233,9 +245,17 @@
 									// Generate result
 									$result = $prompt->generate_image_result();
 
+									// Check for error
+									if(is_wp_error($result)) {
+
+										self::error($result->get_error_message());
+
+										return true;
+									}
+
 								} else {
 
-									self::error(__('To generate images with AI, you’ll need to connect an AI provider first. Add your credentials in the WordPress AI settings that supports text generation.', 'ws-form'));
+									self::error(__('To generate images with AI, you’ll need to connect an AI provider that supports image generation first. Set up your connectors in Settings > Connectors.', 'ws-form'));
 
 									return true;
 								}
@@ -256,9 +276,17 @@
 									// Generate result
 									$result = $prompt->generate_speech_result();
 
+									// Check for error
+									if(is_wp_error($result)) {
+
+										self::error($result->get_error_message());
+
+										return true;
+									}
+
 								} else {
 
-									self::error(__('To generate speech with AI, you’ll need to connect an AI provider first. Add your credentials in the WordPress AI settings that supports speech generation.', 'ws-form'));
+									self::error(__('To generate speech with AI, you’ll need to connect an AI provider that supports speech generation first. Set up your connectors in Settings > Connectors.', 'ws-form'));
 
 									return true;
 								}
@@ -680,9 +708,15 @@
 			$this->output_append = (parent::get_config($config, 'action_' . $this->id . '_output_append', '') === 'on');
 			$this->output_trim = (parent::get_config($config, 'action_' . $this->id . '_output_trim', '') === 'on');
 			$this->output_wpautop = (parent::get_config($config, 'action_' . $this->id . '_output_wpautop', '') === 'on');
-			$this->temperature = floatval(parent::get_config($config, 'action_' . $this->id . '_temperature', '1'));
-			if($this->temperature < 0) { $this->temperature = 0; }
-			if($this->temperature > 1) { $this->temperature = 1; }
+			// Temperature is optional. If left blank, no temperature is sent (some models, such as certain reasoning models, do not support temperature)
+			$this->temperature = trim(parent::get_config($config, 'action_' . $this->id . '_temperature', ''));
+			if($this->temperature !== '') {
+
+				// Temperature controls randomness and must be numeric in the range 0.0 to 2.0 (per the PHP AI Client SDK)
+				$this->temperature = floatval($this->temperature);
+				if($this->temperature < 0) { $this->temperature = 0; }
+				if($this->temperature > 2) { $this->temperature = 2; }
+			}
 			$this->models_text = parent::get_config($config, 'action_' . $this->id . '_models_text', array());
 			if(empty($this->models_text) || !is_array($this->models_text)) { $this->models_text = array(); }
 
@@ -1086,12 +1120,10 @@
 				'action_' . $this->id . '_temperature'	=> array(
 
 					'label'						=>	__('Temperature', 'ws-form'),
-					'type'						=>	'range',
-					'min'						=>	0,
-					'max'						=>	1,
-					'step'						=>	0.01,
-					'default'					=>	1,
-					'help'						=>	__('Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.', 'ws-form'),
+					'type'						=>	'text',
+					'default'					=>	'',
+					'placeholder'				=>	__('e.g. 1.0 (0.0 to 2.0)', 'ws-form'),
+					'help'						=>	__('Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive. Leave blank to not send a temperature (some models, such as certain reasoning models, do not support temperature).', 'ws-form'),
 					'condition'					=>	array(
 
 						array(
