@@ -11,14 +11,34 @@
 	class WS_Form_File {
 
 		// Ensure WP_Filesystem is initialized
+		// Returns the $wp_filesystem object on success, or false if a usable filesystem could not be initialized
 		private static function init() {
 
 			global $wp_filesystem;
 
-			if (empty($wp_filesystem)) {
+			// Already initialized and usable
+			if (!empty($wp_filesystem) && is_object($wp_filesystem)) {
 
-				require_once ABSPATH . 'wp-admin/includes/file.php';
-				WP_Filesystem();
+				return $wp_filesystem;
+			}
+
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+
+			$initialized = WP_Filesystem();
+
+			// Bail if the filesystem could not be initialized or did not connect (e.g. WordPress falls back to
+			// the FTP/SSH method but no credentials are available). In that scenario WP_Filesystem() sets the
+			// global $wp_filesystem to a half-initialized object (with a null connection) before failing, and any
+			// subsequent call such as exists() would trigger a fatal TypeError inside ftp_nlist() / ssh2
+			// functions. Returning false here lets callers degrade gracefully instead.
+			if (
+				($initialized === false) ||
+				empty($wp_filesystem) ||
+				!is_object($wp_filesystem) ||
+				(isset($wp_filesystem->errors) && is_wp_error($wp_filesystem->errors) && $wp_filesystem->errors->has_errors())
+			) {
+
+				return false;
 			}
 
 			return $wp_filesystem;
@@ -28,6 +48,10 @@
 		public static function rmdir($directory, $context = null) {
 
 			$wp_filesystem = self::init();
+
+			if (!$wp_filesystem) {
+				return false;
+			}
 
 			if (!$wp_filesystem->exists($directory)) {
 				return false;
@@ -42,6 +66,10 @@
 		public static function readfile($filename, $use_include_path = false, $context = null) {
 
 			$wp_filesystem = self::init();
+
+			if (!$wp_filesystem) {
+				return false;
+			}
 
 			if (!$wp_filesystem->exists($filename)) {
 				return false;
@@ -64,6 +92,10 @@
 
 			$wp_filesystem = self::init();
 
+			if (!$wp_filesystem) {
+				return false;
+			}
+
 			return $wp_filesystem->exists($filename);
 		}
 
@@ -72,6 +104,10 @@
 
 			$wp_filesystem = self::init();
 
+			if (!$wp_filesystem) {
+				return false;
+			}
+
 			return $wp_filesystem->put_contents($filename, $data, FS_CHMOD_FILE);
 		}
 
@@ -79,6 +115,10 @@
 		public static function file_get_contents($filename, $use_include_path = false, $context = null, $offset = 0, $length = null) {
 
 			$wp_filesystem = self::init();
+
+			if (!$wp_filesystem) {
+				return false;
+			}
 
 			if (!$wp_filesystem->exists($filename)) {
 
@@ -110,6 +150,10 @@
 
 			$wp_filesystem = self::init();
 
+			if (!$wp_filesystem) {
+				return false;
+			}
+
 			if (!$wp_filesystem->exists($filename)) {
 				return false;
 			}
@@ -139,6 +183,10 @@
 
 			$wp_filesystem = self::init();
 
+			if (!$wp_filesystem) {
+				return false;
+			}
+
 			if (!$wp_filesystem->exists($oldname)) {
 				return false;
 			}
@@ -150,6 +198,10 @@
 		public static function filesize($filename) {
 
 			$wp_filesystem = self::init();
+
+			if (!$wp_filesystem) {
+				return false;
+			}
 
 			if (!$wp_filesystem->exists($filename)) {
 				return false;

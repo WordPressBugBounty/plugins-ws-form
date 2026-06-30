@@ -1428,10 +1428,7 @@
 		}
 
 		// Set field ID as title
-		if(
-			$.WS_Form.settings_plugin.helper_field_id &&
-			!field_type_config_admin_hide_id
-		) {
+		if(!field_type_config_admin_hide_id) {
 
 			obj.attr('title', '#field(' + field_id + ')');
 		}
@@ -1482,10 +1479,7 @@
 
 			field_html += '<div class="wsf-field-type">' + this.esc_html(field_type_config_label);
 
-			if($.WS_Form.settings_plugin.helper_field_id) {
-
-				field_html += '<span class="wsf-field-id">' + this.language('id') + ': ' + this.esc_html(field_id) + '</span>';
-			}
+			field_html += '<span class="wsf-field-id">' + this.language('id') + ': ' + this.esc_html(field_id) + '</span>';
 
 			field_html += '</div>';
 		}
@@ -4376,9 +4370,6 @@
 		if(typeof obj_sidebar_inner === 'undefined') { obj_sidebar_inner = obj_sidebar_outer; }
 		if(typeof object_data === 'undefined') { object_data = []; }
 
-		var mode = $.WS_Form.settings_plugin.mode;
-		var mode_basic = (mode == 'basic');
-
 		// Initialize tabs
 		if(inits.indexOf('tabs') != -1) {
 
@@ -4455,12 +4446,6 @@
 		if((inits.indexOf('range') != -1)) {
 
 			this.sidebar_range_init(obj_sidebar_inner);
-		}
-
-		// Initialize default value number
-		if((inits.indexOf('number') != -1) && mode_basic) {
-
-			this.sidebar_number_init(obj_sidebar_inner);
 		}
 
 		// Initialize sidebar placeholders
@@ -4566,7 +4551,7 @@
 				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 
 				// Build ID html
-				var sidebar_field_id_html = ($.WS_Form.settings_plugin.helper_field_id) ? '<code data-action="wsf-clipboard"' + this.esc_attr_tooltip(this.language('clipboard'), 'left') + '>[' + ws_form_settings.shortcode + ' id="' + this.form_id + '"]</code>' : '';
+				var sidebar_field_id_html = '<code data-action="wsf-clipboard"' + this.esc_attr_tooltip(this.language('clipboard'), 'left') + '>[' + ws_form_settings.shortcode + ' id="' + this.form_id + '"]</code>';
 
 				break;
 
@@ -4581,7 +4566,7 @@
 				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 
 				// Build ID html
-				var sidebar_field_id_html = ($.WS_Form.settings_plugin.helper_field_id) ? '<code>' + this.language('id') + ': ' + object_id + '</code>' : '';
+				var sidebar_field_id_html = '<code>' + this.language('id') + ': ' + object_id + '</code>';
 
 				break;
 
@@ -4596,7 +4581,7 @@
 				var sidebar_kb_html = '<a class="wsf-kb-url" href="' + this.esc_url(kb_url) + '" target="_blank"' + this.esc_attr_tooltip(this.language('field_kb_url'), 'bottom-center') + ' tabindex="-1">' + this.svg('question-circle') + '</a>';
 
 				// Build ID html
-				var sidebar_field_id_html = ($.WS_Form.settings_plugin.helper_field_id) ? '<code>' + this.language('id') + ': ' + object_id + '</code>' : '';
+				var sidebar_field_id_html = '<code>' + this.language('id') + ': ' + object_id + '</code>';
 
 				break;
 
@@ -4620,7 +4605,7 @@
 
 				// Build ID html
 				var object_meta_admin_hide_id = (typeof object_meta.admin_hide_id !== 'undefined') ? object_meta.admin_hide_id : false;
-				var sidebar_field_id_html = object_meta_admin_hide_id ? '' : (($.WS_Form.settings_plugin.helper_field_id) ? '<code data-action="wsf-clipboard"' + this.esc_attr_tooltip(this.language('clipboard'), 'left') + '>#field(' + this.esc_html(object_id) + ')</code>' : '');
+				var sidebar_field_id_html = object_meta_admin_hide_id ? '' : ('<code data-action="wsf-clipboard"' + this.esc_attr_tooltip(this.language('clipboard'), 'left') + '>#field(' + this.esc_html(object_id) + ')</code>');
 
 				break;
 
@@ -6126,66 +6111,6 @@
 		var range_value_html = this.mask_parse(range_value_mask, range_value_mask_lookups);
 
 		$('#wsf_' + meta_key + '_range_value', obj_inner).html(range_value_html);
-	}
-
-	// Sidebar - Number - Init
-	$.WS_Form.prototype.sidebar_number_init = function(obj_inner) {
-
-		// Configure default values that are number inputs
-		var obj = $('input[type="number"][data-meta-key="default_value"]', obj_inner).first();
-		if(!obj.length) { return false; }
-
-		// Look for min, max or step value value
-		$('[data-meta-key="min"],[data-meta-key="max"],[data-meta-key="step"]', obj_inner).on('change', function() { $.WS_Form.this.sidebar_default_value_attributes(obj_inner, obj, 'number'); });
-		$.WS_Form.this.sidebar_default_value_attributes(obj_inner, obj, 'number');
-	}
-
-	// Sidebar - Update default value attributes
-	$.WS_Form.prototype.sidebar_default_value_attributes = function(obj_outer, obj, type) {
-
-		// Get obj value
-		var value = obj.val();
-
-		var obj_min = $('[data-meta-key="min"]', obj_outer).first();
-		var obj_max = $('[data-meta-key="max"]', obj_outer).first();
-		var obj_step = $('[data-meta-key="step"]', obj_outer).first();
-
-		// Get values according to type
-		switch(type) {
-
-			case 'range' :
-
-				var min = this.get_number(obj_min.val(), 0);
-				var max = this.get_number(obj_max.val(), 100);
-				var step = this.get_number(obj_step.val(), 1);
-
-				if((obj_max.val() != '') && (min > max)) { min = max; obj_min.val(min); }
-
-				if(min == 0) { obj.removeAttr('min'); } else { obj.attr('min', min); }
-				if(max == 100) { obj.removeAttr('max'); } else { obj.attr('max', max); }
-				if(step == 1) { obj.removeAttr('step'); } else { obj.attr('step', step); }
-
-				// Check value
-				obj.val(value > max ? max : value < min ? min : value);
-
-				break;
-
-			case 'number' :
-
-				var min = (obj_min.val() != '') ? this.get_number(obj_min.val()) : false;
-				var max = (obj_min.val() != '') ? this.get_number(obj_max.val()) : false;
-				var step = (obj_min.val() != '') ? this.get_number(obj_step.val()) : false;
-
-				if((min !== false) && (max !== false) && (min > max)) { min = max; obj_min.val(min); }
-
-				if(min === false) { obj.removeAttr('min'); } else { obj.attr('min', min); }
-				if(max === false) { obj.removeAttr('max'); } else { obj.attr('max', max); }
-				if(step === false) { obj.removeAttr('step'); } else { obj.attr('step', step); }
-
-				// Check value
-				if((max !== false) && (value > max)) { obj.val(max); }
-				if((min !== false) && (value < min)) { obj.val(min); }
-		}
 	}
 
 	// Sidebar - Tabs - Init
@@ -14277,6 +14202,36 @@
 		this.object_blank_update();
 	}
 
+	// Keep a sortable's cached positions in sync while its scroll parent auto-scrolls during a drag.
+	// jQuery UI Sortable caches item and drop container offsets at drag start and, while auto-scrolling, only refreshes item positions (never the drop container positions). In the layout editor the sortable's scroll parent is #poststuff, so once a section scrolls into view its cached drop-zone offset is still its stale (off-screen) value and the intersection test never matches, making it impossible to drop into. Re-running refreshPositions on each scroll keeps those cached offsets accurate.
+	$.WS_Form.prototype.dnd_sortable_refresh = function(sortable_element) {
+
+		// Get the live sortable instance that is performing the drag
+		var sortable_instance = $(sortable_element).sortable('instance');
+
+		if(!sortable_instance) { return; }
+
+		// jQuery UI determines the scroll parent at drag start (e.g. #poststuff). Include the window in case the document itself scrolls.
+		var scroll_parent = (sortable_instance.scrollParent && sortable_instance.scrollParent.length) ? sortable_instance.scrollParent : $();
+		this.dnd_scroll_parent = scroll_parent.add(window);
+
+		// Refresh cached positions on every scroll for the duration of the drag
+		this.dnd_scroll_parent.off('scroll.wsf-dnd-refresh').on('scroll.wsf-dnd-refresh', function() {
+
+			sortable_instance.refreshPositions(true);
+		});
+	}
+
+	// Remove the scroll position refresh handler bound by dnd_sortable_refresh
+	$.WS_Form.prototype.dnd_sortable_refresh_remove = function() {
+
+		if(this.dnd_scroll_parent) {
+
+			this.dnd_scroll_parent.off('scroll.wsf-dnd-refresh');
+			this.dnd_scroll_parent = null;
+		}
+	}
+
 	// Make form groups sortable
 	$.WS_Form.prototype.groups_sortable = function() {
 
@@ -14364,6 +14319,9 @@
 				// Refresh positions
 				$('.wsf-sections').sortable('refreshPositions');
 
+				// jQuery UI Sortable caches the drop container offsets at drag start and never refreshes them while auto-scrolling, so containers that scroll into view keep their stale (off-screen) offsets and reject drops. Refresh positions whenever the sortable's actual scroll parent scrolls during a drag.
+				$.WS_Form.this.dnd_sortable_refresh(e.target);
+
 				// Get next sibling ID (0 = Last or only element in group)
 				$.WS_Form.this.next_sibling_id_old = (typeof obj.next().attr('data-id') !== 'undefined') ? obj.next().attr('data-id') : 0;
 				$.WS_Form.this.group_id_old = obj.closest('.wsf-group').attr('data-id');
@@ -14428,6 +14386,9 @@
 					$.WS_Form.this.section_put_sort_index(ui.item);
 				}
 
+				// Remove scroll position refresh handler
+				$.WS_Form.this.dnd_sortable_refresh_remove();
+
 				// Reset section
 				$.WS_Form.this.dragging = false;
 				$.WS_Form.this.dragged_section = null;
@@ -14451,6 +14412,9 @@
 			connectWith: 		'.wsf-fields',
 
 			start: function (e, ui) {
+
+				// jQuery UI Sortable caches the drop container offsets at drag start and never refreshes them while auto-scrolling, so sections that scroll into view keep their stale (off-screen) offsets and reject drops. Refresh positions whenever the sortable's actual scroll parent scrolls during a drag.
+				$.WS_Form.this.dnd_sortable_refresh(e.target);
 
 				if(!$.WS_Form.this.dragged_field) {
 
@@ -14538,6 +14502,9 @@
 					$.WS_Form.this.field_put_sort_index(ui.item);
 				}
 
+				// Remove scroll position refresh handler
+				$.WS_Form.this.dnd_sortable_refresh_remove();
+
 				// Reset dragged_field
 				$.WS_Form.this.dragging = false;
 				$.WS_Form.this.dragged_field = null;
@@ -14591,26 +14558,12 @@
 	}
 
 	// Test API
-	$.WS_Form.prototype.api_test = function(success_callback, error_callback) {
+	$.WS_Form.prototype.api_test = function() {
 
-		this.api_call('helper/test/', 'GET', false, function(response) {
-
-			if(
-				(typeof response.error !== 'undefined') &&
-				!response.error
-			) {
-
-				success_callback();
-
-			} else {
-
-				error_callback((typeof response.error_message !== 'undefined') ? response.error_message : false);
-			}
-
-		}, function(response) {
-
-			error_callback(false);
-		});
+		// Background REST API check used by the welcome screen.
+		// With no success callback, api_call shows the loader and hides it again on success or error.
+		// On success the server side endpoint clears the welcome screen API check warning.
+		this.api_call('helper/test/', 'GET');
 	}
 
 	// Detect framework
@@ -14624,12 +14577,6 @@
 		}, error_callback);
 	}
 
-
-	// Push setup
-	$.WS_Form.prototype.setup_push = function(params, success_callback, error_callback) {
-
-		this.api_call('helper/setup-push/', 'POST', params, success_callback, error_callback);
-	}
 
 	// Template - Form
 	$.WS_Form.prototype.template_form = function() {

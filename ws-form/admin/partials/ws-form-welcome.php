@@ -11,6 +11,13 @@
 	// Set intro option to true
 	WS_Form_Common::option_set('intro', true);
 
+	// Mark set-up as complete so the welcome screen is only shown once
+	WS_Form_Common::option_set('setup', true);
+
+	// Assume the REST API check fails until the background test confirms otherwise.
+	// If the REST API is unreachable the test cannot write back, so this is cleared on success instead.
+	WS_Form_Common::option_set('api_check_warning', true);
+
 	// Flush WP rewrite rules
 	global $wp_rewrite;
 	$wp_rewrite->flush_rules();
@@ -18,10 +25,6 @@
 <!-- Welcome Banner -->
 <div id="wsf-welcome">
 
-<!-- Slide 1 - Welcome -->
-<div class="wsf-welcome-slide" data-id="1">
-
-<div class="wsf-welcome-copy">
 <div class="wsf-welcome-logo"><svg xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 503.2 150" xml:space="preserve"><title><?php WS_Form_Common::echo_esc_html(sprintf(
 
 	/* translators: %s: Presentatable name (e.g. WS Form PRO) */
@@ -63,134 +66,20 @@
 		
 	}
 ?>
+
+<div class="wsf-video-container" data-wsf-video-src="https://player.vimeo.com/video/289590605?autoplay=1&controls=1&preload=auto">
+<img src="<?php WS_Form_Common::echo_esc_attr(WS_FORM_PLUGIN_DIR_URL . 'admin/images/welcome-video-placeholder.jpg'); ?>" srcset="<?php WS_Form_Common::echo_esc_attr(WS_FORM_PLUGIN_DIR_URL . 'admin/images/welcome-video-placeholder.jpg'); ?> 1x, <?php WS_Form_Common::echo_esc_attr(WS_FORM_PLUGIN_DIR_URL . 'admin/images/welcome-video-placeholder-2x.jpg'); ?> 2x" width="1024" height="576" alt="<?php esc_attr_e('Play welcome video', 'ws-form'); ?>" />
 </div>
 
-<button class="wsf-welcome-button" data-slide-next-id="2"><?php esc_html_e('Click to Start', 'ws-form'); ?></button>
-
+<div class="wsf-welcome-buttons">
+<a href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_admin_url('ws-form-add')); ?>" class="wsf-welcome-button"><?php WS_Form_Common::echo_esc_svg(WS_Form_Config::get_icon_16_svg('plus-circle')); ?><span><?php esc_html_e('Create Your First Form', 'ws-form'); ?></span></a>
+<a href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/', 'welcome')); ?>" target="_blank" class="wsf-welcome-button wsf-welcome-button-secondary"><?php WS_Form_Common::echo_esc_svg(WS_Form_Config::get_icon_16_svg('documentation')); ?><span><?php esc_html_e('Documentation', 'ws-form'); ?></span></a>
 </div>
-<!-- /Slide 1 - Welcome -->
-
-<!-- Slide 2 - Basic / Advanced -->
-<div class="wsf-welcome-slide" data-id="2">
-
-<div class="wsf-welcome-copy">
-<div class="wsf-welcome-title"><?php esc_html_e('How familiar are you with building forms?', 'ws-form') ?></div>
-<div class="wsf-welcome-intro"><?php esc_html_e('If you\'re new to building forms, we\'ll keep it simple.', 'ws-form'); ?></div>
-</div>
-
-<button class="wsf-welcome-button" data-slide-next-id="5" data-action="wsf-mode-set" data-value="basic"><?php esc_html_e('Keep It Simple', 'ws-form') ?></button>
-<button class="wsf-welcome-button" data-slide-next-id="5" data-action="wsf-mode-set" data-value="basic"><?php esc_html_e('I\'m Familiar', 'ws-form') ?></button>
-<button class="wsf-welcome-button" data-slide-next-id="4" data-action="wsf-mode-set" data-value="advanced"><?php esc_html_e('I\'m a Developer', 'ws-form') ?></button>
-
-</div>
-<!-- /Slide 2 - Basic / Advanced -->
-
-<!-- Slide 3 - Framework Detect -->
-<div class="wsf-welcome-slide" data-id="3">
-
-<div class="wsf-welcome-copy">
-<div class="wsf-welcome-title"><?php
-
-	WS_Form_Common::echo_html(sprintf(	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
-		/* translators: %s: Framework name (e.g. Bootstrap) */
-		esc_html__("You're using %s", 'ws-form'), 
-
-		'<span id="wsf-welcome-framework"></span>'
-	));
-
-?></div>
-<div class="wsf-welcome-intro"><?php esc_html_e('Is that correct?', 'ws-form'); ?></div>
-</div>
-
-<button class="wsf-welcome-button" data-slide-next-id="5" data-action="wsf-framework-set"><?php esc_html_e('Yes', 'ws-form'); ?></button>
-<button class="wsf-welcome-button" data-slide-next-id="4"><?php esc_html_e('No', 'ws-form'); ?></button>
-<button class="wsf-welcome-button" data-slide-next-id="5"><?php esc_html_e('I\'m Not Sure', 'ws-form'); ?></button>
-
-</div>
-<!-- /Slide 3 - Framework Detect -->
-
-<!-- Slide 4 - Framework Select-->
-<div class="wsf-welcome-slide" data-id="4">
-
-<div class="wsf-welcome-copy">
-<div class="wsf-welcome-title"><?php esc_html_e('Does your theme use a front-end framework?', 'ws-form') ?></div>
-<div class="wsf-welcome-intro"><?php esc_html_e('If you are not sure, skip this and you can change it later.', 'ws-form'); ?></div>
-</div>
-
-<select id="framework" data-slide-next-id="5" class="wsf-welcome-select">
-<option value=""><?php esc_html_e('Select...', 'ws-form'); ?></option>
-<option value="<?php WS_Form_Common::echo_esc_attr(WS_FORM_DEFAULT_FRAMEWORK); ?>"><?php esc_html_e('I\'m Not Sure', 'ws-form'); ?></option>
-<option value="<?php WS_Form_Common::echo_esc_attr(WS_FORM_DEFAULT_FRAMEWORK); ?>"><?php esc_html_e('No Framework', 'ws-form'); ?></option>
-<?php
-
-	$ws_form_frameworks = WS_Form_Config::get_frameworks(false);
-	$ws_form_framework_types = $ws_form_frameworks['types'];
-	foreach($ws_form_framework_types as $ws_form_type => $ws_form_framework) {
-
-		// Skip default framework (ws-form)
-		if($ws_form_type == WS_FORM_DEFAULT_FRAMEWORK) { continue; }
-
-?><option value="<?php WS_Form_Common::echo_esc_attr($ws_form_type); ?>"><?php WS_Form_Common::echo_esc_html($ws_form_framework['name']); ?></option>
-<?php
-
-	}
-
-?>
-<option value="<?php WS_Form_Common::echo_esc_attr(WS_FORM_DEFAULT_FRAMEWORK); ?>"><?php esc_html_e('Other', 'ws-form'); ?></option>
-</select>
-
-<button class="wsf-welcome-button" data-slide-next-id="5"><?php esc_html_e('Skip This', 'ws-form'); ?></button>
-
-</div>
-<!-- /Slide 4 - Framework Select -->
-
-<!-- Slide 5 - Setup Complete -->
-<div class="wsf-welcome-slide" data-id="5" data-action="wsf-setup-push">
-
-<div class="wsf-welcome-copy">
-<div class="wsf-welcome-title"><?php esc_html_e('All Done!', 'ws-form') ?></div>
-<div class="wsf-welcome-intro"><?php esc_html_e('You\'re ready to build your first form.', 'ws-form'); ?></div>
-</div>
-
-<div class="wsf-container">
-<div class="wsf-video-container">
-<iframe id="wsf-video-welcome" src="https://player.vimeo.com/video/289590605?api=1" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay; encrypted-media"></iframe>
-</div>
-</div>
-
-<div><button class="wsf-welcome-button" data-action="wsf-form-add"><?php esc_html_e('Get Started...', 'ws-form'); ?></button></div>
-
-</div>
-<!-- /Slide 5 - Setup Complete -->
-
-<!-- Slide 6 - API Error -->
-<div class="wsf-welcome-slide" data-id="6">
-
-<div class="wsf-welcome-copy">
-<div class="wsf-welcome-title"><?php esc_html_e("Whoops! Something went wrong.", 'ws-form') ?></div>
-<div class="wsf-welcome-intro"><?php esc_html_e("There appears to be a problem with your hosting. For more information, click the 'Help' button below.", 'ws-form'); ?><span class="wsf-welcome-api-error"></span></div>
-</div>
-
-<button class="wsf-welcome-button" data-action="wsf-try-again"><?php esc_html_e('Try Again', 'ws-form'); ?></button>
-<a href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/installation-troubleshooting/')); ?>" target="_blank" class="wsf-welcome-button"><?php esc_html_e('Help', 'ws-form'); ?></a>
-
-</div>
-<!-- /Slide 6 - API Error -->
 
 </div>
 <!-- /Welcome Banner -->
 
 <script>
-
-	// Options
-	var params_setup = {
-
-		'framework': '<?php WS_Form_Common::echo_esc_html(WS_FORM_DEFAULT_FRAMEWORK); ?>',
-		'mode': '<?php WS_Form_Common::echo_esc_html(WS_FORM_DEFAULT_MODE); ?>'
-	};
-
-	var framework_detected = false;
 
 	(function($) {
 
@@ -203,171 +92,55 @@
 
 			wsf_obj.init_partial();
 
-			var wsf_welcome_banner = $('#wsf-welcome');
-
 			// Highlight menu
 			$('#toplevel_page_ws-form').removeClass('wp-not-current-submenu').addClass('wp-has-current-submenu current').addClass('selected');
 			$('[href="admin.php?page=ws-form-welcome"]', $('#toplevel_page_ws-form-welcome')).closest('li').addClass('wp-menu-open current');
 
-			// Slide buttons
-			$('button.wsf-welcome-button', wsf_welcome_banner).on('click', function() {
+			// Welcome video - swap the placeholder for the Vimeo player on click (autoplay allowed as it is user initiated)
+			$('.wsf-video-container').on('click', function() {
 
-				user_action($(this), $(this).attr('data-value'));
+				var video_src = $(this).data('wsf-video-src');
+				if(!video_src) { return; }
+
+				var iframe = document.createElement('iframe');
+				iframe.setAttribute('src', video_src);
+				iframe.setAttribute('frameborder', '0');
+				iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+				iframe.setAttribute('allowfullscreen', '');
+
+				$(this).removeAttr('data-wsf-video-src').empty().append(iframe);
 			});
 
-			// Slide select
-			$('select', wsf_welcome_banner).on('change', function() {
+			// Scale the welcome content down on short viewports so the buttons are never cut off.
+			// CSS transforms do not affect the layout box, so offsetHeight always reports the true unscaled height.
+			function wsf_welcome_scale() {
 
-				user_action($(this), $(this).val());
-			});
+				var welcome = document.getElementById('wsf-welcome');
+				if(!welcome) { return; }
 
-			// Framework select
-			$('#framework').on('change', function() {
+				var body = document.getElementById('wpbody');
+				var available = body ? body.clientHeight : window.innerHeight;
+				var content = welcome.offsetHeight;
+				if(!available || !content) { return; }
 
-				params_setup['framework'] = $(this).val();
-			})
-
-			// Turn on loader
-			wsf_obj.loader_on();
-
-			// Show first slide
-			var slide_next = $('.wsf-welcome-slide[data-id="1"]');
-			slide_next.fadeIn(200);
-
-			// Detect framework
-			wsf_obj.api_test(function() {
-
-				// Detect framework
-				wsf_obj.framework_detect(function(framework) {
-
-					if(
-						(typeof(framework.name) !== 'undefined') &&
-						(framework.name !== false)
-					) {
-
-						// Remember framework detected
-						framework_detected = framework;
-
-						// Set framework name
-						$('#wsf-welcome-framework').html(framework.name);
-
-						// Reconfigure path
-						$('.wsf-welcome-slide[data-id="2"] .wsf-welcome-button[data-value="advanced"]').attr('data-slide-next-id', '3');
-					}
-
-					// Turn off loader
-					wsf_obj.loader_off();
-
-				}, function() {
-
-					// Turn off loader
-					wsf_obj.loader_off();
-				});
-
-			}, function(error_message) {
-
-				// Set error message
-				$('.wsf-welcome-api-error').html((error_message !== false) ? 'Error: ' + error_message : '');
-
-				// API test failed, show error page
-				$('.wsf-welcome-slide[data-id="1"]').fadeOut(200, function() {
-
-					// Hide all other slides just in case
-					$('.wsf-welcome-slide').hide();
-
-					// Show error slide
-					var slide_next = $('.wsf-welcome-slide[data-id="6"]');
-					slide_next.fadeIn(200);
-
-					// Turn off loader
-					wsf_obj.loader_off();
-				});
-			});
-
-			function user_action(obj, value) {
-
-				var slide_next_id = obj.attr('data-slide-next-id');
-
-				// Button actions
-				var action_button = obj.attr('data-action');
-				switch(action_button) {
-
-					// Set framework type
-					case 'wsf-framework-set' :
-
-						if(framework_detected !== false) {
-
-							params_setup['framework'] = framework_detected.type;
-						}
-						break;
-
-					// Set mode
-					case 'wsf-mode-set' :
-
-						params_setup['mode'] = value;
-						break;
-
-					// Add form
-					case 'wsf-form-add' :
-
-						var iframe = $('#wsf-video-welcome');
-						var player = new Vimeo.Player(iframe[0]);
-						player.pause();
-						location.href='<?php WS_Form_Common::echo_esc_html(WS_Form_Common::get_admin_url('ws-form-add')); ?>';
-						return;
-
-					// Try again
-					case 'wsf-try-again' :
-
-						location.href='<?php WS_Form_Common::echo_esc_html(WS_Form_Common::get_admin_url('ws-form-welcome')); ?>';
-						break;
-				}
-
-				var slide_current = obj.closest('.wsf-welcome-slide');
-
-				slide_current.fadeOut(200, function() {
-
-					// Get next slide object
-					var slide_next = $('.wsf-welcome-slide[data-id="' + slide_next_id + '"]');
-
-					// Process action
-					var action_slide = slide_next.attr('data-action');
-					switch(action_slide) {
-
-						case 'wsf-setup-push' :
-
-							// Turn on loader
-							wsf_obj.loader_on();
-
-							// Push setup via API
-							wsf_obj.setup_push(params_setup, function() {
-
-								// Success
-								slide_next.fadeIn(200);
-
-								// Turn off loader
-								wsf_obj.loader_off();
-
-							}, function() {
-
-								// Error
-								slide_current.fadeIn(200);
-
-								// Turn off loader
-								wsf_obj.loader_off();
-							});
-
-							break;
-
-						default :
-
-							slide_next.fadeIn(200);
-					}
-				});
+				// Never enlarge, only shrink to fit
+				var scale = Math.min(1, available / content);
+				welcome.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
 			}
+
+			$(window).on('resize', wsf_welcome_scale);
+			$('.wsf-video-container img').on('load', wsf_welcome_scale);
+			wsf_welcome_scale();
+
+			// Recalculate once everything (fonts, images) has finished loading
+			$(window).on('load', wsf_welcome_scale);
+
+			// Background REST API check (shows the loader while it runs)
+			// On success the endpoint clears the warning flag server side. On failure the flag remains
+			// set, so a dismissable warning is shown on subsequent admin screens.
+			wsf_obj.api_test();
 		});
 
 	})(jQuery);
 
 </script>
-

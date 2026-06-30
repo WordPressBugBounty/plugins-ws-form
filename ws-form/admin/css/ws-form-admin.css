@@ -88,13 +88,13 @@ body.admin_page_ws-form-welcome #wpcontent {
 body.admin_page_ws-form-welcome #wpbody {
   background-color: #002e5f;
   height: calc(100vh - var(--wp-admin--admin-bar--height));
+  position: relative;
 }
 body.admin_page_ws-form-welcome #wsf-loader {
   margin: 0;
 }
-body.admin_page_ws-form-welcome #footer-thankyou,
-body.admin_page_ws-form-welcome #wpfooter p {
-  color: #A7A8AA;
+body.admin_page_ws-form-welcome #wpfooter {
+  display: none;
 }
 body.admin_page_ws-form-welcome .update-nag,
 body.admin_page_ws-form-welcome .updated,
@@ -109,36 +109,28 @@ body.admin_page_ws-form-welcome .error {
   display: none !important;
 }
 
-.wsf-welcome-slide {
-  display: none;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
 #wsf-welcome {
   -webkit-font-smoothing: subpixel-antialiased;
+  box-sizing: border-box;
   color: #ffffff;
   font-display: optional;
   font-family: "WSFLato", "Helvetica", "Arial", sans-serif;
   font-weight: 300;
   left: 50%;
   line-height: normal;
-  padding: 48px 0 24px;
+  padding: 20px;
   position: absolute;
   text-align: center;
-  top: calc((100vh - var(--wp-admin--admin-bar--height)) / 2);
+  top: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   width: 100%;
-}
-#wsf-welcome .wsf-welcome-copy {
-  margin-bottom: 24px;
 }
 #wsf-welcome .wsf-welcome-logo {
   margin-bottom: 40px;
 }
 #wsf-welcome .wsf-welcome-logo svg {
-  max-width: 400px;
+  max-width: 300px;
 }
 #wsf-welcome .wsf-welcome-logo svg path,
 #wsf-welcome .wsf-welcome-logo svg circle {
@@ -151,89 +143,63 @@ body.admin_page_ws-form-welcome .error {
   font-size: 12px;
   margin: 0 0 10px;
 }
-#wsf-welcome .wsf-welcome-title {
-  font-size: 50px;
-  margin-bottom: 0;
-}
-#wsf-welcome .wsf-welcome-intro {
-  font-size: 20px;
-  margin-bottom: 40px;
-}
-#wsf-welcome .wsf-welcome-api-error {
-  margin-top: 20px;
-  font-style: italic;
-  font-size: 16px;
-  display: block;
-}
-#wsf-welcome select.wsf-welcome-select:not([multiple]):not([size]) {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  background-color: transparent;
-  background-image: url('data:image/svg+xml,<svg%20width%3D"10"%20height%3D"5"%20viewBox%3D"169%20177%2010%205"%20xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg"><path%20fill%3D"%23ffffff"%20fill-rule%3D"evenodd"%20d%3D"M174%20182l5-5h-10"%2F><%2Fsvg>');
-  background-position: right 12px center;
-  background-repeat: no-repeat;
-  background-size: 12px 6px;
-  border: 2px solid #ffffff;
-  border-radius: 24px;
-  color: #ffffff;
-  display: block;
-  font-family: "WSFLato", "Helvetica", "Arial", sans-serif;
-  font-size: 20px;
-  height: auto;
-  line-height: 20px;
-  margin: 0 auto 24px;
-  padding: 12px 24px;
-  padding-right: 36px;
-}
-#wsf-welcome select.wsf-welcome-select:not([multiple]):not([size]) option {
-  color: #000;
-}
-#wsf-welcome button.wsf-welcome-button,
 #wsf-welcome a.wsf-welcome-button {
-  background-color: transparent;
-  border: 2px solid #ffffff;
-  border-radius: 24px;
-  color: #ffffff;
+  align-items: center;
+  background-color: #ffffff;
+  border: 2px solid transparent;
+  border-radius: 100px;
+  color: #002e5f;
   cursor: pointer;
+  display: inline-flex;
   font-display: optional;
   font-family: "WSFLato", "Helvetica", "Arial", sans-serif;
   font-size: 20px;
-  font-weight: 300;
-  line-height: 20px;
-  margin: 0 12px 24px;
-  padding: 12px 24px;
+  font-weight: 700;
+  gap: 12px;
+  line-height: 1;
+  margin: 0 12px;
+  padding: 20px;
   text-decoration: none;
   transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
 }
-#wsf-welcome button.wsf-welcome-button:hover,
-#wsf-welcome a.wsf-welcome-button:hover {
-  color: #002e5f;
-  background-color: #ffffff;
+#wsf-welcome a.wsf-welcome-button svg {
+  fill: #002e5f;
+  flex-shrink: 0;
+  height: 24px;
+  width: 24px;
 }
-#wsf-welcome button.wsf-welcome-button:focus,
+#wsf-welcome a.wsf-welcome-button:hover {
+  background-color: rgb(239.7, 239.7, 239.7);
+}
 #wsf-welcome a.wsf-welcome-button:focus {
   outline: 0;
 }
-
-.wsf-container {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 640px;
+#wsf-welcome a.wsf-welcome-button.wsf-welcome-button-secondary {
+  background-color: transparent;
+  border-color: #ffffff;
+  color: #ffffff;
+}
+#wsf-welcome a.wsf-welcome-button.wsf-welcome-button-secondary svg {
+  fill: #ffffff;
+}
+#wsf-welcome a.wsf-welcome-button.wsf-welcome-button-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .wsf-video-container {
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  cursor: pointer;
   margin: 0 auto 40px;
+  max-width: 768px;
   overflow: hidden;
-  padding-bottom: 56.25%;
-  position: relative;
 }
+.wsf-video-container img,
 .wsf-video-container iframe {
+  aspect-ratio: 16/9;
   border: 0;
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
+  display: block;
+  height: auto;
   width: 100%;
 }
 
@@ -992,14 +958,28 @@ body.ws-form_page_ws-form-add.mobile #wsf-template-add-tabs > li.ui-state-active
 body.toplevel_page_ws-form a:focus {
   box-shadow: none;
 }
+body.toplevel_page_ws-form .wp-list-table {
+  table-layout: auto;
+}
 body.toplevel_page_ws-form #media {
   width: 75px;
 }
 body.toplevel_page_ws-form th.manage-column {
   vertical-align: top;
+  white-space: nowrap;
 }
 body.toplevel_page_ws-form th.manage-column input[type=checkbox].wsf-field.wsf-switch + label.wsf-label {
   margin-top: 2px;
+}
+body.toplevel_page_ws-form th.sortable a,
+body.toplevel_page_ws-form th.sorted a {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+body.toplevel_page_ws-form th.sortable a .sorting-indicators,
+body.toplevel_page_ws-form th.sorted a .sorting-indicators {
+  flex-shrink: 0;
 }
 body.toplevel_page_ws-form .preview {
   float: none;
@@ -1009,14 +989,14 @@ body.toplevel_page_ws-form .wsf-shortcode {
   white-space: nowrap;
 }
 @media screen and (min-width: 783px) {
-  body.toplevel_page_ws-form #shortcode {
-    width: 153px;
-  }
-}
-@media screen and (min-width: 1325px) {
   body.toplevel_page_ws-form #id,
-  body.toplevel_page_ws-form #count_submit {
-    width: 115px;
+  body.toplevel_page_ws-form #count_submit,
+  body.toplevel_page_ws-form #shortcode,
+  body.toplevel_page_ws-form .column-id,
+  body.toplevel_page_ws-form .column-count_submit,
+  body.toplevel_page_ws-form .column-shortcode {
+    width: 1%;
+    white-space: nowrap;
   }
 }
 
@@ -4344,10 +4324,6 @@ select.wsf-field:not([multiple]):not([size]) {
 }
 select.wsf-field:not([multiple]):not([size])::-ms-expand {
   display: none;
-}
-select.wsf-field:not([multiple]):not([size]):focus:-moz-focusring {
-  color: transparent;
-  text-shadow: 0 0 0 #000000;
 }
 select.wsf-field:not([multiple]):not([size]).wsf-field-large {
   height: 42px;

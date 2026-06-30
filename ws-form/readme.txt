@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.5
 Tested up to: 7.0
-Stable tag: 1.11.11
+Stable tag: 1.11.14
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -367,17 +367,21 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.11.11 - 06/18/2026 =
-* Added: Workaround for a third party plugin bug that could cause a fatal error on the WordPress plugin update screens
-* Bug Fix: Honeypot spam protection field now uses the correct tabindex attribute
-* Bug Fix: Cloudflare Turnstile using the Interaction Only appearance mode was hidden by CSS, preventing visitors from completing the interactive challenge (field spacing now also collapses when no challenge is shown)
+= 1.11.14 - 06/29/2026 =
+* Added: wsf_cookie_expiry filter hook for overriding the expiry (in seconds) of cookies set by WS Form
+* Added: Support for j F, Y European date format (e.g. 8 June, 2018) in the date/time picker
+* Changed: Added a WS_FORM_INTRO constant to enable or disable the first-run layout editor tutorial (intro.js hints), which is now disabled by default
+* Changed: Redesigned the welcome screen shown after installation into a single streamlined page with an introduction video and direct links to create your first form or view documentation
+* Bug Fix: Forms list table columns now size to their content, so long shortcodes no longer overflow the Shortcode column and column heading sort indicators no longer wrap to a second line
+* Bug Fix: Layout editor would not allow a field or section to be dropped into a section that had to be scrolled into view during the drag, because cached drop target positions were not refreshed while auto-scrolling
+* Bug Fix: Selected text in select fields became invisible when focused via keyboard in modern Firefox, caused by an obsolete :-moz-focusring transparency hack that newer Firefox versions no longer compensate for
 
-= 1.11.10 - 06/17/2026 =
-* Added: New JavaScript hook for resolving custom parse variables client-side
-* Bug Fix: Phone field International Telephone Input (ITI) country dropdown now uses the WS Form color system instead of hardcoded colors
+= 1.11.13 - 06/22/2026 =
+* Added: Protection against a fatal error caused by a misconfigured WordPress installation, where WordPress is set to use the FTP/SSH filesystem method but no credentials have been provided
+* Bug Fix: Plugin updater is now registered on the 'init' hook instead of 'admin_init' so available updates are detected during WP-Cron and REST/background requests, not just on admin page loads
 
-= 1.11.9 - 06/12/2026 =
-* Added: AI action temperature is now optional and accepts a value from 0.0 to 2.0 (some models do not support temperature)
-* Bug Fix: AI action now handles errors returned by the WordPress AI Client
+= 1.11.12 - 06/19/2026 =
+* Bug Fix: CodeMirror field edits now trigger input and change events so conditional logic and validation update correctly
+* Bug Fix: Select2 cascading fields now clear cached option data when options are rebuilt, fixing selection issues with multiple selects
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

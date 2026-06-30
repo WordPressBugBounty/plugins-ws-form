@@ -4716,6 +4716,79 @@
 <?php
 		}
 
+		// API check - Show a dismissable warning if the welcome screen could not reach the REST API
+		public static function api_check() {
+
+			// Only relevant for users who can resolve the issue
+			if(!self::can_user('manage_options_wsform')) { return; }
+
+			// Only show if the welcome screen flagged a failed REST API check
+			$api_check_warning = self::option_get('api_check_warning', false);
+			if(!$api_check_warning) { return; }
+
+			// Show warning (nag_notice = true so it is suppressed on the welcome screen)
+			self::admin_message_render(
+
+				sprintf(
+
+					'<p><strong>%s</strong></p><p>%s</p><p class="buttons"><a href="%s" class="button button-primary" target="_blank">%s</a> <a href="#" class="button" data-wsf-api-check-dismiss>%s</a></p>',
+
+					sprintf(
+
+						/* translators: %s: Presentable plugin name, e.g. WS Form PRO */
+						esc_html__('%s could not connect to the REST API', 'ws-form'),
+						WS_FORM_NAME_PRESENTABLE
+					),
+
+					esc_html__('A background check was unable to reach the REST API on your website. Some features may not work correctly until this is resolved.', 'ws-form'),
+
+					esc_url(self::get_plugin_website_url('/knowledgebase/installation-troubleshooting/', 'api_check')),
+
+					esc_html__('Troubleshoot', 'ws-form'),
+					esc_html__('Dismiss', 'ws-form')
+				),
+
+				'notice-warning',
+				false,
+				true,
+				'wsf-api-check'
+			);
+?>
+<script>
+
+	(function() {
+
+		'use strict';
+
+		function wsf_api_check_dismiss(e) {
+
+			if(e) { e.preventDefault(); }
+
+			// Hide warning
+			var notices = document.querySelectorAll('.wsf-api-check');
+			for(var i = 0; i < notices.length; i++) { notices[i].style.display = 'none'; }
+
+			// Call AJAX to prevent the warning appearing again
+			if(window.fetch) {
+
+				var data = new FormData();
+				data.append('_wpnonce', '<?php self::echo_esc_attr(wp_create_nonce('wp_rest')); ?>');
+				fetch('<?php self::echo_esc_html(self::get_api_path('helper/api-check/dismiss/')); ?>', { method: 'POST', credentials: 'same-origin', body: data });
+			}
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+
+			var buttons = document.querySelectorAll('[data-wsf-api-check-dismiss]');
+			for(var i = 0; i < buttons.length; i++) { buttons[i].addEventListener('click', wsf_api_check_dismiss); }
+		});
+
+	})();
+
+</script>
+<?php
+		}
+
 		// Check edition
 		public static function is_edition($edition) {
 
@@ -4878,6 +4951,9 @@
 
 			// Translate date
 			$date = self::field_date_translate($date);
+
+			// Strip commas (Required for European formats such as j F, Y, e.g. 8 June, 2018)
+			$date = str_replace(',', '', $date);
 
 			// Convert date to time
 			$time = strtotime($date);
@@ -6218,6 +6294,8 @@
 		}
 
 		// Set cookie
+		// $cookie_expiry: false = session cookie (no expiry set), true = use the WS Form cookie timeout option,
+		// integer = expiry in seconds from now (0 = expire immediately, negative = expire in the past / reset)
 		public static function cookie_set($cookie_name, $cookie_value = '', $cookie_expiry = true, $form_id = false, $cookie_prefix_bypass = false) {
 
 			// Cookie name
@@ -6236,13 +6314,36 @@
 			// Build cookie name
 			$cookie_name = sprintf('%s%s%s', $cookie_prefix, (($form_id !== false) ? sprintf('%u_', $form_id) : ''), $cookie_name);
 
-			// Cookie expires
+			// Cookie expires (in seconds from now)
+			$set_expires = true;
+
 			if($cookie_value != '') {
 
-				$cookie_timeout = absint(self::option_get('cookie_timeout', 60 * 60 * 24 * 28));
+				if($cookie_expiry === false) {
+
+					// Session cookie - do not set an expiry
+					$set_expires = false;
+
+				} elseif($cookie_expiry === true) {
+
+					// Use the WS Form cookie timeout option
+					$cookie_timeout = absint(self::option_get('cookie_timeout', 60 * 60 * 24 * 28));
+
+				} else {
+
+					// Explicit expiry in seconds (0 = expire immediately, negative = expire in the past)
+					$cookie_timeout = intval($cookie_expiry);
+				}
+
+				// Filter cookie expiry (in seconds)
+				if($set_expires) {
+
+					$cookie_timeout = intval(apply_filters('wsf_cookie_expiry', $cookie_timeout, $cookie_name, $cookie_value, $form_id));
+				}
 
 			} else {
 
+				// Empty value always deletes the cookie (expiry set in the past)
 				$cookie_existing_value = self::cookie_get_raw($cookie_name);
 
 				if($cookie_existing_value == '') { return false; }
@@ -6250,7 +6351,7 @@
 				$cookie_timeout = (86400 * -1000);
 			}
 
-			if($cookie_expiry) {
+			if($set_expires) {
 
 				$cookie_timeout_date = new DateTime();
 				$cookie_timeout_date->setTimestamp(time() + $cookie_timeout);

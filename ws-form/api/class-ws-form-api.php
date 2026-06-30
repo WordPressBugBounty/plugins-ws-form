@@ -173,7 +173,7 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/framework-detect/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_framework_detect'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
 
-			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/setup-push/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_setup_push'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/api-check/dismiss/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_api_check_dismiss'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
 
 			// Intentionally public endpoint. This route serves CSS data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/ws-form-css/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_ws_form_css'), 'permission_callback' => function () { return true; }));

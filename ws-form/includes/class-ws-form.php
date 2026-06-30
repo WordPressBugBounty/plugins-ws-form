@@ -241,7 +241,6 @@ final class WS_Form {
 				wp_get_theme()->get('Template') === 'Divi' ||
 
 				// Plugin
-				WS_Form_File::file_exists( WP_PLUGIN_DIR . '/divi-builder/divi-builder.php' ) ||
 				defined('ET_CORE_VERSION') ||
 				class_exists('ET_Builder_Module')
 			) {
@@ -389,9 +388,6 @@ final class WS_Form {
 
 	private function options_init() {
 
-		// Get mode
-		$mode = WS_Form_Common::option_get('mode', 'basic', true);
-
 		// Get  options
 		$options = WS_Form_Config::get_options(false);
 
@@ -401,7 +397,7 @@ final class WS_Form {
 			if(isset($attributes['fields'])) {
 
 				$fields = $attributes['fields'];
-				self::options_set($mode, $fields);
+				self::options_set($fields);
 			}
 
 			if(isset($attributes['groups'])) {
@@ -411,7 +407,7 @@ final class WS_Form {
 				foreach($groups as $group) {
 
 					$fields = $group['fields'];
-					self::options_set($mode, $fields);
+					self::options_set($fields);
 				}
 			}
 		}
@@ -424,7 +420,7 @@ final class WS_Form {
 		WS_Form_Common::option_set('css_public_layout', '');
 	}
 
-	private function options_set($mode, $fields) {
+	private function options_set($fields) {
 
 		// File upload checks
 		$upload_checks = WS_Form_Common::uploads_check();
@@ -438,17 +434,7 @@ final class WS_Form {
 				($attributes['type'] != 'static')
 			) { 
 
-				if(
-					isset($attributes['mode']) &&
-					isset($attributes['mode'][$mode])
-				) {
-
-					// Use mode specific values
-					$value = $attributes['mode'][$mode];
-
-					WS_Form_Common::option_set($key, $value, false);
-
-				} else if(isset($attributes['default'])) {
+				if(isset($attributes['default'])) {
 
 					// Use default value
 					$value = $attributes['default'];
@@ -489,7 +475,6 @@ final class WS_Form {
 		$this->loader->add_action('admin_menu', $plugin_admin, 'admin_menu');
 
 		// Screen options
-		$this->loader->add_action('wp_ajax_ws_form_hidden_columns', $plugin_admin, 'ws_form_hidden_columns', 1);
 		$this->loader->add_action('set-screen-option', $plugin_admin, 'ws_form_set_screen_option', 10, 3);
 
 		// Enqueuing
@@ -503,6 +488,9 @@ final class WS_Form {
 
 		// Admin notifications
 		$this->loader->add_action('admin_notices', 'WS_Form_Common', 'admin_messages_render');
+
+		// REST API check warning (set during onboarding / welcome screen)
+		$this->loader->add_action('admin_notices', 'WS_Form_Common', 'api_check');
 
 		// Customize
 		$this->loader->add_action('customize_register', $plugin_admin, 'customize_register');

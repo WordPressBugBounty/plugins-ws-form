@@ -851,11 +851,6 @@ select.wsf-field:not([multiple]):not([size]):focus {
 <?php } ?>
 <?php } ?>
 
-select.wsf-field:not([multiple]):not([size]):-moz-focusring {
-	color: transparent;
-	text-shadow: 0 0 0 #000;
-}
-
 select.wsf-field:not([multiple]):not([size]):disabled {
 <?php if ($this->disabled_color != $this->color) { ?>
 	border-color: <?php self::e($this->disabled_border_color); ?>;

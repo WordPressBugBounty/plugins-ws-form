@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WS Form PRO\n"
-"POT-Creation-Date: 2026-05-15 00:16-0500\n"
-"PO-Revision-Date: 2026-05-15 00:16-0500\n"
+"POT-Creation-Date: 2026-06-29 21:27-0400\n"
+"PO-Revision-Date: 2026-06-29 21:28-0400\n"
 "Last-Translator: gpt-po v1.2.0\n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -68,8 +68,8 @@ msgstr "Sektion"
 #: admin/class-ws-form-admin.php:282
 #: admin/partials/ws-form-form-migrate.php:300
 #: admin/partials/ws-form-form-migrate.php:307
-#: includes/actions/class-ws-form-action-redirect.php:411
-#: includes/actions/class-ws-form-action-wp-ai-client.php:793
+#: includes/actions/class-ws-form-action-redirect.php:412
+#: includes/actions/class-ws-form-action-wp-ai-client.php:829
 #: includes/class-ws-form-config.php:271 includes/class-ws-form-config.php:433
 #: includes/class-ws-form-config.php:579 includes/class-ws-form-config.php:722
 #: includes/class-ws-form-config.php:874 includes/class-ws-form-config.php:1027
@@ -123,11 +123,11 @@ msgstr "Felt"
 msgid "Copied"
 msgstr "Kopieret"
 
-#: admin/class-ws-form-admin.php:865
+#: admin/class-ws-form-admin.php:862
 msgid "Feedback"
 msgstr "Feedback"
 
-#: admin/class-ws-form-admin.php:866 admin/class-ws-form-admin.php:1117
+#: admin/class-ws-form-admin.php:863 admin/class-ws-form-admin.php:1114
 #: admin/partials/ws-form-form-add.php:158
 #: admin/partials/ws-form-form-edit.php:156
 #: includes/config/class-ws-form-config-admin.php:39
@@ -139,7 +139,7 @@ msgid "Close"
 msgstr "Luk"
 
 #. translators: %s: Presentable plugin name, e.g. WS Form PRO
-#: admin/class-ws-form-admin.php:881
+#: admin/class-ws-form-admin.php:878
 #, php-format
 msgid ""
 "We would greatly appreciate your feedback about why you are deactivating %s. "
@@ -149,52 +149,51 @@ msgstr ""
 "for din hjælp!"
 
 #. translators: %s: WS Form PRO
-#: admin/class-ws-form-admin.php:893
+#: admin/class-ws-form-admin.php:890
 #, php-format
 msgid "I'm upgrading to %s"
 msgstr "Jeg opgraderer til %s"
 
-#: admin/class-ws-form-admin.php:904
+#: admin/class-ws-form-admin.php:901
 msgid "I'm temporarily deactivating"
 msgstr "Jeg deaktiverer midlertidigt"
 
-#: admin/class-ws-form-admin.php:906
+#: admin/class-ws-form-admin.php:903
 msgid "The plugin did not work"
 msgstr "Plugin'et virkede ikke"
 
-#: admin/class-ws-form-admin.php:909
+#: admin/class-ws-form-admin.php:906
 msgid "Please describe the error..."
 msgstr "Beskriv venligst fejlen..."
 
-#: admin/class-ws-form-admin.php:910
+#: admin/class-ws-form-admin.php:907
 msgid "We'd love to help!"
 msgstr "Vi vil gerne hjælpe dig!"
 
-#: admin/class-ws-form-admin.php:916
+#: admin/class-ws-form-admin.php:913
 msgid "Get Support"
 msgstr "Få hjælp"
 
-#: admin/class-ws-form-admin.php:922
+#: admin/class-ws-form-admin.php:919
 msgid "I no longer need the plugin"
 msgstr "Jeg behøver ikke længere dette plugin"
 
-#: admin/class-ws-form-admin.php:924
+#: admin/class-ws-form-admin.php:921
 msgid "I found a better plugin"
 msgstr "Jeg fandt et bedre plugin"
 
-#: admin/class-ws-form-admin.php:927 admin/class-ws-form-admin.php:1543
+#: admin/class-ws-form-admin.php:924 admin/class-ws-form-admin.php:1540
 #: admin/partials/ws-form-form-migrate.php:188
 #: admin/partials/ws-form-form-migrate.php:269
 #: admin/partials/ws-form-form-migrate.php:700
 #: admin/partials/ws-form-form-migrate.php:715
-#: admin/partials/ws-form-welcome.php:122
 #: includes/actions/class-ws-form-action-akismet.php:341
 #: includes/actions/class-ws-form-action-data-erasure-request.php:165
 #: includes/actions/class-ws-form-action-data-export-request.php:166
 #: includes/actions/class-ws-form-action-search.php:191
 #: includes/actions/class-ws-form-action-search.php:218
-#: includes/actions/class-ws-form-action-wp-ai-client.php:805
-#: includes/actions/class-ws-form-action-wp-ai-client.php:849
+#: includes/actions/class-ws-form-action-wp-ai-client.php:841
+#: includes/actions/class-ws-form-action-wp-ai-client.php:885
 #: includes/blocks/form-add/form-add.php:58
 #: includes/class-ws-form-config.php:7301
 #: includes/class-ws-form-config.php:8909
@@ -264,7 +263,7 @@ msgstr "Jeg fandt et bedre plugin"
 #: includes/config/class-ws-form-config-conditional.php:576
 #: includes/config/class-ws-form-config-conditional.php:581
 #: includes/config/class-ws-form-config-conditional.php:586
-#: includes/config/class-ws-form-config-option.php:1683
+#: includes/config/class-ws-form-config-option.php:1624
 #: includes/core/class-ws-form-action.php:785
 #: includes/core/class-ws-form-action.php:933
 #: includes/core/class-ws-form-action.php:941
@@ -291,36 +290,35 @@ msgstr "Jeg fandt et bedre plugin"
 msgid "Select..."
 msgstr "Vælg..."
 
-#: admin/class-ws-form-admin.php:937 admin/class-ws-form-admin.php:940
-#: admin/partials/ws-form-welcome.php:140
+#: admin/class-ws-form-admin.php:934 admin/class-ws-form-admin.php:937
 #: includes/class-ws-form-config.php:24251
 msgid "Other"
 msgstr "Andet"
 
-#: admin/class-ws-form-admin.php:942
+#: admin/class-ws-form-admin.php:939
 msgid "Please specify..."
 msgstr "Angiv venligst..."
 
-#: admin/class-ws-form-admin.php:955
+#: admin/class-ws-form-admin.php:952
 msgid "Skip &amp; Deactivate"
 msgstr "Spring over &amp; deaktiver"
 
-#: admin/class-ws-form-admin.php:959
+#: admin/class-ws-form-admin.php:956
 msgid "Submit &amp; Deactivate"
 msgstr "Indsend &amp; deaktiver"
 
 #. translators: %s: WS Form
-#: admin/class-ws-form-admin.php:995 admin/class-ws-form-admin.php:1111
+#: admin/class-ws-form-admin.php:992 admin/class-ws-form-admin.php:1108
 #, php-format
 msgid "Add %s"
 msgstr "Tilføj %s"
 
-#: admin/class-ws-form-admin.php:1132 includes/class-ws-form-widget.php:54
+#: admin/class-ws-form-admin.php:1129 includes/class-ws-form-widget.php:54
 msgid "Select the form you want to add..."
 msgstr "Vælg den formular, du ønsker at tilføje..."
 
-#: admin/class-ws-form-admin.php:1137 admin/class-ws-form-admin.php:1545
-#: admin/class-ws-form-admin.php:2684
+#: admin/class-ws-form-admin.php:1134 admin/class-ws-form-admin.php:1542
+#: admin/class-ws-form-admin.php:2636
 #: admin/class-ws-form-wp-list-table-form.php:42
 #: admin/class-ws-form-wp-list-table-style.php:47
 #: admin/class-ws-form-wp-list-table-submit.php:143
@@ -329,15 +327,15 @@ msgstr "Vælg den formular, du ønsker at tilføje..."
 #: admin/partials/ws-form-form-migrate.php:235
 #: includes/actions/class-ws-form-action-data-erasure-request.php:109
 #: includes/actions/class-ws-form-action-data-export-request.php:112
-#: includes/actions/class-ws-form-action-redirect.php:570
-#: includes/class-ws-form-common.php:6528
+#: includes/actions/class-ws-form-action-redirect.php:572
+#: includes/class-ws-form-common.php:6618
 #: includes/class-ws-form-config.php:21106
 #: includes/class-ws-form-config.php:21158
 #: includes/class-ws-form-config.php:23135
 #: includes/class-ws-form-config.php:23227
 #: includes/class-ws-form-config.php:23444 includes/class-ws-form-widget.php:66
 #: includes/config/class-ws-form-config-admin.php:750
-#: includes/config/class-ws-form-config-option.php:1700
+#: includes/config/class-ws-form-config-option.php:1641
 #: includes/config/class-ws-form-config-public.php:324
 #: includes/core/class-ws-form-form.php:3215
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:244
@@ -356,16 +354,16 @@ msgstr "Vælg den formular, du ønsker at tilføje..."
 msgid "ID"
 msgstr "ID"
 
-#: admin/class-ws-form-admin.php:1145 admin/class-ws-form-admin.php:1540
+#: admin/class-ws-form-admin.php:1142 admin/class-ws-form-admin.php:1537
 #: includes/class-ws-form-widget.php:77
 msgid "You haven't created any forms yet."
 msgstr "Du har ikke oprettet nogen formularer endnu."
 
-#: admin/class-ws-form-admin.php:1146 includes/class-ws-form-widget.php:78
+#: admin/class-ws-form-admin.php:1143 includes/class-ws-form-widget.php:78
 msgid "Click here to create a form"
 msgstr "Klik her for at oprette en formular"
 
-#: admin/class-ws-form-admin.php:1159 admin/partials/ws-form-form-add.php:173
+#: admin/class-ws-form-admin.php:1156 admin/partials/ws-form-form-add.php:173
 #: includes/class-ws-form-config.php:15751
 #: includes/class-ws-form-config.php:15754
 #: includes/config/class-ws-form-config-admin.php:762
@@ -373,76 +371,76 @@ msgstr "Klik her for at oprette en formular"
 msgid "Cancel"
 msgstr "Annuller"
 
-#: admin/class-ws-form-admin.php:1167
+#: admin/class-ws-form-admin.php:1164
 msgid "Insert Form"
 msgstr "Indsæt Formular"
 
-#: admin/class-ws-form-admin.php:1171 admin/class-ws-form-admin.php:1241
-#: admin/class-ws-form-admin.php:1242 admin/class-ws-form-admin.php:3000
+#: admin/class-ws-form-admin.php:1168 admin/class-ws-form-admin.php:1238
+#: admin/class-ws-form-admin.php:1239 admin/class-ws-form-admin.php:2952
 #: admin/partials/ws-form-form-add.php:56
 msgid "Add Form"
 msgstr "Tilføj formular"
 
-#: admin/class-ws-form-admin.php:1211
+#: admin/class-ws-form-admin.php:1208
 msgid "Welcome"
 msgstr "Velkommen"
 
 #. translators: %s: Presentable name (e.g. WS Form PRO)
-#: admin/class-ws-form-admin.php:1216 admin/class-ws-form-admin.php:2826
+#: admin/class-ws-form-admin.php:1213 admin/class-ws-form-admin.php:2778
 #, php-format
 msgid "Welcome to %s"
 msgstr "Velkommen til %s"
 
-#: admin/class-ws-form-admin.php:1230 admin/class-ws-form-admin.php:1231
-#: admin/class-ws-form-admin.php:2984
+#: admin/class-ws-form-admin.php:1227 admin/class-ws-form-admin.php:1228
+#: admin/class-ws-form-admin.php:2936
 #: admin/class-ws-form-wp-list-table-form.php:16
 #: admin/partials/ws-form-form.php:17
 #: includes/config/class-ws-form-config-admin.php:736
-#: includes/config/class-ws-form-config-option.php:899
+#: includes/config/class-ws-form-config-option.php:840
 msgid "Forms"
 msgstr "Formularer"
 
-#: admin/class-ws-form-admin.php:1252 admin/class-ws-form-admin.php:1253
-#: admin/class-ws-form-admin.php:1380 admin/class-ws-form-admin.php:2949
+#: admin/class-ws-form-admin.php:1249 admin/class-ws-form-admin.php:1250
+#: admin/class-ws-form-admin.php:1377 admin/class-ws-form-admin.php:2901
 #: admin/class-ws-form-wp-list-table-form.php:43
 #: admin/class-ws-form-wp-list-table-form.php:100
 #: admin/class-ws-form-wp-list-table-submit.php:27
 #: admin/partials/ws-form-form-edit.php:47
 #: admin/partials/ws-form-form-migrate.php:190
 #: admin/partials/ws-form-form-submit.php:20
-#: api/class-ws-form-api-helper.php:627
-#: includes/config/class-ws-form-config-option.php:602
-#: includes/config/class-ws-form-config-option.php:820
+#: api/class-ws-form-api-helper.php:574
+#: includes/config/class-ws-form-config-option.php:543
+#: includes/config/class-ws-form-config-option.php:761
 #: includes/config/class-ws-form-config-public.php:374
 #: includes/core/class-ws-form-form-stat.php:473
 #: includes/core/class-ws-form-form-stat.php:568
 msgid "Submissions"
 msgstr "Indsendelser"
 
-#: admin/class-ws-form-admin.php:1264 admin/partials/ws-form-form-edit.php:20
+#: admin/class-ws-form-admin.php:1261 admin/partials/ws-form-form-edit.php:20
 #: admin/partials/ws-form-form-migrate.php:400
 msgid "Edit Form"
 msgstr "Rediger formular"
 
-#: admin/class-ws-form-admin.php:1278 admin/class-ws-form-admin.php:1279
+#: admin/class-ws-form-admin.php:1275 admin/class-ws-form-admin.php:1276
 #: admin/class-ws-form-wp-list-table-style.php:20
 #: admin/partials/ws-form-form-style.php:17
 msgid "Styles"
 msgstr "Stilarter"
 
-#: admin/class-ws-form-admin.php:1290 admin/class-ws-form-admin.php:1291
+#: admin/class-ws-form-admin.php:1287 admin/class-ws-form-admin.php:1288
 #: admin/partials/ws-form-form-style-add.php:31
 msgid "Add Style"
 msgstr "Tilføj layout"
 
-#: admin/class-ws-form-admin.php:1315 admin/class-ws-form-admin.php:1316
+#: admin/class-ws-form-admin.php:1312 admin/class-ws-form-admin.php:1313
 #: includes/class-ws-form-config.php:8723
-#: includes/config/class-ws-form-config-option.php:661
+#: includes/config/class-ws-form-config-option.php:602
 msgid "Customize"
 msgstr "Tilpas"
 
-#: admin/class-ws-form-admin.php:1326 admin/class-ws-form-admin.php:1327
-#: admin/class-ws-form-admin.php:2599 admin/partials/ws-form-settings.php:44
+#: admin/class-ws-form-admin.php:1323 admin/class-ws-form-admin.php:1324
+#: admin/class-ws-form-admin.php:2551 admin/partials/ws-form-settings.php:44
 #: includes/actions/class-ws-form-action-akismet.php:393
 #: includes/class-ws-form-config.php:15891
 #: includes/class-ws-form-config.php:15894
@@ -456,59 +454,59 @@ msgstr "Tilpas"
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: admin/class-ws-form-admin.php:1338 admin/class-ws-form-admin.php:1339
+#: admin/class-ws-form-admin.php:1335 admin/class-ws-form-admin.php:1336
 #: admin/partials/ws-form-form-migrate.php:78
 msgid "Migrate"
 msgstr "Overfør"
 
-#: admin/class-ws-form-admin.php:1350 admin/class-ws-form-admin.php:1351
-#: admin/class-ws-form-admin.php:2592
-#: includes/core/class-ws-form-template.php:814
+#: admin/class-ws-form-admin.php:1347 admin/class-ws-form-admin.php:1348
+#: admin/class-ws-form-admin.php:2544
+#: includes/core/class-ws-form-template.php:817
 msgid "Upgrade to PRO"
 msgstr "Opgrader til PRO"
 
-#: admin/class-ws-form-admin.php:1361 admin/class-ws-form-admin.php:1362
-#: admin/class-ws-form-admin.php:2596
+#: admin/class-ws-form-admin.php:1358 admin/class-ws-form-admin.php:1359
+#: admin/class-ws-form-admin.php:2548
 msgid "Add-Ons"
 msgstr "Udvidelser"
 
-#: admin/class-ws-form-admin.php:1381
+#: admin/class-ws-form-admin.php:1378
 msgid "Clear hidden fields"
 msgstr "Ryd skjulte felter"
 
-#: admin/class-ws-form-admin.php:1434
+#: admin/class-ws-form-admin.php:1431
 msgid "Forms per page:"
 msgstr "Formularer pr. side:"
 
-#: admin/class-ws-form-admin.php:1448
+#: admin/class-ws-form-admin.php:1445
 msgid "Submissions per page:"
 msgstr "Indsendelser pr. side:"
 
-#: admin/class-ws-form-admin.php:1462
+#: admin/class-ws-form-admin.php:1459
 msgid "Styles per page:"
 msgstr "Typografier pr. side:"
 
-#: admin/class-ws-form-admin.php:1524
+#: admin/class-ws-form-admin.php:1521
 msgid "WS Form Block Preview"
 msgstr "WS Form Block Preview"
 
 #. translators: %s: Presentable name (e.g. WS Form PRO)
-#: admin/class-ws-form-admin.php:1536 includes/blocks/form-add/form-add.php:51
+#: admin/class-ws-form-admin.php:1533 includes/blocks/form-add/form-add.php:51
 #, php-format
 msgid "Add a form to your web page using %s."
 msgstr "Tilføj en formular til din webside ved hjælp af %s."
 
-#: admin/class-ws-form-admin.php:1538 includes/blocks/form-add/form-add.php:42
+#: admin/class-ws-form-admin.php:1535 includes/blocks/form-add/form-add.php:42
 #: includes/config/class-ws-form-config-admin.php:651
 msgid "form"
 msgstr "formular"
 
-#: admin/class-ws-form-admin.php:1541
+#: admin/class-ws-form-admin.php:1538
 msgid "From the block settings sidebar, choose the form you would like to add."
 msgstr ""
 "Vælg den formular, du vil tilføje, i sidepanelet for blokindstillinger."
 
-#: admin/class-ws-form-admin.php:1542
+#: admin/class-ws-form-admin.php:1539
 #: admin/class-ws-form-wp-list-table-form.php:15
 #: includes/class-ws-form-config.php:8389
 #: includes/class-ws-form-config.php:12172
@@ -523,7 +521,7 @@ msgstr ""
 #: includes/config/class-ws-form-config-public.php:404
 #: includes/config/class-ws-form-config-styler.php:36
 #: includes/core/class-ws-form-form-stat.php:741
-#: includes/core/class-ws-form-submit.php:4722
+#: includes/core/class-ws-form-submit.php:4728
 #: includes/third-party/beaver-builder/modules/ws-form/ws-form.php:40
 #: includes/third-party/beaver-builder/modules/ws-form/ws-form.php:44
 #: includes/third-party/bricks/elements/class-bricks-ws-form-form.php:37
@@ -534,46 +532,46 @@ msgstr ""
 msgid "Form"
 msgstr "Formular"
 
-#: admin/class-ws-form-admin.php:1544
+#: admin/class-ws-form-admin.php:1541
 #: includes/third-party/oxygen/elements/class-oxyel-ws-form-form.php:93
 msgid "ID (Optional)"
 msgstr "ID (valgfrit)"
 
-#: admin/class-ws-form-admin.php:1546 admin/class-ws-form-admin.php:2830
-#: admin/class-ws-form-admin.php:2834 admin/partials/ws-form-form-style.php:22
+#: admin/class-ws-form-admin.php:1543 admin/class-ws-form-admin.php:2782
+#: admin/class-ws-form-admin.php:2786 admin/partials/ws-form-form-style.php:22
 #: admin/partials/ws-form-form.php:22 includes/blocks/form-add/form-add.php:48
 msgid "Add New"
 msgstr "Tilføj ny"
 
 #. translators: %u: Number of forms
-#: admin/class-ws-form-admin.php:2617
+#: admin/class-ws-form-admin.php:2569
 #, php-format
 msgid "%u Form"
 msgid_plural "%u Forms"
 msgstr[0] "%u Form"
 msgstr[1] "%u Formularer"
 
-#: admin/class-ws-form-admin.php:2673
+#: admin/class-ws-form-admin.php:2625
 msgid "No form statistics data available."
 msgstr "Der foreligger ingen formularstatistiske data."
 
-#: admin/class-ws-form-admin.php:2680 api/class-ws-form-api-form-stat.php:62
+#: admin/class-ws-form-admin.php:2632 api/class-ws-form-api-form-stat.php:62
 #: api/class-ws-form-api-form-stat.php:196
 msgid "All Forms"
 msgstr "Alle formularer"
 
-#: admin/class-ws-form-admin.php:2829
+#: admin/class-ws-form-admin.php:2781
 msgid ""
 "This dashboard widget will show statistics for any submissions you receive."
 msgstr ""
 "Denne dashboard-widget viser statistikker for alle de indsendelser, du "
 "modtager."
 
-#: admin/class-ws-form-admin.php:2853
+#: admin/class-ws-form-admin.php:2805
 msgid "These settings are controlled by WooCommerce"
 msgstr "Disse indstillinger styres af WooCommerce"
 
-#: admin/class-ws-form-admin.php:2855 admin/class-ws-form-admin.php:2934
+#: admin/class-ws-form-admin.php:2807 admin/class-ws-form-admin.php:2886
 #: admin/class-ws-form-wp-list-table-form.php:210
 #: admin/class-ws-form-wp-list-table-style.php:161
 #: admin/class-ws-form-wp-list-table-submit.php:535
@@ -587,39 +585,39 @@ msgstr "Disse indstillinger styres af WooCommerce"
 msgid "Edit"
 msgstr "Rediger"
 
-#: admin/class-ws-form-admin.php:2964
+#: admin/class-ws-form-admin.php:2916
 #: admin/class-ws-form-wp-list-table-form.php:223
 #: admin/class-ws-form-wp-list-table-style.php:48
 #: admin/class-ws-form-wp-list-table-submit.php:621
 #: admin/partials/ws-form-form-edit.php:34
 #: admin/partials/ws-form-form-submit.php:32
-#: api/class-ws-form-api-helper.php:615 includes/class-ws-form-config.php:2232
+#: api/class-ws-form-api-helper.php:562 includes/class-ws-form-config.php:2232
 #: includes/class-ws-form-config.php:8687
 #: includes/config/class-ws-form-config-admin.php:1113
 #: includes/config/class-ws-form-config-option.php:28
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
-#: admin/class-ws-form-admin.php:3018
+#: admin/class-ws-form-admin.php:2970
 #: includes/config/class-ws-form-config-option.php:58
 msgid "Debug Console"
 msgstr "Debug-konsol"
 
-#: admin/class-ws-form-admin.php:3029 includes/class-ws-form-config.php:12015
+#: admin/class-ws-form-admin.php:2981 includes/class-ws-form-config.php:12015
 #: includes/class-ws-form-config.php:12033
 #: includes/class-ws-form-config.php:15322
 #: includes/config/class-ws-form-config-option.php:64
-#: includes/config/class-ws-form-config-option.php:109
+#: includes/config/class-ws-form-config-option.php:85
 #: includes/core/class-ws-form-data-source.php:47
 msgid "Off"
 msgstr "Off"
 
-#: admin/class-ws-form-admin.php:3044
+#: admin/class-ws-form-admin.php:2996
 #: includes/config/class-ws-form-config-option.php:65
 msgid "Administrators only"
 msgstr "Kun for administratorer"
 
-#: admin/class-ws-form-admin.php:3059
+#: admin/class-ws-form-admin.php:3011
 #: includes/config/class-ws-form-config-option.php:66
 msgid "Show always"
 msgstr "Vis altid"
@@ -653,7 +651,7 @@ msgid "Name"
 msgstr "Navn"
 
 #: admin/class-ws-form-wp-list-table-form.php:45
-#: includes/config/class-ws-form-config-option.php:216
+#: includes/config/class-ws-form-config-option.php:157
 msgid "Statistics"
 msgstr "Statistikker"
 
@@ -739,7 +737,7 @@ msgstr "Papirkurv"
 
 #: admin/class-ws-form-wp-list-table-form.php:227
 #: admin/class-ws-form-wp-list-table-style.php:19
-#: admin/partials/ws-form-form-edit.php:40 api/class-ws-form-api-helper.php:621
+#: admin/partials/ws-form-form-edit.php:40 api/class-ws-form-api-helper.php:568
 #: includes/blocks/form-add/form-add.php:61
 #: includes/class-ws-form-config.php:329 includes/class-ws-form-config.php:498
 #: includes/class-ws-form-config.php:637 includes/class-ws-form-config.php:785
@@ -820,7 +818,7 @@ msgstr "Stil"
 #: admin/class-ws-form-wp-list-table-form.php:232
 #: admin/class-ws-form-wp-list-table-form.php:331
 #: admin/class-ws-form-wp-list-table-style.php:176
-#: api/class-ws-form-api-helper.php:639
+#: api/class-ws-form-api-helper.php:586
 #: includes/config/class-ws-form-config-public.php:322
 msgid "Export"
 msgstr "Eksporter"
@@ -880,7 +878,7 @@ msgid "No forms available."
 msgstr "Der findes ingen formularer."
 
 #: admin/class-ws-form-wp-list-table-style.php:117
-#: includes/class-ws-form-common.php:6442
+#: includes/class-ws-form-common.php:6532
 #: includes/class-ws-form-config.php:7469
 #: includes/class-ws-form-config.php:9511
 #: includes/class-ws-form-config.php:10766
@@ -949,7 +947,7 @@ msgid "Set as conversational"
 msgstr "Indstil som samtaleform"
 
 #: admin/class-ws-form-wp-list-table-style.php:196
-#: admin/partials/ws-form-settings.php:884
+#: admin/partials/ws-form-settings.php:883
 #: includes/class-ws-form-config.php:4886
 #: includes/class-ws-form-config.php:4893
 #: includes/class-ws-form-config.php:7255
@@ -1009,7 +1007,7 @@ msgstr "Markér som ulæst"
 
 #: admin/class-ws-form-wp-list-table-submit.php:580
 #: admin/class-ws-form-wp-list-table-submit.php:845
-#: includes/actions/class-ws-form-action-database.php:230
+#: includes/actions/class-ws-form-action-database.php:238
 #: includes/config/class-ws-form-config-admin.php:1168
 msgid "Mark as Read"
 msgstr "Markér som Læst"
@@ -1062,7 +1060,7 @@ msgstr "Markér som spam"
 #: admin/class-ws-form-wp-list-table-submit.php:907
 #: admin/partials/ws-form-form-migrate.php:161
 #: admin/partials/ws-form-form-migrate.php:231
-#: includes/class-ws-form-common.php:6518
+#: includes/class-ws-form-common.php:6608
 #: includes/third-party/beaver-builder/classes/class-fl-ws-form-loader.php:64
 #: includes/third-party/divi/4/includes/modules/ws-form/ws-form.php:58
 msgid "Select form..."
@@ -1106,14 +1104,14 @@ msgstr "Der kan ikke indsendes bidrag."
 
 #: admin/partials/ws-form-form-add.php:48
 #: admin/partials/ws-form-form-style-add.php:21
-#: includes/core/class-ws-form-template.php:791
-#: includes/core/class-ws-form-template.php:829
+#: includes/core/class-ws-form-template.php:794
+#: includes/core/class-ws-form-template.php:844
 msgid "Use Template"
 msgstr "Benyt Skabelon"
 
 #: admin/partials/ws-form-form-add.php:60
 #: admin/partials/ws-form-form-style.php:28 admin/partials/ws-form-form.php:28
-#: api/class-ws-form-api-helper.php:633
+#: api/class-ws-form-api-helper.php:580
 #: includes/config/class-ws-form-config-public.php:321
 msgid "Import"
 msgstr "Importer"
@@ -1155,7 +1153,7 @@ msgstr "Opret"
 msgid "Drop file to import"
 msgstr "Drop fil til import"
 
-#: admin/partials/ws-form-form-edit.php:28 api/class-ws-form-api-helper.php:609
+#: admin/partials/ws-form-form-edit.php:28 api/class-ws-form-api-helper.php:556
 msgid "Publish"
 msgstr "Udgiv"
 
@@ -1198,7 +1196,7 @@ msgstr "Gem"
 #: includes/config/class-ws-form-config-admin.php:769
 #: includes/config/class-ws-form-config-admin.php:771
 #: includes/config/class-ws-form-config-admin.php:1274
-#: includes/config/class-ws-form-config-option.php:1334
+#: includes/config/class-ws-form-config-option.php:1275
 msgid "Variables"
 msgstr "Variabler"
 
@@ -1322,6 +1320,7 @@ msgid "An error occurred during the import."
 msgstr "Der opstod en fejl under importen."
 
 #: admin/partials/ws-form-form-migrate.php:403
+#: includes/class-ws-form-common.php:5466
 #: includes/class-ws-form-config.php:7225
 msgid "Dismiss"
 msgstr "Afvis"
@@ -1409,43 +1408,43 @@ msgstr ""
 "Der opstod en fejl under afsendelse af e-mailen om fejl ved "
 "formularindsendelse. Bekræft, at modtagerens e-mailadresse er korrekt."
 
-#: admin/partials/ws-form-settings.php:656
+#: admin/partials/ws-form-settings.php:659
 #: includes/config/class-ws-form-config-conditional.php:529
 msgid "Copy to clipboard"
 msgstr "Kopiér til udklipsholder"
 
-#: admin/partials/ws-form-settings.php:840
+#: admin/partials/ws-form-settings.php:839
 msgid "Deactivate"
 msgstr "Deaktiver"
 
-#: admin/partials/ws-form-settings.php:844
+#: admin/partials/ws-form-settings.php:843
 msgid "Activate"
 msgstr "Aktiver"
 
-#: admin/partials/ws-form-settings.php:852
+#: admin/partials/ws-form-settings.php:851
 msgid "Detect"
 msgstr "Registrer"
 
-#: admin/partials/ws-form-settings.php:858
+#: admin/partials/ws-form-settings.php:857
 msgid "Generate"
 msgstr "Generer"
 
-#: admin/partials/ws-form-settings.php:864
-#: admin/partials/ws-form-settings.php:870
+#: admin/partials/ws-form-settings.php:863
+#: admin/partials/ws-form-settings.php:869
 msgid "Use php.ini value"
 msgstr "Brug værdien i php.ini"
 
-#: admin/partials/ws-form-settings.php:877
+#: admin/partials/ws-form-settings.php:876
 msgid "Select image..."
 msgstr "Vælg billede..."
 
-#: admin/partials/ws-form-settings.php:891
-#: admin/partials/ws-form-settings.php:897
+#: admin/partials/ws-form-settings.php:890
+#: admin/partials/ws-form-settings.php:896
 msgid "Send Test"
 msgstr "Send test"
 
 #. translators: %s: License key named constant, e.g. WSF_LICENSE_KEY
-#: admin/partials/ws-form-settings.php:942
+#: admin/partials/ws-form-settings.php:941
 #, php-format
 msgid ""
 "The license key can also be set in <code>wp-config.php</code> using the "
@@ -1454,7 +1453,7 @@ msgstr ""
 "Licensnøglen kan også angives i <code>wp-config.php</code> ved at bruge "
 "konstanten med navnet <code>%s</code>."
 
-#: admin/partials/ws-form-settings.php:948
+#: admin/partials/ws-form-settings.php:947
 #: includes/actions/class-ws-form-action-conversion.php:633
 #: includes/actions/class-ws-form-action-email.php:458
 #: includes/actions/class-ws-form-action-email.php:470
@@ -1494,157 +1493,51 @@ msgstr ""
 #: includes/config/class-ws-form-config-admin.php:858
 #: includes/config/class-ws-form-config-option.php:35
 #: includes/config/class-ws-form-config-option.php:60
-#: includes/config/class-ws-form-config-option.php:126
-#: includes/config/class-ws-form-config-option.php:236
-#: includes/config/class-ws-form-config-option.php:259
-#: includes/config/class-ws-form-config-option.php:475
-#: includes/config/class-ws-form-config-option.php:525
-#: includes/config/class-ws-form-config-option.php:539
-#: includes/config/class-ws-form-config-option.php:553
-#: includes/config/class-ws-form-config-option.php:567
-#: includes/config/class-ws-form-config-option.php:883
-#: includes/config/class-ws-form-config-option.php:926
-#: includes/config/class-ws-form-config-option.php:997
-#: includes/config/class-ws-form-config-option.php:1017
-#: includes/config/class-ws-form-config-option.php:1058
-#: includes/config/class-ws-form-config-option.php:1078
-#: includes/config/class-ws-form-config-option.php:1104
-#: includes/config/class-ws-form-config-option.php:1124
-#: includes/config/class-ws-form-config-option.php:1150
-#: includes/config/class-ws-form-config-option.php:1170
-#: includes/config/class-ws-form-config-option.php:1192
-#: includes/config/class-ws-form-config-option.php:1571
-#: includes/config/class-ws-form-config-option.php:1610
+#: includes/config/class-ws-form-config-option.php:102
+#: includes/config/class-ws-form-config-option.php:177
+#: includes/config/class-ws-form-config-option.php:200
+#: includes/config/class-ws-form-config-option.php:416
+#: includes/config/class-ws-form-config-option.php:466
+#: includes/config/class-ws-form-config-option.php:480
+#: includes/config/class-ws-form-config-option.php:494
+#: includes/config/class-ws-form-config-option.php:508
+#: includes/config/class-ws-form-config-option.php:824
+#: includes/config/class-ws-form-config-option.php:867
+#: includes/config/class-ws-form-config-option.php:938
+#: includes/config/class-ws-form-config-option.php:958
+#: includes/config/class-ws-form-config-option.php:999
+#: includes/config/class-ws-form-config-option.php:1019
+#: includes/config/class-ws-form-config-option.php:1045
+#: includes/config/class-ws-form-config-option.php:1065
+#: includes/config/class-ws-form-config-option.php:1091
+#: includes/config/class-ws-form-config-option.php:1111
+#: includes/config/class-ws-form-config-option.php:1133
+#: includes/config/class-ws-form-config-option.php:1512
+#: includes/config/class-ws-form-config-option.php:1551
 #: includes/core/class-ws-form-form-stat.php:814
-#: includes/core/class-ws-form-wp-ai-client.php:81
+#: includes/core/class-ws-form-wp-ai-client.php:83
 #: includes/third-party/polylang/class-ws-form-polylang.php:133
 #: includes/third-party/wpml/class-ws-form-wpml.php:104
 msgid "Learn more"
 msgstr "Lær mere"
 
 #. translators: %s: Presentatable name (e.g. WS Form PRO)
-#: admin/partials/ws-form-welcome.php:28
+#: admin/partials/ws-form-welcome.php:31
 #, php-format
 msgid "%s - Smart. Fast. Forms."
 msgstr "%s - Smart. Hurtig. Formularer."
 
-#: admin/partials/ws-form-welcome.php:68
-msgid "Click to Start"
-msgstr "Klik for at starte"
+#: admin/partials/ws-form-welcome.php:71
+msgid "Play welcome video"
+msgstr "Afspil velkomstvideo"
 
-#: admin/partials/ws-form-welcome.php:77
-msgid "How familiar are you with building forms?"
-msgstr "Hvor fortrolig er du med byggeformer?"
+#: admin/partials/ws-form-welcome.php:75
+msgid "Create Your First Form"
+msgstr "Opret din første formular"
 
-#: admin/partials/ws-form-welcome.php:78
-msgid "If you're new to building forms, we'll keep it simple."
-msgstr "Hvis du er nybegynder med at bygge formularer, holder vi det enkelt."
-
-#: admin/partials/ws-form-welcome.php:81
-msgid "Keep It Simple"
-msgstr "Hold det enkelt"
-
-#: admin/partials/ws-form-welcome.php:82
-msgid "I'm Familiar"
-msgstr "Jeg er bekendt"
-
-#: admin/partials/ws-form-welcome.php:83
-msgid "I'm a Developer"
-msgstr "Jeg er en udvikler"
-
-#. translators: %s: Framework name (e.g. Bootstrap)
-#: admin/partials/ws-form-welcome.php:97
-#, php-format
-msgid "You're using %s"
-msgstr "Du bruger %s"
-
-#: admin/partials/ws-form-welcome.php:103
-msgid "Is that correct?"
-msgstr "Er det korrekt?"
-
-#: admin/partials/ws-form-welcome.php:106
-#: includes/class-ws-form-common.php:5711
-#: includes/class-ws-form-config.php:12889
-#: includes/class-ws-form-config.php:12902
-#: includes/class-ws-form-config.php:12915
-#: includes/config/class-ws-form-config-option.php:1388
-#: includes/config/class-ws-form-config-option.php:1402
-#: includes/config/class-ws-form-config-option.php:1416
-#: includes/data-sources/class-ws-form-data-source-post-status.php:208
-#: includes/data-sources/class-ws-form-data-source-post-status.php:223
-#: includes/third-party/pods/class-ws-form-pods.php:514
-msgid "Yes"
-msgstr "Ja"
-
-#: admin/partials/ws-form-welcome.php:107
-#: includes/class-ws-form-common.php:5711
-#: includes/class-ws-form-config.php:12890
-#: includes/class-ws-form-config.php:12903
-#: includes/class-ws-form-config.php:12916
-#: includes/config/class-ws-form-config-option.php:1389
-#: includes/config/class-ws-form-config-option.php:1403
-#: includes/config/class-ws-form-config-option.php:1417
-#: includes/data-sources/class-ws-form-data-source-post-status.php:209
-#: includes/data-sources/class-ws-form-data-source-post-status.php:224
-#: includes/third-party/pods/class-ws-form-pods.php:515
-msgid "No"
-msgstr "Nej"
-
-#: admin/partials/ws-form-welcome.php:108
-#: admin/partials/ws-form-welcome.php:123
-msgid "I'm Not Sure"
-msgstr "Jeg er ikke sikker"
-
-#: admin/partials/ws-form-welcome.php:117
-msgid "Does your theme use a front-end framework?"
-msgstr "Bruger dit tema en front-end ramme?"
-
-#: admin/partials/ws-form-welcome.php:118
-msgid "If you are not sure, skip this and you can change it later."
-msgstr ""
-"Hvis du ikke er sikker, kan du springe over dette punkt, og du kan ændre det "
-"senere."
-
-#: admin/partials/ws-form-welcome.php:124
-msgid "No Framework"
-msgstr "Framework"
-
-#: admin/partials/ws-form-welcome.php:143
-msgid "Skip This"
-msgstr "Spring dette over"
-
-#: admin/partials/ws-form-welcome.php:152
-msgid "All Done!"
-msgstr "Alt klart!"
-
-#: admin/partials/ws-form-welcome.php:153
-msgid "You're ready to build your first form."
-msgstr "Du er nu klar til at bygge din første formular."
-
-#: admin/partials/ws-form-welcome.php:162
-msgid "Get Started..."
-msgstr "Kom i gang..."
-
-#: admin/partials/ws-form-welcome.php:171
-msgid "Whoops! Something went wrong."
-msgstr "Ups! Noget gik galt."
-
-#: admin/partials/ws-form-welcome.php:172
-msgid ""
-"There appears to be a problem with your hosting. For more information, click "
-"the 'Help' button below."
-msgstr ""
-"Der ser ud til at være et problem med din hosting. Klik på knappen \"Hjælp\" "
-"nedenfor for at få flere oplysninger."
-
-#: admin/partials/ws-form-welcome.php:175
-msgid "Try Again"
-msgstr "Prøv igen"
-
-#: admin/partials/ws-form-welcome.php:176
-#: includes/config/class-ws-form-config-styler.php:1055
-msgid "Help"
-msgstr "Hjælp"
+#: admin/partials/ws-form-welcome.php:76
+msgid "Documentation"
+msgstr "Dokumentation"
 
 #: api/class-ws-form-api-field.php:108 api/class-ws-form-api-field.php:201
 msgid "Meta key not specified"
@@ -1658,7 +1551,7 @@ msgstr "Meta-værdi tom"
 msgid "Columns not found"
 msgstr "Kolonner ikke fundet"
 
-#: api/class-ws-form-api-field.php:141 includes/class-ws-form-common.php:6321
+#: api/class-ws-form-api-field.php:141 includes/class-ws-form-common.php:6413
 msgid "Groups not found"
 msgstr "Grupper ikke fundet"
 
@@ -1674,7 +1567,7 @@ msgstr "Rækkedata ikke fundet"
 msgid "Unable to read meta data"
 msgstr "Kan ikke læse metadata"
 
-#: api/class-ws-form-api-field.php:219 includes/class-ws-form-common.php:7069
+#: api/class-ws-form-api-field.php:219 includes/class-ws-form-common.php:7226
 msgid "No files found"
 msgstr "Der blev ikke fundet nogen filer"
 
@@ -1786,57 +1679,45 @@ msgstr "Antal"
 msgid "Invalid chart type"
 msgstr "Ugyldig diagramtype"
 
-#: api/class-ws-form-api-helper.php:166
-msgid "Framework not specified"
-msgstr "Ramme ikke specificeret"
-
-#: api/class-ws-form-api-helper.php:170
-msgid "Invalid framework specified"
-msgstr "Ugyldig ramme angivet"
-
-#: api/class-ws-form-api-helper.php:178
-msgid "Invalid mode specified"
-msgstr "Ugyldig tilstand angivet"
-
-#: api/class-ws-form-api-helper.php:453
+#: api/class-ws-form-api-helper.php:388
 msgid "Hash not specified"
 msgstr "Hash ikke angivet"
 
-#: api/class-ws-form-api-helper.php:457
+#: api/class-ws-form-api-helper.php:392
 msgid "Field ID not specified"
 msgstr "Felt-ID ikke angivet"
 
-#: api/class-ws-form-api-helper.php:464
+#: api/class-ws-form-api-helper.php:399
 msgid "File index invalid"
 msgstr "Filindeks ugyldigt"
 
-#: api/class-ws-form-api-helper.php:481
+#: api/class-ws-form-api-helper.php:416
 #: includes/data-sources/class-ws-form-data-source-acpt.php:85
 msgid "Field ID not found"
 msgstr "Felt-ID ikke fundet"
 
-#: api/class-ws-form-api-helper.php:485 api/class-ws-form-api-helper.php:489
+#: api/class-ws-form-api-helper.php:420 api/class-ws-form-api-helper.php:424
 #: api/class-ws-form-api-migrate.php:59
 msgid "Field data not found"
 msgstr "Feltdata ikke fundet"
 
-#: api/class-ws-form-api-helper.php:493
+#: api/class-ws-form-api-helper.php:428
 msgid "File name not found"
 msgstr "Filnavn ikke fundet"
 
-#: api/class-ws-form-api-helper.php:497
+#: api/class-ws-form-api-helper.php:432
 msgid "File type not found"
 msgstr "Filtype ikke fundet"
 
-#: api/class-ws-form-api-helper.php:501
+#: api/class-ws-form-api-helper.php:436
 msgid "File path not found"
 msgstr "Filsti ikke fundet"
 
-#: api/class-ws-form-api-helper.php:513
+#: api/class-ws-form-api-helper.php:454
 msgid "File not found"
 msgstr "Fil ikke fundet"
 
-#: api/class-ws-form-api-helper.php:609
+#: api/class-ws-form-api-helper.php:556
 msgid ""
 "Once you have finished editing your form, click this button to publish it. "
 "Any changes made before publishing can only be seen by you."
@@ -1845,7 +1726,7 @@ msgstr ""
 "for at offentliggøre den. Ændringer, der er foretaget før offentliggørelsen, "
 "kan kun ses af dig."
 
-#: api/class-ws-form-api-helper.php:615
+#: api/class-ws-form-api-helper.php:562
 msgid ""
 "Click this to preview your form in your website theme. You can change the "
 "template used for previewing in settings."
@@ -1853,7 +1734,7 @@ msgstr ""
 "Klik på dette for at få vist din formular i dit websteds tema. Du kan ændre "
 "den skabelon, der bruges til forhåndsvisning, i indstillingerne."
 
-#: api/class-ws-form-api-helper.php:621
+#: api/class-ws-form-api-helper.php:568
 msgid ""
 "Click this to style your form in your website theme. You can change the "
 "style used in the form settings."
@@ -1861,7 +1742,7 @@ msgstr ""
 "Klik her for at style din formular i dit webstedstema. Du kan ændre den "
 "anvendte stil i formularindstillingerne."
 
-#: api/class-ws-form-api-helper.php:627
+#: api/class-ws-form-api-helper.php:574
 msgid ""
 "To view your form submissions, click here. You can edit, export and print "
 "submissions."
@@ -1869,7 +1750,7 @@ msgstr ""
 "Klik her for at se dine indsendelser af formularer. Du kan redigere, "
 "eksportere og udskrive indsendelser."
 
-#: api/class-ws-form-api-helper.php:633
+#: api/class-ws-form-api-helper.php:580
 msgid ""
 "Click this to import a form that you have previously exported. This is "
 "useful if you want to transfer a form to another website."
@@ -1878,7 +1759,7 @@ msgstr ""
 "eksporteret. Dette er nyttigt, hvis du vil overføre en formular til et andet "
 "websted."
 
-#: api/class-ws-form-api-helper.php:639
+#: api/class-ws-form-api-helper.php:586
 msgid ""
 "Click this to export your form. You can use the exported JSON file to move "
 "your form to another website."
@@ -1886,12 +1767,12 @@ msgstr ""
 "Klik på dette for at eksportere din formular. Du kan bruge den eksporterede "
 "JSON-fil til at flytte din formular til et andet websted."
 
-#: api/class-ws-form-api-helper.php:645
+#: api/class-ws-form-api-helper.php:592
 #: includes/config/class-ws-form-config-admin.php:33
 msgid "Toolbox"
 msgstr "Toolbox"
 
-#: api/class-ws-form-api-helper.php:645
+#: api/class-ws-form-api-helper.php:592
 msgid ""
 "Drag-and-drop or click a field type to add it to your form. The 'Undo' tab "
 "contains a history of your form edits. You can go back to any step if you "
@@ -1901,7 +1782,7 @@ msgstr ""
 "Fanen \"Fortryd\" indeholder en historik over dine formularredigeringer. Du "
 "kan gå tilbage til et hvilket som helst trin, hvis du begår en fejl."
 
-#: api/class-ws-form-api-helper.php:653 api/class-ws-form-api-helper.php:661
+#: api/class-ws-form-api-helper.php:600 api/class-ws-form-api-helper.php:608
 #: includes/config/class-ws-form-config-admin.php:79
 #: includes/config/class-ws-form-config-admin.php:749
 #: includes/frameworks/class-ws-form-framework-ws-form.php:87
@@ -1909,7 +1790,7 @@ msgstr ""
 msgid "Conditional Logic"
 msgstr "Betinget logik"
 
-#: api/class-ws-form-api-helper.php:653
+#: api/class-ws-form-api-helper.php:600
 msgid ""
 "Use conditional logic to make your form interactive! For example, you could "
 "show or hide sections of a form to make it easier to complete."
@@ -1917,7 +1798,7 @@ msgstr ""
 "Brug betinget logik til at gøre din formular interaktiv! Du kan f.eks. vise "
 "eller skjule dele af en formular for at gøre det lettere at udfylde den."
 
-#: api/class-ws-form-api-helper.php:661
+#: api/class-ws-form-api-helper.php:608
 msgid ""
 "Upgrade to PRO to use conditional logic and make your form interactive! For "
 "example, you could show or hide sections of a form to make it easier to "
@@ -1927,7 +1808,7 @@ msgstr ""
 "interaktiv! Du kan f.eks. vise eller skjule dele af en formular for at gøre "
 "det lettere at udfylde den."
 
-#: api/class-ws-form-api-helper.php:667 includes/class-ws-form-config.php:17000
+#: api/class-ws-form-api-helper.php:614 includes/class-ws-form-config.php:17000
 #: includes/class-ws-form-config.php:17034
 #: includes/config/class-ws-form-config-admin.php:107
 #: includes/config/class-ws-form-config-admin.php:745
@@ -1936,7 +1817,7 @@ msgstr ""
 msgid "Actions"
 msgstr "Handlinger"
 
-#: api/class-ws-form-api-helper.php:667
+#: api/class-ws-form-api-helper.php:614
 msgid ""
 "Actions run whenever a form is submitted or saved. You can send emails, show "
 "messages, redirect to a page, integrate with a CRM and more."
@@ -1945,14 +1826,14 @@ msgstr ""
 "mails, vise beskeder, omdirigere til en side, integrere med et CRM og meget "
 "mere."
 
-#: api/class-ws-form-api-helper.php:675 api/class-ws-form-api-helper.php:678
+#: api/class-ws-form-api-helper.php:622 api/class-ws-form-api-helper.php:625
 #: includes/config/class-ws-form-config-admin.php:149
 #: includes/config/class-ws-form-config-admin.php:849
 #: includes/config/class-ws-form-config-public.php:330
 msgid "Support"
 msgstr "Support"
 
-#: api/class-ws-form-api-helper.php:675
+#: api/class-ws-form-api-helper.php:622
 msgid ""
 "Need help? Click here to browse and search the knowledge base or send us a "
 "support ticket."
@@ -1960,16 +1841,16 @@ msgstr ""
 "Har du brug for hjælp? Klik her for at gennemse og søge i vidensbasen eller "
 "sende os en supportbillet."
 
-#: api/class-ws-form-api-helper.php:678
+#: api/class-ws-form-api-helper.php:625
 msgid "Need help? Click here to browse and search the knowledge base."
 msgstr "Har du brug for hjælp? Klik her for at gennemse og søge i vidensbasen."
 
-#: api/class-ws-form-api-helper.php:687 api/class-ws-form-api-helper.php:690
+#: api/class-ws-form-api-helper.php:634 api/class-ws-form-api-helper.php:637
 #: includes/config/class-ws-form-config-admin.php:191
 msgid "Form Settings"
 msgstr "Formular Indstillinger"
 
-#: api/class-ws-form-api-helper.php:687
+#: api/class-ws-form-api-helper.php:634
 msgid ""
 "Form settings include tracking, spam settings, submission count limiting and "
 "scheduling. You can also add custom CSS classes and edit the behavior of the "
@@ -1979,7 +1860,7 @@ msgstr ""
 "begrænsning af antal indsendelser og planlægning. Du kan også tilføje "
 "brugerdefinerede CSS-klasser og redigere formularens adfærd."
 
-#: api/class-ws-form-api-helper.php:690
+#: api/class-ws-form-api-helper.php:637
 msgid ""
 "Form settings include spam settings and duplicate protection. You can also "
 "add custom CSS classes and edit the behavior of the form."
@@ -1988,12 +1869,12 @@ msgstr ""
 "kopiering. Du kan også tilføje brugerdefinerede CSS-klasser og redigere "
 "formularens adfærd."
 
-#: api/class-ws-form-api-helper.php:698
+#: api/class-ws-form-api-helper.php:645
 #: includes/config/class-ws-form-config-admin.php:755
 msgid "Add Tab"
 msgstr "Tilføj fane"
 
-#: api/class-ws-form-api-helper.php:698
+#: api/class-ws-form-api-helper.php:645
 msgid ""
 "Click this to add tabs to your form. Use tabs to create multi-step forms. If "
 "you only have one tab, your form will be shown without tabs on your website."
@@ -2002,12 +1883,12 @@ msgstr ""
 "oprette formularer med flere trin. Hvis du kun har én fane, vil din formular "
 "blive vist uden faner på dit websted."
 
-#: api/class-ws-form-api-helper.php:704
+#: api/class-ws-form-api-helper.php:651
 #: includes/config/class-ws-form-config-admin.php:756
 msgid "Add Section"
 msgstr "Tilføj sektion"
 
-#: api/class-ws-form-api-helper.php:704
+#: api/class-ws-form-api-helper.php:651
 msgid ""
 "Click this to add sections to your form. Use sections to break up your form "
 "into logic sections."
@@ -2015,11 +1896,11 @@ msgstr ""
 "Klik på dette for at tilføje sektioner til din formular. Brug sektioner til "
 "at opdele din formular i logiksektioner."
 
-#: api/class-ws-form-api-helper.php:710
+#: api/class-ws-form-api-helper.php:657
 msgid "Breakpoint Selector"
 msgstr "Valg af holdepunkt"
 
-#: api/class-ws-form-api-helper.php:710
+#: api/class-ws-form-api-helper.php:657
 msgid ""
 "You can create unique form layouts for each screen width. To choose a "
 "different screen width, drag the breakpoint selector left or right. If you "
@@ -2032,11 +1913,11 @@ msgstr ""
 "feltbredde, gælder det for det pågældende brudpunkt og alle dem, der ligger "
 "over det."
 
-#: api/class-ws-form-api-helper.php:729
+#: api/class-ws-form-api-helper.php:676
 msgid "Invalid debug state"
 msgstr "Ugyldig debug-tilstand"
 
-#: api/class-ws-form-api-helper.php:747
+#: api/class-ws-form-api-helper.php:694
 msgid "Invalid styler state"
 msgstr "Ugyldig styler-tilstand"
 
@@ -2105,7 +1986,7 @@ msgid "Action index not found"
 msgstr "Action index ikke fundet"
 
 #: api/class-ws-form-api-submit.php:547
-#: includes/core/class-ws-form-submit.php:3450
+#: includes/core/class-ws-form-submit.php:3452
 msgid "An unknown error occurred"
 msgstr "Der opstod en ukendt fejl"
 
@@ -2115,21 +1996,21 @@ msgstr "Skabelonkonfigurationsdata ikke fundet"
 
 #. translators: %s: Config file name
 #: api/class-ws-form-api-template.php:167
-#: includes/core/class-ws-form-template.php:544
+#: includes/core/class-ws-form-template.php:547
 #, php-format
 msgid "Unable to open config.json file: %s"
 msgstr "Kan ikke åbne filen config.json: %s"
 
 #. translators: %s: Config file name
 #: api/class-ws-form-api-template.php:181
-#: includes/core/class-ws-form-template.php:553
+#: includes/core/class-ws-form-template.php:556
 #, php-format
 msgid "Unable to decode config.json file: %s"
 msgstr "Kan ikke afkode config.json-filen: %s"
 
 #. translators: %s: Config file name
 #: api/class-ws-form-api-template.php:197
-#: includes/core/class-ws-form-template.php:599
+#: includes/core/class-ws-form-template.php:602
 #, php-format
 msgid "Unable to write config.json file: %s"
 msgstr "Kan ikke skrive config.json-filen: %s"
@@ -2141,11 +2022,11 @@ msgid "Template file not found: %s"
 msgstr "Skabelonfil ikke fundet: %s"
 
 #: api/class-ws-form-api-template.php:237
-#: includes/core/class-ws-form-template.php:1034
+#: includes/core/class-ws-form-template.php:1064
 msgid "Invalid template type"
 msgstr "Ugyldig skabelontype"
 
-#: api/class-ws-form-api.php:472 api/class-ws-form-api.php:473
+#: api/class-ws-form-api.php:470 api/class-ws-form-api.php:471
 msgid "WS Form MCP Server"
 msgstr "WS Form MCP-server"
 
@@ -2310,7 +2191,7 @@ msgstr "Der er ingen konverteringsmærketype i handlingskonfigurationen."
 #: includes/actions/class-ws-form-action-message.php:183
 #: includes/actions/class-ws-form-action-redirect.php:321
 #: includes/actions/class-ws-form-action-wp-ai-client.php:97
-#: includes/actions/class-ws-form-action-wp-ai-client.php:774
+#: includes/actions/class-ws-form-action-wp-ai-client.php:810
 #: includes/class-ws-form-config.php:8941
 #: includes/class-ws-form-config.php:10104
 #: includes/class-ws-form-config.php:10177
@@ -2331,7 +2212,7 @@ msgstr "Der er ingen konverteringsmærketype i handlingskonfigurationen."
 #: includes/class-ws-form-config.php:18946
 #: includes/class-ws-form-config.php:23077
 #: includes/config/class-ws-form-config-public.php:402
-#: includes/core/class-ws-form-submit.php:4782
+#: includes/core/class-ws-form-submit.php:4788
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:249
 #: includes/data-sources/class-ws-form-data-source-post.php:285
 #: includes/data-sources/class-ws-form-data-source-post.php:1357
@@ -2439,8 +2320,8 @@ msgstr "Nøgle"
 #: includes/actions/class-ws-form-action-conversion.php:952
 #: includes/actions/class-ws-form-action-custom-api.php:883
 #: includes/actions/class-ws-form-action-custom-api.php:926
-#: includes/actions/class-ws-form-action-redirect.php:418
-#: includes/actions/class-ws-form-action-redirect.php:496
+#: includes/actions/class-ws-form-action-redirect.php:419
+#: includes/actions/class-ws-form-action-redirect.php:497
 #: includes/class-ws-form-config.php:17668
 #: includes/class-ws-form-config.php:17891
 #: includes/class-ws-form-config.php:18025
@@ -2515,7 +2396,7 @@ msgstr "Fathom-webstedets ID."
 #: includes/actions/class-ws-form-action-conversion.php:692
 #: includes/class-ws-form-config.php:18595
 #: includes/class-ws-form-config.php:19146
-#: includes/config/class-ws-form-config-option.php:250
+#: includes/config/class-ws-form-config-option.php:191
 msgid "Method"
 msgstr "Metode"
 
@@ -2836,7 +2717,7 @@ msgstr "Tilknyt brugerdefinerede værdier til slutpunktsnøgler."
 #: includes/actions/class-ws-form-action-custom-api.php:894
 #: includes/class-ws-form-config.php:8241
 #: includes/class-ws-form-config.php:11338
-#: includes/config/class-ws-form-config-option.php:347
+#: includes/config/class-ws-form-config-option.php:288
 msgid "Source"
 msgstr "Kilde"
 
@@ -2960,7 +2841,6 @@ msgstr "Ingen"
 #: includes/config/class-ws-form-config-admin.php:440
 #: includes/config/class-ws-form-config-admin.php:483
 #: includes/config/class-ws-form-config-option.php:23
-#: includes/config/class-ws-form-config-option.php:97
 #: includes/third-party/beaver-builder/modules/ws-form/ws-form.php:22
 msgid "Basic"
 msgstr "Basis"
@@ -3014,7 +2894,7 @@ msgid "Add handlers for specific response codes."
 msgstr "Tilføj handlere til specifikke svarkoder."
 
 #: includes/actions/class-ws-form-action-custom-api.php:1046
-#: includes/core/class-ws-form-submit.php:4760
+#: includes/core/class-ws-form-submit.php:4766
 msgid "Code"
 msgstr "Kode"
 
@@ -3214,43 +3094,43 @@ msgstr "Database"
 msgid "Save Submission"
 msgstr "Gem indsendelse"
 
-#: includes/actions/class-ws-form-action-database.php:155
+#: includes/actions/class-ws-form-action-database.php:163
 msgid "Form saved to database"
 msgstr "Formular gemt i databasen"
 
-#: includes/actions/class-ws-form-action-database.php:178
+#: includes/actions/class-ws-form-action-database.php:186
 msgid "Fields To Save"
 msgstr "Felter til at gemme"
 
-#: includes/actions/class-ws-form-action-database.php:182
+#: includes/actions/class-ws-form-action-database.php:190
 msgid "Save All Fields"
 msgstr "Gem alle felter"
 
-#: includes/actions/class-ws-form-action-database.php:183
+#: includes/actions/class-ws-form-action-database.php:191
 msgid "Save Filtered Fields"
 msgstr "Gem filtrerede felter"
 
-#: includes/actions/class-ws-form-action-database.php:184
+#: includes/actions/class-ws-form-action-database.php:192
 msgid "Exclude Filtered Fields"
 msgstr "Udelukke filtrerede felter"
 
-#: includes/actions/class-ws-form-action-database.php:186
+#: includes/actions/class-ws-form-action-database.php:194
 msgid "Select which fields should be saved to submissions."
 msgstr "Vælg, hvilke felter der skal gemmes i indsendelser."
 
-#: includes/actions/class-ws-form-action-database.php:193
+#: includes/actions/class-ws-form-action-database.php:201
 msgid "Filtered Fields"
 msgstr "Filtrerede felter"
 
-#: includes/actions/class-ws-form-action-database.php:195
+#: includes/actions/class-ws-form-action-database.php:203
 msgid "Select which fields to filter."
 msgstr "Vælg, hvilke felter der skal filtreres."
 
-#: includes/actions/class-ws-form-action-database.php:221
+#: includes/actions/class-ws-form-action-database.php:229
 msgid "Auto Expire Submissions"
 msgstr "Automatisk udløbsdato for indsendelser"
 
-#: includes/actions/class-ws-form-action-database.php:223
+#: includes/actions/class-ws-form-action-database.php:231
 msgid ""
 "Check this box to have submissions automatically delete after a specified "
 "number of days."
@@ -3258,18 +3138,20 @@ msgstr ""
 "Marker dette felt for at få indsendelser slettet automatisk efter et bestemt "
 "antal dage."
 
-#: includes/actions/class-ws-form-action-database.php:232
+#: includes/actions/class-ws-form-action-database.php:240
 msgid "If checked, new submissions will automatically be marked as read."
 msgstr ""
 "Hvis markeret, vil nye indsendelser automatisk blive markeret som læst."
 
-#: includes/actions/class-ws-form-action-database.php:238
+#: includes/actions/class-ws-form-action-database.php:246
 msgid "Expiry Duration (Days)"
 msgstr "Udløbsvarighed (dage)"
 
-#: includes/actions/class-ws-form-action-database.php:240
-msgid "How many days until a submission is automatically deleted?"
-msgstr "Hvor mange dage går der, før en indsendelse slettes automatisk?"
+#: includes/actions/class-ws-form-action-database.php:248
+msgid "How many days until a submission is automatically moved to trash?"
+msgstr ""
+"Hvor mange dage går der, før en indsendelse automatisk flyttes til "
+"papirkurven?"
 
 #: includes/actions/class-ws-form-action-email.php:64
 #: includes/class-ws-form-config.php:845 includes/class-ws-form-config.php:849
@@ -3322,7 +3204,7 @@ msgstr "Postmark-fejl %1$s: %2$s"
 #: includes/actions/class-ws-form-action-email.php:562
 #: includes/actions/class-ws-form-action-email.php:585
 #: includes/core/class-ws-form-form-stat.php:659
-#: includes/core/class-ws-form-submit.php:4653
+#: includes/core/class-ws-form-submit.php:4659
 #, php-format
 msgid "Invalid email address: %s"
 msgstr "Ugyldig e-mailadresse: %s"
@@ -3424,7 +3306,7 @@ msgid "Visual / Text"
 msgstr "Visuel / tekst"
 
 #: includes/actions/class-ws-form-action-email.php:1003
-#: includes/config/class-ws-form-config-option.php:1470
+#: includes/config/class-ws-form-config-option.php:1411
 msgid "Link to Files"
 msgstr "Link til filer"
 
@@ -3457,7 +3339,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:19190
 #: includes/class-ws-form-config.php:19274
 #: includes/config/class-ws-form-config-styler.php:3143
-#: includes/core/class-ws-form-submit.php:4742
+#: includes/core/class-ws-form-submit.php:4748
 msgid "Message"
 msgstr "Besked"
 
@@ -3537,9 +3419,9 @@ msgstr "Round Robin %"
 #: includes/class-ws-form-config.php:12888
 #: includes/class-ws-form-config.php:12901
 #: includes/class-ws-form-config.php:12914
-#: includes/config/class-ws-form-config-option.php:1387
-#: includes/config/class-ws-form-config-option.php:1401
-#: includes/config/class-ws-form-config-option.php:1415
+#: includes/config/class-ws-form-config-option.php:1328
+#: includes/config/class-ws-form-config-option.php:1342
+#: includes/config/class-ws-form-config-option.php:1356
 #: includes/config/class-ws-form-config-public.php:335
 msgid "Auto"
 msgstr "Auto"
@@ -3630,7 +3512,7 @@ msgid "JavaScript added to queue"
 msgstr "JavaScript tilføjet til køen"
 
 #: includes/actions/class-ws-form-action-javascript.php:113
-#: includes/config/class-ws-form-config-option.php:326
+#: includes/config/class-ws-form-config-option.php:267
 msgid "JavaScript"
 msgstr "JavaScript"
 
@@ -3678,7 +3560,7 @@ msgid "Style of message to use"
 msgstr "Stil af den besked, der skal bruges"
 
 #: includes/actions/class-ws-form-action-message.php:188
-#: includes/class-ws-form-color.php:117 includes/class-ws-form-config.php:7472
+#: includes/class-ws-form-color.php:119 includes/class-ws-form-config.php:7472
 #: includes/class-ws-form-config.php:7482
 #: includes/class-ws-form-config.php:7946
 #: includes/class-ws-form-config.php:8058
@@ -3698,7 +3580,7 @@ msgid "Success"
 msgstr "Succes"
 
 #: includes/actions/class-ws-form-action-message.php:189
-#: includes/class-ws-form-color.php:123 includes/class-ws-form-config.php:7473
+#: includes/class-ws-form-color.php:125 includes/class-ws-form-config.php:7473
 #: includes/class-ws-form-config.php:7483
 #: includes/class-ws-form-config.php:7947
 #: includes/class-ws-form-config.php:8059
@@ -3718,7 +3600,7 @@ msgid "Information"
 msgstr "Information"
 
 #: includes/actions/class-ws-form-action-message.php:190
-#: includes/class-ws-form-color.php:129 includes/class-ws-form-config.php:7474
+#: includes/class-ws-form-color.php:131 includes/class-ws-form-config.php:7474
 #: includes/class-ws-form-config.php:7484
 #: includes/class-ws-form-config.php:7948
 #: includes/class-ws-form-config.php:8060
@@ -3738,7 +3620,7 @@ msgid "Warning"
 msgstr "Advarsel"
 
 #: includes/actions/class-ws-form-action-message.php:191
-#: includes/class-ws-form-color.php:135 includes/class-ws-form-config.php:7475
+#: includes/class-ws-form-color.php:137 includes/class-ws-form-config.php:7475
 #: includes/class-ws-form-config.php:7485
 #: includes/class-ws-form-config.php:7949
 #: includes/class-ws-form-config.php:8061
@@ -3906,7 +3788,7 @@ msgstr "Omdirigerings-URL er tom"
 #: includes/class-ws-form-config.php:21226
 #: includes/class-ws-form-config.php:23278
 #: includes/class-ws-form-config.php:23484
-#: includes/core/class-ws-form-submit.php:4707
+#: includes/core/class-ws-form-submit.php:4713
 msgid "URL"
 msgstr "URL"
 
@@ -3914,19 +3796,19 @@ msgstr "URL"
 msgid "URL to redirect to."
 msgstr "URL der skal omdirigeres til."
 
-#: includes/actions/class-ws-form-action-redirect.php:355
+#: includes/actions/class-ws-form-action-redirect.php:356
 msgid "Page"
 msgstr "Side"
 
-#: includes/actions/class-ws-form-action-redirect.php:359
+#: includes/actions/class-ws-form-action-redirect.php:360
 msgid "Search pages..."
 msgstr "Søg sider..."
 
-#: includes/actions/class-ws-form-action-redirect.php:360
+#: includes/actions/class-ws-form-action-redirect.php:361
 msgid "Choose the page to redirect to"
 msgstr "Vælg den side, der skal omdirigeres til"
 
-#: includes/actions/class-ws-form-action-redirect.php:377
+#: includes/actions/class-ws-form-action-redirect.php:378
 #: includes/data-sources/class-ws-form-data-source-acf.php:313
 #: includes/data-sources/class-ws-form-data-source-acpt.php:309
 #: includes/data-sources/class-ws-form-data-source-meta-box.php:256
@@ -3936,15 +3818,15 @@ msgstr "Vælg den side, der skal omdirigeres til"
 msgid "Post ID"
 msgstr "Artikel-id"
 
-#: includes/actions/class-ws-form-action-redirect.php:379
+#: includes/actions/class-ws-form-action-redirect.php:380
 msgid "Post ID to redirect to."
 msgstr "Indlægs-ID der skal omdirigeres til."
 
-#: includes/actions/class-ws-form-action-redirect.php:397
+#: includes/actions/class-ws-form-action-redirect.php:398
 msgid "Query String Parameters"
 msgstr "Parametre i forespørgselsstreng"
 
-#: includes/actions/class-ws-form-action-redirect.php:404
+#: includes/actions/class-ws-form-action-redirect.php:405
 msgid ""
 "Query string parameters to add to the URL. WS Form will URL encode these "
 "values. Variables such as #field(123) can be used here."
@@ -3952,11 +3834,11 @@ msgstr ""
 "Parametre til forespørgselsstrengen, der skal føjes til URL'en. WS Form vil "
 "URL-kode disse værdier. Variabler som #field(123) kan bruges her."
 
-#: includes/actions/class-ws-form-action-redirect.php:425
+#: includes/actions/class-ws-form-action-redirect.php:426
 msgid "Exclude Blank Parameters"
 msgstr "Udelad tomme parametre"
 
-#: includes/actions/class-ws-form-action-redirect.php:427
+#: includes/actions/class-ws-form-action-redirect.php:428
 msgid ""
 "If checked, any rows above that have a blank value will be excluded from the "
 "query string."
@@ -3964,11 +3846,11 @@ msgstr ""
 "Hvis markeret, vil alle rækker ovenfor med en tom værdi blive udeladt fra "
 "forespørgselsstrengen."
 
-#: includes/actions/class-ws-form-action-redirect.php:433
+#: includes/actions/class-ws-form-action-redirect.php:434
 msgid "Enable Fallback URL"
 msgstr "Aktivér fallback-URL"
 
-#: includes/actions/class-ws-form-action-redirect.php:435
+#: includes/actions/class-ws-form-action-redirect.php:436
 msgid ""
 "If enabled, WS Form checks the URL and redirects to a fallback if conditions "
 "are met. Ideal for dynamic URLs like #tracking_referrer in login forms."
@@ -3977,19 +3859,19 @@ msgstr ""
 "hvis betingelserne er opfyldt. Ideelt til dynamiske URL'er som "
 "#tracking_referrer i loginformularer."
 
-#: includes/actions/class-ws-form-action-redirect.php:442
+#: includes/actions/class-ws-form-action-redirect.php:443
 msgid "Fallback URL Conditions"
 msgstr "Betingelser for fallback-URL"
 
-#: includes/actions/class-ws-form-action-redirect.php:444
+#: includes/actions/class-ws-form-action-redirect.php:445
 msgid "The fallback URL will be used if these conditions are met."
 msgstr "Fallback-URL'en bruges, hvis disse betingelser er opfyldt."
 
-#: includes/actions/class-ws-form-action-redirect.php:475
+#: includes/actions/class-ws-form-action-redirect.php:476
 msgid "If URL"
 msgstr "Hvis URL"
 
-#: includes/actions/class-ws-form-action-redirect.php:479
+#: includes/actions/class-ws-form-action-redirect.php:480
 #: includes/config/class-ws-form-config-conditional.php:174
 #: includes/config/class-ws-form-config-conditional.php:182
 #: includes/config/class-ws-form-config-conditional.php:236
@@ -3998,7 +3880,7 @@ msgstr "Hvis URL"
 msgid "Equals"
 msgstr "Er lig med"
 
-#: includes/actions/class-ws-form-action-redirect.php:480
+#: includes/actions/class-ws-form-action-redirect.php:481
 #: includes/config/class-ws-form-config-conditional.php:175
 #: includes/config/class-ws-form-config-conditional.php:183
 #: includes/config/class-ws-form-config-conditional.php:237
@@ -4007,61 +3889,61 @@ msgstr "Er lig med"
 msgid "Does not equal"
 msgstr "Er ikke lig med"
 
-#: includes/actions/class-ws-form-action-redirect.php:481
+#: includes/actions/class-ws-form-action-redirect.php:482
 #: includes/config/class-ws-form-config-conditional.php:184
 #: includes/config/class-ws-form-config-conditional.php:602
 msgid "Contains"
 msgstr "Indeholder"
 
-#: includes/actions/class-ws-form-action-redirect.php:482
+#: includes/actions/class-ws-form-action-redirect.php:483
 #: includes/config/class-ws-form-config-conditional.php:185
 #: includes/config/class-ws-form-config-conditional.php:603
 msgid "Does not contain"
 msgstr "Indeholder ikke"
 
-#: includes/actions/class-ws-form-action-redirect.php:483
+#: includes/actions/class-ws-form-action-redirect.php:484
 #: includes/config/class-ws-form-config-conditional.php:186
 #: includes/config/class-ws-form-config-conditional.php:604
 msgid "Starts with"
 msgstr "Starter med"
 
-#: includes/actions/class-ws-form-action-redirect.php:484
+#: includes/actions/class-ws-form-action-redirect.php:485
 #: includes/config/class-ws-form-config-conditional.php:187
 #: includes/config/class-ws-form-config-conditional.php:605
 msgid "Does not start with"
 msgstr "Begynder ikke med"
 
-#: includes/actions/class-ws-form-action-redirect.php:485
+#: includes/actions/class-ws-form-action-redirect.php:486
 #: includes/config/class-ws-form-config-conditional.php:188
 #: includes/config/class-ws-form-config-conditional.php:606
 msgid "Ends with"
 msgstr "Slutter med"
 
-#: includes/actions/class-ws-form-action-redirect.php:486
+#: includes/actions/class-ws-form-action-redirect.php:487
 #: includes/config/class-ws-form-config-conditional.php:189
 #: includes/config/class-ws-form-config-conditional.php:607
 msgid "Does not end with"
 msgstr "Slutter ikke med"
 
-#: includes/actions/class-ws-form-action-redirect.php:487
+#: includes/actions/class-ws-form-action-redirect.php:488
 msgid "Matches regex"
 msgstr "Matcher regex"
 
-#: includes/actions/class-ws-form-action-redirect.php:488
+#: includes/actions/class-ws-form-action-redirect.php:489
 msgid "Does not match regex"
 msgstr "Matcher ikke regex"
 
-#: includes/actions/class-ws-form-action-redirect.php:489
+#: includes/actions/class-ws-form-action-redirect.php:490
 #: includes/config/class-ws-form-config-conditional.php:190
 #: includes/config/class-ws-form-config-conditional.php:608
 msgid "Is blank"
 msgstr "Blank"
 
-#: includes/actions/class-ws-form-action-redirect.php:503
+#: includes/actions/class-ws-form-action-redirect.php:504
 msgid "Fallback URL"
 msgstr "Fallback-URL"
 
-#: includes/actions/class-ws-form-action-redirect.php:505
+#: includes/actions/class-ws-form-action-redirect.php:506
 msgid "The URL to redirect to if the above conditions are met."
 msgstr "URL'en der omdirigeres til, hvis ovenstående betingelser er opfyldt."
 
@@ -4098,7 +3980,7 @@ msgstr "Indholdstyper"
 #. translators: AI is the abbreviation for "Artificial Intelligence"
 #: includes/actions/class-ws-form-action-wp-ai-client.php:77
 #: includes/actions/class-ws-form-action-wp-ai-client.php:93
-#: includes/config/class-ws-form-config-option.php:1490
+#: includes/config/class-ws-form-config-option.php:1431
 msgid "AI"
 msgstr "AI"
 
@@ -4151,100 +4033,102 @@ msgstr "Samlede tokens"
 msgid "Returns the total token count."
 msgstr "Returnerer det samlede antal tokens."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:180
+#: includes/actions/class-ws-form-action-wp-ai-client.php:194
 msgid ""
-"To generate text with AI, you’ll need to connect an AI provider first. Add "
-"your credentials in the WordPress AI settings that supports text generation."
+"To generate text with AI, you’ll need to connect an AI provider that "
+"supports text generation first. Set up your connectors in Settings > "
+"Connectors."
 msgstr ""
-"For at generere tekst med AI skal du først forbinde en AI-udbyder. Tilføj "
-"dine loginoplysninger i WordPress’ AI-indstillinger, der understøtter "
-"tekstgenerering."
+"For at generere tekst med AI skal du først forbinde en AI-udbyder, der "
+"understøtter tekstgenerering. Opsæt dine connectors under Indstillinger > "
+"Connectors."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:200
+#: includes/actions/class-ws-form-action-wp-ai-client.php:214
 msgid "Successfully processed AI generate text request."
 msgstr "AI-anmodning om generering af tekst blev behandlet."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:236
+#: includes/actions/class-ws-form-action-wp-ai-client.php:258
 msgid ""
-"To generate images with AI, you’ll need to connect an AI provider first. Add "
-"your credentials in the WordPress AI settings that supports text generation."
+"To generate images with AI, you’ll need to connect an AI provider that "
+"supports image generation first. Set up your connectors in Settings > "
+"Connectors."
 msgstr ""
-"For at generere billeder med AI skal du først forbinde en AI-udbyder. Tilføj "
-"dine loginoplysninger i WordPress’ AI-indstillinger, der understøtter "
-"billedgenerering."
+"For at generere billeder med AI skal du først forbinde en AI-udbyder, der "
+"understøtter billedgenerering. Opsæt dine connectors under Indstillinger > "
+"Connectors."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:259
+#: includes/actions/class-ws-form-action-wp-ai-client.php:289
 msgid ""
-"To generate speech with AI, you’ll need to connect an AI provider first. Add "
-"your credentials in the WordPress AI settings that supports speech "
-"generation."
+"To generate speech with AI, you’ll need to connect an AI provider that "
+"supports speech generation first. Set up your connectors in Settings > "
+"Connectors."
 msgstr ""
-"For at generere tale med AI skal du først forbinde en AI-udbyder. Tilføj "
-"dine legitimationsoplysninger i WordPress AI-indstillingerne, som "
-"understøtter talegenerering."
+"For at generere tale med AI skal du først forbinde en AI-udbyder, der "
+"understøtter talegenerering. Opsæt dine connectors under Indstillinger > "
+"Connectors."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:339
+#: includes/actions/class-ws-form-action-wp-ai-client.php:369
 msgid "Unable to decode data URI."
 msgstr "Kan ikke afkode data-URI."
 
 #. translators: %s: File name
-#: includes/actions/class-ws-form-action-wp-ai-client.php:384
+#: includes/actions/class-ws-form-action-wp-ai-client.php:414
 #, php-format
 msgid "File is smaller than the minimum allowed size: %s"
 msgstr "Filen er mindre end den mindste tilladte størrelse: %s"
 
 #. translators: %s: File name
-#: includes/actions/class-ws-form-action-wp-ai-client.php:396
+#: includes/actions/class-ws-form-action-wp-ai-client.php:426
 #, php-format
 msgid "File is larger than the maximum allowed size: %s"
 msgstr "Filen er større end den maksimalt tilladte størrelse: %s"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:407
+#: includes/actions/class-ws-form-action-wp-ai-client.php:437
 msgid "Unable to create temporary file."
 msgstr "Kan ikke oprette midlertidig fil."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:419
+#: includes/actions/class-ws-form-action-wp-ai-client.php:449
 msgid "Unable to write temporary file."
 msgstr "Kan ikke skrive midlertidig fil."
 
 #. translators: %s: AI type
-#: includes/actions/class-ws-form-action-wp-ai-client.php:464
-#: includes/actions/class-ws-form-action-wp-ai-client.php:508
+#: includes/actions/class-ws-form-action-wp-ai-client.php:494
+#: includes/actions/class-ws-form-action-wp-ai-client.php:538
 #, php-format
 msgid "Successfully processed AI generate %s request."
 msgstr "AI-anmodning om generering af %s blev behandlet."
 
 #. translators: %u: Prompt tokens
-#: includes/actions/class-ws-form-action-wp-ai-client.php:545
+#: includes/actions/class-ws-form-action-wp-ai-client.php:575
 #, php-format
 msgid "Prompt tokens: %u"
 msgstr "Prompt-tokens: %u"
 
 #. translators: %u: Completion tokens
-#: includes/actions/class-ws-form-action-wp-ai-client.php:559
+#: includes/actions/class-ws-form-action-wp-ai-client.php:589
 #, php-format
 msgid "Completion tokens: %u"
 msgstr "Fuldførelsestokens: %u"
 
 #. translators: %u: Total tokens
-#: includes/actions/class-ws-form-action-wp-ai-client.php:573
+#: includes/actions/class-ws-form-action-wp-ai-client.php:603
 #, php-format
 msgid "Total tokens: %u"
 msgstr "Samlede tokens: %u"
 
 #. translators: %u: Provider and model
-#: includes/actions/class-ws-form-action-wp-ai-client.php:606
+#: includes/actions/class-ws-form-action-wp-ai-client.php:636
 #, php-format
 msgid "Set model preference: %s"
 msgstr "Angiv modelpræference: %s"
 
 #. translators: %u: Timeout in seconds
-#: includes/actions/class-ws-form-action-wp-ai-client.php:627
+#: includes/actions/class-ws-form-action-wp-ai-client.php:657
 #, php-format
 msgid "Set timeout: %u"
 msgstr "Angiv timeout: %u"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:777
+#: includes/actions/class-ws-form-action-wp-ai-client.php:813
 #: includes/class-ws-form-config.php:242 includes/class-ws-form-config.php:246
 #: includes/class-ws-form-config.php:9343
 #: includes/class-ws-form-config.php:12486
@@ -4269,71 +4153,71 @@ msgstr "Angiv timeout: %u"
 msgid "Text"
 msgstr "Tekst"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:778
+#: includes/actions/class-ws-form-action-wp-ai-client.php:814
 #: includes/class-ws-form-config.php:7649
 #: includes/class-ws-form-config.php:10592
-#: includes/config/class-ws-form-config-option.php:1352
+#: includes/config/class-ws-form-config-option.php:1293
 #: includes/config/class-ws-form-config-styler.php:2422
 #: includes/config/class-ws-form-config-styler.php:3816
 msgid "Image"
 msgstr "Billede"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:781
+#: includes/actions/class-ws-form-action-wp-ai-client.php:817
 msgid "Choose which type of content to generate."
 msgstr "Vælg, hvilken type indhold der skal genereres."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:788
+#: includes/actions/class-ws-form-action-wp-ai-client.php:824
 msgid "Prompt Type"
 msgstr "Prompttype"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:790
+#: includes/actions/class-ws-form-action-wp-ai-client.php:826
 msgid "Choose how to provide an input."
 msgstr "Vælg, hvordan der skal angives et input."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:794
+#: includes/actions/class-ws-form-action-wp-ai-client.php:830
 #: includes/class-ws-form-config.php:4668
 #: includes/class-ws-form-config.php:12825
 msgid "Mask"
 msgstr "Maske"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:802
+#: includes/actions/class-ws-form-action-wp-ai-client.php:838
 msgid "Prompt Field"
 msgstr "Promptfelt"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:807
+#: includes/actions/class-ws-form-action-wp-ai-client.php:843
 msgid "Choose which field to use as the input."
 msgstr "Vælg, hvilket felt der skal bruges som input."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:824
+#: includes/actions/class-ws-form-action-wp-ai-client.php:860
 msgid "Prompt Mask"
 msgstr "Promptmaske"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:826
+#: includes/actions/class-ws-form-action-wp-ai-client.php:862
 msgid "e.g. #field(123)"
 msgstr "f.eks. #field(123)"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:827
+#: includes/actions/class-ws-form-action-wp-ai-client.php:863
 msgid "Use the input mask to create prompts that include WS Form variables."
 msgstr ""
 "Brug inputmasken til at oprette prompts, der indeholder WS Form-variabler."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:846
+#: includes/actions/class-ws-form-action-wp-ai-client.php:882
 msgid "Output Field"
 msgstr "Outputfelt"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:857
+#: includes/actions/class-ws-form-action-wp-ai-client.php:893
 msgid "Use Output Mask"
 msgstr "Brug outputmaske"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:877
+#: includes/actions/class-ws-form-action-wp-ai-client.php:913
 msgid "Output Mask"
 msgstr "Outputmaske"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:879
+#: includes/actions/class-ws-form-action-wp-ai-client.php:915
 msgid "#output"
 msgstr "#output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:880
+#: includes/actions/class-ws-form-action-wp-ai-client.php:916
 msgid ""
 "Create an output mask containing WS Form variables. Use #output to insert "
 "the AI output. Does not apply if the output field is a file field."
@@ -4341,11 +4225,11 @@ msgstr ""
 "Opret en outputmaske, der indeholder WS Form-variabler. Brug #output til at "
 "indsætte AI-outputtet. Gælder ikke, hvis outputfeltet er et filfelt."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:910
+#: includes/actions/class-ws-form-action-wp-ai-client.php:946
 msgid "Append Output"
 msgstr "Tilføj output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:913
+#: includes/actions/class-ws-form-action-wp-ai-client.php:949
 msgid ""
 "If checked, the AI output will be appended to the existing content in the "
 "output field."
@@ -4353,39 +4237,39 @@ msgstr ""
 "Hvis markeret, tilføjes AI-outputtet til det eksisterende indhold i "
 "outputfeltet."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:930
+#: includes/actions/class-ws-form-action-wp-ai-client.php:966
 msgid "Trim Output"
 msgstr "Beskær output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:933
+#: includes/actions/class-ws-form-action-wp-ai-client.php:969
 msgid "If checked, the output will be trimmed."
 msgstr "Hvis markeret, trimmes outputtet."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:950
+#: includes/actions/class-ws-form-action-wp-ai-client.php:986
 msgid "Apply WPAutoP to Output"
 msgstr "Anvend WPAutoP på output"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:953
+#: includes/actions/class-ws-form-action-wp-ai-client.php:989
 msgid "If checked, wpautop will be applied to the output."
 msgstr "Hvis markeret, anvendes wpautop på outputtet."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:971
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1007
 msgid "Image count"
 msgstr "Antal billeder"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:976
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1012
 msgid "Specify how many images you would like to create."
 msgstr "Angiv, hvor mange billeder du vil oprette."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:993
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1024
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1055
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1029
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1060
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1091
 msgid "Model Preference"
 msgstr "Modelpræference"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:999
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1030
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1061
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1035
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1066
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1097
 msgid ""
 "Choose your preferred provider and models for this request. Leave blank for "
 "automatic."
@@ -4393,26 +4277,33 @@ msgstr ""
 "Vælg din foretrukne udbyder og modeller til denne anmodning. Lad stå tomt "
 "for automatisk."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1016
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1047
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1078
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1052
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1083
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1114
 msgid "Model"
 msgstr "Model"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1086
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1122
 msgid "Temperature"
 msgstr "Temperatur"
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1092
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1125
+msgid "e.g. 1.0 (0.0 to 2.0)"
+msgstr "f.eks. 1.0 (0.0 til 2.0)"
+
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1126
 msgid ""
 "Controls randomness: Lowering results in less random completions. As the "
 "temperature approaches zero, the model will become deterministic and "
-"repetitive."
+"repetitive. Leave blank to not send a temperature (some models, such as "
+"certain reasoning models, do not support temperature)."
 msgstr ""
-"Styrer tilfældighed: Sænkning giver mindre tilfældige fuldførelser. Når "
-"temperaturen nærmer sig nul, bliver modellen deterministisk og repetitiv."
+"Styrer tilfældighed: Sænkes den, giver det mindre tilfældige fuldførelser. "
+"Når temperaturen nærmer sig nul, bliver modellen deterministisk og "
+"repetitiv. Lad stå tomt for ikke at sende en temperatur (nogle modeller, "
+"f.eks. visse ræsonneringsmodeller, understøtter ikke temperatur)."
 
-#: includes/actions/class-ws-form-action-wp-ai-client.php:1109
+#: includes/actions/class-ws-form-action-wp-ai-client.php:1143
 msgid "API Request Timeout (Seconds)"
 msgstr "Timeout for API-anmodning (sekunder)"
 
@@ -4452,7 +4343,7 @@ msgstr "Indlæser..."
 msgid "Form Styling"
 msgstr "Formular styling"
 
-#: includes/class-ws-form-color.php:75
+#: includes/class-ws-form-color.php:77
 #: includes/config/class-ws-form-config-styler.php:48
 #: includes/config/class-ws-form-config-styler.php:2181
 #: includes/config/class-ws-form-config-styler.php:2299
@@ -4468,7 +4359,7 @@ msgid "Background"
 msgstr "Baggrund"
 
 #. translators: Short for "Base"
-#: includes/class-ws-form-color.php:81
+#: includes/class-ws-form-color.php:83
 #: includes/config/class-ws-form-config-public.php:326
 #: includes/config/class-ws-form-config-styler.php:59
 #: includes/config/class-ws-form-config-styler.php:1327
@@ -4480,25 +4371,25 @@ msgstr "Baggrund"
 msgid "Base"
 msgstr "Basis"
 
-#: includes/class-ws-form-color.php:87
+#: includes/class-ws-form-color.php:89
 #: includes/config/class-ws-form-config-styler.php:70
 #: includes/core/class-ws-form-style.php:214
 msgid "Base - Contrast"
 msgstr "Basis - Kontrast"
 
-#: includes/class-ws-form-color.php:93
+#: includes/class-ws-form-color.php:95
 #: includes/config/class-ws-form-config-styler.php:81
 #: includes/core/class-ws-form-style.php:215
 msgid "Accent"
 msgstr "Accent"
 
-#: includes/class-ws-form-color.php:99
+#: includes/class-ws-form-color.php:101
 #: includes/config/class-ws-form-config-styler.php:91
 #: includes/core/class-ws-form-style.php:216
 msgid "Neutral"
 msgstr "Neutral"
 
-#: includes/class-ws-form-color.php:105 includes/class-ws-form-config.php:7470
+#: includes/class-ws-form-color.php:107 includes/class-ws-form-config.php:7470
 #: includes/config/class-ws-form-config-customize.php:205
 #: includes/config/class-ws-form-config-styler.php:101
 #: includes/config/class-ws-form-config-styler.php:1363
@@ -4508,7 +4399,7 @@ msgstr "Neutral"
 msgid "Primary"
 msgstr "Primær"
 
-#: includes/class-ws-form-color.php:111 includes/class-ws-form-config.php:7471
+#: includes/class-ws-form-color.php:113 includes/class-ws-form-config.php:7471
 #: includes/config/class-ws-form-config-customize.php:212
 #: includes/config/class-ws-form-config-styler.php:111
 #: includes/config/class-ws-form-config-styler.php:1399
@@ -4518,75 +4409,75 @@ msgstr "Primær"
 msgid "Secondary"
 msgstr "Sekundær"
 
-#: includes/class-ws-form-color.php:786
+#: includes/class-ws-form-color.php:788
 msgid "Dark 90"
 msgstr "Mørk 90"
 
-#: includes/class-ws-form-color.php:787
+#: includes/class-ws-form-color.php:789
 msgid "Dark 80"
 msgstr "Mørk 80"
 
-#: includes/class-ws-form-color.php:788
+#: includes/class-ws-form-color.php:790
 msgid "Dark 70"
 msgstr "Mørk 70"
 
-#: includes/class-ws-form-color.php:789
+#: includes/class-ws-form-color.php:791
 msgid "Dark 60"
 msgstr "Mørk 60"
 
-#: includes/class-ws-form-color.php:790
+#: includes/class-ws-form-color.php:792
 msgid "Dark 50"
 msgstr "Mørk 50"
 
-#: includes/class-ws-form-color.php:791
+#: includes/class-ws-form-color.php:793
 msgid "Dark 40"
 msgstr "Mørk 40"
 
-#: includes/class-ws-form-color.php:792
+#: includes/class-ws-form-color.php:794
 msgid "Dark 30"
 msgstr "Mørk 30"
 
-#: includes/class-ws-form-color.php:793
+#: includes/class-ws-form-color.php:795
 msgid "Dark 20"
 msgstr "Mørk 20"
 
-#: includes/class-ws-form-color.php:794
+#: includes/class-ws-form-color.php:796
 msgid "Dark 10"
 msgstr "Mørk 10"
 
-#: includes/class-ws-form-color.php:805
+#: includes/class-ws-form-color.php:807
 msgid "Light 10"
 msgstr "Lys 10"
 
-#: includes/class-ws-form-color.php:806
+#: includes/class-ws-form-color.php:808
 msgid "Light 20"
 msgstr "Lys 20"
 
-#: includes/class-ws-form-color.php:807
+#: includes/class-ws-form-color.php:809
 msgid "Light 30"
 msgstr "Lys 30"
 
-#: includes/class-ws-form-color.php:808
+#: includes/class-ws-form-color.php:810
 msgid "Light 40"
 msgstr "Lys 40"
 
-#: includes/class-ws-form-color.php:809
+#: includes/class-ws-form-color.php:811
 msgid "Light 50"
 msgstr "Lys 50"
 
-#: includes/class-ws-form-color.php:810
+#: includes/class-ws-form-color.php:812
 msgid "Light 60"
 msgstr "Lys 60"
 
-#: includes/class-ws-form-color.php:811
+#: includes/class-ws-form-color.php:813
 msgid "Light 70"
 msgstr "Lys 70"
 
-#: includes/class-ws-form-color.php:812
+#: includes/class-ws-form-color.php:814
 msgid "Light 80"
 msgstr "Lys 80"
 
-#: includes/class-ws-form-color.php:813
+#: includes/class-ws-form-color.php:815
 msgid "Light 90"
 msgstr "Lys 90"
 
@@ -4594,92 +4485,92 @@ msgstr "Lys 90"
 msgid "Sorry, you are not allowed to do that (WSF)."
 msgstr "Beklager, du har ikke tilladelse til at gøre det (WSF)."
 
-#: includes/class-ws-form-common.php:1830
+#: includes/class-ws-form-common.php:1846
 msgid "Your WordPress uploads directory cannot be written to."
 msgstr "Der kan ikke skrives til din WordPress uploads-mappe."
 
 #. translators: %s: Upload path
-#: includes/class-ws-form-common.php:1842
+#: includes/class-ws-form-common.php:1858
 #, php-format
 msgid ""
 "Unable to create upload folder for uploaded files (wp-content/uploads/%s)."
 msgstr ""
 "Kan ikke oprette en upload-mappe til uploadede filer (wp-content/uploads/%s)."
 
-#: includes/class-ws-form-common.php:1858
-#: includes/class-ws-form-common.php:1862
+#: includes/class-ws-form-common.php:1874
+#: includes/class-ws-form-common.php:1878
 msgid "Invalid Path"
 msgstr "Ugyldig sti"
 
 #. translators: %1$s: Parse variable, %2$s: Attribute ID
-#: includes/class-ws-form-common.php:2575
+#: includes/class-ws-form-common.php:2591
 #, php-format
 msgid "Syntax error, missing attribute: %1$s (Expected: %2$s)"
 msgstr "Syntaksfejl, manglende attribut: %1$s (Forventet: %2$s)"
 
 #. translators: %1$s: Parse variable, %2$s: Valid attributes
-#: includes/class-ws-form-common.php:2615
+#: includes/class-ws-form-common.php:2631
 #, php-format
 msgid "Syntax error, invalid attribute: %1$s (Expected: %2$s)"
 msgstr "Syntaksfejl, ugyldig attribut: %1$s (Forventet: %2$s)"
 
 #. translators: %s: IF condition
-#: includes/class-ws-form-common.php:2668
+#: includes/class-ws-form-common.php:2684
 #, php-format
 msgid "Syntax error, missing #endif for #if(%s)"
 msgstr "Syntaksfejl, manglende #endif for #if(%s)"
 
 #. translators: %1$s: Operator, %2$s: IF condition
-#: includes/class-ws-form-common.php:2738
+#: includes/class-ws-form-common.php:2754
 #, php-format
 msgid "Syntax error, invalid operator %1$s in #if(%2$s)"
 msgstr "Syntaksfejl, ugyldig operator %1$s i #if(%2$s)"
 
 #. translators: %1$s: Logic, %2$s: IF condition
-#: includes/class-ws-form-common.php:2753
+#: includes/class-ws-form-common.php:2769
 #, php-format
 msgid "Syntax error, invalid logic %1$s in #if(%2$s)"
 msgstr "Syntaksfejl, ugyldig logik %1$s i #if(%2$s)"
 
 #. translators: %s: Variable attribute string
-#: includes/class-ws-form-common.php:2890
+#: includes/class-ws-form-common.php:2906
 #, php-format
 msgid "Syntax error, missing #section_rows_end for #section_rows_start(%s)"
 msgstr "Syntaksfejl, manglende #section_rows_end for #section_rows_start(%s)"
 
 #. translators: %u: Tab ID
-#: includes/class-ws-form-common.php:2982
+#: includes/class-ws-form-common.php:2998
 #, php-format
 msgid "Syntax error, invalid group ID in #group_label(%u)"
 msgstr "Syntaksfejl, ugyldigt gruppe-ID i #group_label(%u)"
 
 #. translators: %u: Section ID
-#: includes/class-ws-form-common.php:3012
+#: includes/class-ws-form-common.php:3028
 #, php-format
 msgid "Syntax error, invalid section ID in #section_label(%u)"
 msgstr "Syntaksfejl, ugyldigt sektions-ID i #section_label(%u)"
 
 #. translators: %u: Field ID
-#: includes/class-ws-form-common.php:3049
+#: includes/class-ws-form-common.php:3065
 #, php-format
 msgid "Syntax error, invalid field ID in #field_label(%u)"
 msgstr "Syntaksfejl, ugyldigt felt-ID i #field_label(%u)"
 
 #. translators: %s: Date input
-#: includes/class-ws-form-common.php:3210
+#: includes/class-ws-form-common.php:3226
 #: includes/class-ws-form-config.php:7286
 #, php-format
 msgid "Syntax error, invalid input date: %s"
 msgstr "Syntaksfejl, ugyldig indtastningsdato: %s"
 
 #. translators: %s: Option name
-#: includes/class-ws-form-common.php:3609
+#: includes/class-ws-form-common.php:3625
 #, php-format
 msgid "Syntax error, option name %s not found in #option_get"
 msgstr "Syntaksfejl, indstillingsnavnet %s blev ikke fundet i #option_get"
 
 #. translators: %s: Option name
-#: includes/class-ws-form-common.php:3639
+#: includes/class-ws-form-common.php:3655
 #, php-format
 msgid ""
 "Syntax error, option name %s is an object, missing parameter in #option_get"
@@ -4688,44 +4579,44 @@ msgstr ""
 "#option_get"
 
 #. translators: %s: Option name
-#: includes/class-ws-form-common.php:3670
+#: includes/class-ws-form-common.php:3686
 #, php-format
 msgid "Syntax error, option name %s is an array, missing key in #option_get"
 msgstr ""
 "Syntaksfejl, indstillingsnavnet %s er et array, manglende nøgle i #option_get"
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-common.php:4080
+#: includes/class-ws-form-common.php:4096
 #, php-format
 msgid "Powered by %s."
 msgstr "Drevet af %s."
 
-#: includes/class-ws-form-common.php:4486
+#: includes/class-ws-form-common.php:4502
 msgid "User denied the request for geo location"
 msgstr "Brugeren afviste anmodningen om geolokalisering"
 
-#: includes/class-ws-form-common.php:4491
+#: includes/class-ws-form-common.php:4507
 msgid "Geo location information was unavailable"
 msgstr "Oplysninger om geografisk placering var ikke tilgængelige"
 
-#: includes/class-ws-form-common.php:4496
+#: includes/class-ws-form-common.php:4512
 msgid "The request to get user geo location timed out"
 msgstr "Anmodningen om at hente brugerens geografiske placering gik ud i tid"
 
 #. translators: %s: Capability
-#: includes/class-ws-form-common.php:5342
+#: includes/class-ws-form-common.php:5358
 #, php-format
 msgid "Insufficient user capabilities (%s)"
 msgstr "Utilstrækkelige brugerrettigheder (%s)"
 
 #. translators: %s: Presentable plugin name, e.g. WS Form PRO
-#: includes/class-ws-form-common.php:5379
+#: includes/class-ws-form-common.php:5395
 #, php-format
 msgid "Thank you for using %s!"
 msgstr "Tak fordi du bruger %s!"
 
 #. translators: %s: Presentable plugin name, e.g. WS Form PRO
-#: includes/class-ws-form-common.php:5386
+#: includes/class-ws-form-common.php:5402
 #, php-format
 msgid ""
 "We hope you have enjoyed using the plugin. Positive reviews from awesome "
@@ -4738,23 +4629,67 @@ msgstr ""
 "vælge %s. Hvis det passer dig, vil vi sætte stor pris på, at du deler dine "
 "gode oplevelser med WordPress-fællesskabet. På forhånd tak for hjælpen!"
 
-#: includes/class-ws-form-common.php:5390
+#: includes/class-ws-form-common.php:5406
 msgid "Leave a review"
 msgstr "Skriv en anmeldelse"
 
-#: includes/class-ws-form-common.php:5391
+#: includes/class-ws-form-common.php:5407
 msgid "No thanks"
 msgstr "Nei tak"
 
-#: includes/class-ws-form-common.php:5621
+#. translators: %s: Presentable plugin name, e.g. WS Form PRO
+#: includes/class-ws-form-common.php:5457
+#, php-format
+msgid "%s could not connect to the REST API"
+msgstr "%s kunne ikke oprette forbindelse til REST API'et"
+
+#: includes/class-ws-form-common.php:5461
+msgid ""
+"A background check was unable to reach the REST API on your website. Some "
+"features may not work correctly until this is resolved."
+msgstr ""
+"En baggrundskontrol kunne ikke nå REST API’et på dit websted. Nogle "
+"funktioner fungerer muligvis ikke korrekt, før dette er løst."
+
+#: includes/class-ws-form-common.php:5465
+msgid "Troubleshoot"
+msgstr "Fejlfinding"
+
+#: includes/class-ws-form-common.php:5713
 #: includes/class-ws-form-config.php:7243
 #: includes/class-ws-form-config.php:11137
-#: includes/core/class-ws-form-submit.php:2114
+#: includes/core/class-ws-form-submit.php:2116
 msgid "Week"
 msgstr "Uge"
 
+#: includes/class-ws-form-common.php:5803
+#: includes/class-ws-form-config.php:12889
+#: includes/class-ws-form-config.php:12902
+#: includes/class-ws-form-config.php:12915
+#: includes/config/class-ws-form-config-option.php:1329
+#: includes/config/class-ws-form-config-option.php:1343
+#: includes/config/class-ws-form-config-option.php:1357
+#: includes/data-sources/class-ws-form-data-source-post-status.php:208
+#: includes/data-sources/class-ws-form-data-source-post-status.php:223
+#: includes/third-party/pods/class-ws-form-pods.php:514
+msgid "Yes"
+msgstr "Ja"
+
+#: includes/class-ws-form-common.php:5803
+#: includes/class-ws-form-config.php:12890
+#: includes/class-ws-form-config.php:12903
+#: includes/class-ws-form-config.php:12916
+#: includes/config/class-ws-form-config-option.php:1330
+#: includes/config/class-ws-form-config-option.php:1344
+#: includes/config/class-ws-form-config-option.php:1358
+#: includes/data-sources/class-ws-form-data-source-post-status.php:209
+#: includes/data-sources/class-ws-form-data-source-post-status.php:224
+#: includes/third-party/pods/class-ws-form-pods.php:515
+msgid "No"
+msgstr "Nej"
+
 #. translators: %s: wp-config.php
-#: includes/class-ws-form-common.php:5798
+#: includes/class-ws-form-common.php:5890
 #, php-format
 msgid ""
 "Copy and paste the following code into your %s file after the Authentication "
@@ -4763,13 +4698,13 @@ msgstr ""
 "Kopier og indsæt følgende kode i din %s-fil efter afsnittet Authentication "
 "Unique Keys and Salts (Unikke nøgler og salte til godkendelse)."
 
-#: includes/class-ws-form-common.php:5809
-#: includes/config/class-ws-form-config-option.php:951
-#: includes/config/class-ws-form-config-option.php:964
+#: includes/class-ws-form-common.php:5901
+#: includes/config/class-ws-form-config-option.php:892
+#: includes/config/class-ws-form-config-option.php:905
 msgid "Caution"
 msgstr "Advarsel"
 
-#: includes/class-ws-form-common.php:5810
+#: includes/class-ws-form-common.php:5902
 msgid ""
 "Once installed, do not change this key. Changing your encryption key at a "
 "later date will make it impossible to decrypt existing submission data. THIS "
@@ -4784,48 +4719,48 @@ msgstr ""
 "DATA OG NØGLER KAN IKKE GENDANNES, HVIS NØGLEN GÅR TABT."
 
 #. translators: %s: wp-config.php
-#: includes/class-ws-form-common.php:5818
+#: includes/class-ws-form-common.php:5910
 #, php-format
 msgid "Key successfully found in %s"
 msgstr "Nøglen er fundet i %s"
 
-#: includes/class-ws-form-common.php:5825
+#: includes/class-ws-form-common.php:5917
 msgid "Encrypting submission meta data."
 msgstr "Kryptering af metadata for indsendelse."
 
-#: includes/class-ws-form-common.php:5829
+#: includes/class-ws-form-common.php:5921
 msgid "Submission meta data is not being encrypted."
 msgstr "Metadata for indsendelse er ikke krypteret."
 
-#: includes/class-ws-form-common.php:5892
+#: includes/class-ws-form-common.php:5984
 msgid "Unlicensed"
 msgstr "Ingen licens"
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-common.php:6007
+#: includes/class-ws-form-common.php:6099
 #, php-format
 msgid "Click here to learn more about %s"
 msgstr "Klik her for at få mere at vide om %s"
 
-#: includes/class-ws-form-common.php:6219
-#: includes/class-ws-form-common.php:7079
+#: includes/class-ws-form-common.php:6311
+#: includes/class-ws-form-common.php:7236
 msgid "File upload error"
 msgstr "Fejl ved upload af fil"
 
-#: includes/class-ws-form-common.php:6223
+#: includes/class-ws-form-common.php:6315
 msgid "Unsupported file extension"
 msgstr "Filudvidelse, der ikke understøttes"
 
-#: includes/class-ws-form-common.php:6250
-#: includes/class-ws-form-common.php:6251
+#: includes/class-ws-form-common.php:6342
+#: includes/class-ws-form-common.php:6343
 msgid "Unable to read header row of file"
 msgstr "Kan ikke læse header-rækken i filen"
 
-#: includes/class-ws-form-common.php:6252
+#: includes/class-ws-form-common.php:6344
 msgid "No columns to process"
 msgstr "Ingen kolonner til behandling"
 
-#: includes/class-ws-form-common.php:6319
+#: includes/class-ws-form-common.php:6411
 #: includes/data-sources/class-ws-form-data-source-acf.php:53
 #: includes/data-sources/class-ws-form-data-source-acpt.php:53
 #: includes/data-sources/class-ws-form-data-source-hook.php:53
@@ -4842,73 +4777,73 @@ msgstr "Ingen kolonner til behandling"
 msgid "Unknown meta key"
 msgstr "Ukendt metanøgle"
 
-#: includes/class-ws-form-common.php:6320
+#: includes/class-ws-form-common.php:6412
 msgid "Default not found"
 msgstr "Standard ikke fundet"
 
-#: includes/class-ws-form-common.php:6322
+#: includes/class-ws-form-common.php:6414
 msgid "Group[0] not found"
 msgstr "Gruppe[0] ikke fundet"
 
-#: includes/class-ws-form-common.php:6983
+#: includes/class-ws-form-common.php:7115
 msgid "Invalid form ID (WS_Form_Common | check_form_id)"
 msgstr "Ugyldigt formular-id (WS_Form_Common | check_form_id)"
 
-#: includes/class-ws-form-common.php:7080
+#: includes/class-ws-form-common.php:7237
 msgid "File empty"
 msgstr "Fil tom"
 
 #. translators: %s: Extension
-#: includes/class-ws-form-common.php:7087
+#: includes/class-ws-form-common.php:7244
 #, php-format
 msgid "Unsupported file extension: %s"
 msgstr "Filudvidelse, der ikke understøttes: %s"
 
-#: includes/class-ws-form-common.php:7092
+#: includes/class-ws-form-common.php:7249
 msgid "Unable to read uploaded file"
 msgstr "Kan ikke læse den uploadede fil"
 
 #. translators: %s: json_decode last error message
-#: includes/class-ws-form-common.php:7117
+#: includes/class-ws-form-common.php:7274
 #, php-format
 msgid "JSON corrupt (%s)"
 msgstr "JSON er beskadiget (%s)"
 
-#: includes/class-ws-form-common.php:7121
+#: includes/class-ws-form-common.php:7278
 msgid "JSON corrupt (Not object)"
 msgstr "JSON korrupt (ikke objekt)"
 
-#: includes/class-ws-form-common.php:7129
+#: includes/class-ws-form-common.php:7286
 msgid "JSON corrupt (Checksum error)"
 msgstr "JSON korrupt (fejl i checksummen)"
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-common.php:7141
+#: includes/class-ws-form-common.php:7298
 #, php-format
 msgid "JSON corrupt (Not a %s JSON file)"
 msgstr "JSON korrupt (ikke en %s JSON-fil)"
 
-#: includes/class-ws-form-common.php:7153
+#: includes/class-ws-form-common.php:7310
 msgid "Import error (Invalid import type)"
 msgstr "Importfejl (Ugyldig importtype)"
 
-#: includes/class-ws-form-common.php:7157
+#: includes/class-ws-form-common.php:7314
 msgid "JSON corrupt (No label)"
 msgstr "JSON korrupt (ingen etiket)"
 
-#: includes/class-ws-form-common.php:7160
+#: includes/class-ws-form-common.php:7317
 msgid "JSON corrupt (No meta data)"
 msgstr "JSON korrupt (ingen metadata)"
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7302
+#: includes/class-ws-form-common.php:7459
 #, php-format
 msgid "Node %s not valid or duplicate node."
 msgstr "Node %s er ikke gyldig eller er en dubletnode."
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7374
-#: includes/class-ws-form-common.php:7390
+#: includes/class-ws-form-common.php:7531
+#: includes/class-ws-form-common.php:7547
 #, php-format
 msgid "Node %s not found in response data."
 msgstr "Node %s blev ikke fundet i svardata."
@@ -5108,8 +5043,7 @@ msgstr "Skjult adfærd"
 #: includes/config/class-ws-form-config-admin.php:447
 #: includes/config/class-ws-form-config-admin.php:508
 #: includes/config/class-ws-form-config-customize.php:438
-#: includes/config/class-ws-form-config-option.php:98
-#: includes/config/class-ws-form-config-option.php:306
+#: includes/config/class-ws-form-config-option.php:247
 msgid "Advanced"
 msgstr "Avanceret"
 
@@ -5942,7 +5876,7 @@ msgid "Route"
 msgstr "Rute"
 
 #: includes/class-ws-form-config.php:3689
-#: includes/config/class-ws-form-config-option.php:976
+#: includes/config/class-ws-form-config-option.php:917
 msgid "Spam Protection"
 msgstr "Spam-beskyttelsesfejl"
 
@@ -6217,7 +6151,7 @@ msgstr "tilføje fjerne flytte op ned trække trække nulstille nulstille ryd"
 #: includes/class-ws-form-config.php:5799
 #: includes/class-ws-form-config.php:21487
 #: includes/config/class-ws-form-config-admin.php:1136
-#: includes/config/class-ws-form-config-option.php:756
+#: includes/config/class-ws-form-config-option.php:697
 msgid "E-Commerce"
 msgstr "E-Commerce"
 
@@ -6583,7 +6517,7 @@ msgstr "Top"
 #: includes/class-ws-form-config.php:13538
 #: includes/class-ws-form-config.php:13558
 #: includes/class-ws-form-config.php:13578
-#: includes/config/class-ws-form-config-option.php:781
+#: includes/config/class-ws-form-config-option.php:722
 msgid "Right"
 msgstr "Højre"
 
@@ -6600,7 +6534,7 @@ msgstr "Bunden"
 #: includes/class-ws-form-config.php:13537
 #: includes/class-ws-form-config.php:13557
 #: includes/class-ws-form-config.php:13577
-#: includes/config/class-ws-form-config-option.php:780
+#: includes/config/class-ws-form-config-option.php:721
 msgid "Left"
 msgstr "Venstre"
 
@@ -6796,10 +6730,10 @@ msgstr "Størrelser af breakpoints"
 #: includes/class-ws-form-config.php:17699
 #: includes/class-ws-form-config.php:17922
 #: includes/class-ws-form-config.php:18055
-#: includes/config/class-ws-form-config-option.php:1215
-#: includes/config/class-ws-form-config-option.php:1289
-#: includes/config/class-ws-form-config-option.php:1556
-#: includes/config/class-ws-form-config-option.php:1599
+#: includes/config/class-ws-form-config-option.php:1156
+#: includes/config/class-ws-form-config-option.php:1230
+#: includes/config/class-ws-form-config-option.php:1497
+#: includes/config/class-ws-form-config-option.php:1540
 #: includes/third-party/polylang/class-ws-form-polylang.php:125
 #: includes/third-party/wpml/class-ws-form-wpml.php:96
 msgid "Enable"
@@ -7786,10 +7720,10 @@ msgstr "Vælg placeringen af felthjælpen."
 #: includes/class-ws-form-config.php:10711
 #: includes/class-ws-form-config.php:10852
 #: includes/class-ws-form-config.php:10950
-#: includes/config/class-ws-form-config-option.php:986
-#: includes/config/class-ws-form-config-option.php:1047
-#: includes/config/class-ws-form-config-option.php:1093
-#: includes/config/class-ws-form-config-option.php:1139
+#: includes/config/class-ws-form-config-option.php:927
+#: includes/config/class-ws-form-config-option.php:988
+#: includes/config/class-ws-form-config-option.php:1034
+#: includes/config/class-ws-form-config-option.php:1080
 msgid "Site Key"
 msgstr "Sidenøgle (Key)"
 
@@ -7798,10 +7732,10 @@ msgstr "Sidenøgle (Key)"
 #: includes/class-ws-form-config.php:10722
 #: includes/class-ws-form-config.php:10863
 #: includes/class-ws-form-config.php:10961
-#: includes/config/class-ws-form-config-option.php:993
-#: includes/config/class-ws-form-config-option.php:1054
-#: includes/config/class-ws-form-config-option.php:1100
-#: includes/config/class-ws-form-config-option.php:1146
+#: includes/config/class-ws-form-config-option.php:934
+#: includes/config/class-ws-form-config-option.php:995
+#: includes/config/class-ws-form-config-option.php:1041
+#: includes/config/class-ws-form-config-option.php:1087
 #, php-format
 msgid "%s site key."
 msgstr "%s webstedsnøgle."
@@ -7810,10 +7744,10 @@ msgstr "%s webstedsnøgle."
 #: includes/class-ws-form-config.php:10736
 #: includes/class-ws-form-config.php:10877
 #: includes/class-ws-form-config.php:10975
-#: includes/config/class-ws-form-config-option.php:1006
-#: includes/config/class-ws-form-config-option.php:1067
-#: includes/config/class-ws-form-config-option.php:1113
-#: includes/config/class-ws-form-config-option.php:1159
+#: includes/config/class-ws-form-config-option.php:947
+#: includes/config/class-ws-form-config-option.php:1008
+#: includes/config/class-ws-form-config-option.php:1054
+#: includes/config/class-ws-form-config-option.php:1100
 msgid "Secret Key"
 msgstr "Hemmelig nøgle"
 
@@ -7822,10 +7756,10 @@ msgstr "Hemmelig nøgle"
 #: includes/class-ws-form-config.php:10745
 #: includes/class-ws-form-config.php:10886
 #: includes/class-ws-form-config.php:10984
-#: includes/config/class-ws-form-config-option.php:1013
-#: includes/config/class-ws-form-config-option.php:1074
-#: includes/config/class-ws-form-config-option.php:1120
-#: includes/config/class-ws-form-config-option.php:1166
+#: includes/config/class-ws-form-config-option.php:954
+#: includes/config/class-ws-form-config-option.php:1015
+#: includes/config/class-ws-form-config-option.php:1061
+#: includes/config/class-ws-form-config-option.php:1107
 #, php-format
 msgid "%s secret key."
 msgstr "%s hemmelig nøgle."
@@ -7839,17 +7773,17 @@ msgid "Select the reCAPTCHA type your site key relates to."
 msgstr "Vælg den reCAPTCHA-type, som din webstedsnøgle vedrører."
 
 #: includes/class-ws-form-config.php:10547
-#: includes/config/class-ws-form-config-option.php:1031
+#: includes/config/class-ws-form-config-option.php:972
 msgid "Version 2 - Default"
 msgstr "Version 2 - Standard"
 
 #: includes/class-ws-form-config.php:10548
-#: includes/config/class-ws-form-config-option.php:1032
+#: includes/config/class-ws-form-config-option.php:973
 msgid "Version 2 - Invisible"
 msgstr "Version 2 - Usynlig"
 
 #: includes/class-ws-form-config.php:10549
-#: includes/config/class-ws-form-config-option.php:1033
+#: includes/config/class-ws-form-config-option.php:974
 msgid "Version 3"
 msgstr "Version 3"
 
@@ -7905,7 +7839,7 @@ msgstr "Lys eller mørkt tema?"
 #: includes/class-ws-form-config.php:11022
 #: includes/class-ws-form-config.php:11576
 #: includes/config/class-ws-form-config-customize.php:184
-#: includes/config/class-ws-form-config-option.php:695
+#: includes/config/class-ws-form-config-option.php:636
 msgid "Light"
 msgstr "Lys"
 
@@ -7914,7 +7848,7 @@ msgstr "Lys"
 #: includes/class-ws-form-config.php:10909
 #: includes/class-ws-form-config.php:11023
 #: includes/class-ws-form-config.php:11577
-#: includes/config/class-ws-form-config-option.php:696
+#: includes/config/class-ws-form-config-option.php:637
 msgid "Dark"
 msgstr "Mørk"
 
@@ -7922,7 +7856,7 @@ msgstr "Mørk"
 #: includes/class-ws-form-config.php:10802
 #: includes/class-ws-form-config.php:10917
 #: includes/class-ws-form-config.php:16740
-#: includes/config/class-ws-form-config-option.php:1360
+#: includes/config/class-ws-form-config-option.php:1301
 #: includes/config/class-ws-form-config-styler.php:563
 #: includes/config/class-ws-form-config-styler.php:694
 #: includes/config/class-ws-form-config-styler.php:700
@@ -8016,7 +7950,6 @@ msgid "Interaction Only"
 msgstr "Kun interaktion"
 
 #: includes/class-ws-form-config.php:10998
-#: includes/config/class-ws-form-config-option.php:85
 msgid "Mode"
 msgstr "Tilstand"
 
@@ -8167,43 +8100,43 @@ msgstr "Vælg, hvilken dag datovælgeren skal starte med."
 
 #: includes/class-ws-form-config.php:11236
 #: includes/class-ws-form-config.php:14262
-#: includes/config/class-ws-form-config-option.php:1255
+#: includes/config/class-ws-form-config-option.php:1196
 msgid "Sunday"
 msgstr "Søndag"
 
 #: includes/class-ws-form-config.php:11237
 #: includes/class-ws-form-config.php:14263
-#: includes/config/class-ws-form-config-option.php:1249
+#: includes/config/class-ws-form-config-option.php:1190
 msgid "Monday"
 msgstr "Mandag"
 
 #: includes/class-ws-form-config.php:11238
 #: includes/class-ws-form-config.php:14264
-#: includes/config/class-ws-form-config-option.php:1250
+#: includes/config/class-ws-form-config-option.php:1191
 msgid "Tuesday"
 msgstr "Tirsdag"
 
 #: includes/class-ws-form-config.php:11239
 #: includes/class-ws-form-config.php:14265
-#: includes/config/class-ws-form-config-option.php:1251
+#: includes/config/class-ws-form-config-option.php:1192
 msgid "Wednesday"
 msgstr "Onsdag"
 
 #: includes/class-ws-form-config.php:11240
 #: includes/class-ws-form-config.php:14266
-#: includes/config/class-ws-form-config-option.php:1252
+#: includes/config/class-ws-form-config-option.php:1193
 msgid "Thursday"
 msgstr "Torsdag"
 
 #: includes/class-ws-form-config.php:11241
 #: includes/class-ws-form-config.php:14267
-#: includes/config/class-ws-form-config-option.php:1253
+#: includes/config/class-ws-form-config-option.php:1194
 msgid "Friday"
 msgstr "Fredag"
 
 #: includes/class-ws-form-config.php:11242
 #: includes/class-ws-form-config.php:14268
-#: includes/config/class-ws-form-config-option.php:1254
+#: includes/config/class-ws-form-config-option.php:1195
 msgid "Saturday"
 msgstr "Lørdag"
 
@@ -8732,7 +8665,7 @@ msgid "Field Wrapper"
 msgstr "Felt Wrapper"
 
 #: includes/class-ws-form-config.php:12272
-#: includes/config/class-ws-form-config-option.php:361
+#: includes/config/class-ws-form-config-option.php:302
 msgid "Date/Time Picker"
 msgstr "Dato-/tidsvælger"
 
@@ -8984,7 +8917,7 @@ msgid "Invalid Feedback Text"
 msgstr "Ugyldig feedback-tekst"
 
 #: includes/class-ws-form-config.php:12638
-#: includes/core/class-ws-form-submit.php:3527
+#: includes/core/class-ws-form-submit.php:3529
 msgid "This field is required."
 msgstr "Dette felt er påkrævet."
 
@@ -9000,7 +8933,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:14981
 #: includes/config/class-ws-form-config-admin.php:748
 #: includes/config/class-ws-form-config-conditional.php:596
-#: includes/core/class-ws-form-submit.php:4786
+#: includes/core/class-ws-form-submit.php:4792
 msgid "Variable"
 msgstr "Variabel"
 
@@ -10164,7 +10097,7 @@ msgid "Specify the minimum number of files that should be uploaded."
 msgstr "Angiv det mindste antal filer, der skal uploades."
 
 #: includes/class-ws-form-config.php:15102
-#: includes/config/class-ws-form-config-option.php:415
+#: includes/config/class-ws-form-config-option.php:356
 msgid "Maximum Files"
 msgstr "Maksimum filer"
 
@@ -10453,7 +10386,7 @@ msgstr ""
 "bruger enhedens standardkameraindstillinger."
 
 #: includes/class-ws-form-config.php:15498
-#: includes/config/class-ws-form-config-option.php:1639
+#: includes/config/class-ws-form-config-option.php:1580
 msgid "Automatic"
 msgstr "Automatisk"
 
@@ -11252,7 +11185,7 @@ msgstr "Betingelse"
 
 #: includes/class-ws-form-config.php:16975
 #: includes/class-ws-form-config.php:17025
-#: includes/config/class-ws-form-config-option.php:893
+#: includes/config/class-ws-form-config-option.php:834
 #: includes/core/class-ws-form-action.php:716
 msgid "Data"
 msgstr "Data"
@@ -12400,7 +12333,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:19192
 #: includes/config/class-ws-form-config-public.php:130
-#: includes/core/class-ws-form-submit.php:3078
+#: includes/core/class-ws-form-submit.php:3080
 msgid "The email address entered is not allowed."
 msgstr "Den indtastede e-mailadresse er ikke tilladt."
 
@@ -12481,7 +12414,7 @@ msgid "Choose a period in which to check for duplicates."
 msgstr "Vælg en periode, hvor der skal kontrolleres for dubletter."
 
 #: includes/class-ws-form-config.php:19276
-#: includes/core/class-ws-form-submit.php:3025
+#: includes/core/class-ws-form-submit.php:3027
 msgid "The value entered has already been used."
 msgstr "Den indtastede værdi er allerede blevet brugt."
 
@@ -13033,7 +12966,7 @@ msgstr "Returnerer formularens ID."
 
 #: includes/class-ws-form-config.php:21113
 #: includes/config/class-ws-form-config-admin.php:1459
-#: includes/config/class-ws-form-config-option.php:631
+#: includes/config/class-ws-form-config-option.php:572
 #: includes/config/class-ws-form-config-public.php:392
 msgid "Framework"
 msgstr "Framework"
@@ -13462,7 +13395,7 @@ msgid "Returns the number of seconds in a common year."
 msgstr "Returnerer antallet af sekunder i et almindeligt år."
 
 #: includes/class-ws-form-config.php:21705
-#: includes/config/class-ws-form-config-option.php:433
+#: includes/config/class-ws-form-config-option.php:374
 msgid "Cookies"
 msgstr "Cookies"
 
@@ -14714,7 +14647,7 @@ msgstr "Inkluderer valutasymbol."
 
 #: includes/class-ws-form-config.php:23367
 #: includes/class-ws-form-config.php:23398
-#: includes/config/class-ws-form-config-option.php:766
+#: includes/config/class-ws-form-config-option.php:707
 msgid "Currency"
 msgstr "Valuta"
 
@@ -14977,31 +14910,31 @@ msgstr "Transaktions-ID"
 msgid "Payment Method"
 msgstr "Betalingsmetode"
 
-#: includes/class-ws-form-licensing.php:263
-#: includes/class-ws-form-licensing.php:383
-#: includes/class-ws-form-licensing.php:459
+#: includes/class-ws-form-licensing.php:288
+#: includes/class-ws-form-licensing.php:408
+#: includes/class-ws-form-licensing.php:490
 msgid "An error occurred, please try again."
 msgstr "Der opstod en fejl, prøv igen."
 
 #. translators: %s: License key expiry date
-#: includes/class-ws-form-licensing.php:301
+#: includes/class-ws-form-licensing.php:326
 #, php-format
 msgid "Your license key expired on %s."
 msgstr "Din licensnøgle udløb den %s."
 
-#: includes/class-ws-form-licensing.php:313
+#: includes/class-ws-form-licensing.php:338
 msgid "Your license key has been disabled."
 msgstr "Din licensnøgle er blevet deaktiveret."
 
-#: includes/class-ws-form-licensing.php:317
+#: includes/class-ws-form-licensing.php:342
 msgid "Invalid license."
 msgstr "Ugyldig licens."
 
-#: includes/class-ws-form-licensing.php:322
+#: includes/class-ws-form-licensing.php:347
 msgid "Your license is not active for this URL."
 msgstr "Din licens er ikke aktiv for denne webadresse."
 
-#: includes/class-ws-form-licensing.php:326
+#: includes/class-ws-form-licensing.php:351
 msgid ""
 "License not activable. You are entering the license key for the package you "
 "purchased rather than the license key for the plugin itself."
@@ -15010,29 +14943,29 @@ msgstr ""
 "købt, i stedet for licensnøglen for selve plugin'et."
 
 #. translators: %s: Plugin name
-#: includes/class-ws-form-licensing.php:335
+#: includes/class-ws-form-licensing.php:360
 #, php-format
 msgid "This appears to be an invalid license key for %s."
 msgstr "Dette synes at være en ugyldig licensnøgle for %s."
 
-#: includes/class-ws-form-licensing.php:343
+#: includes/class-ws-form-licensing.php:368
 msgid "Your license key has reached its activation limit."
 msgstr "Din licensnøgle har nået sin grænse for aktivering."
 
-#: includes/class-ws-form-licensing.php:347
+#: includes/class-ws-form-licensing.php:372
 msgid "Invalid item ID."
 msgstr "Ugyldigt varenummer."
 
-#: includes/class-ws-form-licensing.php:351
+#: includes/class-ws-form-licensing.php:376
 msgid "License activation failed because the product ID was missing."
 msgstr "Licensaktivering mislykkedes, fordi produkt-id'et manglede."
 
-#: includes/class-ws-form-licensing.php:355
+#: includes/class-ws-form-licensing.php:380
 msgid "License activation failed because no site URL was provided."
 msgstr ""
 "Licensaktivering mislykkedes, fordi der ikke blev angivet nogen websteds-URL."
 
-#: includes/class-ws-form-licensing.php:359
+#: includes/class-ws-form-licensing.php:384
 msgid ""
 "This license key belongs to a bundle and cannot be used to activate "
 "individual plugins. Please enter the license key for this specific WS Form "
@@ -15042,21 +14975,21 @@ msgstr ""
 "individuelle plugins. Indtast licensnøglen til dette specifikke WS Form-"
 "produkt."
 
-#: includes/class-ws-form-licensing.php:363
+#: includes/class-ws-form-licensing.php:388
 msgid "The provided license key does not match this product."
 msgstr "Den angivne licensnøgle matcher ikke dette produkt."
 
 #. translators: %s: Licensing error message
-#: includes/class-ws-form-licensing.php:375
+#: includes/class-ws-form-licensing.php:400
 #, php-format
 msgid "License activation failed: %s"
 msgstr "Licensaktivering mislykkedes: %s"
 
-#: includes/class-ws-form-licensing.php:398
+#: includes/class-ws-form-licensing.php:423
 msgid "License key successfully activated"
 msgstr "Licensnøgle aktiveret med succes"
 
-#: includes/class-ws-form-licensing.php:478
+#: includes/class-ws-form-licensing.php:509
 msgid ""
 "Your license key deactivation failed. If you have changed hostnames you can "
 "disregard this message."
@@ -15064,12 +14997,12 @@ msgstr ""
 "Deaktiveringen af din licensnøgle mislykkedes. Hvis du har ændret værtsnavn, "
 "kan du se bort fra denne meddelelse."
 
-#: includes/class-ws-form-licensing.php:492
+#: includes/class-ws-form-licensing.php:523
 msgid "License key successfully deactivated"
 msgstr "Licensnøglen er deaktiveret med succes"
 
 #. translators: %1$s: Plugin name, %2$s: Opening anchor tag, %3$s: Closing anchor tag
-#: includes/class-ws-form-licensing.php:710
+#: includes/class-ws-form-licensing.php:747
 #, php-format
 msgid ""
 "%1$s is not licensed. Please enter your license key in %2$ssettings%3$s to "
@@ -15279,7 +15212,7 @@ msgstr "Fejl"
 
 #: includes/config/class-ws-form-config-admin.php:236
 #: includes/config/class-ws-form-config-admin.php:353
-#: includes/config/class-ws-form-config-option.php:621
+#: includes/config/class-ws-form-config-option.php:562
 msgid "Styling"
 msgstr "Styling"
 
@@ -16086,9 +16019,9 @@ msgid "Log"
 msgstr "Log"
 
 #: includes/config/class-ws-form-config-admin.php:1129
-#: includes/config/class-ws-form-config-option.php:1715
+#: includes/config/class-ws-form-config-option.php:1656
 #: includes/core/class-ws-form-submit.php:1495
-#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:532
+#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:573
 msgid "Error"
 msgstr "Fejl"
 
@@ -16292,7 +16225,7 @@ msgstr "Træk  fra"
 #: includes/config/class-ws-form-config-admin.php:1472
 #: includes/config/class-ws-form-config-admin.php:1493
 #: includes/config/class-ws-form-config-admin.php:1525
-#: includes/config/class-ws-form-config-option.php:864
+#: includes/config/class-ws-form-config-option.php:805
 msgid "Version"
 msgstr "Version"
 
@@ -16301,7 +16234,7 @@ msgid "Edition"
 msgstr "Udgave"
 
 #: includes/config/class-ws-form-config-admin.php:1461
-#: includes/config/class-ws-form-config-option.php:914
+#: includes/config/class-ws-form-config-option.php:855
 msgid "Encryption"
 msgstr "Kryptering"
 
@@ -16400,7 +16333,7 @@ msgid "Max Allowed Packet"
 msgstr "Maksimalt tilladte pakker"
 
 #: includes/config/class-ws-form-config-admin.php:1536
-#: includes/config/class-ws-form-config-option.php:870
+#: includes/config/class-ws-form-config-option.php:811
 msgid "License Key"
 msgstr "Licensnøgle"
 
@@ -16412,29 +16345,33 @@ msgstr "Licens aktiveret"
 msgid "License Expires"
 msgstr "Licensen udløber"
 
-#: includes/config/class-ws-form-config-admin.php:1645
+#: includes/config/class-ws-form-config-admin.php:1548
+msgid "License Debugging"
+msgstr "Licensfejlfinding"
+
+#: includes/config/class-ws-form-config-admin.php:1649
 msgid "Signup 1"
 msgstr "Tilmelding 1"
 
-#: includes/config/class-ws-form-config-admin.php:1646
+#: includes/config/class-ws-form-config-admin.php:1650
 msgid "A two column layout comprising a panel image and a signup form."
 msgstr "Et layout i to kolonner med et panelbillede og en tilmeldingsformular."
 
-#: includes/config/class-ws-form-config-admin.php:1664
-#: includes/config/class-ws-form-config-admin.php:1695
+#: includes/config/class-ws-form-config-admin.php:1668
+#: includes/config/class-ws-form-config-admin.php:1699
 msgid "Sign Up For Free!"
 msgstr "Tilmeld dig gratis!"
 
-#: includes/config/class-ws-form-config-admin.php:1665
-#: includes/config/class-ws-form-config-admin.php:1696
+#: includes/config/class-ws-form-config-admin.php:1669
+#: includes/config/class-ws-form-config-admin.php:1700
 msgid "Get our weekly newsletter full of useful resources!"
 msgstr "Få vores ugentlige nyhedsbrev fyldt med nyttige ressourcer!"
 
-#: includes/config/class-ws-form-config-admin.php:1673
+#: includes/config/class-ws-form-config-admin.php:1677
 msgid "Signup 2"
 msgstr "Tilmelding 2"
 
-#: includes/config/class-ws-form-config-admin.php:1674
+#: includes/config/class-ws-form-config-admin.php:1678
 msgid ""
 "A single column layout comprising a cover panel and a signup form embedded "
 "within it."
@@ -17299,7 +17236,7 @@ msgid "AND"
 msgstr "OG"
 
 #: includes/config/class-ws-form-config-conditional.php:627
-#: includes/config/class-ws-form-config-option.php:1709
+#: includes/config/class-ws-form-config-option.php:1650
 msgid "AJAX"
 msgstr "AJAX"
 
@@ -17732,101 +17669,73 @@ msgstr "Sideskabelon, der bruges til visning af formularer."
 msgid "Choose when to show the debug console."
 msgstr "Vælg, hvornår fejlsøgningskonsollen skal vises."
 
-#: includes/config/class-ws-form-config-option.php:80
+#: includes/config/class-ws-form-config-option.php:75
 msgid "Layout Editor"
 msgstr "Layout Editor"
 
-#: includes/config/class-ws-form-config-option.php:88
-msgid ""
-"Advanced mode allows variables and calculations to be used in field settings."
-msgstr ""
-"Avanceret tilstand gør det muligt at bruge variabler og beregninger i "
-"feltindstillinger."
-
-#: includes/config/class-ws-form-config-option.php:91
-msgid "Advanced mode allows variables to be used in field settings."
-msgstr ""
-"Avanceret tilstand gør det muligt at bruge variabler i feltindstillinger."
-
-#: includes/config/class-ws-form-config-option.php:104
+#: includes/config/class-ws-form-config-option.php:80
 msgid "Column Guidelines"
 msgstr "Retningslinjer for kolonner"
 
-#: includes/config/class-ws-form-config-option.php:106
+#: includes/config/class-ws-form-config-option.php:82
 msgid "Show column guidelines when editing forms?"
 msgstr "Vis kolonnevejledninger ved redigering af formularer?"
 
-#: includes/config/class-ws-form-config-option.php:110
+#: includes/config/class-ws-form-config-option.php:86
 msgid "On resize"
 msgstr "Ved ændring af størrelse"
 
-#: includes/config/class-ws-form-config-option.php:111
+#: includes/config/class-ws-form-config-option.php:87
 msgid "Always on"
 msgstr "Altid tændt"
 
-#: includes/config/class-ws-form-config-option.php:119
+#: includes/config/class-ws-form-config-option.php:95
 msgid "Auto Publish"
 msgstr "Udgiv automatisk"
 
-#: includes/config/class-ws-form-config-option.php:124
+#: includes/config/class-ws-form-config-option.php:100
 msgid "If checked, changes made to your form will be automatically published."
 msgstr ""
 "Hvis markeret, vil ændringer foretaget i din formular automatisk blive "
 "udgivet."
 
-#: includes/config/class-ws-form-config-option.php:133
+#: includes/config/class-ws-form-config-option.php:109
 msgid "Breakpoint Widths"
 msgstr "Bredder af breakpoints"
 
-#: includes/config/class-ws-form-config-option.php:135
+#: includes/config/class-ws-form-config-option.php:111
 msgid "Resize the width of the form to the selected breakpoint."
 msgstr "Tilpasser formularens bredde til det valgte afbrydelsespunkt."
 
-#: includes/config/class-ws-form-config-option.php:142
+#: includes/config/class-ws-form-config-option.php:118
 msgid "HTML Compatibility Helpers"
 msgstr "Hjælpemidler til HTML-kompatibilitet"
 
-#: includes/config/class-ws-form-config-option.php:144
+#: includes/config/class-ws-form-config-option.php:120
 msgid "Show HTML compatibility helper links (Data from"
 msgstr "Vis HTML-kompatibilitetshjælperlinks (Data fra"
 
-#: includes/config/class-ws-form-config-option.php:156
+#: includes/config/class-ws-form-config-option.php:127
 msgid "Icon Tooltips"
 msgstr "Ikon-værktøjsspidser"
 
-#: includes/config/class-ws-form-config-option.php:158
+#: includes/config/class-ws-form-config-option.php:129
 msgid "Show icon tooltips."
 msgstr "Vis ikon-værktøjstip."
 
-#: includes/config/class-ws-form-config-option.php:165
+#: includes/config/class-ws-form-config-option.php:136
 msgid "Sidebar Help Text"
 msgstr "Sidebar hjælpetekst"
 
-#: includes/config/class-ws-form-config-option.php:167
+#: includes/config/class-ws-form-config-option.php:138
 msgid "Show help text in sidebar."
 msgstr "Vis hjælpetekst i sidebaren."
 
-#: includes/config/class-ws-form-config-option.php:174
-msgid "Section IDs"
-msgstr "Afsnittets ID'er"
-
-#: includes/config/class-ws-form-config-option.php:176
-msgid "Show IDs on sections."
-msgstr "Vis ID'er på sektioner."
-
-#: includes/config/class-ws-form-config-option.php:188
-msgid "Field IDs"
-msgstr "Felt-id'er"
-
-#: includes/config/class-ws-form-config-option.php:190
-msgid "Show IDs on fields. Useful for #field(nnn) variables."
-msgstr "Vis ID'er på felter. Nyttigt for #field(nnn)-variabler."
-
-#: includes/config/class-ws-form-config-option.php:197
+#: includes/config/class-ws-form-config-option.php:145
 msgid "Searchable Sidebar Dropdowns"
 msgstr "Søgbare rullemenuer i sidepanelet"
 
-#: includes/config/class-ws-form-config-option.php:203
+#: includes/config/class-ws-form-config-option.php:147
 msgid ""
 "If enabled, dropdown settings in the sidebar with 20 or more options will "
 "become searchable."
@@ -17834,99 +17743,91 @@ msgstr ""
 "Hvis aktiveret, bliver rullemenuindstillinger i sidepanelet med 20 eller "
 "flere valgmuligheder søgbare."
 
-#: includes/config/class-ws-form-config-option.php:205
-#: includes/config/class-ws-form-config-option.php:1520
-#: includes/config/class-ws-form-config-option.php:1538
-#: includes/config/class-ws-form-config-option.php:1573
-#: includes/config/class-ws-form-config-option.php:1612
-msgid "Experimental"
-msgstr "Eksperimentel"
-
-#: includes/config/class-ws-form-config-option.php:221
+#: includes/config/class-ws-form-config-option.php:162
 msgid "Disable"
 msgstr "Deaktiver"
 
 #. translators: %s: WS Form
-#: includes/config/class-ws-form-config-option.php:230
+#: includes/config/class-ws-form-config-option.php:171
 #, php-format
 msgid "If checked, %s will stop gathering statistical data about forms."
 msgstr ""
 "Hvis %s er markeret, stopper indsamlingen af statistiske data om formularer."
 
-#: includes/config/class-ws-form-config-option.php:242
+#: includes/config/class-ws-form-config-option.php:183
 msgid "Include Admin Traffic"
 msgstr "Medtag admin-trafik"
 
-#: includes/config/class-ws-form-config-option.php:245
+#: includes/config/class-ws-form-config-option.php:186
 msgid "Check this to include traffic from administrators in form statistics."
 msgstr ""
 "Markér dette for at medtage trafik fra administratorer i "
 "formularstatistikker."
 
 #. translators: %s: WS Form
-#: includes/config/class-ws-form-config-option.php:255
+#: includes/config/class-ws-form-config-option.php:196
 #, php-format
 msgid "Select how %s should gather form statistics."
 msgstr "Vælg, hvordan %s skal indsamle formularstatistik."
 
-#: includes/config/class-ws-form-config-option.php:268
+#: includes/config/class-ws-form-config-option.php:209
 msgid "Administration"
 msgstr "Administration"
 
-#: includes/config/class-ws-form-config-option.php:273
+#: includes/config/class-ws-form-config-option.php:214
 msgid "Disable Unread Submission Bubbles"
 msgstr "Deaktiver ulæste indsendelsesbobler"
 
-#: includes/config/class-ws-form-config-option.php:280
+#: includes/config/class-ws-form-config-option.php:221
 msgid "Disable Toolbar Menu"
 msgstr "Deaktivere værktøjslinjen Menu"
 
 #. translators: %s: WS Form
-#: includes/config/class-ws-form-config-option.php:286
+#: includes/config/class-ws-form-config-option.php:227
 #, php-format
 msgid "If checked, the %s toolbar menu will not be shown."
 msgstr "Hvis det er markeret, vises menuen %s på værktøjslinjen ikke."
 
-#: includes/config/class-ws-form-config-option.php:294
+#: includes/config/class-ws-form-config-option.php:235
 msgid "Disable Translation"
 msgstr "Deaktiver oversættelse"
 
-#: includes/config/class-ws-form-config-option.php:311
-#: includes/config/class-ws-form-config-option.php:717
+#: includes/config/class-ws-form-config-option.php:252
+#: includes/config/class-ws-form-config-option.php:658
 msgid "Performance"
 msgstr "Ydeevne"
 
-#: includes/config/class-ws-form-config-option.php:316
+#: includes/config/class-ws-form-config-option.php:257
 msgid "Dynamic Enqueuing"
 msgstr "Dynamisk indlæsning"
 
-#: includes/config/class-ws-form-config-option.php:318
+#: includes/config/class-ws-form-config-option.php:259
 msgid ""
 "Should WS Form dynamically enqueue CSS and JavaScript components? "
 "(Recommended)"
 msgstr ""
 "Skal WS Form dynamisk indlæse CSS- og JavaScript-komponenter? (Anbefalet)"
 
-#: includes/config/class-ws-form-config-option.php:331
+#: includes/config/class-ws-form-config-option.php:272
 msgid "Defer"
 msgstr "Udskyd"
 
-#: includes/config/class-ws-form-config-option.php:333
+#: includes/config/class-ws-form-config-option.php:274
 msgid ""
 "If checked, scripts will be executed after the document has been parsed."
 msgstr ""
 "Hvis markeret, vil scripts blive udført, efter at dokumentet er blevet "
 "fortolket."
 
-#: includes/config/class-ws-form-config-option.php:339
+#: includes/config/class-ws-form-config-option.php:280
 msgid "Enqueue in Footer"
 msgstr "Enqueue i sidefoden"
 
-#: includes/config/class-ws-form-config-option.php:341
+#: includes/config/class-ws-form-config-option.php:282
 msgid "If checked, scripts will be enqueued in the footer."
 msgstr "Hvis dette afkrydses, vil scripts blive sat i kø i sidefoden."
 
-#: includes/config/class-ws-form-config-option.php:349
+#: includes/config/class-ws-form-config-option.php:290
 msgid ""
 "Where should external libraries load from? Use 'Local' if you are using "
 "optimization plugins."
@@ -17934,82 +17835,82 @@ msgstr ""
 "Hvor skal eksterne biblioteker indlæses fra? Brug 'Local', hvis du bruger "
 "optimeringsplugins."
 
-#: includes/config/class-ws-form-config-option.php:354
+#: includes/config/class-ws-form-config-option.php:295
 msgid "Local (Recommended)"
 msgstr "Lokal (anbefales)"
 
-#: includes/config/class-ws-form-config-option.php:355
+#: includes/config/class-ws-form-config-option.php:296
 msgid "CDN"
 msgstr "CDN"
 
-#: includes/config/class-ws-form-config-option.php:363
+#: includes/config/class-ws-form-config-option.php:304
 msgid "When should date fields use a Date/Time Picker component?"
 msgstr "Hvornår skal datofelter bruge en dato-/tidsvælger-komponent?"
 
-#: includes/config/class-ws-form-config-option.php:368
-#: includes/config/class-ws-form-config-option.php:383
+#: includes/config/class-ws-form-config-option.php:309
+#: includes/config/class-ws-form-config-option.php:324
 msgid "Always (Recommended)"
 msgstr "Altid (anbefales)"
 
-#: includes/config/class-ws-form-config-option.php:369
-#: includes/config/class-ws-form-config-option.php:384
+#: includes/config/class-ws-form-config-option.php:310
+#: includes/config/class-ws-form-config-option.php:325
 msgid "If native not available"
 msgstr "Hvis ikke tilgængelig"
 
-#: includes/config/class-ws-form-config-option.php:370
-#: includes/config/class-ws-form-config-option.php:385
+#: includes/config/class-ws-form-config-option.php:311
+#: includes/config/class-ws-form-config-option.php:326
 msgid "Never"
 msgstr "Aldrig"
 
-#: includes/config/class-ws-form-config-option.php:376
+#: includes/config/class-ws-form-config-option.php:317
 msgid "Color Picker"
 msgstr "Farvevælger"
 
-#: includes/config/class-ws-form-config-option.php:378
+#: includes/config/class-ws-form-config-option.php:319
 msgid "When should color fields use a Color picker component?"
 msgstr "Hvornår skal farvefelter bruge en farvevælger-komponent?"
 
-#: includes/config/class-ws-form-config-option.php:394
+#: includes/config/class-ws-form-config-option.php:335
 msgid "File Uploads"
 msgstr "Upload af filer"
 
-#: includes/config/class-ws-form-config-option.php:399
+#: includes/config/class-ws-form-config-option.php:340
 msgid "Maximum File Size (Bytes)"
 msgstr "Maksimal filstørrelse (bytes)"
 
 #. translators: %u: Server maximum filesize
-#: includes/config/class-ws-form-config-option.php:408
+#: includes/config/class-ws-form-config-option.php:349
 #, php-format
 msgid "Server maximum filesize (bytes): %u"
 msgstr "Serverens maksimale filstørrelse (bytes): %u"
 
 #. translators: %u: Server maximum files
-#: includes/config/class-ws-form-config-option.php:424
+#: includes/config/class-ws-form-config-option.php:365
 #, php-format
 msgid "Server maximum files: %u"
 msgstr "Serverens maksimale antal filer: %u"
 
-#: includes/config/class-ws-form-config-option.php:438
+#: includes/config/class-ws-form-config-option.php:379
 msgid "Cookie Timeout (Seconds)"
 msgstr "Cookie Timeout (sekunder)"
 
-#: includes/config/class-ws-form-config-option.php:440
+#: includes/config/class-ws-form-config-option.php:381
 msgid "Duration in seconds cookies are valid for."
 msgstr "Varighed i sekunder, som cookies er gyldige i."
 
-#: includes/config/class-ws-form-config-option.php:447
+#: includes/config/class-ws-form-config-option.php:388
 msgid "Cookie Prefix"
 msgstr "Cookie-præfiks"
 
-#: includes/config/class-ws-form-config-option.php:449
+#: includes/config/class-ws-form-config-option.php:390
 msgid "We recommend leaving this value as it is."
 msgstr "Vi anbefaler, at du lader denne værdi stå som den er."
 
-#: includes/config/class-ws-form-config-option.php:456
+#: includes/config/class-ws-form-config-option.php:397
 msgid "Enable Save Cookie"
 msgstr "Aktiver Gem cookie"
 
-#: includes/config/class-ws-form-config-option.php:458
+#: includes/config/class-ws-form-config-option.php:399
 msgid ""
 "If checked a cookie will be set when a form save button is clicked to later "
 "recall the form content."
@@ -18017,31 +17918,31 @@ msgstr ""
 "Hvis dette afkrydses, vil der blive sat en cookie, når der klikkes på en "
 "knap til at gemme formularen, så formularens indhold senere kan genkaldes."
 
-#: includes/config/class-ws-form-config-option.php:467
+#: includes/config/class-ws-form-config-option.php:408
 msgid "Google"
 msgstr "Google"
 
-#: includes/config/class-ws-form-config-option.php:472
+#: includes/config/class-ws-form-config-option.php:413
 msgid "API Key"
 msgstr "API-nøgle"
 
-#: includes/config/class-ws-form-config-option.php:475
+#: includes/config/class-ws-form-config-option.php:416
 msgid "Need an API key?"
 msgstr "Har du brug for en API-nøgle?"
 
-#: includes/config/class-ws-form-config-option.php:482
+#: includes/config/class-ws-form-config-option.php:423
 msgid "API Version"
 msgstr "API-version"
 
-#: includes/config/class-ws-form-config-option.php:486
+#: includes/config/class-ws-form-config-option.php:427
 msgid "Places API (Legacy)"
 msgstr "Places API (ældre)"
 
-#: includes/config/class-ws-form-config-option.php:487
+#: includes/config/class-ws-form-config-option.php:428
 msgid "Places API (New)"
 msgstr "Places API (ny)"
 
-#: includes/config/class-ws-form-config-option.php:489
+#: includes/config/class-ws-form-config-option.php:430
 msgid ""
 "For Google accounts registered after March 1st, 2025, choose Places API "
 "(New)."
@@ -18049,35 +17950,35 @@ msgstr ""
 "For Google-konti, der er registreret efter 1. marts 2025, skal du vælge "
 "Places API (Ny)."
 
-#: includes/config/class-ws-form-config-option.php:498
+#: includes/config/class-ws-form-config-option.php:439
 msgid "Geolocation Lookup by IP"
 msgstr "Geolokationsopslag via IP"
 
-#: includes/config/class-ws-form-config-option.php:503
+#: includes/config/class-ws-form-config-option.php:444
 msgid "Service"
 msgstr "Service"
 
-#: includes/config/class-ws-form-config-option.php:507
+#: includes/config/class-ws-form-config-option.php:448
 msgid "geoplugin.com"
 msgstr "geoplugin.com"
 
-#: includes/config/class-ws-form-config-option.php:508
+#: includes/config/class-ws-form-config-option.php:449
 msgid "ip-api.com"
 msgstr "ip-api.com"
 
-#: includes/config/class-ws-form-config-option.php:509
+#: includes/config/class-ws-form-config-option.php:450
 msgid "ipapi.co (Recommended)"
 msgstr "ipapi.co (anbefalet)"
 
-#: includes/config/class-ws-form-config-option.php:510
+#: includes/config/class-ws-form-config-option.php:451
 msgid "ipinfo.io"
 msgstr "ipinfo.io"
 
-#: includes/config/class-ws-form-config-option.php:517
+#: includes/config/class-ws-form-config-option.php:458
 msgid "geoplugin.com API Key"
 msgstr "geoplugin.com API-nøgle"
 
-#: includes/config/class-ws-form-config-option.php:524
+#: includes/config/class-ws-form-config-option.php:465
 msgid ""
 "If you are using the commercial version of geoplugin.com, please enter your "
 "API key. Used for server-side tracking only."
@@ -18085,11 +17986,11 @@ msgstr ""
 "Hvis du bruger den kommercielle version af geoplugin.com, skal du indtaste "
 "din API-nøgle. Bruges kun til sporing på serversiden."
 
-#: includes/config/class-ws-form-config-option.php:531
+#: includes/config/class-ws-form-config-option.php:472
 msgid "ip-api.com API Key"
 msgstr "ip-api.com API-nøgle"
 
-#: includes/config/class-ws-form-config-option.php:538
+#: includes/config/class-ws-form-config-option.php:479
 msgid ""
 "If you are using the commercial version of ip-api.com, please enter your API "
 "key. Used for server-side tracking only."
@@ -18097,11 +17998,11 @@ msgstr ""
 "Hvis du bruger den kommercielle version af ip-api.com, skal du indtaste din "
 "API-nøgle. Bruges kun til sporing på serversiden."
 
-#: includes/config/class-ws-form-config-option.php:545
+#: includes/config/class-ws-form-config-option.php:486
 msgid "ipapi.co API Key"
 msgstr "ipapi.co API-nøgle"
 
-#: includes/config/class-ws-form-config-option.php:552
+#: includes/config/class-ws-form-config-option.php:493
 msgid ""
 "If you are using the commercial version of ipapi.co, please enter your API "
 "key. Used for server-side tracking only."
@@ -18109,11 +18010,11 @@ msgstr ""
 "Hvis du bruger den kommercielle version af ipapi.co, skal du indtaste din "
 "API-nøgle. Bruges kun til sporing på serversiden."
 
-#: includes/config/class-ws-form-config-option.php:559
+#: includes/config/class-ws-form-config-option.php:500
 msgid "ipinfo.io API Key"
 msgstr "ipinfo.io API-nøgle"
 
-#: includes/config/class-ws-form-config-option.php:566
+#: includes/config/class-ws-form-config-option.php:507
 msgid ""
 "If you are using the commercial version of ipinfo.io, please enter your API "
 "key. Used for server-side tracking only."
@@ -18121,31 +18022,31 @@ msgstr ""
 "Hvis du bruger den kommercielle version af ipinfo.io, skal du indtaste din "
 "API-nøgle. Bruges kun til sporing på serversiden."
 
-#: includes/config/class-ws-form-config-option.php:575
+#: includes/config/class-ws-form-config-option.php:516
 msgid "Tracking Links"
 msgstr "Sporingslinks"
 
-#: includes/config/class-ws-form-config-option.php:581
+#: includes/config/class-ws-form-config-option.php:522
 msgid "URL Mask - IP Lookup"
 msgstr "URL-maske - IP-opslag"
 
-#: includes/config/class-ws-form-config-option.php:585
+#: includes/config/class-ws-form-config-option.php:526
 msgid "#value will be replaced with the tracking IP address."
 msgstr "#værdi erstattes med sporingens IP-adresse."
 
-#: includes/config/class-ws-form-config-option.php:590
+#: includes/config/class-ws-form-config-option.php:531
 msgid "URL Mask - Lat/Lon Lookup"
 msgstr "URL-maske - Lat/Lon-opslag"
 
-#: includes/config/class-ws-form-config-option.php:594
+#: includes/config/class-ws-form-config-option.php:535
 msgid "#value will be replaced with latitude,longitude."
 msgstr "#værdi erstattes med breddegrad, længdegrad."
 
-#: includes/config/class-ws-form-config-option.php:607
+#: includes/config/class-ws-form-config-option.php:548
 msgid "Enable Edit in Preview"
 msgstr "Aktivér Rediger i forhåndsvisning"
 
-#: includes/config/class-ws-form-config-option.php:610
+#: includes/config/class-ws-form-config-option.php:551
 msgid ""
 "If checked 'Edit in Preview' will be enabled on submissions. This allows "
 "submissions to be edited in form preview mode.<br /><strong>Important:</"
@@ -18158,124 +18059,124 @@ msgstr ""
 "igen, hvis formularen genindsendes, gemmes igen eller genbehandles med "
 "betinget logik."
 
-#: includes/config/class-ws-form-config-option.php:626
+#: includes/config/class-ws-form-config-option.php:567
 msgid "Markup"
 msgstr "Markup"
 
-#: includes/config/class-ws-form-config-option.php:633
+#: includes/config/class-ws-form-config-option.php:574
 msgid "Framework used for rendering the front-end HTML."
 msgstr "Ramme, der bruges til at gengive HTML i front-end."
 
-#: includes/config/class-ws-form-config-option.php:644
+#: includes/config/class-ws-form-config-option.php:585
 msgid "Layout CSS"
 msgstr "Layout CSS"
 
-#: includes/config/class-ws-form-config-option.php:646
+#: includes/config/class-ws-form-config-option.php:587
 msgid "Should the layout CSS be rendered?"
 msgstr "Skal layout CSS'en gengives?"
 
-#: includes/config/class-ws-form-config-option.php:654
+#: includes/config/class-ws-form-config-option.php:595
 msgid "Style CSS"
 msgstr "Style CSS"
 
-#: includes/config/class-ws-form-config-option.php:654
+#: includes/config/class-ws-form-config-option.php:595
 msgid "Skin CSS"
 msgstr "Skin CSS"
 
-#: includes/config/class-ws-form-config-option.php:659
+#: includes/config/class-ws-form-config-option.php:600
 msgid "Should the style CSS be rendered?"
 msgstr "Skal style CSS'en gengives?"
 
-#: includes/config/class-ws-form-config-option.php:661
+#: includes/config/class-ws-form-config-option.php:602
 msgid "View styles"
 msgstr "Vis stilarter"
 
-#: includes/config/class-ws-form-config-option.php:670
+#: includes/config/class-ws-form-config-option.php:611
 msgid "Column Count"
 msgstr "Antal kolonner"
 
-#: includes/config/class-ws-form-config-option.php:678
+#: includes/config/class-ws-form-config-option.php:619
 msgid "We recommend leaving this setting at 12."
 msgstr "Vi anbefaler, at du lader denne indstilling stå på 12."
 
-#: includes/config/class-ws-form-config-option.php:686
+#: includes/config/class-ws-form-config-option.php:627
 #: includes/config/class-ws-form-config-public.php:325
 msgid "Scheme"
 msgstr "Oversigt"
 
-#: includes/config/class-ws-form-config-option.php:691
+#: includes/config/class-ws-form-config-option.php:632
 msgid "Color Scheme"
 msgstr "Farveskema"
 
-#: includes/config/class-ws-form-config-option.php:693
+#: includes/config/class-ws-form-config-option.php:634
 msgid "Is your website scheme light or dark?"
 msgstr "Er dit websites skema lyst eller mørkt?"
 
-#: includes/config/class-ws-form-config-option.php:705
+#: includes/config/class-ws-form-config-option.php:646
 msgid "Auto Color Scheme"
 msgstr "Automatisk Farveskema"
 
-#: includes/config/class-ws-form-config-option.php:707
+#: includes/config/class-ws-form-config-option.php:648
 msgid "Should WS Form detect the preferred color scheme?"
 msgstr "Skal WS Form registrere det foretrukne farveskema?"
 
-#: includes/config/class-ws-form-config-option.php:722
+#: includes/config/class-ws-form-config-option.php:663
 msgid "Compile CSS"
 msgstr "Kompilere CSS"
 
-#: includes/config/class-ws-form-config-option.php:724
+#: includes/config/class-ws-form-config-option.php:665
 msgid "Should CSS be precompiled? (Recommended)"
 msgstr "Bør CSS være prækompileret? (Anbefalet)"
 
-#: includes/config/class-ws-form-config-option.php:731
+#: includes/config/class-ws-form-config-option.php:672
 msgid "Inline CSS"
 msgstr "Inline CSS"
 
-#: includes/config/class-ws-form-config-option.php:733
+#: includes/config/class-ws-form-config-option.php:674
 msgid "Should CSS be rendered inline? (Recommended)"
 msgstr "Skal CSS gengives inline? (Anbefalet)"
 
-#: includes/config/class-ws-form-config-option.php:740
+#: includes/config/class-ws-form-config-option.php:681
 msgid "CSS Cache Duration"
 msgstr "CSS Cache Varighed"
 
-#: includes/config/class-ws-form-config-option.php:742
+#: includes/config/class-ws-form-config-option.php:683
 msgid "Expires header duration in seconds for CSS."
 msgstr "Varighed af expires-headeren i sekunder for CSS."
 
-#: includes/config/class-ws-form-config-option.php:761
+#: includes/config/class-ws-form-config-option.php:702
 msgid "Prices"
 msgstr "Priser"
 
-#: includes/config/class-ws-form-config-option.php:776
+#: includes/config/class-ws-form-config-option.php:717
 msgid "Currency Position"
 msgstr "Valutaposition"
 
-#: includes/config/class-ws-form-config-option.php:782
+#: includes/config/class-ws-form-config-option.php:723
 msgid "Left with space"
 msgstr "Venstre med mellemrum"
 
-#: includes/config/class-ws-form-config-option.php:783
+#: includes/config/class-ws-form-config-option.php:724
 msgid "Right with space"
 msgstr "Højre med mellemrum"
 
-#: includes/config/class-ws-form-config-option.php:791
+#: includes/config/class-ws-form-config-option.php:732
 msgid "Thousand Separator"
 msgstr "Tusindeseparator"
 
-#: includes/config/class-ws-form-config-option.php:800
+#: includes/config/class-ws-form-config-option.php:741
 msgid "Decimal Separator"
 msgstr "Decimalseparator"
 
-#: includes/config/class-ws-form-config-option.php:809
+#: includes/config/class-ws-form-config-option.php:750
 msgid "Number of Decimals"
 msgstr "Antal decimaler"
 
-#: includes/config/class-ws-form-config-option.php:825
+#: includes/config/class-ws-form-config-option.php:766
 msgid "Allow Price Field Edits"
 msgstr "Tillad redigeringer af prisfelter"
 
-#: includes/config/class-ws-form-config-option.php:827
+#: includes/config/class-ws-form-config-option.php:768
 msgid ""
 "If checked, prices can be edited in submissions. Note that changes to prices "
 "will not recalculate values in the rest of the submission."
@@ -18283,20 +18184,20 @@ msgstr ""
 "Hvis dette afkrydses, kan priserne redigeres i indsendelser. Bemærk, at "
 "ændringer i priserne ikke genberegner værdierne i resten af indsendelsen."
 
-#: includes/config/class-ws-form-config-option.php:839
+#: includes/config/class-ws-form-config-option.php:780
 msgid "System"
 msgstr "System"
 
-#: includes/config/class-ws-form-config-option.php:844
+#: includes/config/class-ws-form-config-option.php:785
 msgid "System Report"
 msgstr "Systemrapport"
 
-#: includes/config/class-ws-form-config-option.php:859
+#: includes/config/class-ws-form-config-option.php:800
 msgid "License"
 msgstr "Licens"
 
 #. translators: %1$s: Presentable name (e.g. WS Form PRO)
-#: includes/config/class-ws-form-config-option.php:878
+#: includes/config/class-ws-form-config-option.php:819
 #, php-format
 msgid ""
 "Enter your %1$s license key here. If you have a Freelance or Agency license, "
@@ -18305,28 +18206,28 @@ msgstr ""
 "Indtast din %1$s-licensnøgle her. Hvis du har en Freelance- eller Agency-"
 "licens, skal du indtaste din %1$s-nøgle."
 
-#: includes/config/class-ws-form-config-option.php:904
+#: includes/config/class-ws-form-config-option.php:845
 msgid "Reset Statistics"
 msgstr "Nulstil statistik"
 
-#: includes/config/class-ws-form-config-option.php:919
+#: includes/config/class-ws-form-config-option.php:860
 msgid "Enable Data Encryption"
 msgstr "Aktivere datakryptering"
 
-#: includes/config/class-ws-form-config-option.php:932
+#: includes/config/class-ws-form-config-option.php:873
 msgid "Encryption Status"
 msgstr "Krypteringsstatus"
 
-#: includes/config/class-ws-form-config-option.php:940
+#: includes/config/class-ws-form-config-option.php:881
 msgid "Uninstall"
 msgstr "Afinstallere"
 
-#: includes/config/class-ws-form-config-option.php:945
+#: includes/config/class-ws-form-config-option.php:886
 msgid "Delete Plugin Settings on Uninstall"
 msgstr "Slet indstillinger for plugins ved afinstallering"
 
-#: includes/config/class-ws-form-config-option.php:952
-#: includes/config/class-ws-form-config-option.php:965
+#: includes/config/class-ws-form-config-option.php:893
+#: includes/config/class-ws-form-config-option.php:906
 msgid ""
 "If you enable this setting and uninstall the plugin this data cannot be "
 "recovered."
@@ -18334,31 +18235,31 @@ msgstr ""
 "Hvis du aktiverer denne indstilling og afinstallerer plugin'et, kan disse "
 "data ikke genoprettes."
 
-#: includes/config/class-ws-form-config-option.php:958
+#: includes/config/class-ws-form-config-option.php:899
 msgid "Delete Database Tables on Uninstall"
 msgstr "Slet databasetabeller ved afinstallering"
 
-#: includes/config/class-ws-form-config-option.php:1026
+#: includes/config/class-ws-form-config-option.php:967
 msgid "Default reCAPTCHA Type"
 msgstr "Standard reCAPTCHA-type"
 
-#: includes/config/class-ws-form-config-option.php:1028
+#: includes/config/class-ws-form-config-option.php:969
 msgid "Select the default type used for new reCAPTCHA fields."
 msgstr "Vælg den standardtype, der bruges til nye reCAPTCHA-felter."
 
-#: includes/config/class-ws-form-config-option.php:1180
+#: includes/config/class-ws-form-config-option.php:1121
 msgid "NONCE"
 msgstr "NONCE"
 
-#: includes/config/class-ws-form-config-option.php:1185
+#: includes/config/class-ws-form-config-option.php:1126
 msgid "Enable NONCE"
 msgstr "Aktiver NONCE"
 
-#: includes/config/class-ws-form-config-option.php:1191
+#: includes/config/class-ws-form-config-option.php:1132
 msgid "Add a NONCE to all form submissions."
 msgstr "Tilføj en NONCE til alle formularer, der indsendes."
 
-#: includes/config/class-ws-form-config-option.php:1193
+#: includes/config/class-ws-form-config-option.php:1134
 msgid ""
 "If enabled we recommend keeping overall page caching to less than 10 hours."
 "<br />NONCEs are always used on forms if a user is logged in."
@@ -18367,77 +18268,77 @@ msgstr ""
 "mindre end 10 timer.<br />NONCE'er bruges altid på formularer, hvis en "
 "bruger er logget ind."
 
-#: includes/config/class-ws-form-config-option.php:1205
+#: includes/config/class-ws-form-config-option.php:1146
 msgid "Reporting"
 msgstr "Rapportering"
 
-#: includes/config/class-ws-form-config-option.php:1210
+#: includes/config/class-ws-form-config-option.php:1151
 msgid "Form Statistics Email"
 msgstr "E-mail med formularstatistik"
 
-#: includes/config/class-ws-form-config-option.php:1222
+#: includes/config/class-ws-form-config-option.php:1163
 msgid "Published Forms"
 msgstr "Udgivne formularer"
 
-#: includes/config/class-ws-form-config-option.php:1225
+#: includes/config/class-ws-form-config-option.php:1166
 msgid "Only include statistics from published forms."
 msgstr "Medtag kun statistik fra offentliggjorte formularer."
 
-#: includes/config/class-ws-form-config-option.php:1230
-#: includes/config/class-ws-form-config-option.php:1297
+#: includes/config/class-ws-form-config-option.php:1171
+#: includes/config/class-ws-form-config-option.php:1238
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: includes/config/class-ws-form-config-option.php:1234
+#: includes/config/class-ws-form-config-option.php:1175
 msgid "Daily"
 msgstr "Daglig"
 
-#: includes/config/class-ws-form-config-option.php:1235
+#: includes/config/class-ws-form-config-option.php:1176
 msgid "Weekly"
 msgstr "Ugentlig"
 
-#: includes/config/class-ws-form-config-option.php:1236
+#: includes/config/class-ws-form-config-option.php:1177
 msgid "Monthly"
 msgstr "Månedlig"
 
-#: includes/config/class-ws-form-config-option.php:1239
+#: includes/config/class-ws-form-config-option.php:1180
 msgid "How often should the report be emailed?"
 msgstr "Hvor ofte skal rapporten sendes via e-mail?"
 
-#: includes/config/class-ws-form-config-option.php:1245
+#: includes/config/class-ws-form-config-option.php:1186
 msgid "Day to Send"
 msgstr "Dag for afsendelse"
 
-#: includes/config/class-ws-form-config-option.php:1258
+#: includes/config/class-ws-form-config-option.php:1199
 msgid "What day of the week should the weekly report be sent?"
 msgstr "Hvilken ugedag skal den ugentlige rapport sendes?"
 
-#: includes/config/class-ws-form-config-option.php:1264
-#: includes/config/class-ws-form-config-option.php:1312
+#: includes/config/class-ws-form-config-option.php:1205
+#: includes/config/class-ws-form-config-option.php:1253
 msgid "Email To"
 msgstr "Modtagers email"
 
-#: includes/config/class-ws-form-config-option.php:1268
-#: includes/config/class-ws-form-config-option.php:1316
+#: includes/config/class-ws-form-config-option.php:1209
+#: includes/config/class-ws-form-config-option.php:1257
 msgid "Separate multiple email addresses with spaces."
 msgstr "Adskil flere e-mailadresser med mellemrum."
 
-#: includes/config/class-ws-form-config-option.php:1274
-#: includes/config/class-ws-form-config-option.php:1322
+#: includes/config/class-ws-form-config-option.php:1215
+#: includes/config/class-ws-form-config-option.php:1263
 msgid "Email Subject"
 msgstr "Email emne"
 
-#: includes/config/class-ws-form-config-option.php:1276
+#: includes/config/class-ws-form-config-option.php:1217
 #: includes/core/class-ws-form-form-stat.php:629
 #: includes/core/class-ws-form-form-stat.php:630
 msgid "WS Form - Form Statistics"
 msgstr "WS Form - Formularstatistik"
 
-#: includes/config/class-ws-form-config-option.php:1284
+#: includes/config/class-ws-form-config-option.php:1225
 msgid "Form Submission Error Email"
 msgstr "E-mail om fejl ved formularindsendelse"
 
-#: includes/config/class-ws-form-config-option.php:1292
+#: includes/config/class-ws-form-config-option.php:1233
 msgid ""
 "If enabled, WS Form will send an email if an error occurs when processing a "
 "form submission."
@@ -18445,53 +18346,53 @@ msgstr ""
 "Hvis aktiveret, sender WS Form en e-mail, hvis der opstår en fejl under "
 "behandling af en formularindsendelse."
 
-#: includes/config/class-ws-form-config-option.php:1301
+#: includes/config/class-ws-form-config-option.php:1242
 msgid "Real-time"
 msgstr "I realtid"
 
-#: includes/config/class-ws-form-config-option.php:1302
+#: includes/config/class-ws-form-config-option.php:1243
 msgid "Once per minute"
 msgstr "Én gang i minuttet"
 
-#: includes/config/class-ws-form-config-option.php:1303
+#: includes/config/class-ws-form-config-option.php:1244
 msgid "Once per hour"
 msgstr "Én gang i timen"
 
-#: includes/config/class-ws-form-config-option.php:1304
+#: includes/config/class-ws-form-config-option.php:1245
 msgid "Once per day"
 msgstr "Én gang om dagen"
 
-#: includes/config/class-ws-form-config-option.php:1307
+#: includes/config/class-ws-form-config-option.php:1248
 msgid "How often should errors be emailed?"
 msgstr "Hvor ofte skal fejl sendes via e-mail?"
 
-#: includes/config/class-ws-form-config-option.php:1324
-#: includes/core/class-ws-form-submit.php:4623
-#: includes/core/class-ws-form-submit.php:4624
+#: includes/config/class-ws-form-config-option.php:1265
+#: includes/core/class-ws-form-submit.php:4629
+#: includes/core/class-ws-form-submit.php:4630
 msgid "WS Form - Form Submission Error"
 msgstr "WS Form - Fejl ved formularindsendelse"
 
 #. translators: %s: Variable
-#: includes/config/class-ws-form-config-option.php:1343
-#: includes/config/class-ws-form-config-option.php:1373
-#: includes/config/class-ws-form-config-option.php:1445
+#: includes/config/class-ws-form-config-option.php:1284
+#: includes/config/class-ws-form-config-option.php:1314
+#: includes/config/class-ws-form-config-option.php:1386
 #, php-format
 msgid "Variable: %s"
 msgstr "Variabel: %s"
 
-#: includes/config/class-ws-form-config-option.php:1355
+#: includes/config/class-ws-form-config-option.php:1296
 msgid "Use #email_logo in your template to add this logo."
 msgstr "Brug #email_logo i din skabelon for at tilføje dette logo."
 
-#: includes/config/class-ws-form-config-option.php:1363
+#: includes/config/class-ws-form-config-option.php:1304
 msgid "Recommended max dimensions: 400 x 200 pixels."
 msgstr "Anbefalede maksimale dimensioner: 400 x 200 pixel."
 
-#: includes/config/class-ws-form-config-option.php:1382
+#: includes/config/class-ws-form-config-option.php:1323
 msgid "Tab Labels"
 msgstr "Fanetiketter"
 
-#: includes/config/class-ws-form-config-option.php:1391
+#: includes/config/class-ws-form-config-option.php:1332
 msgid ""
 "Auto - Only shown if any fields are not empty and the 'Show Label' setting "
 "is enabled.<br />Yes - Only shown if the 'Show Label' setting is enabled for "
@@ -18501,11 +18402,11 @@ msgstr ""
 "er aktiveret.<br />Ja - vises kun, hvis indstillingen \"Vis etiket\" er "
 "aktiveret for den pågældende fane.<br />Nej - vises aldrig."
 
-#: includes/config/class-ws-form-config-option.php:1396
+#: includes/config/class-ws-form-config-option.php:1337
 msgid "Section Labels"
 msgstr "Etiketter til sektioner"
 
-#: includes/config/class-ws-form-config-option.php:1405
+#: includes/config/class-ws-form-config-option.php:1346
 msgid ""
 "Auto - Only shown if any fields are not empty and the 'Show Label' setting "
 "is enabled.<br />Yes - Only shown if the 'Show Label' setting is enabled."
@@ -18515,11 +18416,11 @@ msgstr ""
 "er aktiveret.<br />Ja - vises kun, hvis indstillingen \"Vis etiket\" er "
 "aktiveret.<br />Nej - vises aldrig."
 
-#: includes/config/class-ws-form-config-option.php:1410
+#: includes/config/class-ws-form-config-option.php:1351
 msgid "Field Labels"
 msgstr "Feltetiketter"
 
-#: includes/config/class-ws-form-config-option.php:1419
+#: includes/config/class-ws-form-config-option.php:1360
 msgid ""
 "Auto - Only shown if the 'Show Label' setting is enabled.<br />Yes - Always "
 "shown.<br />No - Never shown."
@@ -18527,30 +18428,30 @@ msgstr ""
 "Auto - Vises kun, hvis indstillingen 'Vis etiket' er aktiveret.<br />Ja - "
 "Vises altid.<br />Nej - Vises aldrig."
 
-#: includes/config/class-ws-form-config-option.php:1424
+#: includes/config/class-ws-form-config-option.php:1365
 msgid "Static Fields"
 msgstr "Statiske felter"
 
-#: includes/config/class-ws-form-config-option.php:1427
+#: includes/config/class-ws-form-config-option.php:1368
 msgid ""
 "Show static fields such as text and HTML, if not excluded at a field level."
 msgstr ""
 "Vis statiske felter som f.eks. tekst og HTML, hvis de ikke er udelukket på "
 "feltniveau."
 
-#: includes/config/class-ws-form-config-option.php:1432
+#: includes/config/class-ws-form-config-option.php:1373
 msgid "Exclude Empty Fields"
 msgstr "Udelukke tomme felter"
 
-#: includes/config/class-ws-form-config-option.php:1435
+#: includes/config/class-ws-form-config-option.php:1376
 msgid "Exclude empty fields."
 msgstr "Udelad tomme felter."
 
-#: includes/config/class-ws-form-config-option.php:1454
+#: includes/config/class-ws-form-config-option.php:1395
 msgid "Show File Preview"
 msgstr "Vis filforhåndsvisning"
 
-#: includes/config/class-ws-form-config-option.php:1457
+#: includes/config/class-ws-form-config-option.php:1398
 msgid ""
 "If checked, file and signature previews will be shown. Compatible with the "
 "WS Form (Private), WS Form (Public) and Media Library file handlers."
@@ -18558,11 +18459,11 @@ msgstr ""
 "Hvis markeret vises forhåndsvisninger af filer og signaturer. Kompatibel med "
 "filhåndtererne WS Form (Privat), WS Form (Offentlig) og Mediebibliotek."
 
-#: includes/config/class-ws-form-config-option.php:1462
+#: includes/config/class-ws-form-config-option.php:1403
 msgid "Show File Name and Size"
 msgstr "Vis filnavn og størrelse"
 
-#: includes/config/class-ws-form-config-option.php:1465
+#: includes/config/class-ws-form-config-option.php:1406
 msgid ""
 "If checked, file and signature file names and sizes will be shown. "
 "Compatible with the WS Form (Private), WS Form (Public) and Media Library "
@@ -18572,7 +18473,7 @@ msgstr ""
 "Kompatibel med filhåndtererne WS Form (Privat), WS Form (Offentlig) og "
 "Mediebibliotek."
 
-#: includes/config/class-ws-form-config-option.php:1473
+#: includes/config/class-ws-form-config-option.php:1414
 msgid ""
 "If checked, file and signature files will have links added to them. The Send "
 "Email action has a separate setting for this. Compatible with the WS Form "
@@ -18582,64 +18483,71 @@ msgstr ""
 "Handlingen Send e-mail har en separat indstilling til dette. Kompatibel med "
 "filhåndtererne WS Form (Privat), WS Form (Offentlig) og Mediebibliotek."
 
-#: includes/config/class-ws-form-config-option.php:1503
+#: includes/config/class-ws-form-config-option.php:1444
 msgid "Abilities API"
 msgstr "Abilities API"
 
-#: includes/config/class-ws-form-config-option.php:1509
+#: includes/config/class-ws-form-config-option.php:1450
 msgid "Allow Updates"
 msgstr "Tillad opdateringer"
 
-#: includes/config/class-ws-form-config-option.php:1516
+#: includes/config/class-ws-form-config-option.php:1457
 msgid "If enabled, form updates can be made by AI clients."
 msgstr ""
 "Hvis aktiveret kan opdateringer af formularer foretages af AI-klienter."
 
-#: includes/config/class-ws-form-config-option.php:1518
-#: includes/config/class-ws-form-config-option.php:1536
+#: includes/config/class-ws-form-config-option.php:1459
+#: includes/config/class-ws-form-config-option.php:1477
 msgid "Use at your own risk!"
 msgstr "Brug på eget ansvar!"
 
-#: includes/config/class-ws-form-config-option.php:1527
+#: includes/config/class-ws-form-config-option.php:1461
+#: includes/config/class-ws-form-config-option.php:1479
+#: includes/config/class-ws-form-config-option.php:1514
+#: includes/config/class-ws-form-config-option.php:1553
+msgid "Experimental"
+msgstr "Eksperimentel"
+
+#: includes/config/class-ws-form-config-option.php:1468
 msgid "Allow Deletes"
 msgstr "Tillad sletninger"
 
-#: includes/config/class-ws-form-config-option.php:1534
+#: includes/config/class-ws-form-config-option.php:1475
 msgid "If enabled, forms deletions can be made by AI clients."
 msgstr "Hvis aktiveret kan sletning af formularer foretages af AI-klienter."
 
-#: includes/config/class-ws-form-config-option.php:1550
+#: includes/config/class-ws-form-config-option.php:1491
 msgid "MCP Server"
 msgstr "MCP-server"
 
 #. translators: %s: Presentable name (e.g. WS Form PRO)
-#: includes/config/class-ws-form-config-option.php:1565
+#: includes/config/class-ws-form-config-option.php:1506
 #, php-format
 msgid "Enable the %s MCP (Model Context Protocol) server."
 msgstr "Aktivér %s MCP-serveren (Model Context Protocol)."
 
-#: includes/config/class-ws-form-config-option.php:1580
+#: includes/config/class-ws-form-config-option.php:1521
 msgid "Server URL"
 msgstr "Server-URL"
 
-#: includes/config/class-ws-form-config-option.php:1593
+#: includes/config/class-ws-form-config-option.php:1534
 msgid "Angie"
 msgstr "Angie"
 
-#: includes/config/class-ws-form-config-option.php:1606
+#: includes/config/class-ws-form-config-option.php:1547
 msgid "If enabled, WS Form abilities will be registered with Angie Agentic AI."
 msgstr ""
 "Hvis aktiveret vil WS Form-funktioner blive registreret hos Angie Agentic AI."
 
-#: includes/config/class-ws-form-config-option.php:1672
+#: includes/config/class-ws-form-config-option.php:1613
 msgid "Blank Page"
 msgstr "Blank side"
 
-#: includes/config/class-ws-form-config-option.php:1715
+#: includes/config/class-ws-form-config-option.php:1656
 msgid "AJAX Low Resource"
 msgstr "AJAX lav ressource"
 
-#: includes/config/class-ws-form-config-option.php:1717
+#: includes/config/class-ws-form-config-option.php:1658
 msgid "Server Side"
 msgstr "Server side"
 
@@ -19679,6 +19587,10 @@ msgstr "Boks skygge"
 msgid "Fieldset Legend"
 msgstr "Feltsæt-legend"
 
+#: includes/config/class-ws-form-config-styler.php:1055
+msgid "Help"
+msgstr "Hjælp"
+
 #: includes/config/class-ws-form-config-styler.php:1062
 msgid "Invalid Feedback"
 msgstr "Ugyldig feedback"
@@ -19804,7 +19716,7 @@ msgid "Calendar Heading"
 msgstr "Kalenderoverskrift"
 
 #: includes/config/class-ws-form-config-styler.php:2773
-#: includes/core/class-ws-form-submit.php:4748
+#: includes/core/class-ws-form-submit.php:4754
 msgid "File"
 msgstr "Fil"
 
@@ -20036,169 +19948,169 @@ msgid "WS Form Logo"
 msgstr "WS Form-logo"
 
 #. Author of the plugin/theme
-#: includes/core/class-ws-form-ability.php:21
+#: includes/core/class-ws-form-ability.php:25
 #: includes/third-party/bricks/elements/class-bricks-ws-form-form.php:28
 #: includes/third-party/oxygen/elements/class-oxyel-ws-form-form.php:35
 msgid "WS Form"
 msgstr "WS formular"
 
-#: includes/core/class-ws-form-ability.php:22
+#: includes/core/class-ws-form-ability.php:26
 msgid "Abilities that relate to the plugin WS Form."
 msgstr "Rettigheder, der vedrører plugin'et WS Form."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:85
+#: includes/core/class-ws-form-ability.php:93
 #, php-format
 msgid "Error retrieving forms: %s"
 msgstr "Fejl ved hentning af formularer: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:120
+#: includes/core/class-ws-form-ability.php:128
 #, php-format
 msgid "Error creating form from JSON: %s"
 msgstr "Fejl ved oprettelse af formular fra JSON: %s"
 
-#: includes/core/class-ws-form-ability.php:138
-#: includes/core/class-ws-form-ability.php:178
-#: includes/core/class-ws-form-ability.php:223
-#: includes/core/class-ws-form-ability.php:262
-#: includes/core/class-ws-form-ability.php:312
-#: includes/core/class-ws-form-ability.php:342
-#: includes/core/class-ws-form-ability.php:372
-#: includes/core/class-ws-form-ability.php:460
-#: includes/core/class-ws-form-ability.php:511
-#: includes/core/class-ws-form-ability.php:552
-#: includes/core/class-ws-form-ability.php:618
+#: includes/core/class-ws-form-ability.php:146
+#: includes/core/class-ws-form-ability.php:186
+#: includes/core/class-ws-form-ability.php:231
+#: includes/core/class-ws-form-ability.php:270
+#: includes/core/class-ws-form-ability.php:320
+#: includes/core/class-ws-form-ability.php:350
+#: includes/core/class-ws-form-ability.php:380
+#: includes/core/class-ws-form-ability.php:468
+#: includes/core/class-ws-form-ability.php:519
+#: includes/core/class-ws-form-ability.php:560
+#: includes/core/class-ws-form-ability.php:626
 msgid "Invalid form ID."
 msgstr "Ugyldigt formular ID."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:160
+#: includes/core/class-ws-form-ability.php:168
 #, php-format
 msgid "Error retrieving form as JSON: %s"
 msgstr "Fejl ved hentning af formular som JSON: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:205
+#: includes/core/class-ws-form-ability.php:213
 #, php-format
 msgid "Error updating form from JSON: %s"
 msgstr "Fejl ved opdatering af formular fra JSON: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:244
+#: includes/core/class-ws-form-ability.php:252
 #, php-format
 msgid "Error publishing form: %s"
 msgstr "Fejl ved udgivelse af formular: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:294
+#: includes/core/class-ws-form-ability.php:302
 #, php-format
 msgid "Error cloning form: %s"
 msgstr "Fejl ved kloning af formular: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:324
+#: includes/core/class-ws-form-ability.php:332
 #, php-format
 msgid "Error generating shortcode: %s"
 msgstr "Fejl ved generering af shortcode: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:354
+#: includes/core/class-ws-form-ability.php:362
 #, php-format
 msgid "Error generating block: %s"
 msgstr "Fejl ved generering af blok: %s"
 
-#: includes/core/class-ws-form-ability.php:379
+#: includes/core/class-ws-form-ability.php:387
 msgid "Invalid from date / time."
 msgstr "Ugyldig fra-dato/-tidspunkt."
 
-#: includes/core/class-ws-form-ability.php:387
+#: includes/core/class-ws-form-ability.php:395
 msgid "Invalid to date / time."
 msgstr "Ugyldig til-dato/-tid."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:442
+#: includes/core/class-ws-form-ability.php:450
 #, php-format
 msgid "Error retrieving form statistics: %s"
 msgstr "Fejl ved hentning af formularstatistik: %s"
 
-#: includes/core/class-ws-form-ability.php:469
+#: includes/core/class-ws-form-ability.php:477
 msgid "Permanent form deletion is not enabled."
 msgstr "Permanent sletning af formular er ikke aktiveret."
 
-#: includes/core/class-ws-form-ability.php:486
+#: includes/core/class-ws-form-ability.php:494
 msgid "Form permanently deleted"
 msgstr "Formular slettet permanent"
 
-#: includes/core/class-ws-form-ability.php:486
+#: includes/core/class-ws-form-ability.php:494
 msgid "Form trashed"
 msgstr "Formular lagt i papirkurven"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:493
+#: includes/core/class-ws-form-ability.php:501
 #, php-format
 msgid "Error deleting form: %s"
 msgstr "Fejl ved sletning af formular: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:534
+#: includes/core/class-ws-form-ability.php:542
 #, php-format
 msgid "Error restoring form: %s"
 msgstr "Fejl ved gendannelse af formular: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:600
+#: includes/core/class-ws-form-ability.php:608
 #, php-format
 msgid "Error adding field: %s"
 msgstr "Fejl ved tilføjelse af felt: %s"
 
-#: includes/core/class-ws-form-ability.php:627
+#: includes/core/class-ws-form-ability.php:635
 msgid "Invalid field ID."
 msgstr "Ugyldigt felt-ID."
 
-#: includes/core/class-ws-form-ability.php:653
+#: includes/core/class-ws-form-ability.php:661
 msgid "Field permanently deleted"
 msgstr "Felt slettet permanent"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:662
+#: includes/core/class-ws-form-ability.php:670
 #, php-format
 msgid "Error deleting field: %s"
 msgstr "Fejl ved sletning af felt: %s"
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:736
+#: includes/core/class-ws-form-ability.php:744
 #, php-format
 msgid "Input schema for ability %s not found."
 msgstr "Inputskema for funktion %s blev ikke fundet."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:758
+#: includes/core/class-ws-form-ability.php:766
 #, php-format
 msgid "Invalid input schema type for ability %s. Expects object."
 msgstr "Ugyldig inputskema-type for funktion %s. Forventer objekt."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:774
+#: includes/core/class-ws-form-ability.php:782
 #, php-format
 msgid "No input schema properties for ability %s."
 msgstr "Ingen inputskema-egenskaber for funktion %s."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:791
+#: includes/core/class-ws-form-ability.php:799
 #, php-format
 msgid "Invalid input schema property name for ability %s."
 msgstr "Ugyldigt navn på inputskema-egenskab for funktion %s."
 
 #. translators: %1$s: Ability name, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:821
+#: includes/core/class-ws-form-ability.php:829
 #, php-format
 msgid "Invalid input schema property type for ability %1$s (Property: %2$s)."
 msgstr ""
 "Ugyldig type for inputskema-egenskab for funktion %1$s (Egenskab: %2$s)."
 
 #. translators: %1$s: Ability ID, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:844
+#: includes/core/class-ws-form-ability.php:852
 #, php-format
 msgid ""
 "Required input schema property for ability %1$s missing (Property: %2$s)."
@@ -20206,7 +20118,7 @@ msgstr ""
 "Påkrævet inputskema-egenskab for ability %1$s mangler (Egenskab: %2$s)."
 
 #. translators: %1$s: Property name, %2$s: Ability ID
-#: includes/core/class-ws-form-ability.php:906
+#: includes/core/class-ws-form-ability.php:914
 #, php-format
 msgid ""
 "Input schema property %1$s has invalid enum for ability %2$s. Expected array."
@@ -20215,17 +20127,17 @@ msgstr ""
 "array."
 
 #. translators: %1$s: Ability name, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:920
+#: includes/core/class-ws-form-ability.php:928
 #, php-format
 msgid "Invalid enumerated input value for ability %1$s (Property: %2$s)."
 msgstr "Ugyldig enum-værdi for input for ability %1$s (Egenskab: %2$s)."
 
-#: includes/core/class-ws-form-ability.php:941
+#: includes/core/class-ws-form-ability.php:949
 msgid "Inputs not parsed."
 msgstr "Input blev ikke fortolket."
 
 #. translators: %s: Property name
-#: includes/core/class-ws-form-ability.php:951
+#: includes/core/class-ws-form-ability.php:959
 #, php-format
 msgid "Property %s does not exist in input schema."
 msgstr "Egenskaben %s findes ikke i inputskemaet."
@@ -20293,7 +20205,7 @@ msgid "Set field value added to queue for field ID: %u"
 msgstr "Sæt feltværdi føjet til køen for felt-ID: %u"
 
 #. translators: Cookie name
-#: includes/core/class-ws-form-action.php:2344
+#: includes/core/class-ws-form-action.php:2348
 #, php-format
 msgid "Set cookie: %s"
 msgstr "Sæt cookie: %s"
@@ -20639,12 +20551,12 @@ msgid "Total Counts"
 msgstr "Antal i alt"
 
 #: includes/core/class-ws-form-form-stat.php:649
-#: includes/core/class-ws-form-submit.php:4643
+#: includes/core/class-ws-form-submit.php:4649
 msgid "Invalid frequency"
 msgstr "Ugyldig frekvens"
 
 #: includes/core/class-ws-form-form-stat.php:667
-#: includes/core/class-ws-form-submit.php:4661
+#: includes/core/class-ws-form-submit.php:4667
 msgid "Invalid email subject"
 msgstr "Ugyldigt e-mail-emne"
 
@@ -21119,8 +21031,8 @@ msgstr "Fejl ved sletning af alle metasæt til indsendelse"
 
 #: includes/core/class-ws-form-submit-meta.php:494
 #: includes/core/class-ws-form-submit-meta.php:495
-#: includes/core/class-ws-form-submit.php:3793
-#: includes/core/class-ws-form-submit.php:3794
+#: includes/core/class-ws-form-submit.php:3795
+#: includes/core/class-ws-form-submit.php:3796
 msgid "Illegal file name"
 msgstr "Ulovligt filnavn"
 
@@ -21234,12 +21146,12 @@ msgstr "Værdien skal være et array."
 msgid "Value should not be an array."
 msgstr "Værdien må ikke være et array."
 
-#: includes/core/class-ws-form-submit.php:2475
+#: includes/core/class-ws-form-submit.php:2477
 msgid "Malformed wsf_form_section_repeatable_index JSON value."
 msgstr "Misdannet wsf_form_section_repeatable_index JSON-værdi."
 
-#: includes/core/class-ws-form-submit.php:2505
-#: includes/core/class-ws-form-submit.php:3492
+#: includes/core/class-ws-form-submit.php:2507
+#: includes/core/class-ws-form-submit.php:3494
 msgid ""
 "Repeatable data error. Section ID not found in "
 "wsf_form_section_repeatable_index."
@@ -21247,137 +21159,137 @@ msgstr ""
 "Gentagelig datafejl. Afsnit-ID ikke fundet i "
 "wsf_form_section_repeatable_index."
 
-#: includes/core/class-ws-form-submit.php:2781
+#: includes/core/class-ws-form-submit.php:2783
 msgid "Invalid email address."
 msgstr "Ugyldig e-mailadresse."
 
-#: includes/core/class-ws-form-submit.php:3393
-#: includes/core/class-ws-form-submit.php:4776
+#: includes/core/class-ws-form-submit.php:3395
+#: includes/core/class-ws-form-submit.php:4782
 msgid "An unknown error occurred."
 msgstr "Der opstod en ukendt fejl."
 
-#: includes/core/class-ws-form-submit.php:3610
+#: includes/core/class-ws-form-submit.php:3612
 msgid "Unable to read form data. Still logged in?"
 msgstr "Kan ikke læse formulardata. Er du stadig logget ind?"
 
-#: includes/core/class-ws-form-submit.php:3618
+#: includes/core/class-ws-form-submit.php:3620
 msgid "No published form data."
 msgstr "Ingen offentliggjorte formdata."
 
 #. translators: %u: Maximum files
-#: includes/core/class-ws-form-submit.php:3686
-#: includes/core/class-ws-form-submit.php:3706
-#: includes/core/class-ws-form-submit.php:3964
+#: includes/core/class-ws-form-submit.php:3688
+#: includes/core/class-ws-form-submit.php:3708
+#: includes/core/class-ws-form-submit.php:3966
 #, php-format
 msgid "Too many files were uploaded (Maximum: %u files)."
 msgstr "Der blev uploadet for mange filer (maksimum: %u filer)."
 
 #. translators: %u: Minimum files
-#: includes/core/class-ws-form-submit.php:3697
-#: includes/core/class-ws-form-submit.php:3955
+#: includes/core/class-ws-form-submit.php:3699
+#: includes/core/class-ws-form-submit.php:3957
 #, php-format
 msgid "Too few files were uploaded (Minimum: %u files)."
 msgstr "Der blev uploadet for få filer (Minimum: %u filer)."
 
 #. translators: %s: Maximum upload size
-#: includes/core/class-ws-form-submit.php:3728
+#: includes/core/class-ws-form-submit.php:3730
 #, php-format
 msgid "The uploaded file was too large (Maximum size: %s)."
 msgstr "Den uploadede fil var for stor (maksimal størrelse: %s)."
 
-#: includes/core/class-ws-form-submit.php:3733
+#: includes/core/class-ws-form-submit.php:3735
 msgid "The uploaded file was only partially uploaded."
 msgstr "Den uploadede fil blev kun delvist uploadet."
 
-#: includes/core/class-ws-form-submit.php:3740
-#: includes/core/class-ws-form-submit.php:3939
+#: includes/core/class-ws-form-submit.php:3742
+#: includes/core/class-ws-form-submit.php:3941
 msgid "No file was uploaded."
 msgstr "Ingen fil blev uploadet."
 
-#: includes/core/class-ws-form-submit.php:3746
+#: includes/core/class-ws-form-submit.php:3748
 msgid "Missing a temporary folder."
 msgstr "Mangler en midlertidig mappe."
 
-#: includes/core/class-ws-form-submit.php:3751
+#: includes/core/class-ws-form-submit.php:3753
 msgid "Failed to write file to disk."
 msgstr "Fil kunne ikke skrives til disk."
 
-#: includes/core/class-ws-form-submit.php:3756
+#: includes/core/class-ws-form-submit.php:3758
 msgid "File upload stopped by extension."
 msgstr "Fil upload stoppet af extension."
 
-#: includes/core/class-ws-form-submit.php:3761
+#: includes/core/class-ws-form-submit.php:3763
 msgid "Unknown file upload error."
 msgstr "Ukendt fejl ved upload af fil."
 
-#: includes/core/class-ws-form-submit.php:3790
+#: includes/core/class-ws-form-submit.php:3792
 msgid "Illegal file upload"
 msgstr "Ulovlig upload af filer"
 
-#: includes/core/class-ws-form-submit.php:3873
+#: includes/core/class-ws-form-submit.php:3875
 msgid "Unable to save image file after image optimization."
 msgstr "Kan ikke gemme billedfilen efter billedoptimering."
 
-#: includes/core/class-ws-form-submit.php:3895
+#: includes/core/class-ws-form-submit.php:3897
 msgid "Invalid hash ID (db_file_process)."
 msgstr "Ugyldigt hash-id (db_file_process)."
 
-#: includes/core/class-ws-form-submit.php:3984
+#: includes/core/class-ws-form-submit.php:3990
 msgid "Cannot read scratch file when processing DropzoneJS upload."
 msgstr "Kan ikke læse scratch-fil ved behandling af DropzoneJS upload."
 
-#: includes/core/class-ws-form-submit.php:4088
+#: includes/core/class-ws-form-submit.php:4094
 msgid "Invalid hash ID (db_file_process_dropzonejs)."
 msgstr "Ugyldigt hash-id (db_file_process_dropzonejs)."
 
-#: includes/core/class-ws-form-submit.php:4122
+#: includes/core/class-ws-form-submit.php:4128
 msgid "Captcha secret key not set."
 msgstr "Captcha-hemmelig nøgle er ikke angivet."
 
-#: includes/core/class-ws-form-submit.php:4129
+#: includes/core/class-ws-form-submit.php:4135
 msgid "Invalid captcha response."
 msgstr "Ugyldigt captcha-svar."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-submit.php:4176
+#: includes/core/class-ws-form-submit.php:4182
 #, php-format
 msgid "Captcha verification failed (%s)."
 msgstr "Captcha-verificering mislykkedes (%s)."
 
-#: includes/core/class-ws-form-submit.php:4183
+#: includes/core/class-ws-form-submit.php:4189
 msgid "Captcha verification response empty."
 msgstr "Captcha-verificeringssvar er tomt."
 
-#: includes/core/class-ws-form-submit.php:4189
+#: includes/core/class-ws-form-submit.php:4195
 msgid "Captcha verification response error."
 msgstr "Fejl i Captcha-verifikationssvar."
 
-#: includes/core/class-ws-form-submit.php:4214
+#: includes/core/class-ws-form-submit.php:4220
 msgid "Captcha Error: The secret parameter was not passed."
 msgstr "Captcha-fejl: Den hemmelige parameter blev ikke sendt."
 
-#: includes/core/class-ws-form-submit.php:4219
+#: includes/core/class-ws-form-submit.php:4225
 msgid "Captcha Error: The secret parameter was invalid or did not exist."
 msgstr "Captcha-fejl: Secret-parameteren var ugyldig eller fandtes ikke."
 
-#: includes/core/class-ws-form-submit.php:4224
+#: includes/core/class-ws-form-submit.php:4230
 msgid "Captcha Error: The response parameter was not passed."
 msgstr "Captcha-fejl: Svarparameteren blev ikke sendt."
 
-#: includes/core/class-ws-form-submit.php:4229
+#: includes/core/class-ws-form-submit.php:4235
 msgid "Captcha Error: The response parameter is invalid or has expired."
 msgstr "Captcha-fejl: Svarparameteren er ugyldig eller er udløbet."
 
-#: includes/core/class-ws-form-submit.php:4234
+#: includes/core/class-ws-form-submit.php:4240
 msgid "Captcha Error: The request was rejected because it was malformed."
 msgstr "Captcha-fejl: Anmodningen blev afvist, fordi den var forkert udformet."
 
-#: includes/core/class-ws-form-submit.php:4239
+#: includes/core/class-ws-form-submit.php:4245
 msgid ""
 "Captcha Error: The response parameter has already been validated before."
 msgstr "Captcha-fejl: Svarparameteren er allerede blevet valideret tidligere."
 
-#: includes/core/class-ws-form-submit.php:4244
+#: includes/core/class-ws-form-submit.php:4250
 msgid ""
 "Captcha Error: An internal error happened while validating the response. The "
 "request can be retried."
@@ -21386,56 +21298,56 @@ msgstr ""
 "Anmodningen kan prøves igen."
 
 #. translators: %s: Error code
-#: includes/core/class-ws-form-submit.php:4250
+#: includes/core/class-ws-form-submit.php:4256
 #, php-format
 msgid "Captcha Error: %s."
 msgstr "Captcha-fejl: %s."
 
-#: includes/core/class-ws-form-submit.php:4259
+#: includes/core/class-ws-form-submit.php:4265
 msgid "Captcha invalid."
 msgstr "Captcha ugyldig."
 
-#: includes/core/class-ws-form-submit.php:4579
+#: includes/core/class-ws-form-submit.php:4585
 msgid "Test form label"
 msgstr "Test formular-etiket"
 
-#: includes/core/class-ws-form-submit.php:4582
+#: includes/core/class-ws-form-submit.php:4588
 msgid "Test message"
 msgstr "Testbesked"
 
-#: includes/core/class-ws-form-submit.php:4583
+#: includes/core/class-ws-form-submit.php:4589
 msgid "Test code"
 msgstr "Testkode"
 
-#: includes/core/class-ws-form-submit.php:4584
+#: includes/core/class-ws-form-submit.php:4590
 msgid "Test file"
 msgstr "Testfil"
 
-#: includes/core/class-ws-form-submit.php:4585
+#: includes/core/class-ws-form-submit.php:4591
 msgid "Test line"
 msgstr "Testlinje"
 
-#: includes/core/class-ws-form-submit.php:4586
+#: includes/core/class-ws-form-submit.php:4592
 msgid "Test trace"
 msgstr "Testspor"
 
-#: includes/core/class-ws-form-submit.php:4754
+#: includes/core/class-ws-form-submit.php:4760
 msgid "Line"
 msgstr "Linje"
 
-#: includes/core/class-ws-form-submit.php:4766
+#: includes/core/class-ws-form-submit.php:4772
 msgid "Trace"
 msgstr "Sporing"
 
-#: includes/core/class-ws-form-submit.php:4798
+#: includes/core/class-ws-form-submit.php:4804
 msgid "Form Submission Error"
 msgstr "Fejl ved formularindsendelse"
 
-#: includes/core/class-ws-form-submit.php:4880
+#: includes/core/class-ws-form-submit.php:4886
 msgid "Invalid form ID (WS_Form_Submit | db_check_form_id)"
 msgstr "Ugyldigt formular-id (WS_Form_Submit | db_check_form_id)"
 
-#: includes/core/class-ws-form-submit.php:4887
+#: includes/core/class-ws-form-submit.php:4893
 msgid "Invalid submit ID (WS_Form_Submit | db_check_id)"
 msgstr "Ugyldigt indsendelses-ID (WS_Form_Submit | db_check_id)"
 
@@ -21465,37 +21377,55 @@ msgid "Unable to read template JSON file: %s"
 msgstr "Kan ikke læse JSON-skabelonfilen: %s"
 
 #. translators: %s: Template file path
-#: includes/core/class-ws-form-template.php:608
+#: includes/core/class-ws-form-template.php:611
 #, php-format
 msgid "Unable to write template file: %s"
 msgstr "Kan ikke skrive skabelonfil: %s"
 
-#: includes/core/class-ws-form-template.php:650
+#: includes/core/class-ws-form-template.php:653
 msgid "My Sections"
 msgstr "Mine sektioner"
 
-#: includes/core/class-ws-form-template.php:692
-#: includes/core/class-ws-form-template.php:721
+#: includes/core/class-ws-form-template.php:695
+#: includes/core/class-ws-form-template.php:724
 msgid "No actions installed"
 msgstr "Ingen foranstaltninger installeret"
 
-#: includes/core/class-ws-form-template.php:732
+#: includes/core/class-ws-form-template.php:735
 msgid "Action not compatible with this function"
 msgstr "Handling, der ikke er kompatibel med denne funktion"
 
-#: includes/core/class-ws-form-template.php:789
+#: includes/core/class-ws-form-template.php:792
 msgid "Blank"
 msgstr "Blank"
 
-#: includes/core/class-ws-form-template.php:835
+#: includes/core/class-ws-form-template.php:850
 msgid "Preview Template"
 msgstr "Eksempel på skabelon"
 
-#: includes/core/class-ws-form-template.php:1027
+#: includes/core/class-ws-form-template.php:867
+msgid "Connect an AI Provider"
+msgstr "Forbind en AI-udbyder"
+
+#: includes/core/class-ws-form-template.php:868
+msgid ""
+"Before you can use AI templates, you need to connect an AI provider. Set up "
+"your connectors in Settings > Connectors."
+msgstr ""
+"Før du kan bruge AI-skabeloner, skal du forbinde en AI-udbyder. Opsæt dine "
+"connectors under Indstillinger > Connectors."
+
+# GPT: “Connectors” could be translated as “forbindelser”, but in plugin/admin UI it’s commonly used as the feature name, so I kept it as the loanword “connectorer”.
+#: includes/core/class-ws-form-template.php:871
+#, fuzzy
+msgid "Set Up Connectors"
+msgstr "Opsæt connectorer"
+
+#: includes/core/class-ws-form-template.php:1057
 msgid "Invalid ID"
 msgstr "Ugyldigt ID"
 
-#: includes/core/class-ws-form-template.php:1041
+#: includes/core/class-ws-form-template.php:1071
 msgid "Invalid action ID"
 msgstr "Ugyldigt handlings-ID"
 
@@ -21568,13 +21498,13 @@ msgid "Return a JSON string for a form for the following description: %s"
 msgstr ""
 "Returnér en JSON-streng for en formular ud fra følgende beskrivelse: %s"
 
-#: includes/core/class-ws-form-wp-ai-client.php:79
+#: includes/core/class-ws-form-wp-ai-client.php:81
 msgid "To create a form with AI, you’ll need to connect an AI provider first."
 msgstr ""
 "For at oprette en formular med AI skal du først forbinde en AI-udbyder."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-wp-ai-client.php:129
+#: includes/core/class-ws-form-wp-ai-client.php:133
 #, php-format
 msgid "%s ability unavailable"
 msgstr "%s-rettighed er ikke tilgængelig"
@@ -22283,32 +22213,32 @@ msgid "Foundation 6.4+"
 msgstr "Foundation 6.4+"
 
 #. translators: the plugin name.
-#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:263
+#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:295
 #, php-format
 msgid "There is a new version of %1$s available."
 msgstr "Der er en ny version af %1$s tilgængelig."
 
-#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:269
+#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:301
 msgid "Contact your network administrator to install the update."
 msgstr "Kontakt din netværksadministrator for at installere opdateringen."
 
 #. translators: %1$s: Opening anchor tag, do not translate, %2$s: The new plugin version %3$s: Closing anchor tag, do not translate.
-#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:274
+#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:306
 #, php-format
 msgid "%1$sView version %2$s details%3$s."
 msgstr "%1$s Se version %2$s detaljer%3$s."
 
 #. translators: %1$s: Opening anchor tag, do not translate, %2$s: The new plugin version %3$s: Closing anchor tag, do not translate., %4$s: Opening anchor tag, do not translate, %5$s: Closing anchor tag, do not translate
-#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:284
+#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:316
 #, php-format
 msgid "%1$sView version %2$s details%3$s or %4$supdate now%5$s."
 msgstr "%1$s Se oplysninger om version %2$s%3$s eller %4$sopdater nu%5$s."
 
-#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:295
+#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:327
 msgid "Update now."
 msgstr "Opdater nu."
 
-#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:532
+#: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:573
 msgid "You do not have permission to install plugin updates"
 msgstr "Du har ikke tilladelser til at installere opdateringer til plugins"
 
@@ -22666,6 +22596,141 @@ msgstr "https://wsform.com/"
 #. Description of the plugin/theme
 msgid "Smart. Fast. Forms."
 msgstr "Smart. Hurtig. Formularer."
+
+#~ msgid "Click to Start"
+#~ msgstr "Klik for at starte"
+
+#~ msgid "How familiar are you with building forms?"
+#~ msgstr "Hvor fortrolig er du med byggeformer?"
+
+#~ msgid "If you're new to building forms, we'll keep it simple."
+#~ msgstr ""
+#~ "Hvis du er nybegynder med at bygge formularer, holder vi det enkelt."
+
+#~ msgid "Keep It Simple"
+#~ msgstr "Hold det enkelt"
+
+#~ msgid "I'm Familiar"
+#~ msgstr "Jeg er bekendt"
+
+#~ msgid "I'm a Developer"
+#~ msgstr "Jeg er en udvikler"
+
+#, php-format
+#~ msgid "You're using %s"
+#~ msgstr "Du bruger %s"
+
+#~ msgid "Is that correct?"
+#~ msgstr "Er det korrekt?"
+
+#~ msgid "I'm Not Sure"
+#~ msgstr "Jeg er ikke sikker"
+
+#~ msgid "Does your theme use a front-end framework?"
+#~ msgstr "Bruger dit tema en front-end ramme?"
+
+#~ msgid "If you are not sure, skip this and you can change it later."
+#~ msgstr ""
+#~ "Hvis du ikke er sikker, kan du springe over dette punkt, og du kan ændre "
+#~ "det senere."
+
+#~ msgid "No Framework"
+#~ msgstr "Framework"
+
+#~ msgid "Skip This"
+#~ msgstr "Spring dette over"
+
+#~ msgid "All Done!"
+#~ msgstr "Alt klart!"
+
+#~ msgid "You're ready to build your first form."
+#~ msgstr "Du er nu klar til at bygge din første formular."
+
+#~ msgid "Get Started..."
+#~ msgstr "Kom i gang..."
+
+#~ msgid "Whoops! Something went wrong."
+#~ msgstr "Ups! Noget gik galt."
+
+#~ msgid ""
+#~ "There appears to be a problem with your hosting. For more information, "
+#~ "click the 'Help' button below."
+#~ msgstr ""
+#~ "Der ser ud til at være et problem med din hosting. Klik på knappen "
+#~ "\"Hjælp\" nedenfor for at få flere oplysninger."
+
+#~ msgid "Try Again"
+#~ msgstr "Prøv igen"
+
+#~ msgid "Framework not specified"
+#~ msgstr "Ramme ikke specificeret"
+
+#~ msgid "Invalid framework specified"
+#~ msgstr "Ugyldig ramme angivet"
+
+#~ msgid "Invalid mode specified"
+#~ msgstr "Ugyldig tilstand angivet"
+
+#~ msgid "How many days until a submission is automatically deleted?"
+#~ msgstr "Hvor mange dage går der, før en indsendelse slettes automatisk?"
+
+#~ msgid ""
+#~ "To generate text with AI, you’ll need to connect an AI provider first. "
+#~ "Add your credentials in the WordPress AI settings that supports text "
+#~ "generation."
+#~ msgstr ""
+#~ "For at generere tekst med AI skal du først forbinde en AI-udbyder. Tilføj "
+#~ "dine loginoplysninger i WordPress’ AI-indstillinger, der understøtter "
+#~ "tekstgenerering."
+
+#~ msgid ""
+#~ "To generate images with AI, you’ll need to connect an AI provider first. "
+#~ "Add your credentials in the WordPress AI settings that supports text "
+#~ "generation."
+#~ msgstr ""
+#~ "For at generere billeder med AI skal du først forbinde en AI-udbyder. "
+#~ "Tilføj dine loginoplysninger i WordPress’ AI-indstillinger, der "
+#~ "understøtter billedgenerering."
+
+#~ msgid ""
+#~ "To generate speech with AI, you’ll need to connect an AI provider first. "
+#~ "Add your credentials in the WordPress AI settings that supports speech "
+#~ "generation."
+#~ msgstr ""
+#~ "For at generere tale med AI skal du først forbinde en AI-udbyder. Tilføj "
+#~ "dine legitimationsoplysninger i WordPress AI-indstillingerne, som "
+#~ "understøtter talegenerering."
+
+#~ msgid ""
+#~ "Controls randomness: Lowering results in less random completions. As the "
+#~ "temperature approaches zero, the model will become deterministic and "
+#~ "repetitive."
+#~ msgstr ""
+#~ "Styrer tilfældighed: Sænkning giver mindre tilfældige fuldførelser. Når "
+#~ "temperaturen nærmer sig nul, bliver modellen deterministisk og repetitiv."
+
+#~ msgid ""
+#~ "Advanced mode allows variables and calculations to be used in field "
+#~ "settings."
+#~ msgstr ""
+#~ "Avanceret tilstand gør det muligt at bruge variabler og beregninger i "
+#~ "feltindstillinger."
+
+#~ msgid "Advanced mode allows variables to be used in field settings."
+#~ msgstr ""
+#~ "Avanceret tilstand gør det muligt at bruge variabler i feltindstillinger."
+
+#~ msgid "Section IDs"
+#~ msgstr "Afsnittets ID'er"
+
+#~ msgid "Show IDs on sections."
+#~ msgstr "Vis ID'er på sektioner."
+
+#~ msgid "Field IDs"
+#~ msgstr "Felt-id'er"
+
+#~ msgid "Show IDs on fields. Useful for #field(nnn) variables."
+#~ msgstr "Vis ID'er på felter. Nyttigt for #field(nnn)-variabler."
 
 #~ msgid "Group index not specified"
 #~ msgstr "Gruppeindeks ikke angivet"

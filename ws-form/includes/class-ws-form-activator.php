@@ -12,7 +12,7 @@
 
 			// These are set here to avoid problems if someone has both plugins installed and migrates from basic to PRO without de-activating the basic edition first. This ensures the PRO options are set up.
 			$ws_form_edition = 'basic';
-			$ws_form_version = '1.11.11';
+			$ws_form_version = '1.11.14';
 
 			$run_version_check = true;
 
@@ -467,6 +467,21 @@
 					array('%s', '%s'),
 					array('%s', '%s')
 				);
+			}
+
+			// Basic / Advanced mode removed - everything now behaves as Advanced
+			$mode = WS_Form_Common::option_get('mode', false);
+
+			if($mode !== false) {
+
+				// For installs previously in Basic mode, apply the Advanced equivalents
+				if($mode === 'basic') {
+
+					WS_Form_Common::option_set('helper_compatibility', true);
+				}
+
+				// Remove the orphaned mode option
+				WS_Form_Common::option_remove('mode');
 			}
 		}
 	}

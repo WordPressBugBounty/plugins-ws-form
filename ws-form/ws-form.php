@@ -11,7 +11,7 @@
 	 * Plugin Name:       WS Form LITE - Drag & Drop Contact Form Builder
 	 * Plugin URI:        https://wsform.com/
 	 * Description:       Smart. Fast. Forms.
-	 * Version:           1.11.11
+	 * Version:           1.11.14
 	 * Requires at least: 5.5
 	 * Requires PHP:      7.2
 	 * Author:            WS Form
@@ -37,7 +37,7 @@
 	if(!is_plugin_active('ws-form-pro/ws-form.php')) {
 		// Constants
 		define('WS_FORM_NAME', 'ws-form');
-		define('WS_FORM_VERSION', '1.11.11');
+		define('WS_FORM_VERSION', '1.11.14');
 		define('WS_FORM_NAME_GENERIC', 'WS Form');
 		define('WS_FORM_NAME_PRESENTABLE', 'WS Form LITE');
 		define('WS_FORM_EDITION', 'basic');
@@ -78,10 +78,6 @@
 		define('WS_FORM_COMPATIBILITY_URL', 'https://caniuse.com');
 		define('WS_FORM_COMPATIBILITY_MASK', 'https://caniuse.com/#feat=#compatibility_id');
 
-		// Modes
-		define('WS_FORM_MODES', 'basic,advanced');
-		define('WS_FORM_DEFAULT_MODE', 'basic');
-
 		// Captchas / Spam
 		define('WS_FORM_RECAPTCHA_ENDPOINT', 'https://www.google.com/recaptcha/api/siteverify');
 		define('WS_FORM_RECAPTCHA_QUERY_VAR', 'g-recaptcha-response');
@@ -121,6 +117,9 @@
 
 		// Review nag
 		define('WS_FORM_REVIEW_NAG_DURATION', 14);
+
+		// Layout editor intro tutorial (intro.js hints). Set to false to disable the first-run tutorial.
+		define('WS_FORM_INTRO', false);
 
 		// Data sources
 		define('WS_FORM_DATA_SOURCE_SCHEDULE_ID_PREFIX', 'wsf_');

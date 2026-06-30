@@ -1140,7 +1140,7 @@
 			'id': this.form_id_prefix + 'section-' + section.id + (section_repeatable_index ? ('-repeat-' + section_repeatable_index) : ''),
 			'label': label_html_parsed,
 			'section': section_single_html,
-			'section_id': (($.WS_Form.settings_plugin.helper_section_id) ? ('<span class="wsf-section-id">' + this.language('id') + ': ' + section.id + '</span>') : '')
+			'section_id': '<span class="wsf-section-id">' + this.language('id') + ': ' + section.id + '</span>'
 		};
 
 		var section_html_parsed = this.comment_html(this.language('comment_section') + ': ' + section_label) + this.mask_parse(mask, mask_values) + this.comment_html(this.language('comment_section') + ': ' + section_label, true);

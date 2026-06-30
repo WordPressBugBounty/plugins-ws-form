@@ -44,10 +44,6 @@
 .wsf-form select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2])::-ms-expand {
   display: none;
 }
-.wsf-form select.wsf-field:not([multiple]):not([size]):not([data-wsf-select2]):-moz-focusring {
-  color: transparent;
-  text-shadow: 0 0 0 #000;
-}
 .wsf-form select.wsf-field optgroup {
   font-weight: bold;
 }

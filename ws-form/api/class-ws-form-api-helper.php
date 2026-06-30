@@ -158,77 +158,12 @@
 		}
 
 
-		// API - Push setup
-		public function api_setup_push($parameters) {
+		// API - API check dismiss (clears the welcome screen REST API warning)
+		public function api_api_check_dismiss($parameters) {
 
-			// Get framework
-			$framework = WS_Form_Common::get_query_var_nonce('framework', '', $parameters);
-			if($framework == '') { self::api_throw_error(esc_html__('Framework not specified', 'ws-form')); }
+			WS_Form_Common::option_set('api_check_warning', false);
 
-			// Check framework
-			$frameworks = WS_Form_Config::get_frameworks(false);
-			if(!isset($frameworks['types'][$framework])) { self::api_throw_error(esc_html__('Invalid framework specified', 'ws-form')); }
-
-			// Get mode
-			$mode = WS_Form_Common::get_query_var_nonce('mode', '', $parameters);
-			if($mode == '') { $mode = WS_FORM_DEFAULT_MODE; }
-
-			// Check mode
-			$modes = explode(',', WS_FORM_MODES);
-			if(!in_array($mode, $modes)) { self::api_throw_error(esc_html__('Invalid mode specified', 'ws-form')); }
-
-			// Set framework
-			WS_Form_Common::option_set('framework', $framework);
-
-			// Set mode
-			WS_Form_Common::option_set('mode', $mode);
-
-			// Configure settings according to mode selected
-			$options = WS_Form_Config::get_options(false);
-			foreach($options as $tab => $data) {
-
-				if(isset($data['fields'])) {
-
-					$fields = $data['fields'];
-				}
-
-				if(isset($data['groups'])) {
-
-					$groups = $data['groups'];
-
-					foreach($groups as $group) {
-
-						$fields = $group['fields'];
-
-						self::api_set_push_options($mode, $fields);
-					}
-				}
-			}
-
-			// Set setup (true = complete)
-			WS_Form_Common::option_set('setup', true);
-
-			// Success
-			self::api_json_response([], 0, false);
-		}
-
-		// API - Push setup - Set options
-		public function api_set_push_options($mode, $fields) {
-
-			foreach($fields as $key => $attributes) {
-
-				if(
-					isset($attributes['type']) && 
-					($attributes['type'] != 'static') && 
-					isset($attributes['mode']) &&
-					isset($attributes['mode'][$mode])
-				) {
-
-					$value = $attributes['mode'][$mode];
-
-					WS_Form_Common::option_set($key, $value);
-				}
-			}
+			return array('error' => false);
 		}
 
 		// API - Support contact submit
@@ -578,6 +513,12 @@
 				return array('error' => true, 'error_message' => $access->get_error_message());
 
 			} else {
+
+				// REST API is reachable - clear any pending welcome screen API check warning
+				if(WS_Form_Common::option_get('api_check_warning', false)) {
+
+					WS_Form_Common::option_set('api_check_warning', false);
+				}
 
 				return array('error' => false, 'version' => WS_FORM_VERSION, 'edition' => WS_FORM_EDITION, 'license' => WS_Form_Common::get_license_key_obscured());
 			}

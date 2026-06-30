@@ -60,20 +60,6 @@
 							'heading'	=>	__('Layout Editor', 'ws-form'),
 							'fields'	=>	array(
 
-								'mode'	=> array(
-
-									'label'		=>	__('Mode', 'ws-form'),
-									'type'		=>	'select',
-									'help'		=>	__('Advanced mode allows variables to be used in field settings.', 'ws-form'),
-									'default'	=>	'basic',
-									'admin'		=>	true,
-									'options'	=>	array(
-
-										'basic'		=>	array('text' => __('Basic', 'ws-form')),
-										'advanced'	=>	array('text' => __('Advanced', 'ws-form'))
-									)
-								),
-
 								'helper_columns'	=>	array(
 
 									'label'		=>	__('Column Guidelines', 'ws-form'),
@@ -117,13 +103,8 @@
 									'label'		=>	__('HTML Compatibility Helpers', 'ws-form'),
 									'type'		=>	'checkbox',
 									'help'		=>	__('Show HTML compatibility helper links (Data from', 'ws-form') . ' <a href="' . WS_FORM_COMPATIBILITY_URL . '" target="_blank">' . WS_FORM_COMPATIBILITY_NAME . '</a>).',
-									'default'	=>	false,
+									'default'	=>	true,
 									'admin'		=>	true,
-									'mode'		=>	array(
-
-										'basic'		=>	false,
-										'advanced'	=>	true
-									),
 								),
 
 								'helper_icon_tooltip' => array(
@@ -144,41 +125,11 @@
 									'admin'		=>	true
 								),
 
-								'helper_section_id'	=> array(
-
-									'label'		=>	__('Section IDs', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Show IDs on sections.', 'ws-form'),
-									'default'	=>	true,
-									'admin'		=>	true,
-									'mode'		=>	array(
-
-										'basic'		=>	false,
-										'advanced'	=>	true
-									),
-								),
-
-								'helper_field_id'	=> array(
-
-									'label'		=>	__('Field IDs', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	__('Show IDs on fields. Useful for #field(nnn) variables.', 'ws-form'),
-									'default'	=>	true,
-									'admin'		=>	true
-								),
-
 								'helper_select2_on_mousedown'	=> array(
 
 									'label'		=>	__('Searchable Sidebar Dropdowns', 'ws-form'),
 									'type'		=>	'checkbox',
-									'help'		=>	sprintf(
-
-										'%s<br><em>%s</em>',
-
-										__('If enabled, dropdown settings in the sidebar with 20 or more options will become searchable.', 'ws-form'),
-
-										__('Experimental', 'ws-form')
-									),
+									'help'		=>	__('If enabled, dropdown settings in the sidebar with 20 or more options will become searchable.', 'ws-form'),
 									'default'	=>	false,
 									'admin'		=>	true
 								)

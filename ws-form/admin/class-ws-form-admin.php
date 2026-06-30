@@ -60,7 +60,7 @@
 			$this->plugin_name = WS_FORM_NAME;
 			$this->version = WS_FORM_VERSION;
 			$this->user_meta_hidden_columns = 'managews-form_page_ws-form-submitcolumnshidden';	// AJAX function is in helper API
-			$this->intro = WS_Form_Common::option_get('intro', false);
+			$this->intro = (defined('WS_FORM_INTRO') && WS_FORM_INTRO) ? WS_Form_Common::option_get('intro', false) : false;
 
 			// Activator to check for edition and version changes
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-activator.php';
@@ -337,9 +337,6 @@
 					wp_enqueue_script($this->plugin_name . '-form-common');
 					wp_localize_script($this->plugin_name . '-form-common', 'ws_form_settings', $ws_form_settings);
 					wp_enqueue_script($this->plugin_name);
-
-					// Vimeo
-					wp_enqueue_script('vimeo-player', 'https://player.vimeo.com/api/player.js', array(), $this->version, true);
 
 					$this->ws_form_hook = $hook;
 
@@ -1791,9 +1788,6 @@
 
 							$fields = [];
 
-							// Save current mode
-							$mode_old = WS_Form_Common::option_get('mode');
-
 							// Build field list
 							if(isset($options[$tabCurrent]['fields'])) {
 
@@ -1811,33 +1805,6 @@
 
 							// Update fields
 							self::settings_update_fields($fields, $max_uploads, $max_upload_size);
-
-							// Update fields if mode has changed
-							$mode = WS_Form_Common::option_get('mode');
-
-							if($mode_old != $mode) {
-
-								foreach($options as $tab => $attributes) {
-
-									if(isset($attributes['fields'])) {
-
-										$fields = $attributes['fields'];
-										self::setting_mode_change_fields($fields, $mode);
-									}
-
-									if(isset($attributes['groups'])) {
-
-										$groups = $attributes['groups'];
-
-										foreach($groups as $group) {
-
-											$fields = $group['fields'];
-
-											self::setting_mode_change_fields($fields, $mode);
-										}
-									}
-								}
-							}
 
 							// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 							do_action('wsf_settings_update');
@@ -2482,23 +2449,6 @@
 			if(WS_Form_Common::get_admin_message_count() == 0) {
 
 				WS_Form_Common::admin_message_push('Successfully saved settings!');
-			}
-		}
-
-		public function setting_mode_change_fields($fields, $mode) {
-
-			// Update
-			foreach($fields as $field => $attributes) {
-
-				// Set according to mode
-				if(
-					(isset($attributes['type']) && ($attributes['type'] != 'static')) &&
-					(isset($attributes['mode']) && isset($attributes['mode'][$mode]))
-				) {
-
-					$value = $attributes['mode'][$mode];
-					WS_Form_Common::option_set($field, $value);
-				}
 			}
 		}
 
