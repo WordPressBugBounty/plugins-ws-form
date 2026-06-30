@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, lead-generation, gdpr
 Requires at least: 5.5
 Tested up to: 7.0
-Stable tag: 1.11.14
+Stable tag: 1.11.15
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -367,6 +367,9 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.11.15 - 06/30/2026 =
+* Bug Fix: Resolved a language reference console warning that could occur when rendering forms
+
 = 1.11.14 - 06/29/2026 =
 * Added: wsf_cookie_expiry filter hook for overriding the expiry (in seconds) of cookies set by WS Form
 * Added: Support for j F, Y European date format (e.g. 8 June, 2018) in the date/time picker
@@ -379,9 +382,5 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 = 1.11.13 - 06/22/2026 =
 * Added: Protection against a fatal error caused by a misconfigured WordPress installation, where WordPress is set to use the FTP/SSH filesystem method but no credentials have been provided
 * Bug Fix: Plugin updater is now registered on the 'init' hook instead of 'admin_init' so available updates are detected during WP-Cron and REST/background requests, not just on admin page loads
-
-= 1.11.12 - 06/19/2026 =
-* Bug Fix: CodeMirror field edits now trigger input and change events so conditional logic and validation update correctly
-* Bug Fix: Select2 cascading fields now clear cached option data when options are rebuilt, fixing selection issues with multiple selects
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

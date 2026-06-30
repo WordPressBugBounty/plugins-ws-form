@@ -6338,6 +6338,7 @@
 				// Filter cookie expiry (in seconds)
 				if($set_expires) {
 
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 					$cookie_timeout = intval(apply_filters('wsf_cookie_expiry', $cookie_timeout, $cookie_name, $cookie_value, $form_id));
 				}
 

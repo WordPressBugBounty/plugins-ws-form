@@ -2,6 +2,9 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.11.15 - 06/30/2026 =
+* Bug Fix: Resolved a language reference console warning that could occur when rendering forms
+
 = 1.11.14 - 06/29/2026 =
 * Added: wsf_cookie_expiry filter hook for overriding the expiry (in seconds) of cookies set by WS Form
 * Added: Support for j F, Y European date format (e.g. 8 June, 2018) in the date/time picker
