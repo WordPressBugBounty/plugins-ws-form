@@ -333,7 +333,8 @@
   background-color: var(--wsf-field-radio-checked-image-border-color);
   border-color: var(--wsf-field-radio-checked-image-border-color);
 }
-.wsf-form [data-type=radio] .wsf-grid.wsf-fields .wsf-label-wrapper label.wsf-label {
+.wsf-form [data-type=radio] .wsf-grid.wsf-fields .wsf-label-wrapper label.wsf-label,
+.wsf-form [data-type=radio] .wsf-grid.wsf-fields .wsf-label-wrapper div.wsf-label {
   padding: 0;
 }
 .wsf-form [data-row-radio] {

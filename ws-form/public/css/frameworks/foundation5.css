@@ -233,10 +233,6 @@
 	margin: 0 0 1rem 0 !important;
 }
 
-.wsf-form .wsf-hidden {
-	display: none !important;
-}
-
 .wsf-form .collapse select ~ .select2-container {
 	flex: 1 1 auto;
 	min-width: 0;

@@ -1118,8 +1118,9 @@
 			}
 
 			// ARIA label
-			var aria_label = this.get_object_meta_value(section, 'aria_label', '');
-			if(aria_label == '') { aria_label = section.label; }
+			var aria_label = this.strip_html(this.get_object_meta_value(section, 'aria_label', ''));
+			if(aria_label == '') { aria_label = this.strip_html(section.label); }
+			if(aria_label == '') { aria_label = this.strip_html(this.language('comment_section')); }
 			attributes = this.attribute_modify(attributes, 'aria-label', aria_label, true);
 
 			// Custom attributes
@@ -1225,7 +1226,7 @@
 		var section_label = this.esc_html(section.label)
 		var label_render = !this.is_admin && (this.get_object_meta_value(section, 'label_render', 'on') == 'on') ? true : false;
 
-		if(label_render) {
+		if(label_render && (section_label != '')) {
 
 			var label_mask_section = !this.is_admin ? this.get_object_meta_value(this.form, 'label_mask_section', '') : '';
 			var mask = (label_mask_section != '') ? label_mask_section : ((typeof framework_fields.mask_wrapper_label !== 'undefined') ? framework_fields.mask_wrapper_label : '');
@@ -1234,7 +1235,7 @@
 
 		} else {
 
-			var label_html_parsed = '';
+			var label_html_parsed = this.is_admin ? '' : '<legend class="wsf-hidden-element">' + (section_label != '' ? section_label : this.esc_html(this.language('comment_section'))) + '</legend>';
 		}
 
 		// Fields
@@ -1624,6 +1625,30 @@
 	$.WS_Form.prototype.esc_html_undo = function(value) {
 
 		return new DOMParser().parseFromString(value, 'text/html').documentElement.textContent;
+	}
+
+	$.WS_Form.prototype.strip_html = function(value) {
+
+		if(typeof value === 'number') { value = value.toString(); }
+		if(typeof value !== 'string') { return ''; }
+		if((value.indexOf('<') === -1) && (value.indexOf('>') === -1)) { return value.trim(); }
+
+		// Decode encoded markup before parsing, e.g. &lt;strong&gt;Text&lt;/strong&gt;.
+		var textarea = document.createElement('textarea');
+		textarea.innerHTML = value;
+		value = textarea.value;
+
+		var doc = new DOMParser().parseFromString(value, 'text/html');
+		var elements_remove = doc.querySelectorAll('script, style, template');
+
+		for(var elements_remove_index = 0; elements_remove_index < elements_remove.length; elements_remove_index++) {
+
+			elements_remove[elements_remove_index].remove();
+		}
+
+		value = doc.body.textContent;
+
+		return (value === null) ? '' : value.trim();
 	}
 
 	// Escape attribute
@@ -5533,10 +5558,26 @@
 
 		var mask_field_label = label_render ? this.get_field_value_fallback(field.type, label_position, 'mask_field_label', '', false, sub_type) : '';
 		var mask_field_label_hide_group = this.get_field_value_fallback(field.type, label_position, 'mask_field_label_hide_group', false, false, sub_type);
+		var mask_group_wrapper_role = false;
 		var mask_help = this.get_field_value_fallback(field.type, label_position, 'mask_help', '', false, sub_type);
 		var mask_help_append = this.get_field_value_fallback(field.type, label_position, 'mask_help_append', '', false, sub_type);
 		var mask_help_append_separator = this.get_field_value_fallback(field.type, label_position, 'mask_help_append_separator', '', false, sub_type);
 		var mask_invalid_feedback = this.get_field_value_fallback(field.type, label_position, 'mask_invalid_feedback', '', false, sub_type);
+
+		switch(field.type) {
+
+			case 'checkbox' :
+			case 'price_checkbox' :
+
+				mask_group_wrapper_role = 'group';
+				break;
+
+			case 'radio' :
+			case 'price_radio' :
+
+				mask_group_wrapper_role = 'radiogroup';
+				break;
+		}
 
 		// Get values
 		var default_value = this.get_object_meta_value(field, 'default_value', '', false, true);
@@ -6149,6 +6190,11 @@
 					continue;
 				}
 
+				// Should group data mask be used?
+				var mask_group_use = (
+					(typeof data_group.mask_group !== 'undefined') ? this.is_true(data_group.mask_group) : false
+				) || mask_group_always;
+
 				// Get group label
 				if(typeof data_group.label === 'undefined') { this.error('error_data_group_label'); return ''; }
 				switch(field.type) {
@@ -6176,14 +6222,18 @@
 
 				} else {
 
-					mask_values_group.group_label = '';
+					if((mask_group !== false) && mask_group_use && (mask_group.indexOf('<fieldset') !== -1)) {
+
+						mask_values_group.group_label = '<legend class="wsf-hidden-element">' + this.esc_html(data_group.label != '' ? data_group.label : this.language('comment_group')) + '</legend>';
+
+					} else {
+
+						mask_values_group.group_label = '';
+					}
 				}
 
 				// Get group disabled (optional)
 				mask_values_group.disabled = (typeof data_group.disabled !== 'undefined') ? (data_group.disabled == 'on' ? ' disabled' : '') : '';
-
-				// Should group data mask be used?
-				var mask_group_use = ((typeof data_group.mask_group !== 'undefined') ? (data_group.mask_group == 'on') : false) || mask_group_always;
 
 				// Should field label be hidden if groups are in use
 				if(mask_group_use && mask_field_label_hide_group) { mask_field_label = ''; }
@@ -6601,9 +6651,12 @@
 				// Check for group wrapper
 				if(mask_group_wrapper != '') {
 
+					var mask_group_wrapper_parse = mask_group_wrapper;
+
 					var mask_values_group_wrapper = {
 
-						group : group
+						group : group,
+						attributes : ''
 					};
 
 					if(
@@ -6614,7 +6667,23 @@
 
 						mask_values_group_wrapper.attributes = ' class="' + this.esc_attr(orientation_group_wrapper_class) + '"';
 					}
-					group = this.mask_parse(mask_group_wrapper, mask_values_group_wrapper);
+
+					if(
+						!mask_group_use &&
+						label_render &&
+						(mask_group_wrapper_role !== false) &&
+						(mask_field_label.indexOf('#attributes') !== -1)
+					) {
+
+						if(mask_group_wrapper.indexOf(' role=') === -1) { mask_values_group_wrapper.attributes = this.attribute_modify(mask_values_group_wrapper.attributes, 'role', mask_group_wrapper_role); }
+						mask_values_group_wrapper.attributes = this.attribute_modify(mask_values_group_wrapper.attributes, 'aria-labelledby', this.form_id_prefix + 'label-' + field.id + repeatable_suffix);
+					}
+					if(mask_group_use && (mask_group_wrapper_role !== false)) {
+
+						mask_group_wrapper_parse = mask_group_wrapper_parse.replace(/\srole=(["'])(?:radio)?group\1/g, '');
+						mask_group_wrapper_parse = mask_group_wrapper_parse.replace(/\srole=(?:radio)?group(?=[\s>])/g, '');
+					}
+					group = this.mask_parse(mask_group_wrapper_parse, mask_values_group_wrapper);
 				}
 
 				if((mask_group !== false) && mask_group_use) {
@@ -6656,12 +6725,15 @@
 			}
 
 			// aria_labelledby (Used if aria_label is blank)
-			var aria_label = this.get_object_meta_value(field, 'aria_label', false, false, true);
+			var aria_label = this.strip_html(this.get_object_meta_value(field, 'aria_label', false, false, true));
 			if(aria_label === '') {
+
+				var field_label_stripped = this.strip_html(field.label);
 
 				if(
 					label_render &&
-					(mask_field_label.indexOf('#attributes') !== -1)	// Without attributes, we cannot reference the ID
+					(mask_field_label.indexOf('#attributes') !== -1) &&	// Without attributes, we cannot reference the ID
+					(field_label_stripped === field.label)
 				) {
 
 					// Use aria_labelledby instead of aria_label
@@ -6670,7 +6742,7 @@
 				} else {
 
 					// Set to label
-					extra_values.aria_label = field.label;
+					extra_values.aria_label = field_label_stripped;
 				}
 			}
 
@@ -7099,8 +7171,12 @@
 					attribute_values[get_object_meta_value_key] = meta_value;
 				}
 
-				// HTML encode value
-				meta_value = this.esc_html(meta_value);
+				// Strip HTML tags
+				var meta_key_strip_tags = this.is_admin ? ((typeof meta_key.strip_tags !== 'undefined') ? meta_key.strip_tags : false) : ((typeof meta_key.s !== 'undefined') ? meta_key.s : false);
+				if(meta_key_strip_tags) { meta_value = this.strip_html(meta_value); }
+
+				// Attribute encode value
+				meta_value = this.esc_attr(meta_value);
 
 				// Parse mask
 				var attribute_meta_value = this.mask_parse(meta_key_mask, {'value': meta_value});

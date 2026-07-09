@@ -2,6 +2,12 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.11.16 - 07/09/2026 =
+* Added: Improved accessibility of section legends, checkbox/radio option groups, the top admin menu, and debug console
+* Added: Improved ARIA labels generated from labels containing HTML
+* Added: Styler back button
+* Changed: Checkbox and radio group labels now use non-label elements for improved accessibility compliance
+
 = 1.11.15 - 06/30/2026 =
 * Bug Fix: Resolved a language reference console warning that could occur when rendering forms
 

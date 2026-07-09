@@ -1,9 +1,9 @@
 === WS Form LITE - Drag & Drop Contact Form Builder ===
 Contributors: westguard
-Tags: contact-form, form-builder, forms, lead-generation, gdpr
+Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
 Tested up to: 7.0
-Stable tag: 1.11.15
+Stable tag: 1.11.16
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -367,6 +367,12 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.11.16 - 07/09/2026 =
+* Added: Improved accessibility of section legends, checkbox/radio option groups, the top admin menu, and debug console
+* Added: Improved ARIA labels generated from labels containing HTML
+* Added: Styler back button
+* Changed: Checkbox and radio group labels now use non-label elements for improved accessibility compliance
+
 = 1.11.15 - 06/30/2026 =
 * Bug Fix: Resolved a language reference console warning that could occur when rendering forms
 
@@ -378,9 +384,5 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 * Bug Fix: Forms list table columns now size to their content, so long shortcodes no longer overflow the Shortcode column and column heading sort indicators no longer wrap to a second line
 * Bug Fix: Layout editor would not allow a field or section to be dropped into a section that had to be scrolled into view during the drag, because cached drop target positions were not refreshed while auto-scrolling
 * Bug Fix: Selected text in select fields became invisible when focused via keyboard in modern Firefox, caused by an obsolete :-moz-focusring transparency hack that newer Firefox versions no longer compensate for
-
-= 1.11.13 - 06/22/2026 =
-* Added: Protection against a fatal error caused by a misconfigured WordPress installation, where WordPress is set to use the FTP/SSH filesystem method but no credentials have been provided
-* Bug Fix: Plugin updater is now registered on the 'init' hook instead of 'admin_init' so available updates are detected during WP-Cron and REST/background requests, not just on admin page loads
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

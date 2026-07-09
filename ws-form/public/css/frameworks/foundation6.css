@@ -231,10 +231,6 @@
 	margin: 0 0 1rem !important;
 }
 
-.wsf-form .wsf-hidden {
-	display: none !important;
-}
-
 .wsf-form .select2-container--default .select2-selection--single,
 .wsf-form .select2-container--default .select2-selection--multiple {
 	border-radius: 0;

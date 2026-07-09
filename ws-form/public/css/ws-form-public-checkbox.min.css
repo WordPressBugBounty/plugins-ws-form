@@ -309,7 +309,8 @@
   background-color: var(--wsf-field-checkbox-checked-image-border-color);
   border-color: var(--wsf-field-checkbox-checked-image-border-color);
 }
-.wsf-form [data-type=checkbox] .wsf-grid.wsf-fields .wsf-label-wrapper label.wsf-label {
+.wsf-form [data-type=checkbox] .wsf-grid.wsf-fields .wsf-label-wrapper label.wsf-label,
+.wsf-form [data-type=checkbox] .wsf-grid.wsf-fields .wsf-label-wrapper div.wsf-label {
   padding: 0;
 }
 .wsf-form [data-row-checkbox] {

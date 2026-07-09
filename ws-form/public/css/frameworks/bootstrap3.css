@@ -215,10 +215,6 @@
 	display: block;
 }
 
-.wsf-form .wsf-hidden {
-	display: none !important;
-}
-
 .wsf-form .input-group {
 	align-items: stretch;
 	display: flex;

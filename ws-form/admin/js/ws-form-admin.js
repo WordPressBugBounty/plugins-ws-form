@@ -3824,6 +3824,7 @@
 
 						// Add data-placeholder to field attributes
 						field_attributes += ' data-placeholder="' + this.esc_attr(placeholder) + '"';
+						if(meta_key_config.strip_tags) { field_attributes += ' data-placeholder-strip-tags'; }
 
 						// Initialize
 						inits.push('placeholders');
@@ -7373,6 +7374,7 @@
 
 			// Parse mask_placeholder
 			var placeholder = $.WS_Form.this.get_invalid_feedback_mask_parsed(mask_placeholder, label);
+			if($(this).is('[data-placeholder-strip-tags], [data-meta-key="aria_label"]')) { placeholder = $.WS_Form.this.strip_html(placeholder); }
 
 			// Set placeholder
 			$(this).attr('placeholder', $.WS_Form.this.esc_attr(placeholder));

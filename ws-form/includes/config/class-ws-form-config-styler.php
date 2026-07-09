@@ -1038,7 +1038,7 @@
 
 							'label' => __('Fieldset Legend', 'ws-form'),
 
-							'children' => self::get_style_color_typograpy_gap('field_fieldset_legend', 'field-fieldset-legend', 'var(--wsf-form-color-base)', 'transparent', 'var(--wsf-form-font-size)', 'var(--wsf-form-font-weight)', 'var(--wsf-form-line-height)', '10px'),
+							'children' => self::get_style_color_typograpy_gap('field_fieldset_legend', 'field-fieldset-legend', 'var(--wsf-form-color-base)', 'transparent', 'var(--wsf-form-font-size)', 'var(--wsf-form-font-weight)', 'var(--wsf-form-line-height)', '5px'),
 						),
 
 						'help' => array(

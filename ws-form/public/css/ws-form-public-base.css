@@ -293,11 +293,13 @@
   border: 0;
   padding: 0;
 }
-.wsf-form .wsf-label-wrapper label.wsf-label {
+.wsf-form .wsf-label-wrapper label.wsf-label,
+.wsf-form .wsf-label-wrapper div.wsf-label {
   padding: calc(var(--wsf-field-padding-vertical) + var(--wsf-field-border-width)) 0;
   margin-bottom: 0;
 }
-.wsf-form label.wsf-label {
+.wsf-form label.wsf-label,
+.wsf-form div.wsf-label {
   background-color: var(--wsf-field-label-color-background);
   display: block;
   color: var(--wsf-field-label-color);
@@ -506,6 +508,7 @@
   width: 100%;
 }
 .wsf-form .wsf-input-group > label.wsf-label,
+.wsf-form .wsf-input-group > div.wsf-label,
 .wsf-form .wsf-input-group > .wsf-invalid-feedback,
 .wsf-form .wsf-input-group > .wsf-help {
   width: 100%;
@@ -596,6 +599,17 @@
 }
 .wsf-form .wsf-hidden {
   display: none !important;
+}
+.wsf-form .wsf-hidden-element {
+  border: 0 !important;
+  clip: rect(0, 0, 0, 0) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  white-space: nowrap !important;
+  width: 1px !important;
 }
 .wsf-form input[type=email].wsf-field,
 .wsf-form input[type=number].wsf-field,
@@ -915,7 +929,8 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] textarea.wsf-field.
   color: var(--wsf-field-color-disabled-alt);
   -webkit-text-fill-color: var(--wsf-field-color-disabled-alt);
 }
-html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] label.wsf-label {
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] label.wsf-label,
+html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] div.wsf-label {
   background-color: var(--wsf-field-label-background-color-alt);
   color: var(--wsf-field-label-color-alt);
 }

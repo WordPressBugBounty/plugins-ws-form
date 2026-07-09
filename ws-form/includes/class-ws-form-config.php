@@ -1203,7 +1203,7 @@
 
 							// Fields
 							'mask_field'					=>	'#pre_label#pre_help#datalist#post_label#invalid_feedback#post_help',
-							'mask_field_label'				=>	'<label id="#label_id"#attributes>#label</label>',
+							'mask_field_label'				=>	'<div id="#label_id"#attributes>#label</div>',
 							'mask_field_label_attributes'	=>	array('class'),
 //							'mask_field_label_hide_group'	=>	true,
 
@@ -1315,7 +1315,7 @@
 							),
 
 							// Groups
-							'mask_group_wrapper'		=>	'<div#attributes role="radiogroup">#group</div>',
+							'mask_group_wrapper'		=>	'<div#attributes>#group</div>',
 							'mask_group_label'			=>	'<legend>#group_label</legend>',
 
 							// Rows
@@ -1332,7 +1332,7 @@
 							// Fields
 							'mask_field'					=>	'#pre_label#pre_help#datalist#invalid_feedback#post_label#post_help',
 							'mask_field_attributes'			=>	array('required_attribute_no'),
-							'mask_field_label'				=>	'<label id="#label_id"#attributes>#label</label>',
+							'mask_field_label'				=>	'<div id="#label_id"#attributes>#label</div>',
 							'mask_field_label_attributes'	=>	array('class'),
 //							'mask_field_label_hide_group'	=>	true,
 
@@ -8276,6 +8276,7 @@
 					'mask'						=>	'aria-label="#value"',
 					'mask_disregard_on_empty'	=>	true,
 					'mask_placeholder'			=>	'#label',
+					'strip_tags'				=>	true,
 					'compatibility_id'			=>	'wai-aria',
 					'variable_helper'			=>	true,
 					'translate'					=>	true
@@ -8445,7 +8446,7 @@
 				}
 
 				// Remove meta keys that don't contain any meta data we can use publicly
-				$public_attributes_public = array('key' => 'k', 'mask' => 'm', 'mask_disregard_on_empty' => 'e', 'mask_disregard_on_zero' => 'z', 'mask_placeholder' => 'p', 'html_encode' => 'h', 'price' => 'pr', 'default' => 'd', 'field_part' => 'c', 'required_setting_global_meta_key' => 'g');
+				$public_attributes_public = array('key' => 'k', 'mask' => 'm', 'mask_disregard_on_empty' => 'e', 'mask_disregard_on_zero' => 'z', 'mask_placeholder' => 'p', 'html_encode' => 'h', 'strip_tags' => 's', 'price' => 'pr', 'default' => 'd', 'field_part' => 'c', 'required_setting_global_meta_key' => 'g');
 
 				foreach($meta_keys as $key => $meta_key) {
 

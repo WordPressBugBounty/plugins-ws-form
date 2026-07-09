@@ -446,12 +446,14 @@
 	margin-inline-end: <?php self::e($this->spacing . $uom); ?>;
 }
 
-.wsf-label-wrapper label.wsf-label {
+.wsf-label-wrapper label.wsf-label,
+.wsf-label-wrapper div.wsf-label {
 	padding: <?php self::e(($this->spacing_vertical + $this->border_width) . $uom); ?> 0;
 	margin-bottom: 0;
 }
 
-label.wsf-label {
+label.wsf-label,
+div.wsf-label {
 	display: block;
 <?php if ($this->label_color != $this->color_default) { ?>
 	color: <?php self::e($this->label_color); ?>;
@@ -637,6 +639,7 @@ label.wsf-label {
 }
 
 .wsf-input-group > label.wsf-label,
+.wsf-input-group > div.wsf-label,
 .wsf-input-group > .wsf-invalid-feedback,
 .wsf-input-group > .wsf-help {
 	width: 100%;
@@ -2153,6 +2156,18 @@ button.wsf-button:disabled {
 
 .wsf-hidden {
 	display: none !important;
+}
+
+.wsf-hidden-element {
+	border: 0 !important;
+	clip: rect(0, 0, 0, 0) !important;
+	height: 1px !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	white-space: nowrap !important;
+	width: 1px !important;
 }
 
 .wsf-label-position-inside input.wsf-field[placeholder]::placeholder,
