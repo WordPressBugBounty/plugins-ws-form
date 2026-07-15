@@ -314,7 +314,12 @@
 		// Get configuration error
 		public function get_config_error($config, $meta_key, $default_value = false) {
 
-			if($throw_error) { self::error('Cannot find configuration meta_key: ' + $meta_key, false, false); }
+			self::error(sprintf(
+
+				/* translators: %s: Meta key */
+				__('Cannot find configuration meta_key: %s', 'ws-form'),
+				$meta_key
+			), false, false);
 
 			return $default_value;
 		}
@@ -399,7 +404,7 @@
 			foreach($rows as $row_index => $row) {
 
 				// Ignore rows with no or invalid data
-				if(!isset($row->data) && (count($row->data) != 2)) { continue; }
+				if(!isset($row->data) || (count($row->data) != 2)) { continue; }
 
 				// Ignore disabled rows
 				if(isset($row->disabled) && ($row->disabled != '')) { continue; }

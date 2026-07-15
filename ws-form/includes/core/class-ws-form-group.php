@@ -194,12 +194,6 @@
 					$ws_form_section_return = $ws_form_section->db_read_all($get_meta, $checksum, $bypass_user_capability_check);
 					$groups[$key]['sections'] = $ws_form_section_return;
 
-					// Checksum
-					if($checksum && isset($groups[$key]['date_updated'])) {
-
-						unset($groups[$key]['date_updated']);
-					}
-
 					if($get_meta) {
 
 						// Get meta data for each group

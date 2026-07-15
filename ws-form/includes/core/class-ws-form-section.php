@@ -287,12 +287,6 @@
 						$sections[$key]['meta'] = $metas;
 					}
 
-					// Checksum
-					if($checksum && isset($sections[$key]['date_updated'])) {
-
-						unset($sections[$key]['date_updated']);
-					}
-
 					// Get fields
 					$ws_form_field = new WS_Form_Field();
 					$ws_form_field->section_id = $section['id'];

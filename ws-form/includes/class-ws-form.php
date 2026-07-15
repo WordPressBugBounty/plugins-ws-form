@@ -258,6 +258,12 @@ final class WS_Form {
 				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/elementor/elementor.php';
 			}
 
+			// WP Bakery
+			if(defined('WPB_VC_VERSION')) {
+
+				require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/wpbakery/wpbakery.php';
+			}
+
 			// Hostinger Reach
 			if(defined('HOSTINGER_INTEGRATIONS_SUPPORTED')) {
 
@@ -376,7 +382,7 @@ final class WS_Form {
 			if(WS_Form_Common::option_get('styler_init')) {
 
 				// Initialize styles
-				self::styler_init(WS_Form_Common::option_get('styler_init') == 'fresh_intall');
+				self::styler_init(WS_Form_Common::option_get('styler_init') == 'fresh_install');
 
 				// Remove option
 				WS_Form_Common::option_remove('styler_init');

@@ -1,0 +1,14 @@
+.wsf-wpbakery-form-selector {
+	padding: 20px;
+	text-align: center;
+}
+
+.wsf-wpbakery-form-selector #wsf_logo {
+	display: block;
+	margin: 0 auto 20px;
+	max-width: 250px;
+}
+
+.wsf-wpbakery-form-selector p {
+	margin: 0;
+}

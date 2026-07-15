@@ -840,20 +840,30 @@
 				$required = isset($property['required']) ? WS_Form_Common::is_true($property['required']) : null;
 
 				// Check required
-				if(
-					empty($input_value) &&
-					$required
-				) {
-					throw new Exception(
+				if($required) {
 
-						sprintf(
-
-							/* translators: %1$s: Ability ID, %2$s: Property name */
-							esc_html__('Required input schema property for ability %1$s missing (Property: %2$s).', 'ws-form'),
-							esc_html($ability_name),
-							esc_html($property_name)
+					if(
+						!isset($input[$property_name]) ||
+						(
+							is_null($input[$property_name]) &&
+							($type !== 'null')
+						) ||
+						(
+							($type === 'string') &&
+							($input[$property_name] === '')
 						)
-					);
+					) {
+						throw new Exception(
+
+							sprintf(
+
+								/* translators: %1$s: Ability ID, %2$s: Property name */
+								esc_html__('Required input schema property for ability %1$s missing (Property: %2$s).', 'ws-form'),
+								esc_html($ability_name),
+								esc_html($property_name)
+							)
+						);
+					}
 				}
 
 				// Process according to type

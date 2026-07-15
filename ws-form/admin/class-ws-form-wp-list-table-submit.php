@@ -263,63 +263,6 @@
 
 			switch($field_type) {
 
-				case 'file' :
-				case 'mediacapture' :
-				case 'signature' :
-
-					$value = implode($submit_delimiter_row, array_map(function($file_objects) use ($submit, $field_id) {
-
-						$files_html = '';
-
-						if(is_array($file_objects)) {
-
-							foreach($file_objects as $file_object_index => $file_object) {
-
-								$files_html .= self::file_html($file_object);
-							}
-						}
-
-						return $files_html;
-
-					}, $values_array));
-
-					break;
-
-				case 'googlemap' :
-
-					$value = implode($submit_delimiter_row, array_map(function($googlemap) {
-
-						if(
-							is_array($googlemap) &&
-							isset($googlemap['lat']) &&
-							isset($googlemap['lng'])
-						) {
-
-							$value = sprintf('%.7f,%.7f', $googlemap['lat'], $googlemap['lng']);
-
-							// Get lookup URL mask
-							$latlon_lookup_url_mask = WS_Form_Common::option_get('latlon_lookup_url_mask');
-							if(empty($latlon_lookup_url_mask)) { return $value; }
-
-							// Get #value for mask
-							$latlon_lookup_url_mask_values = array('value' => $value);
-
-							// Build lookup URL
-							$latlon_lookup_url = WS_Form_Common::mask_parse($latlon_lookup_url_mask, $latlon_lookup_url_mask_values);
-
-							$value = sprintf('<a href="%s" target="_blank">%s</a>', esc_url($latlon_lookup_url), esc_html($value));
-
-						} else {
-
-							$value = '';
-						}
-
-						return $value;
-
-					}, $values_array));
-
-					break;
-
 
 				case 'url' :
 

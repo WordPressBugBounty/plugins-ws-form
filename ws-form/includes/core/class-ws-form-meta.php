@@ -15,8 +15,6 @@
 		public $api_request_methods;
 		public $object_meta;
 
-		public $meta_keys;
-
 		const DB_INSERT = 'meta_key,meta_value,parent_id';
 		const DB_SELECT = 'meta_key,meta_value';
 
@@ -62,8 +60,6 @@
 			WS_Form_Common::user_must('read_form');
 
 			global $wpdb;
-
-			$meta_object = new stdClass();
 
 			if(absint($this->parent_id) === 0) { parent::db_throw_error(__('Parent ID not set', 'ws-form')); }
 

@@ -75,6 +75,24 @@
   z-index: 150001;
 }
 
+#wsf-feedback-modal {
+  max-height: calc(100vh - 40px);
+  max-width: calc(100vw - 40px);
+  overflow: hidden;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 520px;
+}
+#wsf-feedback-modal .wsf-modal-content {
+  box-sizing: border-box;
+  max-height: calc(100vh - 128px);
+  overflow-y: auto;
+  padding-bottom: 64px;
+}
+#wsf-feedback-modal #wsf-modal-buttons-cancel {
+  line-height: 30px;
+}
+
 .wsf-modal-title {
   background-color: #FCFCFC;
   border-bottom: 1px solid #DFDFDF;
@@ -159,7 +177,9 @@
 }
 
 #wsf-feedback-reason-found-better-plugin-select {
+  box-sizing: border-box;
   margin-bottom: 6px;
+  max-width: 100%;
   width: 100%;
 }
 

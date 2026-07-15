@@ -166,40 +166,6 @@
 					// Process by type
 					switch($type) {
 
-						case 'file' :
-						case 'mediacapture' :
-						case 'signature' :
-
-							if(!is_array($value)) { break; }
-
-							$value_array = array();
-
-							foreach($value as $file_object_index => $file_object) {
-
-		 						// Get file handler
-								$file_handler = isset($file_object['handler']) ? $file_object['handler'] : '';
-		 						if($file_handler == '') { $file_handler = 'wsform'; }
-		 						if(!isset(WS_Form_File_Handler::$file_handlers[$file_handler])) { continue; }
-		 						$file_handler = WS_Form_File_Handler::$file_handlers[$file_handler];
-
-								// Get value array
-		 						$value_array[] = $file_handler->get_url($file_object, $id, $file_object_index, $submit_object->hash);
-							}
-
-							$value = implode(',', $value_array);
-
-							break;
-
-						case 'googlemap' :
-
-							if(
-								is_array($value) &&
-								isset($value['lat']) &&
-								isset($value['lng'])
-							) {
-								$value = sprintf('%.7f,%.7f', $value['lat'], $value['lng']);
-							}
-							break;
 					}
 
 					// Process array values (e.g. Select, Checkbox, Radio field types)

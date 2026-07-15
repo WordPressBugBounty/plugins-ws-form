@@ -284,7 +284,7 @@
 					$next_sibling_id
 				));
 
-				if(is_null($sort_index)) { self::db_wpdb_handle_error('Unable to determine sort index'); }
+				if(is_null($sort_index)) { self::db_wpdb_handle_error(__('Unable to determine sort index', 'ws-form')); }
 
 				// Increment records below and including current sort index
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
@@ -316,7 +316,12 @@
 				$object_id
 			));
 
-			if($object_label === false) { self::db_wpdb_handle_error(__('Error getting object label', 'ws-form')); }
+			if(
+				($object_label === false) ||
+				is_null($object_label)
+			) {
+				self::db_wpdb_handle_error(__('Error getting object label', 'ws-form'));
+			}
 
 			return $object_label;
 		}

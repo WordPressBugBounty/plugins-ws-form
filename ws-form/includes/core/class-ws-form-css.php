@@ -58,11 +58,14 @@
 		public function rebuild() {
 
 			// Runs on wp_loaded action to ensure add-on CSS hooks load properly
-			add_action('wp_loaded', array($this, 'build_public_css'));
+			if(!has_action('wp_loaded', array($this, 'build_public_css'))) {
+
+				add_action('wp_loaded', array($this, 'build_public_css'));
+			}
 		}
 
 		// Layout
-		public function get_layout($css_minify = null, $force_build = false, $rtl = false) {
+		public function get_layout($css_minify = null, $force_build = false) {
 
 			// Build CSS
 			$css_return = '';
@@ -77,16 +80,13 @@
 			$css_compile = WS_Form_Common::option_get('css_compile', false);
 			if($css_compile && !$force_build) {
 
-				// RTL suffix (must match keys written by build_public_css_set)
-				$rtl_suffix = $rtl ? '_rtl' : '';
-
 				if($css_minify) {
 
-					$css_return = WS_Form_Common::option_get(sprintf('css_public_layout%s_min', $rtl_suffix));
+					$css_return = WS_Form_Common::option_get('css_public_layout_min');
 
 				} else {
 
-					$css_return = WS_Form_Common::option_get(sprintf('css_public_layout%s', $rtl_suffix));
+					$css_return = WS_Form_Common::option_get('css_public_layout');
 				}
 
 			} else {
@@ -116,7 +116,7 @@
 		}
 
 		// Style
-		public function get_style($css_minify = null, $force_build = false, $rtl = false) {
+		public function get_style($css_minify = null, $force_build = false) {
 
 			// Build CSS
 			$css_return = '';
@@ -251,8 +251,11 @@
 			// Build option part
 			$part_option = str_replace('.', '_', $part);
 
+			// Style and layout CSS have no RTL variant
+			$no_rtl = in_array($function, array('get_style', 'get_layout'), true);
+
 			// Build CSS - Normal
-			$css = self::{$function}(false, true, false);
+			$css = $no_rtl ? self::{$function}(false, true) : self::{$function}(false, true, false);
 			WS_Form_File::file_put_contents(sprintf('%s/public.%s.css', $dir, $part), $css);
 			WS_Form_Common::option_set(sprintf('css_public_%s', $part_option), $css);
 
@@ -263,18 +266,21 @@
 			WS_Form_Common::option_set(sprintf('css_public_%s_min', $part_option), $css_minimized);
 			$css_minimized = null;
 
-			// RTL (same filenames enqueued on RTL sites; was incorrectly gated on customizer_only)
-			// Build CSS - RTL
-			$css_rtl = self::{$function}(false, true, true);
-			WS_Form_File::file_put_contents(sprintf('%s/public.%s.rtl.css', $dir, $part), $css_rtl);
-			WS_Form_Common::option_set(sprintf('css_public_%s_rtl', $part_option), $css_rtl);
+			if(!$no_rtl) {
 
-			// Build CSS - RTL - Minimized
-			$css_rtl_minimized = self::minify($css_rtl);
-			$css_rtl = null;
-			WS_Form_File::file_put_contents(sprintf('%s/public.%s.rtl.min.css', $dir, $part), $css_rtl_minimized);
-			WS_Form_Common::option_set(sprintf('css_public_%s_rtl_min', $part_option), $css_rtl_minimized);
-			$css_rtl_minimized = null;
+				// RTL (same filenames enqueued on RTL sites; was incorrectly gated on customizer_only)
+				// Build CSS - RTL
+				$css_rtl = self::{$function}(false, true, true);
+				WS_Form_File::file_put_contents(sprintf('%s/public.%s.rtl.css', $dir, $part), $css_rtl);
+				WS_Form_Common::option_set(sprintf('css_public_%s_rtl', $part_option), $css_rtl);
+
+				// Build CSS - RTL - Minimized
+				$css_rtl_minimized = self::minify($css_rtl);
+				$css_rtl = null;
+				WS_Form_File::file_put_contents(sprintf('%s/public.%s.rtl.min.css', $dir, $part), $css_rtl_minimized);
+				WS_Form_Common::option_set(sprintf('css_public_%s_rtl_min', $part_option), $css_rtl_minimized);
+				$css_rtl_minimized = null;
+			}
 		}
 
 		public function minify($css) {

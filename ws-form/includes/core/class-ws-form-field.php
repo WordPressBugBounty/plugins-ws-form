@@ -38,6 +38,8 @@
 			$this->label = '';
 			$this->meta = array();
 
+			$this->field_type_config_cache = array();
+
 			$this->table_name = sprintf('%s%sfield', $wpdb->prefix, WS_FORM_DB_TABLE_PREFIX);
 		}
 
@@ -289,6 +291,9 @@
 
 			// Field types
 			$field_types = WS_Form_Config::get_field_types_flat();
+
+			// Skip unlicensed field types
+			if(!isset($field_types[$field->type])) { return false; }
 
 			// Get field_config
 			$field_config = $field_types[$field->type];

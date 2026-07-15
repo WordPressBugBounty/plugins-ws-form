@@ -115,7 +115,7 @@
 		// Get configuration error
 		public function get_config_error($config, $meta_key, $default_value = false) {
 
-			if($throw_error) { self::error('Cannot find configuration meta_key: ' + $meta_key, false, false); }
+			self::error('Cannot find configuration meta_key: ' + $meta_key, false, false);
 
 			return $default_value;
 		}

@@ -2,6 +2,10 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.11.17 - 07/12/2026 =
+* Added: WPBakery extension
+* Changed: Layout and style CSS now use a single file for LTR and RTL sites, removing the need for separate RTL CSS files
+
 = 1.11.16 - 07/09/2026 =
 * Added: Improved accessibility of section legends, checkbox/radio option groups, the top admin menu, and debug console
 * Added: Improved ARIA labels generated from labels containing HTML
@@ -1323,7 +1327,7 @@ Some changes only applicable to WS Form PRO.
 * Bug Fix: Statistics divide by zero issue
 
 = 1.9.97 - 04/14/2023 =
-* Added: Google Routing field. Provides distance and duration calculations between a start and end location. Learn more: https://wsform.com/knowledgebase/google-route/
+* Added: Google Routing field. Provides distance and duration calculations between a start and end location. Learn more: https://wsform.com/knowledgebase/google-routing/
 * Added: Google Maps template category
 * Added: Google Routing templates
 * Added: Mapping category in toolbox fields sidebar

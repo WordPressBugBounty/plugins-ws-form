@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WS Form PRO\n"
-"POT-Creation-Date: 2026-06-29 21:26-0400\n"
-"PO-Revision-Date: 2026-06-29 21:28-0400\n"
+"POT-Creation-Date: 2026-07-12 17:35-0400\n"
+"PO-Revision-Date: 2026-07-12 17:38-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl_PL\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:7230
 #: includes/class-ws-form-config.php:12185
 #: includes/class-ws-form-config.php:12782
-#: includes/class-ws-form-config.php:21131
+#: includes/class-ws-form-config.php:21132
 #: includes/config/class-ws-form-config-admin.php:737
 #: includes/config/class-ws-form-config-admin.php:797
 #: includes/config/class-ws-form-config-admin.php:959
@@ -47,7 +47,7 @@ msgstr "Zakładka"
 #: includes/class-ws-form-config.php:7232
 #: includes/class-ws-form-config.php:12198
 #: includes/class-ws-form-config.php:12783
-#: includes/class-ws-form-config.php:21584
+#: includes/class-ws-form-config.php:21585
 #: includes/config/class-ws-form-config-admin.php:469
 #: includes/config/class-ws-form-config-admin.php:739
 #: includes/config/class-ws-form-config-admin.php:798
@@ -109,7 +109,7 @@ msgstr "Sekcja"
 #: includes/class-ws-form-config.php:12262
 #: includes/class-ws-form-config.php:15662
 #: includes/class-ws-form-config.php:18816
-#: includes/class-ws-form-config.php:22372
+#: includes/class-ws-form-config.php:22373
 #: includes/config/class-ws-form-config-admin.php:741
 #: includes/config/class-ws-form-config-admin.php:799
 #: includes/config/class-ws-form-config-conditional.php:170
@@ -128,7 +128,7 @@ msgstr "Skopiowano"
 msgid "Feedback"
 msgstr "Informacje zwrotne"
 
-#: admin/class-ws-form-admin.php:863 admin/class-ws-form-admin.php:1114
+#: admin/class-ws-form-admin.php:863 admin/class-ws-form-admin.php:1122
 #: admin/partials/ws-form-form-add.php:158
 #: admin/partials/ws-form-form-edit.php:156
 #: includes/config/class-ws-form-config-admin.php:39
@@ -180,10 +180,10 @@ msgid "I no longer need the plugin"
 msgstr "Nie potrzebuję już wtyczki"
 
 #: admin/class-ws-form-admin.php:921
-msgid "I found a better plugin"
-msgstr "Znalazłem lepszą wtyczkę"
+msgid "I switched to another form plugin"
+msgstr "Przełączyłem(-am) się na inną wtyczkę formularzy"
 
-#: admin/class-ws-form-admin.php:924 admin/class-ws-form-admin.php:1540
+#: admin/class-ws-form-admin.php:924 admin/class-ws-form-admin.php:1548
 #: admin/partials/ws-form-form-migrate.php:188
 #: admin/partials/ws-form-form-migrate.php:269
 #: admin/partials/ws-form-form-migrate.php:700
@@ -244,7 +244,7 @@ msgstr "Znalazłem lepszą wtyczkę"
 #: includes/class-ws-form-config.php:19083
 #: includes/class-ws-form-config.php:19092
 #: includes/class-ws-form-config.php:19102
-#: includes/class-ws-form-config.php:19420 includes/class-ws-form-widget.php:57
+#: includes/class-ws-form-config.php:19421 includes/class-ws-form-widget.php:57
 #: includes/config/class-ws-form-config-admin.php:886
 #: includes/config/class-ws-form-config-admin.php:910
 #: includes/config/class-ws-form-config-admin.php:1054
@@ -291,35 +291,35 @@ msgstr "Znalazłem lepszą wtyczkę"
 msgid "Select..."
 msgstr "Wybierz..."
 
-#: admin/class-ws-form-admin.php:934 admin/class-ws-form-admin.php:937
-#: includes/class-ws-form-config.php:24251
+#: admin/class-ws-form-admin.php:942 admin/class-ws-form-admin.php:945
+#: includes/class-ws-form-config.php:24252
 msgid "Other"
 msgstr "Inne"
 
-#: admin/class-ws-form-admin.php:939
+#: admin/class-ws-form-admin.php:947
 msgid "Please specify..."
 msgstr "Proszę określić..."
 
-#: admin/class-ws-form-admin.php:952
+#: admin/class-ws-form-admin.php:960
 msgid "Skip &amp; Deactivate"
 msgstr "Pomiń &amp; Dezaktywuj"
 
-#: admin/class-ws-form-admin.php:956
+#: admin/class-ws-form-admin.php:964
 msgid "Submit &amp; Deactivate"
 msgstr "Wyślij &amp; Dezaktywuj"
 
 #. translators: %s: WS Form
-#: admin/class-ws-form-admin.php:992 admin/class-ws-form-admin.php:1108
+#: admin/class-ws-form-admin.php:1000 admin/class-ws-form-admin.php:1116
 #, php-format
 msgid "Add %s"
 msgstr "Dodaj %s"
 
-#: admin/class-ws-form-admin.php:1129 includes/class-ws-form-widget.php:54
+#: admin/class-ws-form-admin.php:1137 includes/class-ws-form-widget.php:54
 msgid "Select the form you want to add..."
 msgstr "Wybierz formularz, który chcesz dodać..."
 
-#: admin/class-ws-form-admin.php:1134 admin/class-ws-form-admin.php:1542
-#: admin/class-ws-form-admin.php:2636
+#: admin/class-ws-form-admin.php:1142 admin/class-ws-form-admin.php:1550
+#: admin/class-ws-form-admin.php:2644
 #: admin/class-ws-form-wp-list-table-form.php:42
 #: admin/class-ws-form-wp-list-table-style.php:47
 #: admin/class-ws-form-wp-list-table-submit.php:143
@@ -330,11 +330,11 @@ msgstr "Wybierz formularz, który chcesz dodać..."
 #: includes/actions/class-ws-form-action-data-export-request.php:112
 #: includes/actions/class-ws-form-action-redirect.php:572
 #: includes/class-ws-form-common.php:6618
-#: includes/class-ws-form-config.php:21106
-#: includes/class-ws-form-config.php:21158
-#: includes/class-ws-form-config.php:23135
-#: includes/class-ws-form-config.php:23227
-#: includes/class-ws-form-config.php:23444 includes/class-ws-form-widget.php:66
+#: includes/class-ws-form-config.php:21107
+#: includes/class-ws-form-config.php:21159
+#: includes/class-ws-form-config.php:23136
+#: includes/class-ws-form-config.php:23228
+#: includes/class-ws-form-config.php:23445 includes/class-ws-form-widget.php:66
 #: includes/config/class-ws-form-config-admin.php:750
 #: includes/config/class-ws-form-config-option.php:1641
 #: includes/config/class-ws-form-config-public.php:324
@@ -355,16 +355,16 @@ msgstr "Wybierz formularz, który chcesz dodać..."
 msgid "ID"
 msgstr "ID"
 
-#: admin/class-ws-form-admin.php:1142 admin/class-ws-form-admin.php:1537
+#: admin/class-ws-form-admin.php:1150 admin/class-ws-form-admin.php:1545
 #: includes/class-ws-form-widget.php:77
 msgid "You haven't created any forms yet."
 msgstr "Nie utworzono jeszcze żadnych formularzy."
 
-#: admin/class-ws-form-admin.php:1143 includes/class-ws-form-widget.php:78
+#: admin/class-ws-form-admin.php:1151 includes/class-ws-form-widget.php:78
 msgid "Click here to create a form"
 msgstr "Kliknij tutaj, aby utworzyć formularz"
 
-#: admin/class-ws-form-admin.php:1156 admin/partials/ws-form-form-add.php:173
+#: admin/class-ws-form-admin.php:1164 admin/partials/ws-form-form-add.php:173
 #: includes/class-ws-form-config.php:15751
 #: includes/class-ws-form-config.php:15754
 #: includes/config/class-ws-form-config-admin.php:762
@@ -372,28 +372,28 @@ msgstr "Kliknij tutaj, aby utworzyć formularz"
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: admin/class-ws-form-admin.php:1164
+#: admin/class-ws-form-admin.php:1172
 msgid "Insert Form"
 msgstr "Wstaw formularz"
 
-#: admin/class-ws-form-admin.php:1168 admin/class-ws-form-admin.php:1238
-#: admin/class-ws-form-admin.php:1239 admin/class-ws-form-admin.php:2952
+#: admin/class-ws-form-admin.php:1176 admin/class-ws-form-admin.php:1246
+#: admin/class-ws-form-admin.php:1247 admin/class-ws-form-admin.php:2983
 #: admin/partials/ws-form-form-add.php:56
 msgid "Add Form"
 msgstr "Dodaj Formularz"
 
-#: admin/class-ws-form-admin.php:1208
+#: admin/class-ws-form-admin.php:1216
 msgid "Welcome"
 msgstr "Witaj"
 
 #. translators: %s: Presentable name (e.g. WS Form PRO)
-#: admin/class-ws-form-admin.php:1213 admin/class-ws-form-admin.php:2778
+#: admin/class-ws-form-admin.php:1221 admin/class-ws-form-admin.php:2786
 #, php-format
 msgid "Welcome to %s"
 msgstr "Witamy w %s"
 
-#: admin/class-ws-form-admin.php:1227 admin/class-ws-form-admin.php:1228
-#: admin/class-ws-form-admin.php:2936
+#: admin/class-ws-form-admin.php:1235 admin/class-ws-form-admin.php:1236
+#: admin/class-ws-form-admin.php:2967
 #: admin/class-ws-form-wp-list-table-form.php:16
 #: admin/partials/ws-form-form.php:17
 #: includes/config/class-ws-form-config-admin.php:736
@@ -401,8 +401,8 @@ msgstr "Witamy w %s"
 msgid "Forms"
 msgstr "Formularze"
 
-#: admin/class-ws-form-admin.php:1249 admin/class-ws-form-admin.php:1250
-#: admin/class-ws-form-admin.php:1377 admin/class-ws-form-admin.php:2901
+#: admin/class-ws-form-admin.php:1257 admin/class-ws-form-admin.php:1258
+#: admin/class-ws-form-admin.php:1385 admin/class-ws-form-admin.php:2951
 #: admin/class-ws-form-wp-list-table-form.php:43
 #: admin/class-ws-form-wp-list-table-form.php:100
 #: admin/class-ws-form-wp-list-table-submit.php:27
@@ -418,30 +418,30 @@ msgstr "Formularze"
 msgid "Submissions"
 msgstr "Zgłoszenia"
 
-#: admin/class-ws-form-admin.php:1261 admin/partials/ws-form-form-edit.php:20
+#: admin/class-ws-form-admin.php:1269 admin/partials/ws-form-form-edit.php:20
 #: admin/partials/ws-form-form-migrate.php:400
 msgid "Edit Form"
 msgstr "Edytuj Formularz"
 
-#: admin/class-ws-form-admin.php:1275 admin/class-ws-form-admin.php:1276
+#: admin/class-ws-form-admin.php:1283 admin/class-ws-form-admin.php:1284
 #: admin/class-ws-form-wp-list-table-style.php:20
 #: admin/partials/ws-form-form-style.php:17
 msgid "Styles"
 msgstr "Style"
 
-#: admin/class-ws-form-admin.php:1287 admin/class-ws-form-admin.php:1288
+#: admin/class-ws-form-admin.php:1295 admin/class-ws-form-admin.php:1296
 #: admin/partials/ws-form-form-style-add.php:31
 msgid "Add Style"
 msgstr "Dodaj styl"
 
-#: admin/class-ws-form-admin.php:1312 admin/class-ws-form-admin.php:1313
+#: admin/class-ws-form-admin.php:1320 admin/class-ws-form-admin.php:1321
 #: includes/class-ws-form-config.php:8723
 #: includes/config/class-ws-form-config-option.php:602
 msgid "Customize"
 msgstr "Dostosuj"
 
-#: admin/class-ws-form-admin.php:1323 admin/class-ws-form-admin.php:1324
-#: admin/class-ws-form-admin.php:2551 admin/partials/ws-form-settings.php:44
+#: admin/class-ws-form-admin.php:1331 admin/class-ws-form-admin.php:1332
+#: admin/class-ws-form-admin.php:2559 admin/partials/ws-form-settings.php:44
 #: includes/actions/class-ws-form-action-akismet.php:393
 #: includes/class-ws-form-config.php:15891
 #: includes/class-ws-form-config.php:15894
@@ -455,64 +455,64 @@ msgstr "Dostosuj"
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: admin/class-ws-form-admin.php:1335 admin/class-ws-form-admin.php:1336
+#: admin/class-ws-form-admin.php:1343 admin/class-ws-form-admin.php:1344
 #: admin/partials/ws-form-form-migrate.php:78
 msgid "Migrate"
 msgstr "Migracja"
 
-#: admin/class-ws-form-admin.php:1347 admin/class-ws-form-admin.php:1348
-#: admin/class-ws-form-admin.php:2544
+#: admin/class-ws-form-admin.php:1355 admin/class-ws-form-admin.php:1356
+#: admin/class-ws-form-admin.php:2552
 #: includes/core/class-ws-form-template.php:817
 msgid "Upgrade to PRO"
 msgstr "Przejść na wersje Pro"
 
-#: admin/class-ws-form-admin.php:1358 admin/class-ws-form-admin.php:1359
-#: admin/class-ws-form-admin.php:2548
+#: admin/class-ws-form-admin.php:1366 admin/class-ws-form-admin.php:1367
+#: admin/class-ws-form-admin.php:2556
 msgid "Add-Ons"
 msgstr "Dodatki"
 
-#: admin/class-ws-form-admin.php:1378
+#: admin/class-ws-form-admin.php:1386
 msgid "Clear hidden fields"
 msgstr "Wyczyść ukryte pola"
 
-#: admin/class-ws-form-admin.php:1431
+#: admin/class-ws-form-admin.php:1439
 msgid "Forms per page:"
 msgstr "Formularze na stronę:"
 
-#: admin/class-ws-form-admin.php:1445
+#: admin/class-ws-form-admin.php:1453
 msgid "Submissions per page:"
 msgstr "Zgłoszenia na stronę:"
 
-#: admin/class-ws-form-admin.php:1459
+#: admin/class-ws-form-admin.php:1467
 msgid "Styles per page:"
 msgstr "Style na stronę:"
 
-#: admin/class-ws-form-admin.php:1521
+#: admin/class-ws-form-admin.php:1529
 msgid "WS Form Block Preview"
 msgstr "Podgląd bloku WS Form"
 
 #. translators: %s: Presentable name (e.g. WS Form PRO)
-#: admin/class-ws-form-admin.php:1533 includes/blocks/form-add/form-add.php:51
+#: admin/class-ws-form-admin.php:1541 includes/blocks/form-add/form-add.php:51
 #, php-format
 msgid "Add a form to your web page using %s."
 msgstr "Dodaj formularz do swojej strony internetowej za pomocą %s."
 
-#: admin/class-ws-form-admin.php:1535 includes/blocks/form-add/form-add.php:42
+#: admin/class-ws-form-admin.php:1543 includes/blocks/form-add/form-add.php:42
 #: includes/config/class-ws-form-config-admin.php:651
 msgid "form"
 msgstr "formularz"
 
-#: admin/class-ws-form-admin.php:1538
+#: admin/class-ws-form-admin.php:1546
 msgid "From the block settings sidebar, choose the form you would like to add."
 msgstr "W panelu bocznym ustawień bloku wybierz formularz, który chcesz dodać."
 
-#: admin/class-ws-form-admin.php:1539
+#: admin/class-ws-form-admin.php:1547
 #: admin/class-ws-form-wp-list-table-form.php:15
 #: includes/class-ws-form-config.php:8389
 #: includes/class-ws-form-config.php:12172
 #: includes/class-ws-form-config.php:12781
 #: includes/class-ws-form-config.php:12885
-#: includes/class-ws-form-config.php:21077
+#: includes/class-ws-form-config.php:21078
 #: includes/config/class-ws-form-config-admin.php:212
 #: includes/config/class-ws-form-config-admin.php:735
 #: includes/config/class-ws-form-config-admin.php:958
@@ -529,22 +529,23 @@ msgstr "W panelu bocznym ustawień bloku wybierz formularz, który chcesz dodać
 #: includes/third-party/divi/4/includes/modules/ws-form/ws-form.php:54
 #: includes/third-party/elementor/class-elementor-ws-form-widget.php:111
 #: includes/third-party/oxygen/elements/class-oxyel-ws-form-form.php:84
+#: includes/third-party/wpbakery/class-wpbakery-shortcode-ws-form.php:50
 msgid "Form"
 msgstr "Formularz"
 
-#: admin/class-ws-form-admin.php:1541
+#: admin/class-ws-form-admin.php:1549
 #: includes/third-party/oxygen/elements/class-oxyel-ws-form-form.php:93
 msgid "ID (Optional)"
 msgstr "ID (Opcjonalnie)"
 
-#: admin/class-ws-form-admin.php:1543 admin/class-ws-form-admin.php:2782
-#: admin/class-ws-form-admin.php:2786 admin/partials/ws-form-form-style.php:22
+#: admin/class-ws-form-admin.php:1551 admin/class-ws-form-admin.php:2790
+#: admin/class-ws-form-admin.php:2794 admin/partials/ws-form-form-style.php:22
 #: admin/partials/ws-form-form.php:22 includes/blocks/form-add/form-add.php:48
 msgid "Add New"
 msgstr "Dodaj nowy"
 
 #. translators: %u: Number of forms
-#: admin/class-ws-form-admin.php:2569
+#: admin/class-ws-form-admin.php:2577
 #, php-format
 msgid "%u Form"
 msgid_plural "%u Forms"
@@ -552,27 +553,27 @@ msgstr[0] "%u Formularz"
 msgstr[1] "%u Formularz"
 msgstr[2] "%u Formularz"
 
-#: admin/class-ws-form-admin.php:2625
+#: admin/class-ws-form-admin.php:2633
 msgid "No form statistics data available."
 msgstr "Brak dostępnych danych statystycznych formularza."
 
-#: admin/class-ws-form-admin.php:2632 api/class-ws-form-api-form-stat.php:62
+#: admin/class-ws-form-admin.php:2640 api/class-ws-form-api-form-stat.php:62
 #: api/class-ws-form-api-form-stat.php:196
 msgid "All Forms"
 msgstr "Wszystkie formularze"
 
-#: admin/class-ws-form-admin.php:2781
+#: admin/class-ws-form-admin.php:2789
 msgid ""
 "This dashboard widget will show statistics for any submissions you receive."
 msgstr ""
 "Ten widżet kokpitu będzie wyświetlać statystyki wszystkich otrzymanych "
 "zgłoszeń."
 
-#: admin/class-ws-form-admin.php:2805
+#: admin/class-ws-form-admin.php:2813
 msgid "These settings are controlled by WooCommerce"
 msgstr "Te ustawienia są kontrolowane przez WooCommerce"
 
-#: admin/class-ws-form-admin.php:2807 admin/class-ws-form-admin.php:2886
+#: admin/class-ws-form-admin.php:2815 admin/class-ws-form-admin.php:2898
 #: admin/class-ws-form-wp-list-table-form.php:210
 #: admin/class-ws-form-wp-list-table-style.php:161
 #: admin/class-ws-form-wp-list-table-submit.php:535
@@ -586,7 +587,88 @@ msgstr "Te ustawienia są kontrolowane przez WooCommerce"
 msgid "Edit"
 msgstr "Edytuj"
 
-#: admin/class-ws-form-admin.php:2916
+#: admin/class-ws-form-admin.php:2913
+#: admin/class-ws-form-wp-list-table-form.php:227
+#: admin/class-ws-form-wp-list-table-style.php:19
+#: admin/partials/ws-form-form-edit.php:40 api/class-ws-form-api-helper.php:568
+#: includes/blocks/form-add/form-add.php:61
+#: includes/class-ws-form-config.php:329 includes/class-ws-form-config.php:498
+#: includes/class-ws-form-config.php:637 includes/class-ws-form-config.php:785
+#: includes/class-ws-form-config.php:932 includes/class-ws-form-config.php:1085
+#: includes/class-ws-form-config.php:1255
+#: includes/class-ws-form-config.php:1417
+#: includes/class-ws-form-config.php:1577
+#: includes/class-ws-form-config.php:1719
+#: includes/class-ws-form-config.php:1856
+#: includes/class-ws-form-config.php:1996
+#: includes/class-ws-form-config.php:2127
+#: includes/class-ws-form-config.php:2271
+#: includes/class-ws-form-config.php:2425
+#: includes/class-ws-form-config.php:2548
+#: includes/class-ws-form-config.php:2726
+#: includes/class-ws-form-config.php:2810
+#: includes/class-ws-form-config.php:2912
+#: includes/class-ws-form-config.php:3038
+#: includes/class-ws-form-config.php:3151
+#: includes/class-ws-form-config.php:3258
+#: includes/class-ws-form-config.php:3394
+#: includes/class-ws-form-config.php:3531
+#: includes/class-ws-form-config.php:3650
+#: includes/class-ws-form-config.php:3741
+#: includes/class-ws-form-config.php:3824
+#: includes/class-ws-form-config.php:3907
+#: includes/class-ws-form-config.php:3985
+#: includes/class-ws-form-config.php:4117
+#: includes/class-ws-form-config.php:4195
+#: includes/class-ws-form-config.php:4276
+#: includes/class-ws-form-config.php:4351
+#: includes/class-ws-form-config.php:4432
+#: includes/class-ws-form-config.php:4574
+#: includes/class-ws-form-config.php:4663
+#: includes/class-ws-form-config.php:4765
+#: includes/class-ws-form-config.php:4854
+#: includes/class-ws-form-config.php:4944
+#: includes/class-ws-form-config.php:5032
+#: includes/class-ws-form-config.php:5128
+#: includes/class-ws-form-config.php:5223
+#: includes/class-ws-form-config.php:5311
+#: includes/class-ws-form-config.php:5409
+#: includes/class-ws-form-config.php:5500
+#: includes/class-ws-form-config.php:5591
+#: includes/class-ws-form-config.php:5682
+#: includes/class-ws-form-config.php:5765
+#: includes/class-ws-form-config.php:5893
+#: includes/class-ws-form-config.php:6046
+#: includes/class-ws-form-config.php:6209
+#: includes/class-ws-form-config.php:6370
+#: includes/class-ws-form-config.php:6511
+#: includes/class-ws-form-config.php:6651
+#: includes/class-ws-form-config.php:6782
+#: includes/class-ws-form-config.php:6903
+#: includes/class-ws-form-config.php:7034
+#: includes/class-ws-form-config.php:8705
+#: includes/class-ws-form-config.php:17339
+#: includes/class-ws-form-config.php:17503
+#: includes/class-ws-form-config.php:19378
+#: includes/class-ws-form-config.php:19389
+#: includes/config/class-ws-form-config-admin.php:512
+#: includes/config/class-ws-form-config-admin.php:1230
+#: includes/config/class-ws-form-config-customize.php:342
+#: includes/config/class-ws-form-config-styler.php:193
+#: includes/config/class-ws-form-config-styler.php:475
+#: includes/config/class-ws-form-config-styler.php:551
+#: includes/config/class-ws-form-config-styler.php:992
+#: includes/config/class-ws-form-config-styler.php:1855
+#: includes/config/class-ws-form-config-styler.php:2520
+#: includes/config/class-ws-form-config-styler.php:2671
+#: includes/config/class-ws-form-config-styler.php:2889
+#: includes/config/class-ws-form-config-styler.php:4327
+#: includes/config/class-ws-form-config-styler.php:4747
+#: includes/core/class-ws-form-style.php:507
+msgid "Style"
+msgstr "Styl"
+
+#: admin/class-ws-form-admin.php:2932
 #: admin/class-ws-form-wp-list-table-form.php:223
 #: admin/class-ws-form-wp-list-table-style.php:48
 #: admin/class-ws-form-wp-list-table-submit.php:621
@@ -599,12 +681,12 @@ msgstr "Edytuj"
 msgid "Preview"
 msgstr "Podgląd"
 
-#: admin/class-ws-form-admin.php:2970
+#: admin/class-ws-form-admin.php:3001
 #: includes/config/class-ws-form-config-option.php:58
 msgid "Debug Console"
 msgstr "Konsola debugowania"
 
-#: admin/class-ws-form-admin.php:2981 includes/class-ws-form-config.php:12015
+#: admin/class-ws-form-admin.php:3012 includes/class-ws-form-config.php:12015
 #: includes/class-ws-form-config.php:12033
 #: includes/class-ws-form-config.php:15322
 #: includes/config/class-ws-form-config-option.php:64
@@ -613,20 +695,20 @@ msgstr "Konsola debugowania"
 msgid "Off"
 msgstr "Wyłącz"
 
-#: admin/class-ws-form-admin.php:2996
+#: admin/class-ws-form-admin.php:3027
 #: includes/config/class-ws-form-config-option.php:65
 msgid "Administrators only"
 msgstr "Tylko administratorzy"
 
-#: admin/class-ws-form-admin.php:3011
+#: admin/class-ws-form-admin.php:3042
 #: includes/config/class-ws-form-config-option.php:66
 msgid "Show always"
 msgstr "Zawsze pokazuj"
 
 #: admin/class-ws-form-wp-list-table-form.php:36
 #: admin/class-ws-form-wp-list-table-submit.php:144
-#: includes/class-ws-form-config.php:21244
-#: includes/class-ws-form-config.php:23111
+#: includes/class-ws-form-config.php:21245
+#: includes/class-ws-form-config.php:23112
 #: includes/config/class-ws-form-config-admin.php:1112
 #: includes/config/class-ws-form-config-conditional.php:630
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:246
@@ -641,7 +723,7 @@ msgstr "Status"
 #: includes/actions/class-ws-form-action-custom-api.php:919
 #: includes/class-ws-form-config.php:18271
 #: includes/class-ws-form-config.php:18800
-#: includes/class-ws-form-config.php:20868
+#: includes/class-ws-form-config.php:20869
 #: includes/config/class-ws-form-config-admin.php:1514
 #: includes/config/class-ws-form-config-public.php:331
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:325
@@ -735,86 +817,6 @@ msgstr "Klonuj"
 #: includes/core/class-ws-form-submit.php:1497
 msgid "Trash"
 msgstr "Kosz"
-
-#: admin/class-ws-form-wp-list-table-form.php:227
-#: admin/class-ws-form-wp-list-table-style.php:19
-#: admin/partials/ws-form-form-edit.php:40 api/class-ws-form-api-helper.php:568
-#: includes/blocks/form-add/form-add.php:61
-#: includes/class-ws-form-config.php:329 includes/class-ws-form-config.php:498
-#: includes/class-ws-form-config.php:637 includes/class-ws-form-config.php:785
-#: includes/class-ws-form-config.php:932 includes/class-ws-form-config.php:1085
-#: includes/class-ws-form-config.php:1255
-#: includes/class-ws-form-config.php:1417
-#: includes/class-ws-form-config.php:1577
-#: includes/class-ws-form-config.php:1719
-#: includes/class-ws-form-config.php:1856
-#: includes/class-ws-form-config.php:1996
-#: includes/class-ws-form-config.php:2127
-#: includes/class-ws-form-config.php:2271
-#: includes/class-ws-form-config.php:2425
-#: includes/class-ws-form-config.php:2548
-#: includes/class-ws-form-config.php:2726
-#: includes/class-ws-form-config.php:2810
-#: includes/class-ws-form-config.php:2912
-#: includes/class-ws-form-config.php:3038
-#: includes/class-ws-form-config.php:3151
-#: includes/class-ws-form-config.php:3258
-#: includes/class-ws-form-config.php:3394
-#: includes/class-ws-form-config.php:3531
-#: includes/class-ws-form-config.php:3650
-#: includes/class-ws-form-config.php:3741
-#: includes/class-ws-form-config.php:3824
-#: includes/class-ws-form-config.php:3907
-#: includes/class-ws-form-config.php:3985
-#: includes/class-ws-form-config.php:4117
-#: includes/class-ws-form-config.php:4195
-#: includes/class-ws-form-config.php:4276
-#: includes/class-ws-form-config.php:4351
-#: includes/class-ws-form-config.php:4432
-#: includes/class-ws-form-config.php:4574
-#: includes/class-ws-form-config.php:4663
-#: includes/class-ws-form-config.php:4765
-#: includes/class-ws-form-config.php:4854
-#: includes/class-ws-form-config.php:4944
-#: includes/class-ws-form-config.php:5032
-#: includes/class-ws-form-config.php:5128
-#: includes/class-ws-form-config.php:5223
-#: includes/class-ws-form-config.php:5311
-#: includes/class-ws-form-config.php:5409
-#: includes/class-ws-form-config.php:5500
-#: includes/class-ws-form-config.php:5591
-#: includes/class-ws-form-config.php:5682
-#: includes/class-ws-form-config.php:5765
-#: includes/class-ws-form-config.php:5893
-#: includes/class-ws-form-config.php:6046
-#: includes/class-ws-form-config.php:6209
-#: includes/class-ws-form-config.php:6370
-#: includes/class-ws-form-config.php:6511
-#: includes/class-ws-form-config.php:6651
-#: includes/class-ws-form-config.php:6782
-#: includes/class-ws-form-config.php:6903
-#: includes/class-ws-form-config.php:7034
-#: includes/class-ws-form-config.php:8705
-#: includes/class-ws-form-config.php:17339
-#: includes/class-ws-form-config.php:17503
-#: includes/class-ws-form-config.php:19377
-#: includes/class-ws-form-config.php:19388
-#: includes/config/class-ws-form-config-admin.php:512
-#: includes/config/class-ws-form-config-admin.php:1230
-#: includes/config/class-ws-form-config-customize.php:342
-#: includes/config/class-ws-form-config-styler.php:193
-#: includes/config/class-ws-form-config-styler.php:475
-#: includes/config/class-ws-form-config-styler.php:551
-#: includes/config/class-ws-form-config-styler.php:992
-#: includes/config/class-ws-form-config-styler.php:1855
-#: includes/config/class-ws-form-config-styler.php:2520
-#: includes/config/class-ws-form-config-styler.php:2671
-#: includes/config/class-ws-form-config-styler.php:2889
-#: includes/config/class-ws-form-config-styler.php:4327
-#: includes/config/class-ws-form-config-styler.php:4747
-#: includes/core/class-ws-form-style.php:507
-msgid "Style"
-msgstr "Styl"
 
 #: admin/class-ws-form-wp-list-table-form.php:232
 #: admin/class-ws-form-wp-list-table-form.php:331
@@ -976,7 +978,7 @@ msgstr "Brak dostępnych stylów."
 
 #: admin/class-ws-form-wp-list-table-submit.php:26
 #: admin/partials/ws-form-form-submit.php:98
-#: includes/class-ws-form-config.php:21152
+#: includes/class-ws-form-config.php:21153
 #: includes/config/class-ws-form-config-admin.php:746
 #: includes/config/class-ws-form-config-conditional.php:551
 msgid "Submission"
@@ -987,7 +989,7 @@ msgid "Date Updated"
 msgstr "Data utworzenia"
 
 #: admin/class-ws-form-wp-list-table-submit.php:155
-#: includes/class-ws-form-config.php:21176
+#: includes/class-ws-form-config.php:21177
 msgid "Date Added"
 msgstr "Data dodania"
 
@@ -1064,6 +1066,7 @@ msgstr "Oznacz jako spam"
 #: includes/class-ws-form-common.php:6608
 #: includes/third-party/beaver-builder/classes/class-fl-ws-form-loader.php:64
 #: includes/third-party/divi/4/includes/modules/ws-form/ws-form.php:58
+#: includes/third-party/wpbakery/class-wpbakery-shortcode-ws-form.php:17
 msgid "Select form..."
 msgstr "Wybierz formularz..."
 
@@ -1091,7 +1094,7 @@ msgstr "Data do"
 #: includes/class-ws-form-config.php:2954
 #: includes/class-ws-form-config.php:2958
 #: includes/class-ws-form-config.php:12488
-#: includes/class-ws-form-config.php:23617
+#: includes/class-ws-form-config.php:23618
 #: includes/config/class-ws-form-config-admin.php:1149
 msgid "Search"
 msgstr "Szukaj"
@@ -1568,7 +1571,7 @@ msgstr "Nie znaleziono danych wiersza"
 msgid "Unable to read meta data"
 msgstr "Nie można odczytać metadanych"
 
-#: api/class-ws-form-api-field.php:219 includes/class-ws-form-common.php:7226
+#: api/class-ws-form-api-field.php:219 includes/class-ws-form-common.php:7227
 msgid "No files found"
 msgstr "Nie znaleziono plików"
 
@@ -1660,7 +1663,7 @@ msgstr "Nieprawidłowy zakres dat"
 #: includes/class-ws-form-config.php:11134
 #: includes/class-ws-form-config.php:14307
 #: includes/class-ws-form-config.php:14346
-#: includes/class-ws-form-config.php:21727
+#: includes/class-ws-form-config.php:21728
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:248
 #: includes/data-sources/class-ws-form-data-source-post.php:284
 #: includes/data-sources/class-ws-form-data-source-post.php:1012
@@ -1671,8 +1674,8 @@ msgstr "Data"
 
 #: api/class-ws-form-api-form-stat.php:124
 #: api/class-ws-form-api-form-stat.php:262
-#: includes/class-ws-form-config.php:22909
-#: includes/class-ws-form-config.php:22982
+#: includes/class-ws-form-config.php:22910
+#: includes/class-ws-form-config.php:22983
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:328
 #: includes/data-sources/class-ws-form-data-source-term.php:167
 #: includes/data-sources/class-ws-form-data-source-term.php:816
@@ -2212,7 +2215,7 @@ msgstr "Brak typu tagu konwersji w konfiguracji akcji."
 #: includes/class-ws-form-config.php:18460
 #: includes/class-ws-form-config.php:18936
 #: includes/class-ws-form-config.php:18946
-#: includes/class-ws-form-config.php:23077
+#: includes/class-ws-form-config.php:23078
 #: includes/config/class-ws-form-config-public.php:402
 #: includes/core/class-ws-form-submit.php:4788
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:249
@@ -2227,32 +2230,32 @@ msgid "Google Tag Manager (Data Layer)"
 msgstr "Google Tag Manager (warstwa danych)"
 
 #: includes/actions/class-ws-form-action-conversion.php:453
-#: includes/class-ws-form-config.php:20324
+#: includes/class-ws-form-config.php:20325
 msgid "Google Analytics"
 msgstr "Google Analytics"
 
 #: includes/actions/class-ws-form-action-conversion.php:454
-#: includes/class-ws-form-config.php:20353
+#: includes/class-ws-form-config.php:20354
 msgid "Fathom Analytics"
 msgstr "Fathom Analytics"
 
 #: includes/actions/class-ws-form-action-conversion.php:455
-#: includes/class-ws-form-config.php:20368
+#: includes/class-ws-form-config.php:20369
 msgid "Bento"
 msgstr "Bento"
 
 #: includes/actions/class-ws-form-action-conversion.php:456
-#: includes/class-ws-form-config.php:20383
+#: includes/class-ws-form-config.php:20384
 msgid "Facebook (Standard)"
 msgstr "Facebook (standardowy)"
 
 #: includes/actions/class-ws-form-action-conversion.php:457
-#: includes/class-ws-form-config.php:20398
+#: includes/class-ws-form-config.php:20399
 msgid "Facebook (Custom)"
 msgstr "Facebook (niestandardowy)"
 
 #: includes/actions/class-ws-form-action-conversion.php:458
-#: includes/class-ws-form-config.php:20413
+#: includes/class-ws-form-config.php:20414
 msgid "LinkedIn (Insight Tag)"
 msgstr "LinkedIn (Insight Tag)"
 
@@ -2328,7 +2331,7 @@ msgstr "Klucz"
 #: includes/class-ws-form-config.php:17891
 #: includes/class-ws-form-config.php:18025
 #: includes/class-ws-form-config.php:18278
-#: includes/class-ws-form-config.php:19686
+#: includes/class-ws-form-config.php:19687
 #: includes/config/class-ws-form-config-admin.php:1127
 #: includes/config/class-ws-form-config-conditional.php:631
 #: includes/config/class-ws-form-config-styler.php:4503
@@ -2725,7 +2728,7 @@ msgid "Source"
 msgstr "Źródło"
 
 #: includes/actions/class-ws-form-action-custom-api.php:895
-#: includes/class-ws-form-config.php:22160
+#: includes/class-ws-form-config.php:22161
 msgid "String"
 msgstr "String - ciąg znaków"
 
@@ -3159,9 +3162,9 @@ msgstr "Po ilu dniach zgłoszenie jest automatycznie przenoszone do kosza?"
 #: includes/class-ws-form-config.php:12303
 #: includes/class-ws-form-config.php:12485
 #: includes/class-ws-form-config.php:16282
-#: includes/class-ws-form-config.php:22736
-#: includes/class-ws-form-config.php:23267
-#: includes/class-ws-form-config.php:23468
+#: includes/class-ws-form-config.php:22737
+#: includes/class-ws-form-config.php:23268
+#: includes/class-ws-form-config.php:23469
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:290
 #: includes/data-sources/class-ws-form-data-source-user.php:151
 #: includes/data-sources/class-ws-form-data-source-user.php:626
@@ -3291,7 +3294,7 @@ msgid "Email address replies will be sent to."
 msgstr "Adres e-mail, na który będą wysyłane odpowiedzi."
 
 #: includes/actions/class-ws-form-action-email.php:967
-#: includes/class-ws-form-config.php:22742
+#: includes/class-ws-form-config.php:22743
 msgid "Subject"
 msgstr "Temat"
 
@@ -3362,7 +3365,7 @@ msgstr ""
 "formularza."
 
 #: includes/actions/class-ws-form-action-email.php:1116
-#: includes/class-ws-form-config.php:20910
+#: includes/class-ws-form-config.php:20911
 msgid "Character Set"
 msgstr "Zestaw znaków"
 
@@ -3401,8 +3404,8 @@ msgid "Email Address"
 msgstr "Adres e-mail"
 
 #: includes/actions/class-ws-form-action-email.php:1169
-#: includes/class-ws-form-config.php:23235
-#: includes/class-ws-form-config.php:23476
+#: includes/class-ws-form-config.php:23236
+#: includes/class-ws-form-config.php:23477
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:287
 #: includes/data-sources/class-ws-form-data-source-user.php:148
 #: includes/data-sources/class-ws-form-data-source-user.php:623
@@ -3540,7 +3543,7 @@ msgstr "Nieprawidłowa wiadomość"
 #: includes/actions/class-ws-form-action-message.php:172
 #: includes/class-ws-form-config.php:4056
 #: includes/class-ws-form-config.php:12749
-#: includes/class-ws-form-config.php:23202
+#: includes/class-ws-form-config.php:23203
 #: includes/data-sources/class-ws-form-data-source-post.php:288
 #: includes/data-sources/class-ws-form-data-source-post.php:1360
 msgid "Content"
@@ -3786,10 +3789,10 @@ msgstr "Adres URL przekierowania jest pusty"
 #: includes/class-ws-form-config.php:12489
 #: includes/class-ws-form-config.php:16301
 #: includes/class-ws-form-config.php:18802
-#: includes/class-ws-form-config.php:20860
-#: includes/class-ws-form-config.php:21226
-#: includes/class-ws-form-config.php:23278
-#: includes/class-ws-form-config.php:23484
+#: includes/class-ws-form-config.php:20861
+#: includes/class-ws-form-config.php:21227
+#: includes/class-ws-form-config.php:23279
+#: includes/class-ws-form-config.php:23485
 #: includes/core/class-ws-form-submit.php:4713
 msgid "URL"
 msgstr "URL"
@@ -4137,8 +4140,8 @@ msgstr "Ustaw limit czasu: %u"
 #: includes/class-ws-form-config.php:9343
 #: includes/class-ws-form-config.php:12486
 #: includes/class-ws-form-config.php:13165
-#: includes/class-ws-form-config.php:21819
-#: includes/class-ws-form-config.php:21825
+#: includes/class-ws-form-config.php:21820
+#: includes/class-ws-form-config.php:21826
 #: includes/config/class-ws-form-config-admin.php:392
 #: includes/config/class-ws-form-config-styler.php:2307
 #: includes/config/class-ws-form-config-styler.php:2545
@@ -4750,7 +4753,7 @@ msgid "Click here to learn more about %s"
 msgstr "Kliknij tutaj, aby dowiedzieć się więcej o %s"
 
 #: includes/class-ws-form-common.php:6311
-#: includes/class-ws-form-common.php:7236
+#: includes/class-ws-form-common.php:7237
 msgid "File upload error"
 msgstr "Błąd przesyłania pliku"
 
@@ -4797,61 +4800,61 @@ msgid "Invalid form ID (WS_Form_Common | check_form_id)"
 msgstr ""
 "Nieprawidłowy identyfikator formularza (WS_Form_Common | check_form_id)"
 
-#: includes/class-ws-form-common.php:7237
+#: includes/class-ws-form-common.php:7238
 msgid "File empty"
 msgstr "Plik jest pusty"
 
 #. translators: %s: Extension
-#: includes/class-ws-form-common.php:7244
+#: includes/class-ws-form-common.php:7245
 #, php-format
 msgid "Unsupported file extension: %s"
 msgstr "Nieobsługiwane rozszerzenie pliku: %s"
 
-#: includes/class-ws-form-common.php:7249
+#: includes/class-ws-form-common.php:7250
 msgid "Unable to read uploaded file"
 msgstr "Nie można odczytać przesłanego pliku"
 
 #. translators: %s: json_decode last error message
-#: includes/class-ws-form-common.php:7274
+#: includes/class-ws-form-common.php:7275
 #, php-format
 msgid "JSON corrupt (%s)"
 msgstr "Uszkodzony JSON (%s)"
 
-#: includes/class-ws-form-common.php:7278
+#: includes/class-ws-form-common.php:7279
 msgid "JSON corrupt (Not object)"
 msgstr "Uszkodzony JSON (Nie jest obiektem)"
 
-#: includes/class-ws-form-common.php:7286
+#: includes/class-ws-form-common.php:7287
 msgid "JSON corrupt (Checksum error)"
 msgstr "Uszkodzony JSON (Błąd sumy kontrolnej)"
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-common.php:7298
+#: includes/class-ws-form-common.php:7299
 #, php-format
 msgid "JSON corrupt (Not a %s JSON file)"
 msgstr "Uszkodzony JSON (Nie jest plikiem JSON %s)"
 
-#: includes/class-ws-form-common.php:7310
+#: includes/class-ws-form-common.php:7311
 msgid "Import error (Invalid import type)"
 msgstr "Błąd importu (Nieprawidłowy typ importu)"
 
-#: includes/class-ws-form-common.php:7314
+#: includes/class-ws-form-common.php:7315
 msgid "JSON corrupt (No label)"
 msgstr "Uszkodzony JSON (Brak etykiety)"
 
-#: includes/class-ws-form-common.php:7317
+#: includes/class-ws-form-common.php:7318
 msgid "JSON corrupt (No meta data)"
 msgstr "Uszkodzony JSON (Brak metadanych)"
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7459
+#: includes/class-ws-form-common.php:7460
 #, php-format
 msgid "Node %s not valid or duplicate node."
 msgstr "Węzeł %s jest nieprawidłowy lub jest zduplikowany."
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7531
-#: includes/class-ws-form-common.php:7547
+#: includes/class-ws-form-common.php:7532
+#: includes/class-ws-form-common.php:7548
 #, php-format
 msgid "Node %s not found in response data."
 msgstr "Nie znaleziono w danych odpowiedzi węzła %s."
@@ -5353,7 +5356,7 @@ msgstr "Breakpointy"
 #: includes/class-ws-form-config.php:5928
 #: includes/class-ws-form-config.php:6686
 #: includes/class-ws-form-config.php:6938
-#: includes/class-ws-form-config.php:19655
+#: includes/class-ws-form-config.php:19656
 msgid "Datalist"
 msgstr "Lista danych"
 
@@ -5400,7 +5403,7 @@ msgid "Output Parsing"
 msgstr "Analiza danych wyjściowych"
 
 #: includes/class-ws-form-config.php:549 includes/class-ws-form-config.php:553
-#: includes/class-ws-form-config.php:22137
+#: includes/class-ws-form-config.php:22138
 msgid "Number"
 msgstr "Numer"
 
@@ -5469,7 +5472,7 @@ msgstr "Wybór"
 
 #: includes/class-ws-form-config.php:1147
 #: includes/class-ws-form-config.php:1151
-#: includes/class-ws-form-config.php:22614
+#: includes/class-ws-form-config.php:22615
 #: includes/config/class-ws-form-config-admin.php:962
 #: includes/config/class-ws-form-config-admin.php:963
 #: includes/config/class-ws-form-config-styler.php:4056
@@ -5496,10 +5499,10 @@ msgstr "Własne komunikaty Select2"
 
 #: includes/class-ws-form-config.php:1295
 #: includes/class-ws-form-config.php:6086
-#: includes/class-ws-form-config.php:19710
-#: includes/class-ws-form-config.php:19754
-#: includes/class-ws-form-config.php:19940
-#: includes/class-ws-form-config.php:19985
+#: includes/class-ws-form-config.php:19711
+#: includes/class-ws-form-config.php:19755
+#: includes/class-ws-form-config.php:19941
+#: includes/class-ws-form-config.php:19986
 msgid "Options"
 msgstr "Opcje"
 
@@ -5514,7 +5517,7 @@ msgstr "Kaskadowo"
 
 #: includes/class-ws-form-config.php:1316
 #: includes/class-ws-form-config.php:1320
-#: includes/class-ws-form-config.php:22663
+#: includes/class-ws-form-config.php:22664
 #: includes/config/class-ws-form-config-styler.php:2167
 msgid "Checkbox"
 msgstr "Pole zaznaczenia"
@@ -5542,17 +5545,17 @@ msgstr "Układ"
 
 #: includes/class-ws-form-config.php:1452
 #: includes/class-ws-form-config.php:6244
-#: includes/class-ws-form-config.php:19784
-#: includes/class-ws-form-config.php:19830
-#: includes/class-ws-form-config.php:20015
-#: includes/class-ws-form-config.php:20063
+#: includes/class-ws-form-config.php:19785
+#: includes/class-ws-form-config.php:19831
+#: includes/class-ws-form-config.php:20016
+#: includes/class-ws-form-config.php:20064
 #: includes/core/migrate/gravity_forms.php:822
 msgid "Checkboxes"
 msgstr "Pole zaznaczenia"
 
 #: includes/class-ws-form-config.php:1473
 #: includes/class-ws-form-config.php:1477
-#: includes/class-ws-form-config.php:22714
+#: includes/class-ws-form-config.php:22715
 #: includes/config/class-ws-form-config-styler.php:3579
 msgid "Radio"
 msgstr "Radio"
@@ -5567,10 +5570,10 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:1612
 #: includes/class-ws-form-config.php:6405
-#: includes/class-ws-form-config.php:19862
-#: includes/class-ws-form-config.php:19908
-#: includes/class-ws-form-config.php:20094
-#: includes/class-ws-form-config.php:20142
+#: includes/class-ws-form-config.php:19863
+#: includes/class-ws-form-config.php:19909
+#: includes/class-ws-form-config.php:20095
+#: includes/class-ws-form-config.php:20143
 msgid "Radios"
 msgstr "Guziczki"
 
@@ -5789,7 +5792,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:9515
 #: includes/class-ws-form-config.php:15861
 #: includes/class-ws-form-config.php:15864
-#: includes/class-ws-form-config.php:21446
+#: includes/class-ws-form-config.php:21447
 #: includes/config/class-ws-form-config-styler.php:2923
 #: includes/config/class-ws-form-config-styler.php:3537
 msgid "Progress"
@@ -6172,7 +6175,7 @@ msgstr ""
 "wymazywanie, czyszczenie"
 
 #: includes/class-ws-form-config.php:5799
-#: includes/class-ws-form-config.php:21487
+#: includes/class-ws-form-config.php:21488
 #: includes/config/class-ws-form-config-admin.php:1136
 #: includes/config/class-ws-form-config-option.php:697
 msgid "E-Commerce"
@@ -6183,9 +6186,9 @@ msgstr "E-commerce"
 #: includes/class-ws-form-config.php:17678
 #: includes/class-ws-form-config.php:17901
 #: includes/class-ws-form-config.php:18035
-#: includes/class-ws-form-config.php:19976
-#: includes/class-ws-form-config.php:20054
-#: includes/class-ws-form-config.php:20133
+#: includes/class-ws-form-config.php:19977
+#: includes/class-ws-form-config.php:20055
+#: includes/class-ws-form-config.php:20134
 msgid "Price"
 msgstr "Cena"
 
@@ -6778,7 +6781,7 @@ msgstr "Maksymalna liczba"
 #: includes/class-ws-form-config.php:8642
 #: includes/class-ws-form-config.php:9843
 #: includes/class-ws-form-config.php:15418
-#: includes/class-ws-form-config.php:20444
+#: includes/class-ws-form-config.php:20445
 #: includes/config/class-ws-form-config-admin.php:1117
 msgid "Duration"
 msgstr "Czas trwania"
@@ -6967,7 +6970,7 @@ msgid "Need a key? %s"
 msgstr "Potrzebujesz klucza? %s"
 
 #: includes/class-ws-form-config.php:8295
-#: includes/class-ws-form-config.php:23305
+#: includes/class-ws-form-config.php:23306
 msgid "Register"
 msgstr "Zarejestruj się"
 
@@ -7001,7 +7004,7 @@ msgid "Add tracking data to submissions."
 msgstr "Dodaj dane śledzenia do przesłań."
 
 #: includes/class-ws-form-config.php:8462
-#: includes/class-ws-form-config.php:20455
+#: includes/class-ws-form-config.php:20456
 msgid "Remote IP Address"
 msgstr "Zdalny adres IP"
 
@@ -7022,7 +7025,7 @@ msgstr ""
 "udzielenie uprawnień do tych informacji)."
 
 #: includes/class-ws-form-config.php:8480
-#: includes/class-ws-form-config.php:20488
+#: includes/class-ws-form-config.php:20489
 msgid "Referrer"
 msgstr "Strona odsyłająca"
 
@@ -7031,7 +7034,7 @@ msgid "Referring page."
 msgstr "Strona odsyłająca."
 
 #: includes/class-ws-form-config.php:8489
-#: includes/class-ws-form-config.php:20499
+#: includes/class-ws-form-config.php:20500
 msgid "Operating System"
 msgstr "System operacyjny"
 
@@ -7040,7 +7043,7 @@ msgid "Users operating system."
 msgstr "System operacyjny użytkownika."
 
 #: includes/class-ws-form-config.php:8498
-#: includes/class-ws-form-config.php:20510
+#: includes/class-ws-form-config.php:20511
 msgid "Agent"
 msgstr "Agent"
 
@@ -7049,52 +7052,52 @@ msgid "Users web browser type."
 msgstr "Typ przeglądarki internetowej użytkownika."
 
 #: includes/class-ws-form-config.php:8510
-#: includes/class-ws-form-config.php:20526
+#: includes/class-ws-form-config.php:20527
 msgid "Full URL."
 msgstr "Pełny adres URL."
 
 #: includes/class-ws-form-config.php:8516
-#: includes/class-ws-form-config.php:20532
+#: includes/class-ws-form-config.php:20533
 msgid "URL Hostname"
 msgstr "Nazwa hosta URL"
 
 #: includes/class-ws-form-config.php:8519
-#: includes/class-ws-form-config.php:20537
+#: includes/class-ws-form-config.php:20538
 msgid "Hostname of the URL."
 msgstr "Nazwa hosta adresu URL."
 
 #: includes/class-ws-form-config.php:8525
-#: includes/class-ws-form-config.php:20543
+#: includes/class-ws-form-config.php:20544
 msgid "URL Pathname"
 msgstr "Ścieżka URL"
 
 #: includes/class-ws-form-config.php:8528
-#: includes/class-ws-form-config.php:20548
+#: includes/class-ws-form-config.php:20549
 msgid "Pathname of the URL."
 msgstr "Ścieżka adresu URL."
 
 #: includes/class-ws-form-config.php:8534
-#: includes/class-ws-form-config.php:20554
+#: includes/class-ws-form-config.php:20555
 msgid "URL Query String"
 msgstr "Ciąg zapytania URL"
 
 #: includes/class-ws-form-config.php:8537
-#: includes/class-ws-form-config.php:20559
+#: includes/class-ws-form-config.php:20560
 msgid "Query string of the URL."
 msgstr "Ciąg zapytania adresu URL."
 
 #: includes/class-ws-form-config.php:8543
-#: includes/class-ws-form-config.php:20565
+#: includes/class-ws-form-config.php:20566
 msgid "URL Hash"
 msgstr "Hash URL"
 
 #: includes/class-ws-form-config.php:8546
-#: includes/class-ws-form-config.php:20570
+#: includes/class-ws-form-config.php:20571
 msgid "Hash of the URL."
 msgstr "Hash adresu URL."
 
 #: includes/class-ws-form-config.php:8552
-#: includes/class-ws-form-config.php:20655
+#: includes/class-ws-form-config.php:20656
 msgid "UTM Source"
 msgstr "Źródło UTM"
 
@@ -7103,7 +7106,7 @@ msgid "Campaign source (e.g. website name)."
 msgstr "Źródło kampanii (np. nazwa witryny)."
 
 #: includes/class-ws-form-config.php:8561
-#: includes/class-ws-form-config.php:20667
+#: includes/class-ws-form-config.php:20668
 msgid "UTM Medium"
 msgstr "UTM Medium"
 
@@ -7112,7 +7115,7 @@ msgid "Campaign medium (e.g. email)."
 msgstr "Medium kampanii (np. e-mail)."
 
 #: includes/class-ws-form-config.php:8570
-#: includes/class-ws-form-config.php:20679
+#: includes/class-ws-form-config.php:20680
 msgid "UTM Campaign"
 msgstr "UTM Campaign"
 
@@ -7121,7 +7124,7 @@ msgid "Campaign name."
 msgstr "Nazwa kampanii."
 
 #: includes/class-ws-form-config.php:8579
-#: includes/class-ws-form-config.php:20691
+#: includes/class-ws-form-config.php:20692
 msgid "UTM Term"
 msgstr "UTM Term"
 
@@ -7130,7 +7133,7 @@ msgid "Campaign term (e.g. keyword)."
 msgstr "Termin kampanii (np. słowo kluczowe)."
 
 #: includes/class-ws-form-config.php:8588
-#: includes/class-ws-form-config.php:20703
+#: includes/class-ws-form-config.php:20704
 msgid "UTM Content"
 msgstr "UTM Content"
 
@@ -7139,7 +7142,7 @@ msgid "Campaign content (e.g. text link)."
 msgstr "Treść kampanii (np. link tekstowy)."
 
 #: includes/class-ws-form-config.php:8597
-#: includes/class-ws-form-config.php:20576
+#: includes/class-ws-form-config.php:20577
 msgid "City (By IP)"
 msgstr "Miasto (na podstawie IP)"
 
@@ -7148,7 +7151,7 @@ msgid "Attempt to get the city from the user's IP address."
 msgstr "Spróbuj uzyskać miasto na podstawie adresu IP użytkownika."
 
 #: includes/class-ws-form-config.php:8606
-#: includes/class-ws-form-config.php:20595
+#: includes/class-ws-form-config.php:20596
 msgid "Region (By IP)"
 msgstr "Region (na podstawie IP)"
 
@@ -7157,7 +7160,7 @@ msgid "Attempt to get the region from the user's IP address."
 msgstr "Spróbuj uzyskać region na podstawie adresu IP użytkownika."
 
 #: includes/class-ws-form-config.php:8615
-#: includes/class-ws-form-config.php:20615
+#: includes/class-ws-form-config.php:20616
 msgid "Country (By IP)"
 msgstr "Kraj (na podstawie IP)"
 
@@ -7176,7 +7179,7 @@ msgstr ""
 "użytkownika."
 
 #: includes/class-ws-form-config.php:8633
-#: includes/class-ws-form-config.php:20635
+#: includes/class-ws-form-config.php:20636
 msgid "Time Zone (By IP)"
 msgstr "Strefa czasowa (na podstawie IP)"
 
@@ -7682,12 +7685,12 @@ msgstr "Czas trwania w milisekundach wyświetlania komunikatu."
 
 #: includes/class-ws-form-config.php:10340
 #: includes/class-ws-form-config.php:10348
-#: includes/class-ws-form-config.php:19719
-#: includes/class-ws-form-config.php:19795
-#: includes/class-ws-form-config.php:19873
-#: includes/class-ws-form-config.php:19949
-#: includes/class-ws-form-config.php:20026
-#: includes/class-ws-form-config.php:20105
+#: includes/class-ws-form-config.php:19720
+#: includes/class-ws-form-config.php:19796
+#: includes/class-ws-form-config.php:19874
+#: includes/class-ws-form-config.php:19950
+#: includes/class-ws-form-config.php:20027
+#: includes/class-ws-form-config.php:20106
 #: includes/config/class-ws-form-config-admin.php:882
 msgid "Show Label"
 msgstr "Pokaż etykietę"
@@ -8712,15 +8715,15 @@ msgstr ""
 "zamiast do elementu body."
 
 #: includes/class-ws-form-config.php:12289
-#: includes/class-ws-form-config.php:23243
-#: includes/class-ws-form-config.php:23532
+#: includes/class-ws-form-config.php:23244
+#: includes/class-ws-form-config.php:23533
 #: includes/core/migrate/wpforms.php:851
 msgid "First Name"
 msgstr "Imię"
 
 #: includes/class-ws-form-config.php:12296
-#: includes/class-ws-form-config.php:23251
-#: includes/class-ws-form-config.php:23540
+#: includes/class-ws-form-config.php:23252
+#: includes/class-ws-form-config.php:23541
 #: includes/core/migrate/wpforms.php:857
 msgid "Last Name"
 msgstr "Nazwisko"
@@ -9579,9 +9582,9 @@ msgstr "Zezwalaj na wartość ujemną"
 #: includes/class-ws-form-config.php:13865
 #: includes/class-ws-form-config.php:13889
 #: includes/class-ws-form-config.php:13932
-#: includes/class-ws-form-config.php:22059
-#: includes/class-ws-form-config.php:22941
-#: includes/class-ws-form-config.php:23014
+#: includes/class-ws-form-config.php:22060
+#: includes/class-ws-form-config.php:22942
+#: includes/class-ws-form-config.php:23015
 msgid "Minimum"
 msgstr "Minimum"
 
@@ -9597,9 +9600,9 @@ msgstr "Minimalna wartość, jaką może mieć to pole."
 #: includes/class-ws-form-config.php:13903
 #: includes/class-ws-form-config.php:13917
 #: includes/class-ws-form-config.php:13947
-#: includes/class-ws-form-config.php:22071
-#: includes/class-ws-form-config.php:22957
-#: includes/class-ws-form-config.php:23030
+#: includes/class-ws-form-config.php:22072
+#: includes/class-ws-form-config.php:22958
+#: includes/class-ws-form-config.php:23031
 msgid "Maximum"
 msgstr "Maksimum"
 
@@ -11022,7 +11025,7 @@ msgid "Sort Code (UK Banking)"
 msgstr "Sort code (bankowość w Wielkiej Brytanii)"
 
 #: includes/class-ws-form-config.php:16299
-#: includes/class-ws-form-config.php:23127
+#: includes/class-ws-form-config.php:23128
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:247
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:326
 #: includes/data-sources/class-ws-form-data-source-post.php:283
@@ -11278,7 +11281,7 @@ msgstr "Pobierz dane"
 #: includes/class-ws-form-config.php:17099
 #: includes/class-ws-form-config.php:17363
 #: includes/class-ws-form-config.php:17528
-#: includes/class-ws-form-config.php:19696
+#: includes/class-ws-form-config.php:19697
 msgid "Values"
 msgstr "Wartości"
 
@@ -11492,20 +11495,20 @@ msgstr "Losuj kolejność wierszy"
 #: includes/class-ws-form-config.php:17659
 #: includes/class-ws-form-config.php:17882
 #: includes/class-ws-form-config.php:18016
-#: includes/class-ws-form-config.php:19687
-#: includes/class-ws-form-config.php:19717
-#: includes/class-ws-form-config.php:19745
-#: includes/class-ws-form-config.php:19793
-#: includes/class-ws-form-config.php:19821
-#: includes/class-ws-form-config.php:19871
-#: includes/class-ws-form-config.php:19899
-#: includes/class-ws-form-config.php:19947
-#: includes/class-ws-form-config.php:19975
-#: includes/class-ws-form-config.php:20024
-#: includes/class-ws-form-config.php:20053
-#: includes/class-ws-form-config.php:20103
-#: includes/class-ws-form-config.php:20132
-#: includes/class-ws-form-config.php:21091
+#: includes/class-ws-form-config.php:19688
+#: includes/class-ws-form-config.php:19718
+#: includes/class-ws-form-config.php:19746
+#: includes/class-ws-form-config.php:19794
+#: includes/class-ws-form-config.php:19822
+#: includes/class-ws-form-config.php:19872
+#: includes/class-ws-form-config.php:19900
+#: includes/class-ws-form-config.php:19948
+#: includes/class-ws-form-config.php:19976
+#: includes/class-ws-form-config.php:20025
+#: includes/class-ws-form-config.php:20054
+#: includes/class-ws-form-config.php:20104
+#: includes/class-ws-form-config.php:20133
+#: includes/class-ws-form-config.php:21092
 #: includes/config/class-ws-form-config-admin.php:881
 #: includes/config/class-ws-form-config-styler.php:1069
 #: includes/config/class-ws-form-config-styler.php:4455
@@ -12403,12 +12406,12 @@ msgstr ""
 "jest niedozwolony."
 
 #: includes/class-ws-form-config.php:19221
-#: includes/class-ws-form-config.php:22178
+#: includes/class-ws-form-config.php:22179
 msgid "Uppercase"
 msgstr "Wielkie litery"
 
 #: includes/class-ws-form-config.php:19222
-#: includes/class-ws-form-config.php:22166
+#: includes/class-ws-form-config.php:22167
 msgid "Lowercase"
 msgstr "Małe litery"
 
@@ -12492,134 +12495,134 @@ msgstr "Brak duplikatów w powtarzalnych sekcjach"
 msgid "Disable values already chosen in repeatable sections."
 msgstr "Wyłącz wartości już wybrane w powtarzalnych sekcjach."
 
-#: includes/class-ws-form-config.php:19379
-#: includes/class-ws-form-config.php:19390
+#: includes/class-ws-form-config.php:19380
+#: includes/class-ws-form-config.php:19391
 msgid "Choose which style to use for this form."
 msgstr "Wybierz styl, którego chcesz użyć dla tego formularza."
 
-#: includes/class-ws-form-config.php:19414
+#: includes/class-ws-form-config.php:19415
 msgid "Auto Complete"
 msgstr "Autouzupełnianie"
 
-#: includes/class-ws-form-config.php:19421
+#: includes/class-ws-form-config.php:19422
 msgid "Informs the browsers how to autocomplete this field."
 msgstr "Informuje przeglądarki, jak automatycznie uzupełniać to pole."
 
-#: includes/class-ws-form-config.php:19437
+#: includes/class-ws-form-config.php:19438
 msgid "Visual Editor (TinyMCE)"
 msgstr "Edytor wizualny (TinyMCE)"
 
-#: includes/class-ws-form-config.php:19440
+#: includes/class-ws-form-config.php:19441
 msgid "HTML Editor"
 msgstr "Edytor HTML"
 
-#: includes/class-ws-form-config.php:19525
+#: includes/class-ws-form-config.php:19526
 msgid "Real-Time"
 msgstr "W czasie rzeczywistym"
 
-#: includes/class-ws-form-config.php:19723
-#: includes/class-ws-form-config.php:19953
+#: includes/class-ws-form-config.php:19724
+#: includes/class-ws-form-config.php:19954
 msgid "Wrap In Optgroup"
 msgstr "Zawijaj w optgroup"
 
-#: includes/class-ws-form-config.php:19764
+#: includes/class-ws-form-config.php:19765
 msgid "Option 1"
 msgstr "Opcja 1"
 
-#: includes/class-ws-form-config.php:19769
+#: includes/class-ws-form-config.php:19770
 msgid "Option 2"
 msgstr "Opcja 2"
 
-#: includes/class-ws-form-config.php:19774
+#: includes/class-ws-form-config.php:19775
 msgid "Option 3"
 msgstr "Opcja 3"
 
-#: includes/class-ws-form-config.php:19799
-#: includes/class-ws-form-config.php:19877
-#: includes/class-ws-form-config.php:20030
-#: includes/class-ws-form-config.php:20109
+#: includes/class-ws-form-config.php:19800
+#: includes/class-ws-form-config.php:19878
+#: includes/class-ws-form-config.php:20031
+#: includes/class-ws-form-config.php:20110
 msgid "Wrap In Fieldset"
 msgstr "Zawijaj w fieldset"
 
-#: includes/class-ws-form-config.php:19842
+#: includes/class-ws-form-config.php:19843
 msgid "Checkbox 1"
 msgstr "Pole wyboru 1"
 
-#: includes/class-ws-form-config.php:19847
+#: includes/class-ws-form-config.php:19848
 msgid "Checkbox 2"
 msgstr "Pole wyboru 2"
 
-#: includes/class-ws-form-config.php:19852
+#: includes/class-ws-form-config.php:19853
 msgid "Checkbox 3"
 msgstr "Pole wyboru 3"
 
-#: includes/class-ws-form-config.php:19920
+#: includes/class-ws-form-config.php:19921
 msgid "Radio 1"
 msgstr "Pole radiowe 1"
 
-#: includes/class-ws-form-config.php:19925
+#: includes/class-ws-form-config.php:19926
 msgid "Radio 2"
 msgstr "Radio 2"
 
-#: includes/class-ws-form-config.php:19930
+#: includes/class-ws-form-config.php:19931
 msgid "Radio 3"
 msgstr "Radio 3"
 
-#: includes/class-ws-form-config.php:19995
-#: includes/class-ws-form-config.php:20074
-#: includes/class-ws-form-config.php:20153
+#: includes/class-ws-form-config.php:19996
+#: includes/class-ws-form-config.php:20075
+#: includes/class-ws-form-config.php:20154
 msgid "Product 1"
 msgstr "Produkt 1"
 
-#: includes/class-ws-form-config.php:20000
-#: includes/class-ws-form-config.php:20079
-#: includes/class-ws-form-config.php:20158
+#: includes/class-ws-form-config.php:20001
+#: includes/class-ws-form-config.php:20080
+#: includes/class-ws-form-config.php:20159
 msgid "Product 2"
 msgstr "Produkt 2"
 
-#: includes/class-ws-form-config.php:20005
-#: includes/class-ws-form-config.php:20084
-#: includes/class-ws-form-config.php:20163
+#: includes/class-ws-form-config.php:20006
+#: includes/class-ws-form-config.php:20085
+#: includes/class-ws-form-config.php:20164
 msgid "Product 3"
 msgstr "Produkt 3"
 
-#: includes/class-ws-form-config.php:20255
+#: includes/class-ws-form-config.php:20256
 msgid "Mobile breakpoint"
 msgstr "Punkt przerwania: telefon"
 
-#: includes/class-ws-form-config.php:20256
+#: includes/class-ws-form-config.php:20257
 msgid "Tablet breakpoint"
 msgstr "Punkt przerwania: tablet"
 
-#: includes/class-ws-form-config.php:20257
+#: includes/class-ws-form-config.php:20258
 msgid "Laptop breakpoint"
 msgstr "Punkt przerwania: laptop"
 
-#: includes/class-ws-form-config.php:20258
+#: includes/class-ws-form-config.php:20259
 msgid "Desktop breakpoint"
 msgstr "Punkt przerwania: komputer stacjonarny"
 
-#: includes/class-ws-form-config.php:20259
+#: includes/class-ws-form-config.php:20260
 msgid "Large desktop breakpoint"
 msgstr "Punkt przerwania: duży komputer stacjonarny"
 
-#: includes/class-ws-form-config.php:20260
+#: includes/class-ws-form-config.php:20261
 msgid "Extra large desktop breakpoint"
 msgstr "Punkt przerwania: bardzo duży komputer stacjonarny"
 
-#: includes/class-ws-form-config.php:20449
+#: includes/class-ws-form-config.php:20450
 msgid "Stores the duration it took to complete the form in seconds."
 msgstr "Przechowuje czas potrzebny na wypełnienie formularza w sekundach."
 
-#: includes/class-ws-form-config.php:20458
+#: includes/class-ws-form-config.php:20459
 msgid "Stores the website visitors remote IP address, e.g. 123.45.67.89"
 msgstr "Przechowuje zdalny adres IP odwiedzającego witrynę, np. 123.45.67.89"
 
-#: includes/class-ws-form-config.php:20464
+#: includes/class-ws-form-config.php:20465
 msgid "Location (By browser)"
 msgstr "Lokalizacja (wg przeglądarki)"
 
-#: includes/class-ws-form-config.php:20469
+#: includes/class-ws-form-config.php:20470
 msgid ""
 "If a website visitors device supports geo location (GPS) this option will "
 "prompt and request permission for that data and store the latitude and "
@@ -12629,11 +12632,11 @@ msgstr ""
 "opcja wyświetli monit i poprosi o zgodę na dostęp do tych danych oraz "
 "zapisze szerokość i długość geograficzną w zgłoszeniu."
 
-#: includes/class-ws-form-config.php:20475
+#: includes/class-ws-form-config.php:20476
 msgid "Location (By IP)"
 msgstr "Lokalizacja (wg IP)"
 
-#: includes/class-ws-form-config.php:20482
+#: includes/class-ws-form-config.php:20483
 msgid ""
 "This will obtain an approximate latitude and longitude of a website visitor "
 "by their IP address."
@@ -12641,7 +12644,7 @@ msgstr ""
 "Pozwala uzyskać przybliżoną szerokość i długość geograficzną odwiedzającego "
 "witrynę na podstawie jego adresu IP."
 
-#: includes/class-ws-form-config.php:20493
+#: includes/class-ws-form-config.php:20494
 msgid ""
 "Stores the web page address a website visitor was on prior to completing the "
 "submitted form."
@@ -12649,20 +12652,20 @@ msgstr ""
 "Przechowuje adres strony internetowej, na której znajdował się odwiedzający "
 "witrynę przed wypełnieniem i wysłaniem formularza."
 
-#: includes/class-ws-form-config.php:20504
+#: includes/class-ws-form-config.php:20505
 msgid "Stores the website visitors operating system."
 msgstr "Przechowuje system operacyjny odwiedzającego witrynę."
 
-#: includes/class-ws-form-config.php:20515
+#: includes/class-ws-form-config.php:20516
 msgid "Stores the website visitors agent (browser type)."
 msgstr "Przechowuje agenta odwiedzającego witrynę (typ przeglądarki)."
 
-#: includes/class-ws-form-config.php:20521
+#: includes/class-ws-form-config.php:20522
 msgid "URL Full"
 msgstr "Pełny adres URL"
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-config.php:20586
+#: includes/class-ws-form-config.php:20587
 #, php-format
 msgid ""
 "If checked, %s will perform an IP lookup and obtain the city located closest "
@@ -12672,7 +12675,7 @@ msgstr ""
 "najbliżej ich przybliżonej lokalizacji."
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-config.php:20605
+#: includes/class-ws-form-config.php:20606
 #, php-format
 msgid ""
 "If checked, %s will perform an IP lookup and obtain the region located "
@@ -12682,7 +12685,7 @@ msgstr ""
 "najbliżej jego przybliżonej lokalizacji."
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-config.php:20625
+#: includes/class-ws-form-config.php:20626
 #, php-format
 msgid ""
 "If checked, %s will perform an IP lookup and obtain the country located "
@@ -12692,7 +12695,7 @@ msgstr ""
 "ich przybliżonej lokalizacji."
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-config.php:20645
+#: includes/class-ws-form-config.php:20646
 #, php-format
 msgid ""
 "If checked, %s will perform an IP lookup and obtain the time zone closest to "
@@ -12701,20 +12704,20 @@ msgstr ""
 "Jeśli zaznaczone, %s wykona wyszukiwanie IP i uzyska strefę czasową "
 "najbliższą jego przybliżonej lokalizacji."
 
-#: includes/class-ws-form-config.php:20661
+#: includes/class-ws-form-config.php:20662
 msgid ""
 "This can be used to store the UTM (Urchin Tracking Module) source parameter."
 msgstr ""
 "Można tego użyć do przechowywania parametru źródła UTM (Urchin Tracking "
 "Module)."
 
-#: includes/class-ws-form-config.php:20673
+#: includes/class-ws-form-config.php:20674
 msgid ""
 "This can be used to store the UTM (Urchin Tracking Module) medium parameter."
 msgstr ""
 "Może służyć do przechowywania parametru medium UTM (Urchin Tracking Module)."
 
-#: includes/class-ws-form-config.php:20685
+#: includes/class-ws-form-config.php:20686
 msgid ""
 "This can be used to store the UTM (Urchin Tracking Module) campaign "
 "parameter."
@@ -12722,27 +12725,27 @@ msgstr ""
 "Można tego użyć do przechowywania parametru kampanii UTM (Urchin Tracking "
 "Module)."
 
-#: includes/class-ws-form-config.php:20697
+#: includes/class-ws-form-config.php:20698
 msgid ""
 "This can be used to store the UTM (Urchin Tracking Module) term parameter."
 msgstr ""
 "Może służyć do przechowywania parametru term UTM (Urchin Tracking Module)."
 
-#: includes/class-ws-form-config.php:20709
+#: includes/class-ws-form-config.php:20710
 msgid ""
 "This can be used to store the UTM (Urchin Tracking Module) content parameter."
 msgstr ""
 "Może służyć do przechowywania parametru content UTM (Urchin Tracking Module)."
 
-#: includes/class-ws-form-config.php:20852
+#: includes/class-ws-form-config.php:20853
 msgid "Blog"
 msgstr "Blog"
 
-#: includes/class-ws-form-config.php:20854
+#: includes/class-ws-form-config.php:20855
 msgid "Use these variables to insert blog related information."
 msgstr "Użyj tych zmiennych, aby wstawić informacje związane z blogiem."
 
-#: includes/class-ws-form-config.php:20862
+#: includes/class-ws-form-config.php:20863
 msgid ""
 "Returns the <strong>WordPress Address (URL)</strong> setting in "
 "<strong>WordPress Settings &gt; General</strong>."
@@ -12750,7 +12753,7 @@ msgstr ""
 "Zwraca ustawienie <strong>Adres WordPress (URL)</strong> w "
 "<strong>Ustawienia WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:20870
+#: includes/class-ws-form-config.php:20871
 msgid ""
 "Returns the <strong>Site Title</strong> setting in <strong>WordPress "
 "Settings &gt; General</strong>."
@@ -12758,11 +12761,11 @@ msgstr ""
 "Zwraca ustawienie <strong>Tytuł witryny</strong> w <strong>Ustawienia "
 "WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:20877
+#: includes/class-ws-form-config.php:20878
 msgid "Language (Site)"
 msgstr "Język (witryna)"
 
-#: includes/class-ws-form-config.php:20879
+#: includes/class-ws-form-config.php:20880
 msgid ""
 "Returns the Site Language from WordPress Settings &gt; General via "
 "get_bloginfo( 'language' ). WordPress stores this using ISO 639 (with "
@@ -12776,11 +12779,11 @@ msgstr ""
 "5646, np. en-US). Może różnić się od #blog_locale (get_locale()) w "
 "niektórych instalacjach lub przy użyciu wtyczek wielojęzycznych."
 
-#: includes/class-ws-form-config.php:20886
+#: includes/class-ws-form-config.php:20887
 msgid "Locale (Site)"
 msgstr "Ustawienia regionalne (witryna)"
 
-#: includes/class-ws-form-config.php:20888
+#: includes/class-ws-form-config.php:20889
 msgid ""
 "POSIX-style locale identifier from <code>get_locale()</code>: language and "
 "optional region separated by an underscore, as WordPress uses for "
@@ -12797,11 +12800,11 @@ msgstr ""
 "Uwzględnia wtyczki wielojęzyczne, które filtrują ustawienia regionalne "
 "WordPress."
 
-#: includes/class-ws-form-config.php:20894
+#: includes/class-ws-form-config.php:20895
 msgid "Language Code (Site)"
 msgstr "Kod języka (witryna)"
 
-#: includes/class-ws-form-config.php:20896
+#: includes/class-ws-form-config.php:20897
 msgid ""
 "Primary language subtag from the site locale in ISO 639-1 format (e.g. "
 "<code>en</code>, <code>fr</code>, or <code>pt</code>)."
@@ -12809,11 +12812,11 @@ msgstr ""
 "Podtag języka podstawowego z ustawień regionalnych witryny w formacie ISO "
 "639-1 (np. <code>en</code>, <code>fr</code> lub <code>pt</code>)."
 
-#: includes/class-ws-form-config.php:20902
+#: includes/class-ws-form-config.php:20903
 msgid "Country Code (Site)"
 msgstr "Kod kraju (witryna)"
 
-#: includes/class-ws-form-config.php:20904
+#: includes/class-ws-form-config.php:20905
 msgid ""
 "Region subtag from the site locale in ISO 3166-1 alpha-2 format (e.g. "
 "<code>US</code>, <code>CA</code>), or blank if the locale has no region."
@@ -12822,15 +12825,15 @@ msgstr ""
 "(np. <code>US</code>, <code>CA</code>) lub pusty, jeśli ustawienia "
 "regionalne nie zawierają regionu."
 
-#: includes/class-ws-form-config.php:20912
+#: includes/class-ws-form-config.php:20913
 msgid "Returns the site character set."
 msgstr "Zwraca zestaw znaków witryny."
 
-#: includes/class-ws-form-config.php:20918
+#: includes/class-ws-form-config.php:20919
 msgid "Admin Email"
 msgstr "Email Administratora"
 
-#: includes/class-ws-form-config.php:20919
+#: includes/class-ws-form-config.php:20920
 msgid ""
 "Returns the <strong>Administrator Email Address</strong> setting in "
 "<strong>WordPress Settings &gt; General</strong>."
@@ -12838,13 +12841,13 @@ msgstr ""
 "Zwraca ustawienie <strong>Adres e-mail administratora</strong> w "
 "<strong>Ustawienia WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:20926
-#: includes/class-ws-form-config.php:20999
-#: includes/class-ws-form-config.php:21038
+#: includes/class-ws-form-config.php:20927
+#: includes/class-ws-form-config.php:21000
+#: includes/class-ws-form-config.php:21039
 msgid "Current Time"
 msgstr "Czas bieżący"
 
-#: includes/class-ws-form-config.php:20928
+#: includes/class-ws-form-config.php:20929
 msgid ""
 "Returns the blog time formatted according to the <strong>Date Format</"
 "strong> setting found in <strong>WordPress Settings &gt; General</strong>."
@@ -12852,24 +12855,24 @@ msgstr ""
 "Zwraca czas bloga sformatowany zgodnie z ustawieniem <strong>Format daty</"
 "strong> znajdującym się w <strong>Ustawienia WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:20936
-#: includes/class-ws-form-config.php:21007
-#: includes/class-ws-form-config.php:21048
+#: includes/class-ws-form-config.php:20937
+#: includes/class-ws-form-config.php:21008
+#: includes/class-ws-form-config.php:21049
 msgid "Custom Date"
 msgstr "Niestandardowa Data"
 
-#: includes/class-ws-form-config.php:20943
+#: includes/class-ws-form-config.php:20944
 msgid ""
 "Returns the blog date and time in the specified format (PHP date format)."
 msgstr "Zwraca datę i godzinę bloga w określonym formacie (format daty PHP)."
 
-#: includes/class-ws-form-config.php:20951
-#: includes/class-ws-form-config.php:21021
-#: includes/class-ws-form-config.php:21064
+#: includes/class-ws-form-config.php:20952
+#: includes/class-ws-form-config.php:21022
+#: includes/class-ws-form-config.php:21065
 msgid "Current Date"
 msgstr "Bieżąca data"
 
-#: includes/class-ws-form-config.php:20953
+#: includes/class-ws-form-config.php:20954
 msgid ""
 "Returns the blog time formatted according to the <strong>Time Format</"
 "strong> setting found in <strong>WordPress Settings &gt; General</strong>."
@@ -12877,15 +12880,15 @@ msgstr ""
 "Zwraca czas bloga sformatowany zgodnie z ustawieniem <strong>Format godziny</"
 "strong> znajdującym się w <strong>Ustawienia WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:20964
+#: includes/class-ws-form-config.php:20965
 msgid "Client"
 msgstr "Klient"
 
-#: includes/class-ws-form-config.php:20971
+#: includes/class-ws-form-config.php:20972
 msgid "Language (Browser)"
 msgstr "Język (przeglądarka)"
 
-#: includes/class-ws-form-config.php:20972
+#: includes/class-ws-form-config.php:20973
 msgid ""
 "Language tag from the visitor's browser <code>navigator.language</code> (RFC "
 "5646; ISO 639 with optional ISO 3166-1 alpha-2 region; hyphen-separated; for "
@@ -12897,11 +12900,11 @@ msgstr ""
 "myślnikiem; na przykład <code>en-US</code>). Tylko po stronie klienta; "
 "puste, gdy analizowane na serwerze."
 
-#: includes/class-ws-form-config.php:20978
+#: includes/class-ws-form-config.php:20979
 msgid "Locale (Browser)"
 msgstr "Ustawienia regionalne (przeglądarka)"
 
-#: includes/class-ws-form-config.php:20979
+#: includes/class-ws-form-config.php:20980
 msgid ""
 "POSIX-style locale derived from the browser tag: underscores instead of "
 "hyphens (WordPress/POSIX-style; for example <code>en_US</code>). Region uses "
@@ -12913,11 +12916,11 @@ msgstr ""
 "<code>en_US</code>). Region używa ISO 3166-1 alpha-2, jeśli występuje. Tylko "
 "po stronie klienta; puste, gdy analizowane na serwerze."
 
-#: includes/class-ws-form-config.php:20985
+#: includes/class-ws-form-config.php:20986
 msgid "Language Code (Browser)"
 msgstr "Kod języka (przeglądarka)"
 
-#: includes/class-ws-form-config.php:20986
+#: includes/class-ws-form-config.php:20987
 msgid ""
 "Primary language subtag from the browser locale (ISO 639; lowercase, "
 "typically ISO 639-1). Client-side only; empty when parsed on the server."
@@ -12926,11 +12929,11 @@ msgstr ""
 "małe litery, zwykle ISO 639-1). Tylko po stronie klienta; pusty, gdy "
 "analizowany na serwerze."
 
-#: includes/class-ws-form-config.php:20992
+#: includes/class-ws-form-config.php:20993
 msgid "Country Code (Browser)"
 msgstr "Kod kraju (przeglądarka)"
 
-#: includes/class-ws-form-config.php:20993
+#: includes/class-ws-form-config.php:20994
 msgid ""
 "Region subtag from the browser locale using ISO 3166-1 alpha-2, or blank if "
 "none. Client-side only; empty when parsed on the server."
@@ -12939,7 +12942,7 @@ msgstr ""
 "alpha-2 lub pusty, jeśli brak. Tylko po stronie klienta; pusty, gdy "
 "analizowany na serwerze."
 
-#: includes/class-ws-form-config.php:21000
+#: includes/class-ws-form-config.php:21001
 msgid ""
 "Returns the users web browser local time according to the <strong>Time "
 "Format</strong> setting found in <strong>WordPress Settings &gt; General</"
@@ -12949,7 +12952,7 @@ msgstr ""
 "<strong>Format godziny</strong> znajdującym się w <strong>Ustawienia "
 "WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:21014
+#: includes/class-ws-form-config.php:21015
 msgid ""
 "Returns the users web browser local date and time in the specified format "
 "(PHP date format)."
@@ -12957,7 +12960,7 @@ msgstr ""
 "Zwraca lokalną datę i godzinę z przeglądarki użytkownika w określonym "
 "formacie (format daty PHP)."
 
-#: includes/class-ws-form-config.php:21022
+#: includes/class-ws-form-config.php:21023
 msgid ""
 "Returns the users web browser local date according to the <strong>Date "
 "Format</strong> setting found in <strong>WordPress Settings &gt; General</"
@@ -12967,11 +12970,11 @@ msgstr ""
 "<strong>Format daty</strong> znajdującym się w <strong>Ustawienia WordPress "
 "&gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:21032
+#: includes/class-ws-form-config.php:21033
 msgid "Server"
 msgstr "Serwer"
 
-#: includes/class-ws-form-config.php:21040
+#: includes/class-ws-form-config.php:21041
 msgid ""
 "Returns the server time according to the <strong>Date Format</strong> "
 "setting found in <strong>WordPress Settings &gt; General</strong>."
@@ -12979,12 +12982,12 @@ msgstr ""
 "Zwraca czas serwera zgodnie z ustawieniem <strong>Format daty</strong> "
 "znajdującym się w <strong>Ustawienia WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:21056
+#: includes/class-ws-form-config.php:21057
 msgid ""
 "Returns the server date and time in the specified format (PHP date format)."
 msgstr "Zwraca datę i godzinę serwera w określonym formacie (format daty PHP)."
 
-#: includes/class-ws-form-config.php:21066
+#: includes/class-ws-form-config.php:21067
 msgid ""
 "Returns the server date according to the <strong>Date Format</strong> "
 "setting found in <strong>WordPress Settings &gt; General</strong>."
@@ -12992,74 +12995,74 @@ msgstr ""
 "Zwraca datę serwera zgodnie z ustawieniem <strong>Format daty</strong> "
 "znajdującym się w <strong>Ustawienia WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:21083
+#: includes/class-ws-form-config.php:21084
 msgid "DOM Selector ID"
 msgstr "ID selektora DOM"
 
-#: includes/class-ws-form-config.php:21084
+#: includes/class-ws-form-config.php:21085
 msgid "Returns the DOM selector ID of the form element."
 msgstr "Zwraca ID selektora DOM elementu formularza."
 
-#: includes/class-ws-form-config.php:21092
+#: includes/class-ws-form-config.php:21093
 msgid "Returns the form label."
 msgstr "Zwraca etykietę formularza."
 
-#: includes/class-ws-form-config.php:21098
+#: includes/class-ws-form-config.php:21099
 msgid "Instance ID"
 msgstr "ID instancji"
 
-#: includes/class-ws-form-config.php:21099
+#: includes/class-ws-form-config.php:21100
 msgid "Returns the form instance ID."
 msgstr "Zwraca identyfikator instancji formularza."
 
-#: includes/class-ws-form-config.php:21107
+#: includes/class-ws-form-config.php:21108
 msgid "Returns the ID of the form."
 msgstr "Zwraca ID formularza."
 
-#: includes/class-ws-form-config.php:21113
+#: includes/class-ws-form-config.php:21114
 #: includes/config/class-ws-form-config-admin.php:1459
 #: includes/config/class-ws-form-config-option.php:572
 #: includes/config/class-ws-form-config-public.php:392
 msgid "Framework"
 msgstr "Framework"
 
-#: includes/class-ws-form-config.php:21114
+#: includes/class-ws-form-config.php:21115
 msgid "Returns the current framework being used to render the form."
 msgstr "Zwraca bieżący framework używany do renderowania formularza."
 
-#: includes/class-ws-form-config.php:21121
+#: includes/class-ws-form-config.php:21122
 #: includes/config/class-ws-form-config-public.php:390
 msgid "Checksum"
 msgstr "Suma kontrolna"
 
-#: includes/class-ws-form-config.php:21122
+#: includes/class-ws-form-config.php:21123
 msgid "Returns the form checksum."
 msgstr "Zwraca sumę kontrolną formularza."
 
-#: includes/class-ws-form-config.php:21137
+#: includes/class-ws-form-config.php:21138
 #: includes/frameworks/class-ws-form-framework-ws-form.php:87
 #: includes/frameworks/class-ws-form-framework-ws-form.php:90
 msgid "Tab Label"
 msgstr "Etykieta karty"
 
-#: includes/class-ws-form-config.php:21142
+#: includes/class-ws-form-config.php:21143
 msgid "Returns the tab label by ID."
 msgstr "Zwraca etykietę karty według identyfikatora."
 
-#: includes/class-ws-form-config.php:21159
+#: includes/class-ws-form-config.php:21160
 msgid "Returns the ID of the submission."
 msgstr "Zwraca identyfikator zgłoszenia."
 
-#: includes/class-ws-form-config.php:21167
-#: includes/class-ws-form-config.php:22339
+#: includes/class-ws-form-config.php:21168
+#: includes/class-ws-form-config.php:22340
 msgid "Hash"
 msgstr "Wartość hash"
 
-#: includes/class-ws-form-config.php:21168
+#: includes/class-ws-form-config.php:21169
 msgid "Returns the anonymized hash ID of the submission."
 msgstr "Zwraca zanonimizowany identyfikator hash zgłoszenia."
 
-#: includes/class-ws-form-config.php:21177
+#: includes/class-ws-form-config.php:21178
 msgid ""
 "Returns the date and time of the submission according to the <strong>Date "
 "Format</strong> setting found in <strong>WordPress Settings &gt; General</"
@@ -13068,42 +13071,42 @@ msgstr ""
 "Zwraca datę i godzinę zgłoszenia zgodnie z ustawieniem <strong>Format daty</"
 "strong> znajdującym się w <strong>Ustawienia WordPressa &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:21185
+#: includes/class-ws-form-config.php:21186
 msgid "Date Added Custom"
 msgstr "Data dodania (własna)"
 
-#: includes/class-ws-form-config.php:21191
+#: includes/class-ws-form-config.php:21192
 msgid ""
 "Returns the submit date and time in the specified format (PHP date format)."
 msgstr ""
 "Zwraca datę i godzinę wysłania w określonym formacie (format daty PHP)."
 
-#: includes/class-ws-form-config.php:21199
+#: includes/class-ws-form-config.php:21200
 msgid "User ID"
 msgstr "Identyfikator użytkownika"
 
-#: includes/class-ws-form-config.php:21200
+#: includes/class-ws-form-config.php:21201
 msgid "Returns the ID of the user who completed the form."
 msgstr "Zwraca identyfikator użytkownika, który wypełnił formularz."
 
-#: includes/class-ws-form-config.php:21208
-#: includes/class-ws-form-config.php:23060
+#: includes/class-ws-form-config.php:21209
+#: includes/class-ws-form-config.php:23061
 msgid "Admin URL"
 msgstr "Adres URL panelu administracyjnego"
 
-#: includes/class-ws-form-config.php:21209
+#: includes/class-ws-form-config.php:21210
 msgid "URL to submission in WordPress admin."
 msgstr "Adres URL do zgłoszenia w panelu administracyjnym WordPress."
 
-#: includes/class-ws-form-config.php:21217
+#: includes/class-ws-form-config.php:21218
 msgid "Admin Link"
 msgstr "Link administracyjny"
 
-#: includes/class-ws-form-config.php:21218
+#: includes/class-ws-form-config.php:21219
 msgid "Link to submission in WordPress admin."
 msgstr "Odnośnik do zgłoszenia w panelu administracyjnym WordPressa."
 
-#: includes/class-ws-form-config.php:21227
+#: includes/class-ws-form-config.php:21228
 msgid ""
 "URL to recall form with submission loaded. Used in conjunction with the "
 "'Save' button."
@@ -13111,12 +13114,12 @@ msgstr ""
 "Adres URL do ponownego wywołania formularza z wczytanym zgłoszeniem. Używane "
 "w połączeniu z przyciskiem „Zapisz”."
 
-#: includes/class-ws-form-config.php:21235
+#: includes/class-ws-form-config.php:21236
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:329
 msgid "Link"
 msgstr "Link"
 
-#: includes/class-ws-form-config.php:21236
+#: includes/class-ws-form-config.php:21237
 msgid ""
 "Link to recall form with submission loaded. Used in conjunction with the "
 "'Save' button."
@@ -13124,7 +13127,7 @@ msgstr ""
 "Link do ponownego wywołania formularza z wczytanym zgłoszeniem. Używany w "
 "połączeniu z przyciskiem „Zapisz”."
 
-#: includes/class-ws-form-config.php:21245
+#: includes/class-ws-form-config.php:21246
 msgid ""
 "draft = In Progress, publish = Submitted, error = Error, spam = Spam, trash "
 "= Trash."
@@ -13132,83 +13135,83 @@ msgstr ""
 "draft = W trakcie, publish = Wysłane, error = Błąd, spam = Spam, trash = "
 "Kosz."
 
-#: includes/class-ws-form-config.php:21253
+#: includes/class-ws-form-config.php:21254
 msgid "Status Label"
 msgstr "Etykietka statusu"
 
-#: includes/class-ws-form-config.php:21254
+#: includes/class-ws-form-config.php:21255
 msgid "Returns a nice version of the submission status."
 msgstr "Zwraca przyjazną wersję statusu zgłoszenia."
 
-#: includes/class-ws-form-config.php:21265
+#: includes/class-ws-form-config.php:21266
 msgid "Skin"
 msgstr "Skórka"
 
-#: includes/class-ws-form-config.php:21272
+#: includes/class-ws-form-config.php:21273
 msgid "Color - Default"
 msgstr "Kolor — domyślny"
 
-#: includes/class-ws-form-config.php:21280
+#: includes/class-ws-form-config.php:21281
 msgid "Color - Default (Inverted)"
 msgstr "Kolor – domyślny (odwrócony)"
 
-#: includes/class-ws-form-config.php:21288
+#: includes/class-ws-form-config.php:21289
 msgid "Color - Default (Light)"
 msgstr "Kolor – domyślny (jasny)"
 
-#: includes/class-ws-form-config.php:21296
+#: includes/class-ws-form-config.php:21297
 msgid "Color - Default (Lighter)"
 msgstr "Kolor – domyślny (jaśniejszy)"
 
-#: includes/class-ws-form-config.php:21304
+#: includes/class-ws-form-config.php:21305
 msgid "Color - Default (Lightest)"
 msgstr "Kolor – domyślny (najjaśniejszy)"
 
-#: includes/class-ws-form-config.php:21312
+#: includes/class-ws-form-config.php:21313
 msgid "Color - Primary"
 msgstr "Kolor – podstawowy"
 
-#: includes/class-ws-form-config.php:21320
+#: includes/class-ws-form-config.php:21321
 msgid "Color - Secondary"
 msgstr "Kolor – dodatkowy"
 
-#: includes/class-ws-form-config.php:21328
+#: includes/class-ws-form-config.php:21329
 msgid "Color - Success"
 msgstr "Kolor – sukces"
 
-#: includes/class-ws-form-config.php:21336
+#: includes/class-ws-form-config.php:21337
 msgid "Color - Information"
 msgstr "Kolor – informacja"
 
-#: includes/class-ws-form-config.php:21344
+#: includes/class-ws-form-config.php:21345
 msgid "Color - Warning"
 msgstr "Kolor – ostrzeżenie"
 
-#: includes/class-ws-form-config.php:21352
+#: includes/class-ws-form-config.php:21353
 msgid "Color - Danger"
 msgstr "Kolor – niebezpieczeństwo"
 
-#: includes/class-ws-form-config.php:21361
+#: includes/class-ws-form-config.php:21362
 msgid "Font - Family"
 msgstr "Czcionka - Rodzina"
 
-#: includes/class-ws-form-config.php:21369
+#: includes/class-ws-form-config.php:21370
 msgid "Font - Size"
 msgstr "Czcionka - Rozmiar"
 
-#: includes/class-ws-form-config.php:21377
+#: includes/class-ws-form-config.php:21378
 msgid "Font - Size (Large)"
 msgstr "Czcionka - Rozmiar (Duży)"
 
-#: includes/class-ws-form-config.php:21385
+#: includes/class-ws-form-config.php:21386
 msgid "Font - Size (Small)"
 msgstr "Czcionka - Rozmiar (Mały)"
 
-#: includes/class-ws-form-config.php:21393
+#: includes/class-ws-form-config.php:21394
 msgid "Font - Weight"
 msgstr "Czcionka - Grubość"
 
-#: includes/class-ws-form-config.php:21401
+#: includes/class-ws-form-config.php:21402
 #: includes/config/class-ws-form-config-customize.php:313
 #: includes/config/class-ws-form-config-styler.php:370
 #: includes/config/class-ws-form-config-styler.php:1253
@@ -13216,67 +13219,67 @@ msgstr "Czcionka - Grubość"
 msgid "Line Height"
 msgstr "Wysokość linii"
 
-#: includes/class-ws-form-config.php:21410
+#: includes/class-ws-form-config.php:21411
 msgid "Border - Width"
 msgstr "Obramowanie - Szerokość"
 
-#: includes/class-ws-form-config.php:21418
+#: includes/class-ws-form-config.php:21419
 msgid "Border - Style"
 msgstr "Obramowanie - Styl"
 
-#: includes/class-ws-form-config.php:21426
+#: includes/class-ws-form-config.php:21427
 msgid "Border - Radius"
 msgstr "Obramowanie - Zaokrąglenie"
 
-#: includes/class-ws-form-config.php:21435
+#: includes/class-ws-form-config.php:21436
 msgid "Box Shadow - Width"
 msgstr "Cień pola - Szerokość"
 
-#: includes/class-ws-form-config.php:21452
+#: includes/class-ws-form-config.php:21453
 msgid "Number (0 to 100)"
 msgstr "Liczba (0 do 100)"
 
-#: includes/class-ws-form-config.php:21453
+#: includes/class-ws-form-config.php:21454
 msgid "Returns the progress as number from 0 to 100."
 msgstr "Zwraca postęp jako liczbę od 0 do 100."
 
-#: includes/class-ws-form-config.php:21460
+#: includes/class-ws-form-config.php:21461
 msgid "Percent (0% to 100%)"
 msgstr "Procent (0% to 100%)"
 
-#: includes/class-ws-form-config.php:21461
+#: includes/class-ws-form-config.php:21462
 msgid "Returns the progress as a percentage from 0% to 100%."
 msgstr "Zwraca postęp jako wartość procentową od 0% to do 100%."
 
-#: includes/class-ws-form-config.php:21468
+#: includes/class-ws-form-config.php:21469
 msgid "Number Remaining (100 to 0)"
 msgstr "Pozostała liczba (100 do 0)"
 
-#: includes/class-ws-form-config.php:21469
+#: includes/class-ws-form-config.php:21470
 msgid "Returns the remainig progress as number from 0 to 100."
 msgstr "Zwraca pozostały postęp jako liczbę od 0 do 100."
 
-#: includes/class-ws-form-config.php:21476
+#: includes/class-ws-form-config.php:21477
 msgid "Percent Remaining (100% to 0%)"
 msgstr "Pozostały procent (100% to 0%)"
 
-#: includes/class-ws-form-config.php:21477
+#: includes/class-ws-form-config.php:21478
 msgid "Returns the remaining progress as a percentage from 0% to 100%."
 msgstr "Zwraca pozostały postęp jako wartość procentową od 0% to do 100%."
 
-#: includes/class-ws-form-config.php:21493
+#: includes/class-ws-form-config.php:21494
 msgid "Currency Symbol"
 msgstr "Symbol waluty"
 
-#: includes/class-ws-form-config.php:21495
+#: includes/class-ws-form-config.php:21496
 msgid "Returns the current currency symbol."
 msgstr "Zwraca bieżący symbol waluty."
 
-#: includes/class-ws-form-config.php:21502
+#: includes/class-ws-form-config.php:21503
 msgid "Field Value as Price"
 msgstr "Wartość pola jako cena"
 
-#: includes/class-ws-form-config.php:21507
+#: includes/class-ws-form-config.php:21508
 msgid ""
 "Use this variable to insert the value of a price field on your form. For "
 "example: <code>#field(123)</code> where '123' is the field ID shown in the "
@@ -13289,11 +13292,11 @@ msgstr ""
 "waluty zgodnie z Twoimi ustawieniami E-Commerce. Przykładowy wynik może "
 "wyglądać tak: $123.00"
 
-#: includes/class-ws-form-config.php:21515
+#: includes/class-ws-form-config.php:21516
 msgid "Value as Price"
 msgstr "Wartość jako cena"
 
-#: includes/class-ws-form-config.php:21520
+#: includes/class-ws-form-config.php:21521
 msgid ""
 "Convert the number input to a price that matches the configured e-commerce "
 "currency settings. An example output might be: $123.00"
@@ -13301,15 +13304,15 @@ msgstr ""
 "Konwertuje wartość wejściową liczbową na cenę zgodną ze skonfigurowanymi "
 "ustawieniami waluty e-commerce. Przykładowy wynik może wyglądać tak: $123.00"
 
-#: includes/class-ws-form-config.php:21530
+#: includes/class-ws-form-config.php:21531
 msgid "Option"
 msgstr "Opcja"
 
-#: includes/class-ws-form-config.php:21536
+#: includes/class-ws-form-config.php:21537
 msgid "Get Option"
 msgstr "Pobierz opcję"
 
-#: includes/class-ws-form-config.php:21542
+#: includes/class-ws-form-config.php:21543
 msgid ""
 "Returns an option value by option name. If the option value is an object or "
 "array you can specify the object parameter or array key to return. e.g. "
@@ -13319,69 +13322,69 @@ msgstr ""
 "lub tablicą, możesz określić parametr obiektu lub klucz tablicy do "
 "zwrócenia. np. <code>#option_get(\"my_setting_page_key\", \"email\")</code>"
 
-#: includes/class-ws-form-config.php:21552
+#: includes/class-ws-form-config.php:21553
 msgid "Section Rows"
 msgstr "Wiersze sekcji"
 
-#: includes/class-ws-form-config.php:21558
+#: includes/class-ws-form-config.php:21559
 msgid "Start Rows Start"
 msgstr "Początek wierszy - początek"
 
-#: includes/class-ws-form-config.php:21563
+#: includes/class-ws-form-config.php:21564
 msgid "Defines the start point for looping through repeatable section rows."
 msgstr "Określa punkt początkowy pętli dla powtarzalnych wierszy sekcji."
 
-#: includes/class-ws-form-config.php:21571
+#: includes/class-ws-form-config.php:21572
 msgid "Section Rows End"
 msgstr "Wiersze sekcji - koniec"
 
-#: includes/class-ws-form-config.php:21572
+#: includes/class-ws-form-config.php:21573
 msgid "Defines the end point for looping through repeatable section rows."
 msgstr "Określa punkt końcowy pętli dla powtarzalnych wierszy sekcji."
 
-#: includes/class-ws-form-config.php:21590
+#: includes/class-ws-form-config.php:21591
 msgid "Section Row Count"
 msgstr "Liczba wierszy sekcji"
 
-#: includes/class-ws-form-config.php:21595
+#: includes/class-ws-form-config.php:21596
 msgid "Returns the total number of rows in a repeatable section."
 msgstr "Zwraca łączną liczbę wierszy w sekcji powtarzalnej."
 
-#: includes/class-ws-form-config.php:21603
+#: includes/class-ws-form-config.php:21604
 msgid "Section Row Number"
 msgstr "Numer wiersza sekcji"
 
-#: includes/class-ws-form-config.php:21604
+#: includes/class-ws-form-config.php:21605
 msgid "Returns the row number in a repeatable section."
 msgstr "Zwraca numer wiersza w powtarzalnej sekcji."
 
-#: includes/class-ws-form-config.php:21611
+#: includes/class-ws-form-config.php:21612
 msgid "Section Row Index"
 msgstr "Indeks wiersza sekcji"
 
-#: includes/class-ws-form-config.php:21612
+#: includes/class-ws-form-config.php:21613
 msgid "Returns the row index in a repeatable section."
 msgstr "Zwraca indeks wiersza w sekcji powtarzalnej."
 
-#: includes/class-ws-form-config.php:21619
+#: includes/class-ws-form-config.php:21620
 #: includes/frameworks/class-ws-form-framework-ws-form.php:149
 #: includes/frameworks/class-ws-form-framework-ws-form.php:152
 msgid "Section Label"
 msgstr "Etykieta sekcji"
 
-#: includes/class-ws-form-config.php:21624
+#: includes/class-ws-form-config.php:21625
 msgid "Returns the section label."
 msgstr "Zwraca etykietę sekcji."
 
-#: includes/class-ws-form-config.php:21635
+#: includes/class-ws-form-config.php:21636
 msgid "Seconds"
 msgstr "Sekundy"
 
-#: includes/class-ws-form-config.php:21641
+#: includes/class-ws-form-config.php:21642
 msgid "Seconds since Epoch at midnight"
 msgstr "Sekundy od epoki o północy"
 
-#: includes/class-ws-form-config.php:21642
+#: includes/class-ws-form-config.php:21643
 msgid ""
 "Returns the number of seconds since the Unix Epoch (January 1 1970 00:00:00 "
 "GMT) to the closest previous midnight."
@@ -13389,75 +13392,75 @@ msgstr ""
 "Zwraca liczbę sekund od epoki Unix (1 stycznia 1970 00:00:00 GMT) do "
 "najbliższej poprzedniej północy."
 
-#: includes/class-ws-form-config.php:21649
+#: includes/class-ws-form-config.php:21650
 msgid "Seconds since Epoch"
 msgstr "Sekundy od epoki"
 
-#: includes/class-ws-form-config.php:21650
+#: includes/class-ws-form-config.php:21651
 msgid ""
 "Returns the number of seconds since the Unix Epoch (January 1 1970 00:00:00 "
 "GMT)."
 msgstr "Zwraca liczbę sekund od epoki Unix (1 stycznia 1970 00:00:00 GMT)."
 
-#: includes/class-ws-form-config.php:21657
+#: includes/class-ws-form-config.php:21658
 msgid "Seconds in a minute"
 msgstr "Sekundy w minucie"
 
-#: includes/class-ws-form-config.php:21659
+#: includes/class-ws-form-config.php:21660
 msgid "Returns the number of seconds in a minute."
 msgstr "Zwraca liczbę sekund w minucie."
 
-#: includes/class-ws-form-config.php:21666
+#: includes/class-ws-form-config.php:21667
 msgid "Seconds in an hour"
 msgstr "Sekundy w godzinie"
 
-#: includes/class-ws-form-config.php:21668
+#: includes/class-ws-form-config.php:21669
 msgid "Returns the number of seconds in an hour."
 msgstr "Zwraca liczbę sekund w godzinie."
 
-#: includes/class-ws-form-config.php:21675
+#: includes/class-ws-form-config.php:21676
 msgid "Seconds in a day"
 msgstr "Sekundy w dniu"
 
-#: includes/class-ws-form-config.php:21677
+#: includes/class-ws-form-config.php:21678
 msgid "Returns the number of seconds in a day."
 msgstr "Zwraca liczbę sekund w dniu."
 
-#: includes/class-ws-form-config.php:21684
+#: includes/class-ws-form-config.php:21685
 msgid "Seconds in a week"
 msgstr "Sekundy w tygodniu"
 
-#: includes/class-ws-form-config.php:21686
+#: includes/class-ws-form-config.php:21687
 msgid "Returns the number of seconds in a week."
 msgstr "Zwraca liczbę sekund w tygodniu."
 
-#: includes/class-ws-form-config.php:21693
+#: includes/class-ws-form-config.php:21694
 msgid "Seconds in a year"
 msgstr "Sekundy w roku"
 
-#: includes/class-ws-form-config.php:21695
+#: includes/class-ws-form-config.php:21696
 msgid "Returns the number of seconds in a common year."
 msgstr "Zwraca liczbę sekund w zwykłym roku."
 
-#: includes/class-ws-form-config.php:21705
+#: includes/class-ws-form-config.php:21706
 #: includes/config/class-ws-form-config-option.php:374
 msgid "Cookies"
 msgstr "Ciasteczka"
 
-#: includes/class-ws-form-config.php:21711
+#: includes/class-ws-form-config.php:21712
 msgid "Get Cookie"
 msgstr "Pobierz plik cookie"
 
-#: includes/class-ws-form-config.php:21716
+#: includes/class-ws-form-config.php:21717
 msgid "Returns the value of a cookie by name."
 msgstr "Zwraca wartość pliku cookie według nazwy."
 
-#: includes/class-ws-form-config.php:21733
+#: includes/class-ws-form-config.php:21734
 msgid "Format a date string"
 msgstr "Formatuj ciąg daty"
 
 #. translators: %s: Example ISO 8601 date
-#: includes/class-ws-form-config.php:21742
+#: includes/class-ws-form-config.php:21743
 #, php-format
 msgid ""
 "Return a date formatted according to the PHP date function. The date "
@@ -13468,369 +13471,369 @@ msgstr ""
 "obsługiwanym formacie, takim jak ISO 8601, na przykład: %s. Formatowanie "
 "daty powiązane z polem: #field_date_format"
 
-#: includes/class-ws-form-config.php:21754
+#: includes/class-ws-form-config.php:21755
 msgid "Session Storage"
 msgstr "Pamięć sesji"
 
-#: includes/class-ws-form-config.php:21760
+#: includes/class-ws-form-config.php:21761
 msgid "Get session storage key value"
 msgstr "Pobierz wartość klucza pamięci sesji"
 
-#: includes/class-ws-form-config.php:21765
+#: includes/class-ws-form-config.php:21766
 msgid "Returns the value of a session storage key."
 msgstr "Zwraca wartość klucza pamięci sesji."
 
-#: includes/class-ws-form-config.php:21775
+#: includes/class-ws-form-config.php:21776
 msgid "Local Storage"
 msgstr "Pamięć lokalna"
 
-#: includes/class-ws-form-config.php:21781
+#: includes/class-ws-form-config.php:21782
 msgid "Get local storage key value"
 msgstr "Pobierz wartość klucza pamięci lokalnej"
 
-#: includes/class-ws-form-config.php:21786
+#: includes/class-ws-form-config.php:21787
 msgid "Returns the value of a local storage key."
 msgstr "Zwraca wartość klucza w pamięci lokalnej."
 
-#: includes/class-ws-form-config.php:21796
-#: includes/class-ws-form-config.php:21802
+#: includes/class-ws-form-config.php:21797
+#: includes/class-ws-form-config.php:21803
 msgid "Calculation"
 msgstr "Obliczenie"
 
-#: includes/class-ws-form-config.php:21807
+#: includes/class-ws-form-config.php:21808
 msgid "Returns the calculated value."
 msgstr "Zwraca obliczoną wartość."
 
-#: includes/class-ws-form-config.php:21830
+#: includes/class-ws-form-config.php:21831
 msgid "Keep the content dynamically update."
 msgstr "Utrzymuj dynamiczną aktualizację treści."
 
-#: includes/class-ws-form-config.php:21842
+#: includes/class-ws-form-config.php:21843
 msgid "Conditional"
 msgstr "Warunki"
 
-#: includes/class-ws-form-config.php:21848
 #: includes/class-ws-form-config.php:21849
+#: includes/class-ws-form-config.php:21850
 msgid "Start of IF condition."
 msgstr "Początek warunku IF."
 
-#: includes/class-ws-form-config.php:21861
 #: includes/class-ws-form-config.php:21862
+#: includes/class-ws-form-config.php:21863
 msgid "End of IF condition."
 msgstr "Koniec warunku IF."
 
-#: includes/class-ws-form-config.php:21874
+#: includes/class-ws-form-config.php:21875
 msgid "Math"
 msgstr "Matematyki"
 
-#: includes/class-ws-form-config.php:21880
+#: includes/class-ws-form-config.php:21881
 msgid "Absolute"
 msgstr "Bezwzględna"
 
-#: includes/class-ws-form-config.php:21885
+#: includes/class-ws-form-config.php:21886
 msgid "Returns the absolute value of a number."
 msgstr "Zwraca wartość bezwzględną liczby."
 
-#: includes/class-ws-form-config.php:21892
+#: includes/class-ws-form-config.php:21893
 msgid "Inverse Cosine"
 msgstr "Arcus cosinus"
 
-#: includes/class-ws-form-config.php:21897
+#: includes/class-ws-form-config.php:21898
 msgid "Returns the inverse cosine of a number in radians."
 msgstr "Zwraca arcus cosinus liczby w radianach."
 
-#: includes/class-ws-form-config.php:21904
+#: includes/class-ws-form-config.php:21905
 msgid "Inverse Sine"
 msgstr "Arcus sinus"
 
-#: includes/class-ws-form-config.php:21909
+#: includes/class-ws-form-config.php:21910
 msgid "Returns the inverse sine of a number in radians."
 msgstr "Zwraca arcus sinus liczby w radianach."
 
-#: includes/class-ws-form-config.php:21916
+#: includes/class-ws-form-config.php:21917
 msgid "Inverse Tangent"
 msgstr "Arcus tangens"
 
-#: includes/class-ws-form-config.php:21921
+#: includes/class-ws-form-config.php:21922
 msgid "Returns the inverse tangent of a number in radians."
 msgstr "Zwraca arcus tangens liczby w radianach."
 
-#: includes/class-ws-form-config.php:21928
+#: includes/class-ws-form-config.php:21929
 msgid "Ceiling"
 msgstr "Zaokrąglenie w górę"
 
-#: includes/class-ws-form-config.php:21933
+#: includes/class-ws-form-config.php:21934
 msgid "Rounds a number up to the next largest whole number."
 msgstr "Zaokrągla liczbę w górę do następnej większej liczby całkowitej."
 
-#: includes/class-ws-form-config.php:21940
+#: includes/class-ws-form-config.php:21941
 msgid "Cosine"
 msgstr "Cosinus"
 
-#: includes/class-ws-form-config.php:21945
+#: includes/class-ws-form-config.php:21946
 msgid "Returns the cosine of a radian number."
 msgstr "Zwraca cosinus liczby w radianach."
 
-#: includes/class-ws-form-config.php:21952
+#: includes/class-ws-form-config.php:21953
 msgid "Euler's"
 msgstr "Eulera"
 
-#: includes/class-ws-form-config.php:21957
+#: includes/class-ws-form-config.php:21958
 msgid "Returns E to the power of a number."
 msgstr "Zwraca E podniesione do potęgi liczby."
 
-#: includes/class-ws-form-config.php:21964
+#: includes/class-ws-form-config.php:21965
 msgid "Floor"
 msgstr "Piętro"
 
-#: includes/class-ws-form-config.php:21969
+#: includes/class-ws-form-config.php:21970
 msgid ""
 "Returns the largest integer value that is less than or equal to a number."
 msgstr ""
 "Zwraca największą wartość całkowitą, która jest mniejsza lub równa liczbie."
 
-#: includes/class-ws-form-config.php:21976
+#: includes/class-ws-form-config.php:21977
 msgid "Logarithm"
 msgstr "Logarytm"
 
-#: includes/class-ws-form-config.php:21981
+#: includes/class-ws-form-config.php:21982
 msgid "Returns the natural logarithm of a number."
 msgstr "Zwraca logarytm naturalny liczby."
 
-#: includes/class-ws-form-config.php:21988
+#: includes/class-ws-form-config.php:21989
 msgid "Round"
 msgstr "Okrągły"
 
-#: includes/class-ws-form-config.php:21994
+#: includes/class-ws-form-config.php:21995
 msgid "Returns the rounded value of a number."
 msgstr "Zwraca zaokrągloną wartość liczby."
 
-#: includes/class-ws-form-config.php:22001
+#: includes/class-ws-form-config.php:22002
 msgid "Sine"
 msgstr "Sinus"
 
-#: includes/class-ws-form-config.php:22006
+#: includes/class-ws-form-config.php:22007
 msgid "Returns the sine of a radian number."
 msgstr "Zwraca sinus liczby w radianach."
 
-#: includes/class-ws-form-config.php:22013
+#: includes/class-ws-form-config.php:22014
 msgid "Square Root"
 msgstr "Pierwiastek kwadratowy"
 
-#: includes/class-ws-form-config.php:22018
+#: includes/class-ws-form-config.php:22019
 msgid "Returns the square root of the number."
 msgstr "Zwraca pierwiastek kwadratowy z liczby."
 
-#: includes/class-ws-form-config.php:22025
+#: includes/class-ws-form-config.php:22026
 msgid "Tangent"
 msgstr "Tangens"
 
-#: includes/class-ws-form-config.php:22030
+#: includes/class-ws-form-config.php:22031
 msgid "Returns the tangent of a radian number."
 msgstr "Zwraca tangens liczby w radianach."
 
-#: includes/class-ws-form-config.php:22037
-#: includes/class-ws-form-config.php:22120
+#: includes/class-ws-form-config.php:22038
+#: includes/class-ws-form-config.php:22121
 msgid "Average"
 msgstr "Średni"
 
-#: includes/class-ws-form-config.php:22042
-#: includes/class-ws-form-config.php:22125
+#: includes/class-ws-form-config.php:22043
+#: includes/class-ws-form-config.php:22126
 msgid "Returns the average of all the input numbers."
 msgstr "Zwraca średnią wszystkich liczb wejściowych."
 
-#: includes/class-ws-form-config.php:22049
+#: includes/class-ws-form-config.php:22050
 msgid "PI"
 msgstr "PI"
 
-#: includes/class-ws-form-config.php:22052
+#: includes/class-ws-form-config.php:22053
 msgid "Returns an approximate value of PI."
 msgstr "Zwraca przybliżoną wartość liczby PI."
 
-#: includes/class-ws-form-config.php:22064
+#: includes/class-ws-form-config.php:22065
 msgid "Returns the lowest value of the supplied numbers."
 msgstr "Zwraca najniższą wartość z podanych liczb."
 
-#: includes/class-ws-form-config.php:22076
+#: includes/class-ws-form-config.php:22077
 msgid "Returns the maxiumum value of the supplied numbers."
 msgstr "Zwraca najwyższą wartość z podanych liczb."
 
-#: includes/class-ws-form-config.php:22083
+#: includes/class-ws-form-config.php:22084
 msgid "Negative"
 msgstr "Negatyw"
 
-#: includes/class-ws-form-config.php:22088
+#: includes/class-ws-form-config.php:22089
 msgid "Returns 0 if positive, or original value if negative."
 msgstr ""
 "Zwraca 0, jeśli wartość jest dodatnia, lub wartość oryginalną, jeśli jest "
 "ujemna."
 
-#: includes/class-ws-form-config.php:22095
+#: includes/class-ws-form-config.php:22096
 msgid "Positive"
 msgstr "Pozytywny"
 
-#: includes/class-ws-form-config.php:22100
+#: includes/class-ws-form-config.php:22101
 msgid "Returns 0 if negative, or original value if positive."
 msgstr ""
 "Zwraca 0, jeśli wartość jest ujemna, lub wartość oryginalną, jeśli jest "
 "dodatnia."
 
-#: includes/class-ws-form-config.php:22107
+#: includes/class-ws-form-config.php:22108
 msgid "Base to the Exponent Power"
 msgstr "Potęga podstawy do wykładnika"
 
-#: includes/class-ws-form-config.php:22113
+#: includes/class-ws-form-config.php:22114
 msgid "Returns the base to the exponent power."
 msgstr "Zwraca potęgę podstawy do wykładnika."
 
-#: includes/class-ws-form-config.php:22143
+#: includes/class-ws-form-config.php:22144
 msgid "Format Number"
 msgstr "Formatuj liczbę"
 
-#: includes/class-ws-form-config.php:22151
+#: includes/class-ws-form-config.php:22152
 msgid ""
 "Returns a number with grouped thousands. Same as the PHP number_format "
 "function."
 msgstr ""
 "Zwraca liczbę z grupowaniem tysięcy. Tak samo jak funkcja PHP number_format."
 
-#: includes/class-ws-form-config.php:22171
+#: includes/class-ws-form-config.php:22172
 msgid "Returns the lowercase version of the input string."
 msgstr "Zwraca wersję wejściowego ciągu znaków zapisaną małymi literami."
 
-#: includes/class-ws-form-config.php:22183
+#: includes/class-ws-form-config.php:22184
 msgid "Returns the uppercase version of the input string."
 msgstr "Zwraca wersję wejściowego ciągu znaków zapisaną wielkimi literami."
 
-#: includes/class-ws-form-config.php:22190
+#: includes/class-ws-form-config.php:22191
 msgid "Uppercase words"
 msgstr "Zamień słowa na wielkie litery"
 
-#: includes/class-ws-form-config.php:22195
+#: includes/class-ws-form-config.php:22196
 msgid "Returns the uppercase words version of the input string."
 msgstr ""
 "Zwraca wersję wejściowego ciągu znaków z każdym słowem zapisanym wielkimi "
 "literami."
 
-#: includes/class-ws-form-config.php:22202
+#: includes/class-ws-form-config.php:22203
 msgid "Uppercase first letter"
 msgstr "Pierwsza litera wielka"
 
-#: includes/class-ws-form-config.php:22207
+#: includes/class-ws-form-config.php:22208
 msgid "Returns the uppercase first letter version of the input string."
 msgstr "Zwraca wersję wejściowego ciągu znaków z wielką pierwszą literą."
 
-#: includes/class-ws-form-config.php:22214
+#: includes/class-ws-form-config.php:22215
 msgid "Capitalize a string"
 msgstr "Zamień pierwszy znak na wielką literę"
 
-#: includes/class-ws-form-config.php:22219
+#: includes/class-ws-form-config.php:22220
 msgid "Returns the capitalized version of an input string."
 msgstr "Zwraca wersję wejściowego ciągu znaków z wielką literą na początku."
 
-#: includes/class-ws-form-config.php:22226
+#: includes/class-ws-form-config.php:22227
 msgid "Sentence case a string"
 msgstr "Zastosuj zapis zdaniowy do ciągu znaków"
 
-#: includes/class-ws-form-config.php:22231
+#: includes/class-ws-form-config.php:22232
 msgid "Returns the sentence cased version of an input string."
 msgstr ""
 "Zwraca wersję wejściowego ciągu znaków z wielką literą na początku zdania."
 
-#: includes/class-ws-form-config.php:22238
+#: includes/class-ws-form-config.php:22239
 msgid "Apply wpautop to a string"
 msgstr "Zastosuj wpautop do ciągu znaków"
 
-#: includes/class-ws-form-config.php:22243
+#: includes/class-ws-form-config.php:22244
 msgid "Returns the string with wpautop applied to it."
 msgstr "Zwraca ciąg znaków z zastosowanym wpautop."
 
-#: includes/class-ws-form-config.php:22250
+#: includes/class-ws-form-config.php:22251
 msgid "Trim a string"
 msgstr "Przytnij ciąg znaków"
 
-#: includes/class-ws-form-config.php:22255
+#: includes/class-ws-form-config.php:22256
 msgid "Returns the trimmed string."
 msgstr "Zwraca przycięty ciąg znaków."
 
-#: includes/class-ws-form-config.php:22262
+#: includes/class-ws-form-config.php:22263
 msgid "Convert a string to a slug"
 msgstr "Konwertuj ciąg znaków na slug"
 
-#: includes/class-ws-form-config.php:22267
+#: includes/class-ws-form-config.php:22268
 msgid "Returns the string as a slug suitable for URLs."
 msgstr "Zwraca ciąg znaków jako slug odpowiedni dla adresów URL."
 
-#: includes/class-ws-form-config.php:22274
+#: includes/class-ws-form-config.php:22275
 msgid "Return the name prefix "
 msgstr "Zwróć przedrostek imienia "
 
-#: includes/class-ws-form-config.php:22279
+#: includes/class-ws-form-config.php:22280
 msgid "Returns the prefix from a full name."
 msgstr "Zwraca przedrostek z pełnego imienia i nazwiska."
 
-#: includes/class-ws-form-config.php:22286
+#: includes/class-ws-form-config.php:22287
 msgid "Return the first name "
 msgstr "Zwróć imię "
 
-#: includes/class-ws-form-config.php:22291
+#: includes/class-ws-form-config.php:22292
 msgid "Returns the first name from a full name."
 msgstr "Zwraca imię z pełnego imienia i nazwiska."
 
-#: includes/class-ws-form-config.php:22298
+#: includes/class-ws-form-config.php:22299
 msgid "Return the middle name "
 msgstr "Zwróć drugie imię "
 
-#: includes/class-ws-form-config.php:22303
+#: includes/class-ws-form-config.php:22304
 msgid "Returns the middle name from a full name."
 msgstr "Zwraca drugie imię z pełnego imienia i nazwiska."
 
-#: includes/class-ws-form-config.php:22310
+#: includes/class-ws-form-config.php:22311
 msgid "Return the last name "
 msgstr "Zwróć nazwisko "
 
-#: includes/class-ws-form-config.php:22315
+#: includes/class-ws-form-config.php:22316
 msgid "Returns the last name from a full name."
 msgstr "Zwraca nazwisko z pełnego imienia i nazwiska."
 
-#: includes/class-ws-form-config.php:22322
+#: includes/class-ws-form-config.php:22323
 msgid "Return the name suffix"
 msgstr "Zwróć przyrostek imienia i nazwiska"
 
-#: includes/class-ws-form-config.php:22327
+#: includes/class-ws-form-config.php:22328
 msgid "Returns the suffix from a full name."
 msgstr "Zwraca przyrostek z pełnego imienia i nazwiska."
 
-#: includes/class-ws-form-config.php:22345
+#: includes/class-ws-form-config.php:22346
 msgid "MD5"
 msgstr "MD5"
 
-#: includes/class-ws-form-config.php:22350
+#: includes/class-ws-form-config.php:22351
 msgid "Returns the MD5 hash of the input string. Server-side only."
 msgstr "Zwraca skrót MD5 ciągu wejściowego. Tylko po stronie serwera."
 
-#: includes/class-ws-form-config.php:22356
+#: includes/class-ws-form-config.php:22357
 msgid "SHA-256"
 msgstr "SHA-256"
 
-#: includes/class-ws-form-config.php:22361
+#: includes/class-ws-form-config.php:22362
 msgid "Returns the SHA-256 hash of the input string. Server-side only."
 msgstr "Zwraca skrót SHA-256 ciągu wejściowego. Tylko po stronie serwera."
 
-#: includes/class-ws-form-config.php:22378
+#: includes/class-ws-form-config.php:22379
 #: includes/config/class-ws-form-config-admin.php:743
 msgid "Field Label"
 msgstr "Etykieta pola"
 
-#: includes/class-ws-form-config.php:22383
+#: includes/class-ws-form-config.php:22384
 msgid "Returns the field label by ID."
 msgstr "Zwraca etykietę pola według identyfikatora."
 
-#: includes/class-ws-form-config.php:22390
+#: includes/class-ws-form-config.php:22391
 msgid "Field Value as Floating Point Number"
 msgstr "Wartość pola jako liczba zmiennoprzecinkowa"
 
-#: includes/class-ws-form-config.php:22395
+#: includes/class-ws-form-config.php:22396
 msgid ""
 "Use this variable to insert the value of a field on your form as a floating "
 "point number. For example: <code>#field(123)</code> where '123' is the field "
@@ -13843,11 +13846,11 @@ msgstr ""
 "konwersji cen na liczby zmiennoprzecinkowe. Przykładowy wynik może wyglądać "
 "tak: 123.45"
 
-#: includes/class-ws-form-config.php:22402
+#: includes/class-ws-form-config.php:22403
 msgid "Field Date Age"
 msgstr "Wiek na podstawie daty pola"
 
-#: includes/class-ws-form-config.php:22408
+#: includes/class-ws-form-config.php:22409
 msgid ""
 "Return the age of the provided date field. Period: y = Years (Default), m = "
 "Months, d = Days, h = Hours, n = Minutes, s = Seconds"
@@ -13855,27 +13858,27 @@ msgstr ""
 "Zwraca wiek podanego pola daty. Okres: y = lata (domyślnie), m = miesiące, d "
 "= dni, h = godziny, n = minuty, s = sekundy"
 
-#: includes/class-ws-form-config.php:22415
+#: includes/class-ws-form-config.php:22416
 msgid "Field Date Formatted"
 msgstr "Data pola (sformatowana)"
 
-#: includes/class-ws-form-config.php:22421
+#: includes/class-ws-form-config.php:22422
 msgid "Return a field formatted according to the PHP date function."
 msgstr "Zwraca pole sformatowane zgodnie z funkcją daty PHP."
 
-#: includes/class-ws-form-config.php:22428
+#: includes/class-ws-form-config.php:22429
 msgid "Field Date Adjusted by Offset in Seconds"
 msgstr "Data pola skorygowana o przesunięcie w sekundach"
 
-#: includes/class-ws-form-config.php:22435
+#: includes/class-ws-form-config.php:22436
 msgid "Return a date adjusted by an offset in seconds."
 msgstr "Zwraca datę skorygowaną o przesunięcie w sekundach."
 
-#: includes/class-ws-form-config.php:22442
+#: includes/class-ws-form-config.php:22443
 msgid "Count the Number of Words in a Field"
 msgstr "Policz liczbę słów w polu"
 
-#: includes/class-ws-form-config.php:22448
+#: includes/class-ws-form-config.php:22449
 msgid ""
 "Use this variable to insert the number of words in a field on your form. For "
 "example: <code>#calc(#field_count_word(123))</code> where '123' is the field "
@@ -13887,11 +13890,11 @@ msgstr ""
 "pola wyświetlany w edytorze układu. Opcjonalnie podaj wyrażenie regularne "
 "JavaScript, aby filtrować znaki uwzględniane w obliczeniu."
 
-#: includes/class-ws-form-config.php:22455
+#: includes/class-ws-form-config.php:22456
 msgid "Count the Number of Characters in a Field"
 msgstr "Policz liczbę znaków w polu"
 
-#: includes/class-ws-form-config.php:22461
+#: includes/class-ws-form-config.php:22462
 msgid ""
 "Use this variable to insert the number of characters in a field on your "
 "form. For example: <code>#calc(#field_count_char(123))</code> where '123' is "
@@ -13905,11 +13908,11 @@ msgstr ""
 "regularne JavaScript, aby filtrować znaki uwzględniane w obliczeniu. Na "
 "przykład: <code>#calc(#field_count_char(123, \"/[^0-9a-z]/gi\"))</code>."
 
-#: includes/class-ws-form-config.php:22468
+#: includes/class-ws-form-config.php:22469
 msgid "Field ID with Min Value"
 msgstr "Identyfikator pola z wartością minimalną"
 
-#: includes/class-ws-form-config.php:22473
+#: includes/class-ws-form-config.php:22474
 msgid ""
 "Use this variable to return the ID of the field containing lowest value. For "
 "example: <code>#calc(#field_min_id(5, 6, 7, 8))</code>. This would check "
@@ -13921,11 +13924,11 @@ msgstr ""
 "Spowoduje to sprawdzenie pól o identyfikatorach 5, 6, 7 i 8 oraz zwrócenie "
 "identyfikatora pola zawierającego najniższą wartość."
 
-#: includes/class-ws-form-config.php:22480
+#: includes/class-ws-form-config.php:22481
 msgid "Field ID with Max Value"
 msgstr "Identyfikator pola z wartością maksymalną"
 
-#: includes/class-ws-form-config.php:22485
+#: includes/class-ws-form-config.php:22486
 msgid ""
 "Use this variable to return the ID of the field containing highest value. "
 "For example: <code>#calc(#field_max_id(5, 6, 7, 8))</code>. This would check "
@@ -13937,11 +13940,11 @@ msgstr ""
 "Spowoduje to sprawdzenie pól o identyfikatorach 5, 6, 7 i 8 oraz zwrócenie "
 "identyfikatora pola zawierającego najwyższą wartość."
 
-#: includes/class-ws-form-config.php:22492
+#: includes/class-ws-form-config.php:22493
 msgid "Minimum Value of Fields"
 msgstr "Wartość minimalna pól"
 
-#: includes/class-ws-form-config.php:22497
+#: includes/class-ws-form-config.php:22498
 msgid ""
 "Use this variable to return the minimum value for the supplied field IDs. "
 "For example: <code>#calc(#field_min_value(5, 6, 7, 8))</code>. This would "
@@ -13953,11 +13956,11 @@ msgstr ""
 "code>. Spowoduje to sprawdzenie pól o identyfikatorach 5, 6, 7 i 8 oraz "
 "zwrócenie najniższej wartości zawartej w tych polach."
 
-#: includes/class-ws-form-config.php:22504
+#: includes/class-ws-form-config.php:22505
 msgid "Maximum Value of Fields"
 msgstr "Wartość maksymalna pól"
 
-#: includes/class-ws-form-config.php:22509
+#: includes/class-ws-form-config.php:22510
 msgid ""
 "Use this variable to return the highest value for the supplied field IDs. "
 "For example: <code>#calc(#field_max_value(5, 6, 7, 8))</code>. This would "
@@ -13969,11 +13972,11 @@ msgstr ""
 "code>. Spowoduje to sprawdzenie pól o identyfikatorach 5, 6, 7 i 8 oraz "
 "zwrócenie najwyższej wartości zawartej w tych polach."
 
-#: includes/class-ws-form-config.php:22516
+#: includes/class-ws-form-config.php:22517
 msgid "Field Label with Min Value"
 msgstr "Etykieta pola z wartością minimalną"
 
-#: includes/class-ws-form-config.php:22521
+#: includes/class-ws-form-config.php:22522
 msgid ""
 "Use this variable to return the label of the field containing lowest value. "
 "For example: <code>#calc(#field_min_id(5, 6, 7, 8))</code>. This would check "
@@ -13985,11 +13988,11 @@ msgstr ""
 "Spowoduje to sprawdzenie pól o identyfikatorach 5, 6, 7 i 8 oraz zwrócenie "
 "etykiety pola zawierającego najniższą wartość."
 
-#: includes/class-ws-form-config.php:22528
+#: includes/class-ws-form-config.php:22529
 msgid "Field Label with Max Value"
 msgstr "Etykieta pola z wartością maksymalną"
 
-#: includes/class-ws-form-config.php:22533
+#: includes/class-ws-form-config.php:22534
 msgid ""
 "Use this variable to return the label of the field containing highest value. "
 "For example: <code>#calc(#field_max_id(5, 6, 7, 8))</code>. This would check "
@@ -14001,11 +14004,11 @@ msgstr ""
 "Spowoduje to sprawdzenie pól o identyfikatorach 5, 6, 7 i 8 oraz zwrócenie "
 "etykiety pola zawierającego najwyższą wartość."
 
-#: includes/class-ws-form-config.php:22540
+#: includes/class-ws-form-config.php:22541
 msgid "Field Value"
 msgstr "Wartość pola"
 
-#: includes/class-ws-form-config.php:22547
+#: includes/class-ws-form-config.php:22548
 msgid ""
 "Use this variable to insert the value of a field on your form. For example: "
 "<code>#field(123)</code> where '123' is the field ID shown in the layout "
@@ -14021,15 +14024,15 @@ msgstr ""
 "kolumnę, zostanie zwrócona wartość znaleziona w tej kolumnie siatki danych. "
 "Wartością kolumny może być etykieta kolumny lub indeks (zaczynając od 0)."
 
-#: includes/class-ws-form-config.php:22557
+#: includes/class-ws-form-config.php:22558
 msgid "Data Grid Rows"
 msgstr "Wiersze siatki danych"
 
-#: includes/class-ws-form-config.php:22563
+#: includes/class-ws-form-config.php:22564
 msgid "Value Column"
 msgstr "Kolumna wartości"
 
-#: includes/class-ws-form-config.php:22564
+#: includes/class-ws-form-config.php:22565
 msgid ""
 "Use this variable within a data grid row to insert the text found in the "
 "value column."
@@ -14037,11 +14040,11 @@ msgstr ""
 "Użyj tej zmiennej w wierszu siatki danych, aby wstawić tekst znajdujący się "
 "w kolumnie wartości."
 
-#: includes/class-ws-form-config.php:22571
+#: includes/class-ws-form-config.php:22572
 msgid "Label Column"
 msgstr "Kolumna etykiety"
 
-#: includes/class-ws-form-config.php:22572
+#: includes/class-ws-form-config.php:22573
 msgid ""
 "Use this variable within a data grid row to insert the text found in the "
 "label column."
@@ -14049,11 +14052,11 @@ msgstr ""
 "Użyj tej zmiennej w wierszu siatki danych, aby wstawić tekst znajdujący się "
 "w kolumnie etykiety."
 
-#: includes/class-ws-form-config.php:22579
+#: includes/class-ws-form-config.php:22580
 msgid "Action Variable Column"
 msgstr "Kolumna zmiennej akcji"
 
-#: includes/class-ws-form-config.php:22580
+#: includes/class-ws-form-config.php:22581
 msgid ""
 "Use this variable within a data grid row to insert the text found in the "
 "action variable column."
@@ -14061,11 +14064,11 @@ msgstr ""
 "Użyj tej zmiennej w wierszu siatki danych, aby wstawić tekst znajdujący się "
 "w kolumnie zmiennej akcji."
 
-#: includes/class-ws-form-config.php:22587
+#: includes/class-ws-form-config.php:22588
 msgid "Price Column"
 msgstr "Kolumna ceny"
 
-#: includes/class-ws-form-config.php:22588
+#: includes/class-ws-form-config.php:22589
 msgid ""
 "Use this variable within a data grid row to insert the text found in the "
 "price column."
@@ -14073,11 +14076,11 @@ msgstr ""
 "Użyj tej zmiennej w wierszu siatki danych, aby wstawić tekst znajdujący się "
 "w kolumnie ceny."
 
-#: includes/class-ws-form-config.php:22595
+#: includes/class-ws-form-config.php:22596
 msgid "Price Column (With Currency)"
 msgstr "Kolumna ceny (z walutą)"
 
-#: includes/class-ws-form-config.php:22596
+#: includes/class-ws-form-config.php:22597
 msgid ""
 "Use this variable within a data grid row to insert the text found in the "
 "price column formatted using the currency settings."
@@ -14085,11 +14088,11 @@ msgstr ""
 "Użyj tej zmiennej w wierszu siatki danych, aby wstawić tekst znaleziony w "
 "kolumnie ceny, sformatowany zgodnie z ustawieniami waluty."
 
-#: includes/class-ws-form-config.php:22603
+#: includes/class-ws-form-config.php:22604
 msgid "WooCommerce Cart Column"
 msgstr "Kolumna koszyka WooCommerce"
 
-#: includes/class-ws-form-config.php:22604
+#: includes/class-ws-form-config.php:22605
 msgid ""
 "Use this variable within a data grid row to insert the text found in the "
 "WooCommerce cart column."
@@ -14097,11 +14100,11 @@ msgstr ""
 "Użyj tej zmiennej w wierszu siatki danych, aby wstawić tekst znaleziony w "
 "kolumnie koszyka WooCommerce."
 
-#: includes/class-ws-form-config.php:22620
+#: includes/class-ws-form-config.php:22621
 msgid "Select Total Count"
 msgstr "Łączna liczba zaznaczeń"
 
-#: includes/class-ws-form-config.php:22625
+#: includes/class-ws-form-config.php:22626
 msgid ""
 "Use this variable to return the total number of options in a select field. "
 "For example: <code>#select_count_total(123)</code> where '123' is the field "
@@ -14114,11 +14117,11 @@ msgstr ""
 "<code>#text(#select_count_total(123))</code>, aby wartość była dynamicznie "
 "aktualizowana."
 
-#: includes/class-ws-form-config.php:22633
+#: includes/class-ws-form-config.php:22634
 msgid "Select Count"
 msgstr "Liczba zaznaczeń"
 
-#: includes/class-ws-form-config.php:22638
+#: includes/class-ws-form-config.php:22639
 msgid ""
 "Use this variable to return the number of options that have been selected in "
 "a select field. For example: <code>#select_count(123)</code> where '123' is "
@@ -14130,11 +14133,11 @@ msgstr ""
 "wyświetlany w edytorze układu. Użyj <code>#text(#select_count(123))</code>, "
 "aby wartość była dynamicznie aktualizowana."
 
-#: includes/class-ws-form-config.php:22646
+#: includes/class-ws-form-config.php:22647
 msgid "Select Option Text"
 msgstr "Tekst opcji wyboru"
 
-#: includes/class-ws-form-config.php:22652
+#: includes/class-ws-form-config.php:22653
 msgid ""
 "Use this variable to insert the selected option text of a select field on "
 "your form. For example: <code>#select_option_text(123)</code> where '123' is "
@@ -14144,11 +14147,11 @@ msgstr ""
 "formularzu. Na przykład: <code>#select_option_text(123)</code>, gdzie „123” "
 "to identyfikator pola widoczny w edytorze układu."
 
-#: includes/class-ws-form-config.php:22669
+#: includes/class-ws-form-config.php:22670
 msgid "Checkbox Rows Count"
 msgstr "Liczba wierszy pól wyboru"
 
-#: includes/class-ws-form-config.php:22675
+#: includes/class-ws-form-config.php:22676
 msgid ""
 "Use this variable to return the total number of checkboxes in a checkbox or "
 "price checkbox field. For example: <code>#checkbox_count_total(123)</code> "
@@ -14164,11 +14167,11 @@ msgstr ""
 "aktualizowana. Ustaw atrybut <code>include_hidden</code> na <code>true</"
 "code>, aby uwzględnić ukryte pola wyboru."
 
-#: includes/class-ws-form-config.php:22683
+#: includes/class-ws-form-config.php:22684
 msgid "Checkbox Checked Count"
 msgstr "Liczba zaznaczonych pól wyboru"
 
-#: includes/class-ws-form-config.php:22689
+#: includes/class-ws-form-config.php:22690
 msgid ""
 "Use this variable to return the number of checkboxes that have been checked "
 "in a checkbox or price checkbox field. For example: "
@@ -14182,11 +14185,11 @@ msgstr ""
 "<code>#text(#checkbox_count(123))</code>, aby wartość była dynamicznie "
 "aktualizowana."
 
-#: includes/class-ws-form-config.php:22697
+#: includes/class-ws-form-config.php:22698
 msgid "Checkbox Label"
 msgstr "Etykieta pola typu checkbox"
 
-#: includes/class-ws-form-config.php:22703
+#: includes/class-ws-form-config.php:22704
 msgid ""
 "Use this variable to insert the label of a checkbox field on your form. For "
 "example: <code>#checkbox_label(123)</code> where '123' is the field ID shown "
@@ -14196,11 +14199,11 @@ msgstr ""
 "Na przykład: <code>#checkbox_label(123)</code>, gdzie „123” to identyfikator "
 "pola widoczny w edytorze układu."
 
-#: includes/class-ws-form-config.php:22720
+#: includes/class-ws-form-config.php:22721
 msgid "Radio Label"
 msgstr "Etykieta pola radiowego"
 
-#: includes/class-ws-form-config.php:22725
+#: includes/class-ws-form-config.php:22726
 msgid ""
 "Use this variable to insert the label of a radio field on your form. For "
 "example: <code>#radio_label(123)</code> where '123' is the field ID shown in "
@@ -14210,31 +14213,31 @@ msgstr ""
 "przykład: <code>#radio_label(123)</code>, gdzie „123” to identyfikator pola "
 "wyświetlany w edytorze układu."
 
-#: includes/class-ws-form-config.php:22743
+#: includes/class-ws-form-config.php:22744
 msgid "Returns the email subject line."
 msgstr "Zwraca temat wiadomości e-mail."
 
-#: includes/class-ws-form-config.php:22751
+#: includes/class-ws-form-config.php:22752
 msgid "Content type"
 msgstr "Rodzaj treści"
 
-#: includes/class-ws-form-config.php:22752
+#: includes/class-ws-form-config.php:22753
 msgid "Returns the email content type."
 msgstr "Zwraca typ zawartości wiadomości e-mail."
 
-#: includes/class-ws-form-config.php:22760
+#: includes/class-ws-form-config.php:22761
 msgid "Character set"
 msgstr "Zestaw znaków"
 
-#: includes/class-ws-form-config.php:22761
+#: includes/class-ws-form-config.php:22762
 msgid "Returns the email character set."
 msgstr "Zwraca zestaw znaków wiadomości e-mail."
 
-#: includes/class-ws-form-config.php:22769
+#: includes/class-ws-form-config.php:22770
 msgid "Submitted Fields"
 msgstr "Przesłane pola"
 
-#: includes/class-ws-form-config.php:22770
+#: includes/class-ws-form-config.php:22771
 msgid ""
 "Returns a list of the fields captured during a submission. You can either "
 "use: <code>#email_submission</code> or provide additional parameters to "
@@ -14250,11 +14253,11 @@ msgstr ""
 "lub „false”, na przykład: <code>#email_submission(true, true, false, true, "
 "true)</code>"
 
-#: includes/class-ws-form-config.php:22786
+#: includes/class-ws-form-config.php:22787
 msgid "E-Commerce Values"
 msgstr "Wartości e-commerce"
 
-#: includes/class-ws-form-config.php:22787
+#: includes/class-ws-form-config.php:22788
 msgid ""
 "Returns a list of the e-commerce transaction details such as total, "
 "transaction ID and status fields."
@@ -14262,11 +14265,11 @@ msgstr ""
 "Zwraca listę szczegółów transakcji e-commerce, takich jak suma, "
 "identyfikator transakcji oraz pola statusu."
 
-#: includes/class-ws-form-config.php:22795
+#: includes/class-ws-form-config.php:22796
 msgid "Tracking data"
 msgstr "Dane śledzenia"
 
-#: includes/class-ws-form-config.php:22796
+#: includes/class-ws-form-config.php:22797
 msgid ""
 "Returns a list of all the enabled tracking data that was captured when the "
 "form was submitted."
@@ -14274,11 +14277,11 @@ msgstr ""
 "Zwraca listę wszystkich włączonych danych śledzenia, które zostały "
 "przechwycone podczas wysyłania formularza."
 
-#: includes/class-ws-form-config.php:22804
+#: includes/class-ws-form-config.php:22805
 msgid "Logo"
 msgstr "Logo"
 
-#: includes/class-ws-form-config.php:22805
+#: includes/class-ws-form-config.php:22806
 msgid ""
 "Returns the email logo specified in <strong>WS Form Settings &gt; Variables</"
 "strong>."
@@ -14286,43 +14289,43 @@ msgstr ""
 "Zwraca logo wiadomości e-mail określone w <strong>Ustawienia WS Form &gt; "
 "Zmienne</strong>."
 
-#: includes/class-ws-form-config.php:22816
+#: includes/class-ws-form-config.php:22817
 msgid "HTTP"
 msgstr "HTTP"
 
-#: includes/class-ws-form-config.php:22822
+#: includes/class-ws-form-config.php:22823
 msgid "Query String Parameter Value"
 msgstr "Wartość parametru ciągu zapytania"
 
-#: includes/class-ws-form-config.php:22828
+#: includes/class-ws-form-config.php:22829
 msgid "Returns the value of the supplied query string parameter."
 msgstr "Zwraca wartość podanego parametru ciągu zapytania."
 
-#: includes/class-ws-form-config.php:22835
+#: includes/class-ws-form-config.php:22836
 msgid "Post Key Value"
 msgstr "Wartość klucza POST"
 
-#: includes/class-ws-form-config.php:22840
+#: includes/class-ws-form-config.php:22841
 msgid "Returns the value of the supplied POST key."
 msgstr "Zwraca wartość podanego klucza POST."
 
-#: includes/class-ws-form-config.php:22847
+#: includes/class-ws-form-config.php:22848
 msgid "Request URL"
 msgstr "Adres URL żądania"
 
-#: includes/class-ws-form-config.php:22849
+#: includes/class-ws-form-config.php:22850
 msgid "Returns the current request URL."
 msgstr "Zwraca adres URL bieżącego żądania."
 
-#: includes/class-ws-form-config.php:22858
+#: includes/class-ws-form-config.php:22859
 msgid "Random Numbers"
 msgstr "Losowe liczby"
 
-#: includes/class-ws-form-config.php:22864
+#: includes/class-ws-form-config.php:22865
 msgid "Random Number"
 msgstr "Losowa liczba"
 
-#: includes/class-ws-form-config.php:22869
+#: includes/class-ws-form-config.php:22870
 msgid ""
 "Outputs an integer between the specified minimum and maximum attributes. "
 "This function does not generate cryptographically secure values, and should "
@@ -14332,15 +14335,15 @@ msgstr ""
 "Ta funkcja nie generuje wartości bezpiecznych kryptograficznie i nie powinna "
 "być używana do celów kryptograficznych."
 
-#: includes/class-ws-form-config.php:22880
+#: includes/class-ws-form-config.php:22881
 msgid "Random Strings"
 msgstr "Losowe ciągi znaków"
 
-#: includes/class-ws-form-config.php:22886
+#: includes/class-ws-form-config.php:22887
 msgid "Random String"
 msgstr "Losowy ciąg znaków"
 
-#: includes/class-ws-form-config.php:22892
+#: includes/class-ws-form-config.php:22893
 msgid ""
 "Outputs a string of random characters. Use the length attribute to control "
 "how long the string is and use the characters attribute to control which "
@@ -14353,31 +14356,31 @@ msgstr ""
 "wybierane. Ta funkcja nie generuje wartości bezpiecznych kryptograficznie i "
 "nie powinna być używana do celów kryptograficznych."
 
-#: includes/class-ws-form-config.php:22903
+#: includes/class-ws-form-config.php:22904
 #: includes/data-sources/class-ws-form-data-source-post.php:1267
 msgid "Character"
 msgstr "Postać"
 
-#: includes/class-ws-form-config.php:22910
+#: includes/class-ws-form-config.php:22911
 msgid "Returns the total character count."
 msgstr "Zwraca łączną liczbę znaków."
 
-#: includes/class-ws-form-config.php:22917
-#: includes/class-ws-form-config.php:22990
+#: includes/class-ws-form-config.php:22918
+#: includes/class-ws-form-config.php:22991
 msgid "Count Label"
 msgstr "Etykieta licznika"
 
-#: includes/class-ws-form-config.php:22918
+#: includes/class-ws-form-config.php:22919
 msgid "Returns 'character' or 'characters' depending on the character count."
 msgstr "Zwraca „znak” lub „znaki” w zależności od liczby znaków."
 
-#: includes/class-ws-form-config.php:22925
-#: includes/class-ws-form-config.php:22998
+#: includes/class-ws-form-config.php:22926
+#: includes/class-ws-form-config.php:22999
 msgid "Count Remaining"
 msgstr "Pozostało"
 
-#: includes/class-ws-form-config.php:22926
-#: includes/class-ws-form-config.php:22934
+#: includes/class-ws-form-config.php:22927
+#: includes/class-ws-form-config.php:22935
 msgid ""
 "If you set a maximum character length for a field, this will return the "
 "total remaining character count."
@@ -14385,57 +14388,57 @@ msgstr ""
 "Jeśli ustawisz maksymalną długość w znakach dla pola, zwróci to łączną "
 "liczbę pozostałych znaków."
 
-#: includes/class-ws-form-config.php:22933
-#: includes/class-ws-form-config.php:23006
+#: includes/class-ws-form-config.php:22934
+#: includes/class-ws-form-config.php:23007
 msgid "Count Remaining Label"
 msgstr "Etykieta „Pozostało”"
 
-#: includes/class-ws-form-config.php:22942
+#: includes/class-ws-form-config.php:22943
 msgid "Returns the minimum character length that you set for a field."
 msgstr "Zwraca minimalną długość w znakach ustawioną dla pola."
 
-#: includes/class-ws-form-config.php:22949
-#: includes/class-ws-form-config.php:23022
+#: includes/class-ws-form-config.php:22950
+#: includes/class-ws-form-config.php:23023
 msgid "Minimum Label"
 msgstr "Etykieta minimum"
 
-#: includes/class-ws-form-config.php:22950
+#: includes/class-ws-form-config.php:22951
 msgid ""
 "Returns 'character' or 'characters' depending on the minimum character "
 "length."
 msgstr ""
 "Zwraca „znak” lub „znaki” w zależności od minimalnej długości w znakach."
 
-#: includes/class-ws-form-config.php:22958
+#: includes/class-ws-form-config.php:22959
 msgid "Returns the maximum character length that you set for a field."
 msgstr "Zwraca maksymalną długość znaków ustawioną dla pola."
 
-#: includes/class-ws-form-config.php:22965
-#: includes/class-ws-form-config.php:23038
+#: includes/class-ws-form-config.php:22966
+#: includes/class-ws-form-config.php:23039
 msgid "Maximum Label"
 msgstr "Etykieta maksimum"
 
-#: includes/class-ws-form-config.php:22966
+#: includes/class-ws-form-config.php:22967
 msgid ""
 "Returns 'character' or 'characters' depending on the maximum character "
 "length."
 msgstr ""
 "Zwraca „znak” lub „znaki” w zależności od maksymalnej długości w znakach."
 
-#: includes/class-ws-form-config.php:22976
+#: includes/class-ws-form-config.php:22977
 msgid "Word"
 msgstr "Słowo"
 
-#: includes/class-ws-form-config.php:22983
+#: includes/class-ws-form-config.php:22984
 msgid "Returns the total word count."
 msgstr "Zwraca łączną liczbę słów."
 
-#: includes/class-ws-form-config.php:22991
+#: includes/class-ws-form-config.php:22992
 msgid "Returns 'word' or 'words' depending on the word count."
 msgstr "Zwraca „word” lub „words” w zależności od liczby słów."
 
-#: includes/class-ws-form-config.php:22999
-#: includes/class-ws-form-config.php:23007
+#: includes/class-ws-form-config.php:23000
+#: includes/class-ws-form-config.php:23008
 msgid ""
 "If you set a maximum word length for a field, this will show the total "
 "remaining word count."
@@ -14443,43 +14446,43 @@ msgstr ""
 "Jeśli ustawisz maksymalną długość słów dla pola, zostanie wyświetlona łączna "
 "liczba pozostałych słów."
 
-#: includes/class-ws-form-config.php:23015
+#: includes/class-ws-form-config.php:23016
 msgid "Returns the minimum word length that you set for a field."
 msgstr "Zwraca minimalną długość słów ustawioną dla pola."
 
-#: includes/class-ws-form-config.php:23023
+#: includes/class-ws-form-config.php:23024
 msgid "Returns 'word' or 'words' depending on the minimum word length."
 msgstr "Zwraca „word” lub „words” w zależności od minimalnej długości słów."
 
-#: includes/class-ws-form-config.php:23031
+#: includes/class-ws-form-config.php:23032
 msgid "Returns the maximum word length that you set for a field."
 msgstr "Zwraca maksymalną długość słów ustawioną dla pola."
 
-#: includes/class-ws-form-config.php:23039
+#: includes/class-ws-form-config.php:23040
 msgid "Returns 'word' or 'words' depending on the maximum word length."
 msgstr "Zwraca „word” lub „words” w zależności od maksymalnej długości słów."
 
-#: includes/class-ws-form-config.php:23054
+#: includes/class-ws-form-config.php:23055
 msgid "Post"
 msgstr "Wpis"
 
-#: includes/class-ws-form-config.php:23061
+#: includes/class-ws-form-config.php:23062
 msgid "Returns the post admin URL."
 msgstr "Zwraca adres URL panelu administracyjnego wpisu."
 
-#: includes/class-ws-form-config.php:23069
+#: includes/class-ws-form-config.php:23070
 msgid "Public URL"
 msgstr "Publiczny adres URL"
 
-#: includes/class-ws-form-config.php:23070
+#: includes/class-ws-form-config.php:23071
 msgid "Returns the post URL."
 msgstr "Zwraca adres URL wpisu."
 
-#: includes/class-ws-form-config.php:23078
+#: includes/class-ws-form-config.php:23079
 msgid "Returns the post type."
 msgstr "Zwraca typ wpisu."
 
-#: includes/class-ws-form-config.php:23085
+#: includes/class-ws-form-config.php:23086
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:245
 #: includes/data-sources/class-ws-form-data-source-post.php:281
 #: includes/data-sources/class-ws-form-data-source-post.php:1009
@@ -14487,15 +14490,15 @@ msgstr "Zwraca typ wpisu."
 msgid "Title"
 msgstr "Tytuł"
 
-#: includes/class-ws-form-config.php:23086
+#: includes/class-ws-form-config.php:23087
 msgid "Returns the post title."
 msgstr "Zwraca tytuł wpisu."
 
-#: includes/class-ws-form-config.php:23093
+#: includes/class-ws-form-config.php:23094
 msgid "Time Modified"
 msgstr "Czas modyfikacji"
 
-#: includes/class-ws-form-config.php:23094
+#: includes/class-ws-form-config.php:23095
 msgid ""
 "Returns the post modified time according to the <strong>Time Format</strong> "
 "setting found in <strong>WordPress Settings &gt; General</strong>."
@@ -14503,11 +14506,11 @@ msgstr ""
 "Zwraca czas modyfikacji wpisu zgodnie z ustawieniem <strong>Format czasu</"
 "strong> znajdującym się w <strong>Ustawienia WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:23102
+#: includes/class-ws-form-config.php:23103
 msgid "Time Created"
 msgstr "Czas utworzenia"
 
-#: includes/class-ws-form-config.php:23103
+#: includes/class-ws-form-config.php:23104
 msgid ""
 "Returns the post creation time according to the <strong>Time Format</strong> "
 "setting found in <strong>WordPress Settings &gt; General</strong>."
@@ -14515,33 +14518,33 @@ msgstr ""
 "Zwraca czas utworzenia wpisu zgodnie z ustawieniem <strong>Format czasu</"
 "strong> znajdującym się w <strong>Ustawienia WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:23112
+#: includes/class-ws-form-config.php:23113
 msgid "Returns the post status."
 msgstr "Zwraca status wpisu."
 
-#: includes/class-ws-form-config.php:23119
+#: includes/class-ws-form-config.php:23120
 #: includes/data-sources/class-ws-form-data-source-term.php:164
 #: includes/data-sources/class-ws-form-data-source-term.php:813
 msgid "Parent ID"
 msgstr "ID rodzica"
 
-#: includes/class-ws-form-config.php:23120
+#: includes/class-ws-form-config.php:23121
 msgid "Returns the post parent ID."
 msgstr "Zwraca identyfikator wpisu nadrzędnego."
 
-#: includes/class-ws-form-config.php:23128
+#: includes/class-ws-form-config.php:23129
 msgid "Returns the post slug."
 msgstr "Zwraca slug wpisu."
 
-#: includes/class-ws-form-config.php:23136
+#: includes/class-ws-form-config.php:23137
 msgid "Returns the post ID."
 msgstr "Zwraca identyfikator wpisu."
 
-#: includes/class-ws-form-config.php:23143
+#: includes/class-ws-form-config.php:23144
 msgid "Date / Time Modified - Custom"
 msgstr "Data / godzina modyfikacji - niestandardowa"
 
-#: includes/class-ws-form-config.php:23144
+#: includes/class-ws-form-config.php:23145
 msgid ""
 "Returns the post modified date and time in the specified format (PHP date "
 "format)."
@@ -14549,11 +14552,11 @@ msgstr ""
 "Zwraca datę i godzinę modyfikacji wpisu w określonym formacie (format daty "
 "PHP)."
 
-#: includes/class-ws-form-config.php:23157
+#: includes/class-ws-form-config.php:23158
 msgid "Date Modified"
 msgstr "Data modyfikacji"
 
-#: includes/class-ws-form-config.php:23158
+#: includes/class-ws-form-config.php:23159
 msgid ""
 "Returns the post modified date according to the <strong>Date Format</strong> "
 "setting found in <strong>WordPress Settings &gt; General</strong>."
@@ -14561,11 +14564,11 @@ msgstr ""
 "Zwraca datę modyfikacji wpisu zgodnie z ustawieniem <strong>Format daty</"
 "strong> znajdującym się w <strong>Ustawienia WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:23165
+#: includes/class-ws-form-config.php:23166
 msgid "Date / Time Created - Custom"
 msgstr "Data / godzina utworzenia - niestandardowa"
 
-#: includes/class-ws-form-config.php:23166
+#: includes/class-ws-form-config.php:23167
 msgid ""
 "Returns the post creation date and time in the specified format (PHP date "
 "format)."
@@ -14573,11 +14576,11 @@ msgstr ""
 "Zwraca datę i godzinę utworzenia wpisu w określonym formacie (format daty "
 "PHP)."
 
-#: includes/class-ws-form-config.php:23179
+#: includes/class-ws-form-config.php:23180
 msgid "Date Created"
 msgstr "Data utworzenia"
 
-#: includes/class-ws-form-config.php:23180
+#: includes/class-ws-form-config.php:23181
 msgid ""
 "Returns the post date according to the <strong>Date Format</strong> setting "
 "found in <strong>WordPress Settings &gt; General</strong>."
@@ -14585,117 +14588,117 @@ msgstr ""
 "Zwraca datę wpisu zgodnie z ustawieniem <strong>Format daty</strong> "
 "znajdującym się w <strong>Ustawienia WordPress &gt; Ogólne</strong>."
 
-#: includes/class-ws-form-config.php:23188
-#: includes/class-ws-form-config.php:23601
+#: includes/class-ws-form-config.php:23189
+#: includes/class-ws-form-config.php:23602
 msgid "Meta Value"
 msgstr "Wartość meta"
 
-#: includes/class-ws-form-config.php:23193
+#: includes/class-ws-form-config.php:23194
 msgid "Returns the post meta value for the key specified."
 msgstr "Zwraca wartość meta wpisu dla podanego klucza."
 
-#: includes/class-ws-form-config.php:23203
+#: includes/class-ws-form-config.php:23204
 msgid "Returns the post content."
 msgstr "Zwraca treść wpisu."
 
-#: includes/class-ws-form-config.php:23210
+#: includes/class-ws-form-config.php:23211
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:251
 #: includes/data-sources/class-ws-form-data-source-post.php:287
 #: includes/data-sources/class-ws-form-data-source-post.php:1359
 msgid "Excerpt"
 msgstr "Zajawka"
 
-#: includes/class-ws-form-config.php:23211
+#: includes/class-ws-form-config.php:23212
 msgid "Returns the post excerpt."
 msgstr "Zwraca zajawkę wpisu."
 
-#: includes/class-ws-form-config.php:23221
+#: includes/class-ws-form-config.php:23222
 msgid "Author"
 msgstr "Autor"
 
-#: includes/class-ws-form-config.php:23228
-#: includes/class-ws-form-config.php:23236
-#: includes/class-ws-form-config.php:23244
-#: includes/class-ws-form-config.php:23252
-#: includes/class-ws-form-config.php:23260
-#: includes/class-ws-form-config.php:23268
+#: includes/class-ws-form-config.php:23229
+#: includes/class-ws-form-config.php:23237
+#: includes/class-ws-form-config.php:23245
+#: includes/class-ws-form-config.php:23253
+#: includes/class-ws-form-config.php:23261
+#: includes/class-ws-form-config.php:23269
 msgid "Returns the author of the current post."
 msgstr "Zwraca autora bieżącego wpisu."
 
-#: includes/class-ws-form-config.php:23259
-#: includes/class-ws-form-config.php:23564
+#: includes/class-ws-form-config.php:23260
+#: includes/class-ws-form-config.php:23565
 msgid "Nickname"
 msgstr "Pseudonim"
 
-#: includes/class-ws-form-config.php:23284
-#: includes/class-ws-form-config.php:23452
+#: includes/class-ws-form-config.php:23285
+#: includes/class-ws-form-config.php:23453
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:289
 #: includes/data-sources/class-ws-form-data-source-user.php:150
 #: includes/data-sources/class-ws-form-data-source-user.php:625
 msgid "Login"
 msgstr "Zaloguj się"
 
-#: includes/class-ws-form-config.php:23285
+#: includes/class-ws-form-config.php:23286
 msgid "Returns the login URL."
 msgstr "Zwraca adres URL logowania."
 
-#: includes/class-ws-form-config.php:23291
+#: includes/class-ws-form-config.php:23292
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: includes/class-ws-form-config.php:23292
+#: includes/class-ws-form-config.php:23293
 msgid "Returns the logout URL."
 msgstr "Zwraca adres URL wylogowania."
 
-#: includes/class-ws-form-config.php:23298
+#: includes/class-ws-form-config.php:23299
 msgid "Lost Password"
 msgstr "Utracone hasło"
 
-#: includes/class-ws-form-config.php:23299
+#: includes/class-ws-form-config.php:23300
 msgid "Returns the lost password URL."
 msgstr "Zwraca adres URL odzyskiwania hasła."
 
-#: includes/class-ws-form-config.php:23306
+#: includes/class-ws-form-config.php:23307
 msgid "Returns the register URL."
 msgstr "Zwraca adres URL rejestracji."
 
-#: includes/class-ws-form-config.php:23320
+#: includes/class-ws-form-config.php:23321
 #: includes/config/class-ws-form-config-admin.php:327
 #: includes/config/class-ws-form-config-admin.php:337
 #: includes/config/class-ws-form-config-admin.php:1118
 msgid "Tracking"
 msgstr "Śledzenie"
 
-#: includes/class-ws-form-config.php:23344
-#: includes/class-ws-form-config.php:23382
+#: includes/class-ws-form-config.php:23345
+#: includes/class-ws-form-config.php:23383
 msgid "Span"
 msgstr "Zakres"
 
-#: includes/class-ws-form-config.php:23346
-#: includes/class-ws-form-config.php:23361
-#: includes/class-ws-form-config.php:23384
+#: includes/class-ws-form-config.php:23347
+#: includes/class-ws-form-config.php:23362
+#: includes/class-ws-form-config.php:23385
 msgid "Excludes currency symbol."
 msgstr "Wyklucza symbol waluty."
 
-#: includes/class-ws-form-config.php:23352
-#: includes/class-ws-form-config.php:23390
+#: includes/class-ws-form-config.php:23353
+#: includes/class-ws-form-config.php:23391
 msgid "Span Currency"
 msgstr "Span waluty"
 
-#: includes/class-ws-form-config.php:23354
-#: includes/class-ws-form-config.php:23368
-#: includes/class-ws-form-config.php:23392
-#: includes/class-ws-form-config.php:23399
+#: includes/class-ws-form-config.php:23355
+#: includes/class-ws-form-config.php:23369
+#: includes/class-ws-form-config.php:23393
+#: includes/class-ws-form-config.php:23400
 msgid "Includes currency symbol."
 msgstr "Uwzględnia symbol waluty."
 
-#: includes/class-ws-form-config.php:23367
-#: includes/class-ws-form-config.php:23398
+#: includes/class-ws-form-config.php:23368
+#: includes/class-ws-form-config.php:23399
 #: includes/config/class-ws-form-config-option.php:707
 msgid "Currency"
 msgstr "Waluta"
 
-#: includes/class-ws-form-config.php:23438
+#: includes/class-ws-form-config.php:23439
 #: includes/config/class-ws-form-config-admin.php:747
 #: includes/config/class-ws-form-config-admin.php:1116
 #: includes/config/class-ws-form-config-conditional.php:564
@@ -14703,44 +14706,44 @@ msgstr "Waluta"
 msgid "User"
 msgstr "Użytkownik"
 
-#: includes/class-ws-form-config.php:23445
-#: includes/class-ws-form-config.php:23453
+#: includes/class-ws-form-config.php:23446
+#: includes/class-ws-form-config.php:23454
 msgid "Returns the user ID if logged in."
 msgstr "Zwraca identyfikator użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23460
+#: includes/class-ws-form-config.php:23461
 msgid "Nice Name"
 msgstr "Nazwa uproszczona"
 
-#: includes/class-ws-form-config.php:23461
+#: includes/class-ws-form-config.php:23462
 msgid "Returns the user nicename if logged in."
 msgstr "Zwraca przyjazną nazwę użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23469
+#: includes/class-ws-form-config.php:23470
 msgid "Returns the user email address if logged in."
 msgstr "Zwraca adres e-mail użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23477
+#: includes/class-ws-form-config.php:23478
 msgid "Returns the user display name if logged in."
 msgstr "Zwraca wyświetlaną nazwę użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23485
+#: includes/class-ws-form-config.php:23486
 msgid "Returns the user URL if logged in."
 msgstr "Zwraca adres URL użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23492
+#: includes/class-ws-form-config.php:23493
 msgid "Registration Date"
 msgstr "Data rejestracji"
 
-#: includes/class-ws-form-config.php:23493
+#: includes/class-ws-form-config.php:23494
 msgid "Returns the user registration date if logged in."
 msgstr "Zwraca datę rejestracji użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23500
+#: includes/class-ws-form-config.php:23501
 msgid "Language (User)"
 msgstr "Język (użytkownika)"
 
-#: includes/class-ws-form-config.php:23501
+#: includes/class-ws-form-config.php:23502
 msgid ""
 "Language tag (RFC 5646) derived from <code>get_user_locale()</code>: ISO 639 "
 "with optional ISO 3166-1 alpha-2 region, hyphen-separated (for example "
@@ -14752,11 +14755,11 @@ msgstr ""
 "przykład <code>en-US</code>). Po wylogowaniu odpowiada ustawieniom "
 "regionalnym witryny. Uwzględnia wtyczki wielojęzyczne poprzez WordPress."
 
-#: includes/class-ws-form-config.php:23508
+#: includes/class-ws-form-config.php:23509
 msgid "Locale (User)"
 msgstr "Ustawienia regionalne (użytkownik)"
 
-#: includes/class-ws-form-config.php:23509
+#: includes/class-ws-form-config.php:23510
 msgid ""
 "POSIX-style locale identifier from <code>get_user_locale()</code> "
 "(underscore separator; for example <code>en_US</code>). Region uses ISO "
@@ -14767,11 +14770,11 @@ msgstr ""
 "ISO 3166-1 alpha-2, jeśli występuje. Po wylogowaniu odpowiada ustawieniom "
 "regionalnym witryny."
 
-#: includes/class-ws-form-config.php:23516
+#: includes/class-ws-form-config.php:23517
 msgid "Language Code (User)"
 msgstr "Kod języka (użytkownika)"
 
-#: includes/class-ws-form-config.php:23517
+#: includes/class-ws-form-config.php:23518
 msgid ""
 "Primary language subtag from the user locale (ISO 639; lowercase, typically "
 "ISO 639-1)."
@@ -14779,11 +14782,11 @@ msgstr ""
 "Podtag języka podstawowego z ustawień regionalnych użytkownika (ISO 639; "
 "małe litery, zazwyczaj ISO 639-1)."
 
-#: includes/class-ws-form-config.php:23524
+#: includes/class-ws-form-config.php:23525
 msgid "Country Code (User)"
 msgstr "Kod kraju (użytkownika)"
 
-#: includes/class-ws-form-config.php:23525
+#: includes/class-ws-form-config.php:23526
 msgid ""
 "Region subtag from the user locale using ISO 3166-1 alpha-2, or blank if "
 "none."
@@ -14791,117 +14794,117 @@ msgstr ""
 "Podtag regionu z ustawień regionalnych użytkownika w formacie ISO 3166-1 "
 "alpha-2 lub pusty, jeśli brak."
 
-#: includes/class-ws-form-config.php:23533
+#: includes/class-ws-form-config.php:23534
 msgid "Returns the user first name if logged in."
 msgstr "Zwraca imię użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23541
+#: includes/class-ws-form-config.php:23542
 msgid "Returns the user last name if logged in."
 msgstr "Zwraca nazwisko użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23548
+#: includes/class-ws-form-config.php:23549
 msgid "Full Name"
 msgstr "Imię i nazwisko"
 
-#: includes/class-ws-form-config.php:23549
+#: includes/class-ws-form-config.php:23550
 msgid "Returns the user full name if logged in."
 msgstr "Zwraca pełną nazwę użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23556
+#: includes/class-ws-form-config.php:23557
 msgid "Bio"
 msgstr "Życiorys"
 
-#: includes/class-ws-form-config.php:23557
+#: includes/class-ws-form-config.php:23558
 msgid "Returns the user biography if logged in."
 msgstr "Zwraca biografię użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23565
+#: includes/class-ws-form-config.php:23566
 msgid "Returns the user nickname if logged in."
 msgstr "Zwraca pseudonim użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23572
+#: includes/class-ws-form-config.php:23573
 msgid "Admin Color"
 msgstr "Kolor panelu administracyjnego"
 
-#: includes/class-ws-form-config.php:23573
+#: includes/class-ws-form-config.php:23574
 msgid "Returns the user admin color if logged in."
 msgstr ""
 "Zwraca kolor panelu administracyjnego użytkownika, jeśli jest zalogowany."
 
-#: includes/class-ws-form-config.php:23580
+#: includes/class-ws-form-config.php:23581
 msgid "Lost Password Key"
 msgstr "Klucz utraconego hasła"
 
-#: includes/class-ws-form-config.php:23581
+#: includes/class-ws-form-config.php:23582
 msgid "Returns the user lost password key."
 msgstr "Zwraca klucz utraconego hasła użytkownika."
 
-#: includes/class-ws-form-config.php:23589
+#: includes/class-ws-form-config.php:23590
 msgid "Lost Password URL"
 msgstr "Adres URL utraconego hasła"
 
-#: includes/class-ws-form-config.php:23590
+#: includes/class-ws-form-config.php:23591
 msgid "Returns the user lost password URL."
 msgstr "Zwraca adres URL utraconego hasła użytkownika."
 
-#: includes/class-ws-form-config.php:23606
+#: includes/class-ws-form-config.php:23607
 msgid "Returns the user meta value for the key specified."
 msgstr "Zwraca wartość meta użytkownika dla podanego klucza."
 
-#: includes/class-ws-form-config.php:23623
+#: includes/class-ws-form-config.php:23624
 msgid "Query"
 msgstr "Zapytanie"
 
-#: includes/class-ws-form-config.php:23625
+#: includes/class-ws-form-config.php:23626
 msgid "Returns the search query."
 msgstr "Zwraca zapytanie wyszukiwania."
 
-#: includes/class-ws-form-config.php:24244
+#: includes/class-ws-form-config.php:24245
 msgid "Subtotal"
 msgstr "Razem"
 
-#: includes/class-ws-form-config.php:24245
+#: includes/class-ws-form-config.php:24246
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:105
 msgid "Shipping"
 msgstr "Wysyłka"
 
-#: includes/class-ws-form-config.php:24246
+#: includes/class-ws-form-config.php:24247
 msgid "Discount"
 msgstr "Rabat"
 
-#: includes/class-ws-form-config.php:24247
+#: includes/class-ws-form-config.php:24248
 msgid "Handling Fee"
 msgstr "Opłata manipulacyjna"
 
-#: includes/class-ws-form-config.php:24248
+#: includes/class-ws-form-config.php:24249
 msgid "Shipping Discount"
 msgstr "Rabat na wysyłkę"
 
-#: includes/class-ws-form-config.php:24249
+#: includes/class-ws-form-config.php:24250
 msgid "Insurance"
 msgstr "Ubezpieczenie"
 
-#: includes/class-ws-form-config.php:24250
+#: includes/class-ws-form-config.php:24251
 msgid "Gift Wrap"
 msgstr "Opakowanie prezentowe"
 
-#: includes/class-ws-form-config.php:24252
+#: includes/class-ws-form-config.php:24253
 msgid "Tax"
 msgstr "Podatek"
 
-#: includes/class-ws-form-config.php:24257
+#: includes/class-ws-form-config.php:24258
 msgid "New"
 msgstr "Nowy"
 
-#: includes/class-ws-form-config.php:24258
+#: includes/class-ws-form-config.php:24259
 msgid "Pending Payment"
 msgstr "Oczekująca Płatność"
 
-#: includes/class-ws-form-config.php:24259
+#: includes/class-ws-form-config.php:24260
 msgid "Processing"
 msgstr "Przetwarzanie"
 
-#: includes/class-ws-form-config.php:24260
+#: includes/class-ws-form-config.php:24261
 #: includes/config/class-ws-form-config-conditional.php:87
 #: includes/config/class-ws-form-config-styler.php:422
 #: includes/config/class-ws-form-config-styler.php:501
@@ -14912,46 +14915,46 @@ msgstr "Przetwarzanie"
 msgid "Active"
 msgstr "Aktywny"
 
-#: includes/class-ws-form-config.php:24261
+#: includes/class-ws-form-config.php:24262
 msgid "Cancelled"
 msgstr "Anulowane"
 
-#: includes/class-ws-form-config.php:24262
+#: includes/class-ws-form-config.php:24263
 msgid "Authorized"
 msgstr "Autoryzowana"
 
-#: includes/class-ws-form-config.php:24263
+#: includes/class-ws-form-config.php:24264
 #: includes/config/class-ws-form-config-styler.php:652
 #: includes/config/class-ws-form-config-styler.php:684
 #: includes/config/class-ws-form-config-styler.php:741
 msgid "Completed"
 msgstr "Zakończone"
 
-#: includes/class-ws-form-config.php:24264
+#: includes/class-ws-form-config.php:24265
 msgid "Failed"
 msgstr "Błąd"
 
-#: includes/class-ws-form-config.php:24265
+#: includes/class-ws-form-config.php:24266
 msgid "Refunded"
 msgstr "Zwrócono"
 
-#: includes/class-ws-form-config.php:24266
+#: includes/class-ws-form-config.php:24267
 msgid "Voided"
 msgstr "Unieważniona"
 
-#: includes/class-ws-form-config.php:24271
+#: includes/class-ws-form-config.php:24272
 msgid "Total"
 msgstr "Razem"
 
-#: includes/class-ws-form-config.php:24272
+#: includes/class-ws-form-config.php:24273
 msgid "Order Status"
 msgstr "Status zamówienia"
 
-#: includes/class-ws-form-config.php:24273
+#: includes/class-ws-form-config.php:24274
 msgid "Transaction ID"
 msgstr "Id transkacji"
 
-#: includes/class-ws-form-config.php:24274
+#: includes/class-ws-form-config.php:24275
 msgid "Payment Method"
 msgstr "Metoda płatności"
 
@@ -22329,6 +22332,7 @@ msgid "%s value is required"
 msgstr "%s wartość jest wymagana"
 
 #: includes/third-party/beaver-builder/modules/ws-form/ws-form.php:21
+#: includes/third-party/wpbakery/class-wpbakery-shortcode-ws-form.php:42
 msgid "Add a form."
 msgstr "Dodaj formularz."
 
@@ -22364,6 +22368,7 @@ msgstr ""
 "{dynamic_data}"
 
 #: includes/third-party/bricks/elements/class-bricks-ws-form-form.php:57
+#: includes/third-party/wpbakery/class-wpbakery-shortcode-ws-form.php:62
 msgid "Form Element ID (Optional)"
 msgstr "ID elementu formularza (opcjonalnie)"
 
@@ -22569,6 +22574,26 @@ msgstr "Kraj wysyłki / region"
 msgid "Downloadable"
 msgstr "Do pobrania"
 
+#: includes/third-party/wpbakery/class-wpbakery-shortcode-ws-form.php:56
+msgid "Choose the form you want to show in this element."
+msgstr "Wybierz formularz, który chcesz wyświetlić w tym elemencie."
+
+#: includes/third-party/wpbakery/class-wpbakery-shortcode-ws-form.php:64
+msgid "Optional custom element ID for the form."
+msgstr "Opcjonalny niestandardowy identyfikator ID elementu dla formularza."
+
+#: includes/third-party/wpbakery/class-wpbakery-shortcode-ws-form.php:70
+msgid "CSS Class (Optional)"
+msgstr "Klasa CSS (opcjonalnie)"
+
+#: includes/third-party/wpbakery/class-wpbakery-shortcode-ws-form.php:72
+msgid "Additional CSS classes for the form."
+msgstr "Dodatkowe klasy CSS dla formularza."
+
+#: includes/third-party/wpbakery/class-wpbakery-shortcode-ws-form.php:160
+msgid "Please select a form from the element settings."
+msgstr "Wybierz formularz w ustawieniach elementu."
+
 #: includes/third-party/wpml/class-ws-form-wpml.php:74
 #: includes/third-party/wpml/class-ws-form-wpml.php:223
 msgid "WPML"
@@ -22670,6 +22695,9 @@ msgstr "https://wsform.com/"
 #. Description of the plugin/theme
 msgid "Smart. Fast. Forms."
 msgstr "Inteligentne. Szybkie. Formularze."
+
+#~ msgid "I found a better plugin"
+#~ msgstr "Znalazłem lepszą wtyczkę"
 
 #~ msgid "Click to Start"
 #~ msgstr "Kliknij, aby rozpocząć"

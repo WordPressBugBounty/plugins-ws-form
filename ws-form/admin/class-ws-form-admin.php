@@ -814,7 +814,7 @@
 <!-- WS Form - Modal - Feedback -->
 <div id="wsf-feedback-modal-backdrop" class="wsf-modal-backdrop" style="display: none;"></div>
 
-<div id="wsf-feedback-modal" class="wsf-modal" style="display: none; margin-left: -200px; margin-top: -180px; width: 400px;">
+<div id="wsf-feedback-modal" class="wsf-modal" style="display: none;">
 
 <div id="wsf-feedback">
 
@@ -880,19 +880,27 @@
 
 <label><input type="radio" name="wsf_feedback_reason" value="No Longer Need" /> <?php esc_html_e('I no longer need the plugin', 'ws-form'); ?></label>
 
-<label><input type="radio" id="wsf-feedback-reason-found-better-plugin" name="wsf_feedback_reason" value="Found Better Plugin" /> <?php esc_html_e('I found a better plugin', 'ws-form'); ?></label>
+<label><input type="radio" id="wsf-feedback-reason-found-better-plugin" name="wsf_feedback_reason" value="Found Better Plugin" /> <?php esc_html_e('I switched to another form plugin', 'ws-form'); ?></label>
 
 <select id="wsf-feedback-reason-found-better-plugin-select" name="wsf_feedback_reason_found_better_plugin">
 <option value=""><?php esc_html_e('Select...', 'ws-form'); ?></option>
 <option value="Caldera Forms">Caldera Forms</option>
 <option value="Contact Form 7">Contact Form 7</option>
+<option value="Elementor Forms">Elementor Forms</option>
 <option value="Formidable Forms">Formidable Forms</option>
+<option value="Forminator">Forminator</option>
 <option value="Fluent Forms">Fluent Forms</option>
 <option value="Gravity Forms">Gravity Forms</option>
+<option value="HappyForms">HappyForms</option>
+<option value="IvyForms">IvyForms</option>
+<option value="Jotform">Jotform</option>
 <option value="Ninja Forms">Ninja Forms</option>
+<option value="Typeform">Typeform</option>
 <option value="Visual Form Builder">Visual Form Builder</option>
 <option value="weForms">weForms</option>
 <option value="WPForms">WPForms</option>
+<option value="Wufoo">Wufoo</option>
+<option value="Zoho Forms">Zoho Forms</option>
 <option value="Other"><?php esc_html_e('Other', 'ws-form'); ?></option>
 </select>
 

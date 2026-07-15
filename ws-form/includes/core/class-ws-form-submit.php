@@ -299,83 +299,6 @@
 				$this->section_repeatable = $submit_object->section_repeatable = is_serialized($submit_object->section_repeatable) ? WS_Form_Common::maybe_unserialize($submit_object->section_repeatable) : false;
 			}
 
-			// File objects
-			if($expand_file_objects && isset($submit_object->meta)) {
-
-				$metas = (array) $submit_object->meta;
-
-				foreach($metas as $meta_key => $meta) {
-
-					$meta = (array) $meta;
-
-					// Add URLs to file objects all objects
-					if(
-						isset($meta['type']) &&
-						(($meta['type'] == 'file') || ($meta['type'] == 'mediacapture') || ($meta['type'] == 'signature')) &&
-						isset($meta['value']) &&
-						is_array($meta['value']) &&
-						(count($meta['value']) > 0) &&
-						is_array($meta['value'][0]) &&
-						isset($meta['id'])
-					) {
-
-						foreach($meta['value'] as $file_object_index => $file_object) {
-
-							if(
-								isset($file_object['url']) ||
-								!isset($file_object['name']) ||
-								!isset($file_object['size']) ||
-								!isset($file_object['type']) ||
-								!isset($file_object['path'])
-
-							) { continue; }
-
-							// Get handler
-							$handler = isset($file_object['handler']) ? $file_object['handler'] : 'wsform';
-
-							// Get URL
-							if(isset(WS_Form_File_Handler::$file_handlers[$handler])) {
-
-								$section_repeatable_index = isset($meta['repeatable_index']) ? absint($meta['repeatable_index']) : 0;
-
-								$url = WS_Form_File_Handler::$file_handlers[$handler]->get_url($file_object, $meta['id'], $file_object_index, $submit_object->hash, $section_repeatable_index);
-
-							} else {
-
-								$url = '#';
-							}
-
-							// Set URL
-							$this->meta[$meta_key]['value'][$file_object_index]['url'] = $submit_object->meta[$meta_key]['value'][$file_object_index]['url'] = $url;
-
-							// Set preview if attachment ID is set
-							if(isset($file_object['attachment_id'])) {
-
-								// Get image size
-								// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-								$image_size = apply_filters('wsf_dropzonejs_image_size', WS_FORM_DROPZONEJS_IMAGE_SIZE);
-
-								$attachment_id = $file_object['attachment_id'];
-
-								$file_preview = wp_get_attachment_image_src($attachment_id, $image_size, true);
-								if($file_preview) {
-
-									$file_preview = $file_preview[0];
-
-								} else {
-
-									$file_preview = wp_get_attachment_thumb_url($attachment_id);
-
-									if(!$file_preview) { $file_preview = ''; }
-								}
-								if(!$file_preview) { $file_preview = ''; }
-
-								$this->meta[$meta_key]['value'][$file_object_index]['preview'] = $submit_object->meta[$meta_key]['value'][$file_object_index]['preview'] = $file_preview;
-							}
-						}
-					}
-				}
-			}
 		}
 
 		// Read - All
@@ -1194,24 +1117,6 @@
 						switch($field_type) {
 
 							// Arrays
-							case 'file' :
-							case 'mediacapture' :
-							case 'signature' :
-							case 'googlemap' :
-
-								if($submit_meta_not_set) {
-
-									$submit_meta[$meta_key_base]['value'] = $value;
-
-								} else {
-
-									if(is_array($value)) {
-
-										$submit_meta[$meta_key_base]['value'] = is_array($submit_meta[$meta_key_base]['value']) ?  array_merge($submit_meta[$meta_key_base]['value'], $value) : $value;
-									}
-								}
-
-								break;
 
 							// Strings
 							default :
@@ -2901,10 +2806,6 @@
 					switch($field_type) {
 
 						// Merge
-						case 'file' :
-						case 'mediacapture' :
-						case 'signature' :
-						case 'googlemap' :
 						case 'select' :
 						case 'checkbox' :
 						case 'radio' :
@@ -3330,28 +3231,6 @@
 
 				switch($field_type) {
 
-					case 'file' :
-					case 'mediacapture' :
-					case 'signature' :
-
-						$field_value = $field_value['name'];
-						break;
-
-					case 'googlemap' :
-
-						if(
-							is_array($field_value) &&
-							isset($field_value['lat']) &&
-							isset($field_value['lng'])
-						) {
-
-							$field_value = sprintf('%.7f,%.7f', $field_value['lat'], $field_value['lng']);
-
-						} else {
-
-							$field_value = '';
-						}
-						break;
 
 					default :
 

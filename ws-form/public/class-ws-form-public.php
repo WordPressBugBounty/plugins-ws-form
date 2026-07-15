@@ -1167,7 +1167,7 @@
 								add_action('wp_footer', function() {
 
 									// Output public CSS
-									$css = $this->ws_form_css->get_layout(null, $this->customizer, is_rtl());
+									$css = $this->ws_form_css->get_layout(null, $this->customizer);
 									WS_Form_Common::echo_esc_css_inline($css);
 
 								}, 100);
@@ -1177,7 +1177,7 @@
 
 							$css_compile = WS_Form_Common::option_get('css_compile', false);
 
-							wp_enqueue_style($this->plugin_name . '-layout', $css_compile ? sprintf('%s/ws-form/%s/public.layout%s%s.css', $upload_dir_base_url, WS_FORM_CSS_FILE_PATH, $rtl, $min) : WS_Form_Common::get_api_path('helper/ws-form-css'), array(), $this->version, 'all');
+							wp_enqueue_style($this->plugin_name . '-layout', $css_compile ? sprintf('%s/ws-form/%s/public.layout%s.css', $upload_dir_base_url, WS_FORM_CSS_FILE_PATH, $min) : WS_Form_Common::get_api_path('helper/ws-form-css'), array(), $this->version, 'all');
 						}
 					}
 				}
@@ -1291,7 +1291,7 @@
 
 										// Output style CSS
 										$this->ws_form_css->style_id = $style_id;
-										$css_style = $this->ws_form_css->get_style(null, true, is_rtl());
+										$css_style = $this->ws_form_css->get_style(null, true);
 										WS_Form_Common::echo_esc_css_inline($css_style);
 
 									}, 100);

@@ -136,8 +136,6 @@
 			));
 			if(is_null($meta_value)) { parent::db_wpdb_handle_error(__('Unable to read file meta data', 'ws-form')); }
 
-			// Delete file
-			self::db_delete_file($meta_value);
 
 			// Delete meta
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
@@ -169,11 +167,6 @@
 			), 'ARRAY_A');
 			if(is_null($metas)) { return false; }
 
-			// Delete all files
-			foreach($metas as $meta) {
-
-				self::db_delete_file($meta['meta_value']);
-			}
 
 			// Delete submit meta
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
@@ -188,43 +181,6 @@
 			}
 		}
 
-		// Delete file associated with meta_value
-		public function db_delete_file($meta_value) {
-
-			if(empty($meta_value)) { return false; }
-
-			// Check to see if meta value is serialized data
-			if(!is_serialized($meta_value)) { return false; }
-
-			// Unserialize to get array of files
-			$file_objects = WS_Form_Common::maybe_unserialize($meta_value);
-
-			// Check file objects
-			if(!is_array($file_objects)) { return false; }
-			if(count($file_objects) == 0) { return false; }
-
-			// Run through each file
-			foreach($file_objects as $file_object) {
-
-				// Check file object
-				if(
-					!isset($file_object['name']) ||
-					!isset($file_object['size']) ||
-					!isset($file_object['type']) ||
-					!isset($file_object['path'])
-
-				) { continue; }
-
-				// Field file handler type
-				$field_file_handler = isset($file_object['handler']) ? $file_object['handler'] : 'wsform';
-
-				// Check file handler is installed
-				if(!isset(WS_Form_File_Handler::$file_handlers[$field_file_handler])) { continue; }
-
-				// Delete file
-				WS_Form_File_Handler::$file_handlers[$field_file_handler]->delete($file_object);
-			}
-		}
 
 		// Add meta data from object (Meta data is stored as an object by default to allow for JSON transfer)
 		public function db_update_from_object($meta_data_object, $submit_encrypted = false) {

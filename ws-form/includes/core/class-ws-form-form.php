@@ -179,7 +179,7 @@
 			// Run hook to determine $action_id, $list_id and $list_sub_id
 			try {
 
-				// phpcs:ignore ,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Intentionally dynamic
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Intentionally dynamic
 				$hook_return = apply_filters($hook, $description);
 
 			} catch (Exception $e) {
@@ -3034,8 +3034,6 @@
 			// Gradient
 			$gradient_height = 20;
 
-			$row_height_max = 0;
-
 			// Get field types
 			$field_types = WS_Form_Common::get_field_types();
 
@@ -3181,7 +3179,6 @@
 			// Process each field
 			$col_index = 0;
 			$svg_array = array();
-			$label_found = false;
 
 			foreach($fields as $field) {
 
@@ -3357,7 +3354,6 @@
 						);
 
 						$label_offset_y = $label_font_size + $label_margin_bottom;
-						$label_found = true;
 
 					} else {
 
@@ -3463,7 +3459,7 @@
 						case 'message' :
 
 							// Get class_field_message_type
-							$class_field_message_type = (isset($field['object']->meta) && isset($field['object']->meta->class_field_message_type)) ? $field['object']->meta->class_field_message_type : '';
+							$class_field_message_type = WS_Form_Common::get_object_meta_value($field['object'], 'class_field_message_type', 'information');
 
 							if($class_field_message_type == 'none') {
 

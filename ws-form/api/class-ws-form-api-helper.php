@@ -336,7 +336,7 @@
 
 			// Output CSS
 			$ws_form_css = new WS_Form_CSS();
-			WS_Form_Common::echo_esc_css($ws_form_css->get_layout(null, false, is_rtl()));
+			WS_Form_Common::echo_esc_css($ws_form_css->get_layout(null, false));
 
 			exit;
 		}

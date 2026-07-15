@@ -126,7 +126,7 @@
 			// Title
 			if(WS_Form_Common::can_user('edit_form_style')) {
 
-				$title = sprintf('<strong><a href="%s" target="_blank">%s</a>%s</strong>', esc_url($url_edit), esc_html($item['label']), $title_default);
+				$title = sprintf('<strong><a href="%s">%s</a>%s</strong>', esc_url($url_edit), esc_html($item['label']), $title_default);
 
 			} else {
 
@@ -152,7 +152,7 @@
 
 					if(WS_Form_Common::can_user('edit_form_style')) {
 
-						$actions['edit'] = 	sprintf('<a href="%s" target="_blank">%s</a>', esc_url($url_edit), __('Edit', 'ws-form'));
+						$actions['edit'] = 	sprintf('<a href="%s">%s</a>', esc_url($url_edit), __('Edit', 'ws-form'));
 					}
 
 					if(WS_Form_Common::can_user('create_form_style')) {

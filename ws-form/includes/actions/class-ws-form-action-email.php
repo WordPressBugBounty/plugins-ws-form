@@ -399,13 +399,13 @@
 						// Determine learn more URL
 						case 'Could not instantiate mail function.' :
 
-							$url_learn_more = WS_Form_Common::get_plugin_website_url('/knowledgebase/error-could-not-instantiate-mail-function-when-sending-emails/');
+							$url_learn_more = WS_Form_Common::get_plugin_website_url('/knowledgebase/error-could-not-instantiate-mail-function/');
 
 							break;
 
 						default :
 
-							$url_learn_more = WS_Form_Common::get_plugin_website_url('/knowledgebase/error-sending-email-error/');
+							$url_learn_more = WS_Form_Common::get_plugin_website_url('/knowledgebase/error-error-sending-email/');
 					}
 
 					self::error(sprintf(

@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
 Tested up to: 7.0
-Stable tag: 1.11.16
+Stable tag: 1.11.17
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -32,7 +32,7 @@ https://youtu.be/ZsTBBsdQxFQ
 * [Accessibility Friendly](https://wsform.com/knowledgebase/accessibility-and-web-forms/?utm_source=wp_plugins&utm_medium=readme)
 * [CaptchaFox](https://wsform.com/knowledgebase/captchafox/?utm_source=wp_plugins&utm_medium=readme)
 * [Clean HTML 5 Code](https://wsform.com/knowledgebase/responsive-forms/?utm_source=wp_plugins&utm_medium=readme)
-* [Cloudflare Turnstile Captcha](https://wsform.com/knowledgebase/cloudflare-turnstile/?utm_source=wp_plugins&utm_medium=readme)
+* [Cloudflare Turnstile Captcha](https://wsform.com/knowledgebase/turnstile/?utm_source=wp_plugins&utm_medium=readme)
 * [Data Sources](https://wsform.com/knowledgebase/data-sources/?utm_source=wp_plugins&utm_medium=readme)
 * [Drag and Drop Layout Editor](https://wsform.com/knowledgebase/the-layout-editor/?utm_source=wp_plugins&utm_medium=readme)
 * [Elementor Angie Integration](https://wsform.com/angie-agentic-ai-meets-ws-form/?utm_source=wp_plugins&utm_medium=readme)
@@ -63,7 +63,7 @@ https://youtu.be/ZsTBBsdQxFQ
 Add forms to your website using your favorite WordPress page builder:
 
 * [Beaver Builder](https://wsform.com/knowledgebase/beaver-builder-module/?utm_source=wp_plugins&utm_medium=readme)
-* [Block Editor (Gutenberg)](https://wsform.com/knowledgebase/gutenberg-block/?utm_source=wp_plugins&utm_medium=readme)
+* [Block Editor (Gutenberg)](https://wsform.com/knowledgebase/wordpress-block/?utm_source=wp_plugins&utm_medium=readme)
 * [Breakdance](https://wsform.com/knowledgebase/breakdance-website-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
 * [Bricks](https://wsform.com/knowledgebase/bricks-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
 * [Classic Editor](https://wsform.com/knowledgebase/adding-forms-to-your-website/?utm_source=wp_plugins&utm_medium=readme)
@@ -92,7 +92,7 @@ WS Form includes a powerful, multi-layer spam protection system to block unwante
 * [Akismet](https://wsform.com/knowledgebase/spam-check-with-akismet/?utm_source=wp_plugins&utm_medium=readme) spam checking
 * [CaptchaFox](https://wsform.com/knowledgebase/captchafox/?utm_source=wp_plugins&utm_medium=readme)
 * [Clearout](https://wsform.com/knowledgebase/spam-check-with-clearout/?utm_source=wp_plugins&utm_medium=readme) disposable email detection
-* [Cloudflare Turnstile](https://wsform.com/knowledgebase/cloudflare-turnstile/?utm_source=wp_plugins&utm_medium=readme)
+* [Cloudflare Turnstile](https://wsform.com/knowledgebase/turnstile/?utm_source=wp_plugins&utm_medium=readme)
 * [Google reCAPTCHA](https://wsform.com/knowledgebase/recaptcha/?utm_source=wp_plugins&utm_medium=readme) v2 and v3
 * [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
 * Works alongside third-party services such as CleanTalk and OOPSpam
@@ -232,7 +232,7 @@ WS Form comes complete with all the field types you need to build a contact form
 * [File Upload](https://wsform.com/knowledgebase/file/?utm_source=wp_plugins&utm_medium=readme)
 * [Google Address](https://wsform.com/knowledgebase/google-address/?utm_source=wp_plugins&utm_medium=readme)
 * [Google Map](https://wsform.com/knowledgebase/google-map/?utm_source=wp_plugins&utm_medium=readme)
-* [Google Routing](https://wsform.com/knowledgebase/google-route/?utm_source=wp_plugins&utm_medium=readme)
+* [Google Routing](https://wsform.com/knowledgebase/google-routing/?utm_source=wp_plugins&utm_medium=readme)
 * [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
 * [HTML](https://wsform.com/knowledgebase/html/?utm_source=wp_plugins&utm_medium=readme)
 * [Legal](https://wsform.com/knowledgebase/legal/?utm_source=wp_plugins&utm_medium=readme)
@@ -367,6 +367,10 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.11.17 - 07/12/2026 =
+* Added: WPBakery extension
+* Changed: Layout and style CSS now use a single file for LTR and RTL sites, removing the need for separate RTL CSS files
+
 = 1.11.16 - 07/09/2026 =
 * Added: Improved accessibility of section legends, checkbox/radio option groups, the top admin menu, and debug console
 * Added: Improved ARIA labels generated from labels containing HTML
@@ -375,14 +379,5 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 = 1.11.15 - 06/30/2026 =
 * Bug Fix: Resolved a language reference console warning that could occur when rendering forms
-
-= 1.11.14 - 06/29/2026 =
-* Added: wsf_cookie_expiry filter hook for overriding the expiry (in seconds) of cookies set by WS Form
-* Added: Support for j F, Y European date format (e.g. 8 June, 2018) in the date/time picker
-* Changed: Added a WS_FORM_INTRO constant to enable or disable the first-run layout editor tutorial (intro.js hints), which is now disabled by default
-* Changed: Redesigned the welcome screen shown after installation into a single streamlined page with an introduction video and direct links to create your first form or view documentation
-* Bug Fix: Forms list table columns now size to their content, so long shortcodes no longer overflow the Shortcode column and column heading sort indicators no longer wrap to a second line
-* Bug Fix: Layout editor would not allow a field or section to be dropped into a section that had to be scrolled into view during the drag, because cached drop target positions were not refreshed while auto-scrolling
-* Bug Fix: Selected text in select fields became invisible when focused via keyboard in modern Firefox, caused by an obsolete :-moz-focusring transparency hack that newer Firefox versions no longer compensate for
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

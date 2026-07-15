@@ -16,12 +16,6 @@ body.admin_page_ws-form-welcome #wpcontent {
   padding-right: 0 !important;
 }
 
-#wsf-welcome select.wsf-welcome-select:not([multiple]):not([size]) {
-  background-position: left 12px center;
-  padding: 12px 24px;
-  padding-left: 36px;
-}
-
 .wsf-table-migrate th {
   text-align: left;
 }

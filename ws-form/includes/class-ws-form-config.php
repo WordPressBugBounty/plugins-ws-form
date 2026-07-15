@@ -1567,7 +1567,7 @@
 
 							'label'				=>	__('Google Routing', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('pro'),
-							'kb_url'			=>	'/knowledgebase/google-route/',
+							'kb_url'			=>	'/knowledgebase/google-routing/',
 							'icon'				=>	'googlemap',
 						)
 					)
@@ -10932,7 +10932,7 @@
 
 							'label'	=> __('Count', 'ws-form'),
 							'description' => __('Returns the total character count.', 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -10940,7 +10940,7 @@
 
 							'label'	=> __('Count Label', 'ws-form'),
 							'description' => __("Returns 'character' or 'characters' depending on the character count.", 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -10948,7 +10948,7 @@
 
 							'label'	=> __('Count Remaining', 'ws-form'),
 							'description' => __('If you set a maximum character length for a field, this will return the total remaining character count.', 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -10956,7 +10956,7 @@
 
 							'label'	=> __('Count Remaining Label', 'ws-form'),
 							'description' => __('If you set a maximum character length for a field, this will return the total remaining character count.', 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -10964,7 +10964,7 @@
 
 							'label'	=> __('Minimum', 'ws-form'),
 							'description' => __('Returns the minimum character length that you set for a field.', 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -10972,7 +10972,7 @@
 
 							'label'	=> __('Minimum Label', 'ws-form'),
 							'description' => __("Returns 'character' or 'characters' depending on the minimum character length.", 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -10980,7 +10980,7 @@
 
 							'label'	=> __('Maximum', 'ws-form'),
 							'description' => __('Returns the maximum character length that you set for a field.', 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -10988,7 +10988,7 @@
 
 							'label'	=> __('Maximum Label', 'ws-form'),
 							'description' => __("Returns 'character' or 'characters' depending on the maximum character length.", 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						)
 					)
@@ -11005,7 +11005,7 @@
 
 							'label'	=> __('Count', 'ws-form'),
 							'description' => __('Returns the total word count.', 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -11013,7 +11013,7 @@
 
 							'label'	=> __('Count Label', 'ws-form'),
 							'description' => __("Returns 'word' or 'words' depending on the word count.", 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -11021,7 +11021,7 @@
 
 							'label'	=> __('Count Remaining', 'ws-form'),
 							'description' => __('If you set a maximum word length for a field, this will show the total remaining word count.', 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -11029,7 +11029,7 @@
 
 							'label'	=> __('Count Remaining Label', 'ws-form'),
 							'description' => __('If you set a maximum word length for a field, this will show the total remaining word count.', 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -11037,7 +11037,7 @@
 
 							'label'	=> __('Minimum', 'ws-form'),
 							'description' => __('Returns the minimum word length that you set for a field.', 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -11045,7 +11045,7 @@
 
 							'label'	=> __('Minimum Label', 'ws-form'),
 							'description' => __("Returns 'word' or 'words' depending on the minimum word length.", 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -11053,7 +11053,7 @@
 
 							'label'	=> __('Maximum', 'ws-form'),
 							'description' => __('Returns the maximum word length that you set for a field.', 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						),
 
@@ -11061,7 +11061,7 @@
 
 							'label'	=> __('Maximum Label', 'ws-form'),
 							'description' => __("Returns 'word' or 'words' depending on the maximum word length.", 'ws-form'),
-							'kb_slug' => 'word-and-character-count',
+							'kb_slug' => 'word-and-character-counts-in-help-text',
 							'usage' => array('texthelp')
 						)
 					)

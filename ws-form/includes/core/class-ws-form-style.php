@@ -1349,7 +1349,7 @@
 			) {
 				if($published) {
 
-					$style_object = self::db_read_published(true, $bypass_user_capability_check);
+					$style_object = self::db_read_published();
 
 				} else {
 
