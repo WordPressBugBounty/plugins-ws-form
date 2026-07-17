@@ -336,129 +336,41 @@
 		// Get chart data - By time
 		public function db_get_chart_data_time($time_from_utc = false, $time_to_utc = false) {
 
-			global $wpdb;
+			// Get daily statistics
+			$daily = self::db_get_daily($time_from_utc, $time_to_utc);
+			if(empty($daily)) { return false; }
 
-			$where_array = array();
-
-			// Form ID
-			if($this->form_id > 0) { $where_array[] = sprintf('form_id = %u', $this->form_id); }
-
-			// Time from
-			if($time_from_utc !== false) { $where_array[] = sprintf('date_added >= \'%s\'', gmdate('Y-m-d H:i:s', $time_from_utc)); }
-
-			// Time to
-			if($time_to_utc !== false) { $where_array[] = sprintf('date_added < \'%s\'', gmdate('Y-m-d H:i:s', $time_to_utc)); }
-
-			// Build WHERE SQL
-			$where_sql = (count($where_array) > 0) ? ' WHERE ' . implode(' AND ', $where_array) : '';
-
-			// Get min and max date ranges
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
-			$date_range_row = $wpdb->get_row(
-
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Where SQL already escaped
-				"SELECT MIN(date_added) AS date_added_from, MAX(date_added) AS date_added_to FROM {$wpdb->prefix}wsf_form_stat{$where_sql} ORDER BY date_added;"
-			);
-
-			if(is_null($date_range_row)) { return false; }
-			if(is_null($date_range_row->date_added_from)) { return false; }
-			if(is_null($date_range_row->date_added_to)) { return false; }
-
-			// Get from and to
-
-			// If a from date is specified, the date start should be that date
-			if($time_from_utc !== false) {
-
-				$date_added_from = $time_from_utc;
-
-			} else {
-
-				$date_added_from = strtotime($date_range_row->date_added_from);
-			}
-			if($time_to_utc !== false) {
-
-				$date_added_to = $time_to_utc;
-
-			} else {
-
-				$date_added_to = time();
-			}
-
-			// Get form stat data
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
-			$form_stats = $wpdb->get_results(
-
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Already prepared above
-				"SELECT date_added, count_view, count_save, count_submit FROM {$wpdb->prefix}wsf_form_stat{$where_sql} ORDER BY date_added;"
-			);
-
-			if(is_null($form_stats)) { return false; }
-
-			// Build form stat array
+			// Build chart data from daily statistics
+			$chart_data_labels = array();
+			$chart_data_dataset_count_view = array();
+			$chart_data_dataset_count_save = array();
+			$chart_data_dataset_count_submit = array();
 			$count_view_total = 0;
 			$count_save_total = 0;
 			$count_submit_total = 0;
-			$form_stat_array = array();
-			foreach($form_stats as $form_stat) {
 
-				$date_added_local = get_date_from_gmt($form_stat->date_added, 'Y-m-d');
-				if(isset($form_stat_array[$date_added_local])) {
+			foreach($daily as $day) {
 
-					// Accumulate (This is intentionally coded this way to overcome a PHP ZEND_FETCH_DIM_RW bug)
-					$stat_obj = $form_stat_array[$date_added_local];
-					$stat_obj->count_view += $form_stat->count_view;
-					$stat_obj->count_save += $form_stat->count_save;
-					$stat_obj->count_submit += $form_stat->count_submit;
-					$form_stat_array[$date_added_local] = $stat_obj;
+				$chart_data_labels[] = gmdate('M j', strtotime($day['date']));
+				$chart_data_dataset_count_view[] = $day['count_view'];
+				$chart_data_dataset_count_save[] = $day['count_save'];
+				$chart_data_dataset_count_submit[] = $day['count_submit'];
 
-				} else {
-
-					// Initial
-					$form_stat_array[$date_added_local] = $form_stat;
-				}
-
-				// Totals
-				$count_view_total += $form_stat->count_view;
-				$count_save_total += $form_stat->count_save;
-				$count_submit_total += $form_stat->count_submit;
+				$count_view_total += $day['count_view'];
+				$count_save_total += $day['count_save'];
+				$count_submit_total += $day['count_submit'];
 			}
 
-			$date_added_from_local = get_date_from_gmt(gmdate('Y-m-d H:i:s', $date_added_from), 'Y-m-d');
-			$date_added_to_local = get_date_from_gmt(gmdate('Y-m-d H:i:s', $date_added_to), 'Y-m-d');
+			// No activity in range
+			if(
+				($count_view_total === 0) &&
+				($count_save_total === 0) &&
+				($count_submit_total === 0)
+			) {
+				return false;
+			}
 
-			// Build final data
-			$chart_data_labels = array();
-			$chart_data_dataset_count_view = array();
-			$day_index = 0;
-			do {
-
-				// Convert date in database to local time
-				$date_added_current_local = gmdate('Y-m-d', strtotime($date_added_from_local) + ($day_index * 86400));
-
-				// Add label
-				$chart_data_labels[] = gmdate('M j', strtotime($date_added_current_local));
-
-				// Build datasets
-				if(isset($form_stat_array[$date_added_current_local])) {
-
-					$form_stat = $form_stat_array[$date_added_current_local];
-					$chart_data_dataset_count_view[] = $form_stat->count_view;
-					$chart_data_dataset_count_save[] = $form_stat->count_save;
-					$chart_data_dataset_count_submit[] = $form_stat->count_submit;
-
-				} else {
-
-					$chart_data_dataset_count_view[] = 0;
-					$chart_data_dataset_count_save[] = 0;
-					$chart_data_dataset_count_submit[] = 0;
-				}
-
-				$day_index++;
-
-			} while($date_added_current_local != $date_added_to_local);
-
-			// Build final data
-			$chart_data = array(
+			return array(
 
 				'labels' => $chart_data_labels,
 
@@ -504,8 +416,139 @@
 					)
 				)
 			);
+		}
 
-			return $chart_data;
+		// Get daily statistics
+		public function db_get_daily($time_from_utc = false, $time_to_utc = false) {
+
+			global $wpdb;
+
+			$where_array = array();
+
+			// Form ID
+			if($this->form_id > 0) { $where_array[] = sprintf('form_id = %u', $this->form_id); }
+
+			// Time from
+			if($time_from_utc !== false) { $where_array[] = sprintf('date_added >= \'%s\'', gmdate('Y-m-d H:i:s', $time_from_utc)); }
+
+			// Time to
+			if($time_to_utc !== false) { $where_array[] = sprintf('date_added < \'%s\'', gmdate('Y-m-d H:i:s', $time_to_utc)); }
+
+			// Build WHERE SQL
+			$where_sql = (count($where_array) > 0) ? ' WHERE ' . implode(' AND ', $where_array) : '';
+
+			// Determine date range bounds
+			$date_added_from = ($time_from_utc !== false) ? $time_from_utc : false;
+			$date_added_to = ($time_to_utc !== false) ? $time_to_utc : false;
+
+			if(($date_added_from === false) || ($date_added_to === false)) {
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+				$date_range_row = $wpdb->get_row(
+
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Where SQL already escaped
+					"SELECT MIN(date_added) AS date_added_from, MAX(date_added) AS date_added_to FROM {$wpdb->prefix}wsf_form_stat{$where_sql};"
+				);
+
+				if(
+					is_null($date_range_row) ||
+					is_null($date_range_row->date_added_from) ||
+					is_null($date_range_row->date_added_to)
+				) {
+
+					// No stats available — can still return zero-filled days if from date is known
+					if($date_added_from === false) {
+
+						return array();
+					}
+
+					if($date_added_to === false) {
+
+						$date_added_to = time();
+					}
+
+				} else {
+
+					if($date_added_from === false) {
+
+						$date_added_from = strtotime($date_range_row->date_added_from);
+					}
+
+					if($date_added_to === false) {
+
+						$date_added_to = time();
+					}
+				}
+			}
+
+			// Get form stat data
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Custom database table
+			$form_stats = $wpdb->get_results(
+
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Already prepared above
+				"SELECT date_added, count_view, count_save, count_submit FROM {$wpdb->prefix}wsf_form_stat{$where_sql} ORDER BY date_added;"
+			);
+
+			// Build form stat array keyed by local date
+			$form_stat_array = array();
+			if(!is_null($form_stats)) {
+
+				foreach($form_stats as $form_stat) {
+
+					$date_added_local = get_date_from_gmt($form_stat->date_added, 'Y-m-d');
+					if(isset($form_stat_array[$date_added_local])) {
+
+						// Accumulate (This is intentionally coded this way to overcome a PHP ZEND_FETCH_DIM_RW bug)
+						$stat_obj = $form_stat_array[$date_added_local];
+						$stat_obj->count_view += $form_stat->count_view;
+						$stat_obj->count_save += $form_stat->count_save;
+						$stat_obj->count_submit += $form_stat->count_submit;
+						$form_stat_array[$date_added_local] = $stat_obj;
+
+					} else {
+
+						$form_stat_array[$date_added_local] = $form_stat;
+					}
+				}
+			}
+
+			$date_added_from_local = get_date_from_gmt(gmdate('Y-m-d H:i:s', $date_added_from), 'Y-m-d');
+			$date_added_to_local = get_date_from_gmt(gmdate('Y-m-d H:i:s', $date_added_to), 'Y-m-d');
+
+			// Build daily array (include zero days)
+			$daily = array();
+			$day_index = 0;
+			do {
+
+				$date_added_current_local = gmdate('Y-m-d', strtotime($date_added_from_local) + ($day_index * 86400));
+
+				if(isset($form_stat_array[$date_added_current_local])) {
+
+					$form_stat = $form_stat_array[$date_added_current_local];
+					$daily[] = array(
+
+						'date' => $date_added_current_local,
+						'count_view' => (int) $form_stat->count_view,
+						'count_save' => (int) $form_stat->count_save,
+						'count_submit' => (int) $form_stat->count_submit
+					);
+
+				} else {
+
+					$daily[] = array(
+
+						'date' => $date_added_current_local,
+						'count_view' => 0,
+						'count_save' => 0,
+						'count_submit' => 0
+					);
+				}
+
+				$day_index++;
+
+			} while($date_added_current_local != $date_added_to_local);
+
+			return $daily;
 		}
 
 		// Get chart data - By totals

@@ -564,6 +564,15 @@
 							);
 							break;
 
+						// AI connectors status
+						case 'ai_connectors_status' :
+
+							WS_Form_Common::echo_esc_html(
+
+								WS_Form_Common::wp_ai_client_usable() ? __('Connected', 'ws-form') : __('Disconnected', 'ws-form')
+							);
+							break;
+
 						default :
 
 							// Other
@@ -782,6 +791,12 @@
 
 ?>
 <input type="button" class="wsf-button wsf-button-inline" data-action="wsf-form-stat-reset" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Reset', 'ws-form'); ?>"<?php WS_Form_Common::echo_esc_attributes($attributes); ?> />
+<?php
+						break;
+
+					case 'wsf-ai-connectors' :
+?>
+<a class="wsf-button wsf-button-inline" href="<?php WS_Form_Common::echo_esc_url(admin_url('options-connectors.php')); ?>"><?php esc_html_e('Connectors', 'ws-form'); ?></a>
 <?php
 						break;
 

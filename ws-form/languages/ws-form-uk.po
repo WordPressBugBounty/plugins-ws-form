@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WS Form PRO\n"
-"POT-Creation-Date: 2026-07-12 17:35-0400\n"
-"PO-Revision-Date: 2026-07-12 17:38-0400\n"
+"POT-Creation-Date: 2026-07-16 20:33-0400\n"
+"PO-Revision-Date: 2026-07-16 20:37-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: uk\n"
@@ -114,8 +114,8 @@ msgstr "Розділ"
 #: includes/config/class-ws-form-config-admin.php:799
 #: includes/config/class-ws-form-config-conditional.php:170
 #: includes/config/class-ws-form-config-styler.php:842
-#: includes/core/class-ws-form-field.php:71
-#: includes/core/class-ws-form-field.php:619
+#: includes/core/class-ws-form-field.php:73
+#: includes/core/class-ws-form-field.php:624
 #: includes/core/class-ws-form-translate.php:1269
 msgid "Field"
 msgstr "Поле"
@@ -264,10 +264,10 @@ msgstr "Я перейшов(ла) на інший плагін форм"
 #: includes/config/class-ws-form-config-conditional.php:576
 #: includes/config/class-ws-form-config-conditional.php:581
 #: includes/config/class-ws-form-config-conditional.php:586
-#: includes/config/class-ws-form-config-option.php:1624
-#: includes/core/class-ws-form-action.php:785
-#: includes/core/class-ws-form-action.php:933
-#: includes/core/class-ws-form-action.php:941
+#: includes/config/class-ws-form-config-option.php:1685
+#: includes/core/class-ws-form-action.php:790
+#: includes/core/class-ws-form-action.php:938
+#: includes/core/class-ws-form-action.php:946
 #: includes/data-sources/class-ws-form-data-source-acf.php:287
 #: includes/data-sources/class-ws-form-data-source-acpt.php:283
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:483
@@ -323,20 +323,20 @@ msgstr "Виберіть форму, яку хочете додати..."
 #: admin/class-ws-form-wp-list-table-form.php:42
 #: admin/class-ws-form-wp-list-table-style.php:47
 #: admin/class-ws-form-wp-list-table-submit.php:143
-#: admin/class-ws-form-wp-list-table-submit.php:924
+#: admin/class-ws-form-wp-list-table-submit.php:925
 #: admin/partials/ws-form-form-migrate.php:166
 #: admin/partials/ws-form-form-migrate.php:235
 #: includes/actions/class-ws-form-action-data-erasure-request.php:109
 #: includes/actions/class-ws-form-action-data-export-request.php:112
 #: includes/actions/class-ws-form-action-redirect.php:572
-#: includes/class-ws-form-common.php:6618
+#: includes/class-ws-form-common.php:6620
 #: includes/class-ws-form-config.php:21107
 #: includes/class-ws-form-config.php:21159
 #: includes/class-ws-form-config.php:23136
 #: includes/class-ws-form-config.php:23228
 #: includes/class-ws-form-config.php:23445 includes/class-ws-form-widget.php:66
 #: includes/config/class-ws-form-config-admin.php:750
-#: includes/config/class-ws-form-config-option.php:1641
+#: includes/config/class-ws-form-config-option.php:1702
 #: includes/config/class-ws-form-config-public.php:324
 #: includes/core/class-ws-form-form.php:3215
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:244
@@ -413,8 +413,8 @@ msgstr "Форми"
 #: includes/config/class-ws-form-config-option.php:543
 #: includes/config/class-ws-form-config-option.php:761
 #: includes/config/class-ws-form-config-public.php:374
-#: includes/core/class-ws-form-form-stat.php:473
-#: includes/core/class-ws-form-form-stat.php:568
+#: includes/core/class-ws-form-form-stat.php:385
+#: includes/core/class-ws-form-form-stat.php:611
 msgid "Submissions"
 msgstr "Відправлені"
 
@@ -521,8 +521,8 @@ msgstr ""
 #: includes/config/class-ws-form-config-public.php:358
 #: includes/config/class-ws-form-config-public.php:404
 #: includes/config/class-ws-form-config-styler.php:36
-#: includes/core/class-ws-form-form-stat.php:741
-#: includes/core/class-ws-form-submit.php:4728
+#: includes/core/class-ws-form-form-stat.php:784
+#: includes/core/class-ws-form-submit.php:4736
 #: includes/third-party/beaver-builder/modules/ws-form/ws-form.php:40
 #: includes/third-party/beaver-builder/modules/ws-form/ws-form.php:44
 #: includes/third-party/bricks/elements/class-bricks-ws-form-form.php:37
@@ -577,8 +577,8 @@ msgstr "Ці налаштування контролюються WooCommerce"
 #: admin/class-ws-form-admin.php:2815 admin/class-ws-form-admin.php:2898
 #: admin/class-ws-form-wp-list-table-form.php:210
 #: admin/class-ws-form-wp-list-table-style.php:161
-#: admin/class-ws-form-wp-list-table-submit.php:535
-#: admin/class-ws-form-wp-list-table-submit.php:556
+#: admin/class-ws-form-wp-list-table-submit.php:536
+#: admin/class-ws-form-wp-list-table-submit.php:557
 #: admin/partials/ws-form-form-submit.php:28
 #: includes/blocks/form-add/form-add.php:52
 #: includes/config/class-ws-form-config-admin.php:764
@@ -672,7 +672,7 @@ msgstr "Стиль"
 #: admin/class-ws-form-admin.php:2932
 #: admin/class-ws-form-wp-list-table-form.php:223
 #: admin/class-ws-form-wp-list-table-style.php:48
-#: admin/class-ws-form-wp-list-table-submit.php:621
+#: admin/class-ws-form-wp-list-table-submit.php:622
 #: admin/partials/ws-form-form-edit.php:34
 #: admin/partials/ws-form-form-submit.php:32
 #: api/class-ws-form-api-helper.php:562 includes/class-ws-form-config.php:2232
@@ -712,6 +712,7 @@ msgstr "Показувати завжди"
 #: includes/class-ws-form-config.php:23112
 #: includes/config/class-ws-form-config-admin.php:1112
 #: includes/config/class-ws-form-config-conditional.php:630
+#: includes/config/class-ws-form-config-option.php:1456
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:246
 #: includes/data-sources/class-ws-form-data-source-post.php:282
 #: includes/data-sources/class-ws-form-data-source-post.php:1010
@@ -752,16 +753,16 @@ msgid "Non-administrator activity only"
 msgstr "Лише не адміністраторська діяльність"
 
 #: admin/class-ws-form-wp-list-table-form.php:98
-#: includes/core/class-ws-form-form-stat.php:499
-#: includes/core/class-ws-form-form-stat.php:590
-#: includes/core/class-ws-form-form-stat.php:742
+#: includes/core/class-ws-form-form-stat.php:411
+#: includes/core/class-ws-form-form-stat.php:633
+#: includes/core/class-ws-form-form-stat.php:785
 msgid "Views"
 msgstr "Перегляди"
 
 #: admin/class-ws-form-wp-list-table-form.php:99
-#: includes/core/class-ws-form-form-stat.php:486
-#: includes/core/class-ws-form-form-stat.php:579
-#: includes/core/class-ws-form-form-stat.php:743
+#: includes/core/class-ws-form-form-stat.php:398
+#: includes/core/class-ws-form-form-stat.php:622
+#: includes/core/class-ws-form-form-stat.php:786
 msgid "Saves"
 msgstr "Зберігає"
 
@@ -781,8 +782,8 @@ msgstr "Очікує на публікацію"
 #: admin/class-ws-form-wp-list-table-form.php:544
 #: admin/class-ws-form-wp-list-table-style.php:151
 #: admin/class-ws-form-wp-list-table-style.php:357
-#: admin/class-ws-form-wp-list-table-submit.php:519
-#: admin/class-ws-form-wp-list-table-submit.php:819
+#: admin/class-ws-form-wp-list-table-submit.php:520
+#: admin/class-ws-form-wp-list-table-submit.php:820
 #: includes/config/class-ws-form-config-public.php:362
 msgid "Restore"
 msgstr "Відновлення"
@@ -791,10 +792,10 @@ msgstr "Відновлення"
 #: admin/class-ws-form-wp-list-table-form.php:545
 #: admin/class-ws-form-wp-list-table-style.php:152
 #: admin/class-ws-form-wp-list-table-style.php:358
-#: admin/class-ws-form-wp-list-table-submit.php:520
-#: admin/class-ws-form-wp-list-table-submit.php:541
-#: admin/class-ws-form-wp-list-table-submit.php:820
-#: admin/class-ws-form-wp-list-table-submit.php:835
+#: admin/class-ws-form-wp-list-table-submit.php:521
+#: admin/class-ws-form-wp-list-table-submit.php:542
+#: admin/class-ws-form-wp-list-table-submit.php:821
+#: admin/class-ws-form-wp-list-table-submit.php:836
 msgid "Delete Permanently"
 msgstr "Видалити назавжди"
 
@@ -810,12 +811,12 @@ msgstr "Клонувати"
 #: admin/class-ws-form-wp-list-table-form.php:421
 #: admin/class-ws-form-wp-list-table-style.php:171
 #: admin/class-ws-form-wp-list-table-style.php:236
-#: admin/class-ws-form-wp-list-table-submit.php:586
-#: admin/class-ws-form-wp-list-table-submit.php:721
+#: admin/class-ws-form-wp-list-table-submit.php:587
+#: admin/class-ws-form-wp-list-table-submit.php:722
 #: includes/config/class-ws-form-config-admin.php:760
 #: includes/core/class-ws-form-form.php:1430
 #: includes/core/class-ws-form-style.php:1041
-#: includes/core/class-ws-form-submit.php:1497
+#: includes/core/class-ws-form-submit.php:1501
 msgid "Trash"
 msgstr "Видалити"
 
@@ -833,8 +834,8 @@ msgid "Locate"
 msgstr "Знайдіть"
 
 #: admin/class-ws-form-wp-list-table-form.php:326
-#: admin/class-ws-form-wp-list-table-submit.php:529
-#: admin/class-ws-form-wp-list-table-submit.php:550
+#: admin/class-ws-form-wp-list-table-submit.php:530
+#: admin/class-ws-form-wp-list-table-submit.php:551
 msgid "View"
 msgstr "Перегляд"
 
@@ -844,7 +845,7 @@ msgstr "Натисніть, щоб скопіювати"
 
 #: admin/class-ws-form-wp-list-table-form.php:379
 #: admin/class-ws-form-wp-list-table-style.php:222
-#: admin/class-ws-form-wp-list-table-submit.php:665
+#: admin/class-ws-form-wp-list-table-submit.php:666
 #: includes/class-ws-form-config.php:18882
 #: includes/data-sources/class-ws-form-data-source-post-status.php:207
 #: includes/data-sources/class-ws-form-data-source-post-status.php:222
@@ -867,13 +868,13 @@ msgstr "Опубліковано"
 
 #: admin/class-ws-form-wp-list-table-form.php:553
 #: admin/class-ws-form-wp-list-table-style.php:366
-#: admin/class-ws-form-wp-list-table-submit.php:855
+#: admin/class-ws-form-wp-list-table-submit.php:856
 msgid "Move to Trash"
 msgstr "Перемістити в кошик"
 
 #: admin/class-ws-form-wp-list-table-form.php:573
 #: admin/class-ws-form-wp-list-table-style.php:386
-#: admin/class-ws-form-wp-list-table-submit.php:879
+#: admin/class-ws-form-wp-list-table-submit.php:880
 msgid "Empty Trash"
 msgstr "Порожній смітник"
 
@@ -882,7 +883,7 @@ msgid "No forms available."
 msgstr "Немає доступних форм."
 
 #: admin/class-ws-form-wp-list-table-style.php:117
-#: includes/class-ws-form-common.php:6532
+#: includes/class-ws-form-common.php:6534
 #: includes/class-ws-form-config.php:7469
 #: includes/class-ws-form-config.php:9511
 #: includes/class-ws-form-config.php:10766
@@ -951,7 +952,7 @@ msgid "Set as conversational"
 msgstr "Установити як розмовну форму"
 
 #: admin/class-ws-form-wp-list-table-style.php:196
-#: admin/partials/ws-form-settings.php:883
+#: admin/partials/ws-form-settings.php:892
 #: includes/class-ws-form-config.php:4886
 #: includes/class-ws-form-config.php:4893
 #: includes/class-ws-form-config.php:7255
@@ -999,72 +1000,72 @@ msgstr "Дата додавання"
 msgid "Starred"
 msgstr "Помічені"
 
-#: admin/class-ws-form-wp-list-table-submit.php:573
+#: admin/class-ws-form-wp-list-table-submit.php:574
 msgid "Edit in Preview"
 msgstr "Редагувати в попередньому перегляді"
 
-#: admin/class-ws-form-wp-list-table-submit.php:580
-#: admin/class-ws-form-wp-list-table-submit.php:846
+#: admin/class-ws-form-wp-list-table-submit.php:581
+#: admin/class-ws-form-wp-list-table-submit.php:847
 #: includes/config/class-ws-form-config-admin.php:1167
 msgid "Mark as Unread"
 msgstr "Позначити непрочитаними"
 
-#: admin/class-ws-form-wp-list-table-submit.php:580
-#: admin/class-ws-form-wp-list-table-submit.php:845
+#: admin/class-ws-form-wp-list-table-submit.php:581
+#: admin/class-ws-form-wp-list-table-submit.php:846
 #: includes/actions/class-ws-form-action-database.php:238
 #: includes/config/class-ws-form-config-admin.php:1168
 msgid "Mark as Read"
 msgstr "Позначіти прочитаними"
 
-#: admin/class-ws-form-wp-list-table-submit.php:592
-#: admin/class-ws-form-wp-list-table-submit.php:861
+#: admin/class-ws-form-wp-list-table-submit.php:593
+#: admin/class-ws-form-wp-list-table-submit.php:862
 #: admin/partials/ws-form-form-submit.php:40
 #: includes/config/class-ws-form-config-admin.php:931
 msgid "Export CSV"
 msgstr "Експорт у CSV"
 
 #. translators: %u: Spam level 0 - 100
-#: admin/class-ws-form-wp-list-table-submit.php:614
+#: admin/class-ws-form-wp-list-table-submit.php:615
 #, php-format
 msgid "Spam level: %u%%"
 msgstr "Рівень спаму: %u%%"
 
-#: admin/class-ws-form-wp-list-table-submit.php:679
-#: includes/core/class-ws-form-submit.php:1493
+#: admin/class-ws-form-wp-list-table-submit.php:680
+#: includes/core/class-ws-form-submit.php:1497
 msgid "In Progress"
 msgstr "В процесі"
 
-#: admin/class-ws-form-wp-list-table-submit.php:693
-#: includes/core/class-ws-form-submit.php:1494
+#: admin/class-ws-form-wp-list-table-submit.php:694
+#: includes/core/class-ws-form-submit.php:1498
 msgid "Submitted"
 msgstr "Опубліковано"
 
-#: admin/class-ws-form-wp-list-table-submit.php:707
+#: admin/class-ws-form-wp-list-table-submit.php:708
 #: includes/config/class-ws-form-config-admin.php:265
-#: includes/core/class-ws-form-submit.php:1496
+#: includes/core/class-ws-form-submit.php:1500
 msgid "Spam"
 msgstr "Спам"
 
-#: admin/class-ws-form-wp-list-table-submit.php:829
+#: admin/class-ws-form-wp-list-table-submit.php:830
 msgid "Mark as Not Spam"
 msgstr "Позначити як не спам"
 
-#: admin/class-ws-form-wp-list-table-submit.php:847
+#: admin/class-ws-form-wp-list-table-submit.php:848
 msgid "Mark as Starred"
 msgstr "Позначити як зірочку"
 
-#: admin/class-ws-form-wp-list-table-submit.php:848
+#: admin/class-ws-form-wp-list-table-submit.php:849
 msgid "Mark as Not Starred"
 msgstr "Позначити як без зірочки"
 
-#: admin/class-ws-form-wp-list-table-submit.php:849
+#: admin/class-ws-form-wp-list-table-submit.php:850
 msgid "Mark as Spam"
 msgstr "Позначити як спам"
 
-#: admin/class-ws-form-wp-list-table-submit.php:907
+#: admin/class-ws-form-wp-list-table-submit.php:908
 #: admin/partials/ws-form-form-migrate.php:161
 #: admin/partials/ws-form-form-migrate.php:231
-#: includes/class-ws-form-common.php:6608
+#: includes/class-ws-form-common.php:6610
 #: includes/third-party/beaver-builder/classes/class-fl-ws-form-loader.php:64
 #: includes/third-party/divi/4/includes/modules/ws-form/ws-form.php:58
 #: includes/third-party/wpbakery/class-wpbakery-shortcode-ws-form.php:17
@@ -1072,7 +1073,7 @@ msgid "Select form..."
 msgstr "Виберіть форму..."
 
 #. translators: %u: Number of records
-#: admin/class-ws-form-wp-list-table-submit.php:932
+#: admin/class-ws-form-wp-list-table-submit.php:933
 #: admin/partials/ws-form-form-migrate.php:195
 #, php-format
 msgid "%u record"
@@ -1081,15 +1082,15 @@ msgstr[0] "%u запис"
 msgstr[1] "%u запис"
 msgstr[2] "%u запис"
 
-#: admin/class-ws-form-wp-list-table-submit.php:944
+#: admin/class-ws-form-wp-list-table-submit.php:945
 msgid "Date from"
 msgstr "Дата з"
 
-#: admin/class-ws-form-wp-list-table-submit.php:946
+#: admin/class-ws-form-wp-list-table-submit.php:947
 msgid "Date to"
 msgstr "Дата до"
 
-#: admin/class-ws-form-wp-list-table-submit.php:948
+#: admin/class-ws-form-wp-list-table-submit.php:949
 #: includes/actions/class-ws-form-action-conversion.php:824
 #: includes/actions/class-ws-form-action-search.php:48
 #: includes/class-ws-form-config.php:2954
@@ -1100,11 +1101,11 @@ msgstr "Дата до"
 msgid "Search"
 msgstr "Пошук"
 
-#: admin/class-ws-form-wp-list-table-submit.php:996
+#: admin/class-ws-form-wp-list-table-submit.php:997
 msgid "Please select a form."
 msgstr "Будь ласка, виберіть форму."
 
-#: admin/class-ws-form-wp-list-table-submit.php:1000
+#: admin/class-ws-form-wp-list-table-submit.php:1001
 msgid "No submissions available."
 msgstr "Немає доступних подань."
 
@@ -1260,7 +1261,7 @@ msgstr "Дублікати:"
 #: includes/actions/class-ws-form-action-custom-api.php:847
 #: includes/class-ws-form-config.php:18706
 #: includes/class-ws-form-config.php:19021
-#: includes/core/class-ws-form-action.php:820
+#: includes/core/class-ws-form-action.php:825
 msgid "Field Mapping"
 msgstr "Відповідність полів"
 
@@ -1326,7 +1327,7 @@ msgid "An error occurred during the import."
 msgstr "Під час імпорту сталася помилка."
 
 #: admin/partials/ws-form-form-migrate.php:403
-#: includes/class-ws-form-common.php:5466
+#: includes/class-ws-form-common.php:5468
 #: includes/class-ws-form-config.php:7225
 msgid "Dismiss"
 msgstr "Відхилити"
@@ -1417,38 +1418,50 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr "Копіювати до буфера обміну"
 
-#: admin/partials/ws-form-settings.php:839
+#: admin/partials/ws-form-settings.php:671
+msgid "Connected"
+msgstr "Підключено"
+
+#: admin/partials/ws-form-settings.php:671
+msgid "Disconnected"
+msgstr "Відключено"
+
+#: admin/partials/ws-form-settings.php:848
 msgid "Deactivate"
 msgstr "Деактивувати"
 
-#: admin/partials/ws-form-settings.php:843
+#: admin/partials/ws-form-settings.php:852
 msgid "Activate"
 msgstr "Активувати"
 
-#: admin/partials/ws-form-settings.php:851
+#: admin/partials/ws-form-settings.php:860
 msgid "Detect"
 msgstr "Виявити"
 
-#: admin/partials/ws-form-settings.php:857
+#: admin/partials/ws-form-settings.php:866
 msgid "Generate"
 msgstr "Генерувати"
 
-#: admin/partials/ws-form-settings.php:863
-#: admin/partials/ws-form-settings.php:869
+#: admin/partials/ws-form-settings.php:872
+#: admin/partials/ws-form-settings.php:878
 msgid "Use php.ini value"
 msgstr "Використовуйте значення php.ini"
 
-#: admin/partials/ws-form-settings.php:876
+#: admin/partials/ws-form-settings.php:885
 msgid "Select image..."
 msgstr "Виберіть зображення..."
 
-#: admin/partials/ws-form-settings.php:890
-#: admin/partials/ws-form-settings.php:896
+#: admin/partials/ws-form-settings.php:898
+msgid "Connectors"
+msgstr "Конектори"
+
+#: admin/partials/ws-form-settings.php:905
+#: admin/partials/ws-form-settings.php:911
 msgid "Send Test"
 msgstr "Надіслати тест"
 
 #. translators: %s: License key named constant, e.g. WSF_LICENSE_KEY
-#: admin/partials/ws-form-settings.php:941
+#: admin/partials/ws-form-settings.php:956
 #, php-format
 msgid ""
 "The license key can also be set in <code>wp-config.php</code> using the "
@@ -1457,7 +1470,7 @@ msgstr ""
 "Ліцензійний ключ також можна встановити в <code>wp-config.php</code>, "
 "використовуючи іменовану константу <code>%s</code>."
 
-#: admin/partials/ws-form-settings.php:947
+#: admin/partials/ws-form-settings.php:962
 #: includes/actions/class-ws-form-action-conversion.php:633
 #: includes/actions/class-ws-form-action-email.php:458
 #: includes/actions/class-ws-form-action-email.php:470
@@ -1516,9 +1529,10 @@ msgstr ""
 #: includes/config/class-ws-form-config-option.php:1091
 #: includes/config/class-ws-form-config-option.php:1111
 #: includes/config/class-ws-form-config-option.php:1133
-#: includes/config/class-ws-form-config-option.php:1512
-#: includes/config/class-ws-form-config-option.php:1551
-#: includes/core/class-ws-form-form-stat.php:814
+#: includes/config/class-ws-form-config-option.php:1478
+#: includes/config/class-ws-form-config-option.php:1543
+#: includes/config/class-ws-form-config-option.php:1587
+#: includes/core/class-ws-form-form-stat.php:857
 #: includes/core/class-ws-form-wp-ai-client.php:83
 #: includes/third-party/polylang/class-ws-form-polylang.php:133
 #: includes/third-party/wpml/class-ws-form-wpml.php:104
@@ -1555,7 +1569,7 @@ msgstr "Метазначення пусте"
 msgid "Columns not found"
 msgstr "Стовпці не знайдені"
 
-#: api/class-ws-form-api-field.php:141 includes/class-ws-form-common.php:6413
+#: api/class-ws-form-api-field.php:141 includes/class-ws-form-common.php:6415
 msgid "Groups not found"
 msgstr "Групи не знайдено"
 
@@ -1571,7 +1585,7 @@ msgstr "Дані рядка не знайдено"
 msgid "Unable to read meta data"
 msgstr "Неможливо прочитати метадані"
 
-#: api/class-ws-form-api-field.php:219 includes/class-ws-form-common.php:7227
+#: api/class-ws-form-api-field.php:219 includes/class-ws-form-common.php:7229
 msgid "No files found"
 msgstr "Не знайдено файлів"
 
@@ -1990,7 +2004,7 @@ msgid "Action index not found"
 msgstr "Індекс дій не знайдено"
 
 #: api/class-ws-form-api-submit.php:547
-#: includes/core/class-ws-form-submit.php:3452
+#: includes/core/class-ws-form-submit.php:3458
 msgid "An unknown error occurred"
 msgstr "Сталася невідома помилка"
 
@@ -2216,7 +2230,7 @@ msgstr "У конфігурації дії немає типу тегу конв
 #: includes/class-ws-form-config.php:18946
 #: includes/class-ws-form-config.php:23078
 #: includes/config/class-ws-form-config-public.php:402
-#: includes/core/class-ws-form-submit.php:4788
+#: includes/core/class-ws-form-submit.php:4796
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:249
 #: includes/data-sources/class-ws-form-data-source-post.php:285
 #: includes/data-sources/class-ws-form-data-source-post.php:1357
@@ -2334,7 +2348,7 @@ msgstr "Ключ"
 #: includes/config/class-ws-form-config-admin.php:1127
 #: includes/config/class-ws-form-config-conditional.php:631
 #: includes/config/class-ws-form-config-styler.php:4503
-#: includes/core/class-ws-form-action.php:1521
+#: includes/core/class-ws-form-action.php:1526
 #: includes/core/class-ws-form-data-grid.php:363
 #: includes/core/class-ws-form-migrate.php:1079
 #: includes/data-sources/class-ws-form-data-source-acf.php:73
@@ -2898,7 +2912,7 @@ msgid "Add handlers for specific response codes."
 msgstr "Додайте обробники для конкретних кодів відповіді."
 
 #: includes/actions/class-ws-form-action-custom-api.php:1046
-#: includes/core/class-ws-form-submit.php:4766
+#: includes/core/class-ws-form-submit.php:4774
 msgid "Code"
 msgstr "Код"
 
@@ -3203,8 +3217,8 @@ msgstr "Помилка Postmark %1$s: %2$s"
 #. translators: %s: Email address
 #: includes/actions/class-ws-form-action-email.php:562
 #: includes/actions/class-ws-form-action-email.php:585
-#: includes/core/class-ws-form-form-stat.php:659
-#: includes/core/class-ws-form-submit.php:4659
+#: includes/core/class-ws-form-form-stat.php:702
+#: includes/core/class-ws-form-submit.php:4667
 #, php-format
 msgid "Invalid email address: %s"
 msgstr "Недійсна адреса електронної пошти: %s"
@@ -3344,7 +3358,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:19190
 #: includes/class-ws-form-config.php:19274
 #: includes/config/class-ws-form-config-styler.php:3143
-#: includes/core/class-ws-form-submit.php:4748
+#: includes/core/class-ws-form-submit.php:4756
 msgid "Message"
 msgstr "Повідомлення"
 
@@ -3531,7 +3545,7 @@ msgstr "Показати повідомлення"
 
 #. translators: %s: Message
 #: includes/actions/class-ws-form-action-message.php:74
-#: includes/core/class-ws-form-action.php:2242
+#: includes/core/class-ws-form-action.php:2247
 #, php-format
 msgid "Message added to queue: %s"
 msgstr "Повідомлення додано до черги: %s"
@@ -3774,7 +3788,7 @@ msgstr "Неприпустимий ID запису для перенаправл
 
 #. translators: %s: URL
 #: includes/actions/class-ws-form-action-redirect.php:236
-#: includes/core/class-ws-form-action.php:2216
+#: includes/core/class-ws-form-action.php:2221
 #, php-format
 msgid "Redirect added to queue: %s"
 msgstr "Переспрямування додано до черги: %s"
@@ -3793,7 +3807,7 @@ msgstr "URL перенаправлення порожній"
 #: includes/class-ws-form-config.php:21227
 #: includes/class-ws-form-config.php:23279
 #: includes/class-ws-form-config.php:23485
-#: includes/core/class-ws-form-submit.php:4713
+#: includes/core/class-ws-form-submit.php:4721
 msgid "URL"
 msgstr "URL"
 
@@ -3985,12 +3999,13 @@ msgstr "Типи допису"
 #. translators: AI is the abbreviation for "Artificial Intelligence"
 #: includes/actions/class-ws-form-action-wp-ai-client.php:77
 #: includes/actions/class-ws-form-action-wp-ai-client.php:93
-#: includes/config/class-ws-form-config-option.php:1431
+#: includes/config/class-ws-form-config-option.php:1432
 msgid "AI"
 msgstr "ШІ"
 
 #. translators: AI is the abbreviation for "Artificial Intelligence"
 #: includes/actions/class-ws-form-action-wp-ai-client.php:81
+#: includes/config/class-ws-form-config-option.php:1449
 msgid "Make AI Request"
 msgstr "Зробити AI-запит"
 
@@ -4611,19 +4626,19 @@ msgid "The request to get user geo location timed out"
 msgstr "Час очікування запиту на отримання геолокації користувача минув"
 
 #. translators: %s: Capability
-#: includes/class-ws-form-common.php:5358
+#: includes/class-ws-form-common.php:5360
 #, php-format
 msgid "Insufficient user capabilities (%s)"
 msgstr "Недостатньо прав користувача (%s)"
 
 #. translators: %s: Presentable plugin name, e.g. WS Form PRO
-#: includes/class-ws-form-common.php:5395
+#: includes/class-ws-form-common.php:5397
 #, php-format
 msgid "Thank you for using %s!"
 msgstr "Дякуємо, що користуєтеся %s!"
 
 #. translators: %s: Presentable plugin name, e.g. WS Form PRO
-#: includes/class-ws-form-common.php:5402
+#: includes/class-ws-form-common.php:5404
 #, php-format
 msgid ""
 "We hope you have enjoyed using the plugin. Positive reviews from awesome "
@@ -4636,21 +4651,21 @@ msgstr ""
 "Якщо вам зручно, ми були б дуже вдячні, якби ви поділилися своїм позитивним "
 "досвідом зі спільнотою WordPress. Заздалегідь дякуємо за допомогу!"
 
-#: includes/class-ws-form-common.php:5406
+#: includes/class-ws-form-common.php:5408
 msgid "Leave a review"
 msgstr "Залишити відгук"
 
-#: includes/class-ws-form-common.php:5407
+#: includes/class-ws-form-common.php:5409
 msgid "No thanks"
 msgstr "Ні, дякую"
 
 #. translators: %s: Presentable plugin name, e.g. WS Form PRO
-#: includes/class-ws-form-common.php:5457
+#: includes/class-ws-form-common.php:5459
 #, php-format
 msgid "%s could not connect to the REST API"
 msgstr "%s не вдалося підключитися до REST API"
 
-#: includes/class-ws-form-common.php:5461
+#: includes/class-ws-form-common.php:5463
 msgid ""
 "A background check was unable to reach the REST API on your website. Some "
 "features may not work correctly until this is resolved."
@@ -4659,18 +4674,18 @@ msgstr ""
 "вебсайті. Деякі функції можуть працювати некоректно, доки це не буде "
 "вирішено."
 
-#: includes/class-ws-form-common.php:5465
+#: includes/class-ws-form-common.php:5467
 msgid "Troubleshoot"
 msgstr "Усунення несправностей"
 
-#: includes/class-ws-form-common.php:5713
+#: includes/class-ws-form-common.php:5715
 #: includes/class-ws-form-config.php:7243
 #: includes/class-ws-form-config.php:11137
-#: includes/core/class-ws-form-submit.php:2116
+#: includes/core/class-ws-form-submit.php:2120
 msgid "Week"
 msgstr "Тиждень"
 
-#: includes/class-ws-form-common.php:5803
+#: includes/class-ws-form-common.php:5805
 #: includes/class-ws-form-config.php:12889
 #: includes/class-ws-form-config.php:12902
 #: includes/class-ws-form-config.php:12915
@@ -4683,7 +4698,7 @@ msgstr "Тиждень"
 msgid "Yes"
 msgstr "Так"
 
-#: includes/class-ws-form-common.php:5803
+#: includes/class-ws-form-common.php:5805
 #: includes/class-ws-form-config.php:12890
 #: includes/class-ws-form-config.php:12903
 #: includes/class-ws-form-config.php:12916
@@ -4697,7 +4712,7 @@ msgid "No"
 msgstr "Ні"
 
 #. translators: %s: wp-config.php
-#: includes/class-ws-form-common.php:5890
+#: includes/class-ws-form-common.php:5892
 #, php-format
 msgid ""
 "Copy and paste the following code into your %s file after the Authentication "
@@ -4706,13 +4721,13 @@ msgstr ""
 "Скопіюйте та вставте наступний код у свій файл %s після розділу Унікальні "
 "ключі та солі для автентифікації."
 
-#: includes/class-ws-form-common.php:5901
+#: includes/class-ws-form-common.php:5903
 #: includes/config/class-ws-form-config-option.php:892
 #: includes/config/class-ws-form-config-option.php:905
 msgid "Caution"
 msgstr "Обережно"
 
-#: includes/class-ws-form-common.php:5902
+#: includes/class-ws-form-common.php:5904
 msgid ""
 "Once installed, do not change this key. Changing your encryption key at a "
 "later date will make it impossible to decrypt existing submission data. THIS "
@@ -4727,48 +4742,48 @@ msgstr ""
 "ВТРАТЕНО."
 
 #. translators: %s: wp-config.php
-#: includes/class-ws-form-common.php:5910
+#: includes/class-ws-form-common.php:5912
 #, php-format
 msgid "Key successfully found in %s"
 msgstr "Ключ успішно знайдено в %s"
 
-#: includes/class-ws-form-common.php:5917
+#: includes/class-ws-form-common.php:5919
 msgid "Encrypting submission meta data."
 msgstr "Шифрування поданих метаданих."
 
-#: includes/class-ws-form-common.php:5921
+#: includes/class-ws-form-common.php:5923
 msgid "Submission meta data is not being encrypted."
 msgstr "Метадані подання не шифруються."
 
-#: includes/class-ws-form-common.php:5984
+#: includes/class-ws-form-common.php:5986
 msgid "Unlicensed"
 msgstr "Без ліцензії"
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-common.php:6099
+#: includes/class-ws-form-common.php:6101
 #, php-format
 msgid "Click here to learn more about %s"
 msgstr "Натисніть тут, щоб дізнатися більше про %s"
 
-#: includes/class-ws-form-common.php:6311
-#: includes/class-ws-form-common.php:7237
+#: includes/class-ws-form-common.php:6313
+#: includes/class-ws-form-common.php:7239
 msgid "File upload error"
 msgstr "Помилка завантаження файлу"
 
-#: includes/class-ws-form-common.php:6315
+#: includes/class-ws-form-common.php:6317
 msgid "Unsupported file extension"
 msgstr "Непідтримуване розширення файлу"
 
-#: includes/class-ws-form-common.php:6342
-#: includes/class-ws-form-common.php:6343
+#: includes/class-ws-form-common.php:6344
+#: includes/class-ws-form-common.php:6345
 msgid "Unable to read header row of file"
 msgstr "Неможливо прочитати рядок заголовка файлу"
 
-#: includes/class-ws-form-common.php:6344
+#: includes/class-ws-form-common.php:6346
 msgid "No columns to process"
 msgstr "Немає стовпців для обробки"
 
-#: includes/class-ws-form-common.php:6411
+#: includes/class-ws-form-common.php:6413
 #: includes/data-sources/class-ws-form-data-source-acf.php:53
 #: includes/data-sources/class-ws-form-data-source-acpt.php:53
 #: includes/data-sources/class-ws-form-data-source-hook.php:53
@@ -4785,73 +4800,73 @@ msgstr "Немає стовпців для обробки"
 msgid "Unknown meta key"
 msgstr "Невідомий мета-ключ"
 
-#: includes/class-ws-form-common.php:6412
+#: includes/class-ws-form-common.php:6414
 msgid "Default not found"
 msgstr "За замовчуванням не знайдено"
 
-#: includes/class-ws-form-common.php:6414
+#: includes/class-ws-form-common.php:6416
 msgid "Group[0] not found"
 msgstr "Групу[0] не знайдено"
 
-#: includes/class-ws-form-common.php:7115
+#: includes/class-ws-form-common.php:7117
 msgid "Invalid form ID (WS_Form_Common | check_form_id)"
 msgstr "Недійсний ID форми (WS_Form_Common | check_form_id)"
 
-#: includes/class-ws-form-common.php:7238
+#: includes/class-ws-form-common.php:7240
 msgid "File empty"
 msgstr "Файл пустий"
 
 #. translators: %s: Extension
-#: includes/class-ws-form-common.php:7245
+#: includes/class-ws-form-common.php:7247
 #, php-format
 msgid "Unsupported file extension: %s"
 msgstr "Непідтримуване розширення файлу: %s"
 
-#: includes/class-ws-form-common.php:7250
+#: includes/class-ws-form-common.php:7252
 msgid "Unable to read uploaded file"
 msgstr "Неможливо прочитати завантажений файл"
 
 #. translators: %s: json_decode last error message
-#: includes/class-ws-form-common.php:7275
+#: includes/class-ws-form-common.php:7277
 #, php-format
 msgid "JSON corrupt (%s)"
 msgstr "JSON пошкоджено (%s)"
 
-#: includes/class-ws-form-common.php:7279
+#: includes/class-ws-form-common.php:7281
 msgid "JSON corrupt (Not object)"
 msgstr "Пошкоджений JSON (не об'єкт)"
 
-#: includes/class-ws-form-common.php:7287
+#: includes/class-ws-form-common.php:7289
 msgid "JSON corrupt (Checksum error)"
 msgstr "Пошкоджений JSON (помилка контрольної суми)"
 
 #. translators: %s: WS Form
-#: includes/class-ws-form-common.php:7299
+#: includes/class-ws-form-common.php:7301
 #, php-format
 msgid "JSON corrupt (Not a %s JSON file)"
 msgstr "Пошкоджений JSON (не файл JSON %s)"
 
-#: includes/class-ws-form-common.php:7311
+#: includes/class-ws-form-common.php:7313
 msgid "Import error (Invalid import type)"
 msgstr "Помилка імпорту (неприпустимий тип імпорту)"
 
-#: includes/class-ws-form-common.php:7315
+#: includes/class-ws-form-common.php:7317
 msgid "JSON corrupt (No label)"
 msgstr "Пошкоджений JSON (без мітки)"
 
-#: includes/class-ws-form-common.php:7318
+#: includes/class-ws-form-common.php:7320
 msgid "JSON corrupt (No meta data)"
 msgstr "Пошкоджений JSON (немає метаданих)"
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7460
+#: includes/class-ws-form-common.php:7462
 #, php-format
 msgid "Node %s not valid or duplicate node."
 msgstr "Вузол %s недійсний або дублюється."
 
 #. translators: %s: Node path
-#: includes/class-ws-form-common.php:7532
-#: includes/class-ws-form-common.php:7548
+#: includes/class-ws-form-common.php:7534
+#: includes/class-ws-form-common.php:7550
 #, php-format
 msgid "Node %s not found in response data."
 msgstr "Вузол %s не знайдено в даних відповіді."
@@ -5998,7 +6013,7 @@ msgstr "Заголовки"
 #: includes/config/class-ws-form-config-admin.php:222
 #: includes/config/class-ws-form-config-admin.php:241
 #: includes/config/class-ws-form-config-admin.php:742
-#: includes/core/class-ws-form-action.php:2019
+#: includes/core/class-ws-form-action.php:2024
 msgid "Fields"
 msgstr "Поля"
 
@@ -6747,8 +6762,8 @@ msgstr "Розміри точки зупинки"
 #: includes/class-ws-form-config.php:18055
 #: includes/config/class-ws-form-config-option.php:1156
 #: includes/config/class-ws-form-config-option.php:1230
-#: includes/config/class-ws-form-config-option.php:1497
-#: includes/config/class-ws-form-config-option.php:1540
+#: includes/config/class-ws-form-config-option.php:1550
+#: includes/config/class-ws-form-config-option.php:1576
 #: includes/third-party/polylang/class-ws-form-polylang.php:125
 #: includes/third-party/wpml/class-ws-form-wpml.php:96
 msgid "Enable"
@@ -8941,7 +8956,7 @@ msgid "Invalid Feedback Text"
 msgstr "Недійсний текст відгуку"
 
 #: includes/class-ws-form-config.php:12638
-#: includes/core/class-ws-form-submit.php:3529
+#: includes/core/class-ws-form-submit.php:3535
 msgid "This field is required."
 msgstr "Це поле є обов'язковим."
 
@@ -8957,7 +8972,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:14981
 #: includes/config/class-ws-form-config-admin.php:748
 #: includes/config/class-ws-form-config-conditional.php:596
-#: includes/core/class-ws-form-submit.php:4792
+#: includes/core/class-ws-form-submit.php:4800
 msgid "Variable"
 msgstr "Змінний"
 
@@ -10415,7 +10430,7 @@ msgstr ""
 "Автоматично використовує стандартні налаштування камери пристрою."
 
 #: includes/class-ws-form-config.php:15498
-#: includes/config/class-ws-form-config-option.php:1580
+#: includes/config/class-ws-form-config-option.php:1641
 msgid "Automatic"
 msgstr "Автоматичне"
 
@@ -11223,7 +11238,7 @@ msgstr "Стан"
 #: includes/class-ws-form-config.php:16975
 #: includes/class-ws-form-config.php:17025
 #: includes/config/class-ws-form-config-option.php:834
-#: includes/core/class-ws-form-action.php:716
+#: includes/core/class-ws-form-action.php:721
 msgid "Data"
 msgstr "Дані"
 
@@ -11488,7 +11503,7 @@ msgstr "Рандомізувати рядки"
 #: includes/config/class-ws-form-config-admin.php:881
 #: includes/config/class-ws-form-config-styler.php:1069
 #: includes/config/class-ws-form-config-styler.php:4455
-#: includes/core/class-ws-form-action.php:1522
+#: includes/core/class-ws-form-action.php:1527
 #: includes/core/class-ws-form-data-grid.php:364
 #: includes/core/class-ws-form-migrate.php:1080
 #: includes/core/class-ws-form-translate.php:646
@@ -12042,7 +12057,7 @@ msgid "Vicinity"
 msgstr "Околиці"
 
 #: includes/class-ws-form-config.php:18805
-#: includes/core/class-ws-form-form-stat.php:699
+#: includes/core/class-ws-form-form-stat.php:742
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:291
 #: includes/data-sources/class-ws-form-data-source-user.php:152
 #: includes/data-sources/class-ws-form-data-source-user.php:627
@@ -12368,7 +12383,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:19192
 #: includes/config/class-ws-form-config-public.php:130
-#: includes/core/class-ws-form-submit.php:3080
+#: includes/core/class-ws-form-submit.php:3084
 msgid "The email address entered is not allowed."
 msgstr "Введена адреса електронної пошти заборонена."
 
@@ -12448,7 +12463,7 @@ msgid "Choose a period in which to check for duplicates."
 msgstr "Виберіть період для перевірки на наявність дублікатів."
 
 #: includes/class-ws-form-config.php:19276
-#: includes/core/class-ws-form-submit.php:3027
+#: includes/core/class-ws-form-submit.php:3031
 msgid "The value entered has already been used."
 msgstr "Введене значення вже використовується."
 
@@ -15105,10 +15120,23 @@ msgstr ""
 "використовувати на активній вебсторінці."
 
 #: includes/config/class-ws-form-config-ability.php:416
+msgid "Draft form"
+msgstr "Чернетка форми"
+
+#: includes/config/class-ws-form-config-ability.php:417
+msgid ""
+"Set a published form back to draft by ID. Draft forms cannot be used on live "
+"web pages until they are published again."
+msgstr ""
+"Повернути опубліковану форму до стану чернетки за ID. Форми-чернетки не "
+"можна використовувати на робочих вебсторінках, доки їх знову не буде "
+"опубліковано."
+
+#: includes/config/class-ws-form-config-ability.php:471
 msgid "Clone form"
 msgstr "Клонувати форму"
 
-#: includes/config/class-ws-form-config-ability.php:417
+#: includes/config/class-ws-form-config-ability.php:472
 msgid ""
 "Use this tool to clone/copy/duplicate a form. The cloned form will be in a "
 "draft state."
@@ -15116,22 +15144,22 @@ msgstr ""
 "Використайте цей інструмент, щоб клонувати/копіювати/дублювати форму. "
 "Клонована форма буде у стані чернетки."
 
-#: includes/config/class-ws-form-config-ability.php:503
+#: includes/config/class-ws-form-config-ability.php:558
 msgid "Get form shortcode"
 msgstr "Отримати шорткод форми"
 
-#: includes/config/class-ws-form-config-ability.php:504
+#: includes/config/class-ws-form-config-ability.php:559
 msgid ""
 "Gets a shortcode for a form in the WS Form form plugin for WordPress by form "
 "ID."
 msgstr ""
 "Отримує шорткод для форми в плагіні форм WS Form для WordPress за ID форми."
 
-#: includes/config/class-ws-form-config-ability.php:558
+#: includes/config/class-ws-form-config-ability.php:613
 msgid "Get form block markup"
 msgstr "Отримати розмітку блоку форми"
 
-#: includes/config/class-ws-form-config-ability.php:559
+#: includes/config/class-ws-form-config-ability.php:614
 msgid ""
 "Gets the block markup for a form in WS Form by form ID. This should only be "
 "used for pages edited by the block editor (Gutenberg)."
@@ -15140,41 +15168,61 @@ msgstr ""
 "використовувати лише для сторінок, що редагуються редактором блоків "
 "(Gutenberg)."
 
-#: includes/config/class-ws-form-config-ability.php:613
+#: includes/config/class-ws-form-config-ability.php:668
 msgid "Get statistical data about a form by ID"
 msgstr "Отримати статистичні дані про форму за ID"
 
-#: includes/config/class-ws-form-config-ability.php:614
+#: includes/config/class-ws-form-config-ability.php:669
 msgid ""
 "Returns statistical data about a form by ID including total views, saves, "
-"submissions as well as the total number of submission records and how many "
-"of those are unread."
+"submissions, daily figures, as well as the total number of submission "
+"records and how many of those are unread."
 msgstr ""
-"Повертає статистичні дані про форму за ID, включно із загальною кількістю "
-"переглядів, збережень, відправлень, а також загальною кількістю записів "
-"відправлень і кількістю непрочитаних серед них."
+"Повертає статистичні дані про форму за ID, зокрема загальну кількість "
+"переглядів, збережень, подань, щоденні показники, а також загальну кількість "
+"записів подань і скільки з них є непрочитаними."
 
-#: includes/config/class-ws-form-config-ability.php:724
+#: includes/config/class-ws-form-config-ability.php:817
+msgid "List submissions"
+msgstr "Список подань"
+
+#: includes/config/class-ws-form-config-ability.php:818
+msgid ""
+"Returns a list of submissions for a form by ID. Supports optional date "
+"range, status, keyword search, pagination, and ordering."
+msgstr ""
+"Повертає список подань для форми за ID. Підтримує необов’язковий діапазон "
+"дат, статус, пошук за ключовими словами, пагінацію та сортування."
+
+#: includes/config/class-ws-form-config-ability.php:1029
+msgid "Get submission"
+msgstr "Отримати подання"
+
+#: includes/config/class-ws-form-config-ability.php:1030
+msgid "Returns a single submission by ID including its field values."
+msgstr "Повертає одне подання за ID, включно зі значеннями його полів."
+
+#: includes/config/class-ws-form-config-ability.php:1163
 msgid "Delete form"
 msgstr "Видалити форму"
 
-#: includes/config/class-ws-form-config-ability.php:725
+#: includes/config/class-ws-form-config-ability.php:1164
 msgid "Trash or permanently delete a form by ID."
 msgstr "Перемістити форму в кошик або видалити назавжди за ID."
 
-#: includes/config/class-ws-form-config-ability.php:808
+#: includes/config/class-ws-form-config-ability.php:1247
 msgid "Restore form"
 msgstr "Відновити форму"
 
-#: includes/config/class-ws-form-config-ability.php:809
+#: includes/config/class-ws-form-config-ability.php:1248
 msgid "Restore a form from the trash by ID."
 msgstr "Відновити форму з кошика за ID."
 
-#: includes/config/class-ws-form-config-ability.php:877
+#: includes/config/class-ws-form-config-ability.php:1316
 msgid "Add field"
 msgstr "Додати поле"
 
-#: includes/config/class-ws-form-config-ability.php:878
+#: includes/config/class-ws-form-config-ability.php:1317
 msgid ""
 "Use this tool to add or insert a new field into a form. First, use the form-"
 "get-json tool to obtain the form JSON so you can specify the section_id "
@@ -15186,11 +15234,11 @@ msgstr ""
 "щоб ви могли вказати section_id, куди слід додати поле, а також, за потреби, "
 "field_id_before, якщо ви хочете вставити його перед іншим полем."
 
-#: includes/config/class-ws-form-config-ability.php:1000
+#: includes/config/class-ws-form-config-ability.php:1439
 msgid "Delete field"
 msgstr "Видалити поле"
 
-#: includes/config/class-ws-form-config-ability.php:1001
+#: includes/config/class-ws-form-config-ability.php:1440
 msgid "Use this tool to delete a field from a form."
 msgstr "Використовуйте цей інструмент, щоб видалити поле з форми."
 
@@ -15448,8 +15496,8 @@ msgid "field"
 msgstr "поле"
 
 #: includes/config/class-ws-form-config-admin.php:751
-#: includes/core/class-ws-form-action.php:1171
-#: includes/core/class-ws-form-action.php:1183
+#: includes/core/class-ws-form-action.php:1176
+#: includes/core/class-ws-form-action.php:1188
 #: includes/core/class-ws-form-data-source.php:143
 #: includes/core/class-ws-form-translate.php:717
 #: includes/core/class-ws-form-translate.php:820
@@ -16041,8 +16089,8 @@ msgid "Log"
 msgstr "Журнал"
 
 #: includes/config/class-ws-form-config-admin.php:1129
-#: includes/config/class-ws-form-config-option.php:1656
-#: includes/core/class-ws-form-submit.php:1495
+#: includes/config/class-ws-form-config-option.php:1717
+#: includes/core/class-ws-form-submit.php:1499
 #: includes/licensing/edd/EDD_SL_Plugin_Updater_WS_Form.php:573
 msgid "Error"
 msgstr "Помилка"
@@ -17260,7 +17308,7 @@ msgid "AND"
 msgstr "І"
 
 #: includes/config/class-ws-form-config-conditional.php:627
-#: includes/config/class-ws-form-config-option.php:1650
+#: includes/config/class-ws-form-config-option.php:1711
 msgid "AJAX"
 msgstr "AJAX"
 
@@ -18356,8 +18404,8 @@ msgid "Email Subject"
 msgstr "Email Тема"
 
 #: includes/config/class-ws-form-config-option.php:1217
-#: includes/core/class-ws-form-form-stat.php:629
-#: includes/core/class-ws-form-form-stat.php:630
+#: includes/core/class-ws-form-form-stat.php:672
+#: includes/core/class-ws-form-form-stat.php:673
 msgid "WS Form - Form Statistics"
 msgstr "WS Form — Статистика форм"
 
@@ -18394,8 +18442,8 @@ msgid "How often should errors be emailed?"
 msgstr "Як часто слід надсилати повідомлення про помилки електронною поштою?"
 
 #: includes/config/class-ws-form-config-option.php:1265
-#: includes/core/class-ws-form-submit.php:4629
-#: includes/core/class-ws-form-submit.php:4630
+#: includes/core/class-ws-form-submit.php:4637
+#: includes/core/class-ws-form-submit.php:4638
 msgid "WS Form - Form Submission Error"
 msgstr "WS Form — Помилка надсилання форми"
 
@@ -18511,70 +18559,105 @@ msgstr ""
 "«Надіслати електронний лист» є окреме налаштування для цього. Сумісно з "
 "обробниками файлів WS Form (Private), WS Form (Public) і Медіатеки."
 
-#: includes/config/class-ws-form-config-option.php:1444
+#: includes/config/class-ws-form-config-option.php:1442
+msgid "AI Connectors"
+msgstr "AI-конектори"
+
+#. translators: 1: Create from AI template link, 2: Make AI Request action link
+#: includes/config/class-ws-form-config-option.php:1447
+#, php-format
+msgid ""
+"AI connectors link WordPress to providers such as Anthropic, Google Gemini, "
+"or OpenAI. They are used by the %1$s template and %2$s action."
+msgstr ""
+"AI-конектори пов’язують WordPress із провайдерами, такими як Anthropic, "
+"Google Gemini або OpenAI. Їх використовують шаблон %1$s і дія %2$s."
+
+#: includes/config/class-ws-form-config-option.php:1448
+msgid "Create from AI"
+msgstr "Створити за допомогою AI"
+
+#: includes/config/class-ws-form-config-option.php:1471
 msgid "Abilities API"
 msgstr "API можливостей"
 
-#: includes/config/class-ws-form-config-option.php:1450
+#: includes/config/class-ws-form-config-option.php:1476
+msgid "Registers WS Form abilities with the WordPress Abilities API."
+msgstr "Реєструє можливості WS Form в API можливостей WordPress."
+
+#: includes/config/class-ws-form-config-option.php:1485
+msgid "Include in MCP Discovery"
+msgstr "Включити до виявлення MCP"
+
+#: includes/config/class-ws-form-config-option.php:1488
+msgid ""
+"If enabled, MCP clients can discover WS Form abilities. Authentication and "
+"permissions still apply."
+msgstr ""
+"Якщо ввімкнено, клієнти MCP можуть виявляти можливості WS Form. "
+"Автентифікація та дозволи все одно застосовуються."
+
+#: includes/config/class-ws-form-config-option.php:1494
 msgid "Allow Updates"
 msgstr "Дозволити оновлення"
 
-#: includes/config/class-ws-form-config-option.php:1457
+#: includes/config/class-ws-form-config-option.php:1501
 msgid "If enabled, form updates can be made by AI clients."
 msgstr "Якщо ввімкнено, клієнти ШІ зможуть вносити зміни до форм."
 
-#: includes/config/class-ws-form-config-option.php:1459
-#: includes/config/class-ws-form-config-option.php:1477
+#: includes/config/class-ws-form-config-option.php:1503
+#: includes/config/class-ws-form-config-option.php:1519
 msgid "Use at your own risk!"
 msgstr "Використовуйте на власний ризик!"
 
-#: includes/config/class-ws-form-config-option.php:1461
-#: includes/config/class-ws-form-config-option.php:1479
-#: includes/config/class-ws-form-config-option.php:1514
-#: includes/config/class-ws-form-config-option.php:1553
-msgid "Experimental"
-msgstr "Експериментально"
-
-#: includes/config/class-ws-form-config-option.php:1468
+#: includes/config/class-ws-form-config-option.php:1510
 msgid "Allow Deletes"
 msgstr "Дозволити видалення"
 
-#: includes/config/class-ws-form-config-option.php:1475
-msgid "If enabled, forms deletions can be made by AI clients."
-msgstr "Якщо ввімкнено, клієнти ШІ зможуть видаляти форми."
+#: includes/config/class-ws-form-config-option.php:1517
+msgid "If enabled, form deletions can be made by AI clients."
+msgstr "Якщо ввімкнено, клієнти ШІ можуть виконувати видалення форм."
 
-#: includes/config/class-ws-form-config-option.php:1491
-msgid "MCP Server"
-msgstr "Сервер MCP"
+#: includes/config/class-ws-form-config-option.php:1531
+msgid "MCP Adapter"
+msgstr "Адаптер MCP"
 
 #. translators: %s: Presentable name (e.g. WS Form PRO)
-#: includes/config/class-ws-form-config-option.php:1506
+#: includes/config/class-ws-form-config-option.php:1539
 #, php-format
-msgid "Enable the %s MCP (Model Context Protocol) server."
-msgstr "Увімкнути сервер %s MCP (Model Context Protocol)."
+msgid ""
+"Register a dedicated %s MCP server so authenticated AI clients can connect "
+"using the server URL below."
+msgstr ""
+"Зареєструйте виділений MCP-сервер %s, щоб автентифіковані AI-клієнти могли "
+"підключатися за URL-адресою сервера нижче."
 
-#: includes/config/class-ws-form-config-option.php:1521
+#: includes/config/class-ws-form-config-option.php:1557
 msgid "Server URL"
 msgstr "URL сервера"
 
-#: includes/config/class-ws-form-config-option.php:1534
+#: includes/config/class-ws-form-config-option.php:1570
 msgid "Angie"
 msgstr "Енджі"
 
-#: includes/config/class-ws-form-config-option.php:1547
+#: includes/config/class-ws-form-config-option.php:1583
 msgid "If enabled, WS Form abilities will be registered with Angie Agentic AI."
 msgstr ""
 "Якщо ввімкнено, можливості WS Form буде зареєстровано в Angie Agentic AI."
 
-#: includes/config/class-ws-form-config-option.php:1613
+#: includes/config/class-ws-form-config-option.php:1589
+msgid "Experimental"
+msgstr "Експериментально"
+
+#: includes/config/class-ws-form-config-option.php:1674
 msgid "Blank Page"
 msgstr "Порожня сторінка"
 
-#: includes/config/class-ws-form-config-option.php:1656
+#: includes/config/class-ws-form-config-option.php:1717
 msgid "AJAX Low Resource"
 msgstr "Низький ресурс AJAX"
 
-#: includes/config/class-ws-form-config-option.php:1658
+#: includes/config/class-ws-form-config-option.php:1719
 msgid "Server Side"
 msgstr "Сторона сервера"
 
@@ -18957,7 +19040,7 @@ msgid "Design"
 msgstr "Дизайн"
 
 #: includes/config/class-ws-form-config-public.php:371
-#: includes/core/class-ws-form-action.php:722
+#: includes/core/class-ws-form-action.php:727
 msgid "Populate"
 msgstr "Заселити"
 
@@ -19726,7 +19809,7 @@ msgstr "Календар"
 
 #: includes/config/class-ws-form-config-styler.php:2480
 #: includes/config/class-ws-form-config-styler.php:2553
-#: includes/core/class-ws-form-form-stat.php:1097
+#: includes/core/class-ws-form-form-stat.php:1140
 msgid "Today"
 msgstr "Сьогодні"
 
@@ -19742,7 +19825,7 @@ msgid "Calendar Heading"
 msgstr "Заголовок календаря"
 
 #: includes/config/class-ws-form-config-styler.php:2773
-#: includes/core/class-ws-form-submit.php:4754
+#: includes/core/class-ws-form-submit.php:4762
 msgid "File"
 msgstr "Файл"
 
@@ -19984,151 +20067,182 @@ msgid "Abilities that relate to the plugin WS Form."
 msgstr "Можливості, що стосуються плагіна WS Form."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:93
+#: includes/core/class-ws-form-ability.php:106
 #, php-format
 msgid "Error retrieving forms: %s"
 msgstr "Помилка отримання форм: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:128
+#: includes/core/class-ws-form-ability.php:141
 #, php-format
 msgid "Error creating form from JSON: %s"
 msgstr "Помилка створення форми з JSON: %s"
 
-#: includes/core/class-ws-form-ability.php:146
-#: includes/core/class-ws-form-ability.php:186
-#: includes/core/class-ws-form-ability.php:231
-#: includes/core/class-ws-form-ability.php:270
-#: includes/core/class-ws-form-ability.php:320
-#: includes/core/class-ws-form-ability.php:350
-#: includes/core/class-ws-form-ability.php:380
-#: includes/core/class-ws-form-ability.php:468
-#: includes/core/class-ws-form-ability.php:519
-#: includes/core/class-ws-form-ability.php:560
-#: includes/core/class-ws-form-ability.php:626
+#: includes/core/class-ws-form-ability.php:159
+#: includes/core/class-ws-form-ability.php:199
+#: includes/core/class-ws-form-ability.php:244
+#: includes/core/class-ws-form-ability.php:283
+#: includes/core/class-ws-form-ability.php:322
+#: includes/core/class-ws-form-ability.php:372
+#: includes/core/class-ws-form-ability.php:402
+#: includes/core/class-ws-form-ability.php:432
+#: includes/core/class-ws-form-ability.php:524
+#: includes/core/class-ws-form-ability.php:733
+#: includes/core/class-ws-form-ability.php:784
+#: includes/core/class-ws-form-ability.php:825
+#: includes/core/class-ws-form-ability.php:891
 msgid "Invalid form ID."
 msgstr "Недійсний ідентифікатор форми."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:168
+#: includes/core/class-ws-form-ability.php:181
 #, php-format
 msgid "Error retrieving form as JSON: %s"
 msgstr "Помилка отримання форми як JSON: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:213
+#: includes/core/class-ws-form-ability.php:226
 #, php-format
 msgid "Error updating form from JSON: %s"
 msgstr "Помилка оновлення форми з JSON: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:252
+#: includes/core/class-ws-form-ability.php:265
 #, php-format
 msgid "Error publishing form: %s"
 msgstr "Помилка публікації форми: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:302
+#: includes/core/class-ws-form-ability.php:304
+#, php-format
+msgid "Error drafting form: %s"
+msgstr "Помилка створення чернетки форми: %s"
+
+#. translators: %s: Error message
+#: includes/core/class-ws-form-ability.php:354
 #, php-format
 msgid "Error cloning form: %s"
 msgstr "Помилка клонування форми: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:332
+#: includes/core/class-ws-form-ability.php:384
 #, php-format
 msgid "Error generating shortcode: %s"
 msgstr "Помилка генерування шорткоду: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:362
+#: includes/core/class-ws-form-ability.php:414
 #, php-format
 msgid "Error generating block: %s"
 msgstr "Помилка створення блоку: %s"
 
-#: includes/core/class-ws-form-ability.php:387
+#: includes/core/class-ws-form-ability.php:439
+#: includes/core/class-ws-form-ability.php:536
 msgid "Invalid from date / time."
 msgstr "Недійсні дата / час «від»."
 
-#: includes/core/class-ws-form-ability.php:395
+#: includes/core/class-ws-form-ability.php:447
+#: includes/core/class-ws-form-ability.php:553
 msgid "Invalid to date / time."
 msgstr "Недійсні дата / час «до»."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:450
+#: includes/core/class-ws-form-ability.php:506
 #, php-format
 msgid "Error retrieving form statistics: %s"
 msgstr "Помилка отримання статистики форми: %s"
 
-#: includes/core/class-ws-form-ability.php:477
+#. translators: %s: Error message
+#: includes/core/class-ws-form-ability.php:618
+#, php-format
+msgid "Error retrieving submissions: %s"
+msgstr "Помилка отримання подань: %s"
+
+#: includes/core/class-ws-form-ability.php:636
+msgid "Invalid submission ID."
+msgstr "Неприпустимий ID подання."
+
+#: includes/core/class-ws-form-ability.php:655
+#: includes/core/class-ws-form-submit.php:221
+msgid "Unable to read submission."
+msgstr "Неможливо прочитати подання."
+
+#. translators: %s: Error message
+#: includes/core/class-ws-form-ability.php:667
+#, php-format
+msgid "Error retrieving submission: %s"
+msgstr "Помилка отримання подання: %s"
+
+#: includes/core/class-ws-form-ability.php:742
 msgid "Permanent form deletion is not enabled."
 msgstr "Остаточне видалення форми не ввімкнено."
 
-#: includes/core/class-ws-form-ability.php:494
+#: includes/core/class-ws-form-ability.php:759
 msgid "Form permanently deleted"
 msgstr "Форму остаточно видалено"
 
-#: includes/core/class-ws-form-ability.php:494
+#: includes/core/class-ws-form-ability.php:759
 msgid "Form trashed"
 msgstr "Форму переміщено в кошик"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:501
+#: includes/core/class-ws-form-ability.php:766
 #, php-format
 msgid "Error deleting form: %s"
 msgstr "Помилка видалення форми: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:542
+#: includes/core/class-ws-form-ability.php:807
 #, php-format
 msgid "Error restoring form: %s"
 msgstr "Помилка відновлення форми: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:608
+#: includes/core/class-ws-form-ability.php:873
 #, php-format
 msgid "Error adding field: %s"
 msgstr "Помилка додавання поля: %s"
 
-#: includes/core/class-ws-form-ability.php:635
+#: includes/core/class-ws-form-ability.php:900
 msgid "Invalid field ID."
 msgstr "Недійсний ідентифікатор поля."
 
-#: includes/core/class-ws-form-ability.php:661
+#: includes/core/class-ws-form-ability.php:926
 msgid "Field permanently deleted"
 msgstr "Поле остаточно видалено"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:670
+#: includes/core/class-ws-form-ability.php:935
 #, php-format
 msgid "Error deleting field: %s"
 msgstr "Помилка видалення поля: %s"
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:744
+#: includes/core/class-ws-form-ability.php:1009
 #, php-format
 msgid "Input schema for ability %s not found."
 msgstr "Схему введення для можливості %s не знайдено."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:766
+#: includes/core/class-ws-form-ability.php:1031
 #, php-format
 msgid "Invalid input schema type for ability %s. Expects object."
 msgstr "Неприпустимий тип схеми введення для можливості %s. Очікується об’єкт."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:782
+#: includes/core/class-ws-form-ability.php:1047
 #, php-format
 msgid "No input schema properties for ability %s."
 msgstr "Немає властивостей схеми введення для можливості %s."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:799
+#: includes/core/class-ws-form-ability.php:1064
 #, php-format
 msgid "Invalid input schema property name for ability %s."
 msgstr "Недійсна назва властивості схеми введення для можливості %s."
 
 #. translators: %1$s: Ability name, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:829
+#: includes/core/class-ws-form-ability.php:1094
 #, php-format
 msgid "Invalid input schema property type for ability %1$s (Property: %2$s)."
 msgstr ""
@@ -20136,7 +20250,7 @@ msgstr ""
 "%2$s)."
 
 #. translators: %1$s: Ability ID, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:852
+#: includes/core/class-ws-form-ability.php:1126
 #, php-format
 msgid ""
 "Required input schema property for ability %1$s missing (Property: %2$s)."
@@ -20145,7 +20259,7 @@ msgstr ""
 "(Властивість: %2$s)."
 
 #. translators: %1$s: Property name, %2$s: Ability ID
-#: includes/core/class-ws-form-ability.php:914
+#: includes/core/class-ws-form-ability.php:1189
 #, php-format
 msgid ""
 "Input schema property %1$s has invalid enum for ability %2$s. Expected array."
@@ -20154,87 +20268,98 @@ msgstr ""
 "Очікується масив."
 
 #. translators: %1$s: Ability name, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:928
+#: includes/core/class-ws-form-ability.php:1203
 #, php-format
 msgid "Invalid enumerated input value for ability %1$s (Property: %2$s)."
 msgstr ""
 "Недійсне перелічене значення введення для можливості %1$s (Властивість: "
 "%2$s)."
 
-#: includes/core/class-ws-form-ability.php:949
+#: includes/core/class-ws-form-ability.php:1224
 msgid "Inputs not parsed."
 msgstr "Вхідні дані не розібрано."
 
 #. translators: %s: Property name
-#: includes/core/class-ws-form-ability.php:959
+#: includes/core/class-ws-form-ability.php:1234
 #, php-format
 msgid "Property %s does not exist in input schema."
 msgstr "Властивість %s не існує в схемі введення."
 
-#: includes/core/class-ws-form-action.php:739
+#. translators: %s: Meta key
+#: includes/core/class-ws-form-action.php:320
+#, php-format
+msgid "Cannot find configuration meta_key: %s"
+msgstr "Не вдається знайти конфігурацію meta_key: %s"
+
+#: includes/core/class-ws-form-action.php:744
 msgid "Populate Using Action"
 msgstr "Заповнення за допомогою дії"
 
 #. translators: %s: WS Form
-#: includes/core/class-ws-form-action.php:744
+#: includes/core/class-ws-form-action.php:749
 #, php-format
 msgid "If checked, %s will populate the form with data from an action."
 msgstr "Якщо поставлено прапорець, %s заповнює форму даними дії."
 
-#: includes/core/class-ws-form-action.php:754
+#: includes/core/class-ws-form-action.php:759
 msgid "Action to Populate From"
 msgstr "Дія для заповнення з"
 
 #. translators: %s: WS Form
-#: includes/core/class-ws-form-action.php:759
+#: includes/core/class-ws-form-action.php:764
 msgid "Select which action to populate this form with."
 msgstr "Виберіть, якою дією заповнити цю форму."
 
-#: includes/core/class-ws-form-action.php:781
+#: includes/core/class-ws-form-action.php:786
 msgid "List to Populate From"
 msgstr "Список для заповнення"
 
-#: includes/core/class-ws-form-action.php:783
+#: includes/core/class-ws-form-action.php:788
 msgid "Select which list to populate this form with."
 msgstr "Виберіть, яким списком заповнити цю форму."
 
 #. translators: %s: WS Form
-#: includes/core/class-ws-form-action.php:825
+#: includes/core/class-ws-form-action.php:830
 #, php-format
 msgid "Map list fields to %s fields."
 msgstr "Зіставте поля списку з %s полями."
 
-#: includes/core/class-ws-form-action.php:881
+#: includes/core/class-ws-form-action.php:886
 msgid "Term Mapping"
 msgstr "Зіставлення термінів"
 
 #. translators: %s: WS Form
-#: includes/core/class-ws-form-action.php:886
+#: includes/core/class-ws-form-action.php:891
 #, php-format
 msgid "Map fields containing terms to %s fields."
 msgstr "Зіставте поля, що містять терміни, з полями %s."
 
-#: includes/core/class-ws-form-action.php:930
+#: includes/core/class-ws-form-action.php:935
 msgid "Action Field"
 msgstr "Поле дії"
 
-#: includes/core/class-ws-form-action.php:2020
+#: includes/core/class-ws-form-action.php:2025
 msgid "Records"
 msgstr "Записи"
 
-#: includes/core/class-ws-form-action.php:2195
+#: includes/core/class-ws-form-action.php:2200
 msgid "Return actions should be an array"
 msgstr "Дії повернення мають бути масивом"
 
 #. translators: %u: Field ID
-#: includes/core/class-ws-form-action.php:2284
-#: includes/core/class-ws-form-action.php:2314
+#: includes/core/class-ws-form-action.php:2289
 #, php-format
 msgid "Set field value added to queue for field ID: %u"
 msgstr "Встановлення значення поля додано до черги для ID поля: %u"
 
+#. translators: %u: Field ID
+#: includes/core/class-ws-form-action.php:2319
+#, php-format
+msgid "Set field invalid feedback added to queue for field ID: %u"
+msgstr "Додано до черги відгук про недійсність поля для ID поля: %u"
+
 #. translators: Cookie name
-#: includes/core/class-ws-form-action.php:2348
+#: includes/core/class-ws-form-action.php:2353
 #, php-format
 msgid "Set cookie: %s"
 msgstr "Встановити cookie: %s"
@@ -20260,6 +20385,7 @@ msgid "Error tidying sort index"
 msgstr "Помилка впорядкування індексу сортування"
 
 #: includes/core/class-ws-form-core.php:274
+#: includes/core/class-ws-form-core.php:287
 msgid "Unable to determine sort index"
 msgstr "Неможливо визначити індекс сортування"
 
@@ -20271,11 +20397,11 @@ msgstr "Помилка коригування індексів сортуван�
 msgid "Object ID is zero, cannot get label"
 msgstr "Ідентифікатор об’єкта дорівнює нулю, не можна отримати мітку"
 
-#: includes/core/class-ws-form-core.php:319
+#: includes/core/class-ws-form-core.php:323
 msgid "Error getting object label"
 msgstr "Помилка отримання мітки об’єкта"
 
-#: includes/core/class-ws-form-css.php:407
+#: includes/core/class-ws-form-css.php:413
 msgid "Invalid skin ID"
 msgstr "Недійсний ідентифікатор шкіри"
 
@@ -20333,11 +20459,11 @@ msgstr "Недійсне джерело даних"
 msgid "%1$s Data Source CRON Error: %2$s"
 msgstr "Помилка CRON джерела даних %1$s: %2$s"
 
-#: includes/core/class-ws-form-field.php:97
+#: includes/core/class-ws-form-field.php:99
 msgid "Error adding field"
 msgstr "Помилка додавання поля"
 
-#: includes/core/class-ws-form-field.php:210
+#: includes/core/class-ws-form-field.php:212
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:78
 #: includes/data-sources/class-ws-form-data-source-meta-box.php:85
 #: includes/data-sources/class-ws-form-data-source-pods.php:85
@@ -20347,36 +20473,36 @@ msgstr "Помилка додавання поля"
 msgid "Invalid field ID"
 msgstr "Недійсний ідентифікатор поля"
 
-#: includes/core/class-ws-form-field.php:391
+#: includes/core/class-ws-form-field.php:396
 msgid "Error deleting field"
 msgstr "Помилка видалення поля"
 
-#: includes/core/class-ws-form-field.php:541
+#: includes/core/class-ws-form-field.php:546
 msgid "Error cloning field"
 msgstr "Помилка клонування поля"
 
-#: includes/core/class-ws-form-field.php:704
+#: includes/core/class-ws-form-field.php:709
 msgid "Field ID is zero, cannot get section ID"
 msgstr ""
 "Ідентифікатор поля дорівнює нулю, не можна отримати ідентифікатор розділу"
 
-#: includes/core/class-ws-form-field.php:714
+#: includes/core/class-ws-form-field.php:719
 msgid "Error getting section ID"
 msgstr "Помилка отримання ідентифікатора розділу"
 
-#: includes/core/class-ws-form-field.php:722
+#: includes/core/class-ws-form-field.php:727
 msgid "Invalid form ID (WS_Form_Field | db_check_form_id)"
 msgstr "Недійсний ID форми (WS_Form_Field | db_check_form_id)"
 
-#: includes/core/class-ws-form-field.php:729
+#: includes/core/class-ws-form-field.php:734
 msgid "Invalid section ID (WS_Form_Field | db_check_section_id)"
 msgstr "Недійсний ID розділу (WS_Form_Field | db_check_section_id)"
 
-#: includes/core/class-ws-form-field.php:736
+#: includes/core/class-ws-form-field.php:741
 msgid "Invalid section ID (WS_Form_Field | db_check_section_id_from)"
 msgstr "Недійсний ID розділу (WS_Form_Field | db_check_section_id_from)"
 
-#: includes/core/class-ws-form-field.php:743
+#: includes/core/class-ws-form-field.php:748
 msgid "Invalid field ID (WS_Form_Field | db_check_id)"
 msgstr "Недійсний ID поля (WS_Form_Field | db_check_id)"
 
@@ -20576,109 +20702,109 @@ msgstr "Помилка видалення статистики"
 msgid "Invalid form ID (WS_Form_Form_Stat | db_check_form_id)"
 msgstr "Недійсний ID форми (WS_Form_Form_Stat | db_check_form_id)"
 
-#: includes/core/class-ws-form-form-stat.php:562
+#: includes/core/class-ws-form-form-stat.php:605
 msgid "Total Counts"
 msgstr "Загальна кількість"
 
-#: includes/core/class-ws-form-form-stat.php:649
-#: includes/core/class-ws-form-submit.php:4649
+#: includes/core/class-ws-form-form-stat.php:692
+#: includes/core/class-ws-form-submit.php:4657
 msgid "Invalid frequency"
 msgstr "Недійсна частота"
 
-#: includes/core/class-ws-form-form-stat.php:667
-#: includes/core/class-ws-form-submit.php:4667
+#: includes/core/class-ws-form-form-stat.php:710
+#: includes/core/class-ws-form-submit.php:4675
 msgid "Invalid email subject"
 msgstr "Недійсна тема електронного листа"
 
-#: includes/core/class-ws-form-form-stat.php:675
+#: includes/core/class-ws-form-form-stat.php:718
 msgid "Daily Form Statistics Report"
 msgstr "Щоденний звіт статистики форм"
 
-#: includes/core/class-ws-form-form-stat.php:682
+#: includes/core/class-ws-form-form-stat.php:725
 msgid "Weekly Form Statistics Report"
 msgstr "Щотижневий звіт статистики форм"
 
-#: includes/core/class-ws-form-form-stat.php:689
+#: includes/core/class-ws-form-form-stat.php:732
 msgid "Monthly Form Statistics Report"
 msgstr "Щомісячний звіт статистики форм"
 
-#: includes/core/class-ws-form-form-stat.php:710
+#: includes/core/class-ws-form-form-stat.php:753
 msgid "Date Range"
 msgstr "Діапазон дат"
 
-#: includes/core/class-ws-form-form-stat.php:725
+#: includes/core/class-ws-form-form-stat.php:768
 msgid "There are no published forms available to process statistics for."
 msgstr "Немає опублікованих форм, доступних для обробки статистики."
 
-#: includes/core/class-ws-form-form-stat.php:725
+#: includes/core/class-ws-form-form-stat.php:768
 msgid "There are no forms available to process statistics for."
 msgstr "Немає форм, доступних для обробки статистики."
 
-#: includes/core/class-ws-form-form-stat.php:744
+#: includes/core/class-ws-form-form-stat.php:787
 msgid "Submits"
 msgstr "Надсилання"
 
-#: includes/core/class-ws-form-form-stat.php:745
+#: includes/core/class-ws-form-form-stat.php:788
 msgid "Conv."
 msgstr "Конв."
 
-#: includes/core/class-ws-form-form-stat.php:791
+#: includes/core/class-ws-form-form-stat.php:834
 msgid "Totals"
 msgstr "Разом"
 
 #. translators: %s: WS Form
-#: includes/core/class-ws-form-form-stat.php:810
+#: includes/core/class-ws-form-form-stat.php:853
 #, php-format
 msgid "This email was sent from %s."
 msgstr "Цей лист надіслано з %s."
 
-#: includes/core/class-ws-form-form-stat.php:1051
+#: includes/core/class-ws-form-form-stat.php:1094
 msgid "wp-load.php"
 msgstr "wp-load.php"
 
-#: includes/core/class-ws-form-form-stat.php:1069
+#: includes/core/class-ws-form-form-stat.php:1112
 msgid "Unreachable"
 msgstr "Недосяжно"
 
 #. translators: %u: HTTP code *
-#: includes/core/class-ws-form-form-stat.php:1080
+#: includes/core/class-ws-form-form-stat.php:1123
 #, php-format
 msgid "HTTP Code %u"
 msgstr "HTTP код %u"
 
-#: includes/core/class-ws-form-form-stat.php:1106
+#: includes/core/class-ws-form-form-stat.php:1149
 msgid "Yesterday"
 msgstr "Вчора"
 
-#: includes/core/class-ws-form-form-stat.php:1115
+#: includes/core/class-ws-form-form-stat.php:1158
 msgid "Last 7 Days"
 msgstr "Останні 7 днів"
 
-#: includes/core/class-ws-form-form-stat.php:1124
+#: includes/core/class-ws-form-form-stat.php:1167
 msgid "Last 30 Days"
 msgstr "Останні 30 днів"
 
-#: includes/core/class-ws-form-form-stat.php:1133
+#: includes/core/class-ws-form-form-stat.php:1176
 msgid "Last 60 Days"
 msgstr "Останні 60 днів"
 
-#: includes/core/class-ws-form-form-stat.php:1142
+#: includes/core/class-ws-form-form-stat.php:1185
 msgid "Last 90 Days"
 msgstr "Останні 90 днів"
 
-#: includes/core/class-ws-form-form-stat.php:1151
+#: includes/core/class-ws-form-form-stat.php:1194
 msgid "Month To Date"
 msgstr "Місяць на сьогодні"
 
-#: includes/core/class-ws-form-form-stat.php:1160
+#: includes/core/class-ws-form-form-stat.php:1203
 msgid "Last Month"
 msgstr "Останній місяць"
 
-#: includes/core/class-ws-form-form-stat.php:1169
+#: includes/core/class-ws-form-form-stat.php:1212
 msgid "Year To Date"
 msgstr "Рік до сьогодні"
 
-#: includes/core/class-ws-form-form-stat.php:1178
+#: includes/core/class-ws-form-form-stat.php:1221
 msgid "Last Year"
 msgstr "В минулому році"
 
@@ -20772,58 +20898,58 @@ msgstr "Помилка додавання групи"
 msgid "Unable to read group"
 msgstr "Неможливо прочитати групу"
 
-#: includes/core/class-ws-form-group.php:239
+#: includes/core/class-ws-form-group.php:233
 #: includes/core/class-ws-form-section.php:118
 msgid "No group found in form object"
 msgstr "В об’єкті форми група не знайдена"
 
-#: includes/core/class-ws-form-group.php:358
+#: includes/core/class-ws-form-group.php:352
 msgid "Error deleting group"
 msgstr "Помилка видалення групи"
 
-#: includes/core/class-ws-form-group.php:493
+#: includes/core/class-ws-form-group.php:487
 msgid "Error cloning group"
 msgstr "Помилка клонування групи"
 
-#: includes/core/class-ws-form-group.php:912
+#: includes/core/class-ws-form-group.php:906
 msgid "Invalid form ID (WS_Form_Group | db_check_form_id)"
 msgstr "Недійсний ID форми (WS_Form_Group | db_check_form_id)"
 
-#: includes/core/class-ws-form-group.php:919
+#: includes/core/class-ws-form-group.php:913
 msgid "Invalid group ID (WS_Form_Group | db_check_id)"
 msgstr "Недійсний ID групи (WS_Form_Group | db_check_id)"
 
-#: includes/core/class-ws-form-meta.php:35
+#: includes/core/class-ws-form-meta.php:33
 msgid "Object not set"
 msgstr "Об’єкт не встановлено"
 
-#: includes/core/class-ws-form-meta.php:37
+#: includes/core/class-ws-form-meta.php:35
 msgid "Invalid object"
 msgstr "Недійсний об’єкт"
 
-#: includes/core/class-ws-form-meta.php:68
-#: includes/core/class-ws-form-meta.php:94
-#: includes/core/class-ws-form-meta.php:236
-#: includes/core/class-ws-form-meta.php:292
+#: includes/core/class-ws-form-meta.php:64
+#: includes/core/class-ws-form-meta.php:90
+#: includes/core/class-ws-form-meta.php:232
+#: includes/core/class-ws-form-meta.php:288
 #: includes/core/class-ws-form-submit-meta.php:50
-#: includes/core/class-ws-form-submit-meta.php:261
+#: includes/core/class-ws-form-submit-meta.php:267
 msgid "Parent ID not set"
 msgstr "Батьківський ідентифікатор не встановлено"
 
-#: includes/core/class-ws-form-meta.php:131
+#: includes/core/class-ws-form-meta.php:127
 msgid "Error deleting meta"
 msgstr "Помилка видалення мета"
 
-#: includes/core/class-ws-form-meta.php:152
+#: includes/core/class-ws-form-meta.php:148
 msgid "Error deleting object meta"
 msgstr "Помилка видалення мета об’єкта"
 
-#: includes/core/class-ws-form-meta.php:221
+#: includes/core/class-ws-form-meta.php:217
 msgid "Error cloning meta"
 msgstr "Помилка клонування мета"
 
-#: includes/core/class-ws-form-meta.php:349
-#: includes/core/class-ws-form-submit-meta.php:377
+#: includes/core/class-ws-form-meta.php:345
+#: includes/core/class-ws-form-submit-meta.php:383
 msgid "Unable to replace meta data"
 msgstr "Неможливо замінити метадані"
 
@@ -20847,54 +20973,54 @@ msgstr "В об’єкті форми не знайдено жодних роз�
 msgid "Unable to read section"
 msgstr "Неможливо прочитати розділ"
 
-#: includes/core/class-ws-form-section.php:385
+#: includes/core/class-ws-form-section.php:379
 msgid "Error deleting section"
 msgstr "Помилка видалення розділу"
 
-#: includes/core/class-ws-form-section.php:519
+#: includes/core/class-ws-form-section.php:513
 msgid "Error cloning section"
 msgstr "Помилка клонування розділу"
 
-#: includes/core/class-ws-form-section.php:675
+#: includes/core/class-ws-form-section.php:669
 msgid "Unable to determine section child count"
 msgstr "Неможливо визначити кількість дітей у розділі"
 
-#: includes/core/class-ws-form-section.php:690
+#: includes/core/class-ws-form-section.php:684
 msgid "Unable to update section child count"
 msgstr "Не вдається оновити кількість дітей у розділі"
 
-#: includes/core/class-ws-form-section.php:700
+#: includes/core/class-ws-form-section.php:694
 msgid "Section ID is zero, cannot get group ID"
 msgstr ""
 "Ідентифікатор розділу дорівнює нулю, не можна отримати ідентифікатор групи"
 
-#: includes/core/class-ws-form-section.php:710
+#: includes/core/class-ws-form-section.php:704
 msgid "Error getting group ID"
 msgstr "Помилка отримання ідентифікатора групи"
 
-#: includes/core/class-ws-form-section.php:721
+#: includes/core/class-ws-form-section.php:715
 msgid "Section ID is zero, cannot get section parent ID"
 msgstr ""
 "Ідентифікатор розділу дорівнює нулю, неможливо отримати батьківський "
 "ідентифікатор розділу"
 
-#: includes/core/class-ws-form-section.php:731
+#: includes/core/class-ws-form-section.php:725
 msgid "Error getting section parent ID"
 msgstr "Помилка отримання батьківського ідентифікатора розділу"
 
-#: includes/core/class-ws-form-section.php:750
+#: includes/core/class-ws-form-section.php:744
 msgid "Unable to determine last section added"
 msgstr "Неможливо визначити останній доданий розділ"
 
-#: includes/core/class-ws-form-section.php:1077
+#: includes/core/class-ws-form-section.php:1071
 msgid "Invalid form ID (WS_Form_Section | db_check_form_id)"
 msgstr "Недійсний ID форми (WS_Form_Section | db_check_form_id)"
 
-#: includes/core/class-ws-form-section.php:1084
+#: includes/core/class-ws-form-section.php:1078
 msgid "Invalid group ID (WS_Form_Section | db_check_group_id)"
 msgstr "Недійсний ID групи (WS_Form_Section | db_check_group_id)"
 
-#: includes/core/class-ws-form-section.php:1091
+#: includes/core/class-ws-form-section.php:1085
 msgid "Invalid section ID (WS_Form_Section | db_check_id)"
 msgstr "Недійсний ID розділу (WS_Form_Section | db_check_id)"
 
@@ -21052,35 +21178,35 @@ msgstr "Зашифровано. Потрібен %s PRO."
 msgid "Unable to read file meta data"
 msgstr "Неможливо прочитати метадані файлу"
 
-#: includes/core/class-ws-form-submit-meta.php:171
+#: includes/core/class-ws-form-submit-meta.php:173
 msgid "Error deleting submit meta"
 msgstr "Помилка видалення мета надсилання"
 
-#: includes/core/class-ws-form-submit-meta.php:207
+#: includes/core/class-ws-form-submit-meta.php:211
 msgid "Error deleting all submit meta"
 msgstr "Помилка видалення всіх мета мета"
 
-#: includes/core/class-ws-form-submit-meta.php:494
-#: includes/core/class-ws-form-submit-meta.php:495
-#: includes/core/class-ws-form-submit.php:3795
-#: includes/core/class-ws-form-submit.php:3796
+#: includes/core/class-ws-form-submit-meta.php:500
+#: includes/core/class-ws-form-submit-meta.php:501
+#: includes/core/class-ws-form-submit.php:3803
+#: includes/core/class-ws-form-submit.php:3804
 msgid "Illegal file name"
 msgstr "Недопустима назва файлу"
 
-#: includes/core/class-ws-form-submit-meta.php:573
+#: includes/core/class-ws-form-submit-meta.php:579
 msgid "Unknown signature format"
 msgstr "Невідомий формат підпису"
 
-#: includes/core/class-ws-form-submit-meta.php:577
+#: includes/core/class-ws-form-submit-meta.php:583
 msgid "Invalid signature base64 data"
 msgstr "Недійсні дані підпису base64"
 
-#: includes/core/class-ws-form-submit-meta.php:602
-#: includes/core/class-ws-form-submit-meta.php:669
+#: includes/core/class-ws-form-submit-meta.php:608
+#: includes/core/class-ws-form-submit-meta.php:675
 msgid "Invalid signature file format"
 msgstr "Недійсний формат файлу підпису"
 
-#: includes/core/class-ws-form-submit-meta.php:616
+#: includes/core/class-ws-form-submit-meta.php:622
 msgid "Invalid hash ID (process_signature)"
 msgstr "Недійсний ідентифікатор хеша (process_signature)"
 
@@ -21089,100 +21215,96 @@ msgid "Error adding submit"
 msgstr "Помилка додавання подання"
 
 #: includes/core/class-ws-form-submit.php:188
-#: includes/core/class-ws-form-submit.php:622
+#: includes/core/class-ws-form-submit.php:624
 msgid "Error updating submit."
 msgstr "Помилка оновлення подання."
 
-#: includes/core/class-ws-form-submit.php:221
-msgid "Unable to read submission."
-msgstr "Неможливо прочитати подання."
-
-#: includes/core/class-ws-form-submit.php:577
+#: includes/core/class-ws-form-submit.php:579
 msgid ""
 "Submission record not found. Ensure you have a 'Save Submission' action."
 msgstr ""
 "Запис відправлення не знайдено. Переконайтеся, що у вас є дія «Зберегти "
 "відправлення»."
 
-#: includes/core/class-ws-form-submit.php:730
+#: includes/core/class-ws-form-submit.php:732
 msgid "Error updating submit date updated."
 msgstr "Помилка оновлення дати подання оновлено."
 
-#: includes/core/class-ws-form-submit.php:741
+#: includes/core/class-ws-form-submit.php:743
 msgid "Error updating submit user ID,"
 msgstr "Помилка оновлення ідентифікатора користувача,"
 
-#: includes/core/class-ws-form-submit.php:771
+#: includes/core/class-ws-form-submit.php:773
 msgid "Error deleting submit."
 msgstr "Помилка видалення."
 
-#: includes/core/class-ws-form-submit.php:904
+#: includes/core/class-ws-form-submit.php:906
 msgid "Form Submissions"
 msgstr "Подання форм"
 
 #. translators: %s: WS Form
-#: includes/core/class-ws-form-submit.php:969
+#: includes/core/class-ws-form-submit.php:971
 #, php-format
 msgid "%s submissions successfully deleted."
 msgstr "Успішно видалено подання: %s."
 
-#: includes/core/class-ws-form-submit.php:1357
+#: includes/core/class-ws-form-submit.php:1361
 msgid "Error setting starred status."
 msgstr "Помилка встановлення статусу із зірочкою."
 
-#: includes/core/class-ws-form-submit.php:1385
+#: includes/core/class-ws-form-submit.php:1389
 msgid "Error updating viewed status."
 msgstr "Помилка оновлення статусу перегляду."
 
 #. translators: %s: Status
-#: includes/core/class-ws-form-submit.php:1462
+#: includes/core/class-ws-form-submit.php:1466
 #, php-format
 msgid "Invalid submit status: %s"
 msgstr "Недійсний статус надсилання: %s"
 
-#: includes/core/class-ws-form-submit.php:1468
+#: includes/core/class-ws-form-submit.php:1472
 msgid "Error setting submit status."
 msgstr "Помилка налаштування статусу надсилання."
 
-#: includes/core/class-ws-form-submit.php:1894
+#: includes/core/class-ws-form-submit.php:1898
 msgid "No filter field specified."
 msgstr "Поле фільтра не вказано."
 
-#: includes/core/class-ws-form-submit.php:1915
+#: includes/core/class-ws-form-submit.php:1919
 msgid "Invalid filter field specified."
 msgstr "Вказано недійсне поле фільтра."
 
-#: includes/core/class-ws-form-submit.php:1918
+#: includes/core/class-ws-form-submit.php:1922
 msgid "No filter value specified."
 msgstr "Значення фільтра не вказано."
 
-#: includes/core/class-ws-form-submit.php:1921
+#: includes/core/class-ws-form-submit.php:1925
 msgid "Empty filter value specified."
 msgstr "Вказано порожнє значення фільтра."
 
-#: includes/core/class-ws-form-submit.php:1927
-#: includes/core/class-ws-form-submit.php:1978
+#: includes/core/class-ws-form-submit.php:1931
+#: includes/core/class-ws-form-submit.php:1982
 msgid "Invalid value variable type."
 msgstr "Недійсний тип змінної значення."
 
-#: includes/core/class-ws-form-submit.php:1934
+#: includes/core/class-ws-form-submit.php:1938
 msgid "Invalid operator specified."
 msgstr "Указано недійсний оператор."
 
-#: includes/core/class-ws-form-submit.php:1952
+#: includes/core/class-ws-form-submit.php:1956
 msgid "Value should be an array."
 msgstr "Значення має бути масивом."
 
-#: includes/core/class-ws-form-submit.php:1988
+#: includes/core/class-ws-form-submit.php:1992
 msgid "Value should not be an array."
 msgstr "Значення не повинно бути масивом."
 
-#: includes/core/class-ws-form-submit.php:2477
+#: includes/core/class-ws-form-submit.php:2481
 msgid "Malformed wsf_form_section_repeatable_index JSON value."
 msgstr "Неправильне значення JSON wsf_form_section_repeatable_index."
 
-#: includes/core/class-ws-form-submit.php:2507
-#: includes/core/class-ws-form-submit.php:3494
+#: includes/core/class-ws-form-submit.php:2511
+#: includes/core/class-ws-form-submit.php:3500
 msgid ""
 "Repeatable data error. Section ID not found in "
 "wsf_form_section_repeatable_index."
@@ -21190,141 +21312,141 @@ msgstr ""
 "Повторювана помилка даних. Ідентифікатор розділу не знайдено в "
 "wsf_form_section_repeatable_index."
 
-#: includes/core/class-ws-form-submit.php:2783
+#: includes/core/class-ws-form-submit.php:2787
 msgid "Invalid email address."
 msgstr "Неправильна адреса електронної пошти."
 
-#: includes/core/class-ws-form-submit.php:3395
-#: includes/core/class-ws-form-submit.php:4782
+#: includes/core/class-ws-form-submit.php:3401
+#: includes/core/class-ws-form-submit.php:4790
 msgid "An unknown error occurred."
 msgstr "Сталася невідома помилка."
 
-#: includes/core/class-ws-form-submit.php:3612
+#: includes/core/class-ws-form-submit.php:3620
 msgid "Unable to read form data. Still logged in?"
 msgstr "Неможливо прочитати дані форми. Все ще ввійшли?"
 
-#: includes/core/class-ws-form-submit.php:3620
+#: includes/core/class-ws-form-submit.php:3628
 msgid "No published form data."
 msgstr "Немає опублікованих даних форми."
 
 #. translators: %u: Maximum files
-#: includes/core/class-ws-form-submit.php:3688
-#: includes/core/class-ws-form-submit.php:3708
-#: includes/core/class-ws-form-submit.php:3966
+#: includes/core/class-ws-form-submit.php:3696
+#: includes/core/class-ws-form-submit.php:3716
+#: includes/core/class-ws-form-submit.php:3974
 #, php-format
 msgid "Too many files were uploaded (Maximum: %u files)."
 msgstr "Завантажено забагато файлів (максимум: %u файлів)."
 
 #. translators: %u: Minimum files
-#: includes/core/class-ws-form-submit.php:3699
-#: includes/core/class-ws-form-submit.php:3957
+#: includes/core/class-ws-form-submit.php:3707
+#: includes/core/class-ws-form-submit.php:3965
 #, php-format
 msgid "Too few files were uploaded (Minimum: %u files)."
 msgstr "Завантажено занадто мало файлів (мінімум: %u файлів)."
 
 #. translators: %s: Maximum upload size
-#: includes/core/class-ws-form-submit.php:3730
+#: includes/core/class-ws-form-submit.php:3738
 #, php-format
 msgid "The uploaded file was too large (Maximum size: %s)."
 msgstr "Завантажений файл завеликий (максимальний розмір: %s)."
 
-#: includes/core/class-ws-form-submit.php:3735
+#: includes/core/class-ws-form-submit.php:3743
 msgid "The uploaded file was only partially uploaded."
 msgstr "Файл був завантажений частково."
 
-#: includes/core/class-ws-form-submit.php:3742
-#: includes/core/class-ws-form-submit.php:3941
+#: includes/core/class-ws-form-submit.php:3750
+#: includes/core/class-ws-form-submit.php:3949
 msgid "No file was uploaded."
 msgstr "Файл не був завантажений."
 
-#: includes/core/class-ws-form-submit.php:3748
+#: includes/core/class-ws-form-submit.php:3756
 msgid "Missing a temporary folder."
 msgstr "Відсутня тимчасова тека."
 
-#: includes/core/class-ws-form-submit.php:3753
+#: includes/core/class-ws-form-submit.php:3761
 msgid "Failed to write file to disk."
 msgstr "Не вдалося записати файл на диск."
 
-#: includes/core/class-ws-form-submit.php:3758
+#: includes/core/class-ws-form-submit.php:3766
 msgid "File upload stopped by extension."
 msgstr "Завантаження файлу зупинено розширенням."
 
-#: includes/core/class-ws-form-submit.php:3763
+#: includes/core/class-ws-form-submit.php:3771
 msgid "Unknown file upload error."
 msgstr "Невідома помилка завантаження файлу."
 
-#: includes/core/class-ws-form-submit.php:3792
+#: includes/core/class-ws-form-submit.php:3800
 msgid "Illegal file upload"
 msgstr "Незаконне завантаження файлів"
 
-#: includes/core/class-ws-form-submit.php:3875
+#: includes/core/class-ws-form-submit.php:3883
 msgid "Unable to save image file after image optimization."
 msgstr "Не вдається зберегти файл зображення після оптимізації зображення."
 
-#: includes/core/class-ws-form-submit.php:3897
+#: includes/core/class-ws-form-submit.php:3905
 msgid "Invalid hash ID (db_file_process)."
 msgstr "Недійсний ідентифікатор хеша (db_file_process)."
 
-#: includes/core/class-ws-form-submit.php:3990
+#: includes/core/class-ws-form-submit.php:3998
 msgid "Cannot read scratch file when processing DropzoneJS upload."
 msgstr ""
 "Не вдається прочитати скретч-файл під час обробки завантаження DropzoneJS."
 
-#: includes/core/class-ws-form-submit.php:4094
+#: includes/core/class-ws-form-submit.php:4102
 msgid "Invalid hash ID (db_file_process_dropzonejs)."
 msgstr "Недійсний ідентифікатор хеша (db_file_process_dropzonejs)."
 
-#: includes/core/class-ws-form-submit.php:4128
+#: includes/core/class-ws-form-submit.php:4136
 msgid "Captcha secret key not set."
 msgstr "Секретний ключ CAPTCHA не задано."
 
-#: includes/core/class-ws-form-submit.php:4135
+#: includes/core/class-ws-form-submit.php:4143
 msgid "Invalid captcha response."
 msgstr "Недійсна відповідь CAPTCHA."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-submit.php:4182
+#: includes/core/class-ws-form-submit.php:4190
 #, php-format
 msgid "Captcha verification failed (%s)."
 msgstr "Не вдалося перевірити CAPTCHA (%s)."
 
-#: includes/core/class-ws-form-submit.php:4189
+#: includes/core/class-ws-form-submit.php:4197
 msgid "Captcha verification response empty."
 msgstr "Відповідь перевірки CAPTCHA порожня."
 
-#: includes/core/class-ws-form-submit.php:4195
+#: includes/core/class-ws-form-submit.php:4203
 msgid "Captcha verification response error."
 msgstr "Помилка відповіді перевірки CAPTCHA."
 
-#: includes/core/class-ws-form-submit.php:4220
+#: includes/core/class-ws-form-submit.php:4228
 msgid "Captcha Error: The secret parameter was not passed."
 msgstr "Помилка CAPTCHA: секретний параметр не було передано."
 
-#: includes/core/class-ws-form-submit.php:4225
+#: includes/core/class-ws-form-submit.php:4233
 msgid "Captcha Error: The secret parameter was invalid or did not exist."
 msgstr "Помилка CAPTCHA: секретний параметр був недійсним або не існував."
 
-#: includes/core/class-ws-form-submit.php:4230
+#: includes/core/class-ws-form-submit.php:4238
 msgid "Captcha Error: The response parameter was not passed."
 msgstr "Помилка CAPTCHA: параметр відповіді не було передано."
 
-#: includes/core/class-ws-form-submit.php:4235
+#: includes/core/class-ws-form-submit.php:4243
 msgid "Captcha Error: The response parameter is invalid or has expired."
 msgstr ""
 "Помилка CAPTCHA: параметр відповіді недійсний або термін його дії минув."
 
-#: includes/core/class-ws-form-submit.php:4240
+#: includes/core/class-ws-form-submit.php:4248
 msgid "Captcha Error: The request was rejected because it was malformed."
 msgstr ""
 "Помилка CAPTCHA: запит було відхилено, оскільки він був неправильно "
 "сформований."
 
-#: includes/core/class-ws-form-submit.php:4245
+#: includes/core/class-ws-form-submit.php:4253
 msgid ""
 "Captcha Error: The response parameter has already been validated before."
 msgstr "Помилка CAPTCHA: параметр відповіді вже було перевірено раніше."
 
-#: includes/core/class-ws-form-submit.php:4250
+#: includes/core/class-ws-form-submit.php:4258
 msgid ""
 "Captcha Error: An internal error happened while validating the response. The "
 "request can be retried."
@@ -21333,56 +21455,56 @@ msgstr ""
 "Запит можна повторити."
 
 #. translators: %s: Error code
-#: includes/core/class-ws-form-submit.php:4256
+#: includes/core/class-ws-form-submit.php:4264
 #, php-format
 msgid "Captcha Error: %s."
 msgstr "Помилка CAPTCHA: %s."
 
-#: includes/core/class-ws-form-submit.php:4265
+#: includes/core/class-ws-form-submit.php:4273
 msgid "Captcha invalid."
 msgstr "CAPTCHA недійсна."
 
-#: includes/core/class-ws-form-submit.php:4585
+#: includes/core/class-ws-form-submit.php:4593
 msgid "Test form label"
 msgstr "Мітка тестової форми"
 
-#: includes/core/class-ws-form-submit.php:4588
+#: includes/core/class-ws-form-submit.php:4596
 msgid "Test message"
 msgstr "Тестове повідомлення"
 
-#: includes/core/class-ws-form-submit.php:4589
+#: includes/core/class-ws-form-submit.php:4597
 msgid "Test code"
 msgstr "Тестовий код"
 
-#: includes/core/class-ws-form-submit.php:4590
+#: includes/core/class-ws-form-submit.php:4598
 msgid "Test file"
 msgstr "Тестовий файл"
 
-#: includes/core/class-ws-form-submit.php:4591
+#: includes/core/class-ws-form-submit.php:4599
 msgid "Test line"
 msgstr "Тестовий рядок"
 
-#: includes/core/class-ws-form-submit.php:4592
+#: includes/core/class-ws-form-submit.php:4600
 msgid "Test trace"
 msgstr "Тестове трасування"
 
-#: includes/core/class-ws-form-submit.php:4760
+#: includes/core/class-ws-form-submit.php:4768
 msgid "Line"
 msgstr "Рядок"
 
-#: includes/core/class-ws-form-submit.php:4772
+#: includes/core/class-ws-form-submit.php:4780
 msgid "Trace"
 msgstr "Трасування"
 
-#: includes/core/class-ws-form-submit.php:4804
+#: includes/core/class-ws-form-submit.php:4812
 msgid "Form Submission Error"
 msgstr "Помилка надсилання форми"
 
-#: includes/core/class-ws-form-submit.php:4886
+#: includes/core/class-ws-form-submit.php:4894
 msgid "Invalid form ID (WS_Form_Submit | db_check_form_id)"
 msgstr "Недійсний ID форми (WS_Form_Submit | db_check_form_id)"
 
-#: includes/core/class-ws-form-submit.php:4893
+#: includes/core/class-ws-form-submit.php:4901
 msgid "Invalid submit ID (WS_Form_Submit | db_check_id)"
 msgstr "Недійсний ID надсилання (WS_Form_Submit | db_check_id)"
 
@@ -22609,7 +22731,7 @@ msgid "%1$s (ID: %2$s)"
 msgstr "%1$s (ID: %2$s)"
 
 #. translators: %s: Form lavel
-#: public/class-ws-form-conversational.php:236
+#: public/class-ws-form-conversational.php:247
 #, php-format
 msgid "%s - Preview"
 msgstr "%s — Попередній перегляд"
@@ -22648,6 +22770,25 @@ msgstr "https://wsform.com/"
 #. Description of the plugin/theme
 msgid "Smart. Fast. Forms."
 msgstr "Розумно. Швидко. Форми."
+
+#~ msgid ""
+#~ "Returns statistical data about a form by ID including total views, saves, "
+#~ "submissions as well as the total number of submission records and how "
+#~ "many of those are unread."
+#~ msgstr ""
+#~ "Повертає статистичні дані про форму за ID, включно із загальною кількістю "
+#~ "переглядів, збережень, відправлень, а також загальною кількістю записів "
+#~ "відправлень і кількістю непрочитаних серед них."
+
+#~ msgid "If enabled, forms deletions can be made by AI clients."
+#~ msgstr "Якщо ввімкнено, клієнти ШІ зможуть видаляти форми."
+
+#~ msgid "MCP Server"
+#~ msgstr "Сервер MCP"
+
+#, php-format
+#~ msgid "Enable the %s MCP (Model Context Protocol) server."
+#~ msgstr "Увімкнути сервер %s MCP (Model Context Protocol)."
 
 #~ msgid "I found a better plugin"
 #~ msgstr "Я знайшов кращий плагін"

@@ -363,7 +363,7 @@
 					'category' => 'ws-form',
 					'permission_callback' => function() use ( $ws_form_ability ) {
 
-						return $ws_form_ability->permission_callback( 'edit_form' );
+						return $ws_form_ability->permission_callback( 'publish_form' );
 					},
 					'input_schema'  => [
 
@@ -394,6 +394,61 @@
 					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
 
 						return $ws_form_ability->form_publish( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 2.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => false,
+							'idempotentHint' => true,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Form - Draft
+				WS_FORM_ABILITY_API_NAMESPACE . 'form-draft' => [
+
+					'label' => __('Draft form', 'ws-form'),
+					'description' => __('Set a published form back to draft by ID. Draft forms cannot be used on live web pages until they are published again.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'publish_form' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The form ID.'
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'status' => [
+
+								'type' => 'string',
+								'description' => 'The new status of the form.'
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->form_draft( $input );
 					},
 					'meta' => [
 						'annotations' => [
@@ -611,11 +666,11 @@
 				WS_FORM_ABILITY_API_NAMESPACE . 'form-stats' => [
 
 					'label' => __('Get statistical data about a form by ID', 'ws-form'),
-					'description' => __('Returns statistical data about a form by ID including total views, saves, submissions as well as the total number of submission records and how many of those are unread.', 'ws-form'),
+					'description' => __('Returns statistical data about a form by ID including total views, saves, submissions, daily figures, as well as the total number of submission records and how many of those are unread.', 'ws-form'),
 					'category' => 'ws-form',
 					'permission_callback' => function() use ( $ws_form_ability ) {
 
-						return $ws_form_ability->permission_callback( 'read_form' );
+						return $ws_form_ability->permission_callback( 'read_submission' );
 					},
 					'input_schema'  => [
 
@@ -696,6 +751,44 @@
 
 								'type' => 'number',
 								'description' => 'The total number of submission records that have not been read yet. This is always for all time.'
+							],
+
+							'daily' => [
+
+								'type' => 'array',
+								'description' => 'Daily statistical figures for the form. When a date range is provided, one entry is returned for each day in that range (including days with zero activity). When no date range is provided, one entry is returned for each day from the first recorded statistic through today. Returns an empty array if no statistics are available.',
+								'items' => [
+
+									'type' => 'object',
+									'description' => 'Statistics for a single day.',
+									'properties' => [
+
+										'date' => [
+
+											'type' => 'string',
+											'format' => 'date',
+											'description' => 'The date in YYYY-MM-DD format in the WordPress website timezone.'
+										],
+
+										'count_view' => [
+
+											'type' => 'number',
+											'description' => 'The number of times the form was viewed publicly on this day.'
+										],
+
+										'count_save' => [
+
+											'type' => 'number',
+											'description' => 'The number of times someone saved their progress on this day.'
+										],
+
+										'count_submit' => [
+
+											'type' => 'number',
+											'description' => 'The number of times the form was submitted on this day.'
+										]
+									]
+								]
 							]
 						]
 					],
@@ -709,6 +802,352 @@
 							'readOnlyHint' => true,
 							'destructiveHint' => false,
 							'idempotentHint' => false,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Submissions - List
+				WS_FORM_ABILITY_API_NAMESPACE . 'submissions' => [
+
+					'label' => __('List submissions', 'ws-form'),
+					'description' => __('Returns a list of submissions for a form by ID. Supports optional date range, status, keyword search, pagination, and ordering.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'read_submission' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The form ID.'
+							],
+
+							'date_from' => [
+
+								'type' => 'string',
+								'format' => 'date',
+								'description' => 'Optional. The from date in YYYY-MM-DD format. Date / time must be provided in WordPress website timezone. Leave blank for none.'
+							],
+
+							'date_to' => [
+
+								'type' => 'string',
+								'format' => 'date',
+								'description' => 'Optional. The to date in YYYY-MM-DD format. Date / time must be provided in WordPress website timezone. Leave blank for none.'
+							],
+
+							'status' => [
+
+								'type' => 'string',
+								'description' => 'Optional. Filter submissions by status. Valid values are all (excludes trash and spam), publish (submitted), draft (in progress), error, spam, or trash. Defaults to all.',
+								'enum' => ['all', 'publish', 'draft', 'error', 'spam', 'trash'],
+								'default' => 'all'
+							],
+
+							'keyword' => [
+
+								'type' => 'string',
+								'description' => 'Optional. Keyword to search submission field values for.',
+								'default' => ''
+							],
+
+							'limit' => [
+
+								'type' => 'number',
+								'description' => 'Optional. Maximum number of submissions to return. Defaults to 50.',
+								'default' => 50
+							],
+
+							'offset' => [
+
+								'type' => 'number',
+								'description' => 'Optional. Number of submissions to skip. Defaults to 0.',
+								'default' => 0
+							],
+
+							'order_by' => [
+
+								'type' => 'string',
+								'description' => 'Optional. Column to order submissions by. Valid values are id, date_added, or date_updated. Defaults to id.',
+								'enum' => ['id', 'date_added', 'date_updated'],
+								'default' => 'id'
+							],
+
+							'order' => [
+
+								'type' => 'string',
+								'description' => 'Optional. How to order the submissions. Valid values are ASC or DESC. Defaults to DESC.',
+								'enum' => ['ASC', 'DESC'],
+								'default' => 'DESC'
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The form ID.'
+							],
+
+							'total' => [
+
+								'type' => 'number',
+								'description' => 'The total number of submissions matching the filters.'
+							],
+
+							'submissions' => [
+
+								'type' => 'array',
+								'description' => 'The submissions.',
+								'items' => [
+
+									'type' => 'object',
+									'description' => 'A submission.',
+									'properties' => [
+
+										'id' => [
+
+											'type' => 'number',
+											'description' => 'The submission ID.'
+										],
+
+										'status' => [
+
+											'type' => 'string',
+											'description' => 'The submission status code.'
+										],
+
+										'status_full' => [
+
+											'type' => 'string',
+											'description' => 'The human-readable submission status.'
+										],
+
+										'date_added' => [
+
+											'type' => 'string',
+											'description' => 'The date and time the submission was added, in the WordPress website timezone.'
+										],
+
+										'date_updated' => [
+
+											'type' => 'string',
+											'description' => 'The date and time the submission was last updated, in the WordPress website timezone.'
+										],
+
+										'user_id' => [
+
+											'type' => 'number',
+											'description' => 'The WordPress user ID associated with the submission, or 0 if none.'
+										],
+
+										'duration' => [
+
+											'type' => 'number',
+											'description' => 'How long the submitter took to complete the form, in seconds.'
+										],
+
+										'fields' => [
+
+											'type' => 'array',
+											'description' => 'The field values for the submission.',
+											'items' => [
+
+												'type' => 'object',
+												'description' => 'A field value.',
+												'properties' => [
+
+													'id' => [
+
+														'type' => 'number',
+														'description' => 'The field ID.'
+													],
+
+													'label' => [
+
+														'type' => 'string',
+														'description' => 'The field label.'
+													],
+
+													'type' => [
+
+														'type' => 'string',
+														'description' => 'The field type.'
+													],
+
+													'value' => [
+
+														'type' => 'string',
+														'description' => 'The field value.'
+													]
+												]
+											]
+										]
+									]
+								]
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->submissions( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 1.0,
+							'readOnlyHint' => true,
+							'destructiveHint' => false,
+							'idempotentHint' => false,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Submission - Get
+				WS_FORM_ABILITY_API_NAMESPACE . 'submission-get' => [
+
+					'label' => __('Get submission', 'ws-form'),
+					'description' => __('Returns a single submission by ID including its field values.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'read_submission' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The submission ID.'
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The submission ID.'
+							],
+
+							'form_id' => [
+
+								'type' => 'number',
+								'description' => 'The form ID the submission belongs to.'
+							],
+
+							'status' => [
+
+								'type' => 'string',
+								'description' => 'The submission status code.'
+							],
+
+							'status_full' => [
+
+								'type' => 'string',
+								'description' => 'The human-readable submission status.'
+							],
+
+							'date_added' => [
+
+								'type' => 'string',
+								'description' => 'The date and time the submission was added, in the WordPress website timezone.'
+							],
+
+							'date_updated' => [
+
+								'type' => 'string',
+								'description' => 'The date and time the submission was last updated, in the WordPress website timezone.'
+							],
+
+							'user_id' => [
+
+								'type' => 'number',
+								'description' => 'The WordPress user ID associated with the submission, or 0 if none.'
+							],
+
+							'duration' => [
+
+								'type' => 'number',
+								'description' => 'How long the submitter took to complete the form, in seconds.'
+							],
+
+							'fields' => [
+
+								'type' => 'array',
+								'description' => 'The field values for the submission.',
+								'items' => [
+
+									'type' => 'object',
+									'description' => 'A field value.',
+									'properties' => [
+
+										'id' => [
+
+											'type' => 'number',
+											'description' => 'The field ID.'
+										],
+
+										'label' => [
+
+											'type' => 'string',
+											'description' => 'The field label.'
+										],
+
+										'type' => [
+
+											'type' => 'string',
+											'description' => 'The field type.'
+										],
+
+										'value' => [
+
+											'type' => 'string',
+											'description' => 'The field value.'
+										]
+									]
+								]
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->submission_get( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 1.0,
+							'readOnlyHint' => true,
+							'destructiveHint' => false,
+							'idempotentHint' => true,
 							'openWorldHint' => false
 						],
 						'mcp' => [
@@ -1091,6 +1530,17 @@
 					]
 				],
 			];
+
+			// Apply MCP public exposure setting (meta.mcp.public)
+			$mcp_public = (bool) WS_Form_Common::option_get( 'mcp_adapter_public', true );
+
+			foreach ( $abilities as $ability_name => $ability ) {
+
+				if ( isset( $ability['meta']['mcp'] ) ) {
+
+					$abilities[ $ability_name ]['meta']['mcp']['public'] = $mcp_public;
+				}
+			}
 
 			// Apply filter
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_

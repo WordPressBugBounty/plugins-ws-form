@@ -81,10 +81,23 @@
 				// Get order (sanitized by enum, returns only ASC or DESC)
 				$order = self::input_get('order');
 
+				// Get forms
+				$forms = $ws_form_form->get_all($published, $order_by, $order);
+				if(!is_array($forms)) { $forms = array(); }
+
+				// Cast IDs to integers ($wpdb returns numeric columns as strings)
+				foreach($forms as $key => $form) {
+
+					if(isset($form['id'])) {
+
+						$forms[$key]['id'] = (int) $form['id'];
+					}
+				}
+
 				// Return data
 				return [
 
-					'forms' => $ws_form_form->get_all($published, $order_by, $order)
+					'forms' => $forms
 				];
 
 			} catch(Exception $e) {
@@ -253,6 +266,45 @@
 			}
 		}
 
+		// Form - Draft
+		public function form_draft($input) {
+
+			try {
+
+				// Init
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'form-draft');
+
+				// Get form ID
+				$form_id = self::input_get('id');
+
+				// Check form ID
+				if($form_id === 0) {
+
+					throw new Exception(esc_html__('Invalid form ID.', 'ws-form'));
+				}
+
+				// Create instance of WS_Form_Form
+				$ws_form_form = new WS_Form_Form();
+
+				// Set form ID
+				$ws_form_form->id = $form_id;
+
+				// Draft the form
+				$ws_form_form->db_draft();
+
+				// Return data
+				return [
+
+					'status' => 'draft',
+				];
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error drafting form: %s', 'ws-form'));
+			}
+		}
+
 		// Form - Clone
 		public function form_clone($input) {
 
@@ -413,33 +465,37 @@
 					'id' => $form_id,
 					'label' => esc_html($form_object->label),
 					'status' => esc_html($form_object->status),
-					'count_submit' => $form_object->count_submit,
-					'count_submit_unread' => $form_object->count_submit_unread,
+					'count_submit' => (int) $form_object->count_submit,
+					'count_submit_unread' => (int) $form_object->count_submit_unread,
 				];
+
+				// Create instance of WS_Form_Form_Stat
+				$ws_form_form_stat = new WS_Form_Form_Stat();
+				$ws_form_form_stat->form_id = $form_id;
 
 				if(!$time_from_utc && !$time_to_utc) {
 
 					// No date range specific so return totals
-					$return_data['count_stat_view'] = $form_object->count_stat_view;
-					$return_data['count_stat_save'] = $form_object->count_stat_save;
-					$return_data['count_stat_submit'] = $form_object->count_stat_submit;
+					$return_data['count_stat_view'] = (int) $form_object->count_stat_view;
+					$return_data['count_stat_save'] = (int) $form_object->count_stat_save;
+					$return_data['count_stat_submit'] = (int) $form_object->count_stat_submit;
 
 				} else {
 
 					// Date range specified so get stats between dates
-					$ws_form_form_stat = new WS_Form_Form_Stat();
-					$ws_form_form_stat->form_id = $form_id;
-
 					$form_stats = $ws_form_form_stat->report_form_statistics_get_data_process(
 
 						$time_from_utc,
 						$time_to_utc
 					);
 
-					$return_data['count_stat_view'] = $form_stats['count_view_total'];
-					$return_data['count_stat_save'] = $form_stats['count_save_total'];
-					$return_data['count_stat_submit'] = $form_stats['count_submit_total'];
+					$return_data['count_stat_view'] = (int) $form_stats['count_view_total'];
+					$return_data['count_stat_save'] = (int) $form_stats['count_save_total'];
+					$return_data['count_stat_submit'] = (int) $form_stats['count_submit_total'];
 				}
+
+				// Daily statistics (empty array if no stats / range available)
+				$return_data['daily'] = $ws_form_form_stat->db_get_daily($time_from_utc, $time_to_utc);
 
 				// Return data
 				return $return_data;
@@ -449,6 +505,215 @@
 				/* translators: %s: Error message */
 				return self::error($e, __('Error retrieving form statistics: %s', 'ws-form'));
 			}
+		}
+
+		// Submissions - List
+		public function submissions($input) {
+
+			try {
+
+				// Init
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'submissions');
+
+				// Get form ID
+				$form_id = self::input_get('id');
+
+				// Check form ID
+				if($form_id === 0) {
+
+					throw new Exception(esc_html__('Invalid form ID.', 'ws-form'));
+				}
+
+				// Build filters
+				$filters = array();
+
+				// Date from
+				$date_from = self::input_get('date_from');
+				if($date_from !== '') {
+
+					if(self::date_validate($date_from, false) === false) {
+
+						throw new Exception(esc_html__('Invalid from date / time.', 'ws-form'));
+					}
+
+					$filters[] = array(
+
+						'field' => 'date_from',
+						'operator' => '==',
+						'value' => $date_from
+					);
+				}
+
+				// Date to
+				$date_to = self::input_get('date_to');
+				if($date_to !== '') {
+
+					if(self::date_validate($date_to, true) === false) {
+
+						throw new Exception(esc_html__('Invalid to date / time.', 'ws-form'));
+					}
+
+					$filters[] = array(
+
+						'field' => 'date_to',
+						'operator' => '==',
+						'value' => $date_to
+					);
+				}
+
+				// Status (sanitized by enum)
+				$status = self::input_get('status');
+				$filters[] = array(
+
+					'field' => 'status',
+					'operator' => '==',
+					'value' => $status
+				);
+
+				// Keyword
+				$keyword = self::input_get('keyword');
+
+				// Limit / offset
+				$limit = self::input_get('limit');
+				if($limit <= 0) { $limit = 50; }
+
+				$offset = self::input_get('offset');
+				if($offset < 0) { $offset = 0; }
+
+				// Order
+				$order_by = self::input_get('order_by');
+				$order = self::input_get('order');
+
+				// Create instance of WS_Form_Submit_Export
+				$ws_form_submit_export = new WS_Form_Submit_Export($form_id);
+
+				// Get rows
+				$rows = $ws_form_submit_export->get_rows(
+
+					$limit,
+					$offset,
+					$keyword,
+					$filters,
+					$order_by,
+					$order,
+					false,
+					false,
+					false
+				);
+
+				// Get total
+				$total = $ws_form_submit_export->get_row_count($keyword, $filters);
+
+				// Return data
+				return [
+
+					'id' => $form_id,
+					'total' => (int) $total,
+					'submissions' => self::submissions_format_rows($ws_form_submit_export, $rows)
+				];
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error retrieving submissions: %s', 'ws-form'));
+			}
+		}
+
+		// Submission - Get
+		public function submission_get($input) {
+
+			try {
+
+				// Init
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'submission-get');
+
+				// Get submission ID
+				$submission_id = self::input_get('id');
+
+				// Check submission ID
+				if($submission_id === 0) {
+
+					throw new Exception(esc_html__('Invalid submission ID.', 'ws-form'));
+				}
+
+				// Create instance of WS_Form_Submit
+				$ws_form_submit = new WS_Form_Submit();
+				$ws_form_submit->id = $submission_id;
+
+				// Read submission
+				$submit_object = $ws_form_submit->db_read(true, true);
+
+				// Create instance of WS_Form_Submit_Export
+				$ws_form_submit_export = new WS_Form_Submit_Export($submit_object->form_id);
+
+				// Format as a single submission row
+				$rows = $ws_form_submit_export->process_rows(array($submit_object), false, false, false);
+				$submissions = self::submissions_format_rows($ws_form_submit_export, $rows);
+
+				if(empty($submissions)) {
+
+					throw new Exception(esc_html__('Unable to read submission.', 'ws-form'));
+				}
+
+				$submission = $submissions[0];
+				$submission['form_id'] = (int) $submit_object->form_id;
+
+				// Return data
+				return $submission;
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error retrieving submission: %s', 'ws-form'));
+			}
+		}
+
+		// Format submission export rows for ability output
+		public function submissions_format_rows($ws_form_submit_export, $rows) {
+
+			if(!is_array($rows) || empty($rows)) { return array(); }
+
+			// Get field labels (field_N => label)
+			$field_labels = $ws_form_submit_export->ws_form_submit->get_keys_fields();
+
+			// Get field data (includes type)
+			$submit_fields = $ws_form_submit_export->ws_form_submit->db_get_submit_fields();
+
+			$submissions = array();
+
+			foreach($rows as $row) {
+
+				$fields = array();
+
+				foreach($row as $key => $value) {
+
+					if(strpos($key, 'field_') !== 0) { continue; }
+
+					$field_id = (int) substr($key, 6);
+
+					$fields[] = array(
+
+						'id' => $field_id,
+						'label' => isset($field_labels[$key]) ? $field_labels[$key] : $key,
+						'type' => isset($submit_fields[$field_id]['type']) ? (string) $submit_fields[$field_id]['type'] : '',
+						'value' => is_scalar($value) ? (string) $value : wp_json_encode($value)
+					);
+				}
+
+				$submissions[] = array(
+
+					'id' => isset($row['id']) ? (int) $row['id'] : 0,
+					'status' => isset($row['status']) ? (string) $row['status'] : '',
+					'status_full' => isset($row['status_full']) ? (string) $row['status_full'] : '',
+					'date_added' => isset($row['date_added']) ? (string) $row['date_added'] : '',
+					'date_updated' => isset($row['date_updated']) ? (string) $row['date_updated'] : '',
+					'user_id' => isset($row['user_id']) ? (int) $row['user_id'] : 0,
+					'duration' => isset($row['duration']) ? (int) $row['duration'] : 0,
+					'fields' => $fields
+				);
+			}
+
+			return $submissions;
 		}
 
 		// Form - Delete

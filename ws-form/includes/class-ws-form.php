@@ -585,11 +585,19 @@ final class WS_Form {
 		// Initialize API
 		$this->loader->add_action('rest_api_init', $plugin_api, 'api_rest_api_init');
 
-		// mcp-adapter
-		if(WS_Form_Common::mcp_adapter_enabled()) {
+		// mcp-adapter (defer until plugins_loaded so vendor copies from other plugins are available)
+		add_action('plugins_loaded', function() use ($plugin_api) {
 
-			$this->loader->add_action('mcp_adapter_init', $plugin_api, 'mcp_adapter_init', 10, 1);
-		}
+			if(!WS_Form_Common::mcp_adapter_enabled()) {
+				return;
+			}
+
+			// Register WS Form MCP server when the adapter initializes
+			add_action('mcp_adapter_init', array($plugin_api, 'mcp_adapter_init'), 10, 1);
+
+			// Bootstrap the adapter if classes are available (safe if another plugin already started it)
+			\WP\MCP\Core\McpAdapter::instance();
+		});
 	}
 
 	/**

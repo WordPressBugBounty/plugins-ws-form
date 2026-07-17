@@ -1827,7 +1827,7 @@
 			$field_object = $ws_form_field->db_read();
 
 			// Label
-			if($label !== '') { $field_object->label = $label; }
+			if(is_string($label) && ($label !== '')) { $field_object->label = $label; }
 
 			// Width
 			if($width_factor !== false) {

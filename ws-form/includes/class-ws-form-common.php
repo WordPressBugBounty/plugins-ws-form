@@ -1081,7 +1081,8 @@
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				apply_filters('wsf_mcp_adapter_enabled', WS_FORM_MCP_ADAPTER) &&
 				self::abilities_api_enabled() &&
-				class_exists('WP\MCP\Plugin') &&
+				// Available via the MCP Adapter plugin or as a Composer dependency of another plugin (e.g. WooCommerce)
+				class_exists('WP\MCP\Core\McpAdapter') &&
 				($include_setting ? self::option_get('mcp_adapter', false) : true)
 			);
 		}

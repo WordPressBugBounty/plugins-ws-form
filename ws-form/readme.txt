@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
 Tested up to: 7.0
-Stable tag: 1.11.17
+Stable tag: 1.11.19
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -367,17 +367,20 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.11.19 - 07/16/2026 =
+* Added: List submissions and get submission abilities
+* Added: Draft form ability
+* Added: AI Connectors status on the AI settings tab
+* Added: Setting to include WS Form abilities in MCP discovery
+* Added: Improved the AI settings tab
+* Changed: Form statistics ability now includes daily figures
+
+= 1.11.18 - 07/15/2026 =
+* Bug Fix: Restored wsf-hidden and wsf-hidden-element classes in framework CSS
+* Bug Fix: Fields created from action templates now use the default label when no label is specified
+
 = 1.11.17 - 07/12/2026 =
 * Added: WPBakery extension
 * Changed: Layout and style CSS now use a single file for LTR and RTL sites, removing the need for separate RTL CSS files
-
-= 1.11.16 - 07/09/2026 =
-* Added: Improved accessibility of section legends, checkbox/radio option groups, the top admin menu, and debug console
-* Added: Improved ARIA labels generated from labels containing HTML
-* Added: Styler back button
-* Changed: Checkbox and radio group labels now use non-label elements for improved accessibility compliance
-
-= 1.11.15 - 06/30/2026 =
-* Bug Fix: Resolved a language reference console warning that could occur when rendering forms
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

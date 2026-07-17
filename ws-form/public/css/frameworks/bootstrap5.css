@@ -204,6 +204,22 @@
 	width: 100%;
 }
 
+.wsf-form .wsf-hidden {
+	display: none !important;
+}
+
+.wsf-form .wsf-hidden-element {
+	border: 0 !important;
+	clip: rect(0, 0, 0, 0) !important;
+	height: 1px !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	white-space: nowrap !important;
+	width: 1px !important;
+}
+
 .wsf-form .input-group > .form-select ~ .select2-container,
 .wsf-form .input-group > input[type=text] ~ .dropzone,
 .wsf-form .input-group > input[type=text] ~ canvas {

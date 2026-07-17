@@ -489,6 +489,185 @@
 					),
 				),
 
+			);
+
+			// AI
+			if(
+				WS_Form_Common::wp_ai_client_enabled() ||
+				WS_Form_Common::abilities_api_enabled() ||
+				WS_Form_Common::mcp_adapter_enabled(false) ||
+				WS_Form_Common::angie_enabled(false)
+			) {
+				$options['ai'] = array(
+
+					/* translators: AI is the abbreviation for "Artificial Intelligence" */
+					'label'		=>	__('AI', 'ws-form'),
+
+					'groups'	=> array()
+				);
+			}
+
+			if(WS_Form_Common::wp_ai_client_enabled()) {
+
+				$options['ai']['groups']['ai_connectors'] = array(
+
+					'heading'	=>	__('AI Connectors', 'ws-form'),
+
+					'message'	=>	sprintf(
+
+						/* translators: 1: Create from AI template link, 2: Make AI Request action link */
+						__('AI connectors link WordPress to providers such as Anthropic, Google Gemini, or OpenAI. They are used by the %1$s template and %2$s action.', 'ws-form'),
+						'<a href="' . esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/create-from-ai-template/')) . '" target="_blank">' . esc_html__('Create from AI', 'ws-form') . '</a>',
+						'<a href="' . esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/make-ai-request-action/')) . '" target="_blank">' . esc_html__('Make AI Request', 'ws-form') . '</a>'
+					),
+
+					'fields'	=>	array(
+
+						'ai_connectors_status'	=>	array(
+
+							'label'		=>	__('Status', 'ws-form'),
+							'type'		=>	'static',
+							'button'	=>	'wsf-ai-connectors'
+						)
+					)
+				);
+			}
+
+			if(
+				WS_Form_Common::abilities_api_enabled() ||
+				WS_Form_Common::angie_enabled(false)
+			) {
+
+				$options['ai']['groups']['abilities_api'] = array(
+
+					'heading'	=>	__('Abilities API', 'ws-form'),
+
+					'message'	=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						esc_html__('Registers WS Form abilities with the WordPress Abilities API.', 'ws-form'),
+						esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/abilities/')),
+						esc_html__('Learn more', 'ws-form')
+					),
+
+					'fields'	=>	array(
+
+						'mcp_adapter_public'	=>	array(
+
+							'label'		=>	__('Include in MCP Discovery', 'ws-form'),
+							'type'		=>	'checkbox',
+							'default'	=>	true,
+							'help'		=>	__('If enabled, MCP clients can discover WS Form abilities. Authentication and permissions still apply.', 'ws-form'),
+							'admin'		=>	true,
+						),
+
+						'abilities_api_edit_form'	=>	array(
+
+							'label'		=>	__('Allow Updates', 'ws-form'),
+							'type'		=>	'checkbox',
+							'default'	=>	false,
+							'help'		=>	sprintf(
+
+								'%s <strong>%s</strong>',
+
+								__('If enabled, form updates can be made by AI clients.', 'ws-form'),
+
+								__('Use at your own risk!', 'ws-form')
+							),
+							'admin'		=>	true,
+						),
+
+						'abilities_api_delete_form'	=>	array(
+
+							'label'		=>	__('Allow Deletes', 'ws-form'),
+							'type'		=>	'checkbox',
+							'default'	=>	false,
+							'help'		=>	sprintf(
+
+								'%s <strong>%s</strong>',
+
+								__('If enabled, form deletions can be made by AI clients.', 'ws-form'),
+
+								__('Use at your own risk!', 'ws-form')
+							),
+							'admin'		=>	true,
+						)
+					)
+				);
+			}
+
+			if(WS_Form_Common::mcp_adapter_enabled(false)) {
+
+				$options['ai']['groups']['mcp_adapter'] = array(
+
+					'heading'	=>	__('MCP Adapter', 'ws-form'),
+
+					'message'	=>	sprintf(
+
+						'%s <a href="%s" target="_blank">%s</a>',
+						esc_html(sprintf(
+
+							/* translators: %s: Presentable name (e.g. WS Form PRO) */
+							__('Register a dedicated %s MCP server so authenticated AI clients can connect using the server URL below.', 'ws-form'),
+							WS_FORM_NAME_PRESENTABLE
+						)),
+						esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/mcp-server/')),
+						esc_html__('Learn more', 'ws-form')
+					),
+
+					'fields'	=>	array(
+
+						'mcp_adapter'	=>	array(
+
+							'label'		=>	__('Enable', 'ws-form'),
+							'type'		=>	'checkbox',
+							'admin'		=>	true,
+						),
+
+						'mcp_adapter_url'	=>	array(
+
+							'label'		=>	__('Server URL', 'ws-form'),
+							'type'		=>	'static'
+						)
+					)
+				);
+			}
+
+			if(
+				WS_Form_Common::angie_enabled(false)
+			) {
+
+				$options['ai']['groups']['angie'] = array(
+
+					'heading'	=>	__('Angie', 'ws-form'),
+
+					'fields'	=>	array(
+
+						'angie'	=>	array(
+
+							'label'		=>	__('Enable', 'ws-form'),
+							'type'		=>	'checkbox',
+							'default'	=>	true,
+							'help'		=>	sprintf(
+
+								'%s <a href="%s" target="_blank">%s</a><br><em>%s</em>',
+
+								__('If enabled, WS Form abilities will be registered with Angie Agentic AI.', 'ws-form'),
+
+								esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/angie/')),
+
+								esc_html(__('Learn more', 'ws-form')),
+
+								__('Experimental', 'ws-form')
+							),
+							'admin'		=>	true,
+						)
+					)
+				);
+			}
+
+			$options = array_merge($options, array(
+
 				// System
 				'system'	=> array(
 
@@ -924,146 +1103,7 @@
 						)
 					)
 				)
-			);
-
-			// AI
-			if(
-				WS_Form_Common::abilities_api_enabled() ||
-				WS_Form_Common::mcp_adapter_enabled(false) ||
-				WS_Form_Common::angie_enabled(false)
-			) {
-				$options['ai'] = array(
-
-					/* translators: AI is the abbreviation for "Artificial Intelligence" */
-					'label'		=>	__('AI', 'ws-form'),
-
-					'groups'	=> array()
-				);
-			}
-
-			if(
-				WS_Form_Common::abilities_api_enabled() ||
-				WS_Form_Common::angie_enabled(false)
-			) {
-
-				$options['ai']['groups']['abilities_api'] = array(
-
-					'heading'	=>	__('Abilities API', 'ws-form'),
-
-					'fields'	=>	array(
-
-						'abilities_api_edit_form'	=>	array(
-
-							'label'		=>	__('Allow Updates', 'ws-form'),
-							'type'		=>	'checkbox',
-							'default'	=>	false,
-							'help'		=>	sprintf(
-
-								'%s <strong>%s</strong><br><em>%s</em>',
-
-								__('If enabled, form updates can be made by AI clients.', 'ws-form'),
-
-								__('Use at your own risk!', 'ws-form'),
-
-								__('Experimental', 'ws-form')
-							),
-							'admin'		=>	true,
-						),
-
-						'abilities_api_delete_form'	=>	array(
-
-							'label'		=>	__('Allow Deletes', 'ws-form'),
-							'type'		=>	'checkbox',
-							'default'	=>	false,
-							'help'		=>	sprintf(
-
-								'%s <strong>%s</strong><br><em>%s</em>',
-
-								__('If enabled, forms deletions can be made by AI clients.', 'ws-form'),
-
-								__('Use at your own risk!', 'ws-form'),
-
-								__('Experimental', 'ws-form')
-							),
-							'admin'		=>	true,
-						)
-					)
-				);
-			}
-
-			if(WS_Form_Common::mcp_adapter_enabled(false)) {
-
-				$options['ai']['groups']['mcp_adapter'] = array(
-
-					'heading'	=>	__('MCP Server', 'ws-form'),
-
-					'fields'	=>	array(
-
-						'mcp_adapter'	=>	array(
-
-							'label'		=>	__('Enable', 'ws-form'),
-
-							'type'		=>	'checkbox',
-
-							'help'		=>	sprintf('%s <a href="%s" target="_blank">%s</a><br><em>%s</em>', 
-
-								esc_html(sprintf(
-
-									/* translators: %s: Presentable name (e.g. WS Form PRO) */
-									__('Enable the %s MCP (Model Context Protocol) server.', 'ws-form'),
-									WS_FORM_NAME_PRESENTABLE
-								)),
-
-								esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/mcp-server/')),
-
-								esc_html(__('Learn more', 'ws-form')),
-
-								__('Experimental', 'ws-form')
-							),
-							'admin'		=>	true,
-						),
-
-						'mcp_adapter_url'	=>	array(
-
-							'label'		=>	__('Server URL', 'ws-form'),
-							'type'		=>	'static'
-						)
-					)
-				);
-			}
-
-			if(
-				WS_Form_Common::angie_enabled(false)
-			) {
-
-				$options['ai']['groups']['angie'] = array(
-
-					'heading'	=>	__('Angie', 'ws-form'),
-
-					'fields'	=>	array(
-
-						'angie'	=>	array(
-
-							'label'		=>	__('Enable', 'ws-form'),
-							'type'		=>	'checkbox',
-							'default'	=>	true,
-							'help'		=>	sprintf(
-
-								'%s <a href="%s" target="_blank">%s</a><br><em>%s</em>',
-
-								__('If enabled, WS Form abilities will be registered with Angie Agentic AI.', 'ws-form'),
-
-								esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/angie/')),
-
-								esc_html(__('Learn more', 'ws-form')),
-
-								__('Experimental', 'ws-form')
-							),
-							'admin'		=>	true,
-						)
-					)
-				);
-			}
+			));
 
 			// Don't run the rest of this function to improve client side performance
 			if(!$process_options) {

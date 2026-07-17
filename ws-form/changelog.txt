@@ -2,6 +2,18 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.11.19 - 07/16/2026 =
+* Added: List submissions and get submission abilities
+* Added: Draft form ability
+* Added: AI Connectors status on the AI settings tab
+* Added: Setting to include WS Form abilities in MCP discovery
+* Added: Improved the AI settings tab
+* Changed: Form statistics ability now includes daily figures
+
+= 1.11.18 - 07/15/2026 =
+* Bug Fix: Restored wsf-hidden and wsf-hidden-element classes in framework CSS
+* Bug Fix: Fields created from action templates now use the default label when no label is specified
+
 = 1.11.17 - 07/12/2026 =
 * Added: WPBakery extension
 * Changed: Layout and style CSS now use a single file for LTR and RTL sites, removing the need for separate RTL CSS files
