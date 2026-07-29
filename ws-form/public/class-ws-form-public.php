@@ -1502,9 +1502,20 @@
 		// Form - Divi - AJAX - Form
 		public function ws_form_divi_form() {
 
-			$atts = array('id' => WS_Form_Common::get_query_var('form_id'), 'visual_builder' => true);
+			if(!WS_Form_Common::can_user('edit_posts')) {
 
-			$this->form_instance = WS_Form_Common::get_query_var('instance_id');
+				wp_die(-1, 403);
+			}
+
+			check_ajax_referer('ws_form_divi_form', 'nonce');
+
+			$atts = array(
+
+				'id' => absint(WS_Form_Common::get_query_var('form_id')),
+				'visual_builder' => true
+			);
+
+			$this->form_instance = absint(WS_Form_Common::get_query_var('instance_id'));
 
 			echo self::shortcode_ws_form($atts);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 

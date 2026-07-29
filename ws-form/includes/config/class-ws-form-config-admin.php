@@ -22,10 +22,10 @@
 
 				'sidebars'	=> array(
 
-					// Toolbox
+					// Build (fields / sections / undo)
 					'toolbox'	=> array(
 
-						'label'		=>	__('Toolbox', 'ws-form'),
+						'label'		=>	__('Build', 'ws-form'),
 						'icon'		=>	'tools',
 						'buttons'	=>	array(
 
@@ -38,11 +38,6 @@
 						'static'	=>	true,
 						'nav'		=>	true,
 						'expand'	=>	false,
-						'logo'		=>	sprintf(
-
-							'<a href="https://wsform.com/?utm_source=ws_form%s&utm_medium=sidebar" target="_blank" class="wsf-sidebar-logo">%s</a>', ((WS_FORM_EDITION == 'pro') ? '_pro' : ''),
-							WS_Form_Config::get_logo_svg('#fff', '#fff', __('Click here to visit the WS Form website.', 'ws-form'))
-						),
 						'meta'		=>	array(
 
 							'fieldsets'	=>	array(
@@ -61,8 +56,14 @@
 
 								'form-history'	=>	array(
 
-									'label'		=>	__('Undo', 'ws-form'),
+									'label'		=>	__('History', 'ws-form'),
 									'meta_keys'	=>	array('form_history')
+								),
+
+								'form-embed'	=>	array(
+
+									'label'		=>	__('Embed', 'ws-form'),
+									'meta_keys'	=>	array('page_builders', 'form_embed')
 								)
 							)
 						)
@@ -71,10 +72,11 @@
 					// Conditional
 					'conditional'	=> array(
 
-						'label'		=>	__('Conditional Logic', 'ws-form'),
+						'label'		=>	__('Conditions', 'ws-form'),
 						'icon'		=>	'conditional',
 						'nav'		=>	true,
-						'url'		=>	'/knowledgebase/conditional-logic/',
+						'pro_required'	=>	true,
+						'kb_url'		=>	'/knowledgebase/conditional-logic/',
 					),
 
 					// Actions
@@ -118,7 +120,7 @@
 					'support'	=> array(
 
 						'label'		=>	__('Support', 'ws-form'),
-						'icon'		=>	'support',
+						'icon'		=>	'question-circle',
 						'buttons'	=>	array(
 
 							array(
@@ -154,12 +156,13 @@
 					// Form
 					'form' => array (
 
-						'label'		=>	__('Form Settings', 'ws-form'),
+						'label'		=>	__('Settings', 'ws-form'),
 						'icon'		=>	'settings',
 						'buttons'	=>	true,
 						'static'	=>	false,
 						'nav'		=>	true,
 						'expand'	=>	true,
+						'kb_url'	=>	'/knowledgebase/form-settings/',
 
 						'meta' => array (
 
@@ -170,17 +173,16 @@
 
 									'label'		=>	__('Basic', 'ws-form'),
 
-									'meta_keys'	=>	array('label_render_off'),
-
 									'fieldsets'	=>	array(
 
 										array(
 											'label'		=>	__('Form', 'ws-form'),
-											'meta_keys'	=> array('submit_on_enter', 'submit_lock', 'submit_unlock', 'submit_reload', 'form_action')
+											'meta_keys'	=> array('label', 'label_render_off', 'submit_on_enter', 'submit_lock', 'submit_unlock', 'submit_reload', 'form_action')
 										),
 
 										array(
 											'label'		=>	__('Tabs', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/tabs/',
 											'meta_keys'	=> array('cookie_tab_index', 'tab_validation', 'tab_validation_show', 'tabs_hide')
 										),
 
@@ -196,7 +198,7 @@
 									)
 								),
 
-								// Tab: Advanced
+								// Tab: Styling
 								'styling'	=> array(
 
 									'label'			=>	__('Styling', 'ws-form'),
@@ -210,6 +212,7 @@
 
 										array(
 											'label'		=>	__('Required Fields', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/change-required-field-indicators/',
 											'meta_keys'	=> array('label_required', 'label_mask_required')
 										),
 
@@ -225,30 +228,50 @@
 									)
 								),
 
-								// Tab: Spam
+								// Tab: Population (content filled by action filter when populate-capable actions exist)
+								'action'	=> array(
+
+									'label'		=>	__('Populate', 'ws-form'),
+
+									'fieldsets'		=>	array(
+
+										array(
+
+											'label'			=>	__('Populate Using Action', 'ws-form'),
+											'kb_url'		=>	'/knowledgebase_category/populating-forms/',
+											'meta_keys'		=> array('form_populate_enabled', 'form_populate_action_id', 'form_populate_list_id', 'form_populate_field_mapping', 'form_populate_tag_mapping')
+										)
+									)
+								),
+
+								// Tab: Spam Protection
 								'spam'	=> array(
 
-									'label'		=>	__('Spam', 'ws-form'),
+									'label'		=>	__('Spam Protection', 'ws-form'),
 
 									'fieldsets'	=>	array(
 
 										array(
 											'label'			=>	__('IP Throttling', 'ws-form'),
+											'kb_url'		=>	'/knowledgebase/form-settings/#spam',
 											'meta_keys'	=> array('ip_limit', 'ip_limit_intro', 'ip_limit_count', 'ip_limit_period', 'ip_limit_message', 'ip_limit_message_type')
 										),
 
 										array(
 											'label'			=>	__('IP Blocklist', 'ws-form'),
+											'kb_url'		=>	'/knowledgebase/how-to-block-form-submissions-by-ip/',
 											'meta_keys'	=> array('ip_blocklist', 'ip_blocklist_ips', 'ip_blocklist_note', 'ip_blocklist_message', 'ip_blocklist_message_type')
 										),
 
 										array(
 											'label'			=>	__('Keyword Blocklist', 'ws-form'),
+											'kb_url'		=>	'/knowledgebase/how-to-block-form-submissions-by-keyword/',
 											'meta_keys'	=> array('keyword_blocklist', 'keyword_blocklist_keywords', 'keyword_blocklist_message', 'keyword_blocklist_note')
 										),
 
 										array(
 											'label'			=>	__('Honeypot', 'ws-form'),
+											'kb_url'		=>	'/knowledgebase/form-settings/#spam',
 											'meta_keys'	=> array('honeypot')
 										),
 
@@ -286,7 +309,7 @@
 								'basic' 		=> array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render_off', 'hidden')
+									'meta_keys'	=>	array('label', 'label_render_off', 'hidden')
 								),
 
 								// Tab: Advanced
@@ -329,11 +352,12 @@
 								'basic' 		=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render_off', 'hidden_section'),
+									'meta_keys'	=>	array('label', 'label_render_off', 'hidden_section'),
 
 									'fieldsets'	=>	array(
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 									)
@@ -361,6 +385,7 @@
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('validate_inline')
 										),
 										array(
@@ -370,6 +395,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -393,7 +419,7 @@
 
 					'buttons' =>	array(
 
-						array('name' => __('Tab Settings', 'ws-form'), 'method' => 'edit'),
+						array('name' => __('Tab Settings', 'ws-form'), 'method' => 'edit', 'icon' => 'settings'),
 						array('name' => __('Delete Tab', 'ws-form'), 'method' => 'delete'),
 						array('name' => __('Clone Tab', 'ws-form'), 'method' => 'clone'),
 						array('name' => __('Export Tab', 'ws-form'), 'method' => 'download'),
@@ -406,7 +432,7 @@
 
 					'buttons' =>	array(
 
-						array('name' => __('Section Settings', 'ws-form'), 'method' => 'edit'),
+						array('name' => __('Section Settings', 'ws-form'), 'method' => 'edit', 'icon' => 'settings'),
 						array('name' => __('Delete Section', 'ws-form'), 'method' => 'delete'),
 						array('name' => __('Clone Section', 'ws-form'), 'method' => 'clone'),
 						array('name' => __('Export Section', 'ws-form'), 'method' => 'download'),
@@ -419,7 +445,7 @@
 
 					'buttons' =>	array(
 
-						array('name' => __('Field Settings', 'ws-form'), 'method' => 'edit'),
+						array('name' => __('Field Settings', 'ws-form'), 'method' => 'edit', 'icon' => 'settings'),
 						array('name' => __('Delete Field', 'ws-form'), 'method' => 'delete'),
 						array('name' => __('Clone Field', 'ws-form'), 'method' => 'clone')
 					),
@@ -457,6 +483,7 @@
 						'put_offset'		=> __('Offset', 'ws-form'),
 						'put_sort_index'	=> __('Moved', 'ws-form'),
 						'put_reset'			=> __('Reset', 'ws-form'),
+						'put_rollback'		=> __('Rolled back to publish state', 'ws-form'),
 						'post'				=> __('Added', 'ws-form'),
 						'post_upload_json'	=> __('Uploaded', 'ws-form'),
 						'delete'			=> __('Deleted', 'ws-form'),
@@ -506,6 +533,7 @@
 					'plus'				=> self::get_icon_16_svg('plus'),
 					'plus-circle'		=> self::get_icon_16_svg('plus-circle'),
 					'previous'			=> self::get_icon_16_svg('previous'),
+					'question'			=> self::get_icon_16_svg('question'),
 					'question-circle'	=> self::get_icon_16_svg('question-circle'),
 					'readonly'			=> self::get_icon_16_svg('readonly'),
 					'redo'				=> self::get_icon_16_svg('redo'),
@@ -515,6 +543,7 @@
 					'table'				=> self::get_icon_16_svg('table'),
 					'tools'				=> self::get_icon_16_svg('tools'),
 					'undo'				=> self::get_icon_16_svg('undo'),
+					'unlock'			=> self::get_icon_16_svg('unlock'),
 					'upload'			=> self::get_icon_16_svg('upload'),
 					'visible'			=> self::get_icon_16_svg('visible'),
 					'warning'			=> self::get_icon_16_svg('warning'),
@@ -544,7 +573,10 @@
 					'conditional'		=>	__('Conditional Logic', 'ws-form'),
 					'id'				=>	__('ID', 'ws-form'),
 					'unknown'			=>	__('Unknown', 'ws-form'),
-					'importing'			=>	__('Importing ...', 'ws-form'),
+					'uploading'			=>	__('Uploading', 'ws-form'),
+					'importing'			=>	__('Importing', 'ws-form'),
+					'import_complete'	=>	__('Complete', 'ws-form'),
+					'import_failed'		=>	__('Failed', 'ws-form'),
 
 					// Buttons
 					'add_group'			=>	__('Add Tab', 'ws-form'),
@@ -555,6 +587,8 @@
 					'trash'				=>	__('Trash', 'ws-form'),
 					'clone'				=>	__('Clone', 'ws-form'),
 					'cancel'			=>	__('Cancel', 'ws-form'),
+					'confirm'			=>	__('Confirm', 'ws-form'),
+					'import'			=>	__('Import', 'ws-form'),
 					'print'				=>	__('Print', 'ws-form'),
 					'edit'				=>	__('Edit', 'ws-form'),
 					'previous'			=>	__('Previous', 'ws-form'),
@@ -576,9 +610,8 @@
 					'saving'			=>	__('Saving', 'ws-form'),
 					'clipboard'			=>	__('Click to copy', 'ws-form'),
 
-					// Tutorial
 					'intro_learn_more'	=>	__('Learn More', 'ws-form'),
-					'intro_skip'		=>	__('Skip Tutorial', 'ws-form'),
+					'learn_more'		=>	__('Learn more', 'ws-form'),
 
 					// Form statuses
 					'draft'				=>	__('Draft', 'ws-form'),
@@ -626,6 +659,11 @@
 					'confirm_data_grid_group_delete'	=>	__('Are you sure you want to delete this group?', 'ws-form'),
 					'confirm_data_grid_column_delete'	=>	__('Are you sure you want to delete this column?', 'ws-form'),
 					'confirm_section_template_delete'	=>	__('Are you sure you want to delete this section?', 'ws-form'),
+					'history_rollback'					=>	__('Rollback to Publish State', 'ws-form'),
+					'history_rollback_button'			=>	__('Rollback', 'ws-form'),
+					'history_rollback_confirm'			=>	__('We recommend exporting this form before continuing. This will discard unpublished changes and restore the draft to the last published version. The published form will not change.', 'ws-form'),
+					/* translators: %s: Last published date */
+					'history_rollback_last_published'	=>	__('Last published: %s', 'ws-form'),
 
 					// Blanks
 					'blank_section'						=>	__('Drag a section here', 'ws-form'),
@@ -748,61 +786,64 @@
 					'field_search'							=>	__('Field search...', 'ws-form'),
 					'section_search'						=>	__('Section search...', 'ws-form'),
 
-					'field_selector_upgrade' => sprintf(
+					'sidebar_upgrade_title'			=>	__('Ready for More?', 'ws-form'),
+					'sidebar_upgrade_button'		=>	__('Upgrade', 'ws-form'),
+					'field_selector_upgrade'		=>	__('65+ field types, Conditional Logic, 110+ integrations, and more.', 'ws-form'),
+					'section_selector_upgrade'		=>	__('More sections, conditional logic & more', 'ws-form'),
+					'action_upgrade'				=>	__('More actions. More automation. More possibilities.', 'ws-form'),
 
-					    /* translators: 
-					     * %1$s: Opening <a> tag for upgrade link, %2$s: Closing </a>
-					     * %3$s: Opening <a> tag for field types link, %4$s: Closing </a>
-					     * %5$s: Opening <a> tag for conditional logic link, %6$s: Closing </a>
-					     * %7$s: Opening <a> tag for calculated fields link, %8$s: Closing </a>
-					     */
-					    __('%1$sUpgrade to PRO%2$s for %3$s65+ field types%4$s, %5$sconditional logic%6$s, %7$scalculated fields%8$s and more!', 'ws-form'),
+					'upgrade_to_pro'				=>	__('Upgrade', 'ws-form'),
+					'calc_upgrade_title'			=>	__('Calculated Fields', 'ws-form'),
+					'conditional_upgrade_message'	=>	implode("\n\n", array(
 
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('', 'sidebar_toolbox') ) . '" target="_blank">',
-					    '</a>',
+						sprintf(
 
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase_category/field-types/', 'sidebar_toolbox') ) . '" target="_blank">',
-					    '</a>',
+							/* translators: %1$s/%2$s: Opening/closing <strong> tags */
+							__('%1$sConditional Logic Is a PRO Feature%2$s', 'ws-form'),
+							'<strong>',
+							'</strong>'
+						),
+						sprintf(
 
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox') ) . '" target="_blank">',
-					    '</a>',
+							/* translators: %1$s/%2$s: Opening/closing <strong> tags around WS Form PRO */
+							__('Conditional Logic is available in %1$sWS Form PRO%2$s and lets you create smart, interactive forms that adapt as people complete them.', 'ws-form'),
+							'<strong>',
+							'</strong>'
+						),
+						__('Show or hide fields, skip irrelevant questions, trigger actions based on user input, and build more intuitive form experiences without writing code.', 'ws-form'),
+						sprintf(
 
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/calculated-fields/', 'sidebar_toolbox') ) . '" target="_blank">',
-					    '</a>'
-					),
+							/* translators: %1$s/%2$s: Opening/closing <strong> tags around WS Form PRO */
+							__('Upgrade to %1$sWS Form PRO%2$s to unlock Conditional Logic and many more advanced features.', 'ws-form'),
+							'<strong>',
+							'</strong>'
+						)
+					)),
+					'calc_upgrade_message'			=>	implode("\n\n", array(
 
-					'section_selector_upgrade' => sprintf(
+						sprintf(
 
-					    /* translators: %1$s/%2$s: Upgrade link, %3$s/%4$s: Sections link, %5$s/%6$s: Conditional logic link, %7$s/%8$s: Calculated fields link */
-					    __('%1$sUpgrade to PRO%2$s for %3$smore sections%4$s, %5$sconditional logic%6$s, %7$scalculated fields%8$s and more!', 'ws-form'),
+							/* translators: %1$s/%2$s: Opening/closing <strong> tags */
+							__('%1$sCalculated Fields Are a PRO Feature%2$s', 'ws-form'),
+							'<strong>',
+							'</strong>'
+						),
+						sprintf(
 
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('', 'sidebar_toolbox') ) . '" target="_blank">',
-					    '</a>',
+							/* translators: %1$s/%2$s: Opening/closing <strong> tags around WS Form PRO */
+							__('Calculated Fields are available in %1$sWS Form PRO%2$s and let you perform calculations as users complete your forms.', 'ws-form'),
+							'<strong>',
+							'</strong>'
+						),
+						__('Automatically calculate totals, prices, scores, discounts, taxes, and more using values from other fields, all without writing code.', 'ws-form'),
+						sprintf(
 
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/section-library/', 'sidebar_toolbox') ) . '" target="_blank">',
-					    '</a>',
-
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox') ) . '" target="_blank">',
-					    '</a>',
-
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/calculated-fields/', 'sidebar_toolbox') ) . '" target="_blank">',
-					    '</a>'
-					),
-
-					'action_upgrade' => sprintf(
-
-					    /* translators: %1$s/%2$s: Upgrade link, %3$s/%4$s: Actions link, %5$s/%6$s: Conditional logic link */
-					    __('%1$sUpgrade to PRO%2$s for %3$smore actions%4$s and the ability to run actions using %5$sconditional logic%6$s.', 'ws-form'),
-
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('', 'sidebar_action') ) . '" target="_blank">',
-					    '</a>',
-
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase_category/actions/', 'sidebar_toolbox') ) . '" target="_blank">',
-					    '</a>',
-
-					    '<a href="' . esc_url( WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/', 'sidebar_toolbox') ) . '" target="_blank">',
-					    '</a>'
-					),
+							/* translators: %1$s/%2$s: Opening/closing <strong> tags around WS Form PRO */
+							__('Upgrade to %1$sWS Form PRO%2$s to unlock Calculated Fields, Conditional Logic, 110+ integrations, and many more advanced features.', 'ws-form'),
+							'<strong>',
+							'</strong>'
+						)
+					)),
 					// Sidebar - Expand / Contract
 					'data_sidebar_expand'						=>	__('Expand', 'ws-form'),
 					'data_sidebar_contract'						=>	__('Contract', 'ws-form'),
@@ -855,6 +896,11 @@
 					'submit_tracking_geo_location_position_unavailable'	=>	__('Geo location information was unavailable.', 'ws-form'),
 					'submit_tracking_geo_location_timeout'				=>	__('The request to get user geo location timed out.', 'ws-form'),
 					'submit_tracking_geo_location_default'				=>	__('An unknown error occurred whilst retrieving geo location.', 'ws-form'),
+					'submit_notes'								=>	__('Notes', 'ws-form'),
+					'submit_notes_add'							=>	__('Add Note', 'ws-form'),
+					'submit_notes_placeholder'					=>	__('Enter a note…', 'ws-form'),
+					'submit_notes_empty'						=>	__('No notes.', 'ws-form'),
+					'submit_notes_confirm_delete'				=>	__('Are you sure you want to delete this note?', 'ws-form'),
 					'submit_actions'							=>	__('Actions', 'ws-form'),
 					'submit_actions_column_index'				=>	'#',
 					'submit_actions_column_action'				=>	__('Action', 'ws-form'),
@@ -878,11 +924,11 @@
 					// Sidebar - Expand / Contract
 					'sidebar_expand'	=>	__('Expand', 'ws-form'),
 					'sidebar_contract'	=>	__('Contract', 'ws-form'),
+					'sidebar_tabs'		=>	__('Sections', 'ws-form'),
 
 					// Knowledge Base
-					'knowledgebase_search_label'		=>	__('Enter keyword(s) to search', 'ws-form'),
 					'knowledgebase_search_button'		=>	__('Search', 'ws-form'),
-					'knowledgebase_search_placeholder'	=>	__('Keyword(s)', 'ws-form'),
+					'knowledgebase_search_placeholder'	=>	__('Search knowledge base...', 'ws-form'),
 					'knowledgebase_popular'				=>	__('Popular Articles', 'ws-form'),
 					'knowledgebase_view_all'			=>	__('View Full Knowledge Base', 'ws-form'),
 
@@ -910,6 +956,7 @@
 					// Clipboard
 					'shortcode_copied'					=>	__('Shortcode copied', 'ws-form'),
 					'var_copied'						=>	__('Variable copied', 'ws-form'),
+					'id_copied'							=>	__('ID copied', 'ws-form'),
 
 					// API - List subs
 					'list_subs_call'		=>	__('Retrieving...', 'ws-form'),
@@ -943,18 +990,18 @@
 			// Set icons
 			foreach($settings_form_admin['group']['buttons'] as $key => $buttons) {
 
-				$method = $buttons['method'];
-				$settings_form_admin['group']['buttons'][$key]['icon'] = self::get_icon_16_svg($method);
+				$icon = isset($buttons['icon']) ? $buttons['icon'] : $buttons['method'];
+				$settings_form_admin['group']['buttons'][$key]['icon'] = self::get_icon_16_svg($icon);
 			}
 			foreach($settings_form_admin['section']['buttons'] as $key => $buttons) {
 
-				$method = $buttons['method'];
-				$settings_form_admin['section']['buttons'][$key]['icon'] = self::get_icon_16_svg($method);
+				$icon = isset($buttons['icon']) ? $buttons['icon'] : $buttons['method'];
+				$settings_form_admin['section']['buttons'][$key]['icon'] = self::get_icon_16_svg($icon);
 			}
 			foreach($settings_form_admin['field']['buttons'] as $key => $buttons) {
 
-				$method = $buttons['method'];
-				$settings_form_admin['field']['buttons'][$key]['icon'] = self::get_icon_16_svg($method);
+				$icon = isset($buttons['icon']) ? $buttons['icon'] : $buttons['method'];
+				$settings_form_admin['field']['buttons'][$key]['icon'] = self::get_icon_16_svg($icon);
 			}
 
 			// Styler
@@ -962,7 +1009,8 @@
 
 				array_unshift($settings_form_admin['sidebars']['form']['meta']['fieldsets']['styling']['fieldsets'], array(
 
-					'label'		=>	__('Style', 'ws-form'),
+					'label'		=>	__('Form', 'ws-form'),
+					'kb_url'	=>	'/knowledgebase/styler/',
 					'meta_keys'	=> array('style_id')
 				));
 			}

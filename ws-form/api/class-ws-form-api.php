@@ -169,11 +169,7 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/system/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_system'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
 
-			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/intro/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_intro'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form'); }));
-
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/framework-detect/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_framework_detect'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
-
-			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/api-check/dismiss/', array('methods' => 'POST', 'callback' => array($plugin_api_helper, 'api_api_check_dismiss'), 'permission_callback' => function () { return WS_Form_Common::can_user('manage_options_wsform'); }));
 
 			// Intentionally public endpoint. This route serves CSS data only and does not expose sensitive data.
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/helper/ws-form-css/', array('methods' => 'GET', 'callback' => array($plugin_api_helper, 'api_ws_form_css'), 'permission_callback' => function () { return true; }));
@@ -247,6 +243,8 @@
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/publish/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_put_publish'), 'permission_callback' => function () { return WS_Form_Common::can_user('publish_form'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/draft/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_put_draft'), 'permission_callback' => function () { return WS_Form_Common::can_user('publish_form'); }));
+
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/rollback/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_put_rollback'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/locations/', array('methods' => 'GET', 'callback' => array($plugin_api_form, 'api_get_locations'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_form'); }));
 
@@ -350,6 +348,18 @@
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/(?P<submit_id>[\d]+)/viewed/on/', array('methods' => 'POST', 'callback' => array($plugin_api_submit, 'api_put_viewed_on'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_submission'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/(?P<submit_id>[\d]+)/viewed/off/', array('methods' => 'POST', 'callback' => array($plugin_api_submit, 'api_put_viewed_off'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_submission'); }));
+			// API - Submit - Note
+			require_once WS_FORM_PLUGIN_DIR_PATH . 'api/class-ws-form-api-submit-note.php';
+			$plugin_api_submit_note = new WS_Form_API_Submit_Note();
+
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/(?P<submit_id>[\d]+)/note/', array('methods' => 'GET', 'callback' => array($plugin_api_submit_note, 'api_get'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_submission'); }));
+
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/(?P<submit_id>[\d]+)/note/', array('methods' => 'POST', 'callback' => array($plugin_api_submit_note, 'api_post'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_submission'); }));
+
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/(?P<submit_id>[\d]+)/note/(?P<note_id>[\d]+)/put/', array('methods' => 'POST', 'callback' => array($plugin_api_submit_note, 'api_put'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_submission'); }));
+
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/(?P<submit_id>[\d]+)/note/(?P<note_id>[\d]+)/delete/', array('methods' => 'POST', 'callback' => array($plugin_api_submit_note, 'api_delete'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_submission'); }));
+
 			// API - Submit - Export
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'api/class-ws-form-api-submit-export.php';
 			$plugin_api_submit_export = new WS_Form_API_Submit_Export();

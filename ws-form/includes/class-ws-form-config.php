@@ -163,11 +163,11 @@
 			return $ws_form_config_svg->get_logo_svg($color_1, $color_2, $title);
 		}
 
-		public static function get_icon_24_svg($id = '') {
+		public static function get_icon_24_svg($id = '', $title = '') {
 
 			include_once 'config/class-ws-form-config-svg.php';
 			$ws_form_config_svg = new WS_Form_Config_SVG();
-			return $ws_form_config_svg->get_icon_24_svg($id);
+			return $ws_form_config_svg->get_icon_24_svg($id, $title);
 		}
 
 		public static function get_icon_16_svg($id = '') {
@@ -242,17 +242,19 @@
 								'basic'	=>	array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'hidden_warning', 'default_value', 'placeholder', 'help_count_char_word', 'autocomplete_text', 'inputmode'),
+									'meta_keys'	=>	array('label', 'label_render', 'required', 'hidden', 'hidden_warning', 'default_value', 'placeholder', 'help_count_char_word', 'autocomplete_text', 'inputmode'),
 
 									'fieldsets'	=>	array(
 
 										array(
 											'label'		=>	__('Prefix / Suffix', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/create-a-field-prefix-or-suffix/',
 											'meta_keys'	=>	array('prepend', 'append')
 										),
 
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 
@@ -263,6 +265,7 @@
 
 										array(
 											'label'		=>	__('Hidden Behavior', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/how-hidden-fields-work/',
 											'meta_keys'	=>	array('hidden_bypass')
 										)
 									)
@@ -297,11 +300,13 @@
 
 										array(
 											'label'		=>	__('Duplication', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/deduplicating-form-submissions/',
 											'meta_keys'	=>	array('dedupe', 'dedupe_period', 'dedupe_message')
 										),
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
@@ -312,6 +317,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -327,6 +333,7 @@
 
 										array(
 											'label' => __('Column Mapping', 'ws-form'),
+											'kb_url' => '/knowledgebase/data-grid-column-mapping/',
 											'meta_keys' => array('datalist_field_text', 'datalist_field_value')
 										)
 									)
@@ -386,17 +393,19 @@
 								'basic'	=>	array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('label_render', 'required', 'hidden', 'default_value_textarea', 'placeholder', 'help_count_char_word', 'autocomplete', 'inputmode'),
+									'meta_keys'		=>	array('label', 'label_render', 'required', 'hidden', 'default_value_textarea', 'placeholder', 'help_count_char_word', 'autocomplete', 'inputmode'),
 
 									'fieldsets'		=>	array(
 
 										array(
 											'label'		=>	__('Prefix / Suffix', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/create-a-field-prefix-or-suffix/',
 											'meta_keys'	=>	array('prepend', 'append')
 										),
 
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 
@@ -407,6 +416,7 @@
 
 										array(
 											'label'		=>	__('Hidden Behavior', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/how-hidden-fields-work/',
 											'meta_keys'	=>	array('hidden_bypass')
 										)
 									)
@@ -446,11 +456,13 @@
 
 										array(
 											'label'		=>	__('Duplication', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/deduplicating-form-submissions/',
 											'meta_keys'	=>	array('dedupe', 'dedupe_period', 'dedupe_message')
 										),
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
@@ -461,6 +473,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -516,17 +529,19 @@
 								'basic'	=> array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'hidden_warning', 'default_value_number', 'step_number', 'placeholder', 'help', 'autocomplete_number'),
+									'meta_keys'	=>	array('label', 'label_render', 'required', 'hidden', 'hidden_warning', 'default_value_number', 'step_number', 'placeholder', 'help', 'autocomplete_number'),
 
 									'fieldsets'	=>	array(
 
 										array(
 											'label'		=>	__('Prefix / Suffix', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/create-a-field-prefix-or-suffix/',
 											'meta_keys'	=>	array('prepend', 'append')
 										),
 
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 
@@ -537,6 +552,7 @@
 
 										array(
 											'label'		=>	__('Hidden Behavior', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/how-hidden-fields-work/',
 											'meta_keys'	=>	array('hidden_bypass')
 										)
 									)
@@ -566,11 +582,13 @@
 
 										array(
 											'label'		=>	__('Duplication', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/deduplicating-form-submissions/',
 											'meta_keys'	=>	array('dedupe', 'dedupe_period', 'dedupe_message')
 										),
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
@@ -581,6 +599,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -596,6 +615,7 @@
 
 										array(
 											'label' => __('Column Mapping', 'ws-form'),
+											'kb_url' => '/knowledgebase/data-grid-column-mapping/',
 											'meta_keys' => array('datalist_field_text', 'datalist_field_value')
 										)
 									)
@@ -650,7 +670,7 @@
 								'basic'	=>	array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('label_render', 'required', 'hidden', 'hidden_warning', 'default_value_tel', 'placeholder', 'help_count_char', 'autocomplete_tel'),
+									'meta_keys'		=>	array('label', 'label_render', 'required', 'hidden', 'hidden_warning', 'default_value_tel', 'placeholder', 'help_count_char', 'autocomplete_tel'),
 
 									'fieldsets'		=>	array(
 
@@ -661,11 +681,13 @@
 
 										array(
 											'label'		=>	__('Prefix / Suffix', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/create-a-field-prefix-or-suffix/',
 											'meta_keys'	=>	array('prepend', 'append')
 										),
 
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 
@@ -676,6 +698,7 @@
 
 										array(
 											'label'		=>	__('Hidden Behavior', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/how-hidden-fields-work/',
 											'meta_keys'	=>	array('hidden_bypass')
 										)
 									)
@@ -705,6 +728,7 @@
 
 										array(
 											'label'		=>	__('Duplication', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/deduplicating-form-submissions/',
 											'meta_keys'	=>	array('dedupe', 'dedupe_period', 'dedupe_message')
 										),
 
@@ -715,6 +739,7 @@
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
@@ -725,6 +750,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -740,6 +766,7 @@
 
 										array(
 											'label' => __('Column Mapping', 'ws-form'),
+											'kb_url' => '/knowledgebase/data-grid-column-mapping/',
 											'meta_keys' => array('datalist_field_text', 'datalist_field_value')
 										)
 									)
@@ -793,17 +820,19 @@
 								'basic'	=> array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'hidden_warning', 'default_value_email', 'multiple_email', 'placeholder', 'help_count_char', 'autocomplete_email'),
+									'meta_keys'	=>	array('label', 'label_render', 'required', 'hidden', 'hidden_warning', 'default_value_email', 'multiple_email', 'placeholder', 'help_count_char', 'autocomplete_email'),
 
 									'fieldsets'	=>	array(
 
 										array(
 											'label'		=>	__('Prefix / Suffix', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/create-a-field-prefix-or-suffix/',
 											'meta_keys'	=>	array('prepend', 'append')
 										),
 
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 
@@ -814,6 +843,7 @@
 
 										array(
 											'label'		=>	__('Hidden Behavior', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/how-hidden-fields-work/',
 											'meta_keys'	=>	array('hidden_bypass')
 										)
 									)
@@ -853,11 +883,13 @@
 
 										array(
 											'label'		=>	__('Duplication', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/deduplicating-form-submissions/',
 											'meta_keys'	=>	array('dedupe', 'dedupe_period', 'dedupe_message')
 										),
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
@@ -868,6 +900,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -883,6 +916,7 @@
 
 										array(
 											'label' => __('Column Mapping', 'ws-form'),
+											'kb_url' => '/knowledgebase/data-grid-column-mapping/',
 											'meta_keys' => array('datalist_field_text', 'datalist_field_value')
 										)
 									)
@@ -937,17 +971,19 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'required', 'hidden', 'hidden_warning', 'default_value_url', 'placeholder_url', 'help_count_char', 'autocomplete_url'),
+									'meta_keys'	=>	array('label', 'label_render', 'required', 'hidden', 'hidden_warning', 'default_value_url', 'placeholder_url', 'help_count_char', 'autocomplete_url'),
 
 									'fieldsets'	=>	array(
 
 										array(
 											'label'		=>	__('Prefix / Suffix', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/create-a-field-prefix-or-suffix/',
 											'meta_keys'	=>	array('prepend', 'append')
 										),
 
 										array(
 											'label'			=>	__('Accessibility', 'ws-form'),
+											'kb_url'		=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 
@@ -958,6 +994,7 @@
 
 										array(
 											'label'		=>	__('Hidden Behavior', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/how-hidden-fields-work/',
 											'meta_keys'	=>	array('hidden_bypass')
 										)
 									)
@@ -987,11 +1024,13 @@
 
 										array(
 											'label'		=>	__('Duplication', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/deduplicating-form-submissions/',
 											'meta_keys'	=>	array('dedupe', 'dedupe_period', 'dedupe_message')
 										),
 
 										array(
 											'label'			=>	__('Validation', 'ws-form'),
+											'kb_url'		=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
@@ -1002,6 +1041,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -1017,6 +1057,7 @@
 
 										array(
 											'label' => __('Column Mapping', 'ws-form'),
+											'kb_url' => '/knowledgebase/data-grid-column-mapping/',
 											'meta_keys' => array('datalist_field_text', 'datalist_field_value')
 										)
 									)
@@ -1081,16 +1122,18 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=> array('label_render', 'required', 'hidden', 'hidden_warning', 'multiple', 'default_value_select', 'size', 'placeholder_row', 'help', 'autocomplete'),
+									'meta_keys'		=> array('label', 'label_render', 'required', 'hidden', 'hidden_warning', 'multiple', 'default_value_select', 'size', 'placeholder_row', 'help', 'autocomplete'),
 
 									'fieldsets'		=>	array(
 										array(
 											'label'		=>	__('Prefix / Suffix', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/create-a-field-prefix-or-suffix/',
 											'meta_keys'	=>	array('prepend', 'append')
 										),
 
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 
@@ -1101,6 +1144,7 @@
 
 										array(
 											'label'		=>	__('Hidden Behavior', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/how-hidden-fields-work/',
 											'meta_keys'	=>	array('hidden_bypass')
 										)
 									)
@@ -1129,6 +1173,7 @@
 										),
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
@@ -1139,21 +1184,23 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
 									)
 								),
 
-								// Tab: Options
+								// Tab: Choices
 								'options'	=> array(
 
-									'label'			=>	__('Options', 'ws-form'),
+									'label'			=>	__('Choices', 'ws-form'),
 									'meta_keys'		=> array('data_grid_select', 'data_grid_rows_randomize'),
 									'fieldsets' => array(
 
 										array(
 											'label'		=>	__('Column Mapping', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/data-grid-column-mapping/',
 											'meta_keys'	=> array('select_field_label', 'select_field_value', 'select_field_parse_variable')
 										),
 									)
@@ -1213,7 +1260,7 @@
 								'basic'	=> array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('label_render', 'hidden', 'hidden_warning', 'select_all', 'select_all_label', 'default_value_checkbox', 'help'),
+									'meta_keys'	=>	array('label', 'label_render', 'hidden', 'hidden_warning', 'select_all', 'select_all_label', 'default_value_checkbox', 'help'),
 
 									'fieldsets'	=>	array(
 
@@ -1224,6 +1271,7 @@
 
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 
@@ -1234,6 +1282,7 @@
 
 										array(
 											'label'		=>	__('Hidden Behavior', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/how-hidden-fields-work/',
 											'meta_keys'	=>	array('hidden_bypass')
 										)
 									)
@@ -1262,11 +1311,13 @@
 										),
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -1282,6 +1333,7 @@
 
 										array(
 											'label'		=>	__('Column Mapping', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/data-grid-column-mapping/',
 											'meta_keys'	=> array('checkbox_field_label', 'checkbox_field_value', 'checkbox_field_parse_variable')
 										),
 									)
@@ -1344,7 +1396,7 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('label_render', 'required_attribute_no', 'hidden', 'hidden_warning', 'default_value_radio', 'help'),
+									'meta_keys'		=>	array('label', 'label_render', 'required_attribute_no', 'hidden', 'hidden_warning', 'default_value_radio', 'help'),
 
 									'fieldsets'		=>	array(
 
@@ -1355,6 +1407,7 @@
 
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 
@@ -1365,6 +1418,7 @@
 
 										array(
 											'label'		=>	__('Hidden Behavior', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/how-hidden-fields-work/',
 											'meta_keys'	=>	array('hidden_bypass')
 										)
 									)
@@ -1393,11 +1447,13 @@
 										),
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -1413,6 +1469,7 @@
 
 										array(
 											'label'		=>	__('Column Mapping', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/data-grid-column-mapping/',
 											'meta_keys'	=> array('radio_field_label', 'radio_field_value', 'radio_field_parse_variable')
 										),
 									)
@@ -1616,7 +1673,7 @@
 								'basic'		=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('recaptcha_recaptcha_type', 'recaptcha_site_key', 'recaptcha_secret_key', 'recaptcha_badge', 'recaptcha_type', 'recaptcha_theme', 'recaptcha_size', 'recaptcha_action', 'help'),
+									'meta_keys'		=>	array('label', 'recaptcha_recaptcha_type', 'recaptcha_site_key', 'recaptcha_secret_key', 'recaptcha_badge', 'recaptcha_type', 'recaptcha_theme', 'recaptcha_size', 'recaptcha_action', 'help'),
 								),
 
 								// Tab: Advanced
@@ -1648,11 +1705,13 @@
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -1699,7 +1758,7 @@
 								'basic'		=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('hcaptcha_type', 'hcaptcha_site_key', 'hcaptcha_secret_key', 'hcaptcha_theme', 'hcaptcha_size', 'help'),
+									'meta_keys'		=>	array('label', 'hcaptcha_type', 'hcaptcha_site_key', 'hcaptcha_secret_key', 'hcaptcha_theme', 'hcaptcha_size', 'help'),
 								),
 
 								// Tab: Advanced
@@ -1731,11 +1790,13 @@
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -1782,7 +1843,7 @@
 								'basic'		=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('turnstile_site_key', 'turnstile_secret_key', 'turnstile_theme', 'turnstile_size', 'turnstile_appearance', 'help'),
+									'meta_keys'		=>	array('label', 'turnstile_site_key', 'turnstile_secret_key', 'turnstile_theme', 'turnstile_size', 'turnstile_appearance', 'help'),
 								),
 
 								// Tab: Advanced
@@ -1809,11 +1870,13 @@
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -1860,7 +1923,7 @@
 								'basic'		=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('captchafox_site_key', 'captchafox_secret_key', 'captchafox_mode', 'captchafox_theme', 'help'),
+									'meta_keys'		=>	array('label', 'captchafox_site_key', 'captchafox_secret_key', 'captchafox_mode', 'captchafox_theme', 'help'),
 								),
 
 								// Tab: Advanced
@@ -1887,11 +1950,13 @@
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
 										),
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -1938,7 +2003,7 @@
 								'basic'	=>	array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('hidden', 'text_editor'),
+									'meta_keys'	=>	array('label', 'hidden', 'text_editor'),
 
 									'fieldsets'		=>	array(
 
@@ -1973,6 +2038,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -2016,7 +2082,7 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('hidden'),
+									'meta_keys'	=>	array('label', 'hidden'),
 
 									'fieldsets'		=>	array(
 
@@ -2056,6 +2122,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -2091,7 +2158,7 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('hidden')
+									'meta_keys'	=>	array('label', 'hidden')
 								),
 
 								// Tab: Advanced
@@ -2118,6 +2185,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -2175,7 +2243,7 @@
 								'note'	=>	array(
 
 									'label'		=>	__('Note', 'ws-form'),
-									'meta_keys'	=>	array('text_editor_note')
+									'meta_keys'	=>	array('label', 'text_editor_note')
 								)
 							)
 						),
@@ -2235,12 +2303,13 @@
 								'basic'	=> array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('hidden', 'help'),
+									'meta_keys'	=>	array('label', 'hidden', 'help'),
 
 									'fieldsets'	=>	array(
 
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 									)
@@ -2275,6 +2344,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -2316,12 +2386,13 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('hidden', 'help'),
+									'meta_keys'	=>	array('label', 'hidden', 'help'),
 
 									'fieldsets'	=>	array(
 
 										array(
 											'label'			=>	__('Accessibility', 'ws-form'),
+											'kb_url'		=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 									)
@@ -2356,6 +2427,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -2398,7 +2470,7 @@
 								'basic'	=> array(
 
 									'label'		=>	__('Basic', 'ws-form'),
-									'meta_keys'	=>	array('hidden', 'help'),
+									'meta_keys'	=>	array('label', 'hidden', 'help'),
 
 									'fieldsets'	=>	array(
 
@@ -2409,6 +2481,7 @@
 
 										array(
 											'label'			=>	__('Accessibility', 'ws-form'),
+											'kb_url'		=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 									)
@@ -2443,6 +2516,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -2478,7 +2552,7 @@
 								'basic'	=> array(
 
 									'label'			=>	__('Basic', 'ws-form'),
-									'meta_keys'		=>	array('hidden', 'help'),
+									'meta_keys'		=>	array('label', 'hidden', 'help'),
 
 									'fieldsets'		=>	array(
 
@@ -2489,6 +2563,7 @@
 
 										array(
 											'label'		=>	__('Accessibility', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/accessibility-and-web-forms/',
 											'meta_keys'	=>	array('aria_label')
 										),
 									)
@@ -2523,6 +2598,7 @@
 
 										array(
 											'label'		=>	__('Breakpoints', 'ws-form'),
+											'kb_url'	=>	'/knowledgebase/responsive-forms/',
 											'meta_keys'	=> array('breakpoint_sizes'),
 											'class'		=>	array('wsf-fieldset-panel')
 										)
@@ -2680,6 +2756,26 @@
 					$types = $group['types'];
 
 					foreach($types as $field_key => $field_type) {
+
+						// Ensure Label meta_key exists on Basic (add-on field types may omit it)
+						if(
+							isset($field_type['fieldsets']['basic']) &&
+							is_array($field_type['fieldsets']['basic'])
+						) {
+
+							$basic = &$field_types[$group_key]['types'][$field_key]['fieldsets']['basic'];
+
+							if(!isset($basic['meta_keys']) || !is_array($basic['meta_keys'])) {
+
+								$basic['meta_keys'] = array('label');
+
+							} else if(!in_array('label', $basic['meta_keys'], true)) {
+
+								array_unshift($basic['meta_keys'], 'label');
+							}
+
+							unset($basic);
+						}
 
 						// Set icons (If not already an SVG)
 						$field_icon = isset($field_type['icon']) ? $field_type['icon'] : $field_key;
@@ -3217,7 +3313,8 @@
 					'label'		=>	__('Tab Validation', 'ws-form'),
 					'type'		=>	'checkbox',
 					'help'		=>	__('Prevent the user from advancing to the next tab until the current tab is validated.', 'ws-form'),
-					'default'	=>	false
+					'default'	=>	false,
+					'kb_url'	=>	'/knowledgebase/form-validation/'
 				),
 
 				'tab_validation_show' => array(
@@ -3288,6 +3385,7 @@
 					'mask_disregard_on_empty'	=>	true,
 					'type'						=>	'checkbox',
 					'default'					=>	'',
+					'kb_url'					=>	'/knowledgebase/how-hidden-fields-work/',
 					'data_change'				=>	array('event' => 'change', 'action' => 'update')
 				),
 
@@ -3299,6 +3397,7 @@
 					'mask_disregard_on_empty'	=>	true,
 					'type'						=>	'checkbox',
 					'default'					=>	'',
+					'kb_url'					=>	'/knowledgebase/how-hidden-fields-work/',
 					'data_change'				=>	array('event' => 'change', 'action' => 'update')
 				),
 
@@ -3742,7 +3841,7 @@
 					'default'					=>	50,
 					'min'						=>	0,
 					'max'						=>	100,
-					'help'						=>	__('If your form is configured to check for spam (e.g. Human Presence, Akismet or reCAPTCHA), each submission will be given a score between 0 (Not spam) and 100 (Blatant spam). Use this setting to determine the minimum score that will move a submission into the spam folder.', 'ws-form'),
+					'help'						=>	__('If your form is configured to check for spam (e.g. AbuseIPDB, Akismet or reCAPTCHA V3), each submission will be given a score between 0 (Not spam) and 100 (Blatant spam). Use this setting to determine the minimum score that will move a submission into the spam folder.', 'ws-form'),
 				),
 
 				// Duplicate Protection - Lock submit
@@ -3990,6 +4089,15 @@
 							'logic_previous'	=>	'&&'
 						)
 					)
+				),
+
+				// Object label (stored on object.label, not meta)
+				'label' => array(
+
+					'label'						=>	__('Label', 'ws-form'),
+					'type'						=>	'text',
+					'max_length'				=>	1024,
+					'storage'					=>	'object'
 				),
 
 				// Render label checkbox (On by default)
@@ -4814,7 +4922,7 @@
 					'label'						=>	__('Default Value', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'help'						=>	__('Default option value(s) selected. Supports comma separated values. Overrides selected rows in Options tab.', 'ws-form'),
+					'help'						=>	__('Default option value(s) selected. Supports comma separated values. Overrides selected rows in Choices tab.', 'ws-form'),
 					'key'						=>	'default_value',
 					'variable_helper'			=>	true,
 					'calc'						=>	true
@@ -7230,6 +7338,85 @@
 					'type'					=>	'form_history'
 				),
 
+				'form_embed' => array(
+
+					'label'					=>	__('Shortcode', 'ws-form'),
+					'type'					=>	'form_embed',
+					'kb_url'				=>	'/knowledgebase/the-ws-form-shortcode/'
+				),
+
+				'page_builders' => array(
+
+					'label'					=>	__('Page Builders', 'ws-form'),
+					'type'					=>	'buttons',
+					'columns'				=>	2,
+					'columns_max'			=>	4,
+					'columns_responsive'	=>	true,
+					'utm_medium'			=>	'sidebar_embed',
+					'buttons'				=>	array(
+
+						array(
+
+							'label'		=>	__('Beaver Builder', 'ws-form'),
+							'kb_url'	=>	'/knowledgebase/beaver-builder-module/'
+						),
+
+						array(
+
+							'label'		=>	__('Block Editor', 'ws-form'),
+							'kb_url'	=>	'/knowledgebase/wordpress-block/'
+						),
+
+						array(
+
+							'label'		=>	__('Breakdance', 'ws-form'),
+							'kb_url'	=>	'/knowledgebase/breakdance-website-builder-form-element/'
+						),
+
+						array(
+
+							'label'		=>	__('Bricks', 'ws-form'),
+							'kb_url'	=>	'/knowledgebase/bricks-visual-site-builder-form-element/'
+						),
+
+						array(
+
+							'label'		=>	__('Classic Editor', 'ws-form'),
+							'kb_url'	=>	'/knowledgebase/adding-forms-to-your-website/'
+						),
+
+						array(
+
+							'label'		=>	__('Divi', 'ws-form'),
+							'kb_url'	=>	'/knowledgebase/divi-5-visual-builder-module/'
+						),
+
+						array(
+
+							'label'		=>	__('Elementor', 'ws-form'),
+							'kb_url'	=>	'/knowledgebase/elementor-widget/'
+						),
+
+						array(
+
+							'label'		=>	__('Etch', 'ws-form'),
+							'kb_url'	=>	'/knowledgebase/etch/'
+						),
+
+						array(
+
+							'label'		=>	__('Oxygen', 'ws-form'),
+							'kb_url'	=>	'/knowledgebase/oxygen-visual-site-builder-form-element/'
+						),
+
+						array(
+
+							'label'		=>	__('WPBakery', 'ws-form'),
+							'kb_url'	=>	'/knowledgebase/wpbakery-element/'
+						)
+					)
+				),
+
 				'knowledgebase' => array(
 
 					'type'					=>	'knowledgebase'
@@ -7375,6 +7562,7 @@
 					'type'						=>	'select',
 					'default'					=>	'',
 					'options'					=>	'data_source',
+					'kb_url'					=>	'/knowledgebase/data-sources/',
 					'class_wrapper'				=>	'wsf-field-wrapper-header'
 				),
 
@@ -8518,7 +8706,10 @@
 				'hcaptcha_secret_key',
 
 				// Turnstile
-				'turnstile_secret_key'
+				'turnstile_secret_key',
+
+				// CaptchaFox
+				'captchafox_secret_key'
 			));
 		}
 
@@ -8584,8 +8775,9 @@
 
 				'data_grid_select' => array(
 
-					'label'					=>	__('Options', 'ws-form'),
+					'label'					=>	__('Choices', 'ws-form'),
 					'type'					=>	'data_grid',
+					'kb_url'				=>	'/knowledgebase/data-grids/',
 					'row_default'			=>	true,	// Is the default attribute supported on rows?
 					'row_disabled'			=>	true,	// Is the disabled attribute supported on rows?
 					'row_required'			=>	false,	// Is the required attribute supported on rows?
@@ -8628,7 +8820,7 @@
 							array(
 
 								'id'			=> 0,
-								'label' 		=> __('Options', 'ws-form'),
+								'label' 		=> __('Choices', 'ws-form'),
 								'page'			=> 0,
 								'disabled'		=> '',
 								'mask_group'	=> '',
@@ -8638,17 +8830,17 @@
 									array(
 
 										'id'		=> 1,
-										'data'		=> array(__('Option 1', 'ws-form'))
+										'data'		=> array(__('Choice 1', 'ws-form'))
 									),
 									array(
 
 										'id'		=> 2,
-										'data'		=> array(__('Option 2', 'ws-form'))
+										'data'		=> array(__('Choice 2', 'ws-form'))
 									),
 									array(
 
 										'id'		=> 3,
-										'data'		=> array(__('Option 3', 'ws-form'))
+										'data'		=> array(__('Choice 3', 'ws-form'))
 									)
 								)
 							)
@@ -8660,6 +8852,7 @@
 
 					'label'					=>	__('Checkboxes', 'ws-form'),
 					'type'					=>	'data_grid',
+					'kb_url'				=>	'/knowledgebase/data-grids/',
 					'row_default'			=>	true,	// Is the default attribute supported on rows?
 					'row_disabled'			=>	true,	// Is the disabled attribute supported on rows?
 					'row_required'			=>	true,	// Is the required attribute supported on rows?
@@ -8738,6 +8931,7 @@
 
 					'label'					=>	__('Radios', 'ws-form'),
 					'type'					=>	'data_grid',
+					'kb_url'				=>	'/knowledgebase/data-grids/',
 					'row_default'			=>	true,	// Is the default attribute supported on rows?
 					'row_disabled'			=>	true,	// Is the disabled attribute supported on rows?
 					'row_required'			=>	false,	// Is the required attribute supported on rows?

@@ -25,9 +25,6 @@
 		// User meta for hidden columns
 		private $user_meta_hidden_columns;
 
-		// Show intro
-		private $intro;
-
 		// Remember 
 		private $ws_form_hook = false;
 
@@ -43,8 +40,6 @@
 		private $hook_suffix_form_settings = false;
 		private $hook_suffix_form_welcome = false;
 		private $hook_suffix_form_migrate = false;
-		private $hook_suffix_form_upgrade = false;
-		private $hook_suffix_form_add_ons = false;
 		private $hook_suffix_form_style = false;
 		private $hook_suffix_form_style_add = false;
 		private $hook_suffix_customize = false;
@@ -60,7 +55,6 @@
 			$this->plugin_name = WS_FORM_NAME;
 			$this->version = WS_FORM_VERSION;
 			$this->user_meta_hidden_columns = 'managews-form_page_ws-form-submitcolumnshidden';	// AJAX function is in helper API
-			$this->intro = (defined('WS_FORM_INTRO') && WS_FORM_INTRO) ? WS_Form_Common::option_get('intro', false) : false;
 
 			// Activator to check for edition and version changes
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/class-ws-form-activator.php';
@@ -107,12 +101,6 @@
 				// Form - Edit
 				case $this->hook_suffix_form_edit :
 
-					// CSS - Intro
-					if($this->intro) {
-
-						wp_enqueue_style($this->plugin_name . '-intro', sprintf('%sadmin/css/external/introjs%s.css', WS_FORM_PLUGIN_DIR_URL, $min), array(), $this->version, 'all');
-					}
-
 					// CSS - Select2 (Check made because WooCommerce enqueues this)
 					if(!wp_style_is('select2', 'enqueued')) {
 
@@ -141,6 +129,12 @@
 
 				// Settings
 				case $this->hook_suffix_form_settings :
+
+					// CSS - Select2 (Check made because WooCommerce enqueues this)
+					if(!wp_style_is('select2', 'enqueued')) {
+
+						wp_enqueue_style('select2', sprintf('%sshared/css/external/select2%s.css', WS_FORM_PLUGIN_DIR_URL, $min), array(), '4.0.13', 'all');
+					}
 
 					$is_ws_form_page = true;
 
@@ -293,8 +287,9 @@
 				// Sidebar
 				'sidebar_reset_id'				=> $sidebar_reset_id,
 				'sidebar_tab_key'				=> $sidebar_tab_key,
+				'sidebar_context'				=> 'edit',
 				'sidebar_width'					=> WS_Form_Common::option_get('sidebar_width', WS_FORM_SIDEBAR_WIDTH_DEFAULT),
-				'sidebar_width_min'				=> WS_FORM_SIDEBAR_WIDTH_MIN,
+				'sidebar_width_min'				=> WS_Form_Common::get_sidebar_width_min(),
 				'sidebar_width_max'				=> WS_FORM_SIDEBAR_WIDTH_MAX,
 
 				// Preview update
@@ -308,9 +303,6 @@
 
 				// Settings screen — copy-to-clipboard feedback (see ws-form-admin.js init_partial + clipboard)
 				'settings_copy_feedback'		=> __('Copied', 'ws-form'),
-
-				// Intro
-				'intro'							=> $this->intro,
 
 			);
 
@@ -414,12 +406,6 @@
 						wp_enqueue_code_editor(array('type' => 'text/html'));
 					}
 
-					// Intro - Version 3.3.1
-					if($this->intro) {
-
-						wp_enqueue_script($this->plugin_name . '-intro', sprintf('%sadmin/js/external/intro%s.js', WS_FORM_PLUGIN_DIR_URL, $min), array('jquery'), '3.3.1', true);
-					}
-
 					// Select2 (Check made because WooCommerce enqueues this) - Version 4.0.5
 					wp_enqueue_script($this->plugin_name . '-select2', sprintf('%sshared/js/external/select2.full%s.js', WS_FORM_PLUGIN_DIR_URL, $min), array('jquery'), '4.0.5', false);
 
@@ -438,6 +424,12 @@
 
 					// jQuery UI
 					wp_enqueue_script('jquery-ui-datepicker');
+
+					// Submissions sidebar width (separate from layout editor)
+					$ws_form_settings['sidebar_context'] = 'submit';
+					$ws_form_settings['sidebar_width'] = WS_Form_Common::option_get('sidebar_width_submit', WS_FORM_SIDEBAR_WIDTH_DEFAULT_SUBMIT);
+					$ws_form_settings['sidebar_width_min'] = WS_FORM_SIDEBAR_WIDTH_MIN_SUBMIT;
+					$ws_form_settings['sidebar_width_max'] = WS_FORM_SIDEBAR_WIDTH_MAX_SUBMIT;
 
 					// WS Form
 					wp_enqueue_script($this->plugin_name . '-form-common');
@@ -504,6 +496,12 @@
 
 					// WordPress Media
 					wp_enqueue_media();
+
+					// Select2 (Check made because WooCommerce enqueues this) - Version 4.0.5
+					wp_enqueue_script($this->plugin_name . '-select2', sprintf('%sshared/js/external/select2.full%s.js', WS_FORM_PLUGIN_DIR_URL, $min), array('jquery'), '4.0.5', false);
+
+					$this->deregister_scripts[] = 'select2.min.js';
+					$this->deregister_scripts[] = 'select2.js';
 
 					// WS Form
 					wp_enqueue_script($this->plugin_name . '-form-common');
@@ -814,7 +812,7 @@
 <!-- WS Form - Modal - Feedback -->
 <div id="wsf-feedback-modal-backdrop" class="wsf-modal-backdrop" style="display: none;"></div>
 
-<div id="wsf-feedback-modal" class="wsf-modal" style="display: none;">
+<div id="wsf-feedback-modal" class="wsf-modal wsf-modal-dialog" style="display: none;">
 
 <div id="wsf-feedback">
 
@@ -918,11 +916,11 @@
 <!-- WS Form - Modal - Feedback - Buttons -->
 <div class="wsf-modal-buttons">
 
-<div id="wsf-modal-buttons-cancel">
+<div id="wsf-modal-buttons-cancel" class="wsf-modal-buttons-cancel">
 <a data-action="wsf-close"><?php esc_html_e('Skip &amp; Deactivate', 'ws-form'); ?></a>
 </div>
 
-<div id="wsf-modal-buttons-feedback-submit">
+<div id="wsf-modal-buttons-feedback-submit" class="wsf-modal-buttons-primary">
 <button class="button button-primary" data-action="wsf-feedback-submit"><?php esc_html_e('Submit &amp; Deactivate', 'ws-form'); ?></button>
 </div>
 
@@ -1061,7 +1059,7 @@
 <!-- WS Form - Modal - Add Form -->
 <div id="wsf-add-form-modal-backdrop" class="wsf-modal-backdrop" style="display: none;"></div>
 
-<div id="wsf-add-form-modal" class="wsf-modal" style="display: none; margin-left: -200px; margin-top: -100px; width: 400px;">
+<div id="wsf-add-form-modal" class="wsf-modal wsf-modal-dialog" style="display: none;">
 
 <div id="wsf-add-form">
 
@@ -1122,11 +1120,11 @@
 <!-- WS Form - Modal - Add Form - Buttons -->
 <div class="wsf-modal-buttons">
 
-<div id="wsf-modal-buttons-cancel">
+<div id="wsf-modal-buttons-cancel" class="wsf-modal-buttons-cancel">
 <a data-action="wsf-close"><?php esc_html_e('Cancel', 'ws-form'); ?></a>
 </div>
 
-<div id="wsf-modal-buttons-add-form">
+<div id="wsf-modal-buttons-add-form" class="wsf-modal-buttons-primary">
 <?php
 
 	if($forms) {
@@ -1297,29 +1295,45 @@
 				array($this, 'admin_page_settings')
 			);
 
-			// Upgrade to PRO
-			$this->hook_suffix_form_upgrade = add_submenu_page(
+			// Upgrade to PRO (external)
+			add_submenu_page(
 
 				$this->plugin_name,
 				__('Upgrade to PRO', 'ws-form'),
 				__('Upgrade to PRO', 'ws-form'),
 				'manage_options_wsform',
-				$this->plugin_name . '-upgrade',
-				array($this, 'admin_page_upgrade')
+				WS_Form_Common::get_plugin_website_url('/pricing/', 'admin_menu_upgrade')
 			);
-			// Add-Ons
-			$this->hook_suffix_form_add_ons = add_submenu_page(
+			// Integrations (external)
+			add_submenu_page(
 
 				$this->plugin_name,
-				__('Add-Ons', 'ws-form'),
-				__('Add-Ons', 'ws-form'),
+				__('Integrations', 'ws-form'),
+				__('Integrations', 'ws-form'),
 				'manage_options_wsform',
-				$this->plugin_name . '-add-ons',
-				array($this, 'admin_page_add_ons')
+				WS_Form_Common::get_plugin_website_url('/integrations/', 'admin_menu_integrations')
 			);
+
+			// Open external WS Form submenu links in a new tab
+			add_action('admin_footer', array($this, 'admin_footer_external_menu_links'));
 
 			add_filter('default_hidden_columns', array($this, 'ws_form_default_hidden_columns'), 10, 2); 
 			add_filter('screen_settings', array($this, 'screen_settings_submit'), 10, 2);
+		}
+
+		// Open wsform.com submenu links in a new tab
+		public function admin_footer_external_menu_links() {
+?>
+<script>
+(function() {
+	var links = document.querySelectorAll('#toplevel_page_ws-form a[href*="wsform.com"]');
+	for(var i = 0; i < links.length; i++) {
+		links[i].setAttribute('target', '_blank');
+		links[i].setAttribute('rel', 'noopener noreferrer');
+	}
+})();
+</script>
+<?php
 		}
 
 		public function screen_settings_submit($current, $screen) {
@@ -1775,6 +1789,44 @@
 
 					if(!WS_Form_Common::can_user('manage_options_wsform')) { break; }
 
+					// Backward compatibility: redirect legacy integration tab URLs early (before output)
+					// e.g. tab=action_brevov3 → tab=integrations&section=action_brevov3
+					if(WS_Form_Common::get_request_method() === 'GET') {
+
+						$tab_legacy = WS_Form_Common::get_query_var('tab', '');
+						$section_legacy = WS_Form_Common::get_query_var('section', '');
+						$options_legacy = WS_Form_Config::get_options(false);
+						$resolved_legacy = WS_Form_Config_Option::settings_tab_section_resolve($tab_legacy, $section_legacy, $options_legacy);
+
+						if(
+							($tab_legacy !== '') &&
+							(
+								($resolved_legacy['tab'] !== $tab_legacy) ||
+								(($resolved_legacy['section'] !== '') && ($resolved_legacy['section'] !== $section_legacy))
+							)
+						) {
+
+							// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only settings navigation redirect
+							$query_args = wp_unslash($_GET);
+							if(!is_array($query_args)) { $query_args = array(); }
+
+							$query_args['page'] = 'ws-form-settings';
+							$query_args['tab'] = $resolved_legacy['tab'];
+
+							if($resolved_legacy['section'] !== '') {
+
+								$query_args['section'] = $resolved_legacy['section'];
+
+							} else {
+
+								unset($query_args['section']);
+							}
+
+							wp_safe_redirect(admin_url('admin.php?' . http_build_query($query_args)));
+							exit;
+						}
+					}
+
 					// Read form ID and action
 					$action = WS_Form_Common::get_query_var_nonce('action', '', false, false, true, 'POST');
 
@@ -1785,9 +1837,12 @@
 							// Get options
 							$options = WS_Form_Config::get_options(false);
 
-							// Get current tab
-							$tabCurrent = WS_Form_Common::get_query_var_nonce('tab', 'appearance');
-							if($tabCurrent == 'setup') { $tabCurrent = 'appearance'; }				// Backward compatibility
+							// Get current tab / section (with legacy URL support)
+							$tabCurrent = WS_Form_Common::get_query_var_nonce('tab', 'basic');
+							$sectionCurrent = WS_Form_Common::get_query_var_nonce('section', '');
+							$resolved = WS_Form_Config_Option::settings_tab_section_resolve($tabCurrent, $sectionCurrent, $options);
+							$tabCurrent = $resolved['tab'];
+							$sectionCurrent = $resolved['section'];
 
 							// File upload checks
 							$upload_checks = WS_Form_Common::uploads_check();
@@ -1796,19 +1851,43 @@
 
 							$fields = [];
 
-							// Build field list
-							if(isset($options[$tabCurrent]['fields'])) {
-
-								$fields = $fields + $options[$tabCurrent]['fields'];
-							}
+							// Build field list for active section only
 							if(isset($options[$tabCurrent]['groups'])) {
 
 								$groups = $options[$tabCurrent]['groups'];
 
-								foreach($groups as $group) {
+								// Default to first group when section missing
+								if(($sectionCurrent === '') || !isset($groups[$sectionCurrent])) {
 
-									$fields = $fields + $group['fields'];
+									$group_keys = array_keys($groups);
+									$sectionCurrent = !empty($group_keys) ? $group_keys[0] : '';
 								}
+
+								if(($sectionCurrent !== '') && isset($groups[$sectionCurrent])) {
+
+									$group = $groups[$sectionCurrent];
+
+									if(isset($group['fields']) && is_array($group['fields'])) {
+
+										$fields = $fields + $group['fields'];
+									}
+
+									// Nested groups (integration sections)
+									if(isset($group['groups']) && is_array($group['groups'])) {
+
+										foreach($group['groups'] as $nested_group) {
+
+											if(isset($nested_group['fields']) && is_array($nested_group['fields'])) {
+
+												$fields = $fields + $nested_group['fields'];
+											}
+										}
+									}
+								}
+
+							} elseif(isset($options[$tabCurrent]['fields'])) {
+
+								$fields = $fields + $options[$tabCurrent]['fields'];
 							}
 
 							// Update fields
@@ -1833,7 +1912,7 @@
 
 					if(!empty($form_add_error)) {
 
-						WS_Form_Common::admin_message_push($form_add_error, 'notice-error', false, true);
+						WS_Form_Common::admin_message_push($form_add_error, 'notice-error', true, false);
 
 						WS_Form_Common::option_remove('form_add_error');
 					}
@@ -1859,9 +1938,7 @@
 				// Except welcome and settings
 				if(
 					(strpos($page, $this->plugin_name . '-welcome') === false) &&
-					(strpos($page, $this->plugin_name . '-settings') === false) &&
-					(strpos($page, $this->plugin_name . '-upgrade') === false) &&
-					(strpos($page, $this->plugin_name . '-add-ons') === false)
+					(strpos($page, $this->plugin_name . '-settings') === false)
 				) {
 
 					// Check if set-up needs to be run
@@ -1948,6 +2025,12 @@
 			// Check hook
 			if($hook === false) {
 
+				WS_Form_Common::option_set(
+
+					'form_add_error',
+					__('Unable to create the form. Please try again.', 'ws-form')
+				);
+
 				// Error
 				self::redirect('ws-form-add');
 			}
@@ -1963,6 +2046,16 @@
 				self::redirect('ws-form-edit', $ws_form_form->id);
 
 			} else {
+
+				// Ensure a notice is shown even if the hook did not set one
+				if(empty(WS_Form_Common::option_get('form_add_error'))) {
+
+					WS_Form_Common::option_set(
+
+						'form_add_error',
+						__('Unable to create the form. Please try again.', 'ws-form')
+					);
+				}
 
 				// Error
 				self::redirect('ws-form-add');
@@ -2396,7 +2489,18 @@
 
 					case 'static' : break;				
 
-					case 'number' : 
+					case 'number' :
+
+						// Allow blank optional numbers (e.g. AbuseIPDB threshold)
+						if(
+							isset($attributes['allow_blank']) &&
+							$attributes['allow_blank'] &&
+							(($value === '') || ($value === null))
+						) {
+
+							WS_Form_Common::option_set($field, '');
+							break;
+						}
 
 						// Round numbers
 						$value = floatval($value);
@@ -2434,6 +2538,43 @@
 
 						break;
 
+					case 'select' :
+
+						// Multi-select — store as comma-separated values
+						if(!empty($attributes['multiple'])) {
+
+							if(!is_array($value)) {
+
+								$value = (($value === '') || ($value === null)) ? array() : array($value);
+							}
+
+							$sanitized = array();
+
+							foreach($value as $item) {
+
+								$item = strtoupper(sanitize_text_field((string) $item));
+								if($item === '') { continue; }
+								$sanitized[] = $item;
+							}
+
+							$sanitized = array_values(array_unique($sanitized));
+
+							// AbuseIPDB country blocklist — only allow known ISO alpha-2 codes
+							if($field === 'abuseipdb_countries') {
+
+								$countries = WS_Form_Config::get_countries_alpha_2();
+								$sanitized = array_values(array_filter($sanitized, function($code) use ($countries) {
+
+									return isset($countries[$code]);
+								}));
+							}
+
+							WS_Form_Common::option_set($field, implode(',', $sanitized));
+							break;
+						}
+
+						// Single select falls through to default
+
 					default :
 
 						// Check for license related field
@@ -2447,6 +2588,17 @@
 
 								break;
 							}
+						}
+
+						// Skip fields overridden by a named constant (e.g. WSF_ABUSEIPDB_API_KEY)
+						if(
+							isset($attributes['constant']) &&
+							is_string($attributes['constant']) &&
+							($attributes['constant'] !== '') &&
+							defined($attributes['constant'])
+						) {
+
+							break;
 						}
 
 						WS_Form_Common::option_set($field, $value);
@@ -2472,7 +2624,7 @@
 		public function plugin_action_links($links) {
 
 			// Upgrade to PRO
-			array_unshift($links, sprintf('<a href="%s">%s</a>', esc_url(WS_Form_Common::get_admin_url('ws-form-upgrade')), __('Upgrade to PRO', 'ws-form')));
+			array_unshift($links, sprintf('<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc_url(WS_Form_Common::get_plugin_website_url('/pricing/', 'plugins_upgrade')), __('Upgrade to PRO', 'ws-form')));
 			// Settings
 			array_unshift($links, sprintf('<a href="%s">%s</a>', esc_url(WS_Form_Common::get_admin_url('ws-form-settings')), __('Settings', 'ws-form')));
 
@@ -2741,15 +2893,23 @@
 			include_once 'partials/ws-form-settings.php';
 		}
 
-		// Admin page - Upgrade to PRO
-		public function admin_page_upgrade() {
+		// Render file input + viewport-fixed import drop zone markup
+		public function render_object_upload_dropzone($capability) {
 
-			include_once 'partials/ws-form-upgrade.php';
-		}
-
-		// Admin page - Add-Ons
-		public function admin_page_add_ons() {
-
-			include_once 'partials/ws-form-add-ons.php';
+			if(!WS_Form_Common::can_user($capability)) { return; }
+?>
+<input type="file" id="wsf-object-upload-file" class="wsf-file-upload" accept=".json" aria-hidden aria-label="<?php esc_attr_e('File upload', 'ws-form'); ?>" />
+<div id="wsf-object-upload-dropzone" class="wsf-object-upload-dropzone" aria-hidden="true">
+	<div class="wsf-object-upload-json-window">
+		<div class="wsf-object-upload-json-window-content">
+			<div class="wsf-object-upload-intro">
+				<div class="wsf-object-upload-icon" aria-hidden="true"><?php WS_Form_Common::render_icon_24_svg('upload'); ?></div>
+				<h1><?php esc_html_e('Drop file to import', 'ws-form'); ?></h1>
+			</div>
+			<div class="wsf-uploads"></div>
+		</div>
+	</div>
+</div>
+<?php
 		}
 	}

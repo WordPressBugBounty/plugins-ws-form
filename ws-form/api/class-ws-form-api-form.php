@@ -57,7 +57,7 @@
 		public function api_get_published($parameters) {
 
 			// Send JSON response (By passing form ID, it will get returned in default JSON response)
-			parent::api_json_response([], self::api_get_id($parameters), false, true, true);
+			parent::api_json_response([], self::api_get_id($parameters), false, true, true, false, true);
 		}
 
 		// API - POST
@@ -119,7 +119,7 @@
 			try {
 
 				// Get form object from file
-				$form_object = WS_Form_Common::get_object_from_post_file();
+				$form_object = WS_Form_Common::get_object_from_post_file('form');
 
 				// Reset form
 				$ws_form_form->db_import_reset();
@@ -284,6 +284,35 @@
 
 			// Send JSON response
 			parent::api_json_response([], false, false, false);
+		}
+
+		// API - PUT - Rollback to publish state
+		public function api_put_rollback($parameters) {
+
+			$ws_form_form = new WS_Form_Form();
+			$ws_form_form->id = self::api_get_id($parameters);
+
+			try {
+
+				// Rollback draft to published state
+				$ws_form_form->db_rollback_publish();
+
+				// Describe transaction for history
+				$history = array(
+
+					'object'		=>	'form',
+					'method'		=>	'put_rollback',
+					'label'			=>	$ws_form_form->db_get_label(),
+					'id'			=>	$ws_form_form->id
+				);
+
+			} catch (Exception $e) {
+
+				parent::api_throw_error($e->getMessage());
+			}
+
+			// Send JSON response (full form + history entry)
+			parent::api_json_response([], $ws_form_form->id, $history);
 		}
 
 		// API - DELETE

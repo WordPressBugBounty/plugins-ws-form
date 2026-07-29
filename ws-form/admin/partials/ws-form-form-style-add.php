@@ -26,24 +26,19 @@
 
 <div id="wsf-wrapper" class="<?php WS_Form_Common::wrapper_classes(); ?>">
 
-<!-- Header -->
-<div class="wsf-header">
-<h1><?php esc_html_e('Add Style', 'ws-form'); ?></h1>
-</div>
-<hr class="wp-header-end">
-<!-- /Header -->
 <?php
+
+	WS_Form_Common::admin_header(__('Add Style', 'ws-form'));
 
 	// Review nag
 	WS_Form_Common::review();
 ?>
-<p><?php esc_html_e('To create a new style, start by selecting a template.', 'ws-form'); ?></p>
 
 <!-- Template -->
-<div id="wsf-template-add">
+<div id="wsf-template-add" class="wsf-admin-panel">
 
 <!-- Tabs - Categories -->
-<ul id="wsf-template-add-tabs">
+<ul id="wsf-template-add-tabs" role="tablist" aria-label="<?php esc_attr_e('Template categories', 'ws-form'); ?>">
 <?php
 
 	// Loop through templates

@@ -5,28 +5,118 @@
 		exit;
 	}
 
+	// Group condition helper
+	if(!function_exists('ws_form_settings_group_visible')) {
+
+		function ws_form_settings_group_visible($ws_form_group) {
+
+			if(!isset($ws_form_group['condition'])) { return true; }
+
+			foreach($ws_form_group['condition'] as $ws_form_condition_field => $ws_form_condition_value) {
+
+				if(WS_Form_Common::option_get($ws_form_condition_field) != $ws_form_condition_value) {
+
+					return false;
+				}
+			}
+
+			return true;
+		}
+	}
+
 	// Get options
 	$ws_form_options = WS_Form_Config::get_options();
 
 	// Get current tab
 	$ws_form_tab_current = WS_Form_Common::get_query_var('tab', false);
 	if($ws_form_tab_current === false) {
-		$ws_form_tab_current = WS_Form_Common::get_query_var_nonce('tab', 'basic', false, false, true, 'POST');	
+		$ws_form_tab_current = WS_Form_Common::get_query_var_nonce('tab', 'basic', false, false, true, 'POST');
 	}
-	if($ws_form_tab_current == 'setup') { $ws_form_tab_current = 'basic'; }				// Backward compatibility
-	if($ws_form_tab_current == 'appearance') { $ws_form_tab_current = 'basic'; }		// Backward compatibility
+
+	// Get current section
+	$ws_form_section_current = WS_Form_Common::get_query_var('section', false);
+	if($ws_form_section_current === false) {
+		$ws_form_section_current = WS_Form_Common::get_query_var_nonce('section', '', false, false, true, 'POST');
+	}
+	if($ws_form_section_current === false) { $ws_form_section_current = ''; }
+
+	// Backward compatibility: setup/appearance and legacy integration tabs (e.g. tab=action_brevov3)
+	$ws_form_settings_resolved = WS_Form_Config_Option::settings_tab_section_resolve($ws_form_tab_current, $ws_form_section_current, $ws_form_options);
+	$ws_form_tab_current = $ws_form_settings_resolved['tab'];
+	$ws_form_section_current = $ws_form_settings_resolved['section'];
 
 	// Check tab is valid
 	if(!isset($ws_form_options[$ws_form_tab_current])) {
-?>
-<script>
 
-	location.href = '<?php WS_Form_Common::echo_esc_html(WS_Form_Common::get_admin_url('ws-form-settings')); ?>';
-
-</script>
-<?php
-
+		wp_safe_redirect(WS_Form_Common::get_admin_url('ws-form-settings'));
 		exit;
+	}
+
+	// Hide Integrations primary when it has no visible sections
+	if(isset($ws_form_options['integrations']['groups'])) {
+
+		$ws_form_integrations_visible = false;
+
+		foreach($ws_form_options['integrations']['groups'] as $ws_form_integration_group) {
+
+			if(ws_form_settings_group_visible($ws_form_integration_group)) {
+
+				$ws_form_integrations_visible = true;
+				break;
+			}
+		}
+
+		if(!$ws_form_integrations_visible) {
+
+			unset($ws_form_options['integrations']);
+		}
+
+	} elseif(isset($ws_form_options['integrations'])) {
+
+		unset($ws_form_options['integrations']);
+	}
+
+	if(($ws_form_tab_current === 'integrations') && !isset($ws_form_options['integrations'])) {
+
+		wp_safe_redirect(WS_Form_Common::get_admin_url('ws-form-settings'));
+		exit;
+	}
+
+	// Build visible sections for current tab
+	$ws_form_sections = array();
+
+	if(isset($ws_form_options[$ws_form_tab_current]['groups'])) {
+
+		foreach($ws_form_options[$ws_form_tab_current]['groups'] as $ws_form_section_key => $ws_form_group) {
+
+			if(!ws_form_settings_group_visible($ws_form_group)) { continue; }
+
+			$ws_form_sections[$ws_form_section_key] = array(
+
+				'label' => isset($ws_form_group['heading']) ? $ws_form_group['heading'] : $ws_form_section_key,
+				'group' => $ws_form_group,
+				'learn_more' => !empty($ws_form_group['learn_more']) ? $ws_form_group['learn_more'] : (isset($ws_form_options[$ws_form_tab_current]['learn_more']) ? $ws_form_options[$ws_form_tab_current]['learn_more'] : false),
+			);
+		}
+
+	} elseif(isset($ws_form_options[$ws_form_tab_current]['fields'])) {
+
+		$ws_form_sections['general'] = array(
+
+			'label' => __('General', 'ws-form'),
+			'fields' => $ws_form_options[$ws_form_tab_current]['fields'],
+			'learn_more' => isset($ws_form_options[$ws_form_tab_current]['learn_more']) ? $ws_form_options[$ws_form_tab_current]['learn_more'] : false,
+		);
+	}
+
+	$ws_form_section_keys = array_keys($ws_form_sections);
+	if(
+		($ws_form_section_current === '') ||
+		($ws_form_section_current === false) ||
+		!isset($ws_form_sections[$ws_form_section_current])
+	) {
+
+		$ws_form_section_current = !empty($ws_form_section_keys) ? $ws_form_section_keys[0] : '';
 	}
 
 	// File upload checks
@@ -34,18 +124,26 @@
 	$ws_form_max_upload_size = $ws_form_upload_checks['max_upload_size'];
 	$ws_form_max_uploads = $ws_form_upload_checks['max_uploads'];
 
+	// Settings URLs
+	$ws_form_settings_url = function($tab, $section = '') {
+
+		$path_extra = 'tab=' . rawurlencode($tab);
+		if($section !== '') {
+
+			$path_extra .= '&section=' . rawurlencode($section);
+		}
+
+		return WS_Form_Common::get_admin_url('ws-form-settings', false, $path_extra);
+	};
+
 	// Loader icon
 	WS_Form_Common::loader();
 ?>
 <div id="wsf-wrapper" class="<?php WS_Form_Common::wrapper_classes(); ?>">
 
-<!-- Header -->
-<div class="wsf-header">
-<h1><?php esc_html_e('Settings', 'ws-form'); ?></h1>
-</div>
-<hr class="wp-header-end">
-<!-- /Header -->
 <?php
+
+	WS_Form_Common::admin_header(__('Settings', 'ws-form'));
 
 	// Review nag
 	WS_Form_Common::review();
@@ -56,22 +154,47 @@
 		WS_Form_Common::admin_message_render(__('Your website is not configured to use a secure certificate. We recommend enabling SSL to ensure your submission data is securely transmitted.', 'ws-form'), 'notice-warning', false, false);
 	}
 ?>
-<h2 class="nav-tab-wrapper"> 
+<div class="wsf-admin-panel">
+<nav class="wsf-settings-nav" aria-label="<?php esc_attr_e('Settings', 'ws-form'); ?>">
 <?php
 
-	// Render tabs
-	foreach($ws_form_options as $tab => $ws_form_fields) {
+	// Render primary tabs
+	foreach($ws_form_options as $tab => $ws_form_tab) {
 ?>
-<a href="<?php WS_Form_Common::echo_esc_url(admin_url('admin.php?page=ws-form-settings&tab=' . $tab)); ?>" class="nav-tab<?php if($ws_form_tab_current == $tab) { ?> nav-tab-active<?php } ?>"><?php WS_Form_Common::echo_esc_html($ws_form_fields['label']); ?></a>
+<a href="<?php WS_Form_Common::echo_esc_url($ws_form_settings_url($tab)); ?>" class="wsf-settings-nav-item<?php if($ws_form_tab_current == $tab) { ?> wsf-settings-nav-item-active<?php } ?>"><?php WS_Form_Common::echo_esc_html($ws_form_tab['label']); ?></a>
 <?php
 
 	}
 ?>
-</h2>
+</nav>
+<?php
 
-<form method="post" action="<?php WS_Form_Common::echo_esc_url( admin_url( 'admin.php?page=ws-form-settings' . ( $ws_form_tab_current != '' ? '&tab=' . urlencode( $ws_form_tab_current ) : '' ) ) ); ?>" novalidate="novalidate" id="wsf-settings" enctype="multipart/form-data">
+	// Secondary section links
+	if(count($ws_form_sections) > 1) {
+?>
+<nav class="wsf-settings-sections" aria-label="<?php esc_attr_e('Settings sections', 'ws-form'); ?>">
+<?php
+
+		foreach($ws_form_sections as $ws_form_section_key => $ws_form_section) {
+
+			// Variable names (e.g. #email_logo) keep original casing — not uppercase
+			$ws_form_section_item_code = (isset($ws_form_section['label'][0]) && ($ws_form_section['label'][0] === '#'));
+?>
+<a href="<?php WS_Form_Common::echo_esc_url($ws_form_settings_url($ws_form_tab_current, $ws_form_section_key)); ?>" class="wsf-settings-section-item<?php if($ws_form_section_item_code) { ?> wsf-settings-section-item-code<?php } ?><?php if($ws_form_section_current == $ws_form_section_key) { ?> wsf-settings-section-item-active<?php } ?>"><?php WS_Form_Common::echo_esc_html($ws_form_section['label']); ?></a>
+<?php
+
+		}
+?>
+</nav>
+<?php
+	}
+
+	$ws_form_form_action = $ws_form_settings_url($ws_form_tab_current, $ws_form_section_current);
+?>
+<form method="post" action="<?php WS_Form_Common::echo_esc_url($ws_form_form_action); ?>" novalidate="novalidate" id="wsf-settings" enctype="multipart/form-data">
 <?php wp_nonce_field(WS_FORM_POST_NONCE_ACTION_NAME, WS_FORM_POST_NONCE_FIELD_NAME); ?>
 <input type="hidden" name="tab" value="<?php WS_Form_Common::echo_esc_attr($ws_form_tab_current); ?>" />
+<input type="hidden" name="section" value="<?php WS_Form_Common::echo_esc_attr($ws_form_section_current); ?>" />
 <input type="hidden" name="action" value="wsf-settings-update" />
 <input type="hidden" name="action_mode" id="wsf_action_mode" value="" />
 <input type="hidden" name="action_license_action_id" id="wsf_action_license_action_id" value="" />
@@ -80,52 +203,95 @@
 
 	$ws_form_js_on_change = '';
 	$ws_form_save_button = false;
+	$ws_form_learn_more = false;
 
-	if(isset($ws_form_options[$ws_form_tab_current]['fields'])) {
+	if(($ws_form_section_current !== '') && isset($ws_form_sections[$ws_form_section_current])) {
 
-		$ws_form_fields = $ws_form_options[$ws_form_tab_current]['fields'];
-		$ws_form_save_button = $ws_form_save_button || ws_form_render_fields($this, $ws_form_fields, $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change);
-	}
+		$ws_form_section = $ws_form_sections[$ws_form_section_current];
+		$ws_form_section_label = isset($ws_form_section['label']) ? $ws_form_section['label'] : '';
+		$ws_form_tab_label = isset($ws_form_options[$ws_form_tab_current]['label']) ? $ws_form_options[$ws_form_tab_current]['label'] : '';
+		$ws_form_learn_more = !empty($ws_form_section['learn_more']) ? $ws_form_section['learn_more'] : false;
 
-	if(isset($ws_form_options[$ws_form_tab_current]['groups'])) {
+		// Omit content headings that only repeat the selected tab / section nav label
+		$ws_form_heading_for_content = function($heading) use ($ws_form_section_label, $ws_form_tab_label) {
 
-		$ws_form_groups = $ws_form_options[$ws_form_tab_current]['groups'];
+			if($heading === false) { return false; }
 
-		foreach($ws_form_groups as $ws_form_group) {
+			if(
+				(($ws_form_section_label !== '') && ($heading === $ws_form_section_label)) ||
+				(($ws_form_tab_label !== '') && ($heading === $ws_form_tab_label))
+			) {
 
-			// Condition
-			if(isset($ws_form_group['condition'])) {
-
-				$ws_form_condition_result = true;
-				foreach($ws_form_group['condition'] as $ws_form_condition_field => $ws_form_condition_value) {
-
-					$ws_form_condition_value_check = WS_Form_Common::option_get($ws_form_condition_field);
-					if($ws_form_condition_value_check != $ws_form_condition_value) {
-
-						$ws_form_condition_result = false;
-						break;
-					}
-				}
-				if(!$ws_form_condition_result) { continue; }
+				return false;
 			}
 
-			$ws_form_heading = isset($ws_form_group['heading']) ? $ws_form_group['heading'] : false;
-			$ws_form_description = isset($ws_form_group['description']) ? $ws_form_group['description'] : false;
-			$ws_form_fields = $ws_form_group['fields'];
-			$ws_form_html_message = isset($ws_form_group['message']) ? $ws_form_group['message'] : false;
+			return $heading;
+		};
 
-			$ws_form_save_button_return = ws_form_render_fields($this, $ws_form_fields, $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change, $ws_form_heading, $ws_form_description, $ws_form_html_message);
-			$ws_form_save_button = $ws_form_save_button || $ws_form_save_button_return;
+		// Flat fields section (e.g. System / License)
+		if(isset($ws_form_section['fields'])) {
+
+			$ws_form_save_button = $ws_form_save_button || ws_form_render_fields($this, $ws_form_section['fields'], $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change);
+		}
+
+		// Group section
+		if(isset($ws_form_section['group'])) {
+
+			$ws_form_group = $ws_form_section['group'];
+
+			// Nested groups (integration tabs folded into a section)
+			if(isset($ws_form_group['groups']) && is_array($ws_form_group['groups'])) {
+
+				foreach($ws_form_group['groups'] as $ws_form_nested_group) {
+
+					if(!ws_form_settings_group_visible($ws_form_nested_group)) { continue; }
+
+					$ws_form_heading = $ws_form_heading_for_content(isset($ws_form_nested_group['heading']) ? $ws_form_nested_group['heading'] : false);
+					$ws_form_description = isset($ws_form_nested_group['description']) ? $ws_form_nested_group['description'] : false;
+					$ws_form_fields = isset($ws_form_nested_group['fields']) ? $ws_form_nested_group['fields'] : array();
+					$ws_form_html_message = isset($ws_form_nested_group['message']) ? $ws_form_nested_group['message'] : false;
+
+					$ws_form_save_button_return = ws_form_render_fields($this, $ws_form_fields, $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change, $ws_form_heading, $ws_form_description, $ws_form_html_message);
+					$ws_form_save_button = $ws_form_save_button || $ws_form_save_button_return;
+				}
+			}
+
+			// Section fields (nav already shows the section / tab title)
+			if(!empty($ws_form_group['fields'])) {
+
+				$ws_form_heading = $ws_form_heading_for_content(isset($ws_form_group['heading']) ? $ws_form_group['heading'] : false);
+				$ws_form_description = isset($ws_form_group['description']) ? $ws_form_group['description'] : false;
+				$ws_form_html_message = isset($ws_form_group['message']) ? $ws_form_group['message'] : false;
+
+				$ws_form_save_button_return = ws_form_render_fields($this, $ws_form_group['fields'], $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change, $ws_form_heading, $ws_form_description, $ws_form_html_message);
+				$ws_form_save_button = $ws_form_save_button || $ws_form_save_button_return;
+			}
 		}
 	}
 
-	if($ws_form_save_button) {
+	if($ws_form_save_button || $ws_form_learn_more) {
 ?>
-<p><input type="submit" name="wsf_submit" id="wsf_submit" class="wsf-button wsf-button-primary" value="Save Changes"></p>
+<p class="wsf-settings-actions">
+<?php
+
+		if($ws_form_save_button) {
+?>
+<input type="submit" name="wsf_submit" id="wsf_submit" class="button button-primary" value="<?php esc_attr_e('Save Changes', 'ws-form'); ?>">
+<?php
+		}
+
+		if($ws_form_learn_more) {
+?>
+<a href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_plugin_website_url($ws_form_learn_more)); ?>" class="button" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Learn More', 'ws-form'); ?></a>
+<?php
+		}
+?>
+</p>
 <?php
 	}
 ?>
 </form>
+</div>
 
 <script>
 
@@ -133,7 +299,7 @@
 
 		'use strict';
 
-		// On load
+			// On load
 		$(function() {
 
 			var wsf_obj = new $.WS_Form();
@@ -142,6 +308,24 @@
 			wsf_obj.init_partial();
 
 			var file_frame;
+
+			// AbuseIPDB country blocklist — Select2 multi-select
+			var abuseipdb_countries_obj = $('#wsf_abuseipdb_countries');
+			if(abuseipdb_countries_obj.length && (typeof abuseipdb_countries_obj.select2 === 'function')) {
+
+				var locale = (typeof ws_form_settings !== 'undefined' && ws_form_settings.locale_user) ? ws_form_settings.locale_user : 'en';
+				var language = locale.substring(0, 2);
+
+				abuseipdb_countries_obj.select2({
+
+					allowClear: true,
+					width: '320px',
+					language: language,
+					selectionCssClass: 'wsf-select2-selection',
+					dropdownCssClass: 'wsf-select2-dropdown',
+					dropdownParent: abuseipdb_countries_obj.parent()
+				});
+			}
 
 			$('#wsf-settings').on('submit', function() {
 
@@ -451,20 +635,30 @@
 			// Check for license related field
 			$ws_form_is_license_key = (strpos($ws_form_field, 'license_key') !== false);
 
+			// Named constant override (e.g. WSF_LICENSE_KEY, WSF_ABUSEIPDB_API_KEY)
+			// Run before inline-actions so removing Activate/Deactivate does not leave an empty flex wrapper
+			$ws_form_field_constant = false;
 			if($ws_form_is_license_key) {
 
-				// Build license constant (e.g. WSF_LICENSE_KEY)
-				$ws_form_license_constant = sprintf('WSF_%s', strtoupper($ws_form_field));
+				$ws_form_field_constant = sprintf('WSF_%s', strtoupper($ws_form_field));
 
-				// If license constant is defined
-				if(defined($ws_form_license_constant)) {
+			} else if(isset($ws_form_config['constant']) && is_string($ws_form_config['constant']) && ($ws_form_config['constant'] !== '')) {
 
-					// Set value as obscured string so that it cannot be seen if source code viewed
-					$ws_form_value = WS_Form_Common::get_license_key_obscured(trim(constant($ws_form_license_constant)));
+				$ws_form_field_constant = $ws_form_config['constant'];
+			}
 
-					// Set as static
-					$ws_form_config['type'] = 'static';
-					$ws_form_config['obscure'] = false;
+			$ws_form_field_constant_defined = (($ws_form_field_constant !== false) && defined($ws_form_field_constant));
+
+			if($ws_form_field_constant_defined) {
+
+				// Set value as obscured string so that it cannot be seen if source code viewed
+				$ws_form_value = WS_Form_Common::get_license_key_obscured(trim(constant($ws_form_field_constant)));
+
+				// Set as static
+				$ws_form_config['type'] = 'static';
+				$ws_form_config['obscure'] = false;
+
+				if($ws_form_is_license_key) {
 
 					// Get prefix
 					$prefix = isset($ws_form_config['action']) ? sprintf('action_%s_', $ws_form_config['action']) : '';
@@ -482,8 +676,29 @@
 				}
 			}
 
-			// Name
+			// Name / size (needed before inline-actions — multi-select keeps the button below)
 			$multiple = isset($ws_form_config['multiple']) ? $ws_form_config['multiple'] : false;
+			$size = isset($ws_form_config['size']) ? absint($ws_form_config['size']) : false;
+
+			// Wrap field + action button so heights align (license Activate/Deactivate, etc.)
+			// Multi-select / listbox: leave unwrapped so the button renders under the field
+			$ws_form_inline_actions = (
+				isset($ws_form_config['button']) &&
+				isset($ws_form_config['type']) &&
+				!$multiple &&
+				!(($size !== false) && ($size > 1)) &&
+				in_array(
+					$ws_form_config['type'],
+					array('static', 'text', 'password', 'email', 'url', 'number', 'select', 'license', 'key'),
+					true
+				)
+			);
+
+			if($ws_form_inline_actions) {
+?>
+<span class="wsf-settings-inline-actions"><?php
+			}
+
 			$attributes['name'] = sprintf('%s%s', esc_attr($ws_form_field), $multiple ? '[]' : '');
 
 			// ID
@@ -507,7 +722,6 @@
 			$attributes['type'] = $ws_form_config['type'];
 
 			// Size
-			$size = isset($ws_form_config['size']) ? absint($ws_form_config['size']) : false;
 			if($size !== false) { $attributes['size'] = $size; }
 
 			// Minimum
@@ -547,7 +761,10 @@
 						// System
 						case 'system' :
 
-							WS_Form_Common::echo_html(WS_Form_Common::get_system_report_html());
+							WS_Form_Common::echo_html(
+								WS_Form_Common::get_system_report_html(),
+								WS_Form_Common::get_allowed_html_system_report()
+							);
 							break;
 
 						// MCP adapter URL
@@ -567,10 +784,12 @@
 						// AI connectors status
 						case 'ai_connectors_status' :
 
-							WS_Form_Common::echo_esc_html(
-
-								WS_Form_Common::wp_ai_client_usable() ? __('Connected', 'ws-form') : __('Disconnected', 'ws-form')
-							);
+							WS_Form_Common::echo_html(sprintf(
+								'<span class="wsf-settings-inline-value">%s</span>',
+								esc_html(
+									WS_Form_Common::wp_ai_client_usable() ? __('Connected', 'ws-form') : __('Disconnected', 'ws-form')
+								)
+							));
 							break;
 
 						default :
@@ -578,7 +797,15 @@
 							// Other
 							// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 							$ws_form_value = apply_filters('wsf_settings_static', $ws_form_value, $ws_form_field);
-							WS_Form_Common::echo_html($ws_form_value);
+
+							if($ws_form_field_constant_defined) {
+
+								WS_Form_Common::echo_html(sprintf('<code>%s</code>', esc_html($ws_form_value)));
+
+							} else {
+
+								WS_Form_Common::echo_html($ws_form_value);
+							}
 					}
 					break;
 
@@ -632,6 +859,22 @@
 					$ws_form_save_button = true;
 					break;
 
+				// Textarea field
+				case 'textarea' :
+
+					unset($attributes['type']);
+?>
+<textarea class="wsf-field" rows="4"<?php WS_Form_Common::echo_esc_attributes($attributes); ?>><?php
+
+					// $ws_form_value is already escaped with esc_html above
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $ws_form_value;
+
+?></textarea>
+<?php
+					$ws_form_save_button = true;
+					break;
+
 				// Color field
 				case 'color' :
 ?>
@@ -652,12 +895,33 @@
 				// Selectbox field
 				case 'select' :
 
+					// Select2 only when requested (e.g. AbuseIPDB). Do not stamp data-wsf-select2 on
+					// every multiple select — that triggers a single-line height rule meant for Select2.
+					$select2 = !empty($ws_form_config['select2']);
 ?>
-<select class="wsf-field" name="<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?><?php if($multiple) { ?>[]<?php } ?>" id="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>"<?php if(($size !== false) && ($size > 1)) { ?> size="<?php WS_Form_Common::echo_esc_attr($size); ?>"<?php } ?><?php if($multiple) { ?> multiple="multiple"<?php } ?><?php WS_Form_Common::echo_esc_attributes($attributes); ?>>
+<select class="wsf-field" name="<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?><?php if($multiple) { ?>[]<?php } ?>" id="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>"<?php if(($size !== false) && ($size > 1)) { ?> size="<?php WS_Form_Common::echo_esc_attr($size); ?>"<?php } ?><?php if($multiple) { ?> multiple="multiple"<?php } ?><?php if($select2) { ?> data-wsf-select2<?php } ?><?php WS_Form_Common::echo_esc_attributes($attributes); ?>>
 <?php
 					// Render options
 					$ws_form_options = $ws_form_config['options'];
-					$ws_form_option_selected = is_array($ws_form_value) ? $ws_form_value : array($ws_form_value);
+					if($multiple && !is_array($ws_form_value)) {
+
+						if(($ws_form_value === '') || ($ws_form_value === null) || ($ws_form_value === false)) {
+
+							$ws_form_option_selected = array();
+
+						} else {
+
+							$ws_form_option_selected = array_values(array_unique(array_filter(array_map(function($code) {
+
+								return strtoupper(trim((string) $code));
+
+							}, preg_split('/[\s,;]+/', (string) $ws_form_value)))));
+						}
+
+					} else {
+
+						$ws_form_option_selected = is_array($ws_form_value) ? $ws_form_value : array($ws_form_value);
+					}
 					foreach($ws_form_options as $option_value => $option_array) {
 
 						$option_text = $option_array['text'];
@@ -746,11 +1010,11 @@
 
 						if(WS_Form_Common::option_get('license_activated', false)) {
 ?>
-<input type="button" class="wsf-button wsf-button-inline" data-action="wsf-mode-submit" data-mode="deactivate" value="<?php esc_attr_e('Deactivate', 'ws-form'); ?>"<?php WS_Form_Common::echo_esc_attributes($attributes); ?> />
+<input type="button" class="button" data-action="wsf-mode-submit" data-mode="deactivate" value="<?php esc_attr_e('Deactivate', 'ws-form'); ?>" />
 <?php
 						} else {
 ?>
-<input type="button" class="wsf-button wsf-button-inline" data-action="wsf-mode-submit" data-mode="activate" value="<?php esc_attr_e('Activate', 'ws-form'); ?>"<?php WS_Form_Common::echo_esc_attributes($attributes); ?> />
+<input type="button" class="button button-primary" data-action="wsf-mode-submit" data-mode="activate" value="<?php esc_attr_e('Activate', 'ws-form'); ?>" />
 <?php
 						}
 
@@ -758,45 +1022,45 @@
 
 					case 'wsf-framework-detect' :
 ?>
-<input type="button" class="wsf-button wsf-button-inline" data-action="wsf-framework-detect" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Detect', 'ws-form'); ?>"<?php WS_Form_Common::echo_esc_attributes($attributes); ?> />
+<input type="button" class="button" data-action="wsf-framework-detect" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Detect', 'ws-form'); ?>" />
 <?php
 						break;
 
 					case 'wsf-key-generate' :
 ?>
-<input type="button" class="wsf-button wsf-button-inline" data-action="wsf-key-generate" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Generate', 'ws-form'); ?>"<?php WS_Form_Common::echo_esc_attributes($attributes); ?> />
+<input type="button" class="button" data-action="wsf-key-generate" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Generate', 'ws-form'); ?>" />
 <?php
 						break;
 
 					case 'wsf-max-upload-size' :
 ?>
-<input type="button" class="wsf-button wsf-button-inline" data-action="wsf-max-upload-size" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Use php.ini value', 'ws-form'); ?>"<?php WS_Form_Common::echo_esc_attributes($attributes); ?> />
+<input type="button" class="button" data-action="wsf-max-upload-size" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Use php.ini value', 'ws-form'); ?>" />
 <?php
 						break;
 
 					case 'wsf-max-uploads' :
 ?>
-<input type="button" class="wsf-button wsf-button-inline" data-action="wsf-max-uploads" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Use php.ini value', 'ws-form'); ?>"<?php WS_Form_Common::echo_esc_attributes($attributes); ?> />
+<input type="button" class="button" data-action="wsf-max-uploads" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Use php.ini value', 'ws-form'); ?>" />
 <?php
 						break;
 
 					case 'wsf-image' :
 
 ?>
-<input type="button" class="wsf-button wsf-button-inline" data-action="wsf-image" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Select image...', 'ws-form'); ?>"<?php WS_Form_Common::echo_esc_attributes($attributes); ?> />
+<input type="button" class="button" data-action="wsf-image" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Select image...', 'ws-form'); ?>" />
 <?php
 						break;
 
 					case 'wsf-form-stat-reset' :
 
 ?>
-<input type="button" class="wsf-button wsf-button-inline" data-action="wsf-form-stat-reset" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Reset', 'ws-form'); ?>"<?php WS_Form_Common::echo_esc_attributes($attributes); ?> />
+<input type="button" class="button" data-action="wsf-form-stat-reset" data-for="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>" value="<?php esc_attr_e('Reset', 'ws-form'); ?>" />
 <?php
 						break;
 
 					case 'wsf-ai-connectors' :
 ?>
-<a class="wsf-button wsf-button-inline" href="<?php WS_Form_Common::echo_esc_url(admin_url('options-connectors.php')); ?>"><?php esc_html_e('Connectors', 'ws-form'); ?></a>
+<a class="button" href="<?php WS_Form_Common::echo_esc_url(admin_url('options-connectors.php')); ?>"><?php esc_html_e('Connectors', 'ws-form'); ?></a>
 <?php
 						break;
 
@@ -818,12 +1082,15 @@
 				}
 			}
 
+			if($ws_form_inline_actions) {
+?>
+</span><?php
+			}
+
 			if(isset($ws_form_config['help'])) {
 
-				if(
-					!$ws_form_is_license_key ||
-					!defined($ws_form_license_constant)
-				) {
+				if(!$ws_form_field_constant_defined) {
+
 					WS_Form_Common::echo_html(sprintf(
 
 						'<p class="wsf-helper" id="' . esc_attr($ws_form_field) . '_description">%s</p>',
@@ -831,24 +1098,41 @@
 					));
 				}
 
-				// Check for license related field
-				if($ws_form_is_license_key && !defined($ws_form_license_constant)) {
+				// Named constant help
+				if(($ws_form_field_constant !== false) && !$ws_form_field_constant_defined) {
 
-					WS_Form_Common::echo_html(sprintf(
+					if($ws_form_is_license_key) {
 
-						'<p class="wsf-helper">%s <a href="%s" target="_blank">%s</a></p>',
+						WS_Form_Common::echo_html(sprintf(
 
-						sprintf(
+							'<p class="wsf-helper">%s <a href="%s" target="_blank">%s</a></p>',
 
-							/* translators: %s: License key named constant, e.g. WSF_LICENSE_KEY */
-							__('The license key can also be set in <code>wp-config.php</code> using the <code>%s</code> named constant.', 'ws-form'),
-							esc_html($ws_form_license_constant)
-						),
+							sprintf(
 
-						esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/setting-license-keys-with-php-constants/')),
+								/* translators: %s: License key named constant, e.g. WSF_LICENSE_KEY */
+								__('The license key can also be set in <code>wp-config.php</code> using the <code>%s</code> named constant.', 'ws-form'),
+								esc_html($ws_form_field_constant)
+							),
 
-						esc_html__('Learn more', 'ws-form')
-					));
+							esc_attr(WS_Form_Common::get_plugin_website_url('/knowledgebase/setting-license-keys-with-php-constants/')),
+
+							esc_html__('Learn more', 'ws-form')
+						));
+
+					} else {
+
+						WS_Form_Common::echo_html(sprintf(
+
+							'<p class="wsf-helper">%s</p>',
+
+							sprintf(
+
+								/* translators: %s: Named constant, e.g. WSF_ABUSEIPDB_API_KEY */
+								__('This value can also be set in <code>wp-config.php</code> using the <code>%s</code> named constant.', 'ws-form'),
+								esc_html($ws_form_field_constant)
+							)
+						));
+					}
 				}
 			}
 

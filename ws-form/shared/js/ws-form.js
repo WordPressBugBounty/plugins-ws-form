@@ -46,6 +46,7 @@
 
 		// New object data (for reverting field data back to an older state)
 		this.object_data_scratch = false;
+		this.sidebar_meta_checksum = false;
 
 		// Form history
 		this.form_history = [];

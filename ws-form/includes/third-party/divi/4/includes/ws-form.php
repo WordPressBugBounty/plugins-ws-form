@@ -37,6 +37,12 @@
 				// Core enqueues
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				do_action('wsf_enqueue_visual_builder');
+
+				// NONCE for Divi Visual Builder AJAX preview
+				wp_localize_script('ws-form-divi-builder-bundle', 'ws_form_divi', array(
+
+					'nonce' => wp_create_nonce('ws_form_divi_form')
+				));
 			}
 		}
 	}

@@ -11,6 +11,8 @@
 		public $label;
 
 		const CREATE_FROM_JSON_MAX_FIELDS = 100;
+		const CREATE_FROM_JSON_MAX_ACTIONS = 10;
+		const CREATE_FROM_JSON_MAX_CONDITIONALS = 25;
 
 		public function __construct() {
 
@@ -51,6 +53,7 @@
 
 			// Process groups
 			$form = self::form_get_groups($form, $form_object->groups);
+
 
 			if($as_json) {
 
@@ -188,6 +191,7 @@
 				throw new Exception(esc_html__('Invalid form JSON.', 'ws-form'));
 			}
 
+
 			// Process new form object
 			foreach($form_object_new->groups as $group_index => $group) {
 
@@ -263,6 +267,7 @@
 			// Put form as object
 			$ws_form_form->db_update_from_object($form_object_new, true, false, false);
 
+
 			// Update checksum
 			$ws_form_form->db_checksum();
 
@@ -286,6 +291,7 @@
 			) {
 				throw new Exception(esc_html__('Invalid form data. Please try again.', 'ws-form'));
 			}
+
 
 			// Create list
 			$list = array(
@@ -342,10 +348,41 @@
 						$list_fields_meta_data['section_meta_data']['group_' . $group_index] = array();
 					}
 
-					$list_fields_meta_data['section_meta_data']['group_' . $group_index]['section_' . $section_index] = array(
+					$section_ai_id = isset($section->id) ? absint($section->id) : ($section_index + 1);
+					if(!$section_ai_id) { $section_ai_id = $section_index + 1; }
 
-						'label' => sanitize_text_field($section->label)
+					$section_meta = array(
+
+						'label' => sanitize_text_field($section->label),
+						'ai_id' => $section_ai_id
 					);
+
+					// Section label visibility (label_render)
+					$label_render = null;
+
+					if(isset($section->label_render)) {
+
+						$label_render = $section->label_render;
+
+					} else if(
+						isset($section->meta) &&
+						(is_object($section->meta) || is_array($section->meta))
+					) {
+
+						$section_meta_ai = (array) $section->meta;
+
+						if(isset($section_meta_ai['label_render'])) {
+
+							$label_render = $section_meta_ai['label_render'];
+						}
+					}
+
+					if($label_render !== null) {
+
+						$section_meta['label_render'] = WS_Form_Common::is_true($label_render) ? 'on' : '';
+					}
+
+					$list_fields_meta_data['section_meta_data']['group_' . $group_index]['section_' . $section_index] = $section_meta;
 
 					foreach($section->fields as $field_index => $field) {
 
@@ -475,7 +512,31 @@
 				)
 			);
 
-			// Create form actions
+			// Field type lookup for conditional expansion (AI field id => type)
+			$field_type_lookup = array();
+			foreach($list_fields as $list_field) {
+
+				$field_type_lookup[$list_field['id']] = $list_field['type'];
+			}
+
+			// Section id lookup for conditional expansion (AI section id => true)
+			$section_id_lookup = array();
+			foreach($list_fields_meta_data['section_meta_data'] as $group_sections) {
+
+				if(!is_array($group_sections)) { continue; }
+
+				foreach($group_sections as $section_meta) {
+
+					if(
+						is_array($section_meta) &&
+						isset($section_meta['ai_id'])
+					) {
+						$section_id_lookup[absint($section_meta['ai_id'])] = true;
+					}
+				}
+			}
+
+			// Create form actions (defaults; PRO may replace from AI JSON)
 			$form_actions = array(
 
 				'email',
@@ -487,6 +548,7 @@
 
 			// Create form conditionals
 			$form_conditionals = false;
+
 
 			// Create form meta
 			$form_meta = false;
@@ -526,10 +588,134 @@
 				throw new Exception(esc_html__('Invalid field type.', 'ws-form'));
 			}
 
-			// Get usable meta keys
-			$meta_keys_enabled = self::get_field_meta_keys();
-
 			// Build sanitized field meta
+			$field_meta_sanitized = self::field_meta_sanitize($field_meta);
+
+			// Initiate instance of Field class
+			$ws_form_field = new WS_Form_Field();
+			$ws_form_field->form_id = $this->id;
+			$ws_form_field->section_id = $section_id;
+			$ws_form_field->type = $field_type;
+			$ws_form_field->label = $field_label;
+			$ws_form_field->meta = (object) $field_meta_sanitized;
+
+			// Check for options
+			if(isset($ws_form_field->meta->options)) {
+
+				$ws_form_data_grid = new WS_Form_Data_Grid($ws_form_field);
+				$ws_form_data_grid->set_data_grid_from_options($ws_form_field->meta->options);
+				unset($ws_form_field->meta->options);
+			}
+
+			// Create field
+			$ws_form_field->db_create($next_sibling_id);
+
+			// Update checksum
+			$ws_form_field->db_checksum();
+
+			// Re-read for return
+			$ws_form_field->db_read(true);
+
+			return $ws_form_field;
+		}
+
+		// Field update (label and/or editable meta only — type cannot change)
+		public function field_update($field_id, $field_label, $field_meta) {
+
+			$field_id = absint($field_id);
+
+			if($field_id === 0) {
+
+				throw new Exception(esc_html__('Invalid field ID.', 'ws-form'));
+			}
+
+			$has_label = is_string($field_label) && ($field_label !== '');
+			$field_meta_sanitized = self::field_meta_sanitize($field_meta, true);
+			$has_meta = (count($field_meta_sanitized) > 0);
+
+			if(!$has_label && !$has_meta) {
+
+				throw new Exception(esc_html__('Provide a label and/or meta to update.', 'ws-form'));
+			}
+
+			// Confirm the field belongs to this form
+			$ws_form_form = new WS_Form_Form();
+			$ws_form_form->id = $this->id;
+			$form_object = $ws_form_form->db_read(true, true);
+
+			$fields = WS_Form_Common::get_fields_from_form($form_object, true);
+
+			if(!isset($fields[$field_id])) {
+
+				throw new Exception(esc_html__('Field not found in form.', 'ws-form'));
+			}
+
+			// Read field
+			$ws_form_field = new WS_Form_Field();
+			$ws_form_field->form_id = $this->id;
+			$ws_form_field->id = $field_id;
+			$field_object = $ws_form_field->db_read(true);
+
+			if($field_object === false) {
+
+				throw new Exception(esc_html__('Invalid field ID.', 'ws-form'));
+			}
+
+			// Update label
+			if($has_label) {
+
+				$field_object->label = sanitize_text_field($field_label);
+			}
+
+			// Update editable meta (partial merge)
+			if($has_meta) {
+
+				if(!isset($field_object->meta) || !is_object($field_object->meta)) {
+
+					$field_object->meta = new stdClass();
+				}
+
+				foreach($field_meta_sanitized as $meta_key => $meta_value) {
+
+					$field_object->meta->{$meta_key} = $meta_value;
+				}
+
+				// Check for options
+				if(isset($field_object->meta->options)) {
+
+					$ws_form_data_grid = new WS_Form_Data_Grid($field_object);
+					$ws_form_data_grid->update_data_grid_from_options($field_object->meta->options);
+					unset($field_object->meta->options);
+				}
+			}
+
+			// Save field
+			$ws_form_field->db_update_from_object($field_object, false, false);
+
+			// Update checksum
+			$ws_form_field->db_checksum();
+
+			// Re-read for return
+			$ws_form_field->db_read(true);
+
+			return $ws_form_field;
+		}
+
+		// Sanitize AI field meta (optionally only editable keys)
+		public function field_meta_sanitize($field_meta, $editable_only = false) {
+
+			$meta_keys_enabled = $editable_only ? self::get_field_meta_keys_editable() : self::get_field_meta_keys();
+
+			if(is_object($field_meta)) {
+
+				$field_meta = (array) $field_meta;
+			}
+
+			if(!is_array($field_meta)) {
+
+				return array();
+			}
+
 			$field_meta_sanitized = array();
 
 			foreach($field_meta as $meta_key => $meta_value) {
@@ -579,29 +765,442 @@
 				$field_meta_sanitized[$meta_key] = $meta_value;
 			}
 
-			// Initiate instance of Field class
-			$ws_form_field = new WS_Form_Field();
-			$ws_form_field->form_id = $this->id;
-			$ws_form_field->section_id = $section_id;
-			$ws_form_field->type = $field_type;
-			$ws_form_field->label = $field_label;
-			$ws_form_field->meta = (object) $field_meta_sanitized;
+			return $field_meta_sanitized;
+		}
 
-			// Check for options
-			if(isset($ws_form_field->meta->options)) {
+		// Read form object for AI structure tools
+		public function form_read_object() {
 
-				$ws_form_data_grid = new WS_Form_Data_Grid($ws_form_field);
-				$ws_form_data_grid->set_data_grid_from_options($ws_form_field->meta->options);
-				unset($ws_form_field->meta->options);
+			if(empty($this->id)) {
+
+				throw new Exception(esc_html__('Form ID not set.', 'ws-form'));
 			}
 
-			// Create field
-			$ws_form_field->db_create($next_sibling_id);
+			$ws_form_form = new WS_Form_Form();
+			$ws_form_form->id = $this->id;
 
-			// Update checksum
-			$ws_form_field->db_checksum();
+			return $ws_form_form->db_read(true, true);
+		}
 
-			return $ws_form_field;
+		// Normalize optional ability object inputs (missing meta becomes {scalar:''} via to_object)
+		public function ability_meta_to_array($meta) {
+
+			if(is_object($meta)) {
+
+				$meta = (array) $meta;
+			}
+
+			if(!is_array($meta)) {
+
+				return array();
+			}
+
+			if(
+				array_key_exists('scalar', $meta) &&
+				(count($meta) === 1) &&
+				(($meta['scalar'] === '') || is_null($meta['scalar']))
+			) {
+				return array();
+			}
+
+			return $meta;
+		}
+
+		// Format field for ability / MCP response
+		public function field_format_for_ability($field) {
+
+			$return = array(
+
+				'id' => isset($field->id) ? (int) $field->id : 0,
+				'label' => isset($field->label) ? (string) $field->label : '',
+				'type' => isset($field->type) ? (string) $field->type : '',
+				'section_id' => isset($field->section_id) ? (int) $field->section_id : 0,
+				'meta' => array()
+			);
+
+			if(!isset($field->meta)) {
+
+				return $return;
+			}
+
+			$meta_obj = is_object($field->meta) ? $field->meta : (object) $field->meta;
+
+			foreach(array_keys(self::get_field_meta_keys_editable()) as $field_meta_key) {
+
+				if(isset($meta_obj->{$field_meta_key})) {
+
+					$return['meta'][$field_meta_key] = $meta_obj->{$field_meta_key};
+				}
+			}
+
+			if(in_array($return['type'], self::get_field_types_data_grid(), true)) {
+
+				$ws_form_data_grid = new WS_Form_Data_Grid($field);
+				$options = $ws_form_data_grid->get_data_grid_options($field);
+
+				if(is_array($options)) {
+
+					$return['meta']['options'] = $options;
+				}
+			}
+
+			return $return;
+		}
+
+		// Format section for ability / MCP response
+		public function section_format_for_ability($section) {
+
+			$meta = array();
+			$section_meta = isset($section->meta) ? $section->meta : null;
+
+			if(is_object($section_meta) && isset($section_meta->label_render)) {
+
+				$meta['label_render'] = $section_meta->label_render;
+
+			} elseif(is_array($section_meta) && isset($section_meta['label_render'])) {
+
+				$meta['label_render'] = $section_meta['label_render'];
+			}
+
+			return array(
+
+				'id' => isset($section->id) ? (int) $section->id : 0,
+				'label' => isset($section->label) ? (string) $section->label : '',
+				'group_id' => isset($section->group_id) ? (int) $section->group_id : 0,
+				'meta' => $meta
+			);
+		}
+
+		// Format tab for ability / MCP response
+		public function tab_format_for_ability($group) {
+
+			return array(
+
+				'id' => isset($group->id) ? (int) $group->id : 0,
+				'label' => isset($group->label) ? (string) $group->label : ''
+			);
+		}
+
+		// List tabs (groups)
+		public function tabs_list() {
+
+			$form_object = self::form_read_object();
+			$tabs = array();
+			$index = 1;
+
+			if(isset($form_object->groups) && is_array($form_object->groups)) {
+
+				foreach($form_object->groups as $group) {
+
+					if(!isset($group->id)) { continue; }
+
+					$tabs[] = array(
+
+						'id' => (int) $group->id,
+						'label' => isset($group->label) ? (string) $group->label : '',
+						'index' => $index
+					);
+
+					$index++;
+				}
+			}
+
+			return $tabs;
+		}
+
+		// List sections
+		public function sections_list() {
+
+			$form_object = self::form_read_object();
+			$sections = array();
+
+			if(isset($form_object->groups) && is_array($form_object->groups)) {
+
+				foreach($form_object->groups as $group) {
+
+					if(!isset($group->id) || !isset($group->sections) || !is_array($group->sections)) { continue; }
+
+					$group_id = (int) $group->id;
+					$index = 1;
+
+					foreach($group->sections as $section) {
+
+						if(!isset($section->id)) { continue; }
+
+						$sections[] = array(
+
+							'id' => (int) $section->id,
+							'label' => isset($section->label) ? (string) $section->label : '',
+							'group_id' => $group_id,
+							'index' => $index
+						);
+
+						$index++;
+					}
+				}
+			}
+
+			return $sections;
+		}
+
+		// List fields
+		public function fields_list() {
+
+			$form_object = self::form_read_object();
+			$fields = array();
+
+			if(isset($form_object->groups) && is_array($form_object->groups)) {
+
+				foreach($form_object->groups as $group) {
+
+					if(!isset($group->id) || !isset($group->sections) || !is_array($group->sections)) { continue; }
+
+					$group_id = (int) $group->id;
+
+					foreach($group->sections as $section) {
+
+						if(!isset($section->id) || !isset($section->fields) || !is_array($section->fields)) { continue; }
+
+						$section_id = (int) $section->id;
+
+						foreach($section->fields as $field) {
+
+							if(!isset($field->id)) { continue; }
+
+							$fields[] = array(
+
+								'id' => (int) $field->id,
+								'label' => isset($field->label) ? (string) $field->label : '',
+								'type' => isset($field->type) ? (string) $field->type : '',
+								'section_id' => $section_id,
+								'group_id' => $group_id
+							);
+						}
+					}
+				}
+			}
+
+			return $fields;
+		}
+
+		// Tab (group) add
+		public function tab_add($label, $tab_id_before = 0) {
+
+			$label = is_string($label) ? sanitize_text_field($label) : '';
+			if($label === '') {
+
+				$label = __('Tab', 'ws-form');
+			}
+
+			$ws_form_group = new WS_Form_Group();
+			$ws_form_group->form_id = $this->id;
+			$ws_form_group->label = $label;
+			$ws_form_group->db_create(absint($tab_id_before), true);
+			$ws_form_group->db_checksum();
+
+			return $ws_form_group;
+		}
+
+		// Tab (group) update
+		public function tab_update($tab_id, $label) {
+
+			$tab_id = absint($tab_id);
+			if($tab_id === 0) {
+
+				throw new Exception(esc_html__('Invalid tab ID.', 'ws-form'));
+			}
+
+			$label = is_string($label) ? sanitize_text_field($label) : '';
+			if($label === '') {
+
+				throw new Exception(esc_html__('Provide a label to update.', 'ws-form'));
+			}
+
+			self::assert_tab_on_form($tab_id);
+
+			$ws_form_group = new WS_Form_Group();
+			$ws_form_group->form_id = $this->id;
+			$ws_form_group->id = $tab_id;
+			$group_object = $ws_form_group->db_read(true, false);
+			$group_object->label = $label;
+			$ws_form_group->db_update_from_object($group_object, false, false, false);
+			$ws_form_group->db_checksum();
+			$ws_form_group->db_read(true, false);
+
+			return $ws_form_group;
+		}
+
+		// Tab (group) delete
+		public function tab_delete($tab_id) {
+
+			$tab_id = absint($tab_id);
+			if($tab_id === 0) {
+
+				throw new Exception(esc_html__('Invalid tab ID.', 'ws-form'));
+			}
+
+			$tabs = self::tabs_list();
+			if(count($tabs) <= 1) {
+
+				throw new Exception(esc_html__('Cannot delete the last tab on a form.', 'ws-form'));
+			}
+
+			self::assert_tab_on_form($tab_id);
+
+			$ws_form_group = new WS_Form_Group();
+			$ws_form_group->form_id = $this->id;
+			$ws_form_group->id = $tab_id;
+			$ws_form_group->db_delete(true);
+			$ws_form_group->db_checksum();
+
+			return true;
+		}
+
+		// Section add
+		public function section_add($group_id, $label, $section_id_before = 0, $meta = array()) {
+
+			$group_id = absint($group_id);
+			if($group_id === 0) {
+
+				throw new Exception(esc_html__('Invalid tab ID.', 'ws-form'));
+			}
+
+			self::assert_tab_on_form($group_id);
+
+			$label = is_string($label) ? sanitize_text_field($label) : '';
+			if($label === '') {
+
+				$label = __('Section', 'ws-form');
+			}
+
+			$meta = self::ability_meta_to_array($meta);
+			$meta_sanitized = array();
+			if(isset($meta['label_render'])) {
+
+				$meta_sanitized['label_render'] = WS_Form_Common::is_true($meta['label_render']) ? 'on' : '';
+			}
+
+			$ws_form_section = new WS_Form_Section();
+			$ws_form_section->form_id = $this->id;
+			$ws_form_section->group_id = $group_id;
+			$ws_form_section->label = $label;
+			$ws_form_section->meta = $meta_sanitized;
+			$ws_form_section->db_set_breakpoint_size_meta();
+			$ws_form_section->db_create(absint($section_id_before));
+			$ws_form_section->db_checksum();
+
+			return $ws_form_section;
+		}
+
+		// Section update
+		public function section_update($section_id, $label, $meta = array()) {
+
+			$section_id = absint($section_id);
+			if($section_id === 0) {
+
+				throw new Exception(esc_html__('Invalid section ID.', 'ws-form'));
+			}
+
+			$has_label = is_string($label) && ($label !== '');
+			$meta_array = self::ability_meta_to_array($meta);
+			$has_meta = isset($meta_array['label_render']);
+
+			if(!$has_label && !$has_meta) {
+
+				throw new Exception(esc_html__('Provide a label and/or meta to update.', 'ws-form'));
+			}
+
+			$group_id = self::assert_section_on_form($section_id);
+
+			$ws_form_section = new WS_Form_Section();
+			$ws_form_section->form_id = $this->id;
+			$ws_form_section->group_id = $group_id;
+			$ws_form_section->id = $section_id;
+			$section_object = $ws_form_section->db_read(true, false);
+
+			if($has_label) {
+
+				$section_object->label = sanitize_text_field($label);
+			}
+
+			if($has_meta) {
+
+				if(!isset($section_object->meta) || !is_object($section_object->meta)) {
+
+					$section_object->meta = new stdClass();
+				}
+
+				$section_object->meta->label_render = WS_Form_Common::is_true($meta_array['label_render']) ? 'on' : '';
+			}
+
+			$ws_form_section->db_update_from_object($section_object, false, false, false);
+			$ws_form_section->db_checksum();
+			$ws_form_section->db_read(true, false);
+
+			return $ws_form_section;
+		}
+
+		// Section delete
+		public function section_delete($section_id) {
+
+			$section_id = absint($section_id);
+			if($section_id === 0) {
+
+				throw new Exception(esc_html__('Invalid section ID.', 'ws-form'));
+			}
+
+			$group_id = self::assert_section_on_form($section_id);
+
+			$section_count = 0;
+			foreach(self::sections_list() as $section) {
+
+				if((int) $section['group_id'] === (int) $group_id) {
+
+					$section_count++;
+				}
+			}
+
+			if($section_count <= 1) {
+
+				throw new Exception(esc_html__('Cannot delete the last section on a tab.', 'ws-form'));
+			}
+
+			$ws_form_section = new WS_Form_Section();
+			$ws_form_section->form_id = $this->id;
+			$ws_form_section->group_id = $group_id;
+			$ws_form_section->id = $section_id;
+			$ws_form_section->db_delete(true);
+			$ws_form_section->db_checksum();
+
+			return true;
+		}
+
+		// Assert tab belongs to form
+		public function assert_tab_on_form($tab_id) {
+
+			foreach(self::tabs_list() as $tab) {
+
+				if((int) $tab['id'] === (int) $tab_id) {
+
+					return true;
+				}
+			}
+
+			throw new Exception(esc_html__('Tab not found in form.', 'ws-form'));
+		}
+
+		// Assert section belongs to form; returns group_id
+		public function assert_section_on_form($section_id) {
+
+			foreach(self::sections_list() as $section) {
+
+				if((int) $section['id'] === (int) $section_id) {
+
+					return (int) $section['group_id'];
+				}
+			}
+
+			throw new Exception(esc_html__('Section not found in form.', 'ws-form'));
 		}
 
 		// Convert action field to WS Form meta key
@@ -1077,13 +1676,29 @@ An example format of the JSON object to create is:
 DO NOT use the same groups, sections and fields in this example.
 
 = General format =
-form->groups[0]->section[0]->fields
+form->groups[0]->sections[]->fields
 
 All forms specified should have:
 
 - 1 group (Tab)
-- 1 section
-- 1 or more fields
+- 1 or more sections
+- 1 or more fields in each section
+
+Each section must have a unique positive integer id (1, 2, 3, ...).
+Use separate sections to group related fields.
+When several fields should be shown or hidden together, put them in one section and control that section with conditionals instead of controlling each field individually.
+Strict rule: A field used in a conditional IF to show or hide a section must live in a different section that is always visible. Never put that controlling field inside the section it shows or hides.
+
+Section properties:
+- id (number)
+- label (string)
+- label_render (string) = \"on\" to show the section label on the form, or \"\" to hide it. Default is \"\". Set to \"on\" when the section label helps the person completing the form.
+- fields (array)
+
+When label_render is \"on\", put the section context only in the section label. Field labels must stay short and generic (e.g. First Name, Address Line 1). Do not repeat the section name in field labels (do not use prefixes or suffixes like Billing, Shipping, or similar in parentheses).
+
+Order sections and fields in the sequence a person would complete the form.
+Fields that control whether later sections are shown must appear before those sections, in their own earlier section when needed. Do not place a controlling field after or inside the sections it affects.
 
 = Allowed Field Types =
 " . self::get_field_types_prompt() . "
@@ -1103,6 +1718,9 @@ The form JSON must adhere to these strict rules:
 6. If there are two fields that are related to one another (e.g. from and to) set the width_factor to 0.5. Only do this if you can place two fields side-by-side.
 7. When specifying options for select, checkbox or radio field types, provide a comprehensive and full list of options rather than just a sample.
 8. Do not wrap the JSON string in anything else, return only the JSON string.
+9. A field that controls showing or hiding a section must not be inside that section.
+10. When a section has label_render set to \"on\", do not repeat that section's name in its field labels.
+11. Keep sections and fields in logical completion order. Controlling fields come before the sections they show or hide.
 
 Very strict rule: Only include the minified JSON object in the output.";
 		}
@@ -1150,6 +1768,15 @@ Use only the field type, e.g. text, in this input property.
 		public function get_field_add_meta_prompt() {
 
 			return "The following field meta can be specified:
+
+" . self::get_field_meta_keys_prompt() . "
+";
+		}
+
+		// Get AI prompt for the field update meta property
+		public function get_field_update_meta_prompt() {
+
+			return "Optional. Only include meta keys you want to change. Omitted keys are left unchanged.
 
 " . self::get_field_meta_keys_prompt() . "
 ";
@@ -1261,7 +1888,7 @@ These strict rules must be adhered to if the form includes calculations:
 		// Get form example
 		public function get_form_example() {
 
-			return array(
+			$example = array(
 
 				'id' => 1,
 				'label' => 'This is the name of the form',
@@ -1279,6 +1906,7 @@ These strict rules must be adhered to if the form includes calculations:
 
 								'id' => 1,
 								'label' => 'This is the name of a section, e.g. Section',
+								'label_render' => 'on',
 
 								'fields' => array(
 
@@ -1328,7 +1956,7 @@ These strict rules must be adhered to if the form includes calculations:
 
 										'id' => 5,
 										'label' => 'Phone',
-										'type' => 'phone',
+										'type' => 'tel',
 										'meta' => array(
 											'required' => ''
 										)
@@ -1353,8 +1981,8 @@ These strict rules must be adhered to if the form includes calculations:
 										'meta' => array(
 											'options' => array(
 
-												array('value' => 'email', 'text' => 'Email'),
-												array('value' => 'phone', 'text' => 'Phone'),
+												array('value' => 'email', 'label' => 'Email'),
+												array('value' => 'phone', 'label' => 'Phone'),
 											)
 										)
 									)
@@ -1364,5 +1992,9 @@ These strict rules must be adhered to if the form includes calculations:
 					)
 				)
 			);
+
+
+			return $example;
 		}
+
 	}

@@ -137,7 +137,21 @@
 					return self::error(sprintf(__('Error retrieving CSV file: %s', 'ws-form'), $url), $field_id, $this, $api_request);
 				}
 
+				// Check HTTP status
+				$response_code = wp_remote_retrieve_response_code($wp_remote_get_response);
+				if($response_code !== 200) {
+
+					return self::error(__('Unable to retrieve preset data. Please try again later.', 'ws-form'), $field_id, $this, $api_request);
+				}
+
 				$csv = wp_remote_retrieve_body($wp_remote_get_response);
+
+				// Reject HTML responses (e.g. Cloudflare block pages)
+				$csv_trimmed = ltrim($csv);
+				if(($csv_trimmed !== '') && (substr($csv_trimmed, 0, 1) === '<')) {
+
+					return self::error(__('Unable to retrieve preset data. Please try again later.', 'ws-form'), $field_id, $this, $api_request);
+				}
 
 			} catch (Exception $e) {
 

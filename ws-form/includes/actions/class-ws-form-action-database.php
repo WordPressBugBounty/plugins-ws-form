@@ -86,11 +86,16 @@
 			// If form being submitted, set status to publish
 			if($submit->post_mode == 'submit') { $submit->status = 'publish'; }
 
-			// Spam check - If spam_level > threshold put this submission in the 'spam' status
+			// Spam check - If spam_level >= threshold (or actions stopped by a spam check) put this submission in the 'spam' status
 			$submit->spam_level = parent::$spam_level;
 			$spam_level = absint($submit->spam_level);
 			$spam_threshold = absint(WS_Form_Common::get_object_meta_value($form, 'spam_threshold', 50));
-			if($spam_level >= $spam_threshold) { $submit->status = 'spam'; }
+			if(
+				($spam_level >= $spam_threshold) ||
+				(!empty($submit->actions_stopped) && ($submit->actions_stopped === true))
+			) {
+				$submit->status = 'spam';
+			}
 
 			// Set viewed?
 			if($this->viewed) {

@@ -1,15 +1,41 @@
 :root {
+  --wsf-color-dark-blue: #002E5D;
+  --wsf-color-light-gray: #A7A8AA;
+  --wsf-color-accent-blue: #418FDE;
+  --wsf-color-link: #0961a8;
+  --wsf-admin-header-padding-block: 16px;
+  --wsf-admin-header-content-height: 32px;
+  --wsf-admin-header-border-width: 1px;
+  --wsf-admin-header-height: calc(
+  	var(--wsf-admin-header-padding-block)
+  	+ var(--wsf-admin-header-content-height)
+  	+ var(--wsf-admin-header-padding-block)
+  	+ var(--wsf-admin-header-border-width)
+  );
   --wsf-admin-body-width: 100vw;
   --wsf-admin-menu-width: 160px;
-  --wsf-admin-sidebar-width: 340px;
+  --wsf-admin-sidebar-width: 400px;
   --wsf-admin-sidebar-margin: calc(var(--wsf-admin-sidebar-width) + 1px);
-  --wsf-admin-sidebar-resize-height: 80px;
-  --wsf-admin-sidebar-resize-width: 8px;
+  --wsf-admin-sidebar-resize-height: 48px;
+  --wsf-admin-sidebar-resize-width: 12px;
   --wsf-admin-sidebar-width-expanded: calc(var(--wsf-admin-body-width) - var(--wsf-admin-menu-width));
-  --wsf-admin-layout-editor-width: calc(var(--wsf-admin-body-width) - var(--wsf-admin-menu-width) - var(--wsf-admin-sidebar-width));
+  --wsf-admin-layout-editor-min-width: 820px;
+  --wsf-admin-layout-editor-width: max(
+  	var(--wsf-admin-layout-editor-min-width),
+  	calc(var(--wsf-admin-body-width) - var(--wsf-admin-menu-width))
+  );
   --wsf-admin-popup-progress-inner-width: 298px;
   --wsf-admin-popup-progress-inner-height: 343px;
   --wsf-admin-popup-progress-inner-left: calc(var(--wsf-admin-menu-width) + ((var(--wsf-admin-body-width) - var(--wsf-admin-menu-width)) / 2) - (var(--wsf-admin-popup-progress-inner-width) / 2));
+}
+
+.wsf-sidebar-resize.wsf-sidebar-resize-active {
+  background-color: #002E5D !important;
+  border-color: #002E5D !important;
+}
+.wsf-sidebar-resize.wsf-sidebar-resize-active::after {
+  background-color: #fff !important;
+  box-shadow: 0 10px 0 #fff, 0 20px 0 #fff !important;
 }
 
 .wsf-templates {
@@ -99,7 +125,7 @@
   }
 }
 .wsf-templates > li.wsf-pro-required .wsf-template::after {
-  background-color: #002e5f;
+  background-color: #002E5D;
   color: #ffffff;
   content: "PRO";
   font-size: 10px;
@@ -118,7 +144,7 @@
 }
 .wsf-templates > li.wsf-pro-required .wsf-template:hover::after {
   background-color: #ffffff;
-  color: #002e5f;
+  color: #002E5D;
 }
 .wsf-templates > li.wsf-pro-required .wsf-template:hover svg {
   opacity: 1;
@@ -140,7 +166,7 @@
 .wsf-templates > li .wsf-template a.wsf-button {
   background-color: #ceced2;
   border: 1px solid #ceced2;
-  border-radius: 4px;
+  border-radius: 2px;
   box-sizing: border-box;
   box-shadow: none;
   color: #000000;
@@ -203,7 +229,7 @@
 .wsf-templates > li .wsf-template a.wsf-button.wsf-button-primary:focus {
   background-color: #ffffff;
   border-color: #ffffff;
-  color: #002e5f;
+  color: #002E5D;
 }
 .wsf-templates > li .wsf-template button.wsf-button {
   -webkit-appearance: none;
@@ -225,24 +251,32 @@
 }
 .wsf-templates > li .wsf-template .wsf-preview svg {
   display: inline-block;
+  -webkit-margin-end: 4px;
+          margin-inline-end: 4px;
   vertical-align: text-bottom;
 }
 .wsf-templates > li .wsf-template .wsf-preview svg path {
+  fill: #ffffff;
+}
+.wsf-templates > li .wsf-template .wsf-preview:visited, .wsf-templates > li .wsf-template .wsf-preview:hover, .wsf-templates > li .wsf-template .wsf-preview:active, .wsf-templates > li .wsf-template .wsf-preview:focus {
+  color: #ffffff;
+}
+.wsf-templates > li .wsf-template .wsf-preview:visited svg path, .wsf-templates > li .wsf-template .wsf-preview:hover svg path, .wsf-templates > li .wsf-template .wsf-preview:active svg path, .wsf-templates > li .wsf-template .wsf-preview:focus svg path {
   fill: #ffffff;
 }
 .wsf-templates > li .wsf-template .wsf-preview:hover {
   text-decoration: underline;
 }
 .wsf-templates > li .wsf-template:hover {
-  background-color: #002e5f;
-  border-color: #002e5f;
+  background-color: #002E5D;
+  border-color: #002E5D;
 }
 .wsf-templates > li .wsf-template:hover::after {
   background-color: #ffffff;
-  color: #002e5f;
+  color: #002E5D;
 }
 .wsf-templates > li .wsf-template:hover > svg rect {
-  fill: #002e5f;
+  fill: #002E5D;
 }
 .wsf-templates > li .wsf-template:hover > svg .wsf-template-title {
   fill: #ffffff;

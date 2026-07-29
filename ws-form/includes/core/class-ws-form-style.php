@@ -68,19 +68,21 @@
 			) {
 				// Build initial styles
 				self::init($bypass_user_capability_check, $use_legacy);
+
+			} else {
+
+				// Ensure both defaults exist and clear duplicate flags
+				self::db_ensure_default(false, $bypass_user_capability_check, $use_legacy);
+				self::db_ensure_default(true, $bypass_user_capability_check, $use_legacy);
 			}
 		}
 
 		// Initialize styles system for first time
 		public function init($bypass_user_capability_check = false, $use_legacy = false) {
 
-			// Create first style
-			$this->label = __('Standard - Light', 'ws-form');
-			$style_id_default = self::db_create(true, false, $use_legacy, $bypass_user_capability_check);
-
-			// Create conversational style
-			$this->label = __('Conversational - Light', 'ws-form');
-			$style_id_conv_default = self::db_create(false, true, $use_legacy, $bypass_user_capability_check);
+			// Ensure defaults exist (create only what is missing)
+			$style_id_default = self::db_ensure_default(false, $bypass_user_capability_check, $use_legacy);
+			$style_id_conv_default = self::db_ensure_default(true, $bypass_user_capability_check, $use_legacy);
 
 			// Resolve form style IDs
 			$ws_form_form = new WS_Form_Form();
@@ -91,6 +93,53 @@
 			$this->style_id_conv_default = $style_id_conv_default;
 
 			return $this->id;
+		}
+
+		// Ensure a default style exists (standard or conversational)
+		public function db_ensure_default($conversational = false, $bypass_user_capability_check = false, $use_legacy = false) {
+
+			global $wpdb;
+
+			// Get existing default (oldest wins)
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$style_id = absint($wpdb->get_var(
+
+				$conversational
+					? "SELECT id FROM {$wpdb->prefix}wsf_style WHERE default_conv = 1 ORDER BY id ASC LIMIT 1;"
+					: "SELECT id FROM {$wpdb->prefix}wsf_style WHERE `default` = 1 ORDER BY id ASC LIMIT 1;"
+			));
+
+			if($style_id) {
+
+				// Clear duplicate flags so extras can be trashed
+				if($conversational) {
+
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+					$wpdb->query($wpdb->prepare(
+
+						"UPDATE {$wpdb->prefix}wsf_style SET default_conv = 0, date_updated = %s WHERE default_conv = 1 AND id != %d;",
+						WS_Form_Common::get_mysql_date(),
+						$style_id
+					));
+
+				} else {
+
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+					$wpdb->query($wpdb->prepare(
+
+						"UPDATE {$wpdb->prefix}wsf_style SET `default` = 0, date_updated = %s WHERE `default` = 1 AND id != %d;",
+						WS_Form_Common::get_mysql_date(),
+						$style_id
+					));
+				}
+
+				return $style_id;
+			}
+
+			// Create only the missing default
+			$this->label = $conversational ? __('Conversational - Light', 'ws-form') : __('Standard - Light', 'ws-form');
+
+			return self::db_create(!$conversational, $conversational, $use_legacy, $bypass_user_capability_check);
 		}
 
 		// Get form style ID
@@ -139,17 +188,8 @@
 
 			if(!empty($this->style_id_default)) { return $this->style_id_default; }
 
-			global $wpdb;
-
-			// Get default style ID
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
-			$this->style_id_default = absint($wpdb->get_var("SELECT id FROM {$wpdb->prefix}wsf_style WHERE `default` = 1 LIMIT 1;"));
-
-			// If default style not found
-			if(empty($this->style_id_default)) {
-
-				$this->style_id_default = self::init();
-			}
+			// Ensure default exists (do not re-seed conversational)
+			$this->style_id_default = self::db_ensure_default(false, true);
 
 			// Check default style exists
 			if(empty($this->style_id_default)) {
@@ -165,17 +205,8 @@
 
 			if(!empty($this->style_id_conv_default)) { return $this->style_id_conv_default; }
 
-			global $wpdb;
-
-			// Get default style ID
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
-			$this->style_id_conv_default = absint($wpdb->get_var("SELECT id FROM {$wpdb->prefix}wsf_style WHERE `default_conv` = 1 LIMIT 1;"));
-
-			// If default style not found
-			if(empty($this->style_id_conv_default)) {
-
-				$this->style_id_conv_default = self::init();
-			}
+			// Ensure conversational default exists (do not re-seed standard)
+			$this->style_id_conv_default = self::db_ensure_default(true, true);
 
 			// Check default style exists
 			if(empty($this->style_id_conv_default)) {
@@ -272,6 +303,37 @@
 
 			// Sanitize label
 			self::sanitize_label(__('New Style', 'ws-form'));
+
+			// Only one default / default conversational style
+			if($default) {
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$wpdb->update(
+					"{$wpdb->prefix}wsf_style",
+					array(
+						'default' => 0,
+						'date_updated' => WS_Form_Common::get_mysql_date(),
+					),
+					array( 'default' => 1 ),
+					array( '%d', '%s' ),
+					array( '%d' )
+				);
+			}
+
+			if($default_conv) {
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$wpdb->update(
+					"{$wpdb->prefix}wsf_style",
+					array(
+						'default_conv' => 0,
+						'date_updated' => WS_Form_Common::get_mysql_date(),
+					),
+					array( 'default_conv' => 1 ),
+					array( '%d', '%s' ),
+					array( '%d' )
+				);
+			}
 
 			// Add style
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
@@ -713,9 +775,10 @@
 				array(
 					'id' => $this->id,
 					'default' => 0,
+					'default_conv' => 0,
 				),
 				array( '%s', '%s', '%s', '%s', '%s' ),
-				array( '%d', '%d' )
+				array( '%d', '%d', '%d' )
 			);
 
 			if($update_result === false) { 
@@ -1019,9 +1082,10 @@
 				array(
 					'id' => $this->id,
 					'default' => 0,
+					'default_conv' => 0,
 				),
 				array( '%s' ),
-				array( '%d', '%d' )
+				array( '%d', '%d', '%d' )
 			);
 
 			if($update_result === false) { 
@@ -1091,15 +1155,17 @@
 
 			if($status == '') {
 
+				// Check for LITE - Do not count conversational templates
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
-				$style_count = $wpdb->get_var("SELECT COUNT(id) FROM {$wpdb->prefix}wsf_style WHERE NOT (status = 'trash')");
+				$style_count = $wpdb->get_var("SELECT COUNT(id) FROM {$wpdb->prefix}wsf_style WHERE NOT (status = 'trash') AND default_conv = 0");
 
 			} else {
 
+				// Check for LITE - Do not count conversational templates
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 				$style_count = $wpdb->get_var($wpdb->prepare(
 
-					"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_style WHERE status = %s",
+					"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_style WHERE status = %s AND default_conv = 0",
 					$status
 				));
 			}

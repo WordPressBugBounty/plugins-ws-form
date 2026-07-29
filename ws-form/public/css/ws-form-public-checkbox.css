@@ -139,11 +139,15 @@
   display: inline-block;
   font-family: var(--wsf-field-font-family);
   font-size: var(--wsf-field-font-size);
+  font-style: var(--wsf-field-font-style);
   font-weight: var(--wsf-field-font-weight);
+  letter-spacing: var(--wsf-field-letter-spacing);
   line-height: var(--wsf-field-line-height);
   padding: var(--wsf-field-padding);
   text-align: center;
-  text-decoration: none;
+  -webkit-text-decoration: var(--wsf-field-text-decoration);
+          text-decoration: var(--wsf-field-text-decoration);
+  text-transform: var(--wsf-field-text-transform);
   touch-action: manipulation;
   -webkit-user-select: none;
   -moz-user-select: none;

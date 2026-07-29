@@ -100,11 +100,11 @@
 			// Get style ID
 			$id = absint($item['id']);
 
-			// Check if default
-			$is_default = ($id == $this->style_id_default);
+			// Check if default (use row flags so duplicate flagged rows stay protected in UI)
+			$is_default = (!empty($item['default']) || ($id == $this->style_id_default));
 
 			// Check if default conversational
-			$is_default_conv = ($id == $this->style_id_conv_default);
+			$is_default_conv = (!empty($item['default_conv']) || ($id == $this->style_id_conv_default));
 
 			// Get URL for editing
 			$url_edit = WS_Form_Common::get_preview_url(1, 'styler', $id);

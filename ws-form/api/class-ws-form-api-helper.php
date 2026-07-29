@@ -158,14 +158,6 @@
 		}
 
 
-		// API - API check dismiss (clears the welcome screen REST API warning)
-		public function api_api_check_dismiss($parameters) {
-
-			WS_Form_Common::option_set('api_check_warning', false);
-
-			return array('error' => false);
-		}
-
 		// API - Support contact submit
 		public function api_support_contact_submit() {
 
@@ -514,12 +506,6 @@
 
 			} else {
 
-				// REST API is reachable - clear any pending welcome screen API check warning
-				if(WS_Form_Common::option_get('api_check_warning', false)) {
-
-					WS_Form_Common::option_set('api_check_warning', false);
-				}
-
 				return array('error' => false, 'version' => WS_FORM_VERSION, 'edition' => WS_FORM_EDITION, 'license' => WS_Form_Common::get_license_key_obscured());
 			}
 		}
@@ -532,6 +518,9 @@
 
 		// Get count submit unread total
 		public function api_count_submit_unread($parameters) {
+
+			// Prevent browsers/CDNs caching this GET (stale 0 after mark-as-read)
+			self::api_no_cache();
 
 			$ws_form_form = new WS_Form_Form();
 
@@ -547,103 +536,6 @@
 			return array('count_submit_unread_total' => $count_submit_unread_total);
 		}
 
-		// Intro
-		public function api_intro($paramters) {
-
-			$hints = [
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Publish', 'ws-form'), __('Once you have finished editing your form, click this button to publish it. Any changes made before publishing can only be seen by you.', 'ws-form')),
-					'element' 		=> '[data-action="wsf-publish"]',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/publishing-forms/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Preview', 'ws-form'), __('Click this to preview your form in your website theme. You can change the template used for previewing in settings.', 'ws-form')),
-					'element' 		=> '[data-action="wsf-preview"]',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/previewing-forms/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Style', 'ws-form'), __('Click this to style your form in your website theme. You can change the style used in the form settings.', 'ws-form')),
-					'element' 		=> '[data-action="wsf-style"]',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/styler/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Submissions', 'ws-form'), __('To view your form submissions, click here. You can edit, export and print submissions.', 'ws-form')),
-					'element' 		=> '[data-action="wsf-submission"]',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/submissions/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Import', 'ws-form'), __('Click this to import a form that you have previously exported. This is useful if you want to transfer a form to another website.', 'ws-form')),
-					'element' 		=> '[data-action="wsf-form-upload"]',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/import-export/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Export', 'ws-form'), __('Click this to export your form. You can use the exported JSON file to move your form to another website.', 'ws-form')),
-					'element' 		=> '[data-action="wsf-form-download"]',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/import-export/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Toolbox', 'ws-form'), __('Drag-and-drop or click a field type to add it to your form. The \'Undo\' tab contains a history of your form edits. You can go back to any step if you make a mistake.', 'ws-form')),
-					'element' 		=> '[data-action-sidebar="toolbox"]',
-					'sidebar_open' 	=> 'toolbox',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/the-layout-editor/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Conditional Logic', 'ws-form'), __('Upgrade to PRO to use conditional logic and make your form interactive! For example, you could show or hide sections of a form to make it easier to complete.', 'ws-form')),
-					'element' 		=> '[data-action-sidebar="conditional"]',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/conditional-logic/')
-				],
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Actions', 'ws-form'), __('Actions run whenever a form is submitted or saved. You can send emails, show messages, redirect to a page, integrate with a CRM and more.', 'ws-form')),
-					'element' 		=> '[data-action-sidebar="action"]',
-					'sidebar_open' 	=> 'action',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/introduction-actions/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Support', 'ws-form'), __('Need help? Click here to browse and search the knowledge base.', 'ws-form')),
-					'element' 		=> '[data-action-sidebar="support"]',
-					'sidebar_open' 	=> 'support',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Form Settings', 'ws-form'), __('Form settings include spam settings and duplicate protection. You can also add custom CSS classes and edit the behavior of the form.', 'ws-form')),
-					'element' 		=> '[data-action-sidebar="form"]',
-					'sidebar_open' 	=> 'form',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/form-settings/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Add Tab', 'ws-form'), __('Click this to add tabs to your form. Use tabs to create multi-step forms. If you only have one tab, your form will be shown without tabs on your website.', 'ws-form')),
-					'element' 		=> '.wsf-group-add button',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/tabs/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Add Section', 'ws-form'), __('Click this to add sections to your form. Use sections to break up your form into logic sections.', 'ws-form')),
-					'element' 		=> '.wsf-section-add button',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/sections/')
-				],
-
-				[
-					'hint' 			=> sprintf('<strong>%s</strong><br />%s', __('Breakpoint Selector', 'ws-form'), __('You can create unique form layouts for each screen width. To choose a different screen width, drag the breakpoint selector left or right. If you change a section or field width it will apply to that one breakpoint and all those above it.', 'ws-form')),
-					'element' 		=> '#wsf-breakpoints span',
-					'button_url'	=> WS_Form_Common::get_plugin_website_url('/knowledgebase/responsive-forms/')
-				],
-			];
-
-			WS_Form_Common::option_set('intro', false);
-
-			return $hints;
-		}
 
 		// API - Styler
 		public function api_styler($parameters) {

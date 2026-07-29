@@ -124,9 +124,15 @@
 				if(!isset($config['id'])) { continue; }
 				$action_id = $config['id'];
 
-				// If spam threshold exceeded, don't run actions unless its the database action
+				// Spam detected by form threshold, or actions stopped by a spam check (e.g. AbuseIPDB global threshold)
+				$spam_detected = (
+					(self::$spam_level >= $spam_threshold) ||
+					(!empty($submit->actions_stopped) && ($submit->actions_stopped === true))
+				);
+
+				// If spam detected, don't run actions unless its the database action
 				if(
-					(self::$spam_level >= $spam_threshold) &&
+					$spam_detected &&
 					($action_id != 'database')
 				) {
 					// Do not log this action
@@ -170,9 +176,9 @@
 					throw new Exception(esc_html($e->getMessage()));
 				}
 
-				// If spam threshold exceeded, throw error
+				// If spam detected, throw error
 				if(
-					(self::$spam_level >= $spam_threshold) &&
+					$spam_detected &&
 					($action_id != 'database')
 				) {
 					self::error(__('Spam detected', 'ws-form'));
@@ -628,9 +634,6 @@
 			// Check if action can get data for form population
 			if(!self::$form_tab_populate_added && self::check_capabilities(self::$actions[$action_id], array('get'))) {
 
-				// Add actions tab to form sidebar
-				add_filter('wsf_config_settings_form_admin', array($this, 'config_settings_form_admin_action'), 5);
-
 				// Add actions meta keys
 				add_filter('wsf_config_meta_keys', array($this, 'config_meta_keys_action'), 5);
 
@@ -714,25 +717,6 @@
 			return $meta_keys;
 		}
 
-		public function config_settings_form_admin_action($config_settings_form_admin) {
-
-			$config_settings_form_admin['sidebars']['form']['meta']['fieldsets']['action'] = array(
-
-				'label'		=>	__('Data', 'ws-form'),
-
-				'fieldsets'		=>	array(
-
-					array(
-
-						'label'			=>	__('Populate', 'ws-form'),
-						'meta_keys'		=> array('form_populate_enabled', 'form_populate_action_id', 'form_populate_list_id', 'form_populate_field_mapping', 'form_populate_tag_mapping')
-					)
-				)
-			);
-
-			return $config_settings_form_admin;
-		}
-
 		public function config_meta_keys_action($meta_keys = array(), $form_id = 0) {
 
 			// Build config_meta_keys
@@ -741,7 +725,7 @@
 				// Form populate enable
 				'form_populate_enabled'		=> array(
 
-					'label'						=>	__('Populate Using Action', 'ws-form'),
+					'label'						=>	__('Enable', 'ws-form'),
 					'type'						=>	'checkbox',
 					'help'						=>	sprintf(
 
@@ -979,6 +963,19 @@
 
 			// Add build_meta_data filter
 			add_filter('wsf_form_create_meta_keys', array($this, 'form_create_meta_keys'), 5, 1);
+
+			// Populate tab is defined in config for order; remove if no populate-capable actions
+			add_filter('wsf_config_settings_form_admin', array($this, 'config_settings_form_admin_action'), 20);
+		}
+
+		public function config_settings_form_admin_action($config_settings_form_admin) {
+
+			if(!self::$form_tab_populate_added) {
+
+				unset($config_settings_form_admin['sidebars']['form']['meta']['fieldsets']['action']);
+			}
+
+			return $config_settings_form_admin;
 		}
 
 		public function api_call($endpoint, $path = '', $method = 'GET', $body = null, $headers = array(), $authentication = 'basic', $username = false, $password = false, $accept = 'application/json', $content_type = 'application/json', $timeout = WS_FORM_API_CALL_TIMEOUT, $ssl_verify = WS_FORM_API_CALL_SSL_VERIFY, $cookies = array(), $blocking = true) {
@@ -1001,13 +998,14 @@
 			// Build args
 			$args = array(
 
-				'method'		=> $method,
-				'headers'		=> $headers,
-				'user-agent'	=> WS_Form_Common::get_request_user_agent(),
-				'timeout'		=> WS_Form_Common::get_request_timeout($timeout),
-				'sslverify'		=> WS_Form_Common::get_request_sslverify($ssl_verify),
-				'cookies'		=> $cookies,
-				'blocking'		=> $blocking
+				'method'				=> $method,
+				'headers'				=> $headers,
+				'user-agent'			=> WS_Form_Common::get_request_user_agent(),
+				'timeout'				=> WS_Form_Common::get_request_timeout($timeout),
+				'sslverify'				=> WS_Form_Common::get_request_sslverify($ssl_verify),
+				'cookies'				=> $cookies,
+				'blocking'				=> $blocking,
+				'reject_unsafe_urls'	=> true
 			);
 
 			// URL
@@ -1216,6 +1214,7 @@
 			$form_field_id_lookup = array();
 			$form_field_id_lookup_all = array();
 			$form_field_type_lookup = array();
+			$form_section_id_lookup = array();
 
 			// Get list fields (And force API request)
 			if(
@@ -1327,6 +1326,11 @@
 									$ws_form_section->label = $section_meta_data_value;
 									break;
 
+								case 'ai_id' :
+
+									// Used only for conditional ID remapping; not stored on the section
+									break;
+
 								case 'width_factor' :
 
 									$width_factor = floatval($section_meta_data_value);
@@ -1353,6 +1357,15 @@
 					// Create section
 					$section_id = $ws_form_section->db_create();
 					$section_count++;
+
+					// AI / create-time section id lookup (for conditionals)
+					if(
+						is_array($section_meta_data_array) &&
+						isset($section_meta_data_array['ai_id'])
+					) {
+
+						$form_section_id_lookup[absint($section_meta_data_array['ai_id'])] = $section_id;
+					}
 
 					// Ensure sort indexes are tidy
 					$sort_index = 0;
@@ -1662,8 +1675,14 @@
 			// Get meta keys
 			$meta_keys = WS_Form_Config::get_meta_keys();
 
-			// Get add form actions
+			// Get add form actions (copy so we never mutate the shared meta_keys cache)
 			$meta_action = $meta_keys['action']['default'];
+			$meta_action_encoded = wp_json_encode($meta_action);
+			if($meta_action_encoded !== false) {
+
+				$meta_action_copy = json_decode($meta_action_encoded, true);
+				if(is_array($meta_action_copy)) { $meta_action = $meta_action_copy; }
+			}
 
 			if(
 				($form_actions === false) &&
@@ -1675,24 +1694,63 @@
 
 			if(is_array($form_actions)) {
 
+				// Replace default/form_add rows when an explicit action list is provided
+				// (avoids duplicate row IDs colliding with new-form defaults)
+				if(
+					!isset($meta_action['groups']) ||
+					!is_array($meta_action['groups']) ||
+					!isset($meta_action['groups'][0]) ||
+					!is_array($meta_action['groups'][0])
+				) {
+
+					$meta_action['groups'] = array(
+
+						array(
+
+							'id' => 0,
+							'label' => __('Actions', 'ws-form'),
+							'page' => 0,
+							'disabled' => '',
+							'mask_group' => '',
+							'rows' => array()
+						)
+					);
+				}
+
+				$meta_action['groups'][0]['rows'] = array();
+
 				$form_action_index = 1;
 
 				foreach($form_actions as $form_action_id => $form_action_config) {
 
 					if(is_numeric($form_action_id)) {
 
-						$form_action_id = $form_action_config;
-						$form_action_config = array();
+						// Support: 'email' or array('id' => 'email', 'meta' => array(...))
+						if(is_array($form_action_config) && isset($form_action_config['id'])) {
+
+							$form_action_id = $form_action_config['id'];
+
+						} else {
+
+							$form_action_id = $form_action_config;
+							$form_action_config = array();
+						}
 					}
 
+					if(!is_string($form_action_id) || ($form_action_id === '')) { continue; }
+
 					// Add meta
-					$form_action_meta = isset($form_action_config['meta']) ? $form_action_config['meta'] : array();
+					$form_action_meta = (is_array($form_action_config) && isset($form_action_config['meta']) && is_array($form_action_config['meta'])) ? $form_action_config['meta'] : array();
 
 					// Parse meta
 					$form_action_meta = self::get_action_parse($form_action_meta, $field_mapping_action, $tag_mapping_action, $form_field_id_lookup, $form_field_id_lookup_all);
 
 					// Add action
-					$meta_action['groups'][0]['rows'][] = self::update_form_action($form_action_index++, $form_action_id, $form_action_meta, $form_action_config);
+					$action_row = self::update_form_action($form_action_index, $form_action_id, $form_action_meta, is_array($form_action_config) ? $form_action_config : array());
+					if($action_row === false) { continue; }
+
+					$meta_action['groups'][0]['rows'][] = $action_row;
+					$form_action_index++;
 				}
 			}
 
@@ -1893,6 +1951,19 @@
 				}
 			}
 
+			// Label (optional custom label from create-time config)
+			$action_label = $action->label_action;
+			if(
+				isset($form_action_config['label']) &&
+				(is_string($form_action_config['label']) || is_numeric($form_action_config['label']))
+			) {
+				$action_label_custom = sanitize_text_field((string) $form_action_config['label']);
+				if($action_label_custom !== '') {
+
+					$action_label = $action_label_custom;
+				}
+			}
+
 			// Build action row
 			$action_row = array(
 
@@ -1900,7 +1971,7 @@
 				'disabled'	=> (isset($form_action_config['disabled']) ? $form_action_config['disabled'] : false) ? 'on' : '',
 				'data'		=> array(
 
-					$action->label_action,
+					$action_label,
 					wp_json_encode(
 
 						array(
@@ -1916,7 +1987,7 @@
 			return $action_row;
 		}
 
-		public static function update_form_conditional($row_id, $conditional, $form_field_id_lookup = array()) {
+		public static function update_form_conditional($row_id, $conditional, $form_field_id_lookup = array(), $form_section_id_lookup = array()) {
 
 			// User capability check
 			if(!WS_Form_Common::can_user('edit_form')) { return false; }
@@ -1931,43 +2002,65 @@
 
 						foreach($part['conditions'] as $condition_index => $condition) {
 
-							// Object ID lookup
-							if(isset($condition['object_id'])) {
+							// Object ID lookup (fields only — action IDs must not be remapped via field lookup)
+							if(
+								isset($condition['object']) &&
+								($condition['object'] === 'field') &&
+								isset($condition['object_id']) &&
+								isset($form_field_id_lookup[$condition['object_id']])
+							) {
 
-								if(isset($form_field_id_lookup[$condition['object_id']])) {
-
-									$conditional['conditional'][$key][$index]['conditions'][$condition_index]['object_id'] = $form_field_id_lookup[$condition['object_id']];
-								}
+								$conditional['conditional'][$key][$index]['conditions'][$condition_index]['object_id'] = $form_field_id_lookup[$condition['object_id']];
 							}
 
-							// Value lookup
-							if(isset($condition['value'])) {
+							// Value lookup (field match)
+							if(
+								isset($condition['logic']) &&
+								(
+									($condition['logic'] === 'field_match') ||
+									($condition['logic'] === 'field_match_not')
+								) &&
+								isset($condition['value']) &&
+								isset($form_field_id_lookup[$condition['value']])
+							) {
 
-								if(isset($form_field_id_lookup[$condition['value']])) {
-
-									$conditional['conditional'][$key][$index]['conditions'][$condition_index]['value'] = $form_field_id_lookup[$condition['value']];
-								}
+								$conditional['conditional'][$key][$index]['conditions'][$condition_index]['value'] = $form_field_id_lookup[$condition['value']];
 							}
 						}
 
 					} else {
 
 						// Object ID lookup
-						if(isset($part['object_id'])) {
+						if(
+							isset($part['object']) &&
+							isset($part['object_id'])
+						) {
 
-							if(isset($form_field_id_lookup[$part['object_id']])) {
+							if(
+								($part['object'] === 'field') &&
+								isset($form_field_id_lookup[$part['object_id']])
+							) {
 
 								$conditional['conditional'][$key][$index]['object_id'] = $form_field_id_lookup[$part['object_id']];
+
+							} else if(
+								($part['object'] === 'section') &&
+								isset($form_section_id_lookup[$part['object_id']])
+							) {
+
+								$conditional['conditional'][$key][$index]['object_id'] = $form_section_id_lookup[$part['object_id']];
 							}
 						}
 
-						// Value lookup
-						if(isset($part['value'])) {
+						// Value lookup (field match / set value pointing at a field id)
+						if(
+							isset($part['object']) &&
+							($part['object'] === 'field') &&
+							isset($part['value']) &&
+							isset($form_field_id_lookup[$part['value']])
+						) {
 
-							if(isset($form_field_id_lookup[$part['value']])) {
-
-								$conditional['conditional'][$key][$index]['value'] = $form_field_id_lookup[$part['value']];
-							}
+							$conditional['conditional'][$key][$index]['value'] = $form_field_id_lookup[$part['value']];
 						}
 					}
 				}

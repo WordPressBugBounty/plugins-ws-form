@@ -12,37 +12,29 @@
 ?>
 <div id="wsf-wrapper" class="<?php WS_Form_Common::wrapper_classes(); ?>">
 
-<!-- Header -->
-<div class="wsf-header">
-<h1><?php esc_html_e('Styles', 'ws-form'); ?></h1>
 <?php
+
+	ob_start();
 
 	if(WS_Form_Common::can_user('create_form_style')) {
 ?>
-<a class="wsf-button wsf-button-small wsf-button-information" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_admin_url('ws-form-style-add')); ?>" title="<?php esc_attr_e('Add New', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('plus'); ?> <?php esc_html_e('Add New', 'ws-form'); ?></a>
+<a class="button button-primary" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_admin_url('ws-form-style-add')); ?>" title="<?php esc_attr_e('Add New', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('plus'); ?> <?php esc_html_e('Add New', 'ws-form'); ?></a>
 <?php
 	}
 
 	if(WS_Form_Common::can_user('import_form_style')) {
 ?>
-<button class="wsf-button wsf-button-small" data-action-button="wsf-style-upload"><?php WS_Form_Common::render_icon_16_svg('upload'); ?> <?php esc_html_e('Import', 'ws-form'); ?></button>
+<button type="button" class="button" data-action-button="wsf-style-upload" title="<?php esc_attr_e('Import', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('upload'); ?> <span class="wsf-admin-header-action-label"><?php esc_html_e('Import', 'ws-form'); ?></span></button>
 <?php
 	}
-?>
-</div>
-<hr class="wp-header-end">
-<!-- /Header -->
-<?php
+
+	WS_Form_Common::admin_header(__('Styles', 'ws-form'), ob_get_clean());
 
 	// Review nag
 	WS_Form_Common::review();
 
 	// Import
-	if(WS_Form_Common::can_user('import_form_style')) {
-?>
-<input type="file" id="wsf-object-upload-file" class="wsf-file-upload" accept=".json" aria-hidden aria-label="<?php esc_attr_e('File upload', 'ws-form'); ?>" />
-<?php
-	}
+	$this->render_object_upload_dropzone('import_form_style');
 ?>
 <!-- Style Table -->
 <form id="wsf-style-list-table" method="post">
@@ -100,8 +92,6 @@
 
 			// Initialize style table
 			wsf_obj.wp_list_table_style();
-
-			$('#wsf-style-table h1').html('<?php esc_html_e('Drop file to import', 'ws-form'); ?>');
 		});
 
 	})(jQuery);

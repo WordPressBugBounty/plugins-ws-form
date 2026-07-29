@@ -64,8 +64,22 @@
 			// Get template type
 			$type = self::api_get_type($parameters);
 
-			// Get form object from post $_FILE
-			$form_object = WS_Form_Common::get_object_from_post_file();
+			// Get form object from post $_FILE (form / section / style only)
+			// Section templates also accept full form JSON
+			if($type === 'section') {
+
+				$object_type = array('form', 'section');
+
+			} else if(in_array($type, array('form', 'style'), true)) {
+
+				$object_type = $type;
+
+			} else {
+
+				$object_type = false;
+			}
+
+			$form_object = WS_Form_Common::get_object_from_post_file($object_type);
 
 			$ws_form_template = new WS_Form_Template();
 			$ws_form_template->type = $type;

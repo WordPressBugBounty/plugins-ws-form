@@ -55,7 +55,7 @@ class Component_WS_Form extends Component {
 			// Build request body
 			var body = new FormData();
 			body.append('action', 'ws_form_divi_form');
-			body.append('et_admin_load_nonce ', window.et_fb_options.et_admin_load_nonce);
+			body.append('nonce', (window.ws_form_divi && window.ws_form_divi.nonce) ? window.ws_form_divi.nonce : '');
 			body.append('form_id', parseInt(this.props.form_id));
 			body.append('instance_id', instanceID);
 

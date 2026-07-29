@@ -26,13 +26,14 @@
 						'preview'	=>	array(
 
 							'heading'		=>	__('Preview', 'ws-form'),
+							'learn_more'	=>	'/knowledgebase/previewing-forms/',
 							'fields'	=>	array(
 
 								'helper_live_preview'	=>	array(
 
-									'label'		=>	__('Live', 'ws-form'),
+									'label'		=>	__('Enable Live Preview', 'ws-form'),
 									'type'		=>	'checkbox',
-									'help'		=>	sprintf('%s <a href="%s" target="_blank">%s</a>', __('Update the form preview window automatically.', 'ws-form'), WS_Form_Common::get_plugin_website_url('/knowledgebase/previewing-forms/'), __('Learn more', 'ws-form')),
+									'help'		=>	__('Update the form preview window automatically.', 'ws-form'),
 									'admin'		=>	true,
 									'default'	=>	true,
 								),
@@ -58,6 +59,7 @@
 						'layout_editor'	=>	array(
 
 							'heading'	=>	__('Layout Editor', 'ws-form'),
+							'learn_more'	=>	'/knowledgebase/the-layout-editor/',
 							'fields'	=>	array(
 
 								'helper_columns'	=>	array(
@@ -79,13 +81,7 @@
 
 									'label'		=>	__('Auto Publish', 'ws-form'),
 									'type'		=>	'checkbox',
-									'help'		=>	sprintf(
-
-										'%s <a href="%s" target="_blank">%s</a>',
-										__('If checked, changes made to your form will be automatically published.', 'ws-form'),
-										WS_Form_Common::get_plugin_website_url('/knowledgebase/publishing-forms/'),
-										__('Learn more', 'ws-form')
-									),
+									'help'		=>	__('If checked, changes made to your form will be automatically published.', 'ws-form'),
 									'default'	=>	false
 								),
 
@@ -182,6 +178,7 @@
 						'performance'	=>	array(
 
 							'heading'		=>	__('Performance', 'ws-form'),
+							'learn_more'	=>	'/knowledgebase/performance/',
 							'fields'	=>	array(
 
 								'enqueue_dynamic'	=>	array(
@@ -219,6 +216,7 @@
 						'cookie'	=>	array(
 
 							'heading'	=>	__('Cookies', 'ws-form'),
+							'learn_more'	=>	'/knowledgebase/cookies/',
 							'fields'	=>	array(
 
 								'cookie_timeout'	=>	array(
@@ -253,6 +251,7 @@
 						'google'	=>	array(
 
 							'heading'	=>	__('Google', 'ws-form'),
+							'learn_more'	=>	'/knowledgebase_category/field-types-mapping/',
 							'fields'	=>	array(
 
 								'api_key_google_map'	=>	array(
@@ -284,6 +283,7 @@
 						'geo'	=>	array(
 
 							'heading'	=>	__('Geolocation Lookup by IP', 'ws-form'),
+							'learn_more'	=>	'/knowledgebase/geolocation-lookup-by-ip/',
 							'fields'	=>	array(
 
 								'ip_lookup_method' => array(
@@ -361,6 +361,7 @@
 						'tracking'	=>	array(
 
 							'heading'	=>	__('Tracking Links', 'ws-form'),
+							'learn_more'	=>	'/knowledgebase/tracking/',
 							'fields'	=>	array(
 
 
@@ -455,6 +456,7 @@
 						'performance'	=>	array(
 
 							'heading'		=>	__('Performance', 'ws-form'),
+							'learn_more'	=>	'/knowledgebase/performance/',
 							'fields'	=>	array(
 
 								'css_compile'	=>	array(
@@ -512,6 +514,7 @@
 				$options['ai']['groups']['ai_connectors'] = array(
 
 					'heading'	=>	__('AI Connectors', 'ws-form'),
+					'learn_more'	=>	'/knowledgebase_category/ai/',
 
 					'message'	=>	sprintf(
 
@@ -541,14 +544,9 @@
 				$options['ai']['groups']['abilities_api'] = array(
 
 					'heading'	=>	__('Abilities API', 'ws-form'),
+					'learn_more'	=>	'/knowledgebase/abilities/',
 
-					'message'	=>	sprintf(
-
-						'%s <a href="%s" target="_blank">%s</a>',
-						esc_html__('Registers WS Form abilities with the WordPress Abilities API.', 'ws-form'),
-						esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/abilities/')),
-						esc_html__('Learn more', 'ws-form')
-					),
+					'message'	=>	esc_html__('Registers WS Form abilities with the WordPress Abilities API.', 'ws-form'),
 
 					'fields'	=>	array(
 
@@ -601,19 +599,14 @@
 				$options['ai']['groups']['mcp_adapter'] = array(
 
 					'heading'	=>	__('MCP Adapter', 'ws-form'),
+					'learn_more'	=>	'/knowledgebase/mcp-server/',
 
-					'message'	=>	sprintf(
+					'message'	=>	esc_html(sprintf(
 
-						'%s <a href="%s" target="_blank">%s</a>',
-						esc_html(sprintf(
-
-							/* translators: %s: Presentable name (e.g. WS Form PRO) */
-							__('Register a dedicated %s MCP server so authenticated AI clients can connect using the server URL below.', 'ws-form'),
-							WS_FORM_NAME_PRESENTABLE
-						)),
-						esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/mcp-server/')),
-						esc_html__('Learn more', 'ws-form')
-					),
+						/* translators: %s: Presentable name (e.g. WS Form PRO) */
+						__('Register a dedicated %s MCP server so authenticated AI clients can connect using the server URL below.', 'ws-form'),
+						WS_FORM_NAME_PRESENTABLE
+					)),
 
 					'fields'	=>	array(
 
@@ -640,6 +633,7 @@
 				$options['ai']['groups']['angie'] = array(
 
 					'heading'	=>	__('Angie', 'ws-form'),
+					'learn_more'	=>	'/knowledgebase/angie/',
 
 					'fields'	=>	array(
 
@@ -650,13 +644,9 @@
 							'default'	=>	true,
 							'help'		=>	sprintf(
 
-								'%s <a href="%s" target="_blank">%s</a><br><em>%s</em>',
+								'%s<br><em>%s</em>',
 
 								__('If enabled, WS Form abilities will be registered with Angie Agentic AI.', 'ws-form'),
-
-								esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/angie/')),
-
-								esc_html(__('Learn more', 'ws-form')),
 
 								__('Experimental', 'ws-form')
 							),
@@ -668,6 +658,286 @@
 
 			$options = array_merge($options, array(
 
+				// Spam Protection
+				'spam_protection'	=> array(
+
+					'label'		=>	__('Spam Protection', 'ws-form'),
+					'groups'	=>	array(
+
+						'recaptcha'	=>	array(
+
+							'heading'	=> 'reCAPTCHA',
+							'learn_more'	=>	'/knowledgebase/recaptcha/',
+							'fields'	=>	array(
+
+								'recaptcha_site_key' => array(
+
+									'label'		=>	__('Site Key', 'ws-form'),
+									'type'		=>	'key',
+									'help'		=>	esc_html(sprintf(
+
+										/* translators: %s: Brand name */
+										__('%s site key.', 'ws-form'),
+										'reCAPTCHA'
+									)),
+									'default'		=>	'',
+									'admin'			=>	true,
+									'public'		=>	true
+								),
+
+								'recaptcha_secret_key' => array(
+
+									'label'		=>	__('Secret Key', 'ws-form'),
+									'type'		=>	'key',
+									'help'		=>	esc_html(sprintf(
+
+										/* translators: %s: Brand name */
+										__('%s secret key.', 'ws-form'),
+										'reCAPTCHA'
+									)),
+									'default'		=>	'',
+									'admin'			=>	true
+								),
+
+								// reCAPTCHA - Default type
+								'recaptcha_recaptcha_type' => array(
+
+									'label'						=>	__('Default reCAPTCHA Type', 'ws-form'),
+									'type'						=>	'select',
+									'help'						=>	__('Select the default type used for new reCAPTCHA fields.', 'ws-form'),
+									'options'					=>	array(
+
+										'v2_default' => array('text' => __('Version 2 - Default', 'ws-form')),
+										'v2_invisible' => array('text' => __('Version 2 - Invisible', 'ws-form')),
+										'v3_default' => array('text' => __('Version 3', 'ws-form')),
+									),
+									'default'					=>	'v2_default'
+								)
+							)
+						),
+
+						'hcaptcha'	=>	array(
+
+							'heading'	=>	'hCaptcha',
+							'learn_more'	=>	'/knowledgebase/hcaptcha/',
+							'fields'	=>	array(
+
+								'hcaptcha_site_key' => array(
+
+									'label'		=>	__('Site Key', 'ws-form'),
+									'type'		=>	'key',
+									'help'		=>	esc_html(sprintf(
+
+										/* translators: %s: Brand name */
+										__('%s site key.', 'ws-form'),
+										'hCaptcha'
+									)),
+									'default'		=>	'',
+									'admin'			=>	true,
+									'public'		=>	true
+								),
+
+								'hcaptcha_secret_key' => array(
+
+									'label'		=>	__('Secret Key', 'ws-form'),
+									'type'		=>	'key',
+									'help'		=>	esc_html(sprintf(
+
+										/* translators: %s: Brand name */
+										__('%s secret key.', 'ws-form'),
+										'hCaptcha'
+									)),
+									'default'		=>	'',
+									'admin'			=>	true
+								)
+							)
+						),
+
+						'turnstile'	=>	array(
+
+							'heading'	=>	'Turnstile',
+							'learn_more'	=>	'/knowledgebase/turnstile/',
+							'fields'	=>	array(
+
+								'turnstile_site_key' => array(
+
+									'label'		=>	__('Site Key', 'ws-form'),
+									'type'		=>	'key',
+									'help'		=>	esc_html(sprintf(
+
+										/* translators: %s: Brand name */
+										__('%s site key.', 'ws-form'),
+										'Turnstile'
+									)),
+									'default'		=>	'',
+									'admin'			=>	true,
+									'public'		=>	true
+								),
+
+								'turnstile_secret_key' => array(
+
+									'label'		=>	__('Secret Key', 'ws-form'),
+									'type'		=>	'key',
+									'help'		=>	esc_html(sprintf(
+
+										/* translators: %s: Brand name */
+										__('%s secret key.', 'ws-form'),
+										'Turnstile'
+									)),
+									'default'		=>	'',
+									'admin'			=>	true
+								)
+							)
+						),
+
+						'captchafox'	=>	array(
+
+							'heading'	=>	'CaptchaFox',
+							'learn_more'	=>	'/knowledgebase/captchafox/',
+							'fields'	=>	array(
+
+								'captchafox_site_key' => array(
+
+									'label'		=>	__('Site Key', 'ws-form'),
+									'type'		=>	'key',
+									'help'		=>	esc_html(sprintf(
+
+										/* translators: %s: Brand name */
+										__('%s site key.', 'ws-form'),
+										'CaptchaFox'
+									)),
+									'default'		=>	'',
+									'admin'			=>	true,
+									'public'		=>	true
+								),
+
+								'captchafox_secret_key' => array(
+
+									'label'		=>	__('Secret Key', 'ws-form'),
+									'type'		=>	'key',
+									'help'		=>	esc_html(sprintf(
+
+										/* translators: %s: Brand name */
+										__('%s secret key.', 'ws-form'),
+										'CaptchaFox'
+									)),
+									'default'		=>	'',
+									'admin'			=>	true
+								)
+							)
+						),
+
+						'abuseipdb'	=>	array(
+
+							'heading'	=>	'AbuseIPDB',
+							'learn_more'	=>	'/knowledgebase/abuseipdb/',
+							'fields'	=>	array(
+
+								'abuseipdb_api_key' => array(
+
+									'label'		=>	__('API Key', 'ws-form'),
+									'type'		=>	'key',
+									'constant'	=>	'WSF_ABUSEIPDB_API_KEY',
+									'help'		=>	sprintf(
+										'%s <a href="%s" target="_blank">%s</a>',
+										esc_html__('AbuseIPDB API key.', 'ws-form'),
+										esc_url('https://www.abuseipdb.com/register'),
+										esc_html__('Get an API key', 'ws-form')
+									),
+									'default'	=>	'',
+									'admin'		=>	true
+								),
+
+								'abuseipdb_all_forms' => array(
+
+									'label'		=>	__('Enable On All Forms', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	__('If checked, AbuseIPDB checks run on every form. Otherwise enable it per form under Settings → Spam Protection.', 'ws-form'),
+									'default'	=>	''
+								),
+
+								'abuseipdb_admin_no_run' => array(
+
+									'label'		=>	__('Bypass If Administrator', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	__('If checked, this check will not run if you are signed in as an administrator.', 'ws-form'),
+									'default'	=>	'on'
+								),
+
+								'abuseipdb_threshold' => array(
+
+									'label'		=>	__('Abuse Confidence Score', 'ws-form'),
+									'type'		=>	'number',
+									'minimum'	=>	0,
+									'maximum'	=>	100,
+									'default'	=>	'',
+									'allow_blank'	=>	true,
+									'help'		=>	__('Optional. If set (0–100), submissions at or above this AbuseIPDB score are treated as spam on every form. If left blank, each form’s Spam Threshold setting is used instead.', 'ws-form')
+								),
+
+								'abuseipdb_max_age_days' => array(
+
+									'label'		=>	__('Report Window (Days)', 'ws-form'),
+									'type'		=>	'number',
+									'minimum'	=>	1,
+									'maximum'	=>	365,
+									'default'	=>	30,
+									'help'		=>	__('Only consider AbuseIPDB reports within this many days (1–365).', 'ws-form')
+								),
+
+								'abuseipdb_countries' => array(
+
+									'label'		=>	__('Country Blocklist', 'ws-form'),
+									'type'		=>	'select',
+									'multiple'	=>	true,
+									'select2'	=>	true,
+									'options'	=>	array(),
+									'help'		=>	__('Block submissions from these countries regardless of score.', 'ws-form'),
+									'default'	=>	''
+								),
+
+								'abuseipdb_domains' => array(
+
+									'label'		=>	__('Domain Blocklist', 'ws-form'),
+									'type'		=>	'textarea',
+									'help'		=>	__('Block submissions from IPs tied to these domains regardless of score. Separate with commas or new lines (e.g. example.com).', 'ws-form'),
+									'default'	=>	''
+								),
+
+								'abuseipdb_report' => array(
+
+									'label'		=>	__('Report Spam To AbuseIPDB', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	__('If checked, when a submission is marked as spam in WS Form the IP address is reported to AbuseIPDB as web spam.', 'ws-form'),
+									'default'	=>	''
+								)
+							)
+						),
+
+						'nonce'	=>	array(
+
+							'heading'	=>	__('NONCE', 'ws-form'),
+							'learn_more'	=>	'/knowledgebase/using-nonces-to-protect-against-spam/',
+							'fields'	=>	array(
+
+								'security_nonce'	=>	array(
+
+									'label'		=>	__('Enable NONCE', 'ws-form'),
+									'type'		=>	'checkbox',
+									'help'		=>	sprintf(
+
+										'%s<br />%s',
+
+										__('Add a NONCE to all form submissions.', 'ws-form'),
+										__('If enabled we recommend keeping overall page caching to less than 10 hours.<br />NONCEs are always used on forms if a user is logged in.', 'ws-form')
+									),
+									'default'	=>	''
+								)
+							)
+						)
+					)
+				),
+
 				// System
 				'system'	=> array(
 
@@ -676,8 +946,9 @@
 
 						'system' => array(
 
-							'label'		=>	__('System Report', 'ws-form'),
-							'type'		=>	'static'
+							'label'		=>	false,
+							'type'		=>	'static',
+							'class_row'	=>	'wsf-settings-system-report'
 						),
 
 						'setup'	=> array(
@@ -727,235 +998,6 @@
 						)
 					)
 				),
-
-				// Spam Protection
-				'spam_protection'	=> array(
-
-					'label'		=>	__('Spam Protection', 'ws-form'),
-					'groups'	=>	array(
-
-						'recaptcha'	=>	array(
-
-							'heading'	=> 'reCAPTCHA',
-							'fields'	=>	array(
-
-								'recaptcha_site_key' => array(
-
-									'label'		=>	__('Site Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(sprintf(
-
-											/* translators: %s: Brand name */
-											__('%s site key.', 'ws-form'),
-											'reCAPTCHA'
-										)),
-										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/')),
-										esc_html(__('Learn more', 'ws-form'))
-									),
-									'default'		=>	'',
-									'admin'			=>	true,
-									'public'		=>	true
-								),
-
-								'recaptcha_secret_key' => array(
-
-									'label'		=>	__('Secret Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(sprintf(
-
-											/* translators: %s: Brand name */
-											__('%s secret key.', 'ws-form'),
-											'reCAPTCHA'
-										)),
-										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/recaptcha/')),
-										esc_html(__('Learn more', 'ws-form'))
-									),
-									'default'		=>	'',
-									'admin'			=>	true
-								),
-
-								// reCAPTCHA - Default type
-								'recaptcha_recaptcha_type' => array(
-
-									'label'						=>	__('Default reCAPTCHA Type', 'ws-form'),
-									'type'						=>	'select',
-									'help'						=>	__('Select the default type used for new reCAPTCHA fields.', 'ws-form'),
-									'options'					=>	array(
-
-										'v2_default' => array('text' => __('Version 2 - Default', 'ws-form')),
-										'v2_invisible' => array('text' => __('Version 2 - Invisible', 'ws-form')),
-										'v3_default' => array('text' => __('Version 3', 'ws-form')),
-									),
-									'default'					=>	'v2_default'
-								)
-							)
-						),
-
-						'hcaptcha'	=>	array(
-
-							'heading'	=>	'hCaptcha',
-							'fields'	=>	array(
-
-								'hcaptcha_site_key' => array(
-
-									'label'		=>	__('Site Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(sprintf(
-
-											/* translators: %s: Brand name */
-											__('%s site key.', 'ws-form'),
-											'hCaptcha'
-										)),
-										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/')),
-										esc_html(__('Learn more', 'ws-form'))
-									),
-									'default'		=>	'',
-									'admin'			=>	true,
-									'public'		=>	true
-								),
-
-								'hcaptcha_secret_key' => array(
-
-									'label'		=>	__('Secret Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(sprintf(
-
-											/* translators: %s: Brand name */
-											__('%s secret key.', 'ws-form'),
-											'hCaptcha'
-										)),
-										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/hcaptcha/')),
-										esc_html(__('Learn more', 'ws-form'))
-									),
-									'default'		=>	'',
-									'admin'			=>	true
-								)
-							)
-						),
-
-						'turnstile'	=>	array(
-
-							'heading'	=>	'Turnstile',
-							'fields'	=>	array(
-
-								'turnstile_site_key' => array(
-
-									'label'		=>	__('Site Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(sprintf(
-
-											/* translators: %s: Brand name */
-											__('%s site key.', 'ws-form'),
-											'Turnstile'
-										)),
-										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
-										esc_html(__('Learn more', 'ws-form'))
-									),
-									'default'		=>	'',
-									'admin'			=>	true,
-									'public'		=>	true
-								),
-
-								'turnstile_secret_key' => array(
-
-									'label'		=>	__('Secret Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(sprintf(
-
-											/* translators: %s: Brand name */
-											__('%s secret key.', 'ws-form'),
-											'Turnstile'
-										)),
-										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/turnstile/')),
-										esc_html(__('Learn more', 'ws-form'))
-									),
-									'default'		=>	'',
-									'admin'			=>	true
-								)
-							)
-						),
-
-						'captchafox'	=>	array(
-
-							'heading'	=>	'CaptchaFox',
-							'fields'	=>	array(
-
-								'captchafox_site_key' => array(
-
-									'label'		=>	__('Site Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(sprintf(
-
-											/* translators: %s: Brand name */
-											__('%s site key.', 'ws-form'),
-											'CaptchaFox'
-										)),
-										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/captchafox/')),
-										esc_html(__('Learn more', 'ws-form'))
-									),
-									'default'		=>	'',
-									'admin'			=>	true,
-									'public'		=>	true
-								),
-
-								'captchafox_secret_key' => array(
-
-									'label'		=>	__('Secret Key', 'ws-form'),
-									'type'		=>	'key',
-									'help'		=>	sprintf(
-										'%s <a href="%s" target="_blank">%s</a>',
-										esc_html(sprintf(
-
-											/* translators: %s: Brand name */
-											__('%s secret key.', 'ws-form'),
-											'CaptchaFox'
-										)),
-										esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/captchafox/')),
-										esc_html(__('Learn more', 'ws-form'))
-									),
-									'default'		=>	'',
-									'admin'			=>	true
-								)
-							)
-						),
-
-						'nonce'	=>	array(
-
-							'heading'	=>	__('NONCE', 'ws-form'),
-							'fields'	=>	array(
-
-								'security_nonce'	=>	array(
-
-									'label'		=>	__('Enable NONCE', 'ws-form'),
-									'type'		=>	'checkbox',
-									'help'		=>	sprintf(
-
-										'%s <a href="https://wsform.com/knowledgebase/using-nonces-to-protect-against-spam/" target="_blank">%s</a><br />%s',
-
-										__('Add a NONCE to all form submissions.', 'ws-form'),
-										__('Learn more', 'ws-form'),
-										__('If enabled we recommend keeping overall page caching to less than 10 hours.<br />NONCEs are always used on forms if a user is logged in.', 'ws-form')
-									),
-									'default'	=>	''
-								)
-							)
-						)
-					)
-				),
 				'variable' => array(
 
 					'label'		=>	__('Variables', 'ws-form'),
@@ -964,13 +1006,7 @@
 
 						'variable_email_logo'	=>	array(
 
-							'heading'		=>	sprintf(
-
-								/* translators: %s: Variable */
-								__('Variable: %s', 'ws-form'),
-
-								'#email_logo'
-							),
+							'heading'		=>	'#email_logo',
 
 							'fields'	=>	array(
 
@@ -979,7 +1015,7 @@
 									'label'		=>	__('Image', 'ws-form'),
 									'type'		=>	'image',
 									'button'	=>	'wsf-image',
-									'help'		=>	__('Use #email_logo in your template to add this logo.', 'ws-form')
+									'help'		=>	__('Use <code>#email_logo</code> in your template to add this logo.', 'ws-form')
 								),
 
 								'action_email_logo_size'	=>	array(
@@ -994,13 +1030,7 @@
 
 						'variable_email_submission'	=>	array(
 
-							'heading'		=>	sprintf(
-
-								/* translators: %s: Variable */
-								__('Variable: %s', 'ws-form'),
-
-								'#email_submission'
-							),
+							'heading'		=>	'#email_submission',
 
 							'fields'	=>	array(
 
@@ -1066,13 +1096,7 @@
 
 						'variable_field'	=>	array(
 
-							'heading'		=>	sprintf(
-
-								/* translators: %s: Variable */
-								__('Variable: %s', 'ws-form'),
-
-								'#field'
-							),
+							'heading'		=>	'#field',
 
 							'fields'	=>	array(
 
@@ -1112,7 +1136,7 @@
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$options = apply_filters('wsf_config_options', $options);
 
-				return $options;
+				return self::options_normalize($options);
 			}
 
 			// Frameworks
@@ -1159,10 +1183,138 @@
 			// Fallback
 			$options['basic']['groups']['preview']['fields']['preview_template']['options']['fallback'] = array('text' => __('Blank Page', 'ws-form'));
 
+			// AbuseIPDB country blocklist
+			$countries_alpha_2 = self::get_countries_alpha_2();
+			foreach($countries_alpha_2 as $code => $name) {
+
+				$options['spam_protection']['groups']['abuseipdb']['fields']['abuseipdb_countries']['options'][$code] = array(
+
+					'text' => sprintf('%s (%s)', $name, $code)
+				);
+			}
+
 			// Apply filter
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			$options = apply_filters('wsf_config_options', $options);
 
+			return self::options_normalize($options);
+		}
+
+		// Core settings tab keys (built-in; everything else folds under Integrations)
+		public static function get_options_core_tabs() {
+
+			return array(
+				'basic',
+				'advanced',
+				'styling',
+				'ai',
+				'spam_protection',
+				'ecommerce',
+				'system',
+				'license',
+				'data',
+				'report',
+				'variable',
+				'integrations',
+			);
+		}
+
+		// Fold non-core tabs under a single Integrations tab as sections
+		public static function options_normalize($options) {
+
+			if(!is_array($options)) { return $options; }
+
+			$core_tabs = self::get_options_core_tabs();
+			$integration_tabs = array();
+
+			foreach($options as $tab_key => $tab) {
+
+				if(in_array($tab_key, $core_tabs, true)) { continue; }
+
+				$integration_tabs[$tab_key] = $tab;
+			}
+
+			// Keep as top-level tabs when at or below threshold
+			if(
+				empty($integration_tabs) ||
+				(count($integration_tabs) <= WS_FORM_INTEGRATIONS_COLLAPSE_THRESHOLD)
+			) {
+
+				return $options;
+			}
+
+			foreach($integration_tabs as $tab_key => $tab) {
+
+				unset($options[$tab_key]);
+			}
+
+			$integration_groups = array();
+
+			foreach($integration_tabs as $tab_key => $tab) {
+
+				$group = array(
+
+					'heading' => isset($tab['label']) ? $tab['label'] : $tab_key,
+					'fields'  => isset($tab['fields']) ? $tab['fields'] : array(),
+				);
+
+				if(isset($tab['groups']) && is_array($tab['groups'])) {
+
+					$group['groups'] = $tab['groups'];
+				}
+
+				$integration_groups[$tab_key] = $group;
+			}
+
+			$options['integrations'] = array(
+
+				'label'  => __('Integrations', 'ws-form'),
+				'groups' => $integration_groups,
+			);
+
 			return $options;
+		}
+
+		// Resolve settings tab/section with backward compatibility for legacy URLs
+		// e.g. tab=action_brevov3 → tab=integrations, section=action_brevov3
+		public static function settings_tab_section_resolve($tab, $section = '', $options = false) {
+
+			if($options === false) {
+
+				$options = WS_Form_Config::get_options(false);
+			}
+
+			if(!is_array($options)) {
+
+				return array(
+
+					'tab'     => $tab,
+					'section' => $section,
+				);
+			}
+
+			// Legacy core tab aliases
+			if(($tab === 'setup') || ($tab === 'appearance')) {
+
+				$tab = 'basic';
+			}
+
+			// Legacy top-level integration tabs (pre Integrations bundling)
+			if(
+				($tab !== '') &&
+				($tab !== false) &&
+				!isset($options[$tab]) &&
+				isset($options['integrations']['groups'][$tab])
+			) {
+
+				$section = $tab;
+				$tab = 'integrations';
+			}
+
+			return array(
+
+				'tab'     => $tab,
+				'section' => $section,
+			);
 		}
 	}

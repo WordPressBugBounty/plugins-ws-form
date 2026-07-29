@@ -73,7 +73,7 @@
 
 				self::echo_html(sprintf(
 
-					'<div class="notice %s"><p>%s</p></div>',
+					'<div class="notice wsf-notice %s"><p>%s</p></div>',
 					esc_attr($type . ($dismissible ? ' is-dismissible' : '') . ($class ? ' '  . $class : '')),
 					$message
 				));
@@ -390,7 +390,16 @@
 		// Get plugin website link
 		public static function get_plugin_website_url($path = '', $medium = false) {
 
-			return sprintf('https://wsform.com%s?utm_source=ws_form%s', $path, (($medium !== false) ? '&utm_medium=' . $medium : ''));
+			// Keep hash fragments after UTM query parameters
+			$hash = '';
+			$hash_index = strpos($path, '#');
+			if($hash_index !== false) {
+
+				$hash = substr($path, $hash_index);
+				$path = substr($path, 0, $hash_index);
+			}
+
+			return sprintf('https://wsform.com%s?utm_source=ws_form%s%s', $path, (($medium !== false) ? '&utm_medium=' . $medium : ''), $hash);
 		}
 
 		// Get customize URL
@@ -910,6 +919,12 @@
 		public static function render_icon_16_svg($id) {
 
 			self::echo_esc_svg(WS_Form_Config::get_icon_16_svg($id));
+		}
+
+		// SVG Render (24px — header toolbar)
+		public static function render_icon_24_svg($id, $title = '') {
+
+			self::echo_esc_svg(WS_Form_Config::get_icon_24_svg($id, $title));
 		}
 
 		// Check form status
@@ -2162,6 +2177,87 @@
 			return strtoupper( $parts[1] );
 		}
 
+		/**
+		 * Layout editor sidebar minimum width for the current admin language.
+		 * When Disable Translation is on, English (default) min width is used.
+		 *
+		 * @return int Minimum sidebar width in pixels.
+		 */
+		public static function get_sidebar_width_min() {
+
+			$width_min_default = defined( 'WS_FORM_SIDEBAR_WIDTH_MIN' ) ? (int) WS_FORM_SIDEBAR_WIDTH_MIN : 400;
+
+			// Translations disabled — UI is English
+			if ( self::option_get( 'disable_translation', false ) ) {
+
+				return $width_min_default;
+			}
+
+			$locale_raw = get_user_locale();
+			$locale = is_string( $locale_raw ) ? strtolower( self::language_tag_to_locale( $locale_raw ) ) : '';
+
+			if ( $locale === '' ) {
+
+				return $width_min_default;
+			}
+
+			// Exact locale (needed where variants differ, e.g. Portuguese)
+			$width_by_locale = array(
+				'pt_br' => 400,
+				'pt_pt' => 420,
+			);
+
+			if ( isset( $width_by_locale[ $locale ] ) ) {
+
+				return (int) $width_by_locale[ $locale ];
+			}
+
+			// Language code (fr_FR, fr_CA → fr, etc.)
+			$language = self::get_language_code( $locale );
+			$width_by_language = array(
+				'da' => 424, // Danish
+				'de' => 458, // German
+				'el' => 490, // Greek
+				'es' => 400, // Spanish
+				'fr' => 453, // French
+				'it' => 450, // Italian
+				'pl' => 400, // Polish
+				'sv' => 400, // Swedish
+				'uk' => 440, // Ukrainian
+			);
+
+			if ( isset( $width_by_language[ $language ] ) ) {
+
+				return (int) $width_by_language[ $language ];
+			}
+
+			return $width_min_default;
+		}
+
+		// Escape a single parse-variable value for insertion into JavaScript source
+		public static function parse_variables_escape_javascript_value($value) {
+
+			if(is_bool($value) || is_null($value) || is_array($value) || is_object($value)) {
+
+				return $value;
+			}
+
+			return esc_js((string) $value);
+		}
+
+		// Escape parse-variable lookup values for JavaScript content type
+		public static function parse_variables_escape_javascript($variables) {
+
+			if(!is_array($variables)) { return $variables; }
+
+			foreach($variables as $key => $value) {
+
+				$variables[$key] = self::parse_variables_escape_javascript_value($value);
+			}
+
+			return $variables;
+		}
+
 		// Parse WS Form variables
 		public static function parse_variables_process($parse_string, $form = false, $submit = false, $content_type = 'text/html', $scope = false, $section_repeatable_index = false, $section_row_number = 1, $exclude_secure = false, $action_config = false, $depth = 1) {
 
@@ -3344,6 +3440,12 @@
 									// Assign value
 									if($parsed_variable !== false) {
 
+										// Escape for JavaScript string context (e.g. Run JavaScript action)
+										if($content_type == 'text/javascript') {
+
+											$parsed_variable = self::parse_variables_escape_javascript_value($parsed_variable);
+										}
+
 										if($parse_variable_single_parse) {
 
 											$variables_single_parse[substr($parse_variable_full, 1)] = $parsed_variable;
@@ -3583,6 +3685,14 @@
 
 			// Secure variables
 			if($exclude_secure) { $variables = self::parse_variables_exclude_secure($variables); }
+
+			// Escape for JavaScript string context (e.g. Run JavaScript action).
+			// Attribute variables (e.g. #field) are escaped when assigned; single_parse
+			// values are also escaped at assign. Only remaining simple variables need it here.
+			if($content_type == 'text/javascript') {
+
+				$variables = self::parse_variables_escape_javascript($variables);
+			}
 
 			// Parse until no more changes made
 			$parse_string_before = $parse_string;
@@ -4606,79 +4716,6 @@
 <?php
 		}
 
-		// API check - Show a dismissable warning if the welcome screen could not reach the REST API
-		public static function api_check() {
-
-			// Only relevant for users who can resolve the issue
-			if(!self::can_user('manage_options_wsform')) { return; }
-
-			// Only show if the welcome screen flagged a failed REST API check
-			$api_check_warning = self::option_get('api_check_warning', false);
-			if(!$api_check_warning) { return; }
-
-			// Show warning (nag_notice = true so it is suppressed on the welcome screen)
-			self::admin_message_render(
-
-				sprintf(
-
-					'<p><strong>%s</strong></p><p>%s</p><p class="buttons"><a href="%s" class="button button-primary" target="_blank">%s</a> <a href="#" class="button" data-wsf-api-check-dismiss>%s</a></p>',
-
-					sprintf(
-
-						/* translators: %s: Presentable plugin name, e.g. WS Form PRO */
-						esc_html__('%s could not connect to the REST API', 'ws-form'),
-						WS_FORM_NAME_PRESENTABLE
-					),
-
-					esc_html__('A background check was unable to reach the REST API on your website. Some features may not work correctly until this is resolved.', 'ws-form'),
-
-					esc_url(self::get_plugin_website_url('/knowledgebase/installation-troubleshooting/', 'api_check')),
-
-					esc_html__('Troubleshoot', 'ws-form'),
-					esc_html__('Dismiss', 'ws-form')
-				),
-
-				'notice-warning',
-				false,
-				true,
-				'wsf-api-check'
-			);
-?>
-<script>
-
-	(function() {
-
-		'use strict';
-
-		function wsf_api_check_dismiss(e) {
-
-			if(e) { e.preventDefault(); }
-
-			// Hide warning
-			var notices = document.querySelectorAll('.wsf-api-check');
-			for(var i = 0; i < notices.length; i++) { notices[i].style.display = 'none'; }
-
-			// Call AJAX to prevent the warning appearing again
-			if(window.fetch) {
-
-				var data = new FormData();
-				data.append('_wpnonce', '<?php self::echo_esc_attr(wp_create_nonce('wp_rest')); ?>');
-				fetch('<?php self::echo_esc_html(self::get_api_path('helper/api-check/dismiss/')); ?>', { method: 'POST', credentials: 'same-origin', body: data });
-			}
-		}
-
-		document.addEventListener('DOMContentLoaded', function() {
-
-			var buttons = document.querySelectorAll('[data-wsf-api-check-dismiss]');
-			for(var i = 0; i < buttons.length; i++) { buttons[i].addEventListener('click', wsf_api_check_dismiss); }
-		});
-
-	})();
-
-</script>
-<?php
-		}
-
 		// Check edition
 		public static function is_edition($edition) {
 
@@ -4896,48 +4933,188 @@
 			throw new Exception(esc_html($error));
 		}
 
-		// Get system report
+		// Get system report HTML
 		public static function get_system_report_html() {
 
-			// Get system report
-			$system_report = WS_Form_Config::get_system();
+			$sections = self::get_system_report_sections();
 
-			// Build system report HTML
-			$system_report_html = '<table class="wsf-table-system">';
+			$system_report_html  = '<div class="wsf-system-report">';
 
-			// Check WordPress version
-			$wp_new = self::wp_version_at_least('5.3');
+			// Actions
+			$label_copy = __('Copy report', 'ws-form');
+			$label_copied = __('Copied!', 'ws-form');
+			$system_report_html .= '<div class="wsf-system-report-actions">';
+			$system_report_html .= sprintf(
+				'<button type="button" class="button wsf-system-report-copy" data-action="wsf-system-report-copy" data-label-copy="%1$s" data-label-copied="%2$s">%3$s</button>',
+				esc_attr($label_copy),
+				esc_attr($label_copied),
+				esc_html($label_copy)
+			);
+			$system_report_html .= sprintf(
+				'<button type="button" class="button button-primary wsf-system-report-download" data-action="wsf-system-report-download">%s</button>',
+				esc_html(__('Download report', 'ws-form'))
+			);
+			$system_report_html .= '</div>';
 
-			foreach($system_report as $group_id => $group) {
+			// Sections
+			$system_report_html .= '<div class="wsf-system-report-sections">';
 
-				$system_report_html .= '<tbody>';
+			foreach($sections as $section) {
 
-				$system_report_html .= '<tr><th colspan="2"><h2>' . esc_html($group['label']) . '</h2></th></tr>';
+				$system_report_html .= '<section class="wsf-system-report-section">';
+				$system_report_html .= '<h2 class="wsf-system-report-section-title">' . esc_html($section['label']) . '</h2>';
+				$system_report_html .= '<div class="wsf-system-report-rows">';
 
-				foreach($group['variables'] as $item_id => $item) {
+				foreach($section['rows'] as $row) {
 
-					// Valid
-					// 0 = Ignore, 1 = Yes, 2 = No
-					$valid = isset($item['valid']) ? ($item['valid'] ? 1 : 2) : 0;
+					$row_class = 'wsf-system-report-row';
+					switch($row['valid']) {
 
-					$system_report_html .= '<tr';
-
-					switch($valid) {
-
-						case 1 : $system_report_html .= ' class="wsf-system-valid"'; break;
-						case 2 : $system_report_html .= ' class="wsf-system-invalid"'; break;
+						case 1 : $row_class .= ' wsf-system-report-row-valid'; break;
+						case 2 : $row_class .= ' wsf-system-report-row-invalid'; break;
 					}
 
-					// Label
-					$system_report_html .= '><td><b>' . esc_html($item['label']);
-					if(isset($item['min'])) { $system_report_html .= ' (Min: ' . $item['min'] . ')'; }
-					$system_report_html .= '</b></td>';
+					$system_report_html .= '<div class="' . esc_attr($row_class) . '">';
+					$system_report_html .= '<div class="wsf-system-report-label">' . esc_html($row['label']) . '</div>';
+					$system_report_html .= '<div class="wsf-system-report-value">';
 
-					// Value
-					$system_report_html .= '<td>';
+					if($row['valid'] > 0) {
 
+						$system_report_html .= '<span class="wsf-system-report-status" aria-hidden="true"></span>';
+					}
+
+					if($row['type'] === 'plugins') {
+
+						$plugin_count = count($row['plugins']);
+						$label_show_plugins = __('Show plugins', 'ws-form');
+						$label_hide_plugins = __('Hide plugins', 'ws-form');
+						$system_report_html .= '<div class="wsf-system-report-plugins">';
+						$system_report_html .= sprintf(
+							'<button type="button" class="wsf-system-report-plugins-toggle" data-action="wsf-system-report-plugins-toggle" aria-expanded="false" data-label-show="%1$s" data-label-hide="%2$s"><span class="wsf-system-report-plugins-toggle-label">%3$s</span> <span class="wsf-system-report-plugins-count">(%4$d)</span></button>',
+							esc_attr($label_show_plugins),
+							esc_attr($label_hide_plugins),
+							esc_html($label_show_plugins),
+							$plugin_count
+						);
+						$system_report_html .= '<div class="wsf-system-report-plugins-list">';
+
+						foreach($row['plugins'] as $plugin) {
+
+							$system_report_html .= '<div class="wsf-system-report-plugin">';
+
+							if($plugin['url'] !== '') {
+
+								$system_report_html .= sprintf(
+									'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+									esc_url($plugin['url']),
+									esc_html($plugin['name'])
+								);
+
+							} else {
+
+								$system_report_html .= '<span>' . esc_html($plugin['name']) . '</span>';
+							}
+
+							$system_report_html .= '<span class="wsf-system-report-plugin-version">' . esc_html($plugin['version']) . '</span>';
+							$system_report_html .= '</div>';
+						}
+
+						$system_report_html .= '</div></div>';
+
+					} else {
+
+						$system_report_html .= '<span class="wsf-system-report-value-text">' . $row['value_html'] . '</span>';
+					}
+
+					$system_report_html .= '</div></div>';
+				}
+
+				$system_report_html .= '</div></section>';
+			}
+
+			$system_report_html .= '</div>';
+
+			// Legend
+			$system_report_html .= '<div class="wsf-system-report-legend">';
+			$system_report_html .= '<div class="wsf-system-report-legend-item wsf-system-report-legend-ok"><span class="wsf-system-report-status" aria-hidden="true"></span>' . esc_html__('OK', 'ws-form') . '</div>';
+			$system_report_html .= '<div class="wsf-system-report-legend-item wsf-system-report-legend-attention"><span class="wsf-system-report-status" aria-hidden="true"></span>' . esc_html__('Needs attention', 'ws-form') . '</div>';
+			$system_report_html .= '</div>';
+
+			// Plain text for copy / download
+			$system_report_html .= '<textarea class="wsf-system-report-text" hidden readonly>' . esc_textarea(self::get_system_report_text_from_sections($sections)) . '</textarea>';
+
+			$system_report_html .= '</div>';
+
+			return $system_report_html;
+		}
+
+		// Get system report plain text
+		public static function get_system_report_text() {
+
+			return self::get_system_report_text_from_sections(self::get_system_report_sections());
+		}
+
+		// Build plain text from prepared sections
+		public static function get_system_report_text_from_sections($sections) {
+
+			$lines = array();
+
+			foreach($sections as $section) {
+
+				$lines[] = '## ' . $section['label'];
+
+				foreach($section['rows'] as $row) {
+
+					if($row['type'] === 'plugins') {
+
+						$plugin_parts = array();
+
+						foreach($row['plugins'] as $plugin) {
+
+							$plugin_parts[] = $plugin['name'] . ' (' . $plugin['version'] . ')';
+						}
+
+						$lines[] = $row['label'] . ': ' . implode(', ', $plugin_parts);
+
+					} else {
+
+						$lines[] = $row['label'] . ': ' . $row['value_text'];
+					}
+				}
+
+				$lines[] = '';
+			}
+
+			return trim(implode("\n", $lines));
+		}
+
+		// Prepare system report sections (shared by HTML and text)
+		public static function get_system_report_sections() {
+
+			$system_report = WS_Form_Config::get_system();
+			$wp_new = self::wp_version_at_least('5.3');
+			$sections = array();
+
+			foreach($system_report as $group) {
+
+				$rows = array();
+
+				foreach($group['variables'] as $item) {
+
+					// Valid: 0 = Ignore, 1 = Yes, 2 = No
+					$valid = isset($item['valid']) ? ($item['valid'] ? 1 : 2) : 0;
 					$value = isset($item['value']) ? $item['value'] : '-';
 					$type = isset($item['type']) ? $item['type'] : 'text';
+					$label = $item['label'];
+
+					if(isset($item['min'])) {
+
+						$label .= ' (Min: ' . $item['min'] . ')';
+					}
+
+					$value_html = '';
+					$value_text = '';
+					$plugins = array();
 
 					switch($type) {
 
@@ -4945,15 +5122,19 @@
 
 							if(is_array($value)) {
 
-								$plugin_array = array();
-
 								foreach($value as $plugin_path) {
 
 									$plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin_path);
-									$plugin_array[] = sprintf('<a href="%s" target="_blank">%s</a> (%s)', $plugin_data['PluginURI'], $plugin_data['Name'], $plugin_data['Version']);
-								}
+									$plugin_name = isset($plugin_data['Name']) ? $plugin_data['Name'] : $plugin_path;
+									$plugin_version = isset($plugin_data['Version']) ? $plugin_data['Version'] : '';
+									$plugin_url = (!empty($plugin_data['PluginURI'])) ? $plugin_data['PluginURI'] : '';
 
-								$value = implode('<br />', $plugin_array);
+									$plugins[] = array(
+										'name'    => $plugin_name,
+										'version' => $plugin_version,
+										'url'     => $plugin_url,
+									);
+								}
 							}
 							break;
 
@@ -4961,61 +5142,102 @@
 
 							if(is_object($value)) {
 
-								$value = sprintf('<a href="%s" target="_blank">%s</a> (%s)', $value->get('ThemeURI'), $value->get('Name'), $value->get('Version'));
+								$theme_name = $value->get('Name');
+								$theme_version = $value->get('Version');
+								$theme_uri = $value->get('ThemeURI');
+								$value_text = sprintf('%s (%s)', $theme_name, $theme_version);
+
+								if(!empty($theme_uri)) {
+
+									$value_html = sprintf(
+										'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a> (%s)',
+										esc_url($theme_uri),
+										esc_html($theme_name),
+										esc_html($theme_version)
+									);
+
+								} else {
+
+									$value_html = esc_html($value_text);
+								}
+
+							} else {
+
+								$value_html = esc_html('-');
+								$value_text = '-';
 							}
 							break;
 
 						case 'boolean' :
 
-							$value = $value ? __('Yes', 'ws-form') : __('No', 'ws-form');
+							$value_text = $value ? __('Yes', 'ws-form') : __('No', 'ws-form');
+							$value_html = esc_html($value_text);
 							break;
 
 						case 'url' :
 
-							$value = sprintf('<a href="%1$s" target="_blank">%1$s</a>', $value);
+							$value_text = (string) $value;
+							$value_html = sprintf(
+								'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
+								esc_url($value_text),
+								esc_html($value_text)
+							);
 							break;
 
 						case 'size' :
 
-							$value = size_format($value);
+							$value_text = size_format($value);
+							$value_html = esc_html($value_text);
 							break;
 
 						case 'edition' :
 
 							switch($value) {
 
-								case 'basic' : $value = 'Basic'; break;
-								case 'pro' : $value = 'PRO'; break;
+								case 'basic' : $value_text = 'Basic'; break;
+								case 'pro' : $value_text = 'PRO'; break;
+								default : $value_text = (string) $value; break;
 							}
+							$value_html = esc_html($value_text);
 							break;
 
 						case 'date' :
 
-							$value = ($value != '') ? ($wp_new ? wp_date(get_option('date_format'), $value) : gmdate(get_option('date_format'), $value)) : '-';
+							$value_text = ($value != '') ? ($wp_new ? wp_date(get_option('date_format'), $value) : gmdate(get_option('date_format'), $value)) : '-';
+							$value_html = esc_html($value_text);
+							break;
+
+						default :
+
+							$value_text = (string) $value;
+							$value_html = esc_html($value_text);
 							break;
 					}
 
-					$system_report_html .= $value;
+					if(isset($item['suffix']) && ($type !== 'plugins')) {
 
-					// Suffix
-					if(isset($item['suffix'])) { $system_report_html .= ' ' . $item['suffix']; }
-
-					// Valid
-					switch($valid) {
-
-						case 1 : $system_report_html .= WS_Form_Config::get_icon_16_svg('check'); break;
-						case 2 : $system_report_html .= WS_Form_Config::get_icon_16_svg('warning'); break;
+						$suffix = ' ' . $item['suffix'];
+						$value_text .= $suffix;
+						$value_html .= esc_html($suffix);
 					}
 
-					$system_report_html .= '</td></tr>';
+					$rows[] = array(
+						'label'      => $label,
+						'type'       => $type,
+						'valid'      => $valid,
+						'value_html' => $value_html,
+						'value_text' => $value_text,
+						'plugins'    => $plugins,
+					);
 				}
 
-				$system_report_html .= '</tbody>';
+				$sections[] = array(
+					'label' => $group['label'],
+					'rows'  => $rows,
+				);
 			}
 
-			$system_report_html .= '</table>';
-
-			return $system_report_html;
+			return $sections;
 		}
 
 		// Get a string formatted for SMTP email addresses
@@ -5872,7 +6094,8 @@
 				'style' => array(
 					'type' => true,
 				),
-				'linearGradient' => array(
+				// Lowercase key required — wp_kses matches tags via strtolower()
+				'lineargradient' => array(
 					'id' => true,
 					'x1' => true,
 					'y1' => true,
@@ -5963,6 +6186,70 @@
 					'stroke-width' => true,
 				),
 			);
+		}
+
+		/**
+		 * wp_kses rules for system report markup.
+		 */
+		public static function get_allowed_html_system_report() {
+
+			$allowed = wp_kses_allowed_html('post');
+
+			$allowed['div'] = array_merge(
+				(isset($allowed['div']) && is_array($allowed['div'])) ? $allowed['div'] : array(),
+				array(
+					'class'  => true,
+					'hidden' => true,
+				)
+			);
+
+			$allowed['section'] = array(
+				'class' => true,
+			);
+
+			$allowed['h2'] = array_merge(
+				(isset($allowed['h2']) && is_array($allowed['h2'])) ? $allowed['h2'] : array(),
+				array(
+					'class' => true,
+				)
+			);
+
+			$allowed['span'] = array_merge(
+				(isset($allowed['span']) && is_array($allowed['span'])) ? $allowed['span'] : array(),
+				array(
+					'class'       => true,
+					'aria-hidden' => true,
+				)
+			);
+
+			$allowed['a'] = array_merge(
+				(isset($allowed['a']) && is_array($allowed['a'])) ? $allowed['a'] : array(),
+				array(
+					'href'   => true,
+					'target' => true,
+					'rel'    => true,
+					'class'  => true,
+				)
+			);
+
+			$allowed['button'] = array(
+				'type'             => true,
+				'class'            => true,
+				'data-action'      => true,
+				'data-label-copy'  => true,
+				'data-label-copied'=> true,
+				'data-label-show'  => true,
+				'data-label-hide'  => true,
+				'aria-expanded'    => true,
+			);
+
+			$allowed['textarea'] = array(
+				'class'    => true,
+				'hidden'   => true,
+				'readonly' => true,
+			);
+
+			return $allowed;
 		}
 
 		/**
@@ -6104,6 +6391,45 @@
 		public static function echo_logo() {
 
 			self::echo_esc_svg(WS_Form_Config::get_logo_svg());
+		}
+
+		// Get admin page header HTML (logo, brand, title, optional actions)
+		public static function get_admin_header($title, $actions = '') {
+
+			ob_start();
+?>
+<!-- Header -->
+<div id="wsf-admin-header" class="wsf-admin-header">
+	<div class="wsf-admin-header-brand">
+		<a href="<?php echo esc_url(self::get_admin_url(WS_FORM_NAME)); ?>" class="wsf-admin-header-logo" title="<?php esc_attr_e('Forms', 'ws-form'); ?>"><?php self::echo_logo(); ?></a>
+	</div>
+	<h1 class="wsf-admin-header-title"><?php echo esc_html($title); ?></h1>
+<?php
+
+			if($actions !== '') {
+?>
+	<div class="wsf-admin-header-actions"><?php
+
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Caller builds escaped action HTML
+				echo $actions;
+
+?></div>
+<?php
+			}
+?>
+</div>
+<hr class="wp-header-end">
+<!-- /Header -->
+<?php
+
+			return ob_get_clean();
+		}
+
+		// Echo admin page header
+		public static function admin_header($title, $actions = '') {
+
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in get_admin_header()
+			echo self::get_admin_header($title, $actions);
 		}
 
 		// Echo JSON
@@ -6353,22 +6679,90 @@
 				));
 			}
 
-			// Check type
-			if(
-				($object_type !== false) &&
-				!empty($object->meta->export_object) &&
-				($object_type != $object->meta->export_object)
-			) {
-				self::throw_error(esc_html__('Import error (Invalid import type)', 'ws-form'));
-			}
-
 			// Check label
 			if(!isset($object->label)) { self::throw_error(esc_html__('JSON corrupt (No label)', 'ws-form')); }
 
 			// Check meta
 			if(!isset($object->meta)) { self::throw_error(esc_html__('JSON corrupt (No meta data)', 'ws-form')); }
+			if(!is_object($object->meta)) { self::throw_error(esc_html__('JSON corrupt (Invalid meta data)', 'ws-form')); }
+
+			// Check type (form / style / section — string or array of allowed types)
+			if($object_type !== false) {
+
+				$object_types = is_array($object_type) ? $object_type : array($object_type);
+
+				$export_object = (
+					isset($object->meta->export_object) &&
+					is_string($object->meta->export_object) &&
+					($object->meta->export_object !== '')
+				) ? $object->meta->export_object : false;
+
+				if($export_object !== false) {
+
+					if(!in_array($export_object, $object_types, true)) {
+
+						self::throw_error(self::get_object_import_type_error_message($object_types, $export_object));
+					}
+
+				} else {
+
+					// Older JSON may not stamp export_object — fall back to structure
+					$has_groups = isset($object->groups) && (is_array($object->groups) || is_object($object->groups));
+					$expects_groups = (count(array_intersect($object_types, array('form', 'section'))) > 0);
+					$expects_style = in_array('style', $object_types, true);
+
+					if($expects_groups && !$expects_style && !$has_groups) {
+
+						self::throw_error(self::get_object_import_type_error_message($object_types));
+					}
+
+					if($expects_style && !$expects_groups && $has_groups) {
+
+						self::throw_error(self::get_object_import_type_error_message($object_types, 'form'));
+					}
+				}
+			}
 
 			return $object;
+		}
+
+		// Import type mismatch message
+		public static function get_object_import_type_error_message($expected_types, $actual_type = false) {
+
+			$labels = array(
+
+				'form'		=>	__('form', 'ws-form'),
+				'style'		=>	__('style', 'ws-form'),
+				'section'	=>	__('section', 'ws-form'),
+			);
+
+			$expected_types = is_array($expected_types) ? $expected_types : array($expected_types);
+			$expected_labels = array();
+
+			foreach($expected_types as $expected_type) {
+
+				$expected_labels[] = isset($labels[$expected_type]) ? $labels[$expected_type] : $expected_type;
+			}
+
+			$expected_label = implode(' / ', $expected_labels);
+
+			if(($actual_type !== false) && isset($labels[$actual_type])) {
+
+				return sprintf(
+
+					/* translators: %1$s: expected import type(s), %2$s: actual import type */
+					esc_html__('Import error (Expected a %1$s JSON file, but this file is a %2$s export)', 'ws-form'),
+					$expected_label,
+					$labels[$actual_type]
+				);
+			}
+
+			return sprintf(
+
+				/* translators: %s: expected import type(s) */
+				esc_html__('Import error (Expected a %s JSON file)', 'ws-form'),
+				$expected_label
+			);
 		}
 
 		// Form object checksum check

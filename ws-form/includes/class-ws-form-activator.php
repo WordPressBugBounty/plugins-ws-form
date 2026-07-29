@@ -12,7 +12,7 @@
 
 			// These are set here to avoid problems if someone has both plugins installed and migrates from basic to PRO without de-activating the basic edition first. This ensures the PRO options are set up.
 			$ws_form_edition = 'basic';
-			$ws_form_version = '1.11.19';
+			$ws_form_version = '1.12.0';
 
 			$run_version_check = true;
 
@@ -41,7 +41,7 @@
 			self::capabilities_check();
 
 			// Debug - Uncomment this to force activation scripts to run
-//			$run_version_check = false;
+			// $run_version_check = false;
 
 			// Check version numbers
 			if(
@@ -299,6 +299,24 @@
 				KEY  meta_key (meta_key),
 				KEY  section_id (section_id),
 				KEY  field_id (field_id)
+			) $charset_collate;";
+			dbDelta($table_sql);
+
+			// Table: Submit Note
+			$table_name = $table_prefix . 'submit_note';
+			$table_sql = "CREATE TABLE $table_name (
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				submit_id bigint(20) unsigned NOT NULL,
+				user_id bigint(20) unsigned NOT NULL DEFAULT 0,
+				user_name varchar(255) DEFAULT '' NOT NULL,
+				date_added datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				content longtext NOT NULL,
+				meta longtext NOT NULL,
+				locked tinyint(1) DEFAULT 0 NOT NULL,
+				PRIMARY KEY  (id),
+				KEY  submit_id (submit_id),
+				KEY  date_added (date_added)
 			) $charset_collate;";
 			dbDelta($table_sql);
 

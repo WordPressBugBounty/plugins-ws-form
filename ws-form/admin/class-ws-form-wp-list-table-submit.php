@@ -18,6 +18,8 @@
 
 		public $record_count = false;
 
+		public $forms_have_submissions_cache = null;
+
 		// Construct
 		public function __construct() {
 
@@ -90,18 +92,17 @@
 				}
 			}
 
-			// If no form selected, and there is only one form, select it
+			// If no form selected, and there is only one form with submissions, select it
 			if(
 				($this->form_id == 0) &&
 				!$id_set
 			) {
-				// Get form ID from database if there is only one form
+				// Get form ID from database if there is only one form with submissions (any status)
 				$ws_form_form = new WS_Form_Form();
-				$ws_form_form->db_count_update_all();
 				$forms = $ws_form_form->db_read_all(
 
 					'',
-					"NOT (status = 'trash') AND count_submit > 0",
+					self::get_forms_with_submissions_where(),
 					'label ASC',
 					'',
 					'',
@@ -110,7 +111,7 @@
 					'id'
 				);
 
-				if(count($forms) == 1) {
+				if(!empty($forms) && (count($forms) == 1)) {
 
 					$this->form_id = absint($forms[0]['id']);
 				}
@@ -790,6 +791,93 @@
 			return $actions;
 		}
 
+		// Whether any non-trash form has submissions (drives filter bar visibility)
+		// Forms with any submissions in the database (includes trash / spam)
+		public function get_forms_with_submissions_where($include_form_id = 0) {
+
+			global $wpdb;
+
+			$where = sprintf(
+
+				"NOT (status = 'trash') AND EXISTS (SELECT 1 FROM {$wpdb->prefix}wsf_submit WHERE form_id = {$wpdb->prefix}wsf_form.id)"
+			);
+
+			if($include_form_id > 0) {
+
+				$where = sprintf('(%s) OR (id = %u)', $where, absint($include_form_id));
+			}
+
+			return $where;
+		}
+
+		// True if any submission exists in the database (any status)
+		public function forms_have_submissions() {
+
+			if($this->forms_have_submissions_cache !== null) {
+
+				return $this->forms_have_submissions_cache;
+			}
+
+			global $wpdb;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$submit_id = $wpdb->get_var("SELECT id FROM {$wpdb->prefix}wsf_submit LIMIT 1");
+
+			$this->forms_have_submissions_cache = !empty($submit_id);
+
+			return $this->forms_have_submissions_cache;
+		}
+
+		// True if the given form has any submission (any status)
+		public function form_has_submissions($form_id = 0) {
+
+			$form_id = absint($form_id);
+
+			if($form_id == 0) {
+
+				$form_id = absint($this->form_id);
+			}
+
+			if($form_id == 0) { return false; }
+
+			global $wpdb;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$submit_id = $wpdb->get_var($wpdb->prepare(
+
+				"SELECT id FROM {$wpdb->prefix}wsf_submit WHERE form_id = %d LIMIT 1",
+				$form_id
+			));
+
+			return !empty($submit_id);
+		}
+
+		// Draft + published forms (trash excluded) for empty-state form picker
+		public function get_forms_for_empty_state() {
+
+			$ws_form_form = new WS_Form_Form();
+
+			return $ws_form_form->db_read_all(
+
+				'',
+				"NOT (status = 'trash')",
+				'label ASC',
+				'',
+				'',
+				false,
+				false,
+				'id, label, count_submit'
+			);
+		}
+
+		// Hide filter bar until there are submissions
+		public function display_tablenav($which) {
+
+			if(!$this->forms_have_submissions()) { return; }
+
+			parent::display_tablenav($which);
+		}
+
 		// Extra table nav
 		function extra_tablenav($which) {
 
@@ -800,7 +888,7 @@
 				case 'trash' :
 ?>
 		<div class="alignleft actions">
-<?php 
+<?php
 			submit_button(__('Empty Trash', 'ws-form'), 'apply', 'delete_all', false );
 ?>
 		</div>
@@ -810,15 +898,12 @@
 
 			if($which != 'top') { return; }
 
-			// Select form
+			// Select form (include forms that only have trash / spam submissions)
 			$ws_form_form = new WS_Form_Form();
-			$ws_form_form->db_count_update_all();
 			$forms = $ws_form_form->db_read_all(
 
 				'',
-				(
-					($this->form_id > 0) ? sprintf("(NOT (status = 'trash') AND count_submit > 0) OR (id = %u)", $this->form_id) : "NOT (status = 'trash') AND count_submit > 0"
-				),
+				self::get_forms_with_submissions_where($this->form_id),
 				'label ASC',
 				'',
 				'',
@@ -913,7 +998,7 @@
 			return $this->record_count;
 		}
 
-		// No records
+		// No records (table shown only when submissions exist globally)
 		public function no_items() {
 
 			if($this->form_id == 0) {
@@ -924,6 +1009,5 @@
 
 				esc_html_e('No submissions available.', 'ws-form');
 			}
-
 		}
 	}

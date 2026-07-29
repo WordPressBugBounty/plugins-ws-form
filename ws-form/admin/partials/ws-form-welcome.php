@@ -5,18 +5,8 @@
 		exit;
 	}
 
-	// Render loader
-	WS_Form_Common::loader();
-
-	// Set intro option to true
-	WS_Form_Common::option_set('intro', true);
-
 	// Mark set-up as complete so the welcome screen is only shown once
 	WS_Form_Common::option_set('setup', true);
-
-	// Assume the REST API check fails until the background test confirms otherwise.
-	// If the REST API is unreachable the test cannot write back, so this is cleared on success instead.
-	WS_Form_Common::option_set('api_check_warning', true);
 
 	// Flush WP rewrite rules
 	global $wp_rewrite;
@@ -134,11 +124,6 @@
 
 			// Recalculate once everything (fonts, images) has finished loading
 			$(window).on('load', wsf_welcome_scale);
-
-			// Background REST API check (shows the loader while it runs)
-			// On success the endpoint clears the warning flag server side. On failure the flag remains
-			// set, so a dismissable warning is shown on subsequent admin screens.
-			wsf_obj.api_test();
 		});
 
 	})(jQuery);

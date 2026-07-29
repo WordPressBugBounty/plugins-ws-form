@@ -112,18 +112,20 @@
 			    if (is_wp_error($result)) {
 
 					throw new ErrorException(esc_html($result->get_error_message()));
-
-			    } else {
-
-			        // Use $result
-			        if(isset($result['id'])) {
-
-			        	return array(
-
-			        		'form_id' => absint($result['id'])
-			        	);
-			        }
 			    }
+
+		        if(isset($result['id']) && (absint($result['id']) > 0)) {
+
+		        	return array(
+
+		        		'form_id' => absint($result['id'])
+		        	);
+		        }
+
+				throw new ErrorException(
+
+					esc_html__('Unable to create the form with AI. Please try again.', 'ws-form')
+				);
 
 			} else {
 

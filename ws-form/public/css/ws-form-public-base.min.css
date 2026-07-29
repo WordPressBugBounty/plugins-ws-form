@@ -305,9 +305,14 @@
   color: var(--wsf-field-label-color);
   font-family: var(--wsf-field-label-font-family);
   font-size: var(--wsf-field-label-font-size);
+  font-style: var(--wsf-field-label-font-style);
   font-weight: var(--wsf-field-label-font-weight);
+  letter-spacing: var(--wsf-field-label-letter-spacing);
   line-height: var(--wsf-field-label-line-height);
   margin-bottom: var(--wsf-field-label-gap);
+  -webkit-text-decoration: var(--wsf-field-label-text-decoration);
+          text-decoration: var(--wsf-field-label-text-decoration);
+  text-transform: var(--wsf-field-label-text-transform);
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -1032,10 +1037,15 @@ html.wsf-styler-scheme-alt .wsf-form[data-wsf-style-has-alt] .wsf-validated text
   color: var(--wsf-field-message-color);
   font-family: var(--wsf-field-font-family);
   font-size: var(--wsf-field-font-size);
+  font-style: var(--wsf-field-font-style);
   font-weight: var(--wsf-field-font-weight);
+  letter-spacing: var(--wsf-field-letter-spacing);
   line-height: var(--wsf-field-line-height);
   padding: var(--wsf-field-padding);
   margin-bottom: var(--wsf-form-grid-gap);
+  -webkit-text-decoration: var(--wsf-field-text-decoration);
+          text-decoration: var(--wsf-field-text-decoration);
+  text-transform: var(--wsf-field-text-transform);
 }
 .wsf-alert > p {
   color: var(--wsf-field-message-color);

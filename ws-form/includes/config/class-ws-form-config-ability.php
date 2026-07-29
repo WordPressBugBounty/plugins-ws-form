@@ -120,7 +120,7 @@
 				WS_FORM_ABILITY_API_NAMESPACE . 'form-create-json' => [
 
 					'label' => __('Create form from a description', 'ws-form'),
-					'description' => __('Use this tool to create a new form from a description provided by the user. The tool generates the form using a JSON definition that must follow the required structure described in the json input property.', 'ws-form'),
+					'description' => __('Use this tool to create a new form from a description provided by the user. The tool generates the form using a JSON definition that must follow the required structure described in the json input property. Form email notifications are Send Email actions in the actions array, not form settings.', 'ws-form'),
 					'category' => 'ws-form',
 					'permission_callback' => function() use ( $ws_form_ability ) {
 
@@ -213,7 +213,7 @@
 				WS_FORM_ABILITY_API_NAMESPACE . 'form-get-json' => [
 
 					'label' => __('Get form in JSON format', 'ws-form'),
-					'description' => __('Returns the form in JSON format by ID.', 'ws-form'),
+					'description' => __('Returns the form in JSON format by ID, including fields, actions, and conditionals. Form email notifications are Send Email actions in the actions array (not form settings). Use with form-update-json to edit notifications.', 'ws-form'),
 					'category' => 'ws-form',
 					'permission_callback' => function() use ( $ws_form_ability ) {
 
@@ -274,7 +274,7 @@
 				WS_FORM_ABILITY_API_NAMESPACE . 'form-update-json' => [
 
 					'label' => __('Update a form from a JSON string', 'ws-form'),
-					'description' => __('Use this tool to modify an existing form using JSON data obtained from the form-get-json tool. To add a new field, use the field-add tool instead. The JSON provided must keep the same structure as returned by form-get-json, with no additions or removals of groups, sections, or fields.', 'ws-form'),
+					'description' => __('Use this tool to modify an existing form using JSON from form-get-json. Prefer field-update for single-field label or meta changes. Use this tool to add or edit form email notifications by updating the actions array (Send Email actions). Notifications are not in form settings. To email the person completing the form, set an email action meta.to to #field(id) for their email field. To add a new field, use field-add instead. Keep the same groups/sections/fields structure. When actions or conditionals are included, they replace the form actions or conditionals.', 'ws-form'),
 					'category' => 'ws-form',
 					'permission_callback' => function() use ( $ws_form_ability ) {
 
@@ -1157,6 +1157,459 @@
 					]
 				],
 
+				// Submission - Notes
+				WS_FORM_ABILITY_API_NAMESPACE . 'submission-notes' => [
+
+					'label' => __('List submission notes', 'ws-form'),
+					'description' => __('Returns notes for a submission by ID.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'read_submission' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The submission ID.'
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'notes' => [
+
+								'type' => 'array',
+								'description' => 'The notes for the submission.',
+								'items' => [
+
+									'type' => 'object',
+									'description' => 'A submission note.',
+									'properties' => [
+
+										'id' => [
+
+											'type' => 'number',
+											'description' => 'The note ID.'
+										],
+
+										'submit_id' => [
+
+											'type' => 'number',
+											'description' => 'The submission ID.'
+										],
+
+										'user_id' => [
+
+											'type' => 'number',
+											'description' => 'The WordPress user ID that created the note, or 0 if system / third-party.'
+										],
+
+										'user_name' => [
+
+											'type' => 'string',
+											'description' => 'Optional display name when user_id is 0 (e.g. a third-party integration). Ignored when user_id is greater than 0.'
+										],
+
+										'user_display_name' => [
+
+											'type' => 'string',
+											'description' => 'The display name shown for the note (WordPress user when user_id > 0, otherwise user_name).'
+										],
+
+										'date_added' => [
+
+											'type' => 'string',
+											'description' => 'The date and time the note was added, in the WordPress website timezone.'
+										],
+
+										'date_updated' => [
+
+											'type' => 'string',
+											'description' => 'The date and time the note was last updated, in the WordPress website timezone.'
+										],
+
+										'content' => [
+
+											'type' => 'string',
+											'description' => 'The note content.'
+										],
+
+										'meta' => self::get_note_meta_schema(false),
+
+										'locked' => [
+
+											'type' => 'boolean',
+											'description' => 'Whether the note is locked and cannot be edited or deleted.'
+										]
+									]
+								]
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->submission_notes( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 1.0,
+							'readOnlyHint' => true,
+							'destructiveHint' => false,
+							'idempotentHint' => true,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Submission - Note - Create
+				WS_FORM_ABILITY_API_NAMESPACE . 'submission-note-create' => [
+
+					'label' => __('Create submission note', 'ws-form'),
+					'description' => __('Creates a note on a submission. Keep content as short note text only. Put structured label/value rows in meta.values and action links in meta.buttons. For a system/third-party note, set user_name (e.g. Conversion Bridge) and optionally locked true.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'edit_submission' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The submission ID.'
+							],
+
+							'content' => [
+
+								'type' => 'string',
+								'description' => 'Short note text only. Do not include meta labels, values, or button labels here.',
+								'default' => ''
+							],
+
+							'meta' => self::get_note_meta_schema(true),
+
+							'user_name' => [
+
+								'type' => 'string',
+								'description' => 'Optional author label for a system or third-party note (e.g. Conversion Bridge, AbuseIPDB). When set, the note is attributed to this label instead of the current WordPress user. Leave empty to attribute the note to the current user.',
+								'default' => ''
+							],
+
+							'locked' => [
+
+								'type' => 'boolean',
+								'description' => 'If true, the note cannot be edited or deleted in the Submissions admin. Use for system or audit notes. Defaults to false.',
+								'default' => false
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'note' => [
+
+								'type' => 'object',
+								'description' => 'The created submission note.',
+								'properties' => [
+
+									'id' => [
+
+										'type' => 'number',
+										'description' => 'The note ID.'
+									],
+
+									'submit_id' => [
+
+										'type' => 'number',
+										'description' => 'The submission ID.'
+									],
+
+									'user_id' => [
+
+										'type' => 'number',
+										'description' => 'The WordPress user ID that created the note, or 0 if system / third-party.'
+									],
+
+									'user_name' => [
+
+										'type' => 'string',
+										'description' => 'Optional display name when user_id is 0 (e.g. a third-party integration). Ignored when user_id is greater than 0.'
+									],
+
+									'user_display_name' => [
+
+										'type' => 'string',
+										'description' => 'The display name shown for the note (WordPress user when user_id > 0, otherwise user_name).'
+									],
+
+									'date_added' => [
+
+										'type' => 'string',
+										'description' => 'The date and time the note was added, in the WordPress website timezone.'
+									],
+
+									'date_updated' => [
+
+										'type' => 'string',
+										'description' => 'The date and time the note was last updated, in the WordPress website timezone.'
+									],
+
+									'content' => [
+
+										'type' => 'string',
+										'description' => 'The note content.'
+									],
+
+									'meta' => self::get_note_meta_schema(false),
+
+									'locked' => [
+
+										'type' => 'boolean',
+										'description' => 'Whether the note is locked and cannot be edited or deleted.'
+									]
+								]
+							],
+
+							'message' => [
+
+								'type' => 'string',
+								'description' => 'A message describing the result.'
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->submission_note_create( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 2.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => false,
+							'idempotentHint' => false,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Submission - Note - Update
+				WS_FORM_ABILITY_API_NAMESPACE . 'submission-note-update' => [
+
+					'label' => __('Update submission note', 'ws-form'),
+					'description' => __('Updates a submission note by ID. Keep content as short note text only. Put structured label/value rows in meta.values and action links in meta.buttons.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'edit_submission' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The note ID.'
+							],
+
+							'content' => [
+
+								'type' => 'string',
+								'description' => 'Short note text only. Do not include meta labels, values, or button labels here.',
+								'default' => ''
+							],
+
+							'meta' => array_merge(self::get_note_meta_schema(true), [
+
+								'default' => null,
+								'description' => 'Optional structured note meta with values and buttons. If omitted, existing meta is kept. Example: {"values":{"Status":"Synced"},"buttons":[{"url":"https://example.com/report","label":"View report","type":"primary"}]}'
+							])
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'note' => [
+
+								'type' => 'object',
+								'description' => 'The updated submission note.',
+								'properties' => [
+
+									'id' => [
+
+										'type' => 'number',
+										'description' => 'The note ID.'
+									],
+
+									'submit_id' => [
+
+										'type' => 'number',
+										'description' => 'The submission ID.'
+									],
+
+									'user_id' => [
+
+										'type' => 'number',
+										'description' => 'The WordPress user ID that created the note, or 0 if system / third-party.'
+									],
+
+									'user_name' => [
+
+										'type' => 'string',
+										'description' => 'Optional display name when user_id is 0 (e.g. a third-party integration). Ignored when user_id is greater than 0.'
+									],
+
+									'user_display_name' => [
+
+										'type' => 'string',
+										'description' => 'The display name shown for the note (WordPress user when user_id > 0, otherwise user_name).'
+									],
+
+									'date_added' => [
+
+										'type' => 'string',
+										'description' => 'The date and time the note was added, in the WordPress website timezone.'
+									],
+
+									'date_updated' => [
+
+										'type' => 'string',
+										'description' => 'The date and time the note was last updated, in the WordPress website timezone.'
+									],
+
+									'content' => [
+
+										'type' => 'string',
+										'description' => 'The note content.'
+									],
+
+									'meta' => self::get_note_meta_schema(false),
+
+									'locked' => [
+
+										'type' => 'boolean',
+										'description' => 'Whether the note is locked and cannot be edited or deleted.'
+									]
+								]
+							],
+
+							'message' => [
+
+								'type' => 'string',
+								'description' => 'A message describing the result.'
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->submission_note_update( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 2.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => false,
+							'idempotentHint' => true,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Submission - Note - Delete
+				WS_FORM_ABILITY_API_NAMESPACE . 'submission-note-delete' => [
+
+					'label' => __('Delete submission note', 'ws-form'),
+					'description' => __('Deletes a submission note by ID.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'edit_submission' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The note ID.'
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The deleted note ID.'
+							],
+
+							'message' => [
+
+								'type' => 'string',
+								'description' => 'A message describing the result.'
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->submission_note_delete( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 3.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => true,
+							'idempotentHint' => true,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
 				// Form - Delete
 				WS_FORM_ABILITY_API_NAMESPACE . 'form-delete' => [
 
@@ -1314,7 +1767,7 @@
 				WS_FORM_ABILITY_API_NAMESPACE . 'field-add' => [
 
 					'label' => __('Add field', 'ws-form'),
-					'description' => __('Use this tool to add or insert a new field into a form. First, use the form-get-json tool to obtain the form JSON so you can specify the section_id where the field should be added, and optionally the field_id_before if you want it inserted before another field.', 'ws-form'),
+					'description' => __('Use this tool to add or insert a new field into a form. Use the sections or fields tools (or form-get-json) to get section_id, and optionally field_id_before to insert before another field.', 'ws-form'),
 					'category' => 'ws-form',
 					'permission_callback' => function() use ( $ws_form_ability ) {
 
@@ -1381,42 +1834,163 @@
 								'description' => 'The form ID.'
 							],
 
-							'field_id' => [
+							'field' => [
 
-								'type' => 'number',
-								'description' => 'The ID of the added field.'
-							],
+								'type' => 'object',
+								'description' => 'The added field.',
+								'properties' => [
 
-							'field_label' => [
+									'id' => [
 
-								'type' => 'string',
-								'description' => 'The label of the added field.'
-							],
+										'type' => 'number',
+										'description' => 'The field ID.'
+									],
 
-							'json' => [
+									'label' => [
 
-								'type' => 'string',
-								'description' => 'The form JSON.'
-							],
+										'type' => 'string',
+										'description' => 'The field label.'
+									],
 
-							'url_edit' => [
+									'type' => [
 
-								'type' => 'string',
-								'format' => 'uri',
-								'description' => 'The URL to edit the form.'
-							],
+										'type' => 'string',
+										'description' => 'The field type.'
+									],
 
-							'url_preview' => [
+									'section_id' => [
 
-								'type' => 'string',
-								'format' => 'uri',
-								'description' => 'The URL to preview the form.'
+										'type' => 'number',
+										'description' => 'The section ID containing the field.'
+									],
+
+									'meta' => [
+
+										'type' => 'object',
+										'description' => 'Editable field meta.'
+									]
+								]
 							]
 						]
 					],
 					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
 
 						return $ws_form_ability->field_add( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 2.5,
+							'readOnlyHint' => false,
+							'destructiveHint' => false,
+							'idempotentHint' => false,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Field - Update
+				WS_FORM_ABILITY_API_NAMESPACE . 'field-update' => [
+
+					'label' => __('Update field', 'ws-form'),
+					'description' => __('Use this tool to update an existing field label and/or meta (required, placeholder, help, options, etc.). Prefer this over form-update-json for single-field changes. Field type cannot be changed. Use the fields tool to find field IDs, or form-get-json for full field meta.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return (
+
+							WS_Form_Common::option_get( 'abilities_api_edit_form', false ) &&
+							$ws_form_ability->permission_callback( 'edit_form' )
+						);
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The form ID.'
+							],
+
+							'field_id' => [
+
+								'type' => 'number',
+								'description' => 'The field ID to update. Must belong to the specified form ID.'
+							],
+
+							'label' => [
+
+								'type' => 'string',
+								'description' => 'Optional. New field label. Omit or leave blank to leave the label unchanged.'
+							],
+
+							'meta' => [
+
+								'type' => 'object',
+								'description' => $ws_form_form_ai->get_field_update_meta_prompt()
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The form ID.'
+							],
+
+							'field' => [
+
+								'type' => 'object',
+								'description' => 'The updated field.',
+								'properties' => [
+
+									'id' => [
+
+										'type' => 'number',
+										'description' => 'The field ID.'
+									],
+
+									'label' => [
+
+										'type' => 'string',
+										'description' => 'The field label.'
+									],
+
+									'type' => [
+
+										'type' => 'string',
+										'description' => 'The field type.'
+									],
+
+									'section_id' => [
+
+										'type' => 'number',
+										'description' => 'The section ID containing the field.'
+									],
+
+									'meta' => [
+
+										'type' => 'object',
+										'description' => 'Editable field meta.'
+									]
+								]
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->field_update( $input );
 					},
 					'meta' => [
 						'annotations' => [
@@ -1488,26 +2062,6 @@
 
 								'type' => 'string',
 								'description' => 'A message describing whether the field was permanently deleted.'
-							],
-
-							'json' => [
-
-								'type' => 'string',
-								'description' => 'The form JSON.'
-							],
-
-							'url_edit' => [
-
-								'type' => 'string',
-								'format' => 'uri',
-								'description' => 'The URL to edit the form.'
-							],
-
-							'url_preview' => [
-
-								'type' => 'string',
-								'format' => 'uri',
-								'description' => 'The URL to preview the form.'
 							]
 						]
 					],
@@ -1531,6 +2085,14 @@
 				],
 			];
 
+			// Structure / action / conditional abilities
+			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/config/class-ws-form-config-ability-structure.php';
+			$abilities = array_merge(
+
+				$abilities,
+				WS_Form_Config_Ability_Structure::get_abilities($ws_form_ability, $ws_form_form_ai)
+			);
+
 			// Apply MCP public exposure setting (meta.mcp.public)
 			$mcp_public = (bool) WS_Form_Common::option_get( 'mcp_adapter_public', true );
 
@@ -1553,6 +2115,69 @@
 			self::$abilities = $abilities;
 
 			return $abilities;
+		}
+
+		// Note meta schema ({ values, buttons }) for ability input/output
+		public static function get_note_meta_schema($for_input = true) {
+
+			$schema = [
+
+				'type' => 'object',
+				'description' => $for_input
+					? 'Optional structured note meta. Put label/value rows in values and action links in buttons. Do not put these in content. Example: {"values":{"Event":"Lead Generated","Source":"Google Ads"},"buttons":[{"url":"https://example.com/report","label":"View conversion report","type":"primary","target":"_blank"}]}'
+					: 'Note meta with values (label/value pairs) and buttons.',
+				'properties' => [
+
+					'values' => [
+
+						'type' => 'object',
+						'description' => 'Label/value pairs shown as rows under the note content. Object keys are labels and object values are the displayed values. Example: {"Event":"Lead Generated","Source":"Google Ads","Status":"Synced"}'
+					],
+
+					'buttons' => [
+
+						'type' => 'array',
+						'description' => 'Action links shown under the meta values in admin. Each button requires url and label.',
+						'items' => [
+
+							'type' => 'object',
+							'properties' => [
+
+								'url' => [
+
+									'type' => 'string',
+									'description' => 'Button URL (absolute or relative admin URL).'
+								],
+
+								'label' => [
+
+									'type' => 'string',
+									'description' => 'Button label text.'
+								],
+
+								'type' => [
+
+									'type' => 'string',
+									'description' => 'Button type: primary (default) or secondary.'
+								],
+
+								'target' => [
+
+									'type' => 'string',
+									'description' => 'Optional link target, e.g. _blank.'
+								]
+							]
+						]
+					]
+				]
+			];
+
+			if($for_input) {
+
+				$schema['default'] = [];
+			}
+
+			return $schema;
 		}
 
 		// Get an ability by ID

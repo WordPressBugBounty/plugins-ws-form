@@ -19,18 +19,35 @@
 			// Get width
 			$sidebar_width = absint(WS_Form_Common::get_query_var_nonce('sidebar_width', '', $parameters));
 
-			// Check width
-			if($sidebar_width < WS_FORM_SIDEBAR_WIDTH_MIN) {
+			// Context: layout editor (edit) vs submissions (submit)
+			$sidebar_context = sanitize_key(WS_Form_Common::get_query_var_nonce('sidebar_context', 'edit', $parameters));
+			if($sidebar_context !== 'submit') { $sidebar_context = 'edit'; }
 
-				$sidebar_width = WS_FORM_SIDEBAR_WIDTH_MIN;
+			if($sidebar_context === 'submit') {
+
+				$sidebar_width_min = WS_FORM_SIDEBAR_WIDTH_MIN_SUBMIT;
+				$sidebar_width_max = WS_FORM_SIDEBAR_WIDTH_MAX_SUBMIT;
+				$sidebar_option = 'sidebar_width_submit';
+
+			} else {
+
+				$sidebar_width_min = WS_Form_Common::get_sidebar_width_min();
+				$sidebar_width_max = WS_FORM_SIDEBAR_WIDTH_MAX;
+				$sidebar_option = 'sidebar_width';
 			}
-			if($sidebar_width > WS_FORM_SIDEBAR_WIDTH_MAX) {
 
-				$sidebar_width = WS_FORM_SIDEBAR_WIDTH_MAX;
+			// Check width
+			if($sidebar_width < $sidebar_width_min) {
+
+				$sidebar_width = $sidebar_width_min;
+			}
+			if($sidebar_width > $sidebar_width_max) {
+
+				$sidebar_width = $sidebar_width_max;
 			}
 
 			// Set option
-			WS_Form_Common::option_set('sidebar_width', $sidebar_width);
+			WS_Form_Common::option_set($sidebar_option, $sidebar_width);
 
 			return array(
 

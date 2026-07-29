@@ -3277,7 +3277,18 @@
 			$styler = array(
 
 				'meta' => $meta,
-				'palette' => WS_Form_Color::get_palette()
+				'palette' => WS_Form_Color::get_palette(),
+				'icons' => array(
+
+					'copy' => self::get_icon_16_svg('copy'),
+					'logo' => str_replace('id="wsf_logo"', 'class="wsf-styler-logo"', self::get_logo_svg('#002D5D', '#ACA199')),
+					'question-circle' => self::get_icon_16_svg('question-circle'),
+					'return' => self::get_icon_16_svg('return'),
+					'save' => self::get_icon_16_svg('save'),
+					'settings' => self::get_icon_16_svg('settings'),
+					'undo' => self::get_icon_16_svg('undo'),
+					'wand' => self::get_icon_16_svg('wand'),
+				),
 			);
 
 			// Apply filter

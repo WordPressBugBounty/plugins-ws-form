@@ -12,6 +12,7 @@
 		public $user_id;
 		public $date_added;
 		public $date_updated;
+		public $date_publish;
 		public $version;
 		public $label;
 		public $status;
@@ -33,7 +34,7 @@
 
 		const DB_INSERT = 'label,user_id,date_added,date_updated,version';
 		const DB_UPDATE = 'label,date_updated';
-		const DB_SELECT = 'label,status,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,id';
+		const DB_SELECT = 'label,status,date_publish,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,id';
 
 		public function __construct() {
 
@@ -197,11 +198,15 @@
 				$hook_return['error']
 			) {
 
-				if(isset($hook_return['error_message'])) {
+				// Store error so we can display it later
+				WS_Form_Common::option_set(
 
-					// Store error so we can display it later
-					WS_Form_Common::option_set('form_add_error', $hook_return['error_message']);
-				}
+					'form_add_error',
+					(
+						isset($hook_return['error_message']) &&
+						!empty($hook_return['error_message'])
+					) ? $hook_return['error_message'] : __('Unable to create the form. Please try again.', 'ws-form')
+				);
 
 				return false;
 			}
@@ -225,6 +230,13 @@
 				!isset($hook_return['list']) ||
 				!isset($hook_return['list_fields'])
 			) {
+
+				WS_Form_Common::option_set(
+
+					'form_add_error',
+					__('Unable to create the form. Please try again.', 'ws-form')
+				);
+
 				return false;
 			}
 
@@ -318,7 +330,7 @@
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 				$form_array = $wpdb->get_row($wpdb->prepare(
 
-					"SELECT label,status,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,id FROM {$wpdb->prefix}wsf_form WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
+					"SELECT label,status,date_publish,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,id FROM {$wpdb->prefix}wsf_form WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
 					$this->id
 				), 'ARRAY_A');
 				if(is_null($form_array)) { parent::db_wpdb_handle_error(__('Unable to read form', 'ws-form')); }
@@ -359,6 +371,22 @@
 			if(isset($form_object->groups) && $form_parse) {
 
 				$form_object = self::form_parse($form_object, false);
+			}
+
+			// Formatted publish date for admin UI
+			$form_object->date_publish_wp = '';
+			if(
+				isset($form_object->date_publish) &&
+				($form_object->date_publish !== '') &&
+				($form_object->date_publish !== null) &&
+				($form_object->date_publish !== '0000-00-00 00:00:00')
+			) {
+
+				$form_object->date_publish_wp = date_i18n(
+
+					get_option('date_format') . ' ' . get_option('time_format'),
+					strtotime(get_date_from_gmt($form_object->date_publish))
+				);
 			}
 
 			// Return array
@@ -1102,6 +1130,57 @@
 			self::db_checksum();
 		}
 
+		// Rollback draft to last published state (retains object IDs)
+		public function db_rollback_publish($bypass_user_capability_check = false) {
+
+			// User capability check
+			WS_Form_Common::user_must('edit_form', $bypass_user_capability_check);
+
+			self::db_check_id();
+
+			global $wpdb;
+
+			// Read published status / checksums
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$form_row = $wpdb->get_row($wpdb->prepare(
+
+				"SELECT checksum, published_checksum, published FROM {$wpdb->prefix}wsf_form WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
+				$this->id
+			));
+			if(is_null($form_row)) { parent::db_throw_error(__('Unable to read form', 'ws-form')); }
+
+			// Never published
+			if($form_row->published == '') {
+
+				parent::db_throw_error(__('Form has not been published', 'ws-form'));
+			}
+
+			// No unpublished changes
+			if($form_row->checksum === $form_row->published_checksum) {
+
+				parent::db_throw_error(__('No unpublished changes to roll back', 'ws-form'));
+			}
+
+			// Read published form object
+			$published = self::db_read_published(false);
+			if($published === false) {
+
+				parent::db_throw_error(__('Unable to read published form data', 'ws-form'));
+			}
+
+			// Restore published form into draft tables (keep IDs, replace meta)
+			self::db_update_from_object($published, true, false, true);
+
+			// Update checksum (do not auto-publish)
+			self::db_checksum($bypass_user_capability_check, true);
+
+			// Do action
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			do_action('wsf_form_rollback_publish', $this->id);
+
+			return true;
+		}
+
 		// Import reset
 		public function db_import_reset() {
 
@@ -1627,6 +1706,8 @@
 			unset($form_object->checksum);
 			unset($form_object->published_checksum);
 			unset($form_object->status);
+			unset($form_object->date_publish);
+			unset($form_object->date_publish_wp);
 			unset($form_object->count_stat_view);
 			unset($form_object->count_stat_save);
 			unset($form_object->count_stat_submit);
@@ -1717,6 +1798,11 @@
 
 			// Full update?
 			if($full) {
+
+				if(!isset($form_object->groups) || !is_array($form_object->groups)) {
+
+					parent::db_throw_error(__('No groups found in form object', 'ws-form'));
+				}
 
 				// Update groups
 				$ws_form_group = new WS_Form_Group();
@@ -3157,9 +3243,9 @@
 			// Gradient ID
 			$gradient_id = 'wsf-template-bottom' . (isset($form_object->checksum) ? '-' . $form_object->checksum : '');
 
-			// Definitions - Gradient - Bottom
+			// Definitions - Gradient - Bottom (attributes, not style= — safecss strips stop-*)
 			$svg .= sprintf(
-				'<linearGradient id="%s" x1="0%%" y1="0%%" x2="0%%" y2="100%%"><stop offset="0%%" style="stop-color:%s;stop-opacity:0" /><stop offset="100%%" style="stop-color:%s;stop-opacity:1" /></linearGradient>',
+				'<linearGradient id="%s" x1="0%%" y1="0%%" x2="0%%" y2="100%%"><stop offset="0%%" stop-color="%s" stop-opacity="0" /><stop offset="100%%" stop-color="%s" stop-opacity="1" /></linearGradient>',
 				esc_attr($gradient_id),
 				esc_attr($ws_form_css->color_form_background),
 				esc_attr($ws_form_css->color_form_background)

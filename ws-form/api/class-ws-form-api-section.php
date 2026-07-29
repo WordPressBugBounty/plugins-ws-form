@@ -175,8 +175,8 @@
 
 			try {
 
-				// Get form object from file
-				$form_object = WS_Form_Common::get_object_from_post_file();
+				// Get form object from file (form or section JSON)
+				$form_object = WS_Form_Common::get_object_from_post_file(array('form', 'section'));
 
 				// Create sections from template
 				$label = $ws_form_section->db_create_from_form_object($form_object, $next_sibling_id);

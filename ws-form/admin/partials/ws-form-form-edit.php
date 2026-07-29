@@ -16,35 +16,26 @@
 
 <!-- Header -->
 <div class="wsf-loading-hidden">
-<div id="wsf-header">
-<h1><?php esc_html_e('Edit Form', 'ws-form') ?></h1>
-
-<!-- Form actions -->
 <?php
 
-	// Publish
-	if(WS_Form_Common::can_user('publish_form')) {
-?>
-<button data-action="wsf-publish" class="wsf-button wsf-button-small wsf-button-information" disabled><?php WS_Form_Common::render_icon_16_svg('publish'); ?> <?php esc_html_e('Publish', 'ws-form'); ?></button>
-<?php
-	}
+	ob_start();
 
 	// Preview
 ?>
-<a data-action="wsf-preview" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_preview_url($ws_form_form_id)); ?>" target="wsf-preview-<?php WS_Form_Common::echo_esc_attr($ws_form_form_id); ?>"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview', 'ws-form'); ?></a>
+<a data-action="wsf-preview" class="button" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_preview_url($ws_form_form_id)); ?>" target="wsf-preview-<?php WS_Form_Common::echo_esc_attr($ws_form_form_id); ?>" title="<?php esc_attr_e('Preview', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <span class="wsf-admin-header-action-label"><?php esc_html_e('Preview', 'ws-form'); ?></span></a>
 <?php
 
 	// Style
 	if(WS_Form_Common::styler_visible_admin()) {
 ?>
-<a data-action="wsf-style" class="wsf-button wsf-button-small" href="#" target="wsf-style-<?php WS_Form_Common::echo_esc_attr($ws_form_form_id); ?>"><?php WS_Form_Common::render_icon_16_svg('style'); ?> <?php esc_html_e('Style', 'ws-form'); ?></a>
+<a data-action="wsf-style" class="button" href="#" title="<?php esc_attr_e('Style', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('style'); ?> <span class="wsf-admin-header-action-label"><?php esc_html_e('Style', 'ws-form'); ?></span></a>
 <?php
 	}
 
 	// Submissions
 	if(WS_Form_Common::can_user('read_submission')) {
 ?>
-<a data-action="wsf-submission" class="wsf-button wsf-button-small" href="<?php WS_Form_Common::echo_esc_url(admin_url('admin.php?page=ws-form-submit&id=' . $ws_form_form_id)); ?>"><?php WS_Form_Common::render_icon_16_svg('table'); ?> <?php esc_html_e('Submissions', 'ws-form'); ?></a>
+<a data-action="wsf-submission" class="button" href="<?php WS_Form_Common::echo_esc_url(admin_url('admin.php?page=ws-form-submit&id=' . $ws_form_form_id)); ?>" title="<?php esc_attr_e('Submissions', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('table'); ?> <span class="wsf-admin-header-action-label"><?php esc_html_e('Submissions', 'ws-form'); ?></span></a>
 <?php
 	}
 
@@ -54,44 +45,52 @@
 ?>
 <ul class="wsf-settings wsf-settings-form">
 <?php
-	// Download
+	// Export (DOM first → visual last with row-reverse)
+	// Tooltips open left so they stay in the header and are not covered by the sidebar
 	if(WS_Form_Common::can_user('export_form')) {
 ?>
-<li data-action="wsf-form-download"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Export Form', 'ws-form'), 'bottom-center'); ?>><?php WS_Form_Common::render_icon_16_svg('download'); ?></li>
+<li data-action="wsf-form-download"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Export Form', 'ws-form'), 'left'); ?>><?php WS_Form_Common::render_icon_16_svg('download'); ?></li>
 <?php
 	}
-	
-	// Upload
+
+	// Import
 	if(WS_Form_Common::can_user('import_form')) {
 ?>
-<li data-action="wsf-form-upload"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Import Form', 'ws-form'), 'bottom-center'); ?>><?php WS_Form_Common::render_icon_16_svg('upload'); ?></li>
+<li data-action="wsf-form-upload"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Import Form', 'ws-form'), 'left'); ?>><?php WS_Form_Common::render_icon_16_svg('upload'); ?></li>
 <?php
 	}
 ?>
-<li data-action="wsf-redo"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Redo', 'ws-form'), 'bottom-center'); ?> class="wsf-redo-inactive"><?php WS_Form_Common::render_icon_16_svg('redo'); ?></li>
-<li data-action="wsf-undo"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Undo', 'ws-form'), 'bottom-center'); ?> class="wsf-undo-inactive"><?php WS_Form_Common::render_icon_16_svg('undo'); ?></li>
+<li data-action="wsf-redo"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Redo', 'ws-form'), 'left'); ?> class="wsf-redo-inactive"><?php WS_Form_Common::render_icon_16_svg('redo'); ?></li>
+<li data-action="wsf-undo"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Undo', 'ws-form'), 'left'); ?> class="wsf-undo-inactive"><?php WS_Form_Common::render_icon_16_svg('undo'); ?></li>
 </ul>
 <?php
 
-	// Upload
-	if(WS_Form_Common::can_user('import_form')) {
+	// Build / sidebar open (mobile only — styled like other header action buttons)
 ?>
-<input type="file" id="wsf-object-upload-file" class="wsf-file-upload" accept=".json" aria-hidden aria-label="<?php esc_html_e('File upload', 'ws-form'); ?>"/>
+<button type="button" data-action-sidebar="toolbox" class="button wsf-admin-header-sidebar-open" title="<?php esc_attr_e('Build', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('tools'); ?> <span class="wsf-admin-header-action-label"><?php esc_html_e('Build', 'ws-form'); ?></span></button>
+<?php
+
+	// Publish (rightmost)
+	if(WS_Form_Common::can_user('publish_form')) {
+?>
+<button type="button" data-action="wsf-publish" class="button button-primary" disabled><?php esc_html_e('Publish', 'ws-form'); ?></button>
 <?php
 	}
+
+	WS_Form_Common::admin_header(__('Edit Form', 'ws-form'), ob_get_clean());
 ?>
-</div>
 </div>
 <!-- /Header -->
 <?php
 
 	// Review nag
 	WS_Form_Common::review();
+
+	// Import (form JSON — viewport-fixed drop zone)
+	$this->render_object_upload_dropzone('import_form');
 ?>
 <!-- Wrapper -->
 <div id="poststuff" class="wsf-loading-hidden">
-
-<hr class="wp-header-end">
 
 <!-- Label -->
 <div id="titlediv">
@@ -99,7 +98,8 @@
 
 <label class="screen-reader-text" id="title-prompt-text" for="title"><?php esc_html_e('Form Label', 'ws-form'); ?></label>
 <input type="text" id="title" class="wsf-field" placeholder="<?php esc_html_e('Form Label', 'ws-form'); ?>" data-action="wsf-form-label" name="form_label" size="30" value="" spellcheck="true" autocomplete="off" />
-<button data-action="wsf-label-save" class="wsf-button wsf-button-small wsf-button-primary"><?php esc_html_e('Save', 'ws-form'); ?></button>
+<span class="wsf-form-label-id"></span>
+<button type="button" data-action="wsf-label-save" class="button button-primary"><?php esc_html_e('Save', 'ws-form'); ?></button>
 
 </div>
 </div>

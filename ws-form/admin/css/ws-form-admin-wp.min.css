@@ -75,7 +75,7 @@
   z-index: 150001;
 }
 
-#wsf-feedback-modal {
+.wsf-modal-dialog {
   max-height: calc(100vh - 40px);
   max-width: calc(100vw - 40px);
   overflow: hidden;
@@ -83,14 +83,16 @@
           transform: translate(-50%, -50%);
   width: 520px;
 }
-#wsf-feedback-modal .wsf-modal-content {
+.wsf-modal-dialog .wsf-modal-content {
   box-sizing: border-box;
   max-height: calc(100vh - 128px);
   overflow-y: auto;
   padding-bottom: 64px;
 }
-#wsf-feedback-modal #wsf-modal-buttons-cancel {
-  line-height: 30px;
+
+#wsf-template-add-modal,
+#wsf-add-form-modal {
+  width: 400px;
 }
 
 .wsf-modal-title {
@@ -169,7 +171,11 @@
 }
 
 .wsf-modal-content form textarea {
+  box-sizing: border-box;
   height: 120px;
+  max-height: min(320px, 40vh);
+  min-height: 120px;
+  resize: vertical;
 }
 
 #wsf-post-add-form-id {
@@ -189,39 +195,91 @@
 }
 
 .wsf-modal-buttons {
-  padding: 8px 16px;
+  align-items: center;
   background: #FCFCFC;
   border-top: 1px solid #DFDFDF;
-  position: absolute;
   bottom: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
   left: 0;
+  padding: 8px 16px;
+  position: absolute;
   right: 0;
 }
 
-#wsf-modal-buttons-cancel {
-  float: left;
-  line-height: 25px;
+.wsf-modal .button.button-secondary,
+.wsf-modal .button:not(.button-primary) {
+  border-color: #002E5D;
+  color: #002E5D;
+}
+.wsf-modal .button.button-secondary:hover, .wsf-modal .button.button-secondary:focus,
+.wsf-modal .button:not(.button-primary):hover,
+.wsf-modal .button:not(.button-primary):focus {
+  border-color: #418FDE;
+  color: #418FDE;
+}
+.wsf-modal .button.button-secondary:focus,
+.wsf-modal .button:not(.button-primary):focus {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #418FDE;
+}
+.wsf-modal .button.button-primary {
+  background: #002E5D;
+  border-color: #002E5D;
+  color: #fff;
+}
+.wsf-modal .button.button-primary:hover, .wsf-modal .button.button-primary:focus {
+  background: #418FDE;
+  border-color: #418FDE;
+  color: #fff;
+}
+.wsf-modal .button.button-primary:focus {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #418FDE;
+}
+.wsf-modal .button.button-primary:active {
+  background: #002E5D;
+  border-color: #002E5D;
+}
+.wsf-modal .button.button-primary:disabled, .wsf-modal .button.button-primary.disabled, .wsf-modal .button.button-primary[disabled] {
+  background: #002E5D !important;
+  border-color: #002E5D !important;
+  color: #fff !important;
+  opacity: 0.5;
+  text-shadow: none;
+}
+.wsf-modal .button.wsf-button-danger {
+  background: #bb0000;
+  border-color: #bb0000;
+  color: #fff;
+}
+.wsf-modal .button.wsf-button-danger:hover, .wsf-modal .button.wsf-button-danger:focus {
+  background: #880000;
+  border-color: #880000;
+  color: #fff;
+}
+.wsf-modal .button.wsf-button-danger:focus {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #bb0000;
+}
+.wsf-modal .button.wsf-button-danger:active {
+  background: #660000;
+  border-color: #660000;
 }
 
-#wsf-modal-buttons-cancel a {
+.wsf-modal-buttons-cancel {
+  float: none;
+  justify-self: start;
+}
+.wsf-modal-buttons-cancel a {
   color: #A00;
   cursor: pointer;
   text-decoration: underline;
 }
-
-#wsf-modal-buttons-cancel a:hover {
+.wsf-modal-buttons-cancel a:hover {
   color: #DC3232;
 }
 
-#wsf-modal-buttons-add-form,
-#wsf-modal-buttons-feedback-submit {
-  float: right;
-  line-height: 23px;
-}
-
-#wsf-modal-buttons-create {
-  float: right;
-  line-height: 23px;
+.wsf-modal-buttons-primary {
+  float: none;
+  justify-self: end;
 }
 
 .wsf-submit-unread > span {

@@ -170,6 +170,24 @@
 						unset($template_category->wizards);
 					}
 
+					// Integration category flag (config wins; known IDs as fallback until configs are updated)
+					if(isset($template_category->integration)) {
+
+						$config_object->template_categories[$template_category_index]->integration = (bool) $template_category->integration;
+
+					} else if(isset($template_category->add_on)) {
+
+						// Legacy add_on flag from older integration configs
+						$config_object->template_categories[$template_category_index]->integration = (bool) $template_category->add_on;
+
+					} else if(
+						isset($template_category->id) &&
+						in_array($template_category->id, self::get_template_category_integration_ids(), true)
+					) {
+
+						$config_object->template_categories[$template_category_index]->integration = true;
+					}
+
 					$file_path = $config_object->template_categories[$template_category_index]->file_path;
 
 					if(!$include_file_paths) {
@@ -812,7 +830,7 @@
 <?php
 					if($template->pro_required) {
 ?>
-	<a class="wsf-button wsf-button-primary wsf-button-full" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_plugin_website_url('', 'add_form')); ?>" target="_blank"><?php esc_html_e('Upgrade to PRO', 'ws-form'); ?></a>
+	<a class="wsf-button wsf-button-primary wsf-button-full" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_plugin_website_url('/pricing/', 'add_form')); ?>" target="_blank"><?php esc_html_e('Upgrade to PRO', 'ws-form'); ?></a>
 <?php
 					} else {
 						
@@ -845,7 +863,7 @@
 
 					if($template->preview_url !== false) {
 ?>
-	<a class="wsf-preview" href="<?php WS_Form_Common::echo_esc_url($template->preview_url); ?>" target="_blank"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <?php esc_html_e('Preview Template', 'ws-form'); ?></a>
+	<a class="wsf-preview" href="<?php WS_Form_Common::echo_esc_url($template->preview_url); ?>" target="_blank"><?php WS_Form_Common::render_icon_16_svg('visible'); ?><?php esc_html_e('Preview Template', 'ws-form'); ?></a>
 <?php
 					}
 ?>
@@ -1047,6 +1065,19 @@
 			}
 
 			return true;
+		}
+
+		// Known integration template category IDs (fallback until each config sets integration)
+		public function get_template_category_integration_ids() {
+
+			return array(
+				'comment',
+				'convesiopay',
+				'lifterlms',
+				'mollie',
+				'openai',
+				'stripe-elements',
+			);
 		}
 
 		// Check id

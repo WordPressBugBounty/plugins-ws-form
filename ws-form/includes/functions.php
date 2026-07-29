@@ -1011,6 +1011,40 @@
 	}
 
 	/**
+	 * Add a note to a submission
+	 *
+	 * @param int    $submit_id The submit ID
+	 * @param string $content   Note content
+	 * @param array  $meta      Optional note meta: values (label => value) and buttons
+	 * @param int    $user_id   WordPress user ID (0 = system / use user_name)
+	 * @param string $user_name Label used when user_id is 0
+	 * @param bool   $locked    Locked notes cannot be edited/deleted in admin
+	 *
+	 * @return int Note ID
+	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_submit_note_add($submit_id, $content = '', $meta = array(), $user_id = 0, $user_name = '', $locked = false) {
+
+		return WS_Form_Submit_Note::add($submit_id, $content, $meta, $user_id, $locked, true, $user_name);
+	}
+
+	/**
+	 * Get notes for a submission
+	 *
+	 * @param int $submit_id The submit ID
+	 *
+	 * @return array
+	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- All functions prefixed with wsf_
+	function wsf_submit_notes_get($submit_id) {
+
+		$ws_form_submit_note = new WS_Form_Submit_Note();
+		$ws_form_submit_note->submit_id = absint($submit_id);
+
+		return $ws_form_submit_note->db_read_by_submit(true);
+	}
+
+	/**
 	 * Get a property value from an object
 	 *
 	 * @param object                  $object                 Object to read from

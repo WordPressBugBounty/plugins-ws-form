@@ -24,6 +24,7 @@
 		public $section_repeatable;
 		public $preview;
 		public $spam_level;
+		public $actions_stopped;
 		public $starred;
 		public $viewed;
 
@@ -96,6 +97,7 @@
 			$this->date_updated = WS_Form_Common::get_mysql_date();
 			$this->date_expire = null;
 			$this->spam_level = null;
+			$this->actions_stopped = false;
 			$this->starred = false;
 			$this->viewed = false;
 
@@ -189,6 +191,9 @@
 				$ws_form_form->db_update_count_submit_unread(true);
 			}
 
+			// Flush pending notes queued before submit ID existed
+			WS_Form_Submit_Note::db_flush_pending($this);
+
 			// Run action
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 			do_action('wsf_submit_create', $this);
@@ -226,6 +231,10 @@
 			if($get_meta) {
 
 				$this->meta = $submit_object->meta = self::db_get_submit_meta($submit_object, false, $bypass_user_capability_check);
+
+				// One-time migrate legacy AbuseIPDB meta into a submit note
+				WS_Form_Submit_Note::migrate_abuseipdb_meta($submit_object);
+				$this->meta = $submit_object->meta;
 			}
 
 			// Get user data
@@ -299,6 +308,11 @@
 				$this->section_repeatable = $submit_object->section_repeatable = is_serialized($submit_object->section_repeatable) ? WS_Form_Common::maybe_unserialize($submit_object->section_repeatable) : false;
 			}
 
+
+			// Notes
+			$ws_form_submit_note = new WS_Form_Submit_Note();
+			$ws_form_submit_note->submit_id = absint($submit_object->id);
+			$this->notes = $submit_object->notes = $ws_form_submit_note->db_read_by_submit($bypass_user_capability_check);
 		}
 
 		// Read - All
@@ -691,6 +705,11 @@
 				$ws_form_meta = new WS_Form_Submit_Meta();
 				$ws_form_meta->parent_id = $this->id;
 				$ws_form_meta->db_delete_by_submit($bypass_user_capability_check);
+
+				// Delete notes
+				$ws_form_submit_note = new WS_Form_Submit_Note();
+				$ws_form_submit_note->submit_id = $this->id;
+				$ws_form_submit_note->db_delete_by_submit($bypass_user_capability_check);
 
 				// Run action
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
@@ -2220,8 +2239,9 @@
 					// Read submit by hash
 					$this->db_read_by_hash(true, true, true, true);
 
-					// Reset spam level
+					// Reset spam level / actions stopped
 					$this->spam_level = null;
+					$this->actions_stopped = false;
 
 					// Clear meta data
 					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
@@ -2396,6 +2416,16 @@
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				apply_filters('wsf_submit_validate', $this->error_validation_actions, $this->post_mode, $this)
 			);
+
+			// Spam protection - Third-party checks (Akismet, AbuseIPDB, etc.)
+			if(
+				in_array($this->post_mode, array('submit', 'save'), true) &&
+				(count($this->error_validation_actions) === 0)
+			) {
+
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				$this->spam_level = apply_filters('wsf_submit_spam_check', $this->spam_level, $this->form_object, $this);
+			}
 
 			// Section repeatable
 			if(!empty($section_repeatable)) {

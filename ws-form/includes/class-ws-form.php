@@ -106,6 +106,7 @@ final class WS_Form {
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-file.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-data-grid.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-submit-meta.php';
+		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-submit-note.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-submit.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-submit-export.php';
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-template.php';
@@ -116,8 +117,9 @@ final class WS_Form {
 		// Actions
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/core/class-ws-form-action.php';
 
-		// Actions - Spam protection
-		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/actions/class-ws-form-action-akismet.php';
+		// Third party - Spam protection
+		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/akismet/class-ws-form-akismet.php';
+		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/third-party/abuseipdb/class-ws-form-abuseipdb.php';
 
 		// Actions - GDPR
 		require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/actions/class-ws-form-action-data-erasure-request.php';
@@ -494,9 +496,6 @@ final class WS_Form {
 
 		// Admin notifications
 		$this->loader->add_action('admin_notices', 'WS_Form_Common', 'admin_messages_render');
-
-		// REST API check warning (set during onboarding / welcome screen)
-		$this->loader->add_action('admin_notices', 'WS_Form_Common', 'api_check');
 
 		// Customize
 		$this->loader->add_action('customize_register', $plugin_admin, 'customize_register');

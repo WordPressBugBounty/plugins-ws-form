@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
 Tested up to: 7.0
-Stable tag: 1.11.19
+Stable tag: 1.12.0
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -89,11 +89,12 @@ WS Form includes a powerful, multi-layer spam protection system to block unwante
 * Optional [server-side custom validation hooks](https://wsform.com/knowledgebase/wsf_submit_field_validate/)
 
 == Anti-Spam Fields and Integrations ==
-* [Akismet](https://wsform.com/knowledgebase/spam-check-with-akismet/?utm_source=wp_plugins&utm_medium=readme) spam checking
+* [AbuseIPDB](https://wsform.com/knowledgebase/abuseipdb/?utm_source=wp_plugins&utm_medium=readme)
+* [Akismet](https://wsform.com/knowledgebase/spam-check-with-akismet/?utm_source=wp_plugins&utm_medium=readme)
 * [CaptchaFox](https://wsform.com/knowledgebase/captchafox/?utm_source=wp_plugins&utm_medium=readme)
-* [Clearout](https://wsform.com/knowledgebase/spam-check-with-clearout/?utm_source=wp_plugins&utm_medium=readme) disposable email detection
+* [Clearout](https://wsform.com/knowledgebase/spam-check-with-clearout/?utm_source=wp_plugins&utm_medium=readme)
 * [Cloudflare Turnstile](https://wsform.com/knowledgebase/turnstile/?utm_source=wp_plugins&utm_medium=readme)
-* [Google reCAPTCHA](https://wsform.com/knowledgebase/recaptcha/?utm_source=wp_plugins&utm_medium=readme) v2 and v3
+* [Google reCAPTCHA](https://wsform.com/knowledgebase/recaptcha/?utm_source=wp_plugins&utm_medium=readme)
 * [hCaptcha](https://wsform.com/knowledgebase/hcaptcha/?utm_source=wp_plugins&utm_medium=readme)
 * Works alongside third-party services such as CleanTalk and OOPSpam
 
@@ -260,7 +261,6 @@ WS Form includes the following third party components:
 
 * [Date Format by Jacob Wright](https://github.com/jacwright/date.format) - Used for formatting server and post dates on the public JavaScript interface.
 * [Intl-Tel-Input](https://intl-tel-input.com/) - Used for international telephone input
-* [IntroJs](https://introjs.com) - Used for the tutorial feature.
 * [Select2](https://select2.org) - Used for AJAX select dropdowns
 * [CanIUse.com](https://caniuse.com) - Used for linking to field and field attribute compatibility pages
 * [Coloris](https://coloris.js.org/) - Used for the color picker in the styler
@@ -268,6 +268,16 @@ WS Form includes the following third party components:
 = External Services =
 
 WS Form uses the following API endpoints to provide services within the plugin:
+
+* AbuseIPDB
+https://api.abuseipdb.com/api/v2/
+This endpoint is called when AbuseIPDB spam protection is enabled to check the submitter IP address, and optionally to report an IP when a submission is marked as spam.
+[Terms of Use](https://www.abuseipdb.com/legal) / [Privacy Policy](https://www.abuseipdb.com/privacy)
+
+* CaptchaFox
+https://api.captchafox.com/siteverify
+This endpoint is called when a form is submitted to validate a CaptchaFox field.
+[Terms of Use](https://captchafox.com/terms) / [Privacy Policy](https://captchafox.com/privacy)
 
 * Google reCaptcha
 https://www.google.com/recaptcha/api/siteverify
@@ -314,12 +324,11 @@ This endpoint is called when the preset option is selected for a select, checkbo
 1. Drag-and-drop form layout editor
 2. Simple onboarding process
 3. Contact form submissions in WordPress admin
-4. Responsive, accessible front-end form display
-5. Form Styler for customizing design without code
+4. Form Styler for customizing design without code
 
 == Installation ==
 
-For help installing WS Form, please see our [Installation](https://wsform.com/knowledgebase/installation?utm_source=wp_plugins&utm_medium=readme) knowledge base article.
+For help installing WS Form, please see our [Installation](https://wsform.com/knowledgebase/installation/?utm_source=wp_plugins&utm_medium=readme) knowledge base article.
 
 == FAQ ==
 
@@ -327,7 +336,7 @@ For help installing WS Form, please see our [Installation](https://wsform.com/kn
 Use the WS Form block in the WordPress Block Editor (Gutenberg) or your preferred page builder.
 
 = Does WS Form support spam protection? =
-Yes. WS Form includes multiple layers of spam protection including honeypots, nonce validation, IP rate limiting, keyword and domain blocking, and built-in integrations with Cloudflare Turnstile, hCaptcha, Google reCAPTCHA, and Akismet. [Learn more](https://wsform.com/knowledgebase/preventing-form-spam/?utm_source=wp_plugins&utm_medium=readme)
+Yes. WS Form includes multiple layers of spam protection including honeypots, nonce validation, IP rate limiting, keyword and domain blocking, and built-in integrations with AbuseIPDB, Akismet, CaptchaFox, Cloudflare Turnstile, hCaptcha, and Google reCAPTCHA. [Learn more](https://wsform.com/knowledgebase/preventing-form-spam/?utm_source=wp_plugins&utm_medium=readme)
 
 = Can I export form submissions? =
 Yes, you can export submissions in CSV format directly from the admin area. [Learn more](https://wsform.com/knowledgebase/submissions/?utm_source=wp_plugins&utm_medium=readme)
@@ -367,6 +376,30 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.12.0 - 07/29/2026 =
+* Added: Improved admin UI across the layout editor, settings, and submissions
+* Added: AI / MCP Server update with field update, tab, section, field, action, conditional, and submission note abilities
+* Added: Notes system for submissions
+* Added: Helper functions for adding and retrieving submission notes
+* Added: AbuseIPDB spam protection
+* Added: Rollback unpublished form changes to the last published version in the History tab
+* Added: Visual Form Builder (free) migration tool (PRO)
+* Added: Embed tab in the layout editor
+* Added: Redesigned status page with copy and download
+* Added: Security hardening
+* Added: Submission form selector now shows record counts
+* Added: Improved drag and drop import for forms and styles
+* Added: Improved license logging
+* Changed: Renamed Select field Options tab to Choices
+* Removed: IntroJS first-run tutorial
+* Bug Fix: Prevented license deactivation on multilingual sites using multiple hostnames. Requires an available license activation for each hostname.
+* Bug Fix: Styler font style, letter spacing, text decoration, and text transform not applying to labels
+* Bug Fix: Unread submissions bubble not updating after marking as unread
+* Bug Fix: Import now rejects the wrong type of JSON file
+* Bug Fix: Data source errors now show a single clear message
+* Bug Fix: Preset data source when the remote file cannot be retrieved
+* Bug Fix: DropzoneJS remove on Android phones
+
 = 1.11.19 - 07/16/2026 =
 * Added: List submissions and get submission abilities
 * Added: Draft form ability
@@ -378,9 +411,5 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 = 1.11.18 - 07/15/2026 =
 * Bug Fix: Restored wsf-hidden and wsf-hidden-element classes in framework CSS
 * Bug Fix: Fields created from action templates now use the default label when no label is specified
-
-= 1.11.17 - 07/12/2026 =
-* Added: WPBakery extension
-* Changed: Layout and style CSS now use a single file for LTR and RTL sites, removing the need for separate RTL CSS files
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

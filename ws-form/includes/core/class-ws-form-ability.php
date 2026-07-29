@@ -657,6 +657,7 @@
 
 				$submission = $submissions[0];
 				$submission['form_id'] = (int) $submit_object->form_id;
+				$submission['notes'] = self::submission_notes_format(isset($submit_object->notes) ? $submit_object->notes : array());
 
 				// Return data
 				return $submission;
@@ -666,6 +667,210 @@
 				/* translators: %s: Error message */
 				return self::error($e, __('Error retrieving submission: %s', 'ws-form'));
 			}
+		}
+
+		// Submission - Notes
+		public function submission_notes($input) {
+
+			try {
+
+				// Init
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'submission-notes');
+
+				// Get submission ID
+				$submission_id = self::input_get('id');
+
+				// Check submission ID
+				if($submission_id === 0) {
+
+					throw new Exception(esc_html__('Invalid submission ID.', 'ws-form'));
+				}
+
+				$ws_form_submit_note = new WS_Form_Submit_Note();
+				$ws_form_submit_note->submit_id = $submission_id;
+
+				return [
+
+					'notes' => self::submission_notes_format($ws_form_submit_note->db_read_by_submit())
+				];
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error retrieving submission notes: %s', 'ws-form'));
+			}
+		}
+
+		// Submission - Note - Create
+		public function submission_note_create($input) {
+
+			try {
+
+				// Init
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'submission-note-create');
+
+				// Get submission ID
+				$submission_id = self::input_get('id');
+
+				// Check submission ID
+				if($submission_id === 0) {
+
+					throw new Exception(esc_html__('Invalid submission ID.', 'ws-form'));
+				}
+
+				$content = self::input_get('content');
+				if(!is_string($content)) { $content = ''; }
+
+				// Object inputs arrive as stdClass from input_parse
+				$meta = self::input_object_to_array(self::input_get('meta'));
+
+				$user_name = self::input_get('user_name');
+				if(!is_string($user_name)) { $user_name = ''; }
+				$user_name = sanitize_text_field($user_name);
+
+				$locked = self::input_get('locked');
+				if(!is_bool($locked)) { $locked = !empty($locked); }
+
+				// user_name set = system/third-party note; otherwise current WordPress user
+				$user_id = ($user_name !== '') ? 0 : get_current_user_id();
+
+				$ws_form_submit_note = new WS_Form_Submit_Note();
+				$ws_form_submit_note->submit_id = $submission_id;
+				$ws_form_submit_note->user_id = $user_id;
+				$ws_form_submit_note->user_name = $user_name;
+				$ws_form_submit_note->content = $content;
+				$ws_form_submit_note->meta = WS_Form_Submit_Note::meta_normalize($meta);
+				$ws_form_submit_note->locked = $locked;
+				$ws_form_submit_note->db_create();
+
+				$notes = self::submission_notes_format(array($ws_form_submit_note->db_read()));
+
+				return [
+
+					'note' => isset($notes[0]) ? $notes[0] : array(),
+					'message' => __('Submission note created.', 'ws-form')
+				];
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error creating submission note: %s', 'ws-form'));
+			}
+		}
+
+		// Submission - Note - Update
+		public function submission_note_update($input) {
+
+			try {
+
+				// Init
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'submission-note-update');
+
+				// Get note ID
+				$note_id = self::input_get('id');
+
+				// Check note ID
+				if($note_id === 0) {
+
+					throw new Exception(esc_html__('Invalid note ID.', 'ws-form'));
+				}
+
+				$ws_form_submit_note = new WS_Form_Submit_Note();
+				$ws_form_submit_note->id = $note_id;
+				$existing = $ws_form_submit_note->db_read();
+
+				$content = self::input_get('content');
+				if(!is_string($content)) { $content = ''; }
+
+				// Object inputs arrive as stdClass; omitted meta becomes empty via to_object
+				$meta = self::input_object_to_array(self::input_get('meta'));
+				if(count($meta) === 0) {
+
+					$meta = (isset($existing->meta) && is_array($existing->meta)) ? $existing->meta : array();
+				}
+
+				$ws_form_submit_note->submit_id = absint($existing->submit_id);
+				$ws_form_submit_note->content = $content;
+				$ws_form_submit_note->meta = WS_Form_Submit_Note::meta_normalize($meta);
+				$ws_form_submit_note->db_update();
+
+				$notes = self::submission_notes_format(array($ws_form_submit_note->db_read()));
+
+				return [
+
+					'note' => isset($notes[0]) ? $notes[0] : array(),
+					'message' => __('Submission note updated.', 'ws-form')
+				];
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error updating submission note: %s', 'ws-form'));
+			}
+		}
+
+		// Submission - Note - Delete
+		public function submission_note_delete($input) {
+
+			try {
+
+				// Init
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'submission-note-delete');
+
+				// Get note ID
+				$note_id = self::input_get('id');
+
+				// Check note ID
+				if($note_id === 0) {
+
+					throw new Exception(esc_html__('Invalid note ID.', 'ws-form'));
+				}
+
+				$ws_form_submit_note = new WS_Form_Submit_Note();
+				$ws_form_submit_note->id = $note_id;
+				$ws_form_submit_note->db_read();
+				$ws_form_submit_note->db_delete();
+
+				return [
+
+					'id' => (int) $note_id,
+					'message' => __('Submission note deleted.', 'ws-form')
+				];
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error deleting submission note: %s', 'ws-form'));
+			}
+		}
+
+		// Format notes for ability output
+		public function submission_notes_format($notes) {
+
+			if(!is_array($notes)) { return array(); }
+
+			$return_array = array();
+
+			foreach($notes as $note) {
+
+				$note = (object) $note;
+
+				$return_array[] = array(
+
+					'id' => isset($note->id) ? (int) $note->id : 0,
+					'submit_id' => isset($note->submit_id) ? (int) $note->submit_id : 0,
+					'user_id' => isset($note->user_id) ? (int) $note->user_id : 0,
+					'user_name' => isset($note->user_name) ? (string) $note->user_name : '',
+					'user_display_name' => isset($note->user_display_name) ? (string) $note->user_display_name : '',
+					'date_added' => isset($note->date_added_wp) ? (string) $note->date_added_wp : (isset($note->date_added) ? (string) $note->date_added : ''),
+					'date_updated' => isset($note->date_updated_wp) ? (string) $note->date_updated_wp : (isset($note->date_updated) ? (string) $note->date_updated : ''),
+					'content' => isset($note->content) ? (string) $note->content : '',
+					'meta' => WS_Form_Submit_Note::meta_normalize((isset($note->meta) && is_array($note->meta)) ? $note->meta : array()),
+					'locked' => !empty($note->locked)
+				);
+			}
+
+			return $return_array;
 		}
 
 		// Format submission export rows for ability output
@@ -860,17 +1065,73 @@
 				return [
 
 					'id' => $form_id,
-					'field_id' => $ws_form_field->id,
-					'field_label' => $ws_form_field->label,
-					'json' => $ws_form_form_ai->form_get_json(),
-					'url_edit' => WS_Form_Common::get_admin_url('ws-form-edit', $form_id),
-					'url_preview' => WS_Form_Common::get_preview_url($form_id)
+					'field' => $ws_form_form_ai->field_format_for_ability($ws_form_field)
 				];
 
 			} catch(Exception $e) {
 
 				/* translators: %s: Error message */
 				return self::error($e, __('Error adding field: %s', 'ws-form'));
+			}
+		}
+
+		// Field - Update
+		public function field_update($input) {
+
+			try {
+
+				// Init
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'field-update');
+
+				// Get form ID
+				$form_id = self::input_get('id');
+
+				// Check form ID
+				if($form_id === 0) {
+
+					throw new Exception(esc_html__('Invalid form ID.', 'ws-form'));
+				}
+
+				// Get field ID
+				$field_id = self::input_get('field_id');
+
+				// Check field ID
+				if($field_id === 0) {
+
+					throw new Exception(esc_html__('Invalid field ID.', 'ws-form'));
+				}
+
+				// Get label (optional)
+				$field_label = self::input_get('label');
+
+				// Get meta (optional)
+				$field_meta = self::input_get('meta');
+
+				// Create instance of WS_Form_Form_AI
+				$ws_form_form_ai = new WS_Form_Form_AI();
+
+				// Set form ID
+				$ws_form_form_ai->id = $form_id;
+
+				// Update field
+				$ws_form_field = $ws_form_form_ai->field_update(
+
+					$field_id,
+					$field_label,
+					$field_meta
+				);
+
+				// Return data
+				return [
+
+					'id' => $form_id,
+					'field' => $ws_form_form_ai->field_format_for_ability($ws_form_field)
+				];
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error updating field: %s', 'ws-form'));
 			}
 		}
 
@@ -912,21 +1173,12 @@
 				// Delete field
 				$ws_form_field->db_delete();
 
-				// Create instance of WS_Form_Form_AI
-				$ws_form_form_ai = new WS_Form_Form_AI();
-
-				// Set form ID
-				$ws_form_form_ai->id = $form_id;
-
 				// Return data
 				return [
 
 					'id' => $form_id,
 					'field_id' => $field_id,
-					'message' => __('Field permanently deleted', 'ws-form'),
-					'json' => $ws_form_form_ai->form_get_json(),
-					'url_edit' => WS_Form_Common::get_admin_url('ws-form-edit', $form_id),
-					'url_preview' => WS_Form_Common::get_preview_url($form_id)
+					'message' => __('Field permanently deleted', 'ws-form')
 				];
 
 			} catch(Exception $e) {
@@ -935,6 +1187,241 @@
 				return self::error($e, __('Error deleting field: %s', 'ws-form'));
 			}
 		}
+
+		// Tabs - List
+		public function tabs($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'tabs');
+				$form_id = self::input_get('id');
+				if($form_id === 0) { throw new Exception(esc_html__('Invalid form ID.', 'ws-form')); }
+
+				$ws_form_form_ai = new WS_Form_Form_AI();
+				$ws_form_form_ai->id = $form_id;
+
+				return array('id' => $form_id, 'tabs' => $ws_form_form_ai->tabs_list());
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error listing tabs: %s', 'ws-form'));
+			}
+		}
+
+		// Sections - List
+		public function sections($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'sections');
+				$form_id = self::input_get('id');
+				if($form_id === 0) { throw new Exception(esc_html__('Invalid form ID.', 'ws-form')); }
+
+				$ws_form_form_ai = new WS_Form_Form_AI();
+				$ws_form_form_ai->id = $form_id;
+
+				return array('id' => $form_id, 'sections' => $ws_form_form_ai->sections_list());
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error listing sections: %s', 'ws-form'));
+			}
+		}
+
+		// Fields - List
+		public function fields($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'fields');
+				$form_id = self::input_get('id');
+				if($form_id === 0) { throw new Exception(esc_html__('Invalid form ID.', 'ws-form')); }
+
+				$ws_form_form_ai = new WS_Form_Form_AI();
+				$ws_form_form_ai->id = $form_id;
+
+				return array('id' => $form_id, 'fields' => $ws_form_form_ai->fields_list());
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error listing fields: %s', 'ws-form'));
+			}
+		}
+
+		// Tab - Add
+		public function tab_add($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'tab-add');
+				$form_id = self::input_get('id');
+				if($form_id === 0) { throw new Exception(esc_html__('Invalid form ID.', 'ws-form')); }
+
+				$ws_form_form_ai = new WS_Form_Form_AI();
+				$ws_form_form_ai->id = $form_id;
+				$ws_form_group = $ws_form_form_ai->tab_add(self::input_get('label'), self::input_get('tab_id_before'));
+
+				return array(
+
+					'id' => $form_id,
+					'tab' => $ws_form_form_ai->tab_format_for_ability($ws_form_group)
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error adding tab: %s', 'ws-form'));
+			}
+		}
+
+		// Tab - Update
+		public function tab_update($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'tab-update');
+				$form_id = self::input_get('id');
+				if($form_id === 0) { throw new Exception(esc_html__('Invalid form ID.', 'ws-form')); }
+
+				$ws_form_form_ai = new WS_Form_Form_AI();
+				$ws_form_form_ai->id = $form_id;
+				$ws_form_group = $ws_form_form_ai->tab_update(self::input_get('tab_id'), self::input_get('label'));
+
+				return array(
+
+					'id' => $form_id,
+					'tab' => $ws_form_form_ai->tab_format_for_ability($ws_form_group)
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error updating tab: %s', 'ws-form'));
+			}
+		}
+
+		// Tab - Delete
+		public function tab_delete($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'tab-delete');
+				$form_id = self::input_get('id');
+				$tab_id = self::input_get('tab_id');
+				if($form_id === 0) { throw new Exception(esc_html__('Invalid form ID.', 'ws-form')); }
+
+				$ws_form_form_ai = new WS_Form_Form_AI();
+				$ws_form_form_ai->id = $form_id;
+				$ws_form_form_ai->tab_delete($tab_id);
+
+				return array(
+
+					'id' => $form_id,
+					'tab_id' => $tab_id,
+					'message' => __('Tab permanently deleted', 'ws-form')
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error deleting tab: %s', 'ws-form'));
+			}
+		}
+
+		// Section - Add
+		public function section_add($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'section-add');
+				$form_id = self::input_get('id');
+				if($form_id === 0) { throw new Exception(esc_html__('Invalid form ID.', 'ws-form')); }
+
+				$ws_form_form_ai = new WS_Form_Form_AI();
+				$ws_form_form_ai->id = $form_id;
+				$ws_form_section = $ws_form_form_ai->section_add(
+
+					self::input_get('group_id'),
+					self::input_get('label'),
+					self::input_get('section_id_before'),
+					self::input_get('meta')
+				);
+
+				return array(
+
+					'id' => $form_id,
+					'section' => $ws_form_form_ai->section_format_for_ability($ws_form_section)
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error adding section: %s', 'ws-form'));
+			}
+		}
+
+		// Section - Update
+		public function section_update($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'section-update');
+				$form_id = self::input_get('id');
+				if($form_id === 0) { throw new Exception(esc_html__('Invalid form ID.', 'ws-form')); }
+
+				$ws_form_form_ai = new WS_Form_Form_AI();
+				$ws_form_form_ai->id = $form_id;
+				$ws_form_section = $ws_form_form_ai->section_update(
+
+					self::input_get('section_id'),
+					self::input_get('label'),
+					self::input_get('meta')
+				);
+
+				return array(
+
+					'id' => $form_id,
+					'section' => $ws_form_form_ai->section_format_for_ability($ws_form_section)
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error updating section: %s', 'ws-form'));
+			}
+		}
+
+		// Section - Delete
+		public function section_delete($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'section-delete');
+				$form_id = self::input_get('id');
+				$section_id = self::input_get('section_id');
+				if($form_id === 0) { throw new Exception(esc_html__('Invalid form ID.', 'ws-form')); }
+
+				$ws_form_form_ai = new WS_Form_Form_AI();
+				$ws_form_form_ai->id = $form_id;
+				$ws_form_form_ai->section_delete($section_id);
+
+				return array(
+
+					'id' => $form_id,
+					'section_id' => $section_id,
+					'message' => __('Section permanently deleted', 'ws-form')
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error deleting section: %s', 'ws-form'));
+			}
+		}
+
 
 		// Init
 		public function init($input, $ability_name) {
@@ -1221,7 +1708,7 @@
 			// Check input have been parsed
 			if($this->input === false) {
 
-				throw new Exception(esc_html__('Inputs not parsed.', 'ws-form'));				
+				throw new Exception(esc_html__('Inputs not parsed.', 'ws-form'));
 			}
 
 			if(!isset($this->input[$property_name])) {
@@ -1234,10 +1721,34 @@
 						esc_html__('Property %s does not exist in input schema.', 'ws-form'),
 						esc_html($property_name)
 					)
-				);				
+				);
 			}
 
 			return $this->input[$property_name];
+		}
+
+		// Normalize object ability inputs to arrays (missing values become {scalar:''} via to_object)
+		public function input_object_to_array($value) {
+
+			if(is_object($value)) {
+
+				$value = (array) $value;
+			}
+
+			if(!is_array($value)) {
+
+				return array();
+			}
+
+			if(
+				array_key_exists('scalar', $value) &&
+				(count($value) === 1) &&
+				(($value['scalar'] === '') || is_null($value['scalar']))
+			) {
+				return array();
+			}
+
+			return $value;
 		}
 
 		// Validate date
