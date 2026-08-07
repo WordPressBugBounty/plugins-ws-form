@@ -113,6 +113,9 @@
 		public $enqueued_visual_builder = false;
 		public $enqueued_core = false;
 
+		// Full styler CSS (all shades) for visual builder / enqueue_all
+		public $style_css_full = false;
+
 		// Public dependencies
 		public $public_dependencies_js;
 		public $public_dependencies_css;
@@ -191,6 +194,9 @@
 
 		public function enqueue_visual_builder() {
 
+			// Full shade dump (do not use pruned compiled style CSS)
+			$this->style_css_full = true;
+
 			if(WS_Form_Common::styler_enabled()) {
 
 				// Load all styles
@@ -252,6 +258,9 @@
 		}
 
 		public function enqueue_all() {
+
+			// Full shade dump (do not use pruned compiled style CSS)
+			$this->style_css_full = true;
 
 			// JavaScript
 
@@ -1250,7 +1259,7 @@
 
 					if(WS_Form_Common::is_block_editor()) {
 
-						// If we are in the block editor, we enqueue the style CSS using WS Form framework
+						// Full shade dump for block editor
 						wp_enqueue_style($enqueue_id, WS_Form_Common::get_api_path(sprintf(
 
 							'style/%u/css/?wsf_block_editor=true',
@@ -1260,18 +1269,28 @@
 
 					} elseif($this->enqueue_js_styler) {
 
-						// If we are using the styler, ensure the alt classes are force to render
+						// Full shade dump for styler UI (alt forced)
 						if(!isset($this->enqueued_css_style[$style_id])) {
 
 							add_action('wp_footer', function() use ($style_id) {
 
 								// Output style CSS
 								$this->ws_form_style->id = $style_id;
-								$css_style = $this->ws_form_style->get_css_vars_markup(true, true, false, true, true, false);
+								$css_style = $this->ws_form_style->get_css_vars_markup(true, true, false, true, true, false, false);
 								WS_Form_Common::echo_esc_css_inline($css_style);
 
 							}, 100);
 						}
+
+					} elseif($this->style_css_full) {
+
+						// Full shade dump for visual builder / enqueue_all
+						wp_enqueue_style($enqueue_id, WS_Form_Common::get_api_path(sprintf(
+
+							'style/%u/css/?wsf_full=1',
+							$style_id
+
+						)), array(), $this->version, 'all');
 
 					} else {
 
@@ -1289,7 +1308,7 @@
 
 									add_action('wp_footer', function() use ($style_id) {
 
-										// Output style CSS
+										// Output style CSS (pruned unused shades)
 										$this->ws_form_css->style_id = $style_id;
 										$css_style = $this->ws_form_css->get_style(null, true);
 										WS_Form_Common::echo_esc_css_inline($css_style);
@@ -1610,6 +1629,14 @@
 			// RTL
 			if(is_rtl()) { 
 				$form_attr_class .= ' wsf-rtl'; 
+			}
+
+			// Container queries (WS Form framework only)
+			if(
+				($framework_id === 'ws-form') &&
+				(WS_Form_Common::get_object_meta_value($form_object, 'breakpoint_query', 'media') === 'container')
+			) {
+				$form_attr_class .= ' wsf-form-container-query';
 			}
 
 			// Style attributes

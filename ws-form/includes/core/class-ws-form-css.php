@@ -145,8 +145,8 @@
 				$ws_form_style = new WS_Form_Style();
 				$ws_form_style->id = $this->style_id;
 
-				// Get CSS vars markup
-				$css_return = $ws_form_style->get_css_vars_markup(true, true, false, true, false, true);
+				// Get CSS vars markup (prune unused shades for front-end)
+				$css_return = $ws_form_style->get_css_vars_markup(true, true, false, true, false, true, true);
 
 				// Apply filters
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_

@@ -1013,6 +1013,347 @@
 			}
 		}
 
+		// Styles - List
+		public function styles($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'styles');
+
+				$published = self::input_get('published');
+				$order_by = self::input_get('order_by');
+				$order = self::input_get('order');
+
+				$where = $published ? "status = 'publish'" : "NOT (status = 'trash')";
+				$order_sql = sprintf('%s %s', $order_by === 'id' ? 'id' : 'label', $order === 'DESC' ? 'DESC' : 'ASC');
+
+				$ws_form_style = new WS_Form_Style();
+				$styles = $ws_form_style->db_read_all('', $where, $order_sql);
+				if(!is_array($styles)) { $styles = array(); }
+
+				$return_styles = array();
+
+				foreach($styles as $style) {
+
+					$return_styles[] = array(
+
+						'id' => (int) $style['id'],
+						'label' => $style['label'],
+						'status' => $style['status'],
+						'default' => !empty($style['default']),
+						'default_conv' => !empty($style['default_conv'])
+					);
+				}
+
+				return array('styles' => $return_styles);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error retrieving styles: %s', 'ws-form'));
+			}
+		}
+
+		// Style - Get
+		public function style_get($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'style-get');
+
+				$style_id = self::input_get('id');
+				if($style_id === 0) {
+
+					throw new Exception(esc_html__('Invalid style ID.', 'ws-form'));
+				}
+
+				$ws_form_style = new WS_Form_Style();
+				$ws_form_style->id = $style_id;
+				$style_object = $ws_form_style->db_read(true);
+
+				return array(
+
+					'id' => (int) $style_object->id,
+					'label' => $style_object->label,
+					'status' => $style_object->status,
+					'default' => !empty($style_object->default),
+					'default_conv' => !empty($style_object->default_conv),
+					'meta' => self::style_root_meta_from_object($style_object),
+					'url_edit' => WS_Form_Common::get_admin_url('ws-form-style', $style_id)
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error retrieving style: %s', 'ws-form'));
+			}
+		}
+
+		// Style - Create
+		public function style_create($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'style-create');
+
+				$label = self::input_get('label');
+				$template_id = self::input_get('template_id');
+				$meta = self::style_root_meta_sanitize(self::input_get('meta'));
+				$form_id = self::input_get('form_id');
+				$conversational = self::input_get('conversational');
+				$default = self::input_get('default');
+				$default_conv = self::input_get('default_conv');
+
+				self::style_require_edit_option($meta, $form_id, $default, $default_conv);
+
+				$ws_form_style = new WS_Form_Style();
+
+				if($template_id !== '') {
+
+					self::style_template_validate($template_id);
+					$ws_form_style->db_create_from_template($template_id);
+
+				} else {
+
+					if($label !== '') {
+
+						$ws_form_style->label = $label;
+					}
+
+					$ws_form_style->db_create();
+				}
+
+				$style_id = (int) $ws_form_style->id;
+				if($style_id === 0) {
+
+					throw new Exception(esc_html__('Error creating style.', 'ws-form'));
+				}
+
+				if(($template_id !== '') && ($label !== '')) {
+
+					$ws_form_style->db_label($label);
+				}
+
+				if(!empty($meta)) {
+
+					self::style_root_meta_apply($ws_form_style, $meta);
+				}
+
+				if($default) {
+
+					$ws_form_style->db_default();
+				}
+
+				if($default_conv) {
+
+					$ws_form_style->db_default_conv();
+				}
+
+				if($form_id > 0) {
+
+					self::style_assign_to_form($style_id, $form_id, $conversational);
+				}
+
+				self::style_finish($ws_form_style);
+
+				$ws_form_style->id = $style_id;
+				$style_object = $ws_form_style->db_read(true);
+
+				$return = array(
+
+					'id' => $style_id,
+					'label' => $style_object->label,
+					'status' => $style_object->status,
+					'default' => !empty($style_object->default),
+					'default_conv' => !empty($style_object->default_conv),
+					'meta' => self::style_root_meta_from_object($style_object),
+					'url_edit' => WS_Form_Common::get_admin_url('ws-form-style', $style_id)
+				);
+
+				if($form_id > 0) {
+
+					$return['form_id'] = $form_id;
+					$return['conversational'] = $conversational;
+					$return['url_form_edit'] = WS_Form_Common::get_admin_url('ws-form-edit', $form_id);
+					$return['url_form_preview'] = WS_Form_Common::get_preview_url($form_id);
+				}
+
+				return $return;
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error creating style: %s', 'ws-form'));
+			}
+		}
+
+		// Style - Update
+		public function style_update($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'style-update');
+
+				$style_id = self::input_get('id');
+				if($style_id === 0) {
+
+					throw new Exception(esc_html__('Invalid style ID.', 'ws-form'));
+				}
+
+				$label = self::input_get('label');
+				$meta = self::style_root_meta_sanitize(self::input_get('meta'));
+				$form_id = self::input_get('form_id');
+				$conversational = self::input_get('conversational');
+				$default = self::input_get('default');
+				$default_conv = self::input_get('default_conv');
+
+				if(
+					($label === '') &&
+					empty($meta) &&
+					!$default &&
+					!$default_conv &&
+					($form_id === 0)
+				) {
+
+					throw new Exception(esc_html__('Provide a label, meta, default flag, and/or form ID to update.', 'ws-form'));
+				}
+
+				$ws_form_style = new WS_Form_Style();
+				$ws_form_style->id = $style_id;
+				$ws_form_style->db_read(false);
+
+				if($label !== '') {
+
+					$ws_form_style->db_label($label);
+				}
+
+				if(!empty($meta)) {
+
+					self::style_root_meta_apply($ws_form_style, $meta);
+				}
+
+				if($default) {
+
+					$ws_form_style->db_default();
+				}
+
+				if($default_conv) {
+
+					$ws_form_style->db_default_conv();
+				}
+
+				if($form_id > 0) {
+
+					self::style_assign_to_form($style_id, $form_id, $conversational);
+				}
+
+				self::style_finish($ws_form_style);
+
+				$ws_form_style->id = $style_id;
+				$style_object = $ws_form_style->db_read(true);
+
+				$return = array(
+
+					'id' => $style_id,
+					'label' => $style_object->label,
+					'status' => $style_object->status,
+					'default' => !empty($style_object->default),
+					'default_conv' => !empty($style_object->default_conv),
+					'meta' => self::style_root_meta_from_object($style_object),
+					'url_edit' => WS_Form_Common::get_admin_url('ws-form-style', $style_id)
+				);
+
+				if($form_id > 0) {
+
+					$return['form_id'] = $form_id;
+					$return['conversational'] = $conversational;
+					$return['url_form_edit'] = WS_Form_Common::get_admin_url('ws-form-edit', $form_id);
+					$return['url_form_preview'] = WS_Form_Common::get_preview_url($form_id);
+				}
+
+				return $return;
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error updating style: %s', 'ws-form'));
+			}
+		}
+
+		// Style - Delete
+		public function style_delete($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'style-delete');
+
+				$style_id = self::input_get('id');
+				if($style_id === 0) {
+
+					throw new Exception(esc_html__('Invalid style ID.', 'ws-form'));
+				}
+
+				$permanent = self::input_get('permanent');
+
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				if($permanent && !apply_filters('wsf_ability_style_delete_permanent', false)) {
+
+					throw new Exception(esc_html__('Permanent style deletion is not enabled.', 'ws-form'));
+				}
+
+				$ws_form_style = new WS_Form_Style();
+				$ws_form_style->id = $style_id;
+
+				global $wpdb;
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$status = $wpdb->get_var($wpdb->prepare(
+
+					"SELECT status FROM {$wpdb->prefix}wsf_style WHERE id = %d;",
+					$style_id
+				));
+
+				if(is_null($status)) {
+
+					throw new Exception(esc_html__('Invalid style ID.', 'ws-form'));
+				}
+
+				if($permanent && ($status !== 'trash')) {
+
+					$trash_result = $ws_form_style->db_delete();
+					if($trash_result === false) {
+
+						throw new Exception(esc_html__('Unable to delete style. Default styles cannot be deleted.', 'ws-form'));
+					}
+				}
+
+				$delete_result = $ws_form_style->db_delete();
+				if($delete_result === false) {
+
+					throw new Exception(esc_html__('Unable to delete style. Default styles cannot be deleted.', 'ws-form'));
+				}
+
+				return array(
+
+					'id' => $style_id,
+					'permanent' => $permanent || ($status === 'trash'),
+					'message' => esc_html(
+						($permanent || ($status === 'trash'))
+							? __('Style permanently deleted', 'ws-form')
+							: __('Style trashed', 'ws-form')
+					),
+					'url' => ($permanent || ($status === 'trash'))
+						? WS_Form_Common::get_admin_url('ws-form-style')
+						: WS_Form_Common::get_admin_url('ws-form-style', false, 'ws-form-status=trash')
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, __('Error deleting style: %s', 'ws-form'));
+			}
+		}
+
 		// Field - Add
 		public function field_add($input) {
 
@@ -1422,6 +1763,199 @@
 			}
 		}
 
+
+		// Style root palette meta keys (cascade drivers)
+		public function style_root_meta_keys() {
+
+			return array(
+
+				'form_color_background',
+				'form_color_base',
+				'form_color_base_contrast',
+				'form_color_accent',
+				'form_color_neutral',
+				'form_color_primary',
+				'form_color_secondary',
+				'form_color_success',
+				'form_color_info',
+				'form_color_warning',
+				'form_color_danger',
+				'form_font_family',
+				'form_font_size',
+				'form_font_weight',
+				'form_border_radius',
+				'form_grid_gap'
+			);
+		}
+
+		// Style root keys including alt variants
+		public function style_root_meta_keys_allowed() {
+
+			$keys = self::style_root_meta_keys();
+
+			foreach(self::style_root_meta_keys() as $key) {
+
+				$keys[] = $key . '_alt';
+			}
+
+			return $keys;
+		}
+
+		// Sanitize sparse root palette meta; reject unknown keys
+		public function style_root_meta_sanitize($meta) {
+
+			$meta = self::input_object_to_array($meta);
+			if(empty($meta)) { return array(); }
+
+			$allowed = array_flip(self::style_root_meta_keys_allowed());
+			$sanitized = array();
+			$unknown = array();
+
+			foreach($meta as $key => $value) {
+
+				if(!isset($allowed[$key])) {
+
+					$unknown[] = $key;
+					continue;
+				}
+
+				if(!is_scalar($value) && !is_null($value)) {
+
+					throw new Exception(
+
+						sprintf(
+
+							/* translators: %s: Meta key */
+							esc_html__('Invalid style meta value for %s.', 'ws-form'),
+							esc_html($key)
+						)
+					);
+				}
+
+				$sanitized[$key] = WS_Form_Common::sanitize_css_value((string) $value);
+			}
+
+			if(!empty($unknown)) {
+
+				throw new Exception(
+
+					sprintf(
+
+						/* translators: %s: Comma-separated meta keys */
+						esc_html__('Unsupported style meta key(s): %s', 'ws-form'),
+						esc_html(implode(', ', $unknown))
+					)
+				);
+			}
+
+			return $sanitized;
+		}
+
+		// Extract root palette meta from a style object
+		public function style_root_meta_from_object($style_object) {
+
+			$meta = array();
+
+			if(!isset($style_object->meta) || !is_object($style_object->meta)) {
+
+				return $meta;
+			}
+
+			foreach(self::style_root_meta_keys_allowed() as $key) {
+
+				if(property_exists($style_object->meta, $key)) {
+
+					$meta[$key] = $style_object->meta->{$key};
+				}
+			}
+
+			return $meta;
+		}
+
+		// Apply root palette meta to a style (partial merge)
+		public function style_root_meta_apply($ws_form_style, $meta) {
+
+			if(empty($meta)) { return; }
+
+			$style_object = $ws_form_style->db_read(true);
+
+			if(!isset($style_object->meta) || !is_object($style_object->meta)) {
+
+				$style_object->meta = new stdClass();
+			}
+
+			foreach($meta as $key => $value) {
+
+				$style_object->meta->{$key} = $value;
+			}
+
+			$ws_form_style->db_update_from_object($style_object, false, false);
+		}
+
+		// Assign style to a form
+		public function style_assign_to_form($style_id, $form_id, $conversational = false) {
+
+			if(!WS_Form_Common::can_user('edit_form')) {
+
+				throw new Exception(esc_html__('You do not have permission to assign a style to a form.', 'ws-form'));
+			}
+
+			$ws_form_form = new WS_Form_Form();
+			$ws_form_form->id = $form_id;
+
+			if(!$ws_form_form->db_check_id_exists()) {
+
+				throw new Exception(esc_html__('Invalid form ID.', 'ws-form'));
+			}
+
+			$ws_form_meta = new WS_Form_Meta();
+			$ws_form_meta->object = 'form';
+			$ws_form_meta->parent_id = $form_id;
+			$ws_form_meta->db_update_from_array(array(
+
+				($conversational ? 'style_id_conv' : 'style_id') => $style_id
+			));
+		}
+
+		// Validate style template ID
+		public function style_template_validate($template_id) {
+
+			$ws_form_template = new WS_Form_Template();
+			$ws_form_template->type = 'style';
+			$ws_form_template->id = $template_id;
+			$ws_form_template->read();
+		}
+
+		// Require Allow Updates when mutating palette, default, or form assignment on create
+		public function style_require_edit_option($meta, $form_id, $default, $default_conv) {
+
+			if(
+				empty($meta) &&
+				($form_id === 0) &&
+				!$default &&
+				!$default_conv
+			) {
+				return;
+			}
+
+			if(!WS_Form_Common::option_get('abilities_api_edit_form', false)) {
+
+				throw new Exception(esc_html__('Style updates are not enabled.', 'ws-form'));
+			}
+		}
+
+		// Publish or checksum style after changes
+		public function style_finish($ws_form_style) {
+
+			if($ws_form_style->publish_auto) {
+
+				$ws_form_style->db_publish();
+
+			} else {
+
+				$ws_form_style->db_checksum();
+			}
+		}
 
 		// Init
 		public function init($input, $ability_name) {

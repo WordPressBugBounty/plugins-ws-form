@@ -22,6 +22,12 @@
 			// Force alt styles
 			$alt_force = absint(WS_Form_Common::get_query_var_nonce('wsf_alt', '', $parameters));
 
+			// Full shade dump for visual builder / block editor / styler-style previews
+			$css_full = (
+				(WS_Form_Common::get_query_var_nonce('wsf_full', '', $parameters) !== '') ||
+				(WS_Form_Common::get_query_var_nonce('wsf_block_editor', '', $parameters) !== '')
+			);
+
 			// Output HTTP header
 			parent::api_css_header();
 
@@ -30,7 +36,7 @@
 
 				$ws_form_style = new WS_Form_Style();
 				$ws_form_style->id = $style_id;
-				WS_Form_Common::echo_esc_css($ws_form_style->get_css_vars_markup(true, true, false, true, $alt_force, true));
+				WS_Form_Common::echo_esc_css($ws_form_style->get_css_vars_markup(true, true, false, true, $alt_force, true, !$css_full));
 
 			} catch (Exception $e) {
 

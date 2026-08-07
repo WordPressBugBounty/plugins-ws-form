@@ -2,6 +2,20 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.12.3 - 08/07/2026 =
+* Added: Dual-list selector for multi-select settings
+* Bug Fix: Blank Debug settings section in LITE
+
+= 1.12.2 - 08/04/2026 =
+* Added: AI / MCP Server style list, get, create, update, and delete abilities
+* Added: Reduced front-end style CSS by omitting unused shade variables
+* Added: Optimized layout CSS
+* Added: Breakpoint queries setting to use form width or browser width
+* Bug Fix: Statistics confirmation modal
+
+= 1.12.1 - 07/31/2026 =
+* Bug Fix: Some add-on settings not showing or saving correctly
+
 = 1.12.0 - 07/29/2026 =
 * Added: Improved admin UI across the layout editor, settings, and submissions
 * Added: AI / MCP Server update with field update, tab, section, field, action, conditional, and submission note abilities

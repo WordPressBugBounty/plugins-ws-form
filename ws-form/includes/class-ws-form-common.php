@@ -3723,7 +3723,7 @@
 				if(isset($variables[$parse_variable_key])) {
 
 					$variables[$parse_variable_key] = '&num;' . $parse_variable_key;
-					break;
+					continue;
 				}
 
 				// Variable has attributes

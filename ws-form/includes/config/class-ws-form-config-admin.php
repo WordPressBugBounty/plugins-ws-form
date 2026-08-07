@@ -1004,15 +1004,33 @@
 				$settings_form_admin['field']['buttons'][$key]['icon'] = self::get_icon_16_svg($icon);
 			}
 
-			// Styler
+			// Form styling (style + breakpoint queries)
+			$form_styling_meta_keys = array();
+
 			if(WS_Form_Common::styler_enabled()) {
 
-				array_unshift($settings_form_admin['sidebars']['form']['meta']['fieldsets']['styling']['fieldsets'], array(
+				$form_styling_meta_keys[] = 'style_id';
+			}
+
+			if(WS_Form_Common::option_get('framework', WS_FORM_DEFAULT_FRAMEWORK) === 'ws-form') {
+
+				$form_styling_meta_keys[] = 'breakpoint_query';
+			}
+
+			if(!empty($form_styling_meta_keys)) {
+
+				$form_styling_fieldset = array(
 
 					'label'		=>	__('Form', 'ws-form'),
-					'kb_url'	=>	'/knowledgebase/styler/',
-					'meta_keys'	=> array('style_id')
-				));
+					'meta_keys'	=>	$form_styling_meta_keys
+				);
+
+				if(WS_Form_Common::styler_enabled()) {
+
+					$form_styling_fieldset['kb_url'] = '/knowledgebase/styler/';
+				}
+
+				array_unshift($settings_form_admin['sidebars']['form']['meta']['fieldsets']['styling']['fieldsets'], $form_styling_fieldset);
 			}
 
 			// Apply filter

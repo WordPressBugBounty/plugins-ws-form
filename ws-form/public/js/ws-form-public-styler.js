@@ -1695,6 +1695,46 @@
 		range_obj.attr('min', min).attr('max', max).attr('step', step);
 	}
 
+	// Styler - ensure shade var formula exists on rule
+	$.WS_Form.prototype.styler_var_ensure_shade = function(style_target, value) {
+
+		if(!style_target || !value) { return; }
+
+		var shade_matches = value.match(/--wsf-[a-z0-9-]+-(?:light|dark)-\d+(?:-alt)?/gi);
+		if(!shade_matches) { return; }
+
+		for(var i = 0; i < shade_matches.length; i++) {
+
+			var shade_var = shade_matches[i];
+
+			// Already defined
+			if(style_target.getPropertyValue(shade_var)) { continue; }
+
+			var shade_parts = shade_var.match(/^--wsf-(.+)-(light|dark)-(\d+)(-alt)?$/i);
+			if(!shade_parts) { continue; }
+
+			var palette_var = '--wsf-' + shade_parts[1];
+			var shade_method = shade_parts[2].toLowerCase();
+			var shade_amount = parseInt(shade_parts[3], 10);
+			var shade_alt = (typeof(shade_parts[4]) !== 'undefined');
+			var shade_value;
+
+			if(shade_alt) {
+
+				// Alt shade mixes the normal shade with inverted color at 50%
+				var shade_var_normal = '--wsf-' + shade_parts[1] + '-' + shade_method + '-' + shade_amount;
+				this.styler_var_ensure_shade(style_target, 'var(' + shade_var_normal + ')');
+				shade_value = 'color-mix(in srgb, var(' + shade_var_normal + '), ' + ((shade_method === 'light') ? '#000' : '#fff') + ' 50%)';
+
+			} else {
+
+				shade_value = 'color-mix(in oklab, var(' + palette_var + '), ' + ((shade_method === 'light') ? '#fff' : '#000') + ' ' + shade_amount + '%)';
+			}
+
+			style_target.setProperty(shade_var, shade_value);
+		}
+	}
+
 	// Styler - var set
 	$.WS_Form.prototype.styler_var_set = function(obj) {
 
@@ -1713,14 +1753,17 @@
 		// Set stylesheet var
 		if(this.styler_rule) {
 
+			this.styler_var_ensure_shade(this.styler_rule.style, value);
 			this.styler_rule.style.setProperty(var_name, value);
 
 		} else {
 
 			// Fallback method
+			var ws_this = this;
 			$('[data-wsf-style-id="' + this.styler_style_id + '"]').each(function() {
 
-				$(this)[0].style.setProperty(var_name, value);
+				ws_this.styler_var_ensure_shade(this.style, value);
+				this.style.setProperty(var_name, value);
 			});
 		}
 

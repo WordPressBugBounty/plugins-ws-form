@@ -120,7 +120,7 @@
 				WS_FORM_ABILITY_API_NAMESPACE . 'form-create-json' => [
 
 					'label' => __('Create form from a description', 'ws-form'),
-					'description' => __('Use this tool to create a new form from a description provided by the user. The tool generates the form using a JSON definition that must follow the required structure described in the json input property. Form email notifications are Send Email actions in the actions array, not form settings.', 'ws-form'),
+					'description' => __('Use this tool to create a new form from a description provided by the user. The tool generates the form using a JSON definition that must follow the required structure described in the json input property. Form email notifications are Send Email actions in the actions array, not form settings. Do not create a style unless the user specifically asks for a color theme, branding, or visual appearance. When they do, create the form first, then call style-create with form_id and root palette colors.', 'ws-form'),
 					'category' => 'ws-form',
 					'permission_callback' => function() use ( $ws_form_ability ) {
 
@@ -2085,6 +2085,604 @@
 				],
 			];
 
+			// Style abilities (WS Form framework / styler only)
+			if(WS_Form_Common::styler_enabled()) {
+
+				$style_root_meta_schema = self::get_style_root_meta_schema();
+
+				$abilities = array_merge($abilities, [
+
+					// Styles - List
+					WS_FORM_ABILITY_API_NAMESPACE . 'styles' => [
+
+						'label' => __('List styles', 'ws-form'),
+						'description' => __('Returns a list of form styles in WS Form.', 'ws-form'),
+						'category' => 'ws-form',
+						'permission_callback' => function() use ( $ws_form_ability ) {
+
+							return $ws_form_ability->permission_callback( 'read_form_style' );
+						},
+						'input_schema'  => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'published' => [
+
+									'type' => 'boolean',
+									'description' => 'Optionally whether to retrieve only published styles. Defaults to true.',
+									'default' => true
+								],
+
+								'order_by' => [
+
+									'type' => 'string',
+									'description' => 'Optionally which column to order the styles by. Valid values are id or label. Defaults to label.',
+									'enum' => ['label', 'id'],
+									'default' => 'label'
+								],
+
+								'order' => [
+
+									'type' => 'string',
+									'description' => 'Optionally how to order the styles. Valid values are ASC or DESC. Defaults to ASC.',
+									'enum' => ['ASC', 'DESC'],
+									'default' => 'ASC'
+								]
+							]
+						],
+						'output_schema' => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'styles' => [
+
+									'type' => 'array',
+									'description' => 'The styles.',
+									'items' => [
+
+										'type' => 'object',
+										'description' => 'A style.',
+										'properties' => [
+
+											'id' => [
+
+												'type' => 'number',
+												'description' => 'The style ID.'
+											],
+
+											'label' => [
+
+												'type' => 'string',
+												'description' => 'The style label.'
+											],
+
+											'status' => [
+
+												'type' => 'string',
+												'description' => 'The style status.'
+											],
+
+											'default' => [
+
+												'type' => 'boolean',
+												'description' => 'Whether this is the site default style.'
+											],
+
+											'default_conv' => [
+
+												'type' => 'boolean',
+												'description' => 'Whether this is the site default conversational style.'
+											]
+										]
+									]
+								]
+							]
+						],
+						'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+							return $ws_form_ability->styles( $input );
+						},
+						'meta' => [
+							'annotations' => [
+								'priority' => 1.0,
+								'readOnlyHint' => true,
+								'destructiveHint' => false,
+								'idempotentHint' => false,
+								'openWorldHint' => false
+							],
+							'mcp' => [
+								'public' => false,
+								'type'   => 'tool',
+							]
+						]
+					],
+
+					// Style - Get
+					WS_FORM_ABILITY_API_NAMESPACE . 'style-get' => [
+
+						'label' => __('Get style', 'ws-form'),
+						'description' => __('Returns a style by ID, including its root palette values (form colors, fonts, border radius, and grid gap).', 'ws-form'),
+						'category' => 'ws-form',
+						'permission_callback' => function() use ( $ws_form_ability ) {
+
+							return $ws_form_ability->permission_callback( 'read_form_style' );
+						},
+						'input_schema'  => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								]
+							]
+						],
+						'output_schema' => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								],
+
+								'label' => [
+
+									'type' => 'string',
+									'description' => 'The style label.'
+								],
+
+								'status' => [
+
+									'type' => 'string',
+									'description' => 'The style status.'
+								],
+
+								'default' => [
+
+									'type' => 'boolean',
+									'description' => 'Whether this is the site default style.'
+								],
+
+								'default_conv' => [
+
+									'type' => 'boolean',
+									'description' => 'Whether this is the site default conversational style.'
+								],
+
+								'meta' => $style_root_meta_schema,
+
+								'url_edit' => [
+
+									'type' => 'string',
+									'format' => 'uri',
+									'description' => 'The URL to edit the style.'
+								]
+							]
+						],
+						'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+							return $ws_form_ability->style_get( $input );
+						},
+						'meta' => [
+							'annotations' => [
+								'priority' => 1.0,
+								'readOnlyHint' => true,
+								'destructiveHint' => false,
+								'idempotentHint' => false,
+								'openWorldHint' => false
+							],
+							'mcp' => [
+								'public' => false,
+								'type'   => 'tool',
+							]
+						]
+					],
+
+					// Style - Create
+					WS_FORM_ABILITY_API_NAMESPACE . 'style-create' => [
+
+						'label' => __('Create style', 'ws-form'),
+						'description' => __('Create a form style only when the user specifically asks for a color theme, branding, or visual appearance (for example a red theme). Do not create a style for ordinary form creation. Optionally start from a template and set root palette values. Optionally assign it to a form (form_id) or set it as the site default (default) or conversational default (default_conv). Setting default is site-wide and affects all forms using the default style. If assigning to a new form, create the form first, then pass its form_id.', 'ws-form'),
+						'category' => 'ws-form',
+						'permission_callback' => function() use ( $ws_form_ability ) {
+
+							return $ws_form_ability->permission_callback( 'create_form_style' );
+						},
+						'input_schema'  => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'label' => [
+
+									'type' => 'string',
+									'description' => 'Optional style label.',
+									'default' => ''
+								],
+
+								'template_id' => [
+
+									'type' => 'string',
+									'description' => 'Optional style template ID (for example standard-light or standard-dark). Leave empty to create a blank style.',
+									'default' => ''
+								],
+
+								'meta' => $style_root_meta_schema,
+
+								'form_id' => [
+
+									'type' => 'number',
+									'description' => 'Optional form ID to assign this style to.',
+									'default' => 0
+								],
+
+								'conversational' => [
+
+									'type' => 'boolean',
+									'description' => 'If true and form_id is set, assign as the form conversational style (style_id_conv) instead of the standard style (style_id).',
+									'default' => false
+								],
+
+								'default' => [
+
+									'type' => 'boolean',
+									'description' => 'If true, set this style as the site default style. This is a site-wide change.',
+									'default' => false
+								],
+
+								'default_conv' => [
+
+									'type' => 'boolean',
+									'description' => 'If true, set this style as the site default conversational style. This is a site-wide change.',
+									'default' => false
+								]
+							]
+						],
+						'output_schema' => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								],
+
+								'label' => [
+
+									'type' => 'string',
+									'description' => 'The style label.'
+								],
+
+								'status' => [
+
+									'type' => 'string',
+									'description' => 'The style status.'
+								],
+
+								'default' => [
+
+									'type' => 'boolean',
+									'description' => 'Whether this is the site default style.'
+								],
+
+								'default_conv' => [
+
+									'type' => 'boolean',
+									'description' => 'Whether this is the site default conversational style.'
+								],
+
+								'meta' => $style_root_meta_schema,
+
+								'url_edit' => [
+
+									'type' => 'string',
+									'format' => 'uri',
+									'description' => 'The URL to edit the style.'
+								],
+
+								'form_id' => [
+
+									'type' => 'number',
+									'description' => 'The form ID the style was assigned to, if requested.'
+								],
+
+								'conversational' => [
+
+									'type' => 'boolean',
+									'description' => 'Whether the style was assigned as a conversational style.'
+								],
+
+								'url_form_edit' => [
+
+									'type' => 'string',
+									'format' => 'uri',
+									'description' => 'The URL to edit the form, if a form was assigned.'
+								],
+
+								'url_form_preview' => [
+
+									'type' => 'string',
+									'format' => 'uri',
+									'description' => 'The URL to preview the form, if a form was assigned.'
+								]
+							]
+						],
+						'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+							return $ws_form_ability->style_create( $input );
+						},
+						'meta' => [
+							'annotations' => [
+								'priority' => 2.0,
+								'readOnlyHint' => false,
+								'destructiveHint' => false,
+								'idempotentHint' => false,
+								'openWorldHint' => false
+							],
+							'mcp' => [
+								'public' => false,
+								'type'   => 'tool',
+							]
+						]
+					],
+
+					// Style - Update
+					WS_FORM_ABILITY_API_NAMESPACE . 'style-update' => [
+
+						'label' => __('Update style', 'ws-form'),
+						'description' => __('Update a style label and/or root palette values. Optionally assign it to a form (form_id) or set it as the site default (default) or conversational default (default_conv). Setting default is site-wide and affects all forms using the default style. Only root palette keys are accepted (form colors, fonts, border radius, and grid gap), including matching _alt keys.', 'ws-form'),
+						'category' => 'ws-form',
+						'permission_callback' => function() use ( $ws_form_ability ) {
+
+							return (
+
+								WS_Form_Common::option_get( 'abilities_api_edit_form', false ) &&
+								$ws_form_ability->permission_callback( 'edit_form_style' )
+							);
+						},
+						'input_schema'  => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								],
+
+								'label' => [
+
+									'type' => 'string',
+									'description' => 'Optional new style label.',
+									'default' => ''
+								],
+
+								'meta' => $style_root_meta_schema,
+
+								'form_id' => [
+
+									'type' => 'number',
+									'description' => 'Optional form ID to assign this style to.',
+									'default' => 0
+								],
+
+								'conversational' => [
+
+									'type' => 'boolean',
+									'description' => 'If true and form_id is set, assign as the form conversational style (style_id_conv) instead of the standard style (style_id).',
+									'default' => false
+								],
+
+								'default' => [
+
+									'type' => 'boolean',
+									'description' => 'If true, set this style as the site default style. This is a site-wide change.',
+									'default' => false
+								],
+
+								'default_conv' => [
+
+									'type' => 'boolean',
+									'description' => 'If true, set this style as the site default conversational style. This is a site-wide change.',
+									'default' => false
+								]
+							]
+						],
+						'output_schema' => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								],
+
+								'label' => [
+
+									'type' => 'string',
+									'description' => 'The style label.'
+								],
+
+								'status' => [
+
+									'type' => 'string',
+									'description' => 'The style status.'
+								],
+
+								'default' => [
+
+									'type' => 'boolean',
+									'description' => 'Whether this is the site default style.'
+								],
+
+								'default_conv' => [
+
+									'type' => 'boolean',
+									'description' => 'Whether this is the site default conversational style.'
+								],
+
+								'meta' => $style_root_meta_schema,
+
+								'url_edit' => [
+
+									'type' => 'string',
+									'format' => 'uri',
+									'description' => 'The URL to edit the style.'
+								],
+
+								'form_id' => [
+
+									'type' => 'number',
+									'description' => 'The form ID the style was assigned to, if requested.'
+								],
+
+								'conversational' => [
+
+									'type' => 'boolean',
+									'description' => 'Whether the style was assigned as a conversational style.'
+								],
+
+								'url_form_edit' => [
+
+									'type' => 'string',
+									'format' => 'uri',
+									'description' => 'The URL to edit the form, if a form was assigned.'
+								],
+
+								'url_form_preview' => [
+
+									'type' => 'string',
+									'format' => 'uri',
+									'description' => 'The URL to preview the form, if a form was assigned.'
+								]
+							]
+						],
+						'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+							return $ws_form_ability->style_update( $input );
+						},
+						'meta' => [
+							'annotations' => [
+								'priority' => 2.0,
+								'readOnlyHint' => false,
+								'destructiveHint' => false,
+								'idempotentHint' => false,
+								'openWorldHint' => false
+							],
+							'mcp' => [
+								'public' => false,
+								'type'   => 'tool',
+							]
+						]
+					],
+
+					// Style - Delete
+					WS_FORM_ABILITY_API_NAMESPACE . 'style-delete' => [
+
+						'label' => __('Delete style', 'ws-form'),
+						'description' => __('Trash or permanently delete a style by ID. Default styles cannot be deleted.', 'ws-form'),
+						'category' => 'ws-form',
+						'permission_callback' => function() use ( $ws_form_ability ) {
+
+							return (
+
+								WS_Form_Common::option_get( 'abilities_api_delete_style', false ) &&
+								$ws_form_ability->permission_callback( 'delete_form_style' )
+							);
+						},
+						'input_schema'  => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								],
+
+								'permanent' => [
+
+									'type' => 'boolean',
+									'description' => 'If set to true, the style will be permanently deleted. If set to false, the style will be moved to trash and can later be restored.',
+									'default' => false
+								]
+							]
+						],
+						'output_schema' => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								],
+
+								'permanent' => [
+
+									'type' => 'boolean',
+									'description' => 'Whether the style was permanently deleted.'
+								],
+
+								'message' => [
+
+									'type' => 'string',
+									'description' => 'A message describing whether the style was permanently deleted.'
+								],
+
+								'url' => [
+
+									'type' => 'string',
+									'format' => 'uri',
+									'description' => 'A suggested URL to redirect to after the style is deleted.'
+								]
+							]
+						],
+						'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+							return $ws_form_ability->style_delete( $input );
+						},
+						'meta' => [
+							'annotations' => [
+								'priority' => 3.0,
+								'readOnlyHint' => false,
+								'destructiveHint' => true,
+								'idempotentHint' => true,
+								'openWorldHint' => false
+							],
+							'mcp' => [
+								'public' => false,
+								'type'   => 'tool',
+							]
+						]
+					],
+				]);
+			}
+
 			// Structure / action / conditional abilities
 			require_once WS_FORM_PLUGIN_DIR_PATH . 'includes/config/class-ws-form-config-ability-structure.php';
 			$abilities = array_merge(
@@ -2115,6 +2713,16 @@
 			self::$abilities = $abilities;
 
 			return $abilities;
+		}
+
+		// Style root palette meta schema for ability input/output
+		public static function get_style_root_meta_schema() {
+
+			return [
+
+				'type' => 'object',
+				'description' => 'Root palette values only. Allowed keys: form_color_background, form_color_base, form_color_base_contrast, form_color_accent, form_color_neutral, form_color_primary, form_color_secondary, form_color_success, form_color_info, form_color_warning, form_color_danger, form_font_family, form_font_size, form_font_weight, form_border_radius, form_grid_gap, and matching _alt keys. Example: {"form_color_primary":"#205493","form_font_size":"16px"}'
+			];
 		}
 
 		// Note meta schema ({ values, buttons }) for ability input/output

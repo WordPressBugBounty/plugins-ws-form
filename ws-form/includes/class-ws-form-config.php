@@ -5535,6 +5535,21 @@
 					'translate'					=>	true
 				),
 
+				// Breakpoint queries
+				'breakpoint_query' => array(
+
+					'label'						=>	__('Breakpoint Queries', 'ws-form'),
+					'type'						=>	'select',
+					'default'					=>	'media',
+					'options'					=>	array(
+
+						array('value' => 'media', 'text' => __('Browser Width (@media)', 'ws-form')),
+						array('value' => 'container', 'text' => __('Form Width (@container)', 'ws-form'))
+					),
+					'help'						=>	__('Choose whether column breakpoints respond to the browser width or the form width. Form width is useful for forms in sidebars, modals, or other narrow containers.', 'ws-form'),
+					'kb_url'					=>	'/knowledgebase/breakpoint-queries/'
+				),
+
 				// Wrapper classes
 				'class_form_wrapper' => array(
 

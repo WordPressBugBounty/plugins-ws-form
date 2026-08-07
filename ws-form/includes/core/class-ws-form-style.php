@@ -101,13 +101,16 @@
 			global $wpdb;
 
 			// Get existing default (oldest wins)
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
-			$style_id = absint($wpdb->get_var(
+			if($conversational) {
 
-				$conversational
-					? "SELECT id FROM {$wpdb->prefix}wsf_style WHERE default_conv = 1 ORDER BY id ASC LIMIT 1;"
-					: "SELECT id FROM {$wpdb->prefix}wsf_style WHERE `default` = 1 ORDER BY id ASC LIMIT 1;"
-			));
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$style_id = absint($wpdb->get_var("SELECT id FROM {$wpdb->prefix}wsf_style WHERE default_conv = 1 ORDER BY id ASC LIMIT 1;"));
+
+			} else {
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$style_id = absint($wpdb->get_var("SELECT id FROM {$wpdb->prefix}wsf_style WHERE `default` = 1 ORDER BY id ASC LIMIT 1;"));
+			}
 
 			if($style_id) {
 
@@ -1307,7 +1310,8 @@
 		}
 
 		// Get CSS vars as CSS
-		public function get_css_vars_markup($vars_markup = true, $vars_calc_markup = true, $node = false, $published = true, $alt_force = false, $bypass_user_capability_check = false) {
+		// $prune_shades: front-end only — omit unused shade vars. Keep false for styler / visual builder / block editor.
+		public function get_css_vars_markup($vars_markup = true, $vars_calc_markup = true, $node = false, $published = true, $alt_force = false, $bypass_user_capability_check = false, $prune_shades = false) {
 
 			self::db_check_id();
 
@@ -1350,21 +1354,50 @@
 					}
 				}
 
-				foreach($meta_data['meta_shade'] as $css_var) {
+				// Shade vars (optionally pruned to those referenced by meta values)
+				$meta_shade = $meta_data['meta_shade'];
+				$meta_shade_alt = $has_alt ? $meta_data['meta_shade_alt'] : array();
+
+				if($prune_shades) {
+
+					$meta_shade_refs = $this->get_css_vars_referenced(
+
+						array_merge(
+							$meta_data['meta'],
+							$has_alt ? $meta_data['meta_alt'] : array()
+						),
+						array_merge($meta_shade, $meta_shade_alt)
+					);
+
+					$meta_shade = array_filter($meta_shade, function($css_var) use ($meta_shade_refs) {
+
+						return isset($meta_shade_refs[$css_var['var']]);
+					});
+
+					if($has_alt) {
+
+						$meta_shade_alt = array_filter($meta_shade_alt, function($css_var) use ($meta_shade_refs) {
+
+							return isset($meta_shade_refs[$css_var['var']]);
+						});
+					}
+				}
+
+				foreach($meta_shade as $css_var) {
 
 					$return_css .= sprintf("%s: %s;\n", $css_var['var'], $css_var['value']);
 				}
 
 				if($has_alt) {
 
-					foreach($meta_data['meta_shade_alt'] as $css_var) {
+					foreach($meta_shade_alt as $css_var) {
 
 						$return_css .= sprintf("%s: %s;\n", $css_var['var'], $css_var['value']);
 					}
 				}
 			}
 
-			// Vars calc
+			// Vars calc (always emit — public SCSS reads these directly)
 			if($vars_calc_markup) {
 
 				usort($meta_data['meta_calc'], function ($item1, $item2) {
@@ -1394,6 +1427,60 @@
 			$return_css .= "}\n";
 
 			return $return_css;
+		}
+
+		// Vars referenced by meta values (closure over shade/calc pools)
+		public function get_css_vars_referenced($meta_source, $meta_pool) {
+
+			$referenced = array();
+			$pool_by_var = array();
+
+			foreach($meta_pool as $css_var) {
+
+				if(empty($css_var['var'])) { continue; }
+
+				$pool_by_var[$css_var['var']] = isset($css_var['value']) ? $css_var['value'] : '';
+			}
+
+			$queue = array();
+
+			foreach($meta_source as $css_var) {
+
+				if(empty($css_var['value'])) { continue; }
+
+				if(preg_match_all('/var\(\s*(--wsf-[a-z0-9-]+)/i', $css_var['value'], $matches)) {
+
+					foreach($matches[1] as $var_name) {
+
+						$queue[$var_name] = true;
+					}
+				}
+			}
+
+			while(!empty($queue)) {
+
+				$var_name = key($queue);
+				unset($queue[$var_name]);
+
+				if(isset($referenced[$var_name])) { continue; }
+
+				$referenced[$var_name] = true;
+
+				if(!isset($pool_by_var[$var_name])) { continue; }
+
+				if(preg_match_all('/var\(\s*(--wsf-[a-z0-9-]+)/i', $pool_by_var[$var_name], $matches)) {
+
+					foreach($matches[1] as $nested_var_name) {
+
+						if(!isset($referenced[$nested_var_name])) {
+
+							$queue[$nested_var_name] = true;
+						}
+					}
+				}
+			}
+
+			return $referenced;
 		}
 
 		// Get CSS vars as an array

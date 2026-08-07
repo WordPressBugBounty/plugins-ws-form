@@ -49,12 +49,6 @@
 							)
 						),
 
-						'debug'	=>	array(
-
-							'heading'		=>	__('Debug', 'ws-form'),
-							'fields'	=>	array(
-							)
-						),
 
 						'layout_editor'	=>	array(
 
@@ -541,6 +535,54 @@
 				WS_Form_Common::angie_enabled(false)
 			) {
 
+				$abilities_api_fields = array(
+
+					'mcp_adapter_public'	=>	array(
+
+						'label'		=>	__('Include in MCP Discovery', 'ws-form'),
+						'type'		=>	'checkbox',
+						'default'	=>	true,
+						'help'		=>	__('If enabled, MCP clients can discover WS Form abilities. Authentication and permissions still apply.', 'ws-form'),
+						'admin'		=>	true,
+					),
+
+					'abilities_api_edit_form'	=>	array(
+
+						'label'		=>	__('Allow Updates', 'ws-form'),
+						'type'		=>	'checkbox',
+						'default'	=>	false,
+						'help'		=>	sprintf(
+
+							'%s <strong>%s</strong>',
+
+							WS_Form_Common::styler_enabled()
+								? __('If enabled, form and style updates can be made by AI clients.', 'ws-form')
+								: __('If enabled, form updates can be made by AI clients.', 'ws-form'),
+
+							__('Use at your own risk!', 'ws-form')
+						),
+						'admin'		=>	true,
+					),
+
+					'abilities_api_delete_form'	=>	array(
+
+						'label'		=>	__('Allow Deletes', 'ws-form'),
+						'type'		=>	'checkbox',
+						'default'	=>	false,
+						'help'		=>	sprintf(
+
+							'%s <strong>%s</strong>',
+
+							WS_Form_Common::styler_enabled()
+								? __('If enabled, form and style deletions can be made by AI clients.', 'ws-form')
+								: __('If enabled, form deletions can be made by AI clients.', 'ws-form'),
+
+							__('Use at your own risk!', 'ws-form')
+						),
+						'admin'		=>	true,
+					)
+				);
+
 				$options['ai']['groups']['abilities_api'] = array(
 
 					'heading'	=>	__('Abilities API', 'ws-form'),
@@ -548,49 +590,7 @@
 
 					'message'	=>	esc_html__('Registers WS Form abilities with the WordPress Abilities API.', 'ws-form'),
 
-					'fields'	=>	array(
-
-						'mcp_adapter_public'	=>	array(
-
-							'label'		=>	__('Include in MCP Discovery', 'ws-form'),
-							'type'		=>	'checkbox',
-							'default'	=>	true,
-							'help'		=>	__('If enabled, MCP clients can discover WS Form abilities. Authentication and permissions still apply.', 'ws-form'),
-							'admin'		=>	true,
-						),
-
-						'abilities_api_edit_form'	=>	array(
-
-							'label'		=>	__('Allow Updates', 'ws-form'),
-							'type'		=>	'checkbox',
-							'default'	=>	false,
-							'help'		=>	sprintf(
-
-								'%s <strong>%s</strong>',
-
-								__('If enabled, form updates can be made by AI clients.', 'ws-form'),
-
-								__('Use at your own risk!', 'ws-form')
-							),
-							'admin'		=>	true,
-						),
-
-						'abilities_api_delete_form'	=>	array(
-
-							'label'		=>	__('Allow Deletes', 'ws-form'),
-							'type'		=>	'checkbox',
-							'default'	=>	false,
-							'help'		=>	sprintf(
-
-								'%s <strong>%s</strong>',
-
-								__('If enabled, form deletions can be made by AI clients.', 'ws-form'),
-
-								__('Use at your own risk!', 'ws-form')
-							),
-							'admin'		=>	true,
-						)
-					)
+					'fields'	=>	$abilities_api_fields
 				);
 			}
 

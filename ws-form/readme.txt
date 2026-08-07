@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
 Tested up to: 7.0
-Stable tag: 1.12.0
+Stable tag: 1.12.3
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -376,40 +376,18 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.12.0 - 07/29/2026 =
-* Added: Improved admin UI across the layout editor, settings, and submissions
-* Added: AI / MCP Server update with field update, tab, section, field, action, conditional, and submission note abilities
-* Added: Notes system for submissions
-* Added: Helper functions for adding and retrieving submission notes
-* Added: AbuseIPDB spam protection
-* Added: Rollback unpublished form changes to the last published version in the History tab
-* Added: Visual Form Builder (free) migration tool (PRO)
-* Added: Embed tab in the layout editor
-* Added: Redesigned status page with copy and download
-* Added: Security hardening
-* Added: Submission form selector now shows record counts
-* Added: Improved drag and drop import for forms and styles
-* Added: Improved license logging
-* Changed: Renamed Select field Options tab to Choices
-* Removed: IntroJS first-run tutorial
-* Bug Fix: Prevented license deactivation on multilingual sites using multiple hostnames. Requires an available license activation for each hostname.
-* Bug Fix: Styler font style, letter spacing, text decoration, and text transform not applying to labels
-* Bug Fix: Unread submissions bubble not updating after marking as unread
-* Bug Fix: Import now rejects the wrong type of JSON file
-* Bug Fix: Data source errors now show a single clear message
-* Bug Fix: Preset data source when the remote file cannot be retrieved
-* Bug Fix: DropzoneJS remove on Android phones
+= 1.12.3 - 08/07/2026 =
+* Added: Dual-list selector for multi-select settings
+* Bug Fix: Blank Debug settings section in LITE
 
-= 1.11.19 - 07/16/2026 =
-* Added: List submissions and get submission abilities
-* Added: Draft form ability
-* Added: AI Connectors status on the AI settings tab
-* Added: Setting to include WS Form abilities in MCP discovery
-* Added: Improved the AI settings tab
-* Changed: Form statistics ability now includes daily figures
+= 1.12.2 - 08/04/2026 =
+* Added: AI / MCP Server style list, get, create, update, and delete abilities
+* Added: Reduced front-end style CSS by omitting unused shade variables
+* Added: Optimized layout CSS
+* Added: Breakpoint queries setting to use form width or browser width
+* Bug Fix: Statistics confirmation modal
 
-= 1.11.18 - 07/15/2026 =
-* Bug Fix: Restored wsf-hidden and wsf-hidden-element classes in framework CSS
-* Bug Fix: Fields created from action templates now use the default label when no label is specified
+= 1.12.1 - 07/31/2026 =
+* Bug Fix: Some add-on settings not showing or saving correctly
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

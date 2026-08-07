@@ -87,6 +87,11 @@
 
 	if(isset($ws_form_options[$ws_form_tab_current]['groups'])) {
 
+		$ws_form_tab_fields = (
+			!empty($ws_form_options[$ws_form_tab_current]['fields']) &&
+			is_array($ws_form_options[$ws_form_tab_current]['fields'])
+		) ? $ws_form_options[$ws_form_tab_current]['fields'] : false;
+
 		foreach($ws_form_options[$ws_form_tab_current]['groups'] as $ws_form_section_key => $ws_form_group) {
 
 			if(!ws_form_settings_group_visible($ws_form_group)) { continue; }
@@ -97,6 +102,13 @@
 				'group' => $ws_form_group,
 				'learn_more' => !empty($ws_form_group['learn_more']) ? $ws_form_group['learn_more'] : (isset($ws_form_options[$ws_form_tab_current]['learn_more']) ? $ws_form_options[$ws_form_tab_current]['learn_more'] : false),
 			);
+
+			// Tab-level fields (e.g. license/enable above nested groups)
+			if($ws_form_tab_fields !== false) {
+
+				$ws_form_sections[$ws_form_section_key]['fields'] = $ws_form_tab_fields;
+				$ws_form_tab_fields = false;
+			}
 		}
 
 	} elseif(isset($ws_form_options[$ws_form_tab_current]['fields'])) {
@@ -239,6 +251,17 @@
 
 			$ws_form_group = $ws_form_section['group'];
 
+			// Section fields first (e.g. license/enable above nested groups)
+			if(!empty($ws_form_group['fields'])) {
+
+				$ws_form_heading = $ws_form_heading_for_content(isset($ws_form_group['heading']) ? $ws_form_group['heading'] : false);
+				$ws_form_description = isset($ws_form_group['description']) ? $ws_form_group['description'] : false;
+				$ws_form_html_message = isset($ws_form_group['message']) ? $ws_form_group['message'] : false;
+
+				$ws_form_save_button_return = ws_form_render_fields($this, $ws_form_group['fields'], $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change, $ws_form_heading, $ws_form_description, $ws_form_html_message);
+				$ws_form_save_button = $ws_form_save_button || $ws_form_save_button_return;
+			}
+
 			// Nested groups (integration tabs folded into a section)
 			if(isset($ws_form_group['groups']) && is_array($ws_form_group['groups'])) {
 
@@ -254,17 +277,6 @@
 					$ws_form_save_button_return = ws_form_render_fields($this, $ws_form_fields, $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change, $ws_form_heading, $ws_form_description, $ws_form_html_message);
 					$ws_form_save_button = $ws_form_save_button || $ws_form_save_button_return;
 				}
-			}
-
-			// Section fields (nav already shows the section / tab title)
-			if(!empty($ws_form_group['fields'])) {
-
-				$ws_form_heading = $ws_form_heading_for_content(isset($ws_form_group['heading']) ? $ws_form_group['heading'] : false);
-				$ws_form_description = isset($ws_form_group['description']) ? $ws_form_group['description'] : false;
-				$ws_form_html_message = isset($ws_form_group['message']) ? $ws_form_group['message'] : false;
-
-				$ws_form_save_button_return = ws_form_render_fields($this, $ws_form_group['fields'], $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change, $ws_form_heading, $ws_form_description, $ws_form_html_message);
-				$ws_form_save_button = $ws_form_save_button || $ws_form_save_button_return;
 			}
 		}
 	}
@@ -303,6 +315,22 @@
 		$(function() {
 
 			var wsf_obj = new $.WS_Form();
+
+			// Manually inject language strings (Avoids having to call the full config)
+			$.WS_Form.settings_form = [];
+			$.WS_Form.settings_form.language = [];
+			$.WS_Form.settings_form.language['confirm'] = '<?php esc_html_e('Confirm', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['cancel'] = '<?php esc_html_e('Cancel', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['close'] = '<?php esc_html_e('Close', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['reset'] = '<?php esc_html_e('Reset', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_available'] = '<?php esc_html_e('Available', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_selected'] = '<?php esc_html_e('Selected', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_search'] = '<?php esc_html_e('Search…', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_search_selected'] = '<?php esc_html_e('Search selected…', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_add_all'] = '<?php esc_html_e('Add all', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_add_selected'] = '<?php esc_html_e('Add selected', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_remove_selected'] = '<?php esc_html_e('Remove selected', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_remove_all'] = '<?php esc_html_e('Remove all', 'ws-form'); ?>';
 
 			// Partial initialization
 			wsf_obj.init_partial();
@@ -895,11 +923,15 @@
 				// Selectbox field
 				case 'select' :
 
+					// Dual-list UI (Available | Selected) — opt-in via dual_list
+					$dual_list = $multiple && !empty($ws_form_config['dual_list']);
+
 					// Select2 only when requested (e.g. AbuseIPDB). Do not stamp data-wsf-select2 on
 					// every multiple select — that triggers a single-line height rule meant for Select2.
-					$select2 = !empty($ws_form_config['select2']);
+					// Dual list wins over Select2 when both are set.
+					$select2 = !$dual_list && !empty($ws_form_config['select2']);
 ?>
-<select class="wsf-field" name="<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?><?php if($multiple) { ?>[]<?php } ?>" id="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>"<?php if(($size !== false) && ($size > 1)) { ?> size="<?php WS_Form_Common::echo_esc_attr($size); ?>"<?php } ?><?php if($multiple) { ?> multiple="multiple"<?php } ?><?php if($select2) { ?> data-wsf-select2<?php } ?><?php WS_Form_Common::echo_esc_attributes($attributes); ?>>
+<select class="wsf-field<?php if($dual_list) { ?> wsf-dual-list-source<?php } ?>" name="<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?><?php if($multiple) { ?>[]<?php } ?>" id="wsf_<?php WS_Form_Common::echo_esc_attr($ws_form_field); ?>"<?php if(($size !== false) && ($size > 1)) { ?> size="<?php WS_Form_Common::echo_esc_attr($size); ?>"<?php } ?><?php if($multiple) { ?> multiple="multiple"<?php } ?><?php if($select2) { ?> data-wsf-select2<?php } ?><?php if($dual_list) { ?> data-wsf-dual-list<?php } ?><?php WS_Form_Common::echo_esc_attributes($attributes); ?>>
 <?php
 					// Render options
 					$ws_form_options = $ws_form_config['options'];
@@ -999,8 +1031,12 @@
 					break;
 			}
 
-			// Buttons
+			// Buttons (buffered so non-inline fields can render help first)
+			$ws_form_button_html = '';
+
 			if(isset($ws_form_config['button'])) {
+
+				ob_start();
 
 				$ws_form_button = $ws_form_config['button'];
 
@@ -1080,9 +1116,15 @@
 						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 						WS_Form_Common::echo_html(apply_filters('wsf_settings_button', '', $ws_form_field, $ws_form_button), $ws_form_allowed_html);
 				}
+
+				$ws_form_button_html = ob_get_clean();
 			}
 
+			// Inline: field + button, then help. Below-field actions: help, then button.
 			if($ws_form_inline_actions) {
+
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Buffered escaped button markup
+				echo $ws_form_button_html;
 ?>
 </span><?php
 			}
@@ -1134,6 +1176,12 @@
 						));
 					}
 				}
+			}
+
+			if(!$ws_form_inline_actions && ($ws_form_button_html !== '')) {
+
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Buffered escaped button markup
+				echo $ws_form_button_html;
 			}
 
 			if(isset($ws_form_config['data_change']) && $ws_form_config['data_change'] == 'reload') {

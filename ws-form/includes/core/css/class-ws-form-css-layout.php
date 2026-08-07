@@ -17,9 +17,15 @@
 			// Get column class mask
 			$column_class = $framework['columns']['column_css_selector'];
 
+			// Get offset class mask
+			$offset_class = $framework['columns']['offset_css_selector'];
+
 			// Get form column count
 			$columns = absint(WS_Form_Common::option_get('framework_column_count', 0));
 			if($columns == 0) { $columns = 12; }
+
+			// Container query mode (WS Form framework only)
+			$container_query = ($framework_id === 'ws-form');
 
 			// Invalid Feedback (Legacy)
 			$css_return = ".wsf-invalid-feedback,\n";
@@ -44,14 +50,28 @@
 			$css_return .= "\tflex-wrap: wrap;\n";
 			$css_return .= "}\n\n";
 
-			// Tile
+			// Tile - column/offset sizes via CSS variables (reset so nested tiles do not inherit)
 			$css_return .= ".wsf-tile {\n";
+			$css_return .= "\t--wsf-c: initial;\n";
+			$css_return .= "\t--wsf-o: initial;\n";
 			$css_return .= "\tposition: relative;\n";
 			$css_return .= "\twidth: 100%;\n";
 			$css_return .= "\tbox-sizing: border-box;\n";
+			$css_return .= "\tflex: 0 0 calc(var(--wsf-c) * 100% / " . $columns . ") !important;\n";
+			$css_return .= "\tmax-width: calc(var(--wsf-c) * 100% / " . $columns . ") !important;\n";
+			$css_return .= "\tmargin-inline-start: calc(var(--wsf-o) * 100% / " . $columns . ") !important;\n";
 			$css_return .= "}\n\n";
 
-			// Breakpoint CSS
+			// Container query containment
+			if($container_query) {
+
+				$css_return .= ".wsf-form.wsf-form-container-query {\n";
+				$css_return .= "\tcontainer-type: inline-size;\n";
+				$css_return .= "\tcontainer-name: wsf-form;\n";
+				$css_return .= "}\n\n";
+			}
+
+			// Breakpoint CSS (columns + offsets share one media/container query)
 			foreach($framework['breakpoints'] as $key => $breakpoint) {
 
 				// Get outer breakpoint ID and name
@@ -66,14 +86,6 @@
 				// Output comment
 				$css_return .= WS_Form_Common::comment_css($breakpoint_name);
 
-				// Output media query
-				$css_indent = '';
-				if($breakpoint_min_width > 0) {
-
-					$css_return .= "@media (min-width: " . $breakpoint_min_width . "px) {\n\n";
-					$css_indent = "\t";
-				}
-
 				// Check for breakpoint specific CSS selector
 				if(isset($breakpoint['column_css_selector'])) {
 
@@ -84,62 +96,7 @@
 					$column_class_single = $column_class;
 				}
 
-				// Run through each column
-				for($column_index = 1; $column_index <= $columns; $column_index++) {
-
-					// Build mask values for parser
-					$mask_values = ['id' => $breakpoint_id, 'size' => $column_index];
-
-					// Get single class
-					$class_single = WS_Form_Common::mask_parse($column_class_single, $mask_values);
-
-					// Build CSS selectors
-					$css_return .= $css_indent . $class_single;
-
-					$column_width_percentage = round(($column_index / $columns) * 100, 6);
-
-					$css_return .= " {";
-
-					$css_return .= "\n" . $css_indent . "\tflex: 0 0 " . $column_width_percentage . "% !important;";
-					$css_return .= "\n" . $css_indent . "\tmax-width: " . $column_width_percentage . "% !important;";
-
-					$css_return .= "\n" . $css_indent . "}\n\n";
-				}
-
-				// Close media query
-				if($breakpoint_min_width > 0) {
-
-					$css_return .= "}\n\n";
-				}
-			}
-
-			// Offsets - Run through each column
-			$offset_class = $framework['columns']['offset_css_selector'];
-
-			// Breakpoint CSS
-			foreach($framework['breakpoints'] as $key => $breakpoint) {
-
-				// Get outer breakpoint ID and name
-				$breakpoint_id = esc_html($breakpoint['id']);
-				$breakpoint_name = esc_html($breakpoint['name']);
-				if(isset($breakpoint['min_width'])) {
-					$breakpoint_min_width = floatval($breakpoint['min_width']);
-				} else {
-					$breakpoint_min_width = 0;
-				}
-
-				// Output comment
-				$css_return .= WS_Form_Common::comment_css($breakpoint_name . ' - Offsets');
-
-				// Output media query
-				$css_indent = '';
-				if($breakpoint_min_width > 0) {
-
-					$css_return .= "@media (min-width: " . $breakpoint_min_width . "px) {\n\n";
-					$css_indent = "\t";
-				}
-
-				// Check for breakpoint specific CSS selector
+				// Check for breakpoint specific offset CSS selector
 				if(isset($breakpoint['offset_css_selector'])) {
 
 					$offset_class_single = $breakpoint['offset_css_selector'];
@@ -149,31 +106,65 @@
 					$offset_class_single = $offset_class;
 				}
 
+				// Build column + offset rules
+				$rules = array();
+
+				for($column_index = 1; $column_index <= $columns; $column_index++) {
+
+					$mask_values = ['id' => $breakpoint_id, 'size' => $column_index];
+					$class_single = WS_Form_Common::mask_parse($column_class_single, $mask_values);
+					$rules[] = $class_single . " { --wsf-c: " . $column_index . "; }";
+				}
+
 				for($column_index = 0; $column_index <= $columns; $column_index++) {
 
-					// Build mask values for parser
 					$mask_values = ['id' => $breakpoint_id, 'offset' => $column_index];
-
-					// Get single offset
 					$offset_single = WS_Form_Common::mask_parse($offset_class_single, $mask_values);
-
-					$column_width_percentage = ($column_index / $columns) * 100;
-
-					// Build CSS selectors
-					$css_return .= $css_indent . $offset_single . " {\n";
-
-					// Build offset CSS
-					$css_return .= $css_indent . "\t-webkit-margin-start: " . $column_width_percentage . "% !important;\n";
-					$css_return .= $css_indent . "\tmargin-inline-start: " . $column_width_percentage . "% !important;\n";
-
-					$css_return .= $css_indent . "}\n\n";
+					$rules[] = $offset_single . " { --wsf-o: " . $column_index . "; }";
 				}
 
-				// Close media query
 				if($breakpoint_min_width > 0) {
 
-					$css_return .= "}\n\n";
+					// Viewport media queries (default)
+					$css_return .= "@media (min-width: " . $breakpoint_min_width . "px) {\n";
+
+					foreach($rules as $rule) {
+
+						if($container_query) {
+
+							$css_return .= "\t.wsf-form:not(.wsf-form-container-query) " . $rule . "\n";
+
+						} else {
+
+							$css_return .= "\t" . $rule . "\n";
+						}
+					}
+
+					$css_return .= "}\n";
+
+					// Container queries (opt-in per form)
+					if($container_query) {
+
+						$css_return .= "@container wsf-form (min-width: " . $breakpoint_min_width . "px) {\n";
+
+						foreach($rules as $rule) {
+
+							$css_return .= "\t" . $rule . "\n";
+						}
+
+						$css_return .= "}\n";
+					}
+
+				} else {
+
+					// Base breakpoint (no query)
+					foreach($rules as $rule) {
+
+						$css_return .= $rule . "\n";
+					}
 				}
+
+				$css_return .= "\n";
 			}
 
 			$css_return .= ".wsf-bottom {\n";

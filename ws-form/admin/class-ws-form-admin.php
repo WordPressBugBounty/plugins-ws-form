@@ -1867,6 +1867,42 @@
 
 									$group = $groups[$sectionCurrent];
 
+									// Tab-level fields on first visible section (hybrid fields+groups tabs)
+									if(
+										!empty($options[$tabCurrent]['fields']) &&
+										is_array($options[$tabCurrent]['fields'])
+									) {
+
+										$tab_fields_section = '';
+
+										foreach($groups as $group_key => $group_check) {
+
+											if(isset($group_check['condition'])) {
+
+												$group_visible = true;
+
+												foreach($group_check['condition'] as $condition_field => $condition_value) {
+
+													if(WS_Form_Common::option_get($condition_field) != $condition_value) {
+
+														$group_visible = false;
+														break;
+													}
+												}
+
+												if(!$group_visible) { continue; }
+											}
+
+											$tab_fields_section = $group_key;
+											break;
+										}
+
+										if($sectionCurrent === $tab_fields_section) {
+
+											$fields = $fields + $options[$tabCurrent]['fields'];
+										}
+									}
+
 									if(isset($group['fields']) && is_array($group['fields'])) {
 
 										$fields = $fields + $group['fields'];
@@ -2540,7 +2576,7 @@
 
 					case 'select' :
 
-						// Multi-select — store as comma-separated values
+						// Multi-select
 						if(!empty($attributes['multiple'])) {
 
 							if(!is_array($value)) {
@@ -2548,28 +2584,40 @@
 								$value = (($value === '') || ($value === null)) ? array() : array($value);
 							}
 
-							$sanitized = array();
-
-							foreach($value as $item) {
-
-								$item = strtoupper(sanitize_text_field((string) $item));
-								if($item === '') { continue; }
-								$sanitized[] = $item;
-							}
-
-							$sanitized = array_values(array_unique($sanitized));
-
-							// AbuseIPDB country blocklist — only allow known ISO alpha-2 codes
+							// AbuseIPDB country blocklist — uppercase CSV of known ISO alpha-2 codes
 							if($field === 'abuseipdb_countries') {
 
+								$sanitized = array();
+
+								foreach($value as $item) {
+
+									$item = strtoupper(sanitize_text_field((string) $item));
+									if($item === '') { continue; }
+									$sanitized[] = $item;
+								}
+
+								$sanitized = array_values(array_unique($sanitized));
 								$countries = WS_Form_Config::get_countries_alpha_2();
 								$sanitized = array_values(array_filter($sanitized, function($code) use ($countries) {
 
 									return isset($countries[$code]);
 								}));
+
+								WS_Form_Common::option_set($field, implode(',', $sanitized));
+								break;
 							}
 
-							WS_Form_Common::option_set($field, implode(',', $sanitized));
+							// Add-on working objects/modules etc. — store as array
+							$sanitized = array();
+
+							foreach($value as $item) {
+
+								$item = sanitize_text_field((string) $item);
+								if($item === '') { continue; }
+								$sanitized[] = $item;
+							}
+
+							WS_Form_Common::option_set($field, array_values(array_unique($sanitized)));
 							break;
 						}
 
