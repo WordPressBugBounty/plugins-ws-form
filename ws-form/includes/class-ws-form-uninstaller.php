@@ -48,6 +48,8 @@
 				foreach($forms as $form) {
 
 					delete_user_option(get_current_user_id(), sprintf('managews-form_page_ws-form-submitcolumnshidden-%u', $form['id']), !is_multisite());
+					delete_user_option(get_current_user_id(), sprintf('ws_form_submit_export_columns_hidden-%u', $form['id']), !is_multisite());
+					delete_user_option(get_current_user_id(), sprintf('ws_form_submit_export_columns_order-%u', $form['id']), !is_multisite());
 				}
 			}
 

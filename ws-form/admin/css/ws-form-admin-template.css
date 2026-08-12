@@ -24,9 +24,6 @@
   	var(--wsf-admin-layout-editor-min-width),
   	calc(var(--wsf-admin-body-width) - var(--wsf-admin-menu-width))
   );
-  --wsf-admin-popup-progress-inner-width: 298px;
-  --wsf-admin-popup-progress-inner-height: 343px;
-  --wsf-admin-popup-progress-inner-left: calc(var(--wsf-admin-menu-width) + ((var(--wsf-admin-body-width) - var(--wsf-admin-menu-width)) / 2) - (var(--wsf-admin-popup-progress-inner-width) / 2));
 }
 
 .wsf-sidebar-resize.wsf-sidebar-resize-active {

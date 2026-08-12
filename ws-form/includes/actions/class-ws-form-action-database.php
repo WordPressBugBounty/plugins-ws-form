@@ -228,12 +228,18 @@
 					)
 				),
 
-				// Expire
+				// Auto delete
 				'action_' . $this->id . '_expire'	=> array(
 
-					'label'						=>	__('Auto Expire Submissions', 'ws-form'),
-					'type'						=>	'checkbox',
-					'help'						=>	__('Check this box to have submissions automatically delete after a specified number of days.', 'ws-form'),
+					'label'						=>	__('Auto Delete Submissions', 'ws-form'),
+					'type'						=>	'select',
+					'options'					=>	array(
+
+						array('value' => '', 'text' => __('Off', 'ws-form')),
+						array('value' => 'on', 'text' => __('Move to Trash', 'ws-form')),
+						array('value' => 'delete', 'text' => __('Permanently Delete', 'ws-form'))
+					),
+					'help'						=>	__('Automatically trash or permanently delete submissions after a set number of days.', 'ws-form'),
 					'default'					=>	''
 				),
 
@@ -248,9 +254,9 @@
 
 				'action_' . $this->id . '_expire_duration'	=> array(
 
-					'label'						=>	__('Expiry Duration (Days)', 'ws-form'),
+					'label'						=>	__('Delete After (Days)', 'ws-form'),
 					'type'						=>	'number',
-					'help'						=>	__('How many days until a submission is automatically moved to trash?', 'ws-form'),
+					'help'						=>	__('Number of days until submissions are moved to trash or permanently deleted.', 'ws-form'),
 					'default'					=>	'',
 					'min'						=>	1,
 					'step'						=>	1,
@@ -264,6 +270,16 @@
 							'meta_key'		=>	'action_' . $this->id . '_expire',
 							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'on'
+						),
+
+						array(
+
+							'logic'				=>	'==',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+							'meta_key'			=>	'action_' . $this->id . '_expire',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+							'meta_value'		=>	'delete',
+							'logic_previous'	=>	'||'
 						)
 					)
 				),
@@ -316,7 +332,7 @@
 		// Scheduled event
 		public function action_database_wp_cron() {
 
-			// Move expired submissions to trash
+			// Auto delete expired submissions (trash or permanent)
 			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->db_delete_expired(true, true);
 		}

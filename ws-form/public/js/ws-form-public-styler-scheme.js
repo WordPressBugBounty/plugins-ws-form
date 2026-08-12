@@ -85,12 +85,22 @@
 	$.WS_Form.prototype.styler_scheme_alt_enable = function() {
 
 		$('html').addClass('wsf-styler-scheme-alt');
+
+		if(typeof this.google_address_color_scheme_sync === 'function') {
+
+			this.google_address_color_scheme_sync();
+		}
 	}
 
 	// Styler scheme - Disable
 	$.WS_Form.prototype.styler_scheme_alt_disable = function() {
 
 		$('html').removeClass('wsf-styler-scheme-alt');
+
+		if(typeof this.google_address_color_scheme_sync === 'function') {
+
+			this.google_address_color_scheme_sync();
+		}
 	}
 
 	// Styler scheme - Third party - Class

@@ -1324,6 +1324,10 @@
 				// Delete submission hidden column meta
 				delete_user_option(get_current_user_id(), 'managews-form_page_ws-form-submitcolumnshidden-' . $this->id, !is_multisite());
 
+				// Delete submission export column preferences
+				delete_user_option(get_current_user_id(), WS_Form_Submit_Export::get_columns_hidden_option_name($this->id), !is_multisite());
+				delete_user_option(get_current_user_id(), WS_Form_Submit_Export::get_columns_order_option_name($this->id), !is_multisite());
+
 
 			} else {
 

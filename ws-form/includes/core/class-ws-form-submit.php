@@ -923,20 +923,103 @@
 			global $wpdb;
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
-			$rows_affected = $wpdb->query($wpdb->prepare(
+			$expired_submits = $wpdb->get_results($wpdb->prepare(
 
-				"UPDATE {$wpdb->prefix}wsf_submit SET status = 'trash', date_expire = NULL WHERE (NOT date_expire IS NULL) AND (NOT date_expire = '0000-00-00 00:00:00') AND (NOT status = 'trash') AND (date_expire < %s)", // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse -- Needed for complex WHERE
+				"SELECT id, form_id FROM {$wpdb->prefix}wsf_submit WHERE (NOT date_expire IS NULL) AND (NOT date_expire = '0000-00-00 00:00:00') AND (NOT status = 'trash') AND (date_expire < %s)", // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse -- Needed for complex WHERE
 				WS_Form_Common::get_mysql_date()
 			));
 
+			if(empty($expired_submits)) { return 0; }
+
+			$form_expire_cache = array();
+			$trash_ids = array();
+			$delete_ids = array();
+
+			foreach($expired_submits as $expired_submit) {
+
+				$form_id = absint($expired_submit->form_id);
+				$submit_id = absint($expired_submit->id);
+
+				if($submit_id === 0) { continue; }
+
+				if(!isset($form_expire_cache[$form_id])) {
+
+					try {
+
+						$form_expire_cache[$form_id] = self::db_get_form_auto_delete_method($form_id, $bypass_user_capability_check);
+
+					} catch (Throwable $e) {
+
+						// Fail safe to trash
+						$form_expire_cache[$form_id] = 'on';
+					}
+				}
+
+				if($form_expire_cache[$form_id] === 'delete') {
+
+					$delete_ids[] = $submit_id;
+
+				} else {
+
+					$trash_ids[] = $submit_id;
+				}
+			}
+
+			$rows_affected = 0;
+
+			// Move to trash
+			if(!empty($trash_ids)) {
+
+				$trash_ids = array_map('absint', $trash_ids);
+				$id_list = implode(',', $trash_ids);
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$rows_affected += (int) $wpdb->query(
+					"UPDATE {$wpdb->prefix}wsf_submit SET status = 'trash', date_expire = NULL WHERE id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- IDs sanitized with absint
+				);
+			}
+
+			// Permanently delete
+			foreach($delete_ids as $submit_id) {
+
+				try {
+
+					$this->id = $submit_id;
+					self::db_delete(true, false, $bypass_user_capability_check);
+					$rows_affected++;
+
+				} catch (Throwable $e) {
+
+					// Leave row for next run
+					continue;
+				}
+			}
+
 			// Update form submit unread count statistic
-			if($count_update_all) {
+			if($count_update_all && ($rows_affected > 0)) {
 
 				$ws_form_form = new WS_Form_Form();
 				$ws_form_form->db_count_update_all($bypass_user_capability_check);
 			}
 
 			return $rows_affected;
+		}
+
+		// Get Save Submission auto delete method for a form (on = trash, delete = permanent)
+		public function db_get_form_auto_delete_method($form_id, $bypass_user_capability_check = false) {
+
+			$form_id = absint($form_id);
+			if($form_id === 0) { return 'on'; }
+
+			$ws_form_form = new WS_Form_Form();
+			$ws_form_form->id = $form_id;
+			$form_object = $ws_form_form->db_read(true, false, false, false, $bypass_user_capability_check);
+
+			if(!$form_object) { return 'on'; }
+
+			$expire = WS_Form_Action::get_form_action_setting($form_object, 'database', 'action_database_expire', '');
+
+			return ($expire === 'delete') ? 'delete' : 'on';
 		}
 
 		// Get submission count by status

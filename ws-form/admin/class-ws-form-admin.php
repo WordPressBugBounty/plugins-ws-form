@@ -424,6 +424,7 @@
 
 					// jQuery UI
 					wp_enqueue_script('jquery-ui-datepicker');
+					wp_enqueue_script('jquery-ui-sortable');
 
 					// Submissions sidebar width (separate from layout editor)
 					$ws_form_settings['sidebar_context'] = 'submit';

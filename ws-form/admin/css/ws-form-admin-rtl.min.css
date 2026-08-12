@@ -24,9 +24,6 @@
   	var(--wsf-admin-layout-editor-min-width),
   	calc(var(--wsf-admin-body-width) - var(--wsf-admin-menu-width))
   );
-  --wsf-admin-popup-progress-inner-width: 298px;
-  --wsf-admin-popup-progress-inner-height: 343px;
-  --wsf-admin-popup-progress-inner-left: calc(var(--wsf-admin-menu-width) + ((var(--wsf-admin-body-width) - var(--wsf-admin-menu-width)) / 2) - (var(--wsf-admin-popup-progress-inner-width) / 2));
 }
 
 .wsf-sidebar-resize.wsf-sidebar-resize-active {
@@ -697,11 +694,6 @@ body.admin_page_ws-form-edit #wsf-sidebars.wsf-sidebars-rail.wsf-sidebars-expand
 [data-wsf-tooltip][data-wsf-tooltip=top-right]::after {
   left: -6px;
   right: auto;
-}
-
-.wsf-popup-progress-inner {
-  left: auto;
-  right: var(--wsf-admin-popup-progress-inner-left);
 }
 
 .wsf-popover .wsf-button + .wsf-button {

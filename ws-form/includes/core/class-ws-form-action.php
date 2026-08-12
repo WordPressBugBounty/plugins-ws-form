@@ -382,6 +382,58 @@
 			return count($data_grid->groups[0]->rows);
 		}
 
+		// Get first matching form action config by action ID
+		public static function get_form_action_config($form, $action_id) {
+
+			$data_grid = WS_Form_Common::get_object_meta_value($form, 'action', false);
+			if(
+				!is_object($data_grid) ||
+				!isset($data_grid->groups) ||
+				!isset($data_grid->groups[0]) ||
+				!isset($data_grid->groups[0]->rows) ||
+				!is_array($data_grid->groups[0]->rows)
+			) {
+				return false;
+			}
+
+			foreach($data_grid->groups[0]->rows as $row) {
+
+				if(!isset($row->data)) { continue; }
+
+				// Ignore disabled rows
+				if(isset($row->disabled) && ($row->disabled != '')) { continue; }
+
+				$data = $row->data;
+				if(is_object($data)) { $data = (array) $data; }
+				if(!is_array($data) || !isset($data[1])) { continue; }
+
+				$config = $data[1];
+				if(is_string($config)) { $config = json_decode($config, true); }
+				if(is_object($config)) { $config = (array) $config; }
+				if(!is_array($config) || !isset($config['id']) || ($config['id'] !== $action_id)) { continue; }
+
+				if(isset($config['meta']) && is_object($config['meta'])) {
+
+					$config['meta'] = (array) $config['meta'];
+				}
+
+				return $config;
+			}
+
+			return false;
+		}
+
+		// Get a setting from the first matching form action
+		public static function get_form_action_setting($form, $action_id, $meta_key, $default_value = false) {
+
+			$config = self::get_form_action_config($form, $action_id);
+			if($config === false) { return $default_value; }
+
+			if(!isset($config['meta']) || !isset($config['meta'][$meta_key])) { return $default_value; }
+
+			return $config['meta'][$meta_key];
+		}
+
 		// Get actions configured for a form
 		// $row_id_filter = Filters by row ID (e.g. 3)
 		// $action_id_filter - Filters by action ID (e.g. search)

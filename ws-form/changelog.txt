@@ -2,6 +2,14 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.12.5 - 08/12/2026 =
+* Added: Column selection and ordering for submission CSV exports
+
+= 1.12.4 - 08/11/2026 =
+* Added: Auto Delete Submissions can now permanently delete submissions in addition to moving them to trash https://wsform.com/knowledgebase/auto-delete-submissions/
+* Bug Fix: Google Address field styling in dark mode and alt color scheme
+* Bug Fix: Request Support button in the Support sidebar
+
 = 1.12.3 - 08/07/2026 =
 * Added: Dual-list selector for multi-select settings
 * Bug Fix: Blank Debug settings section in LITE

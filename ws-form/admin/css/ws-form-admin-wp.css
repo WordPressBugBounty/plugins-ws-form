@@ -75,7 +75,9 @@
   z-index: 150001;
 }
 
-.wsf-modal-dialog {
+.wsf-modal.wsf-modal-dialog {
+  display: none;
+  flex-direction: column;
   max-height: calc(100vh - 40px);
   max-width: calc(100vw - 40px);
   overflow: hidden;
@@ -83,16 +85,70 @@
           transform: translate(-50%, -50%);
   width: 520px;
 }
-.wsf-modal-dialog .wsf-modal-content {
+.wsf-modal.wsf-modal-dialog[style*=block] {
+  display: flex !important;
+}
+.wsf-modal.wsf-modal-dialog .wsf-modal-content {
   box-sizing: border-box;
-  max-height: calc(100vh - 128px);
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
-  padding-bottom: 64px;
+  padding: 16px;
+}
+.wsf-modal.wsf-modal-dialog .wsf-modal-buttons {
+  flex: 0 0 auto;
 }
 
 #wsf-template-add-modal,
 #wsf-add-form-modal {
   width: 400px;
+}
+
+#wsf-submit-export-columns-modal {
+  height: min(680px, 100vh - 40px);
+  width: 1000px;
+}
+#wsf-submit-export-columns-modal .wsf-submit-export-columns-modal-inner {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  position: relative;
+}
+#wsf-submit-export-columns-modal .wsf-modal-content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+#wsf-submit-export-columns-modal #wsf-submit-export-columns-error {
+  flex: 0 0 auto;
+  margin: 0 0 16px;
+  padding: 8px 12px;
+}
+#wsf-submit-export-columns-modal #wsf-submit-export-columns-error p {
+  margin: 0;
+}
+#wsf-submit-export-columns-modal .wsf-dual-list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  max-width: none;
+  min-height: 0;
+  width: 100%;
+}
+#wsf-submit-export-columns-modal .wsf-dual-list-body {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+#wsf-submit-export-columns-modal .wsf-dual-list-col {
+  min-height: 0;
+}
+#wsf-submit-export-columns-modal .wsf-dual-list-items {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
 }
 
 .wsf-modal-title {
@@ -144,24 +200,30 @@
 }
 
 .wsf-modal-content {
-  padding: 0 16px 50px;
+  padding: 16px;
 }
-
-.wsf-modal-content form {
-  padding: 16px 0 0 0;
+.wsf-modal-content > :last-child,
+.wsf-modal-content > form > :last-child {
+  margin-bottom: 0;
 }
-
 .wsf-modal-content p {
   margin: 0 0 16px;
 }
-
+.wsf-modal-content p:last-child {
+  margin-bottom: 0;
+}
+.wsf-modal-content form {
+  padding: 0;
+}
 .wsf-modal-content form label {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
-
 .wsf-modal-content form .wsf-template-add-modal-field-wrapper {
   margin-bottom: 16px;
+}
+.wsf-modal-content form .wsf-template-add-modal-field-wrapper:last-child {
+  margin-bottom: 0;
 }
 
 .wsf-modal-content form select,
@@ -198,13 +260,9 @@
   align-items: center;
   background: #FCFCFC;
   border-top: 1px solid #DFDFDF;
-  bottom: 0;
   display: grid;
   grid-template-columns: 1fr auto;
-  left: 0;
   padding: 8px 16px;
-  position: absolute;
-  right: 0;
 }
 
 .wsf-modal .button.button-secondary,

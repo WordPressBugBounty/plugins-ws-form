@@ -366,6 +366,8 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/export/', array('methods' => 'POST', 'callback' => array($plugin_api_submit_export, 'api_export'), 'permission_callback' => function () { return WS_Form_Common::can_user('export_submission'); }));
 
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/export/columns/', array('methods' => 'POST', 'callback' => array($plugin_api_submit_export, 'api_export_columns_post'), 'permission_callback' => function () { return WS_Form_Common::can_user('export_submission'); }));
+
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/submit/export/(?P<wsf_hash>[a-zA-Z0-9]+)/', array('methods' => 'GET', 'callback' => array($plugin_api_submit_export, 'api_export_get'), 'permission_callback' => function () { return WS_Form_Common::can_user('export_submission'); }));
 
 			// API - Template

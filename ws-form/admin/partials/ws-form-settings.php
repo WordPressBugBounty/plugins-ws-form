@@ -322,15 +322,23 @@
 			$.WS_Form.settings_form.language['confirm'] = '<?php esc_html_e('Confirm', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['cancel'] = '<?php esc_html_e('Cancel', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['close'] = '<?php esc_html_e('Close', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dismiss'] = '<?php esc_html_e('Dismiss', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['reset'] = '<?php esc_html_e('Reset', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['dual_list_available'] = '<?php esc_html_e('Available', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['dual_list_selected'] = '<?php esc_html_e('Selected', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['dual_list_search'] = '<?php esc_html_e('Search…', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_search'] = '<?php esc_html_e('Search available…', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['dual_list_search_selected'] = '<?php esc_html_e('Search selected…', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['dual_list_add_all'] = '<?php esc_html_e('Add all', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['dual_list_add_selected'] = '<?php esc_html_e('Add selected', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['dual_list_remove_selected'] = '<?php esc_html_e('Remove selected', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['dual_list_remove_all'] = '<?php esc_html_e('Remove all', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_group_toggle'] = '<?php esc_html_e('Select all in this group (double-click to move)', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_item_toggle'] = '<?php esc_html_e('Double-click to move', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_drag'] = '<?php esc_html_e('Drag to reorder', 'ws-form'); ?>';
+			$.WS_Form.settings_form.language['dual_list_item_in_group'] = '<?php echo esc_html(
+				/* translators: %1$s: option label, %2$s: group label */
+				__('%1$s (%2$s)', 'ws-form')
+			); ?>';
 
 			// Partial initialization
 			wsf_obj.init_partial();
@@ -954,12 +962,52 @@
 
 						$ws_form_option_selected = is_array($ws_form_value) ? $ws_form_value : array($ws_form_value);
 					}
+					// Bucket options by optional group (dual-list optgroups)
+					$ws_form_options_ungrouped = array();
+					$ws_form_options_grouped = array();
+
 					foreach($ws_form_options as $option_value => $option_array) {
+
+						$option_group = (isset($option_array['group']) && ($option_array['group'] !== '')) ? (string) $option_array['group'] : '';
+
+						if($option_group === '') {
+
+							$ws_form_options_ungrouped[$option_value] = $option_array;
+
+						} else {
+
+							if(!isset($ws_form_options_grouped[$option_group])) {
+
+								$ws_form_options_grouped[$option_group] = array();
+							}
+
+							$ws_form_options_grouped[$option_group][$option_value] = $option_array;
+						}
+					}
+
+					foreach($ws_form_options_ungrouped as $option_value => $option_array) {
 
 						$option_text = $option_array['text'];
 						$option_disabled = isset($option_array['disabled']) ? $option_array['disabled'] : false;
 
 ?><option value="<?php WS_Form_Common::echo_esc_attr($option_value); ?>"<?php if(in_array($option_value, $ws_form_option_selected)) { ?> selected<?php } ?><?php if($option_disabled) { ?> disabled<?php } ?>><?php WS_Form_Common::echo_esc_html($option_text); ?></option>
+<?php
+					}
+
+					foreach($ws_form_options_grouped as $option_group => $option_group_options) {
+?>
+<optgroup label="<?php WS_Form_Common::echo_esc_attr($option_group); ?>">
+<?php
+						foreach($option_group_options as $option_value => $option_array) {
+
+							$option_text = $option_array['text'];
+							$option_disabled = isset($option_array['disabled']) ? $option_array['disabled'] : false;
+
+?><option value="<?php WS_Form_Common::echo_esc_attr($option_value); ?>"<?php if(in_array($option_value, $ws_form_option_selected)) { ?> selected<?php } ?><?php if($option_disabled) { ?> disabled<?php } ?>><?php WS_Form_Common::echo_esc_html($option_text); ?></option>
+<?php
+						}
+?>
+</optgroup>
 <?php
 					}
 ?>

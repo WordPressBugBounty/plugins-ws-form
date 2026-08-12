@@ -190,6 +190,8 @@
 		var icon_add_all = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg>';
 		var icon_remove = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>';
 		var icon_remove_all = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 17-5-5 5-5"></path><path d="m11 17-5-5 5-5"></path></svg>';
+		// Same paths as icon 'sort' (settings pages may not load settings_form.icons)
+		var icon_drag = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M11 7h-6l3-4z"/><path d="M5 9h6l-3 4z"/></svg>';
 
 		dual_list_selects.each(function() {
 
@@ -202,14 +204,30 @@
 			pending++;
 
 			var select_id = select_el.id || '';
-			var label_available = ws_this.language('dual_list_available');
-			var label_selected = ws_this.language('dual_list_selected');
+			var label_available = ws_this.language('dual_list_available', false, false);
+			var label_selected = ws_this.language('dual_list_selected', false, false);
 			var label_search = ws_this.language('dual_list_search', false, false);
 			var label_search_selected = ws_this.language('dual_list_search_selected', false, false);
 			var label_add_all = ws_this.language('dual_list_add_all', false, false);
 			var label_add_selected = ws_this.language('dual_list_add_selected', false, false);
 			var label_remove_selected = ws_this.language('dual_list_remove_selected', false, false);
 			var label_remove_all = ws_this.language('dual_list_remove_all', false, false);
+			var label_group_toggle = ws_this.language('dual_list_group_toggle', false, false);
+			var label_item_toggle = ws_this.language('dual_list_item_toggle', false, false);
+			var label_item_in_group = ws_this.language('dual_list_item_in_group', false, false);
+			var label_available_esc = ws_this.esc_html(label_available);
+			var label_selected_esc = ws_this.esc_html(label_selected);
+			var label_available_id = select_id ? (select_id + '_dual_list_available_label') : '';
+			var label_selected_id = select_id ? (select_id + '_dual_list_selected_label') : '';
+			var count_available_id = select_id ? (select_id + '_dual_list_available_count') : '';
+			var count_selected_id = select_id ? (select_id + '_dual_list_selected_count') : '';
+
+			// Source select is mirrored by the dual-list UI
+			select_obj.attr({
+
+				'aria-hidden': 'true',
+				tabindex: '-1'
+			});
 
 			var dual_list_html = '';
 			dual_list_html += '<div class="wsf-dual-list">';
@@ -217,9 +235,9 @@
 
 			// Available
 			dual_list_html += '<div class="wsf-dual-list-col wsf-dual-list-col-available">';
-			dual_list_html += '<div class="wsf-dual-list-heading"><span class="wsf-dual-list-heading-label">' + label_available + '</span><span class="wsf-dual-list-count wsf-dual-list-count-available">0</span></div>';
+			dual_list_html += '<div class="wsf-dual-list-heading"><span class="wsf-dual-list-heading-label"' + (label_available_id ? ' id="' + ws_this.esc_attr(label_available_id) + '"' : '') + '>' + label_available_esc + '</span><span class="wsf-dual-list-count wsf-dual-list-count-available"' + (count_available_id ? ' id="' + ws_this.esc_attr(count_available_id) + '"' : '') + ' aria-live="polite">0</span></div>';
 			dual_list_html += '<input type="search" class="wsf-field wsf-dual-list-search wsf-dual-list-search-available" placeholder="' + ws_this.esc_attr(label_search) + '" aria-label="' + ws_this.esc_attr(label_search) + '"' + (select_id ? ' id="' + ws_this.esc_attr(select_id) + '_dual_list_search"' : '') + ' />';
-			dual_list_html += '<ul class="wsf-dual-list-items wsf-dual-list-available" role="listbox" aria-multiselectable="true" aria-label="' + ws_this.esc_attr(label_available) + '" tabindex="0"></ul>';
+			dual_list_html += '<ul class="wsf-dual-list-items wsf-dual-list-available" role="listbox" aria-multiselectable="true"' + (label_available_id ? ' aria-labelledby="' + ws_this.esc_attr(label_available_id) + '"' : ' aria-label="' + ws_this.esc_attr(label_available) + '"') + (count_available_id ? ' aria-describedby="' + ws_this.esc_attr(count_available_id) + '"' : '') + ' tabindex="0"></ul>';
 			dual_list_html += '</div>';
 
 			// Transfer buttons
@@ -232,9 +250,9 @@
 
 			// Selected
 			dual_list_html += '<div class="wsf-dual-list-col wsf-dual-list-col-selected">';
-			dual_list_html += '<div class="wsf-dual-list-heading"><span class="wsf-dual-list-heading-label">' + label_selected + '</span><span class="wsf-dual-list-count wsf-dual-list-count-selected">0</span></div>';
+			dual_list_html += '<div class="wsf-dual-list-heading"><span class="wsf-dual-list-heading-label"' + (label_selected_id ? ' id="' + ws_this.esc_attr(label_selected_id) + '"' : '') + '>' + label_selected_esc + '</span><span class="wsf-dual-list-count wsf-dual-list-count-selected"' + (count_selected_id ? ' id="' + ws_this.esc_attr(count_selected_id) + '"' : '') + ' aria-live="polite">0</span></div>';
 			dual_list_html += '<input type="search" class="wsf-field wsf-dual-list-search wsf-dual-list-search-selected" placeholder="' + ws_this.esc_attr(label_search_selected) + '" aria-label="' + ws_this.esc_attr(label_search_selected) + '"' + (select_id ? ' id="' + ws_this.esc_attr(select_id) + '_dual_list_search_selected"' : '') + ' />';
-			dual_list_html += '<ul class="wsf-dual-list-items wsf-dual-list-selected" role="listbox" aria-multiselectable="true" aria-label="' + ws_this.esc_attr(label_selected) + '" tabindex="0"></ul>';
+			dual_list_html += '<ul class="wsf-dual-list-items wsf-dual-list-selected" role="listbox" aria-multiselectable="true"' + (label_selected_id ? ' aria-labelledby="' + ws_this.esc_attr(label_selected_id) + '"' : ' aria-label="' + ws_this.esc_attr(label_selected) + '"') + (count_selected_id ? ' aria-describedby="' + ws_this.esc_attr(count_selected_id) + '"' : '') + ' tabindex="0"></ul>';
 			dual_list_html += '</div>';
 
 			dual_list_html += '</div>';
@@ -260,15 +278,43 @@
 			var anchor_selected = -1;
 			var options_cache = [];
 			var option_by_value = {};
+			var group_order = [];
 			var search_timer = null;
 			var visible_available_count = 0;
 			var visible_selected_count = 0;
+			var min_selected = parseInt(select_obj.attr('data-wsf-dual-list-min'), 10);
+			if(isNaN(min_selected) || (min_selected < 0)) { min_selected = 0; }
+
+			// Export column picker only — Selected list is flat + sortable
+			var reorder = select_obj.is('[data-wsf-dual-list-reorder]');
+			var selected_order = [];
+			var label_drag = reorder ? ws_this.language('dual_list_drag', false, false) : '';
+
+			if(reorder) {
+
+				var order_attr = select_obj.attr('data-wsf-dual-list-order') || '';
+
+				if(order_attr !== '') {
+
+					selected_order = order_attr.split(',').map(function(value) {
+
+						return String(value);
+					}).filter(function(value) {
+
+						return value !== '';
+					});
+				}
+
+				dual_list_obj.addClass('wsf-dual-list-reorder');
+			}
 
 			var build_options_cache = function() {
 
 				options_cache = [];
 				option_by_value = {};
+				group_order = [];
 
+				var group_seen = {};
 				var options = select_el.options;
 
 				for(var i = 0; i < options.length; i++) {
@@ -276,6 +322,22 @@
 					var option = options[i];
 					var value = option.value;
 					var text = option.text;
+					var parent = option.parentNode;
+					var group_label = '';
+					var group_key = '';
+
+					if(parent && (parent.tagName === 'OPTGROUP')) {
+
+						group_label = parent.label || '';
+						group_key = group_label;
+					}
+
+					if(group_key && !group_seen[group_key]) {
+
+						group_seen[group_key] = true;
+						group_order.push(group_key);
+					}
+
 					var item = {
 						option: option,
 						value: value,
@@ -284,7 +346,11 @@
 						text: text,
 						text_lc: text.toLowerCase(),
 						text_esc: ws_this.esc_html(text),
-						disabled: !!option.disabled
+						disabled: !!option.disabled,
+						group_key: group_key,
+						group_label: group_label,
+						group_esc: ws_this.esc_html(group_label),
+						group_attr: ws_this.esc_attr(group_key)
 					};
 
 					options_cache.push(item);
@@ -292,9 +358,123 @@
 				}
 			};
 
+			var item_accessible_name = function(item) {
+
+				if(!item.group_label) { return item.text; }
+
+				return String(label_item_in_group)
+					.replace('%1$s', item.text)
+					.replace('%2$s', item.group_label);
+			};
+
 			var row_html = function(item, highlighted) {
 
-				return '<li class="wsf-dual-list-item' + (highlighted ? ' wsf-dual-list-item-selected' : '') + '" role="option" data-value="' + item.value_esc + '" aria-selected="' + (highlighted ? 'true' : 'false') + '" tabindex="-1">' + item.text_esc + '</li>';
+				var aria_label = item_accessible_name(item);
+
+				return '<li class="wsf-dual-list-item' + (highlighted ? ' wsf-dual-list-item-selected' : '') + '" role="option" data-value="' + item.value_esc + '" data-group="' + item.group_attr + '" title="' + ws_this.esc_attr(label_item_toggle) + '" aria-label="' + ws_this.esc_attr(aria_label) + '" aria-selected="' + (highlighted ? 'true' : 'false') + '" tabindex="-1">' + item.text_esc + '</li>';
+			};
+
+			var row_html_reorder = function(item, highlighted) {
+
+				var aria_label = item_accessible_name(item);
+				var html = '<li class="wsf-dual-list-item wsf-dual-list-item-reorder' + (highlighted ? ' wsf-dual-list-item-selected' : '') + '" role="option" data-value="' + item.value_esc + '" data-group="' + item.group_attr + '" title="' + ws_this.esc_attr(label_item_toggle) + '" aria-label="' + ws_this.esc_attr(aria_label) + '" aria-selected="' + (highlighted ? 'true' : 'false') + '" tabindex="-1">';
+				html += '<span class="wsf-dual-list-item-handle" title="' + ws_this.esc_attr(label_drag) + '" aria-label="' + ws_this.esc_attr(label_drag) + '">' + icon_drag + '</span>';
+				html += '<span class="wsf-dual-list-item-label" aria-hidden="true">' + item.text_esc + '</span>';
+
+				if(item.group_esc) {
+
+					html += '<span class="wsf-dual-list-item-group" aria-hidden="true">' + item.group_esc + '</span>';
+				}
+
+				html += '</li>';
+
+				return html;
+			};
+
+			var group_html = function(group_key, group_label_esc, group_attr, group_label) {
+
+				var group_aria = group_label + '. ' + label_group_toggle;
+
+				return '<li class="wsf-dual-list-group" role="button" tabindex="0" data-group="' + group_attr + '" title="' + ws_this.esc_attr(label_group_toggle) + '" aria-label="' + ws_this.esc_attr(group_aria) + '">' + group_label_esc + '</li>';
+			};
+
+			var publish_selected_order = function() {
+
+				if(!reorder) { return; }
+
+				select_obj.data('wsfDualListSelectedOrder', selected_order.slice());
+			};
+
+			var sync_selected_order = function() {
+
+				if(!reorder) { return; }
+
+				var selected_set = {};
+				var i;
+
+				for(i = 0; i < options_cache.length; i++) {
+
+					if(options_cache[i].option.selected) {
+
+						selected_set[options_cache[i].value_key] = true;
+					}
+				}
+
+				var next_order = [];
+
+				for(i = 0; i < selected_order.length; i++) {
+
+					var order_key = String(selected_order[i]);
+
+					if(selected_set[order_key]) {
+
+						next_order.push(order_key);
+						delete selected_set[order_key];
+					}
+				}
+
+				for(i = 0; i < options_cache.length; i++) {
+
+					if(selected_set[options_cache[i].value_key]) {
+
+						next_order.push(options_cache[i].value_key);
+					}
+				}
+
+				selected_order = next_order;
+				publish_selected_order();
+			};
+
+			var sort_items_by_selected_order = function(items) {
+
+				var order_index = {};
+
+				for(var i = 0; i < selected_order.length; i++) {
+
+					order_index[selected_order[i]] = i;
+				}
+
+				items.sort(function(a, b) {
+
+					var a_index = (typeof order_index[a.value_key] === 'undefined') ? 999999 : order_index[a.value_key];
+					var b_index = (typeof order_index[b.value_key] === 'undefined') ? 999999 : order_index[b.value_key];
+
+					if(a_index < b_index) { return -1; }
+					if(a_index > b_index) { return 1; }
+					return 0;
+				});
+			};
+
+			var selected_count_total = function() {
+
+				var count = 0;
+
+				for(var i = 0; i < options_cache.length; i++) {
+
+					if(options_cache[i].option.selected) { count++; }
+				}
+
+				return count;
 			};
 
 			var update_buttons = function() {
@@ -302,7 +482,7 @@
 				btn_add_all.disabled = (visible_available_count === 0);
 				btn_add.disabled = (Object.keys(highlighted_available).length === 0);
 				btn_remove.disabled = (Object.keys(highlighted_selected).length === 0);
-				btn_remove_all.disabled = (visible_selected_count === 0);
+				btn_remove_all.disabled = (visible_selected_count === 0) || ((min_selected > 0) && (selected_count_total() <= min_selected));
 			};
 
 			var sort_items_alpha = function(items) {
@@ -315,14 +495,64 @@
 				});
 			};
 
+			var render_grouped_parts = function(items, highlighted) {
+
+				var parts = [];
+				var by_group = {};
+				var ungrouped = [];
+				var i;
+
+				for(i = 0; i < items.length; i++) {
+
+					var item = items[i];
+
+					if(item.group_key) {
+
+						if(typeof by_group[item.group_key] === 'undefined') {
+
+							by_group[item.group_key] = [];
+						}
+
+						by_group[item.group_key].push(item);
+
+					} else {
+
+						ungrouped.push(item);
+					}
+				}
+
+				sort_items_alpha(ungrouped);
+
+				for(i = 0; i < ungrouped.length; i++) {
+
+					parts.push(row_html(ungrouped[i], !!highlighted[ungrouped[i].value_key]));
+				}
+
+				for(i = 0; i < group_order.length; i++) {
+
+					var group_key = group_order[i];
+					var group_items = by_group[group_key];
+
+					if(typeof group_items === 'undefined' || !group_items.length) { continue; }
+
+					sort_items_alpha(group_items);
+					parts.push(group_html(group_key, group_items[0].group_esc, group_items[0].group_attr, group_items[0].group_label));
+
+					for(var g = 0; g < group_items.length; g++) {
+
+						parts.push(row_html(group_items[g], !!highlighted[group_items[g].value_key]));
+					}
+				}
+
+				return parts;
+			};
+
 			var refresh = function() {
 
 				var search_available = (search_available_el.value || '').toLowerCase();
 				var search_selected = (search_selected_el.value || '').toLowerCase();
 				var available_items = [];
 				var selected_items = [];
-				var available_parts = [];
-				var selected_parts = [];
 				var available_count = 0;
 				var selected_count = 0;
 				var next_highlighted_available = {};
@@ -359,22 +589,27 @@
 					available_items.push(item);
 				}
 
-				sort_items_alpha(available_items);
-				sort_items_alpha(selected_items);
+				var available_parts = render_grouped_parts(available_items, next_highlighted_available);
+				var selected_parts;
 
-				for(var available_index = 0; available_index < available_items.length; available_index++) {
+				if(reorder) {
 
-					var available_item = available_items[available_index];
-					available_parts.push(row_html(available_item, !!next_highlighted_available[available_item.value_key]));
-					visible_available_count++;
+					sync_selected_order();
+					sort_items_by_selected_order(selected_items);
+					selected_parts = [];
+
+					for(var s = 0; s < selected_items.length; s++) {
+
+						selected_parts.push(row_html_reorder(selected_items[s], !!next_highlighted_selected[selected_items[s].value_key]));
+					}
+
+				} else {
+
+					selected_parts = render_grouped_parts(selected_items, next_highlighted_selected);
 				}
 
-				for(var selected_index = 0; selected_index < selected_items.length; selected_index++) {
-
-					var selected_item = selected_items[selected_index];
-					selected_parts.push(row_html(selected_item, !!next_highlighted_selected[selected_item.value_key]));
-					visible_selected_count++;
-				}
+				visible_available_count = available_items.length;
+				visible_selected_count = selected_items.length;
 
 				highlighted_available = next_highlighted_available;
 				highlighted_selected = next_highlighted_selected;
@@ -384,11 +619,42 @@
 				count_available_el.textContent = String(available_count);
 				count_selected_el.textContent = String(selected_count);
 				update_buttons();
+
+				if(reorder && $(selected_el).hasClass('ui-sortable')) {
+
+					$(selected_el).sortable('refresh');
+
+					var can_sort = ((search_selected_el.value || '') === '') && (selected_items.length > 1);
+					$(selected_el).sortable(can_sort ? 'enable' : 'disable');
+				}
 			};
 
 			var move_values = function(values, selected) {
 
 				if(!values.length) { return; }
+
+				// Enforce minimum selected count when deselecting
+				if(!selected && (min_selected > 0)) {
+
+					var remaining = selected_count_total();
+					var filtered = [];
+
+					for(var v = 0; v < values.length; v++) {
+
+						var check_option = option_by_value[String(values[v])];
+
+						if(!check_option || !check_option.selected || check_option.disabled) { continue; }
+
+						if(remaining <= min_selected) { break; }
+
+						filtered.push(values[v]);
+						remaining--;
+					}
+
+					values = filtered;
+
+					if(!values.length) { return; }
+				}
 
 				for(var i = 0; i < values.length; i++) {
 
@@ -406,6 +672,12 @@
 
 				anchor_available = -1;
 				anchor_selected = -1;
+
+				if(reorder) {
+
+					sync_selected_order();
+				}
+
 				select_obj.trigger('change');
 				refresh();
 			};
@@ -418,6 +690,22 @@
 				for(var i = 0; i < items.length; i++) {
 
 					values.push(items[i].getAttribute('data-value'));
+				}
+
+				return values;
+			};
+
+			var visible_group_values = function(list_el, group_key) {
+
+				var values = [];
+				var items = list_el.querySelectorAll('.wsf-dual-list-item');
+
+				for(var i = 0; i < items.length; i++) {
+
+					if(String(items[i].getAttribute('data-group')) === String(group_key)) {
+
+						values.push(items[i].getAttribute('data-value'));
+					}
 				}
 
 				return values;
@@ -442,6 +730,9 @@
 
 				var item_el = e.target.closest('.wsf-dual-list-item');
 				if(!item_el || !list_el.contains(item_el)) { return; }
+
+				// Drag handle owns pointer interactions
+				if(e.target.closest('.wsf-dual-list-item-handle')) { return; }
 
 				e.preventDefault();
 
@@ -525,6 +816,116 @@
 				);
 			});
 
+			// Click optgroup header → highlight all visible items in that group
+			var highlight_group = function(list_el, highlighted, set_anchor, clear_other, group_key) {
+
+				var values = visible_group_values(list_el, group_key);
+				if(!values.length) { return; }
+
+				clear_other();
+
+				for(var key in highlighted) { delete highlighted[key]; }
+
+				for(var i = 0; i < values.length; i++) {
+
+					highlighted[String(values[i])] = true;
+				}
+
+				var items = list_el.querySelectorAll('.wsf-dual-list-item');
+				var last_index = -1;
+
+				for(var j = 0; j < items.length; j++) {
+
+					if(String(items[j].getAttribute('data-group')) === String(group_key)) {
+
+						last_index = j;
+					}
+				}
+
+				set_anchor(last_index);
+				paint_list_highlight(list_el, highlighted);
+				update_buttons();
+			};
+
+			$(available_el).on('click', '.wsf-dual-list-group', function(e) {
+
+				e.preventDefault();
+				highlight_group(
+					available_el,
+					highlighted_available,
+					function(index) { anchor_available = index; },
+					function() {
+						highlighted_selected = {};
+						anchor_selected = -1;
+						paint_list_highlight(selected_el, highlighted_selected);
+					},
+					$(this).attr('data-group')
+				);
+			});
+
+			$(selected_el).on('click', '.wsf-dual-list-group', function(e) {
+
+				e.preventDefault();
+				highlight_group(
+					selected_el,
+					highlighted_selected,
+					function(index) { anchor_selected = index; },
+					function() {
+						highlighted_available = {};
+						anchor_available = -1;
+						paint_list_highlight(available_el, highlighted_available);
+					},
+					$(this).attr('data-group')
+				);
+			});
+
+			$(available_el).on('keydown', '.wsf-dual-list-group', function(e) {
+
+				if((e.key !== 'Enter') && (e.key !== ' ')) { return; }
+				e.preventDefault();
+				highlight_group(
+					available_el,
+					highlighted_available,
+					function(index) { anchor_available = index; },
+					function() {
+						highlighted_selected = {};
+						anchor_selected = -1;
+						paint_list_highlight(selected_el, highlighted_selected);
+					},
+					$(this).attr('data-group')
+				);
+			});
+
+			$(selected_el).on('keydown', '.wsf-dual-list-group', function(e) {
+
+				if((e.key !== 'Enter') && (e.key !== ' ')) { return; }
+				e.preventDefault();
+				highlight_group(
+					selected_el,
+					highlighted_selected,
+					function(index) { anchor_selected = index; },
+					function() {
+						highlighted_available = {};
+						anchor_available = -1;
+						paint_list_highlight(available_el, highlighted_available);
+					},
+					$(this).attr('data-group')
+				);
+			});
+
+			// Double-click optgroup header → move all visible items in that group
+			$(available_el).on('dblclick', '.wsf-dual-list-group', function(e) {
+
+				e.preventDefault();
+				move_values(visible_group_values(available_el, $(this).attr('data-group')), true);
+			});
+
+			$(selected_el).on('dblclick', '.wsf-dual-list-group', function(e) {
+
+				e.preventDefault();
+				move_values(visible_group_values(selected_el, $(this).attr('data-group')), false);
+			});
+
 			$(available_el).on('dblclick', '.wsf-dual-list-item', function(e) {
 
 				e.preventDefault();
@@ -532,6 +933,8 @@
 			});
 
 			$(selected_el).on('dblclick', '.wsf-dual-list-item', function(e) {
+
+				if($(e.target).closest('.wsf-dual-list-item-handle').length) { return; }
 
 				e.preventDefault();
 				move_values([$(this).attr('data-value')], false);
@@ -576,8 +979,32 @@
 			$(search_available_el).on('input', queue_refresh);
 			$(search_selected_el).on('input', queue_refresh);
 
+			if(reorder && (typeof $.fn.sortable === 'function')) {
+
+				$(selected_el).sortable({
+
+					axis: 'y',
+					handle: '.wsf-dual-list-item-handle',
+					items: '> .wsf-dual-list-item',
+					tolerance: 'pointer',
+					update: function() {
+
+						if((search_selected_el.value || '') !== '') { return; }
+
+						selected_order = visible_values(selected_el);
+						publish_selected_order();
+						select_obj.trigger('change');
+					}
+				});
+			}
+
 			// Build shell first, populate on next frame so the page stays responsive
 			build_options_cache();
+
+			if(reorder) {
+
+				sync_selected_order();
+			}
 
 			var populate = function() {
 
@@ -5310,6 +5737,12 @@
 			this.sidebar_range_init(obj_sidebar_inner);
 		}
 
+		// Initialize number min/max/step clamp
+		if(inits.indexOf('number') != -1) {
+
+			this.sidebar_number_init(obj_sidebar_inner);
+		}
+
 		// Initialize sidebar placeholders
 		if(inits.indexOf('placeholders') != -1) {
 
@@ -5918,9 +6351,11 @@
 			});
 		});
 
-		$('#wsf-contact-form').on('submit', function(e) {
+		// Sidebar buttons use type=button, so handle click rather than form submit
+		$('#wsf_contact_submit_lite').on('click', function(e) {
 
 			window.open('https://wordpress.org/support/plugin/ws-form/');
+
 			return false;
 		});
 	}
@@ -7006,6 +7441,84 @@
 		var range_value_html = this.mask_parse(range_value_mask, range_value_mask_lookups);
 
 		$('#wsf_' + meta_key + '_range_value', obj_inner).html(range_value_html);
+	}
+
+	// Sidebar - Number - Init
+	$.WS_Form.prototype.sidebar_number_init = function(obj_inner) {
+
+		$('input[type="number"][data-meta-key]', obj_inner).each(function() {
+
+			var obj = $(this);
+
+			// Clamp saved invalid values when sidebar opens
+			$.WS_Form.this.sidebar_number_clamp(obj);
+
+			obj.off('blur.wsf_number').on('blur.wsf_number', function() {
+
+				$.WS_Form.this.sidebar_number_clamp($(this));
+			});
+		});
+	}
+
+	// Sidebar - Number - Clamp to min/max/step
+	$.WS_Form.prototype.sidebar_number_clamp = function(obj) {
+
+		var value = obj.val();
+
+		// Leave empty alone
+		if(value === '') { return; }
+
+		var min_attr = obj.attr('min');
+		var max_attr = obj.attr('max');
+		var step_attr = obj.attr('step');
+		var has_min = (typeof min_attr !== 'undefined') && (min_attr !== '') && !isNaN(parseFloat(min_attr));
+		var has_max = (typeof max_attr !== 'undefined') && (max_attr !== '') && !isNaN(parseFloat(max_attr));
+		var min = has_min ? parseFloat(min_attr) : null;
+		var max = has_max ? parseFloat(max_attr) : null;
+		var num = parseFloat(value);
+
+		// Non-numeric
+		if(isNaN(num)) {
+
+			var fallback = has_min ? String(min) : '';
+			if(value !== fallback) {
+
+				obj.val(fallback).trigger('change');
+			}
+			return;
+		}
+
+		// Snap to step
+		if(
+			(typeof step_attr !== 'undefined') &&
+			(step_attr !== '') &&
+			(step_attr !== 'any')
+		) {
+
+			var step = parseFloat(step_attr);
+
+			if(!isNaN(step) && (step > 0)) {
+
+				var base = has_min ? min : 0;
+				num = base + (Math.round((num - base) / step) * step);
+
+				// Avoid float noise
+				var step_decimals = ((String(step).split('.')[1]) || '').length;
+				num = parseFloat(num.toFixed(step_decimals));
+			}
+		}
+
+		// Min / max
+		if(has_min && (num < min)) { num = min; }
+		if(has_max && (num > max)) { num = max; }
+
+		// Prefer integer string when whole number
+		var clamped = (num === Math.floor(num)) ? String(Math.floor(num)) : String(num);
+
+		if(value !== clamped) {
+
+			obj.val(clamped).trigger('change');
+		}
 	}
 
 	// Sidebar - Tabs - Init
@@ -14984,7 +15497,7 @@
 			modal_html += '<div id="wsf-confirm-modal" class="wsf-modal wsf-modal-dialog" style="display:none;">';
 			modal_html += '<div class="wsf-modal-title">' + icon_svg + '<h2></h2></div>';
 			modal_html += '<div class="wsf-modal-close" data-action="wsf-close"></div>';
-			modal_html += '<div class="wsf-modal-content"><form></form></div>';
+			modal_html += '<div class="wsf-modal-content"></div>';
 			modal_html += '<div class="wsf-modal-buttons">';
 			modal_html += '<div class="wsf-modal-buttons-cancel"><a data-action="wsf-cancel"></a></div>';
 			modal_html += '<div class="wsf-modal-buttons-primary"><button type="button" class="button" data-action="wsf-confirm"></button></div>';
@@ -15086,7 +15599,7 @@
 			message_html = this.replace_all(message_html, '\n', '<br />');
 			content_html += '<p>' + message_html + '</p>';
 		}
-		$('.wsf-modal-content form', modal_obj).html(content_html);
+		$('.wsf-modal-content', modal_obj).html(content_html);
 
 		// Buttons
 		$('.wsf-modal-buttons-cancel a', modal_obj).text(cancel_label);
@@ -17704,6 +18217,17 @@
 			var id = $(this).attr('data-id');
 			var action = $(this).attr('data-action');
 
+			// Export column picker / dual-list controls its own handlers
+			if(
+				action &&
+				(
+					(action.indexOf('wsf-submit-export-columns-') === 0) ||
+					(action.indexOf('wsf-dual-list-') === 0)
+				)
+			) {
+				return;
+			}
+
 			switch(action) {
 
 				case 'wsf-view' :
@@ -17749,25 +18273,140 @@
 
 		// Date fields
 		$('#wsf_filter_date_from,#wsf_filter_date_to').datepicker();
+
+		// Export columns dual-list
+		this.settings_dual_list_init($('#wsf-submit-export-columns-modal'));
+
+		// Clear export column error when selection changes
+		$('#wsf-submit-export-columns').off('change.wsfSubmitExportColumns').on('change.wsfSubmitExportColumns', function() {
+
+			$.WS_Form.this.submit_export_columns_error_hide();
+		});
+
+		// Export columns modal
+		$(document).off('click.wsfSubmitExportColumns').on('click.wsfSubmitExportColumns', '#wsf-submit-export-columns-modal-backdrop, [data-action="wsf-submit-export-columns-close"]', function(e) {
+
+			e.preventDefault();
+			e.stopPropagation();
+			$.WS_Form.this.submit_export_columns_modal_hide();
+		});
+
+		$(document).off('click.wsfSubmitExportColumnsExport').on('click.wsfSubmitExportColumnsExport', '[data-action="wsf-submit-export-columns-export"]', function(e) {
+
+			e.preventDefault();
+			e.stopPropagation();
+			$.WS_Form.this.submit_export_columns_start();
+		});
 	}
 
-	// Submit export
+	// Submit export - open column picker
 	$.WS_Form.prototype.submit_export = function(submit_ids) {
 
-		// Show popup
-		$.WS_Form.this.submit_export_popup_show();
+		// Store pending export filters
+		this.submit_export_pending = {
 
-		// Page
-		var page = 0;
-		var complete = false;
-
-		// Prepare AJAX request
-		var data = {
-
-			'id': this.form_id
+			submit_ids: (typeof submit_ids !== 'undefined') ? submit_ids : false
 		};
 
-		if(typeof submit_ids !== 'undefined') {
+		if(!$('#wsf-submit-export-columns').length) {
+
+			this.error('error_submit_export_columns');
+			return;
+		}
+
+		this.submit_export_columns_modal_show();
+	}
+
+	// Save selection and start export
+	$.WS_Form.prototype.submit_export_columns_start = function() {
+
+		var select_el = document.getElementById('wsf-submit-export-columns');
+		if(!select_el) {
+
+			this.error('error_submit_export_columns');
+			return;
+		}
+
+		var select_obj = $(select_el);
+		var columns = select_obj.data('wsfDualListSelectedOrder');
+		var columns_hidden = [];
+		var options = select_el.options;
+		var selected_set = {};
+		var i;
+
+		if(!$.isArray(columns) || !columns.length) {
+
+			columns = [];
+
+			for(i = 0; i < options.length; i++) {
+
+				if(options[i].selected) {
+
+					columns.push(options[i].value);
+				}
+			}
+		}
+
+		for(i = 0; i < columns.length; i++) {
+
+			selected_set[String(columns[i])] = true;
+		}
+
+		for(i = 0; i < options.length; i++) {
+
+			var value_key = String(options[i].value);
+
+			if(!selected_set[value_key]) {
+
+				columns_hidden.push(value_key);
+			}
+		}
+
+		if(!columns.length) {
+
+			this.submit_export_columns_error_show();
+			return;
+		}
+
+		this.submit_export_columns_error_hide();
+
+		var pending = this.submit_export_pending || {};
+		var ws_this = this;
+
+		// Progress UI immediately; save prefs, then start CSV
+		this.submit_export_columns_modal_hide();
+		this.submit_export_popup_show();
+
+		this.api_call('submit/export/columns/', 'POST', {
+
+			columns_hidden: columns_hidden,
+			columns_order: columns
+
+		}, function() {
+
+			ws_this.submit_export_run(pending.submit_ids, columns);
+
+		}, function() {
+
+			ws_this.submit_export_popup_hide();
+			ws_this.submit_export_columns_modal_show();
+
+		}, false, true, true);
+	}
+
+	// Build export request and run paged export
+	$.WS_Form.prototype.submit_export_run = function(submit_ids, columns) {
+
+		// Show progress popup
+		this.submit_export_popup_show();
+
+		var data = {
+
+			'id': this.form_id,
+			'columns': columns
+		};
+
+		if(submit_ids) {
 
 			data.submit_ids = submit_ids;
 
@@ -17778,11 +18417,34 @@
 			data.keyword = $('#wsf_filter_keyword').val();
 		}
 
+		// Current status tab (needed so spam/trash exports are not excluded)
+		var status = this.submit_export_get_status();
+		if(status) {
+
+			data['ws-form-status'] = status;
+		}
+
 		// NONCE
 		data[ws_form_settings.wsf_nonce_field_name] = ws_form_settings.wsf_nonce;
 
-		// Start export process
 		this.submit_export_do(data);
+	}
+
+	// Current submissions status from URL
+	$.WS_Form.prototype.submit_export_get_status = function() {
+
+		var match = window.location.search.match(/[?&]ws-form-status=([^&]*)/);
+
+		if(!match) { return ''; }
+
+		try {
+
+			return decodeURIComponent(match[1].replace(/\+/g, ' '));
+
+		} catch (e) {
+
+			return match[1];
+		}
 	}
 
 	$.WS_Form.prototype.submit_export_do = function(data, page, hash, records_total) {
@@ -17884,6 +18546,38 @@
 				$.WS_Form.this.api_call_error_handler(response, url);
 			}
 		});
+	}
+
+	// Submit export columns modal - Show
+	$.WS_Form.prototype.submit_export_columns_modal_show = function() {
+
+		this.submit_export_columns_error_hide();
+		$('#wsf-submit-export-columns-modal-backdrop').show();
+		$('#wsf-submit-export-columns-modal').show();
+	}
+
+	// Submit export columns modal - Hide
+	$.WS_Form.prototype.submit_export_columns_modal_hide = function() {
+
+		this.submit_export_columns_error_hide();
+		$('#wsf-submit-export-columns-modal').hide();
+		$('#wsf-submit-export-columns-modal-backdrop').hide();
+	}
+
+	// Submit export columns modal - Error show
+	$.WS_Form.prototype.submit_export_columns_error_show = function() {
+
+		var error_obj = $('#wsf-submit-export-columns-error');
+		if(!error_obj.length) { return; }
+
+		$('p', error_obj).text(this.language('error_submit_export_columns', false, false));
+		error_obj.show();
+	}
+
+	// Submit export columns modal - Error hide
+	$.WS_Form.prototype.submit_export_columns_error_hide = function() {
+
+		$('#wsf-submit-export-columns-error').hide();
 	}
 
 	// Submit export popup - Show

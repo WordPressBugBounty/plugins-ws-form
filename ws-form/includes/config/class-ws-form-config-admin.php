@@ -643,6 +643,20 @@
 					'error_timeout_codemirror'			=>	__('Timeout waiting for CodeMirror to load', 'ws-form'),
 					/* translators: %s: Error message */
 					'error_submit_export'				=>	__('Export error: %s', 'ws-form'),
+					'error_submit_export_columns'		=>	__('Select at least one column', 'ws-form'),
+					'dual_list_available'				=>	__('Available', 'ws-form'),
+					'dual_list_selected'				=>	__('Selected', 'ws-form'),
+					'dual_list_search'					=>	__('Search available…', 'ws-form'),
+					'dual_list_search_selected'			=>	__('Search selected…', 'ws-form'),
+					'dual_list_add_all'					=>	__('Add all', 'ws-form'),
+					'dual_list_add_selected'			=>	__('Add selected', 'ws-form'),
+					'dual_list_remove_selected'			=>	__('Remove selected', 'ws-form'),
+					'dual_list_remove_all'				=>	__('Remove all', 'ws-form'),
+					'dual_list_group_toggle'			=>	__('Select all in this group (double-click to move)', 'ws-form'),
+					'dual_list_item_toggle'				=>	__('Double-click to move', 'ws-form'),
+					'dual_list_drag'					=>	__('Drag to reorder', 'ws-form'),
+					/* translators: %1$s: option label, %2$s: group label */
+					'dual_list_item_in_group'			=>	__('%1$s (%2$s)', 'ws-form'),
 					/* translators: %s: Error message */
 					'error_api_reload'        			=> 	__('API reload error: %s', 'ws-form'),
 

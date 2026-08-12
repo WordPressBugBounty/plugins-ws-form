@@ -382,6 +382,77 @@
 </div>
 </div>
 
+<?php
+
+	// CSV export column picker data (for dual-list select)
+	$ws_form_submit_export_columns = false;
+	$ws_form_submit_export_columns_order = array();
+	if(($ws_form_form_id > 0) && WS_Form_Common::can_user('export_submission')) {
+
+		try {
+
+			$ws_form_submit_export = new WS_Form_Submit_Export($ws_form_form_id);
+			$ws_form_submit_export_columns = $ws_form_submit_export->get_export_columns_grouped();
+			$ws_form_submit_export_columns_order = $ws_form_submit_export->get_columns_order_resolved();
+
+		} catch(Exception $e) {
+
+			$ws_form_submit_export_columns = false;
+			$ws_form_submit_export_columns_order = array();
+		}
+	}
+?>
+<!-- Submit export columns -->
+<div id="wsf-submit-export-columns-modal-backdrop" class="wsf-modal-backdrop" style="display: none;"></div>
+<div id="wsf-submit-export-columns-modal" class="wsf-modal wsf-modal-dialog" style="display: none;">
+	<div class="wsf-submit-export-columns-modal-inner">
+		<div class="wsf-modal-title"><?php
+
+			WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		?><h2><?php esc_html_e('Export CSV', 'ws-form'); ?></h2></div>
+		<div class="wsf-modal-close" data-action="wsf-submit-export-columns-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"></div>
+		<div class="wsf-modal-content">
+			<p><?php esc_html_e('Choose which columns to include in the CSV export.', 'ws-form'); ?></p>
+			<div id="wsf-submit-export-columns-error" class="notice notice-error inline" style="display: none;"><p></p></div>
+<?php
+	if($ws_form_submit_export_columns !== false) {
+?>
+			<select id="wsf-submit-export-columns" class="wsf-field wsf-dual-list-source" name="wsf_submit_export_columns[]" multiple data-wsf-dual-list data-wsf-dual-list-reorder data-wsf-dual-list-order="<?php WS_Form_Common::echo_esc_attr(implode(',', $ws_form_submit_export_columns_order)); ?>">
+<?php
+		foreach($ws_form_submit_export_columns as $ws_form_export_group) {
+
+			if(empty($ws_form_export_group['columns']) || !is_array($ws_form_export_group['columns'])) { continue; }
+?>
+				<optgroup label="<?php WS_Form_Common::echo_esc_attr($ws_form_export_group['label']); ?>">
+<?php
+			foreach($ws_form_export_group['columns'] as $ws_form_export_column) {
+?>
+					<option value="<?php WS_Form_Common::echo_esc_attr($ws_form_export_column['key']); ?>"<?php if(!empty($ws_form_export_column['checked'])) { ?> selected<?php } ?>><?php WS_Form_Common::echo_esc_html($ws_form_export_column['label']); ?></option>
+<?php
+			}
+?>
+				</optgroup>
+<?php
+		}
+?>
+			</select>
+<?php
+	}
+?>
+		</div>
+		<div class="wsf-modal-buttons">
+			<div class="wsf-modal-buttons-cancel">
+				<a data-action="wsf-submit-export-columns-close"><?php esc_html_e('Cancel', 'ws-form'); ?></a>
+			</div>
+			<div class="wsf-modal-buttons-primary">
+				<button type="button" class="button button-primary" data-action="wsf-submit-export-columns-export"><?php esc_html_e('Export CSV', 'ws-form'); ?></button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Submit export columns -->
+
 <!-- Submit export process -->
 <div id="wsf-submit-export-popup" class="wsf-popup-progress">
 	<div class="wsf-popup-progress-backdrop"></div>
