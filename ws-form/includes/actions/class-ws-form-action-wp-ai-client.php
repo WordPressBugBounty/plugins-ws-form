@@ -1155,59 +1155,85 @@
 			return $meta_keys;
 		}
 
-		public function get_provider_models($capability = array()) {
+		public function get_provider_models($capability = array(), $cache_key = 'default') {
 
-			// Get registry
-			$registry = AiClient::defaultRegistry();
+			// Admin-only — public config must not list models
+			if(!is_admin()) { return array(); }
 
-			// Define requirements
-			$requirements = new ModelRequirements(
-				$capability,
-				array()
-			);
+			static $cache = array();
 
-			// Get providers with models
-			$providers_with_models = $registry->findModelsMetadataForSupport($requirements);
-			
-			// Build return array
-			$return_array = array();
-			
-			foreach ($providers_with_models as $provider_models) {
+			if(isset($cache[$cache_key])) { return $cache[$cache_key]; }
 
-				$provider_id = $provider_models->getProvider()->getId();
-				
-				$model_ids = array();
+			$transient_id = 'wsf_wp_ai_client_models_' . $cache_key;
+			$cached = get_transient($transient_id);
+			if(is_array($cached)) {
 
-				foreach ($provider_models->getModels() as $model) {
-
-					$model_id = $model->getId();
-
-					// Skip models with dates (e.g., gpt-4o-2024-08-06, claude-3-5-sonnet-20241022)
-					if (preg_match('/\d{4}-?\d{2}-?\d{2}/', $model_id)) {
-						continue;
-					}
-
-					// Skip models with short date suffixes (e.g., gpt-3.5-turbo-0125, gpt-3.5-turbo-1106)
-					if (preg_match('/-\d{4}$/', $model_id)) {
-						continue;
-					}
-
-					// Skip models with version timestamps (e.g., gemini-1.5-pro-001)
-					if (preg_match('/-\d{3}$/', $model_id)) {
-						continue;
-					}
-
-					// Skip preview/experimental models
-					if (preg_match('/-(preview|experimental|beta|alpha)/i', $model_id)) {
-						continue;
-					}
-
-					$model_ids[] = sanitize_text_field($model_id);
-				}
-				
-				$return_array[sanitize_text_field($provider_id)] = $model_ids;
+				$cache[$cache_key] = $cached;
+				return $cached;
 			}
 
+			try {
+
+				// Get registry
+				$registry = AiClient::defaultRegistry();
+
+				// Define requirements
+				$requirements = new ModelRequirements(
+					$capability,
+					array()
+				);
+
+				// Get providers with models
+				$providers_with_models = $registry->findModelsMetadataForSupport($requirements);
+
+				// Build return array
+				$return_array = array();
+
+				foreach($providers_with_models as $provider_models) {
+
+					$provider_id = $provider_models->getProvider()->getId();
+
+					$model_ids = array();
+
+					foreach($provider_models->getModels() as $model) {
+
+						$model_id = $model->getId();
+
+						// Skip models with dates (e.g., gpt-4o-2024-08-06, claude-3-5-sonnet-20241022)
+						if(preg_match('/\d{4}-?\d{2}-?\d{2}/', $model_id)) {
+							continue;
+						}
+
+						// Skip models with short date suffixes (e.g., gpt-3.5-turbo-0125, gpt-3.5-turbo-1106)
+						if(preg_match('/-\d{4}$/', $model_id)) {
+							continue;
+						}
+
+						// Skip models with version timestamps (e.g., gemini-1.5-pro-001)
+						if(preg_match('/-\d{3}$/', $model_id)) {
+							continue;
+						}
+
+						// Skip preview/experimental models
+						if(preg_match('/-(preview|experimental|beta|alpha)/i', $model_id)) {
+							continue;
+						}
+
+						$model_ids[] = sanitize_text_field($model_id);
+					}
+
+					$return_array[sanitize_text_field($provider_id)] = $model_ids;
+				}
+
+				set_transient($transient_id, $return_array, 86400);
+
+			} catch(Exception $e) {
+
+				$return_array = array();
+				set_transient($transient_id, $return_array, 300);
+			}
+
+			$cache[$cache_key] = $return_array;
 			return $return_array;
 		}
 
@@ -1218,7 +1244,7 @@
 				self::get_provider_models(array(
 
 					CapabilityEnum::textGeneration()
-				))
+				), 'text')
 			);
 		}
 
@@ -1229,19 +1255,13 @@
 				self::get_provider_models(array(
 
 					CapabilityEnum::imageGeneration()
-				))
+				), 'image')
 			);
 		}
 
 		public function options_model_speech() {
 
-			return self::options_model(
-
-				self::get_provider_models(array(
-
-					CapabilityEnum::speechGeneration()
-				))
-			);
+			return array();
 		}
 
 		public function options_model($provider_models) {

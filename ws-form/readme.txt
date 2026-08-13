@@ -2,8 +2,8 @@
 Contributors: westguard
 Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
-Tested up to: 7.0
-Stable tag: 1.12.5
+Tested up to: 7.1
+Stable tag: 1.12.6
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -376,6 +376,9 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.12.6 - 08/13/2026 =
+* Added: Improved PHP AI Client SDK model caching
+
 = 1.12.5 - 08/12/2026 =
 * Added: Column selection and ordering for submission CSV exports
 
@@ -383,9 +386,5 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 * Added: Auto Delete Submissions can now permanently delete submissions in addition to moving them to trash https://wsform.com/knowledgebase/auto-delete-submissions/
 * Bug Fix: Google Address field styling in dark mode and alt color scheme
 * Bug Fix: Request Support button in the Support sidebar
-
-= 1.12.3 - 08/07/2026 =
-* Added: Dual-list selector for multi-select settings
-* Bug Fix: Blank Debug settings section in LITE
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

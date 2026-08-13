@@ -1131,13 +1131,32 @@
 
 			if(!self::wp_ai_client_enabled()) { return false; }
 
+			// Admin-only — public pages must not list models
+			if(!is_admin()) { return false; }
+
+			static $cache = null;
+			if($cache !== null) { return $cache; }
+
+			$transient_id = 'wsf_wp_ai_client_usable';
+			$cached = get_transient($transient_id);
+			if($cached === '1' || $cached === '0') {
+
+				$cache = ($cached === '1');
+				return $cache;
+			}
+
 			try {
 
 				// Returns true only if a configured, text-capable AI provider is available
-				return \WordPress\AiClient\AiClient::prompt()->isSupportedForTextGeneration();
+				$usable = \WordPress\AiClient\AiClient::prompt()->isSupportedForTextGeneration();
+				set_transient($transient_id, $usable ? '1' : '0', 86400);
+				$cache = (bool) $usable;
+				return $cache;
 
 			} catch(Exception $e) {
 
+				set_transient($transient_id, '0', 300);
+				$cache = false;
 				return false;
 			}
 		}
