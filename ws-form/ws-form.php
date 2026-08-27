@@ -11,7 +11,7 @@
 	 * Plugin Name:       WS Form LITE - Drag & Drop Contact Form Builder
 	 * Plugin URI:        https://wsform.com/
 	 * Description:       Smart. Fast. Forms.
-	 * Version:           1.12.6
+	 * Version:           1.12.8
 	 * Requires at least: 5.5
 	 * Requires PHP:      7.2
 	 * Author:            WS Form
@@ -37,7 +37,7 @@
 	if(!is_plugin_active('ws-form-pro/ws-form.php')) {
 		// Constants
 		define('WS_FORM_NAME', 'ws-form');
-		define('WS_FORM_VERSION', '1.12.6');
+		define('WS_FORM_VERSION', '1.12.8');
 		define('WS_FORM_NAME_GENERIC', 'WS Form');
 		define('WS_FORM_NAME_PRESENTABLE', 'WS Form LITE');
 		define('WS_FORM_EDITION', 'basic');
@@ -83,6 +83,7 @@
 		define('WS_FORM_RECAPTCHA_QUERY_VAR', 'g-recaptcha-response');
 		define('WS_FORM_HCAPTCHA_ENDPOINT', 'https://hcaptcha.com/siteverify');
 		define('WS_FORM_HCAPTCHA_QUERY_VAR', 'h-captcha-response');
+		// phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Turnstile siteverify API
 		define('WS_FORM_TURNSTILE_ENDPOINT', 'https://challenges.cloudflare.com/turnstile/v0/siteverify');
 		define('WS_FORM_TURNSTILE_QUERY_VAR', 'cf-turnstile-response');
 		define('WS_FORM_CAPTCHAFOX_ENDPOINT', 'https://api.captchafox.com/siteverify');

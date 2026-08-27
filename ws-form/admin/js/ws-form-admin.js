@@ -214,7 +214,6 @@
 			var label_remove_all = ws_this.language('dual_list_remove_all', false, false);
 			var label_group_toggle = ws_this.language('dual_list_group_toggle', false, false);
 			var label_item_toggle = ws_this.language('dual_list_item_toggle', false, false);
-			var label_item_in_group = ws_this.language('dual_list_item_in_group', false, false);
 			var label_available_esc = ws_this.esc_html(label_available);
 			var label_selected_esc = ws_this.esc_html(label_selected);
 			var label_available_id = select_id ? (select_id + '_dual_list_available_label') : '';
@@ -362,9 +361,7 @@
 
 				if(!item.group_label) { return item.text; }
 
-				return String(label_item_in_group)
-					.replace('%1$s', item.text)
-					.replace('%2$s', item.group_label);
+				return item.text + ' (' + item.group_label + ')';
 			};
 
 			var row_html = function(item, highlighted) {
@@ -10156,11 +10153,8 @@
 			selectionCssClass: 'wsf-select2-selection',
 			dropdownCssClass: 'wsf-select2-dropdown',
 
-			// Dropdown parent
-			dropdownParent: obj.parent(),
-
-			// Dropdown position
-			dropdownPosition: 'below'
+			// Escape sidebar / repeater overflow so the menu is not clipped
+			dropdownParent: $(document.body)
 		};
 
 		obj.select2(config);
@@ -10168,7 +10162,7 @@
 		// Open event
 		obj.on('select2:open', function (e) {
 
-			var search_field_obj = $('.select2-search__field', $(this).parent());
+			var search_field_obj = $('.select2-container--open .select2-search__field');
 
 			if(search_field_obj.length) {
 
@@ -10318,8 +10312,8 @@
 				selectionCssClass: 'wsf-select2-selection',
 				dropdownCssClass: 'wsf-select2-dropdown',
 
-				// Dropdown parent
-				dropdownParent: $(this).parent()
+				// Escape sidebar / repeater overflow so the menu is not clipped
+				dropdownParent: $(document.body)
 			};
 
 			// Get default value from cache
@@ -10362,7 +10356,12 @@
 				// Autofocus
 				$(this).on('select2:open', function (e) {
 
-					$('.select2-search__field', $(this).parent()).get(0).focus();
+					var search_field_obj = $('.select2-container--open .select2-search__field');
+
+					if(search_field_obj.length) {
+
+						search_field_obj.get(0).focus();
+					}
 				});
 			}
 		});

@@ -260,7 +260,7 @@
 
 								'google_maps_js_api_version'	=>	array(
 
-									'label'		=>	__('API Version', 'ws-form'),
+									'label'		=>	__('Places API Version', 'ws-form'),
 									'type'		=>	'select',
 									'options'	=>	array(
 
@@ -268,6 +268,20 @@
 										'2' => array('text' => __('Places API (New)', 'ws-form')),
 									),
 									'help'		=>	__('For Google accounts registered after March 1st, 2025, choose Places API (New).', 'ws-form'),
+									'default'	=>	'',
+									'public'	=>	true
+								),
+
+								'google_maps_routes_api_version'	=>	array(
+
+									'label'		=>	__('Routing API Version', 'ws-form'),
+									'type'		=>	'select',
+									'options'	=>	array(
+
+										'' => array('text' => __('Directions API (Legacy)', 'ws-form')),
+										'2' => array('text' => __('Routes API (New)', 'ws-form')),
+									),
+									'help'		=>	__('For Google accounts registered after March 1st, 2025, choose Routes API (New).', 'ws-form'),
 									'default'	=>	'',
 									'public'	=>	true
 								)

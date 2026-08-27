@@ -2471,6 +2471,7 @@ body.ws-form_page_ws-form-style #wpbody-content,
 body.ws-form_page_ws-form-style-add #wpbody-content {
   overflow-x: hidden;
   position: relative;
+  z-index: 1;
 }
 body.toplevel_page_ws-form #wsf-wrapper.wrap,
 body.toplevel_page_ws-form #wsf-wrapper,
@@ -7652,7 +7653,11 @@ select.wsf-field[data-wsf-select2] ~ .select2-container .select2-selection--mult
 
 .wsf-select2-dropdown {
   background-color: #ffffff;
-  z-index: 10000;
+  z-index: 10004;
+}
+
+body > .select2-container--open {
+  z-index: 10004;
 }
 
 .wsf-multiple-instruction {

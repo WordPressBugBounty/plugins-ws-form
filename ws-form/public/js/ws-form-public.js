@@ -1894,7 +1894,7 @@
 			this.form_ecommerce_calculate();
 		}
 
-		// Mark form as validatefd
+		// Mark form as validated
 		this.form_canvas_obj.addClass(this.class_validated);
 
 		// Check validity of form

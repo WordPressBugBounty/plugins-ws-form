@@ -1131,34 +1131,89 @@
 
 			if(!self::wp_ai_client_enabled()) { return false; }
 
-			// Admin-only — public pages must not list models
+			// Admin-only
 			if(!is_admin()) { return false; }
 
 			static $cache = null;
 			if($cache !== null) { return $cache; }
 
-			$transient_id = 'wsf_wp_ai_client_usable';
-			$cached = get_transient($transient_id);
-			if($cached === '1' || $cached === '0') {
+			if(!function_exists('wp_get_connectors')) {
 
-				$cache = ($cached === '1');
-				return $cache;
+				$cache = false;
+				return false;
 			}
 
 			try {
 
-				// Returns true only if a configured, text-capable AI provider is available
-				$usable = \WordPress\AiClient\AiClient::prompt()->isSupportedForTextGeneration();
-				set_transient($transient_id, $usable ? '1' : '0', 86400);
-				$cache = (bool) $usable;
-				return $cache;
+				$registry = \WordPress\AiClient\AiClient::defaultRegistry();
+
+				// Plugin Check: call WP 7.0 wp_get_connectors() via call_user_func()
+				$connectors = call_user_func('wp_get_connectors');
+
+				if(!is_array($connectors)) {
+
+					$cache = false;
+					return false;
+				}
+
+				foreach($connectors as $id => $connector) {
+
+					$id = (string) $id;
+
+					if(!is_array($connector)) { continue; }
+					if(($connector['type'] ?? '') !== 'ai_provider') { continue; }
+					if(!$registry->hasProvider($id)) { continue; }
+					if(!self::wp_ai_connector_has_credentials($id, $connector)) { continue; }
+
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+					$supports_text = (bool) apply_filters('wsf_wp_ai_client_provider_supports_text', true, $id);
+
+					if($supports_text) {
+
+						$cache = true;
+						return $cache;
+					}
+				}
+
+				$cache = false;
+				return false;
 
 			} catch(Exception $e) {
 
-				set_transient($transient_id, '0', 300);
 				$cache = false;
 				return false;
 			}
+		}
+
+		// Does an AI connector have credentials?
+		public static function wp_ai_connector_has_credentials($id, $connector) {
+
+			$auth = (isset($connector['authentication']) && is_array($connector['authentication'])) ? $connector['authentication'] : array();
+			$method = isset($auth['method']) ? $auth['method'] : '';
+
+			if($method === 'none') { return true; }
+			if($method !== 'api_key') { return false; }
+
+			$id_key = str_replace('-', '_', (string) $id);
+			$env_var_name = !empty($auth['env_var_name']) ? $auth['env_var_name'] : strtoupper($id_key) . '_API_KEY';
+			$constant_name = !empty($auth['constant_name']) ? $auth['constant_name'] : $env_var_name;
+			$setting_name = !empty($auth['setting_name']) ? $auth['setting_name'] : 'connectors_ai_' . $id_key . '_api_key';
+
+			if($env_var_name !== '') {
+
+				$env_value = getenv($env_var_name);
+				if(($env_value !== false) && ($env_value !== '')) { return true; }
+			}
+
+			if(($constant_name !== '') && defined($constant_name)) {
+
+				$const_value = constant($constant_name);
+				if(is_string($const_value) && ($const_value !== '')) { return true; }
+			}
+
+			$db_value = get_option($setting_name, '');
+
+			return (is_string($db_value) && ($db_value !== ''));
 		}
 
 		// Is styler enabled?

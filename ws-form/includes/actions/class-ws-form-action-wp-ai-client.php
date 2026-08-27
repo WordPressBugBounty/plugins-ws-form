@@ -160,9 +160,6 @@
 							$prompt->using_temperature($this->temperature);
 						}
 
-						// Set candidate count
-						$prompt->using_candidate_count(1);
-
 						// Check prompt supports text generation
 						if($prompt->is_supported_for_text_generation()) {
 
@@ -236,8 +233,11 @@
 								// Set model preferences
 								self::set_model_preferences($prompt, $this->models_image, 'image');
 
-								// Set candidate count
-								$prompt->using_candidate_count($this->image_count);
+								// Only set candidate count when requesting more than one image
+								if($this->image_count > 1) {
+
+									$prompt->using_candidate_count($this->image_count);
+								}
 
 								// Check prompt supports image generation
 								if($prompt->is_supported_for_image_generation()) {
@@ -267,11 +267,8 @@
 								// Set model preferences
 								self::set_model_preferences($prompt, $this->models_speech, 'speech');
 
-								// Set candidate count
-								$prompt->using_candidate_count(1);
-
 								// Check prompt supports speech generation
-								if($prompt->is_supported_for_speech_generation() || true) {
+								if($prompt->is_supported_for_speech_generation()) {
 
 									// Generate result
 									$result = $prompt->generate_speech_result();

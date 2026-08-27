@@ -1005,9 +1005,9 @@
 
 	{	
 
-		"id"			:	"google-maps",
-		"label" 		: 	"Google Maps",
-		"file_path"		:	"google-maps/",
+		"id"			:	"google",
+		"label" 		: 	"Google",
+		"file_path"		:	"google/",
 		"templates"		:	[
 
 			{
