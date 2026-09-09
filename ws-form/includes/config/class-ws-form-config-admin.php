@@ -655,8 +655,6 @@
 					'dual_list_group_toggle'			=>	__('Select all in this group (double-click to move)', 'ws-form'),
 					'dual_list_item_toggle'				=>	__('Double-click to move', 'ws-form'),
 					'dual_list_drag'					=>	__('Drag to reorder', 'ws-form'),
-					/* translators: %1$s: option label, %2$s: group label */
-					'dual_list_item_in_group'			=>	__('%1$s (%2$s)', 'ws-form'),
 					/* translators: %s: Error message */
 					'error_api_reload'        			=> 	__('API reload error: %s', 'ws-form'),
 
@@ -1272,6 +1270,7 @@
 					)
 				),
 
+
 				// WordPress
 				'wordpress' => array(
 
@@ -1280,8 +1279,8 @@
 
 						'version' 			=> array('label' => __('Version', 'ws-form'), 'value' => get_bloginfo('version'), 'valid' => (WS_Form_Common::version_compare(get_bloginfo('version'), WS_FORM_MIN_VERSION_WORDPRESS) >= 0), 'min' => WS_FORM_MIN_VERSION_WORDPRESS),
 						'multisite'			=> array('label' => __('Multisite Enabled', 'ws-form'), 'value' => is_multisite(), 'type' => 'boolean'),
-						'home_url' 			=> array('label' => __('Home URL', 'ws-form'), 'value' => get_home_url(), 'type' => 'url'),
-						'site_url' 			=> array('label' => __('Site URL', 'ws-form'), 'value' => get_site_url(), 'type' => 'url'),
+						'home_url' 			=> array('label' => __('Home URL', 'ws-form'), 'value' => get_home_url()),
+						'site_url' 			=> array('label' => __('Site URL', 'ws-form'), 'value' => get_site_url()),
 						'theme_active' 		=> array('label' => __('Theme', 'ws-form'), 'value' => wp_get_theme(), 'type' => 'theme'),
 						'plugins_active' 	=> array('label' => __('Plugins', 'ws-form'), 'value' => get_option('active_plugins', array()), 'type' => 'plugins'),
 						'locale'			=> array('label' => __('Locale', 'ws-form'), 'value' => get_locale()),
@@ -1333,7 +1332,6 @@
 					)
 				)
 			);
-
 
 			// Apply filter
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_

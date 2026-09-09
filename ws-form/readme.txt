@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
 Tested up to: 7.1
-Stable tag: 1.12.8
+Stable tag: 1.12.10
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -376,15 +376,14 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.12.10 - 09/08/2026 =
+* Bug Fix: JavaScript errors related to the color picker in the WordPress 7.1 block editor
+
+= 1.12.9 - 09/01/2026 =
+* Added: Improved license site URL handling for subdirectory WordPress installs
+
 = 1.12.8 - 08/27/2026 =
 * Bug Fix: Improved AI connection status and text generation availability checks
 * Bug Fix: Select, checkbox and radio choice ability description improvements
-
-= 1.12.7 - 08/25/2026 =
-* Added: Support for Google Maps JS Routes API (New) - Setting in WS Form > Settings > Advanced for accounts created after March 1st, 2025
-* Bug Fix: Admin header overlapping the WordPress admin menu
-
-= 1.12.6 - 08/13/2026 =
-* Added: Improved PHP AI Client SDK model caching
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

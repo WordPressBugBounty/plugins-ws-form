@@ -2,6 +2,12 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.12.10 - 09/08/2026 =
+* Bug Fix: JavaScript errors related to the color picker in the WordPress 7.1 block editor
+
+= 1.12.9 - 09/01/2026 =
+* Added: Improved license site URL handling for subdirectory WordPress installs
+
 = 1.12.8 - 08/27/2026 =
 * Bug Fix: Improved AI connection status and text generation availability checks
 * Bug Fix: Select, checkbox and radio choice ability description improvements
