@@ -12,7 +12,7 @@
 
 			// These are set here to avoid problems if someone has both plugins installed and migrates from basic to PRO without de-activating the basic edition first. This ensures the PRO options are set up.
 			$ws_form_edition = 'basic';
-			$ws_form_version = '1.12.10';
+			$ws_form_version = '1.12.15';
 
 			$run_version_check = true;
 
@@ -109,6 +109,8 @@
 				count_stat_submit bigint(20) unsigned DEFAULT 0 NOT NULL,
 				count_submit bigint(20) unsigned DEFAULT 0 NOT NULL,
 				count_submit_unread bigint(20) unsigned DEFAULT 0 NOT NULL,
+				folder_id bigint(20) unsigned DEFAULT 0 NOT NULL,
+				locked tinyint(1) DEFAULT 0 NOT NULL,
 				published longtext NOT NULL,
 				published_checksum varchar(32) DEFAULT '' NOT NULL,
 				checksum varchar(32) DEFAULT '' NOT NULL,
@@ -121,7 +123,23 @@
 				KEY  count_stat_save (count_stat_save),
 				KEY  count_stat_submit (count_stat_submit),
 				KEY  count_submit (count_submit),
-				KEY  count_submit_unread (count_submit_unread)
+				KEY  count_submit_unread (count_submit_unread),
+				KEY  folder_id (folder_id)
+			) $charset_collate;";
+			dbDelta($table_sql);
+
+			// Table: Form folder
+			$table_name = $table_prefix . 'form_folder';
+			$table_sql = "CREATE TABLE $table_name (
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				label varchar(191) NOT NULL,
+				parent_id bigint(20) unsigned DEFAULT 0 NOT NULL,
+				sort_index bigint(20) unsigned DEFAULT 0 NOT NULL,
+				date_added datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+				PRIMARY KEY  (id),
+				KEY  parent_id (parent_id),
+				KEY  sort_index (sort_index)
 			) $charset_collate;";
 			dbDelta($table_sql);
 
@@ -313,7 +331,6 @@
 				date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				content longtext NOT NULL,
 				meta longtext NOT NULL,
-				locked tinyint(1) DEFAULT 0 NOT NULL,
 				PRIMARY KEY  (id),
 				KEY  submit_id (submit_id),
 				KEY  date_added (date_added)
@@ -332,6 +349,7 @@
 				status varchar(16) DEFAULT 'publish' NOT NULL,
 				`default` tinyint(1) DEFAULT 0 NOT NULL,
 				default_conv tinyint(1) DEFAULT 0 NOT NULL,
+				locked tinyint(1) DEFAULT 0 NOT NULL,
 				published longtext NOT NULL,
 				published_checksum varchar(32) DEFAULT '' NOT NULL,
 				checksum varchar(32) DEFAULT '' NOT NULL,
@@ -375,6 +393,8 @@
 				'import_form',
 				'publish_form',
 				'read_form',
+				'lock_form',
+				'unlock_form',
 
 				// Submission
 				'delete_submission',
@@ -390,6 +410,8 @@
 				'import_form_style',
 				'publish_form_style',
 				'read_form_style',
+				'lock_form_style',
+				'unlock_form_style',
 
 				// Options
 				'manage_options_wsform',

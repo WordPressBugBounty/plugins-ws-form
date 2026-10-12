@@ -42,6 +42,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			self::db_guard_form_unlocked();
+
 			self::db_check_form_id();
 
 			// Process sort index
@@ -330,6 +332,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			if($repair) { self::db_guard_form_unlocked(); }
+
 			self::db_check_form_id();
 
 			self::db_check_id();
@@ -457,6 +461,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			self::db_guard_form_unlocked();
+
 			global $wpdb;
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
@@ -579,6 +585,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			if(!$new) { self::db_guard_form_unlocked(); }
+
 			// Check for group ID in $group
 			if(isset($group_object->id) && !$new) { $this->id = absint($group_object->id); }
 			if($new) {
@@ -687,6 +695,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			self::db_guard_form_unlocked();
+
 			// Store tab index to form meta
 			$form_tab_index = absint(WS_Form_Common::get_query_var('wsf_fti', false, $parameters));
 			if($form_tab_index !== false) {
@@ -698,6 +708,26 @@
 			}
 
 			return $form_tab_index;
+		}
+
+		public function db_guard_form_unlocked() {
+
+			$form_ids = array();
+
+			// Row's form, not the form ID sent with the request
+			if($this->id) {
+
+				$form_ids[] = WS_Form_Form::db_form_id_from_group($this->id);
+			}
+
+			// Destination form on create and sort
+			$form_id = absint($this->form_id);
+			if($form_id) { $form_ids[] = $form_id; }
+
+			foreach(array_unique($form_ids) as $form_id) {
+
+				WS_Form_Form::db_throw_if_locked($form_id);
+			}
 		}
 
 		// Is valid

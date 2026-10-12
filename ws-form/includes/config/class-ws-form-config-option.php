@@ -539,6 +539,26 @@
 							'label'		=>	__('Status', 'ws-form'),
 							'type'		=>	'static',
 							'button'	=>	'wsf-ai-connectors'
+						),
+
+						'wp_ai_client_form_create_max_tokens'	=>	array(
+
+							'label'		=>	__('Create from AI Max Tokens', 'ws-form'),
+							'type'		=>	'number',
+							'default'	=>	'',
+							'placeholder'	=>	32768,
+							'allow_blank'	=>	true,
+							'minimum'	=>	1,
+							'maximum'	=>	65536,
+							'absint'	=>	true,
+							'help'		=>	sprintf(
+
+								'%s <a href="%s" target="_blank">%s</a>',
+
+								__('Maximum tokens the model may generate when creating a form from AI. Includes reasoning tokens for some models. The connected model may impose a lower limit. Recommended: 32768.', 'ws-form'),
+								WS_Form_Common::get_plugin_website_url('/knowledgebase/create-from-ai-template/'),
+								__('Learn more', 'ws-form')
+							)
 						)
 					)
 				);

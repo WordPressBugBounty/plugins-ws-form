@@ -214,6 +214,10 @@
 
 				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/put/', array('methods' => 'POST', 'callback' => array($plugin_api_style, 'api_put'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form_style'); }));
 
+				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/lock/', array('methods' => 'POST', 'callback' => array($plugin_api_style, 'api_put_lock'), 'permission_callback' => function () { return WS_Form_Common::can_user('lock_form_style'); }));
+
+				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/unlock/', array('methods' => 'POST', 'callback' => array($plugin_api_style, 'api_put_unlock'), 'permission_callback' => function () { return WS_Form_Common::can_user('unlock_form_style'); }));
+
 				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/(?P<style_id>[\d]+)/upload/json/', array('methods' => 'POST', 'callback' => array($plugin_api_style, 'api_post_upload_json'), 'permission_callback' => function () { return WS_Form_Common::can_user('import_form_style'); }));
 
 				register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/style/upload/json/', array('methods' => 'POST', 'callback' => array($plugin_api_style, 'api_post_upload_json'), 'permission_callback' => function () { return WS_Form_Common::can_user('import_form_style'); }));
@@ -229,6 +233,8 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/download/json/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_post_download_json'), 'permission_callback' => function () { return WS_Form_Common::can_user('export_form'); }));
 
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/folder/assign/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_folder_assign'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form'); }));
+
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/upload/json/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_post_upload_json'), 'permission_callback' => function () { return WS_Form_Common::can_user('import_form'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/full/', array('methods' => 'GET', 'callback' => array($plugin_api_form, 'api_get_full'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_form'); }));
@@ -241,6 +247,10 @@
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/put/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_put'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/publish/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_put_publish'), 'permission_callback' => function () { return WS_Form_Common::can_user('publish_form'); }));
+
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/lock/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_put_lock'), 'permission_callback' => function () { return WS_Form_Common::can_user('lock_form'); }));
+
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/unlock/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_put_unlock'), 'permission_callback' => function () { return WS_Form_Common::can_user('unlock_form'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/draft/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_put_draft'), 'permission_callback' => function () { return WS_Form_Common::can_user('publish_form'); }));
 

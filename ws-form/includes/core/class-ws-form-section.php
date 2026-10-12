@@ -47,6 +47,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			self::db_guard_form_unlocked();
+
 			// Check group ID
 			self::db_check_group_id();
 
@@ -308,6 +310,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			if($repair) { self::db_guard_form_unlocked(); }
+
 			$parent_section_id = self::db_get_parent_section_id();
 
 			global $wpdb;
@@ -429,6 +433,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			self::db_guard_form_unlocked();
+
 			global $wpdb;
 
 			// Clone section
@@ -489,6 +495,8 @@
 
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
+
+			if(!$new) { self::db_guard_form_unlocked(); }
 
 			// Check for section ID in $section
 			if(isset($section_object->id) && !$new) {
@@ -803,6 +811,32 @@
 			WS_Form_Common::user_must('read_form');
 
 			return parent::db_object_get_label($this->table_name, $this->id);
+		}
+
+		public function db_guard_form_unlocked() {
+
+			$form_ids = array();
+
+			// Row's form, not the form ID sent with the request
+			if($this->id) {
+
+				$form_ids[] = WS_Form_Form::db_form_id_from_section($this->id);
+			}
+
+			// Form that owns the destination group
+			if($this->group_id) {
+
+				$form_ids[] = WS_Form_Form::db_form_id_from_group($this->group_id);
+			}
+
+			// Destination form on create and sort
+			$form_id = absint($this->form_id);
+			if($form_id) { $form_ids[] = $form_id; }
+
+			foreach(array_unique($form_ids) as $form_id) {
+
+				WS_Form_Form::db_throw_if_locked($form_id);
+			}
 		}
 
 		// Is valid

@@ -99,27 +99,22 @@
 			$form_id = self::api_get_id($parameters);
 
 			$ws_form_form = new WS_Form_Form();
-
-			if($form_id == 0) {
-
-				try {
-
-					$ws_form_form->db_create();				
-
-				} catch (Exception $e) {
-
-					parent::api_throw_error($e->getMessage());
-				}
-
-			} else {
-
-				$ws_form_form->id = $form_id;
-			}
+			$form_created = false;
 
 			try {
 
-				// Get form object from file
+				// Validate the file before creating a form
 				$form_object = WS_Form_Common::get_object_from_post_file('form');
+
+				if($form_id == 0) {
+
+					$ws_form_form->db_create();
+					$form_created = true;
+
+				} else {
+
+					$ws_form_form->id = $form_id;
+				}
 
 				// Reset form
 				$ws_form_form->db_import_reset();
@@ -149,6 +144,16 @@
 				) : false;
 
 			} catch (Exception $e) {
+
+				// Drop a form created for this import
+				if($form_created) {
+
+					try {
+
+						$ws_form_form->db_delete(true);
+
+					} catch (Exception $delete_exception) {}
+				}
 
 				parent::api_throw_error($e->getMessage());
 			}
@@ -286,6 +291,42 @@
 			parent::api_json_response([], false, false, false);
 		}
 
+		// API - PUT - Lock
+		public function api_put_lock($parameters) {
+
+			$ws_form_form = new WS_Form_Form();
+			$ws_form_form->id = self::api_get_id($parameters);
+
+			try {
+
+				$ws_form_form->db_set_locked(true);
+
+			} catch (Exception $e) {
+
+				parent::api_throw_error($e->getMessage());
+			}
+
+			parent::api_json_response(array('locked' => 1), $ws_form_form->id, false, false);
+		}
+
+		// API - PUT - Unlock
+		public function api_put_unlock($parameters) {
+
+			$ws_form_form = new WS_Form_Form();
+			$ws_form_form->id = self::api_get_id($parameters);
+
+			try {
+
+				$ws_form_form->db_set_locked(false);
+
+			} catch (Exception $e) {
+
+				parent::api_throw_error($e->getMessage());
+			}
+
+			parent::api_json_response(array('locked' => 0), $ws_form_form->id, false, false);
+		}
+
 		// API - PUT - Rollback to publish state
 		public function api_put_rollback($parameters) {
 
@@ -405,5 +446,27 @@
 		public function api_get_id($parameters) {
 
 			return absint(WS_Form_Common::get_query_var_nonce('form_id', 0, $parameters));
+		}
+
+		// API - POST - Assign forms to a folder
+		public function api_folder_assign($parameters) {
+
+			$form_ids = WS_Form_Common::get_query_var_nonce('form_ids', '', $parameters);
+			$folder_id = absint(WS_Form_Common::get_query_var_nonce('folder_id', 0, $parameters));
+
+			if(is_string($form_ids)) { $form_ids = explode(',', $form_ids); }
+			if(!is_array($form_ids)) { $form_ids = array($form_ids); }
+
+			try {
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$ws_form_form_folder->db_assign($form_ids, $folder_id);
+
+			} catch (Exception $e) {
+
+				parent::api_throw_error($ws_form_form_folder->message($e->getMessage()));
+			}
+
+			parent::api_json_response(array('folder_id' => $folder_id), false, false, false);
 		}
 	}

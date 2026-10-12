@@ -94,6 +94,35 @@
 				// Set style
 				ws_this.styler_style = style;
 
+				if(ws_this.style_is_locked()) {
+
+					ws_form_settings.style_locked = 1;
+					styler_obj.addClass('wsf-style-locked');
+
+					$('.wsf-styler-panel-main', styler_obj).empty().append(ws_this.styler_locked_html());
+					$('.wsf-styler-panel-setting', styler_obj).empty();
+
+					$('[data-wsf-styler-action="undo"], [data-wsf-styler-action="settings"], [data-wsf-styler-action="save"]', styler_obj).hide();
+
+					$('[data-wsf-styler-action="return"]', styler_obj).on('click', function() {
+
+						window.location.href = $(this).attr('data-href');
+					});
+
+					$('[data-wsf-styler-action="unlock"]', styler_obj).on('click', function() {
+
+						if(!confirm(ws_form_settings.style_unlock_confirm)) { return; }
+
+						ws_this.styler_api_call('style/' + ws_this.styler_style_id + '/unlock/', 'POST', false, function() {
+
+							location.reload();
+						});
+					});
+
+					ws_this.styler_loader_hide();
+					return;
+				}
+
 				// Set label
 				ws_this.styler_label_update();
 
@@ -851,6 +880,39 @@
 		return ['em', 'px', 'rem', '%'];
 	}
 
+	$.WS_Form.prototype.style_is_locked = function() {
+
+		if((typeof ws_form_settings !== 'undefined') && (parseInt(ws_form_settings.style_locked, 10) === 1)) { return true; }
+
+		if(this.styler_style && (parseInt(this.styler_style.locked, 10) === 1)) { return true; }
+
+		return false;
+	}
+
+	$.WS_Form.prototype.styler_locked_html = function() {
+
+		var can_unlock = (typeof ws_form_settings !== 'undefined') && (parseInt(ws_form_settings.can_unlock_style, 10) === 1);
+		var icon = (typeof ws_form_settings.icon_lock !== 'undefined') ? ws_form_settings.icon_lock : '';
+		var copy = can_unlock ? ws_form_settings.style_locked_copy : ws_form_settings.style_locked_no_permission;
+
+		icon = icon.replace('<svg height="16" width="16"', '<svg height="64" width="64"');
+
+		var styler_html = '<div class="wsf-styler-locked">';
+
+		styler_html += '<div class="wsf-styler-locked-icon" aria-hidden="true">' + icon + '</div>';
+		styler_html += '<h2 class="wsf-styler-locked-title">' + this.esc_html(ws_form_settings.style_locked_title) + '</h2>';
+		styler_html += '<p class="wsf-styler-locked-copy">' + this.esc_html(copy) + ' <a href="' + this.esc_attr(ws_form_settings.style_locked_learn_more_url) + '" target="_blank" rel="noopener noreferrer">' + this.esc_html(ws_form_settings.style_locked_learn_more) + '</a></p>';
+
+		if(can_unlock) {
+
+			styler_html += '<button type="button" class="wsf-styler-locked-unlock" data-wsf-styler-action="unlock">' + this.esc_html(ws_form_settings.label_unlock) + '</button>';
+		}
+
+		styler_html += '</div>';
+
+		return styler_html;
+	}
+
 	// Styler - Events
 	$.WS_Form.prototype.styler_events = function() {
 
@@ -879,6 +941,8 @@
 
 		// Icon - Undo
 		$('[data-wsf-styler-action="undo"]', styler_obj).on('click', function() {
+
+			if(ws_this.style_is_locked()) { return; }
 
 			if(confirm(ws_this.language('styler_undo_confirm'))) {
 
@@ -922,6 +986,8 @@
 
 		// Icon - Save
 		$('[data-wsf-styler-action="save"]', styler_obj).on('click', function() {
+
+			if(ws_this.style_is_locked()) { return; }
 
 			// Show loader
 			ws_this.styler_loader_show();
@@ -1811,6 +1877,8 @@
 
 	// Styler - Change made
 	$.WS_Form.prototype.styler_change_made = function() {
+
+		if(this.style_is_locked()) { return; }
 
 		if(!this.styler_changes_made) {
 

@@ -26,6 +26,10 @@
   );
 }
 
+:root {
+  --wsf-color-default-lighter: #ceced2;
+}
+
 .wsf-sidebar-resize.wsf-sidebar-resize-active {
   background-color: #002E5D !important;
   border-color: #002E5D !important;
@@ -91,55 +95,55 @@ body.admin_page_ws-form-welcome #wpcontent {
 #wsf-settings .wsf-system-report .wsf-system-report-plugin {
   text-align: right;
 }
-#wsf-settings > .form-table > tbody > tr > td label.wsf-label {
+#wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td label.wsf-label {
   display: block;
 }
 @media screen and (min-width: 783px) {
-  #wsf-settings > .form-table > tbody > tr > td input[type=email].wsf-field + button.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=email].wsf-field + input[type=button].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=email].wsf-field + input[type=submit].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=email].wsf-field + input[type=reset].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=email].wsf-field + a.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=number].wsf-field + button.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=number].wsf-field + input[type=button].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=number].wsf-field + input[type=submit].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=number].wsf-field + input[type=reset].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=number].wsf-field + a.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=tel].wsf-field + button.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=tel].wsf-field + input[type=button].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=tel].wsf-field + input[type=submit].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=tel].wsf-field + input[type=reset].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=tel].wsf-field + a.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=text].wsf-field + button.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=text].wsf-field + input[type=button].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=text].wsf-field + input[type=submit].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=text].wsf-field + input[type=reset].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=text].wsf-field + a.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=url].wsf-field + button.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=url].wsf-field + input[type=button].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=url].wsf-field + input[type=submit].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=url].wsf-field + input[type=reset].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=url].wsf-field + a.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td select.wsf-field + button.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td select.wsf-field + input[type=button].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td select.wsf-field + input[type=submit].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td select.wsf-field + input[type=reset].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td select.wsf-field + a.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td textarea.wsf-field + button.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td textarea.wsf-field + input[type=button].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td textarea.wsf-field + input[type=submit].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td textarea.wsf-field + input[type=reset].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td textarea.wsf-field + a.wsf-button {
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=email].wsf-field + button.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=email].wsf-field + input[type=button].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=email].wsf-field + input[type=submit].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=email].wsf-field + input[type=reset].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=email].wsf-field + a.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=number].wsf-field + button.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=number].wsf-field + input[type=button].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=number].wsf-field + input[type=submit].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=number].wsf-field + input[type=reset].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=number].wsf-field + a.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=tel].wsf-field + button.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=tel].wsf-field + input[type=button].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=tel].wsf-field + input[type=submit].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=tel].wsf-field + input[type=reset].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=tel].wsf-field + a.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=text].wsf-field + button.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=text].wsf-field + input[type=button].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=text].wsf-field + input[type=submit].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=text].wsf-field + input[type=reset].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=text].wsf-field + a.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=url].wsf-field + button.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=url].wsf-field + input[type=button].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=url].wsf-field + input[type=submit].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=url].wsf-field + input[type=reset].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=url].wsf-field + a.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td select.wsf-field + button.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td select.wsf-field + input[type=button].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td select.wsf-field + input[type=submit].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td select.wsf-field + input[type=reset].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td select.wsf-field + a.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td textarea.wsf-field + button.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td textarea.wsf-field + input[type=button].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td textarea.wsf-field + input[type=submit].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td textarea.wsf-field + input[type=reset].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td textarea.wsf-field + a.wsf-button {
     margin-left: 0;
     margin-right: 6px;
   }
 }
 @media screen and (min-width: 783px) {
-  #wsf-settings > .form-table > tbody > tr > td input[type=file].wsf-field + label.wsf-label + button.wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=file].wsf-field + label.wsf-label + input[type=button].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=file].wsf-field + label.wsf-label + input[type=submit].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=file].wsf-field + label.wsf-label + input[type=reset].wsf-button,
-  #wsf-settings > .form-table > tbody > tr > td input[type=file].wsf-field + label.wsf-label + a.wsf-button {
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=file].wsf-field + label.wsf-label + button.wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=file].wsf-field + label.wsf-label + input[type=button].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=file].wsf-field + label.wsf-label + input[type=submit].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=file].wsf-field + label.wsf-label + input[type=reset].wsf-button,
+  #wsf-settings .wsf-settings-panel > .form-table > tbody > tr > td input[type=file].wsf-field + label.wsf-label + a.wsf-button {
     margin-left: 0;
     margin-right: 6px;
   }
@@ -174,6 +178,45 @@ body.admin_page_ws-form-welcome #wpcontent {
 .wsf-modal-close {
   left: 0;
   right: auto;
+}
+
+body.toplevel_page_ws-form #wsf-form-folders {
+  border-left: 1px solid #ceced2;
+  border-right: 0;
+  left: auto;
+  margin: 0;
+  right: auto;
+}
+body.toplevel_page_ws-form #wsf-form-folders > .wsf-sidebar-resize {
+  box-shadow: -1px 0 3px rgba(0, 0, 0, 0.12);
+  left: calc(var(--wsf-admin-sidebar-resize-width) / -2 - 2px);
+  right: auto;
+}
+body.toplevel_page_ws-form #wsf-form-list:not(.wsf-form-folders-hidden) .wsf-form-list-main {
+  -webkit-margin-end: 0;
+          margin-inline-end: 0;
+  -webkit-margin-start: 0;
+          margin-inline-start: 0;
+}
+@media screen and (max-width: 782px) {
+  body.toplevel_page_ws-form #wsf-form-folders {
+    border-left: 0;
+    left: auto;
+    right: auto;
+  }
+  body.toplevel_page_ws-form #wsf-form-list:not(.wsf-form-folders-hidden) .wsf-form-list-main {
+    -webkit-margin-end: 0;
+            margin-inline-end: 0;
+  }
+}
+body.toplevel_page_ws-form .wsf-form-folder,
+body.toplevel_page_ws-form .wsf-form-folder-row {
+  border-left: 0;
+  border-right: 3px solid transparent;
+}
+body.toplevel_page_ws-form a.wsf-form-folder.wsf-form-folder-current,
+body.toplevel_page_ws-form .wsf-form-folder-row.wsf-form-folder-current {
+  border-right-color: #002e5d;
 }
 
 body.toplevel_page_ws-form #poststuff #post-body.columns-2,
@@ -1023,11 +1066,6 @@ select.wsf-button[data-mode=deactivate] {
     margin-left: var(--wsf-admin-sidebar-margin);
     margin-right: 0;
   }
-  body.ws-form_page_ws-form-submit #wpcontent.wsf-sidebar-open #screen-meta,
-  body.ws-form_page_ws-form-submit #wpcontent.wsf-sidebar-open #screen-meta-links {
-    margin-left: var(--wsf-admin-sidebar-margin);
-    margin-right: 0;
-  }
   body.ws-form_page_ws-form-submit #wpcontent.wsf-sidebar-open #wsf-admin-header.wsf-admin-header {
     margin-left: var(--wsf-admin-sidebar-margin);
     margin-right: 0;
@@ -1055,4 +1093,95 @@ select.wsf-button[data-mode=deactivate] {
 #wsf-layout-editor #titlewrap button[data-action=wsf-label-save] {
   right: auto;
   left: 5px;
+}
+
+#wsf-style-list-table #locked,
+#wsf-style-list-table th.column-locked,
+#wsf-style-list-table td.column-locked {
+  text-align: end;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 1%;
+}
+#wsf-style-list-table th.column-locked a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+#wsf-style-list-table th.column-locked a span {
+  float: none;
+}
+
+.wsf-form-status {
+  align-items: flex-start;
+  display: inline-flex;
+  gap: 6px;
+}
+.wsf-form-status input[type=checkbox].wsf-field.wsf-switch + label.wsf-label {
+  line-height: 18px;
+  margin: 0;
+}
+.wsf-form-status input[type=checkbox].wsf-field.wsf-switch + label.wsf-label::before {
+  top: 0;
+}
+.wsf-form-status input[type=checkbox].wsf-field.wsf-switch + label.wsf-label::after {
+  top: 2px;
+}
+
+.wsf-form-status-switch {
+  align-items: flex-start;
+  display: inline-flex;
+  position: relative;
+}
+
+.wsf-form-lock {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  color: var(--wsf-color-default-lighter);
+  cursor: pointer;
+  display: inline-flex;
+  height: 30px;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  width: 30px;
+  z-index: 1;
+}
+.wsf-form-lock svg {
+  fill: currentColor;
+  height: 16px;
+  width: 16px;
+}
+.wsf-form-lock .wsf-icon-lock {
+  display: none;
+}
+.wsf-form-lock:hover {
+  color: #67686b;
+}
+
+.wsf-form-lock-on {
+  background: #e6f0fb;
+  color: var(--wsf-color-dark-blue);
+}
+.wsf-form-lock-on .wsf-icon-unlock {
+  display: none;
+}
+.wsf-form-lock-on .wsf-icon-lock {
+  display: inline-flex;
+}
+
+button.wsf-form-lock-on:hover {
+  background: #c7ddf5;
+  color: var(--wsf-color-dark-blue);
+}
+
+span.wsf-form-lock {
+  cursor: default;
+}
+
+.wsf-form-status .wsf-switch:disabled + .wsf-label {
+  opacity: 0.5;
 }

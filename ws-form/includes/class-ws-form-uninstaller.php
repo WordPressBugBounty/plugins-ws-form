@@ -63,7 +63,7 @@
 				$table_prefix = $wpdb->prefix . WS_FORM_DB_TABLE_PREFIX;
 
 				// Tables to delete
-				$tables = array('form', 'form_meta', 'form_stat', 'group', 'group_meta', 'section', 'section_meta', 'field', 'field_meta', 'submit', 'submit_meta', 'submit_note', 'style', 'style_meta');
+				$tables = array('form', 'form_folder', 'form_meta', 'form_stat', 'group', 'group_meta', 'section', 'section_meta', 'field', 'field_meta', 'submit', 'submit_meta', 'submit_note', 'style', 'style_meta');
 
 				// Run through each table and delete
 				foreach($tables as $table_name) {

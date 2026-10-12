@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
 Tested up to: 7.1
-Stable tag: 1.12.10
+Stable tag: 1.12.15
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -376,14 +376,17 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.12.10 - 09/08/2026 =
-* Bug Fix: JavaScript errors related to the color picker in the WordPress 7.1 block editor
+= 1.12.15 - 10/10/2026 =
+* Added: Form folders for organizing the forms list https://wsform.com/knowledgebase/form-folders/
+* Added: Lock forms so they cannot be edited or moved to the trash until unlocked https://wsform.com/knowledgebase/form-locking/
+* Added: Lock styles so they cannot be edited or moved to the trash until unlocked https://wsform.com/knowledgebase/style-locking/
 
-= 1.12.9 - 09/01/2026 =
-* Added: Improved license site URL handling for subdirectory WordPress installs
+= 1.12.14 - 10/09/2026 =
+* Added: Create from AI maximum token setting
+* Added: Attempts to repair malformed JSON from Gemini in AI calls
 
-= 1.12.8 - 08/27/2026 =
-* Bug Fix: Improved AI connection status and text generation availability checks
-* Bug Fix: Select, checkbox and radio choice ability description improvements
+= 1.12.13 - 10/07/2026 =
+* Added: FileBird, HappyFiles and Premio Folders folder selection for files saved to the Media Library
+* Changed: Success and information messages use the ARIA status role
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

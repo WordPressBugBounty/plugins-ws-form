@@ -5,6 +5,15 @@
 	// Set is_admin
 	$.WS_Form.prototype.set_is_admin = function() { return true; }
 
+	$.WS_Form.prototype.style_is_locked = function() {
+
+		if((typeof ws_form_settings !== 'undefined') && (parseInt(ws_form_settings.style_locked, 10) === 1)) { return true; }
+
+		if(this.styler_style && (parseInt(this.styler_style.locked, 10) === 1)) { return true; }
+
+		return false;
+	}
+
 	// One time init for admin page
 	$.WS_Form.prototype.init = function() {
 
@@ -53,21 +62,15 @@
 
 		// Window resizing
 		this.window_resize_init();
-
-		// Settings (admin.php?page=ws-form-settings) — copy-to-clipboard for .wsf-settings-copy-inline
-		if($('#wsf-settings').length) {
-
-			this.clipboard($('#wsf-settings'));
-			this.system_report_init($('#wsf-settings'));
-			this.settings_dual_list_init($('#wsf-settings'));
-		}
 	}
 
 	// Settings — System report actions
 	$.WS_Form.prototype.system_report_init = function(obj) {
 
 		var report_obj = $('.wsf-system-report', obj);
-		if(!report_obj.length) { return; }
+		if(!report_obj.length || (report_obj.attr('data-wsf-init') === '1')) { return; }
+
+		report_obj.attr('data-wsf-init', '1');
 
 		var text_obj = $('.wsf-system-report-text', report_obj);
 		var copy_obj = $('[data-action="wsf-system-report-copy"]', report_obj);
@@ -1194,6 +1197,12 @@
 
 			observer.observe(admin_header);
 		}
+
+		var screen_meta = document.getElementById('screen-meta');
+		if(screen_meta) {
+
+			observer.observe(screen_meta);
+		}
 	}
 
 	// Key down events
@@ -1443,6 +1452,7 @@
 			bind_file_input: false,
 			button_selector: false,
 			drag_enter_el: '#wsf-layout-editor',
+			reset_on_success: true,
 			success_callback: function() {
 
 				$.WS_Form.this.form_build();
@@ -1503,6 +1513,7 @@
 
 	// Form - Publish
 	$.WS_Form.prototype.form_publish = function() {
+
 
 		// Loader on
 		this.loader_on();
@@ -1572,6 +1583,8 @@
 
 	// Object - Uploader
 	$.WS_Form.prototype.object_upload_json = function(files, upload_json_window_obj, obj, success_callback, error_callback, show_confirm) {
+
+		if(this.style_is_locked()) { return; }
 
 		if(typeof show_confirm === 'undefined') { show_confirm = false; }
 
@@ -1770,28 +1783,80 @@
 			status_bar.set_abort(jqXHR);
 		};
 
-		// Confirm upload
-		if((object === 'form') && show_confirm) {
+		var file = files[0];
+		var file_name = (file && file.name) ? String(file.name) : '';
 
-			this.confirm_modal(
+		// Stop before upload or confirm. A non-JSON file must not start an import.
+		var reject_import_file = function() {
 
-				this.language(object + '_import_confirm', false, false),
-				process,
-				{
-					title: this.language('confirm'),
-					confirm_label: this.language('import'),
-					cancel_callback: function() {
+			$('.wsf-object-upload-intro', upload_json_window_obj).hide();
 
-						upload_json_window_obj.hide();
-						error_callback();
+			var status_bar = new ws_this.upload_status_bar(ws_this, upload_json_window_obj, true, false, false);
+			status_bar.populate(file_name, (file && file.size) ? file.size : 0);
+			status_bar.set_phase('error');
+			status_bar.status_label.html(ws_this.language('import_invalid'));
+
+			setTimeout(function() {
+
+				if(typeof error_callback === 'function') { error_callback(); }
+
+			}, 2000);
+		};
+
+		var start_import = function() {
+
+			// Confirm upload
+			if((object === 'form') && show_confirm) {
+
+				ws_this.confirm_modal(
+
+					ws_this.language(object + '_import_confirm', false, false),
+					process,
+					{
+						title: ws_this.language('confirm'),
+						confirm_label: ws_this.language('import'),
+						cancel_callback: function() {
+
+							upload_json_window_obj.hide();
+							error_callback();
+						}
 					}
-				}
-			);
+				);
 
-			return;
+				return;
+			}
+
+			process();
+		};
+
+		if(!/\.json$/i.test(file_name)) {
+
+			reject_import_file();
+			return false;
 		}
 
-		process();
+		var reader = new FileReader();
+
+		reader.onerror = function() { reject_import_file(); };
+
+		reader.onload = function() {
+
+			var text = String(reader.result).replace(/^\uFEFF/, '');
+
+			try {
+
+				JSON.parse(text);
+
+			} catch(e) {
+
+				reject_import_file();
+				return;
+			}
+
+			start_import();
+		};
+
+		reader.readAsText(file);
 	}
 
 	// Form - Publish
@@ -1984,6 +2049,7 @@
 	// API - Group - POST
 	$.WS_Form.prototype.group_post = function(obj) {
 
+
 		// Loader on
 		this.loader_on();
 
@@ -2068,6 +2134,7 @@
 
 	// API - Section - PUT - CLONE
 	$.WS_Form.prototype.group_put_clone = function(obj) {
+
 
 		// Loader on
 		this.loader_on();
@@ -2219,6 +2286,7 @@
 	// API - Section - POST
 	$.WS_Form.prototype.section_post = function(obj) {
 
+
 		// Loader on
 		this.loader_on();
 
@@ -2341,6 +2409,7 @@
 
 	// API - Section - PUT - CLONE
 	$.WS_Form.prototype.section_put_clone = function(obj) {
+
 
 		// Loader on
 		this.loader_on();
@@ -2696,6 +2765,7 @@
 	// API - Field - POST
 	$.WS_Form.prototype.field_post = function(obj) {
 
+
 		// Loader on
 		this.loader_on();
 
@@ -2900,6 +2970,7 @@
 	// API - PUT - CLONE
 	$.WS_Form.prototype.field_put_clone = function(obj) {
 
+
 		// Loader on
 		this.loader_on();
 
@@ -3033,6 +3104,7 @@
 
 	// Label - Double click - Enable
 	$.WS_Form.prototype.label_dblclick_enable = function(label_obj) {
+
 
 		// Double click / Focus - Enable editing
 		label_obj.on('dblclick', function() {
@@ -3548,6 +3620,7 @@
 	// Edit - Button - Clone
 	$.WS_Form.prototype.object_button_clone = function(obj) {
 
+
 		// Cancel object
 //		this.object_cancel(obj);
 
@@ -3578,6 +3651,7 @@
 
 	// Edit - Button - Delete
 	$.WS_Form.prototype.object_button_delete = function(obj) {
+
 
 		// Cancel object
 		this.object_cancel(obj);
@@ -3938,6 +4012,7 @@
 
 	// Object - Delete
 	$.WS_Form.prototype.object_delete = function(obj) {
+
 
 		// Loader on
 		this.loader_on();
@@ -4919,7 +4994,8 @@
 							field_attributes += ' data-select-ajax-method-search="' + this.esc_attr(select_ajax_method_search) + '"';
 							field_attributes += select_ajax_method_cache ? ' data-select-ajax-method-cache="' + this.esc_attr(select_ajax_method_cache) + '"' : '';
 							field_attributes += select_ajax_placeholder ? ' data-select-ajax-placeholder="' + this.esc_attr(select_ajax_placeholder) + '"' : '';
-							if(meta_value) { field_attributes += ' data-select-ajax-id="'  + this.esc_attr(meta_value) + '"'; }
+							var select_ajax_id = Array.isArray(meta_value) ? meta_value.join(',') : meta_value;
+							if(select_ajax_id) { field_attributes += ' data-select-ajax-id="' + this.esc_attr(select_ajax_id) + '"'; }
 
 							// Initialize
 							inits.push('select2-ajax');
@@ -15388,6 +15464,7 @@
 	// Button - Undo (Reduces history_index by one)
 	$.WS_Form.prototype.undo = function() {
 
+
 		// Decrement history index
 		if(this.history_index == 0) { return false; }
 
@@ -15412,6 +15489,7 @@
 
 	// Button - Redo (Increases history_index by one)
 	$.WS_Form.prototype.redo = function() {
+
 
 		// Calculate number of history steps
 		var history_length = this.form_history.length;
@@ -15495,10 +15573,11 @@
 			modal_html += '<div id="wsf-confirm-modal-backdrop" class="wsf-modal-backdrop" style="display:none;"></div>';
 			modal_html += '<div id="wsf-confirm-modal" class="wsf-modal wsf-modal-dialog" style="display:none;">';
 			modal_html += '<div class="wsf-modal-title">' + icon_svg + '<h2></h2></div>';
-			modal_html += '<div class="wsf-modal-close" data-action="wsf-close"></div>';
+			var close_icon = ($.WS_Form.settings_form && $.WS_Form.settings_form.icons && $.WS_Form.settings_form.icons['delete']) ? this.svg('delete') : '';
+			modal_html += '<div class="wsf-modal-close" data-action="wsf-close">' + close_icon + '</div>';
 			modal_html += '<div class="wsf-modal-content"></div>';
 			modal_html += '<div class="wsf-modal-buttons">';
-			modal_html += '<div class="wsf-modal-buttons-cancel"><a data-action="wsf-cancel"></a></div>';
+			modal_html += '<div class="wsf-modal-buttons-cancel"><button type="button" class="button" data-action="wsf-cancel"></button></div>';
 			modal_html += '<div class="wsf-modal-buttons-primary"><button type="button" class="button" data-action="wsf-confirm"></button></div>';
 			modal_html += '</div>';
 			modal_html += '</div>';
@@ -15601,7 +15680,7 @@
 		$('.wsf-modal-content', modal_obj).html(content_html);
 
 		// Buttons
-		$('.wsf-modal-buttons-cancel a', modal_obj).text(cancel_label);
+		$('.wsf-modal-buttons-cancel button', modal_obj).text(cancel_label);
 		var confirm_button_obj = $('.wsf-modal-buttons-primary button', modal_obj);
 		confirm_button_obj.text(confirm_label);
 		confirm_button_obj.attr('class', 'button ' + confirm_button_class);
@@ -17401,6 +17480,8 @@
 		var layout_editor = (typeof config.layout_editor !== 'undefined') ? config.layout_editor : false;
 		var bind_file_input = (typeof config.bind_file_input !== 'undefined') ? config.bind_file_input : true;
 		var drag_enter_el = (typeof config.drag_enter_el !== 'undefined') ? config.drag_enter_el : '#wsf-wrapper';
+		// List imports reload. Keep the overlay up until the new page paints.
+		var reset_on_success = (typeof config.reset_on_success !== 'undefined') ? config.reset_on_success : false;
 
 		var dropzone_obj = $('#wsf-object-upload-dropzone');
 		var upload_window = $('.wsf-object-upload-json-window', dropzone_obj);
@@ -17425,7 +17506,7 @@
 
 			if(typeof success_callback === 'function') { success_callback(response); }
 
-			upload_reset();
+			if(reset_on_success) { upload_reset(); }
 		};
 
 		var apply_viewport_box = function(top, left, width) {
@@ -17676,10 +17757,66 @@
 			}
 		});
 
+		this.form_lock_list_init(form_list_table_obj);
+
 		// Prevent default on server side functions (Stops page jumping)
 		$('[data-action="wsf-clone"], [data-action="wsf-delete"], [data-action="wsf-export"]', form_list_table_obj).on('click', function(e) {
 
 			e.preventDefault();
+		});
+
+		// Folders
+		this.form_folders_init();
+
+		// Bulk move: one action, then pick the folder
+		var ws_this = this;
+
+		form_list_table_obj.on('click', '#doaction, #doaction2', function(e) {
+
+			var select_name = (this.id === 'doaction2') ? 'action2' : 'action';
+			if($('select[name="' + select_name + '"]', form_list_table_obj).val() !== 'wsf-bulk-folder') { return; }
+
+			e.preventDefault();
+
+			var source = $('#wsf-bulk-folder-source');
+			if(!source.length) { return; }
+			if(!$('input[name="bulk-ids[]"]:checked', form_list_table_obj).length) { return; }
+
+			var options = source.html().replace(/\n/g, '');
+			if(!options) { return; }
+
+			ws_this.confirm_modal(
+
+				'<label for="wsf-bulk-folder">' + ws_this.language('form_folder_label') + '</label><select id="wsf-bulk-folder" class="wsf-bulk-folder-select">' + options + '</select>',
+
+				function() {
+
+					var folder_id = $('#wsf-confirm-modal .wsf-bulk-folder-select').val();
+					if(folder_id === undefined || folder_id === '') { return; }
+
+					var input = $('#wsf-bulk-folder-id', form_list_table_obj);
+					if(!input.length) {
+
+						form_list_table_obj.append('<input type="hidden" id="wsf-bulk-folder-id" name="folder_id" />');
+						input = $('#wsf-bulk-folder-id', form_list_table_obj);
+					}
+
+					input.val(folder_id);
+					form_list_table_obj.trigger('submit');
+				},
+
+				{
+					title: ws_this.language('form_folder_move'),
+					confirm_label: ws_this.language('form_folder_move_button'),
+					html: true
+				}
+			);
+
+			setTimeout(function() {
+
+				$('#wsf-confirm-modal .wsf-bulk-folder-select').trigger('focus');
+
+			}, 0);
 		});
 
 		// Get form locations
@@ -17768,10 +17905,434 @@
 		});
 	}
 
+	// Form folders
+	$.WS_Form.prototype.form_folders_init = function() {
+
+		var ws_this = this;
+
+		if(!$('#wsf-action-do').length) { return; }
+
+		var list_obj = $('#wsf-form-list-table');
+
+		// Name
+		var folder_name_modal = function(title, confirm_label, current, callback) {
+
+			ws_this.confirm_modal(
+
+				'<label for="wsf-folder-name">' + ws_this.language('form_folder_name') + '</label><input id="wsf-folder-name" type="text" class="regular-text" value="' + ws_this.esc_attr(current) + '" />',
+
+				function() {
+
+					var label = $('#wsf-folder-name').val();
+					if(typeof label !== 'string') { label = ''; }
+					label = $.trim(label);
+					if(label === '') { return; }
+					callback(label);
+				},
+
+				{
+					title: title,
+					confirm_label: confirm_label,
+					html: true
+				}
+			);
+
+			setTimeout(function() {
+
+				var input = $('#wsf-folder-name');
+				input.trigger('focus').trigger('select');
+				input.on('keydown', function(e) {
+
+					if(e.keyCode === 13) {
+
+						e.preventDefault();
+						$('#wsf-confirm-modal [data-action="wsf-confirm"]').trigger('click');
+					}
+				});
+
+			}, 0);
+		};
+
+		var folder_submit = function(action, id, label, parent_id) {
+
+			$('#wsf-action').val(action);
+			$('#wsf-id').val(id);
+			$('#wsf-folder-label').val(label);
+			$('#wsf-folder-parent-id').val(parent_id);
+			$('#wsf-action-do').trigger('submit');
+		};
+
+		$('#wsf-wrapper').on('click', '[data-action="wsf-folder-add"]', function(e) {
+
+			e.preventDefault();
+
+			var parent_id = $(this).attr('data-parent-id');
+			var title = (parent_id && (parent_id !== '0')) ? ws_this.language('form_folder_sub') : ws_this.language('form_folder_new');
+
+			folder_name_modal(title, ws_this.language('form_folder_add'), '', function(label) {
+
+				folder_submit('wsf-folder-add', '', label, parent_id);
+			});
+		});
+
+		var folders_obj = $('#wsf-form-folders');
+		if(!folders_obj.length) { return; }
+
+		var folder_row_suppress_click = false;
+
+		// Row is the hit target. The link inside it does not receive the pointer.
+		var folder_row_open = function(row, e) {
+
+			if($(e.target).closest('.wsf-form-folder-actions, a.wsf-form-folder').length) { return; }
+
+			var link = $('a.wsf-form-folder', row).get(0);
+			if(!link || !link.href) { return; }
+
+			if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || (e.button === 1)) {
+
+				window.open(link.href);
+				return;
+			}
+
+			window.location.href = link.href;
+		};
+
+		folders_obj.on('click', '.wsf-form-folder-row', function(e) {
+
+			if(folder_row_suppress_click) {
+
+				folder_row_suppress_click = false;
+				return;
+			}
+
+			folder_row_open(this, e);
+		});
+
+		folders_obj.on('auxclick', '.wsf-form-folder-row', function(e) {
+
+			if(e.button !== 1) { return; }
+
+			e.preventDefault();
+			folder_row_open(this, e);
+		});
+
+		folders_obj.on('click', '[data-action="wsf-folder-rename"]', function(e) {
+
+			e.preventDefault();
+
+			var button = $(this);
+
+			folder_name_modal(ws_this.language('form_folder_rename'), ws_this.language('save'), button.attr('data-label'), function(label) {
+
+				folder_submit('wsf-folder-rename', button.attr('data-id'), label, '');
+			});
+		});
+
+		folders_obj.on('click', '[data-action="wsf-folder-delete"]', function(e) {
+
+			e.preventDefault();
+
+			var button = $(this);
+			var parent_id = button.attr('data-parent-id');
+			var is_subfolder = (parent_id && (parent_id !== '0'));
+			var title = is_subfolder ? ws_this.language('form_folder_delete_sub') : ws_this.language('form_folder_delete');
+			var message = (button.attr('data-has-children') === '1') ? ws_this.language('form_folder_delete_children') : (is_subfolder ? ws_this.language('form_folder_delete_subfolder') : ws_this.language('form_folder_delete_root'));
+
+			ws_this.confirm_modal(message, function() {
+
+				folder_submit('wsf-folder-delete', button.attr('data-id'), '', '');
+
+			}, {
+				title: title,
+				confirm_label: ws_this.language('delete'),
+				confirm_button_class: 'wsf-button-danger'
+			});
+		});
+
+		// Drag a form row onto a folder. Ghost is the form name, not the row.
+		if(folders_obj.attr('data-can-edit') === '1') {
+
+		var rows = $('tbody tr', list_obj).has('input[name="bulk-ids[]"]');
+		rows.attr('draggable', 'true');
+		$('a, button, input, label, .wsf-form-drag', rows).attr('draggable', 'false');
+
+		rows.on('dragstart', function(e) {
+
+			var row = $(this);
+			var checkbox = $('input[name="bulk-ids[]"]', row);
+			var form_id = checkbox.val();
+			var ids = [];
+
+			if(checkbox.is(':checked')) {
+
+				$('input[name="bulk-ids[]"]:checked', list_obj).each(function() {
+
+					ids.push($(this).val());
+				});
+
+			} else if(form_id) {
+
+				ids.push(form_id);
+			}
+
+			if(!ids.length || !e.originalEvent.dataTransfer) {
+
+				e.preventDefault();
+				return;
+			}
+
+			$.WS_Form.form_folder_drag = true;
+
+			var transfer = e.originalEvent.dataTransfer;
+			transfer.setData('text/plain', ids.join(','));
+			transfer.effectAllowed = 'move';
+
+			if(transfer.setDragImage) {
+
+				var ghost = document.createElement('div');
+				ghost.className = 'wsf-form-drag-ghost';
+				ghost.textContent = $.trim($('.wsf-form-drag', row).text());
+				document.body.appendChild(ghost);
+				transfer.setDragImage(ghost, 8, 8);
+				window.setTimeout(function() { ghost.remove(); }, 0);
+			}
+		});
+
+		var folders_el = folders_obj.get(0);
+
+		var folder_from_event = function(e) {
+
+			var el = e.target;
+			if(!el || !el.closest) { return null; }
+			var folder = el.closest('[data-folder-id]');
+			if(!folder || !folders_el.contains(folder)) { return null; }
+
+			// Row and its link both have data-folder-id; highlight the row
+			var row = folder.closest('.wsf-form-folder-row');
+			if(row && folders_el.contains(row)) { folder = row; }
+
+			return folder;
+		};
+
+		var clear_drop = function() {
+
+			folders_obj.find('.wsf-form-folder-drop').removeClass('wsf-form-folder-drop');
+		};
+
+		folders_el.addEventListener('dragover', function(e) {
+
+			if(!$.WS_Form.form_folder_drag) { return; }
+
+			var folder = folder_from_event(e);
+			if(!folder) {
+
+				clear_drop();
+				return;
+			}
+
+			e.preventDefault();
+			if(e.dataTransfer) { e.dataTransfer.dropEffect = 'move'; }
+
+			if(!folder.classList.contains('wsf-form-folder-drop')) {
+
+				clear_drop();
+				folder.classList.add('wsf-form-folder-drop');
+			}
+
+		}, true);
+
+		folders_el.addEventListener('drop', function(e) {
+
+			if(!$.WS_Form.form_folder_drag) { return; }
+
+			var folder = folder_from_event(e);
+			if(!folder) { return; }
+
+			e.preventDefault();
+			clear_drop();
+			$.WS_Form.form_folder_drag = false;
+			folder_row_suppress_click = true;
+
+			var raw = '';
+			try { raw = e.dataTransfer.getData('text/plain'); } catch(err) { raw = ''; }
+			raw = $.trim(raw);
+			if(!/^[0-9]+(,[0-9]+)*$/.test(raw)) { return; }
+
+			ws_this.api_call('form/folder/assign/', 'POST', {
+
+				form_ids: raw,
+				folder_id: folder.getAttribute('data-folder-id')
+
+			}, function() {
+
+				window.location.reload();
+
+			}, function() {
+
+				ws_this.loader_off();
+			});
+
+		}, true);
+
+		$(document).on('dragend.formFolders', function() {
+
+			$.WS_Form.form_folder_drag = false;
+			clear_drop();
+		});
+
+		}
+
+		// Resize
+		var handle = $('.wsf-sidebar-resize', folders_obj);
+		if(!handle.length) { return; }
+
+		handle.on('mousedown', function(e) {
+
+			e.preventDefault();
+
+			var handle_el = this;
+			var start_x = e.clientX;
+			var width_start = folders_obj.outerWidth();
+			var width_min = parseInt(folders_obj.attr('data-width-min'), 10) || 180;
+			var width_max = parseInt(folders_obj.attr('data-width-max'), 10) || 420;
+			var width_new = width_start;
+			var rtl = (typeof ws_form_settings !== 'undefined') && ws_form_settings.rtl;
+
+			handle_el.classList.add('wsf-sidebar-resize-active');
+
+			function on_drag(e) {
+
+				var delta_x = e.clientX - start_x;
+				if(rtl) { delta_x = -delta_x; }
+				width_new = width_start + delta_x;
+				if(width_new < width_min) { width_new = width_min; }
+				if(width_new > width_max) { width_new = width_max; }
+
+				var list = document.getElementById('wsf-form-list');
+				if(list) {
+
+					var available = list.clientWidth - 320;
+					if((available > width_min) && (width_new > available)) { width_new = available; }
+					list.style.setProperty('--wsf-form-folders-width', width_new + 'px');
+				}
+			}
+
+			function on_stop() {
+
+				$(document).off('mousemove.formFoldersResize', on_drag);
+				$(document).off('mouseup.formFoldersResize', on_stop);
+				handle_el.classList.remove('wsf-sidebar-resize-active');
+
+				if(width_start !== width_new) {
+
+					ws_this.api_call('sidebar/width/', 'POST', {
+
+						sidebar_width: width_new,
+						sidebar_context: 'form_list'
+
+					}, function() {
+
+						ws_this.loader_off();
+					});
+				}
+			}
+
+			$(document).on('mousemove.formFoldersResize', on_drag);
+			$(document).on('mouseup.formFoldersResize', on_stop);
+		});
+	}
+
+	$.WS_Form.prototype.form_lock_list_init = function(table_obj) {
+
+		$('[data-action-ajax="wsf-form-lock"]', table_obj).on('click', function(e) {
+
+			e.preventDefault();
+			e.stopPropagation();
+
+			var button = $(this);
+			var id = button.attr('data-id');
+			var object = button.attr('data-object');
+			var locked = button.hasClass('wsf-form-lock-on');
+			var path = object + '/' + id + '/' + (locked ? 'unlock' : 'lock') + '/';
+
+			var form_lock_request = function() {
+
+			$.WS_Form.this.loader_on();
+
+			$.WS_Form.this.api_call(path, 'POST', false, function() {
+
+				$.WS_Form.this.loader_off();
+
+				var now_locked = !locked;
+				var can_lock = (button.attr('data-can-lock') === '1');
+				var can_unlock = (button.attr('data-can-unlock') === '1');
+				var row = button.closest('tr');
+				var status = $('[data-action-ajax="wsf-form-status"]', row);
+
+				$('.row-actions .trash', row).toggleClass('hidden', now_locked);
+
+				if(object === 'style') {
+
+					$('.row-actions .reset, .row-actions .default, .row-actions .default_conv', row).toggleClass('hidden', now_locked);
+				}
+
+				if(now_locked) {
+
+					button.addClass('wsf-form-lock-on').attr('title', button.attr('data-title-unlock'));
+					status.prop('disabled', true);
+					status.next('label').attr('title', status.attr('data-title-locked'));
+
+					if(!can_unlock) {
+
+						button.replaceWith('<span class="wsf-form-lock wsf-form-lock-on" title="' + button.attr('data-title-unlock') + '">' + $('.wsf-icon-lock', button).html() + '</span>');
+					}
+
+				} else {
+
+					status.prop('disabled', false);
+					status.next('label').attr('title', status.is(':checked') ? $.WS_Form.this.language('publish') : $.WS_Form.this.language('draft'));
+
+					if(!can_lock) {
+
+						button.remove();
+
+					} else {
+
+						button.removeClass('wsf-form-lock-on').attr('title', button.attr('data-title-lock'));
+					}
+				}
+			});
+
+			};
+
+			if((object === 'form') || (object === 'style')) {
+
+				var confirm_key = (object === 'form') ? (locked ? 'form_unlock_confirm' : 'form_lock_confirm') : (locked ? 'style_unlock_confirm' : 'style_lock_confirm');
+				var label_key = (object === 'form') ? (locked ? 'form_unlock' : 'form_lock') : (locked ? 'style_unlock' : 'style_lock');
+
+				$.WS_Form.this.confirm_modal(
+
+					$.WS_Form.this.language(confirm_key, false, false),
+					form_lock_request,
+					{
+						title: $.WS_Form.this.language(label_key),
+						confirm_label: $.WS_Form.this.language(label_key)
+					}
+				);
+
+				return;
+			}
+
+			form_lock_request();
+		});
+	}
+
 	// WP List Table - Style
 	$.WS_Form.prototype.wp_list_table_style = function() {
 
 		this.style_id = 0;
+
+		this.form_lock_list_init($('#wsf-style-list-table'));
 
 		var style_list_table_obj = $('#wsf-style-list-table');
 
@@ -20226,10 +20787,13 @@
 	$.WS_Form.prototype.api_call_process_checksum = function(response) {
 
 		// Look for checksum
-		if((typeof response.form.checksum !== 'undefined') && (typeof response.form.published_checksum !== 'undefined')) {
+		if((typeof response.form !== 'undefined') && (typeof response.form.checksum !== 'undefined') && (typeof response.form.published_checksum !== 'undefined')) {
 
 			// Save published checksum
 			this.published_checksum = response.form.published_checksum;
+
+			// List pages have no form object loaded
+			if(typeof this.form === 'undefined') { return; }
 
 			// Keep form checksums in sync when a partial form is returned
 			this.form.checksum = response.form.checksum;
@@ -20285,6 +20849,8 @@
 			if(data && data.error) {
 
 				if(data.error_message) {
+
+					if((data.error_message.indexOf('This style is locked.') !== -1) && this.style_is_locked()) { return; }
 
 					this.error('error_api_call_' + status + '_message', data.error_message);
 
@@ -20953,16 +21519,6 @@
 		}
 	}
 
-	// Highlight menu
-	$.WS_Form.prototype.menu_highlight = function(page) {
-
-		if(typeof page === 'undefined') { page = 'ws-form'; }
-
-		// Highlight menu
-		$('#toplevel_page_' + page).removeClass('wp-not-current-submenu').addClass('wp-has-current-submenu current').addClass('selected');
-		$('[href="admin.php?page=' + page + '"]', $('#toplevel_page_' + page)).closest('li').addClass('wp-menu-open current');
-	}
-
 	// Get website URL
 	$.WS_Form.prototype.get_plugin_website_url = function(path, medium) {
 
@@ -21003,6 +21559,9 @@
 	// Is dragged object a file?
 	$.WS_Form.prototype.drag_is_file = function(e) {
 
+		// Form list drag. Skip the import overlay.
+		if($.WS_Form.form_folder_drag) { return false; }
+
 		if(
 			(typeof e.originalEvent !== 'undefined') &&
 			(typeof e.originalEvent.dataTransfer !== 'undefined') &&
@@ -21010,6 +21569,11 @@
 		) {
 
 			var data_transfer_types = e.originalEvent.dataTransfer.types;
+
+			if(
+				(typeof data_transfer_types.includes === 'function') &&
+				data_transfer_types.includes('application/x-wsf-form-ids')
+			) { return false; }
 
 			return data_transfer_types.includes('Files');
 		}

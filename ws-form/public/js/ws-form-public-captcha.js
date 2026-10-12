@@ -2,6 +2,39 @@
 
 	'use strict';
 
+	// reCAPTCHA / hCaptcha language codes (Google hl)
+	$.WS_Form.prototype.captcha_languages_recaptcha = ['ar','af','am','hy','az','eu','bn','bg','ca','zh-HK','zh-CN','zh-TW','hr','cs','da','nl','en-GB','en','et','fil','fi','fr','fr-CA','gl','ka','de','de-AT','de-CH','el','gu','iw','he','hi','hu','is','id','it','ja','kn','ko','lo','lv','lt','ms','ml','mr','mn','no','nb','fa','pl','pt','pt-BR','pt-PT','ro','ru','sr','si','sk','sl','es','es-419','sw','sv','ta','te','th','tr','uk','ur','vi','zu'];
+
+	// Turnstile language codes (Cloudflare)
+	$.WS_Form.prototype.captcha_languages_turnstile = ['ar-eg','ar','bg-bg','bg','zh-cn','zh','zh-tw','hr-hr','hr','cs-cz','cs','da-dk','da','nl-nl','nl','en-us','en','fa-ir','fa','fi-fi','fi','fr-fr','fr','de-de','de','el-gr','el','he-il','he','hi-in','hi','hu-hu','hu','id-id','id','it-it','it','ja-jp','ja','tlh','ko-kr','ko','lt-lt','lt','ms-my','ms','nb-no','nb','pl-pl','pl','pt-br','pt','ro-ro','ro','ru-ru','ru','sr-ba','sr','sk-sk','sk','sl-si','sl','es-es','es','sv-se','sv','tl-ph','tl','th-th','th','tr-tr','tr','uk-ua','uk','vi-vn','vi'];
+
+	// Map site locale to a supported captcha language code
+	$.WS_Form.prototype.captcha_language_from_locale = function(supported_codes) {
+
+		var locale = (typeof ws_form_settings !== 'undefined') ? ws_form_settings.locale : '';
+		if((locale === undefined) || (locale === '')) { return ''; }
+
+		var normalized = String(locale).toLowerCase().replace(/_/g, '-');
+		var i;
+		var code;
+
+		for(i = 0; i < supported_codes.length; i++) {
+
+			code = String(supported_codes[i]);
+			if(code.toLowerCase() === normalized) { return code; }
+		}
+
+		var base = normalized.split('-')[0];
+
+		for(i = 0; i < supported_codes.length; i++) {
+
+			code = String(supported_codes[i]);
+			if(code.toLowerCase() === base) { return code; }
+		}
+
+		return '';
+	}
+
 	// Adds recaptcha elements
 	$.WS_Form.prototype.form_recaptcha = function() {
 
@@ -78,9 +111,10 @@
 			var recaptcha_type = $(this).attr('data-type');
 			if((recaptcha_type === undefined) || (['image', 'audio'].indexOf(recaptcha_type) == -1)) { recaptcha_type = 'image'; }
 
-			// Language (Optional)
-			var recaptcha_language = $(this).attr('data-language');
-			if(recaptcha_language === undefined) { recaptcha_language = ''; }
+			// Language from site locale
+			var recaptcha_language = ws_this.captcha_language_from_locale(ws_this.captcha_languages_recaptcha);
+			if(recaptcha_language == 'he') { recaptcha_language = 'iw'; }
+			if(recaptcha_language == 'nb') { recaptcha_language = 'no'; }
 
 			// Action
 			var recaptcha_action = $(this).attr('data-recaptcha-action');
@@ -545,9 +579,10 @@
 			var hcaptcha_type = $(this).attr('data-hcaptcha-type');
 			if((hcaptcha_type === undefined) || (['default', 'invisible'].indexOf(hcaptcha_type) == -1)) { hcaptcha_type = 'default'; }
 
-			// Language (Optional)
-			var hcaptcha_language = $(this).attr('data-language');
-			if(hcaptcha_language === undefined) { hcaptcha_language = ''; }
+			// Language from site locale
+			var hcaptcha_language = ws_this.captcha_language_from_locale(ws_this.captcha_languages_recaptcha);
+			if(hcaptcha_language == 'he') { hcaptcha_language = 'iw'; }
+			if(hcaptcha_language == 'nb') { hcaptcha_language = 'no'; }
 
 			switch(hcaptcha_type) {
 
@@ -914,6 +949,9 @@
 			var turnstile_appearance = $(this).attr('data-appearance');
 			if((turnstile_appearance === undefined) || (['always', 'execute', 'interaction-only'].indexOf(turnstile_appearance) == -1)) { turnstile_appearance = 'always'; }
 
+			// Language from site locale
+			var turnstile_language = ws_this.captcha_language_from_locale(ws_this.captcha_languages_turnstile);
+
 			// Classes
 			var class_turnstile_invalid_label_array = ws_this.get_field_value_fallback('turnstile', false, 'class_invalid_label', []);
 			var class_turnstile_invalid_field_array = ws_this.get_field_value_fallback('turnstile', false, 'class_invalid_field', []);
@@ -1013,6 +1051,8 @@
 					ws_this.form_validate_real_time_process(false, false);
 				}
 			};
+
+			if(turnstile_language != '') { config.language = turnstile_language; }
 
 			// Build turnstile object
 			var turnstile = {

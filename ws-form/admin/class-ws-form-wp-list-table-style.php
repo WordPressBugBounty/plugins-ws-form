@@ -43,10 +43,18 @@
   		  	$columns = [
 
 				'cb'			=> '<input type="checkbox" />',
-				'title'			=> __('Name', 'ws-form'),
-				'id'			=> __('ID', 'ws-form'),
-				'preview'		=> __('Preview', 'ws-form'),
 			];
+
+			$current = WS_Form_Common::get_query_var('ws-style-status', 'all');
+
+			$columns['title'] = __('Name', 'ws-form');
+			$columns['id'] = __('ID', 'ws-form');
+			$columns['preview'] = __('Preview', 'ws-form');
+
+			if($current !== 'trash') {
+
+				$columns['locked'] = __('Lock', 'ws-form');
+			}
 
 			return $columns;
 		}
@@ -58,6 +66,7 @@
 
 				'title'				=> array('label', true),		// Used 'title' as opposed to 'label' because WordPress considers that a special keyword and excludes it from the screen options column checkboxes
 				'id'				=> array('id', true),
+				'locked'			=> array('locked', true)
 			);
 		}
 
@@ -162,7 +171,7 @@
 
 					if(!$is_default && !$is_default_conv && WS_Form_Common::can_user('delete_form_style')) {
 
-						$actions['trash'] = sprintf('<a href="#" data-action="wsf-delete" data-id="%u">%s</a>', $id, __('Trash', 'ws-form'));
+						$actions[empty($item['locked']) ? 'trash' : 'trash hidden'] = sprintf('<a href="#" data-action="wsf-delete" data-id="%u">%s</a>', $id, __('Trash', 'ws-form'));
 					}
 
 					if(WS_Form_Common::can_user('export_form_style')) {
@@ -177,15 +186,43 @@
 
 					if(!$is_default && !$is_default_conv && WS_Form_Common::can_user('edit_form_style')) {
 
-						$actions['default'] = 	sprintf('<a href="#" data-action="wsf-default" data-id="%u">%s</a>', $id, __('Set as default', 'ws-form'));
+						$actions[empty($item['locked']) ? 'default' : 'default hidden'] = sprintf('<a href="#" data-action="wsf-default" data-id="%u">%s</a>', $id, __('Set as default', 'ws-form'));
 					}
 					if(WS_Form_Common::can_user('edit_form_style')) {
 
-						$actions['reset'] = 	sprintf('<a href="#" data-action="wsf-reset" data-id="%u">%s</a>', $id, __('Reset', 'ws-form'));
+						$actions[empty($item['locked']) ? 'reset' : 'reset hidden'] = sprintf('<a href="#" data-action="wsf-reset" data-id="%u">%s</a>', $id, __('Reset', 'ws-form'));
 					}
 			}
 
 			return $title . $this->row_actions($actions);
+		}
+
+		// Separators are CSS, so a hidden locked action does not leave a trailing bar
+		public function row_actions($actions, $always_visible = false) {
+
+			if(!count($actions)) { return ''; }
+
+			if('excerpt' === get_user_setting('posts_list_mode', 'list')) {
+
+				$always_visible = true;
+			}
+
+			$output = '<div class="' . ($always_visible ? 'row-actions visible' : 'row-actions') . '">';
+
+			foreach($actions as $action => $link) {
+
+				$output .= '<span class="' . esc_attr($action) . '">' . $link . '</span>';
+			}
+
+			$output .= '</div>';
+
+			return $output;
+		}
+
+		// Column - Lock
+		function column_locked($item) {
+
+			return WS_Form_Common::get_lock_control_html('style', $item['id'], !empty($item['locked']));
 		}
 
 		// Views
@@ -346,6 +383,16 @@
 					break;
 
 				default:
+
+					if(WS_Form_Common::can_user('lock_form_style')) {
+
+						$actions['wsf-bulk-lock'] = __('Lock', 'ws-form');
+					}
+
+					if(WS_Form_Common::can_user('unlock_form_style')) {
+
+						$actions['wsf-bulk-unlock'] = __('Unlock', 'ws-form');
+					}
 
 					if(WS_Form_Common::can_user('delete_form_style')) {
 

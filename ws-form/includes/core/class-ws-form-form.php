@@ -23,6 +23,8 @@
 		public $count_stat_submit;
 		public $count_submit;
 		public $count_submit_unread;
+		public $folder_id;
+		public $locked;
 
 		public $new_lookup;
 		public $meta;
@@ -34,7 +36,7 @@
 
 		const DB_INSERT = 'label,user_id,date_added,date_updated,version';
 		const DB_UPDATE = 'label,date_updated';
-		const DB_SELECT = 'label,status,date_publish,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,id';
+		const DB_SELECT = 'label,status,date_publish,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,folder_id,locked,id';
 
 		public function __construct() {
 
@@ -115,6 +117,32 @@
 			do_action('wsf_form_create', $this);
 
 			return $this->id;
+		}
+
+		// Blank template: second section with a submit button. First section stays empty.
+		public function db_create_blank_submit() {
+
+			self::db_check_id();
+
+			$ws_form_group = new WS_Form_Group();
+			$ws_form_group->form_id = $this->id;
+			$groups = $ws_form_group->db_read_all(false);
+
+			if(empty($groups[0]['id'])) { return false; }
+
+			$ws_form_section = new WS_Form_Section();
+			$ws_form_section->form_id = $this->id;
+			$ws_form_section->group_id = $groups[0]['id'];
+			$section_id = $ws_form_section->db_create();
+
+			if(empty($section_id)) { return false; }
+
+			$ws_form_field = new WS_Form_Field();
+			$ws_form_field->form_id = $this->id;
+			$ws_form_field->section_id = $section_id;
+			$ws_form_field->type = 'submit';
+
+			return $ws_form_field->db_create();
 		}
 
 		public function db_create_from_template($id) {
@@ -330,7 +358,7 @@
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 				$form_array = $wpdb->get_row($wpdb->prepare(
 
-					"SELECT label,status,date_publish,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,id FROM {$wpdb->prefix}wsf_form WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
+					"SELECT label,status,date_publish,checksum,published_checksum,count_stat_view,count_stat_save,count_stat_submit,count_submit,count_submit_unread,folder_id,locked,id FROM {$wpdb->prefix}wsf_form WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
 					$this->id
 				), 'ARRAY_A');
 				if(is_null($form_array)) { parent::db_wpdb_handle_error(__('Unable to read form', 'ws-form')); }
@@ -351,6 +379,9 @@
 
 					$this->{$key} = $value;
 				}
+
+				$form_array['locked'] = empty($form_array['locked']) ? 0 : 1;
+				$this->locked = $form_array['locked'];
 
 				// Process meta data
 				if($get_meta) {
@@ -388,6 +419,9 @@
 					strtotime(get_date_from_gmt($form_object->date_publish))
 				);
 			}
+
+			// Folder is list organization, not form structure
+			unset($form_object->folder_id);
 
 			// Return array
 			return $form_object;
@@ -436,6 +470,11 @@
 
 			// User capability check
 			WS_Form_Common::user_must('publish_form', $bypass_user_capability_check);
+
+			if(!$bypass_user_capability_check) {
+
+				self::db_throw_if_locked($this->id);
+			}
 
 			global $wpdb;
 
@@ -566,6 +605,10 @@
 
 		// Parse form
 		public function form_parse($form_object, $published = false) {
+
+			// Translate before wpautop/shortcodes/variables so string lookup matches registered values
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			$form_object = apply_filters('wsf_form_translate', $form_object);
 
 			// Field types
 			$field_types = WS_Form_Config::get_field_types_flat();
@@ -709,10 +752,6 @@
 				$ws_form_style->id = $style_id_conv;
 				$form_object->meta->style_conv_alt = $ws_form_style->has_alt();
 			}
-
-			// Translate form
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-			$form_object = apply_filters('wsf_form_translate', $form_object);
 
 			return $form_object;
 		}
@@ -1101,6 +1140,8 @@
 			// User capability check
 			WS_Form_Common::user_must('publish_form');
 
+			self::db_throw_if_locked($this->id);
+
 			global $wpdb;
 
 			// Set form as draft
@@ -1135,6 +1176,8 @@
 
 			// User capability check
 			WS_Form_Common::user_must('edit_form', $bypass_user_capability_check);
+
+			self::db_throw_if_locked($this->id);
 
 			self::db_check_id();
 
@@ -1186,6 +1229,8 @@
 
 			// User capability check
 			WS_Form_Common::user_must('import_form');
+
+			self::db_throw_if_locked($this->id);
 
 			global $wpdb;
 
@@ -1284,6 +1329,12 @@
 			));
 			if(is_null($status)) { return false; }
 
+			// Locked forms stay out of trash
+			if($status != 'trash') {
+
+				self::db_throw_if_locked($this->id);
+			}
+
 			// If status is trashed, or $permanent is true, do a permanent delete of the form
 			if(
 				($status == 'trash') ||
@@ -1371,6 +1422,7 @@
 
 			// Read form data
 			$form_object = self::db_read(true, true);
+			$folder_id = isset($this->folder_id) ? absint($this->folder_id) : 0;
 
 			// Clone form
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom database table
@@ -1386,8 +1438,9 @@
 					'date_added' => WS_Form_Common::get_mysql_date(),
 					'date_updated' => WS_Form_Common::get_mysql_date(),
 					'version' => WS_FORM_VERSION,
+					'folder_id' => $folder_id,
 				),
-				array( '%s', '%d', '%s', '%s', '%s' )
+				array( '%s', '%d', '%s', '%s', '%s', '%d' )
 			);
 
 			if($insert_result === false) { 
@@ -1717,6 +1770,8 @@
 			unset($form_object->count_stat_submit);
 			unset($form_object->count_submit);
 			unset($form_object->count_submit_unread);
+			unset($form_object->folder_id);
+			unset($form_object->locked);
 
 			// Form meta level
 			unset($form_object->meta->tab_index);
@@ -1730,18 +1785,35 @@
 		}
 
 		// Get form count by status
-		public function db_get_count_by_status($status = '') {
+		public function db_get_count_by_status($status = '', $folder_id = null) {
 
 			global $wpdb;
 
 			$status = WS_Form_Common::check_form_status($status);
 
+			if($folder_id !== null) {
+
+				$folder_id = absint($folder_id);
+			}
+
 			if($status == '') {
 
-				 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
-				$form_count = $wpdb->get_var("SELECT COUNT(id) FROM {$wpdb->prefix}wsf_form WHERE NOT (status = 'trash')");
+				if($folder_id === null) {
 
-			} else {
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+					$form_count = $wpdb->get_var("SELECT COUNT(id) FROM {$wpdb->prefix}wsf_form WHERE NOT (status = 'trash')");
+
+				} else {
+
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+					$form_count = $wpdb->get_var($wpdb->prepare(
+
+						"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_form WHERE NOT (status = 'trash') AND folder_id = %d",
+						$folder_id
+					));
+				}
+
+			} else if($folder_id === null) {
 
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 				$form_count = $wpdb->get_var($wpdb->prepare(
@@ -1749,11 +1821,110 @@
 					"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_form WHERE status = %s",
 					$status
 				));
+
+			} else {
+
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+				$form_count = $wpdb->get_var($wpdb->prepare(
+
+					"SELECT COUNT(id) FROM {$wpdb->prefix}wsf_form WHERE status = %s AND folder_id = %d",
+					$status,
+					$folder_id
+				));
 			}
 
 			if(is_null($form_count)) { $form_count = 0; }
 
 			return $form_count; 
+		}
+
+		// Locked forms cannot be edited
+		public static function db_is_locked_id($form_id) {
+
+			global $wpdb;
+
+			$form_id = absint($form_id);
+
+			if($form_id === 0) { return false; }
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$locked = $wpdb->get_var($wpdb->prepare(
+
+				"SELECT locked FROM {$wpdb->prefix}wsf_form WHERE id = %d LIMIT 1;",
+				$form_id
+			));
+
+			return !empty($locked);
+		}
+
+		public static function db_throw_if_locked($form_id) {
+
+			if(!self::db_is_locked_id($form_id)) { return; }
+
+			$ws_form_form = new self();
+			$ws_form_form->db_throw_error(__('This form is locked.', 'ws-form'));
+		}
+
+		public static function db_form_id_from_group($group_id) {
+
+			global $wpdb;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			return absint($wpdb->get_var($wpdb->prepare(
+
+				"SELECT form_id FROM {$wpdb->prefix}wsf_group WHERE id = %d LIMIT 1;",
+				absint($group_id)
+			)));
+		}
+
+		public static function db_form_id_from_section($section_id) {
+
+			global $wpdb;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			return absint($wpdb->get_var($wpdb->prepare(
+
+				"SELECT g.form_id FROM {$wpdb->prefix}wsf_section s INNER JOIN {$wpdb->prefix}wsf_group g ON g.id = s.group_id WHERE s.id = %d LIMIT 1;",
+				absint($section_id)
+			)));
+		}
+
+		public static function db_form_id_from_field($field_id) {
+
+			global $wpdb;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			return absint($wpdb->get_var($wpdb->prepare(
+
+				"SELECT g.form_id FROM {$wpdb->prefix}wsf_field f INNER JOIN {$wpdb->prefix}wsf_section s ON s.id = f.section_id INNER JOIN {$wpdb->prefix}wsf_group g ON g.id = s.group_id WHERE f.id = %d LIMIT 1;",
+				absint($field_id)
+			)));
+		}
+
+		public function db_set_locked($locked, $ids = false) {
+
+			$locked = $locked ? 1 : 0;
+
+			WS_Form_Common::user_must($locked ? 'lock_form' : 'unlock_form');
+
+			if($ids === false) {
+
+				self::db_check_id();
+				$ids = array($this->id);
+			}
+
+			$ids = array_values(array_filter(array_map('absint', (array) $ids)));
+
+			if(count($ids) === 0) { return; }
+
+			global $wpdb;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$wpdb->query($wpdb->prepare(
+
+				"UPDATE {$wpdb->prefix}wsf_form SET locked = %d WHERE id IN (" . esc_sql(implode(',', $ids)) . ")",
+				$locked
+			));
 		}
 
 		// Push form from array (if full, include all groups, sections, fields)
@@ -1769,6 +1940,8 @@
 			if(isset($form_object->id) && !$new) { $this->id = absint($form_object->id); }
 
 			if(!$new) { self::db_check_id(); }
+
+			if(!$new) { self::db_throw_if_locked($this->id); }
 
 			// Update / Insert
 			$this->id = parent::db_update_insert($this->table_name, self::DB_UPDATE, self::DB_INSERT, $form_object, 'form', $this->id, false);
@@ -2309,6 +2482,7 @@
 			// Clean form
 			unset($form_object->checksum);
 			unset($form_object->published_checksum);
+			if(isset($form_object->locked)) { unset($form_object->locked); }
 
 			// Stamp form data
 			$form_object->identifier = WS_FORM_IDENTIFIER;
@@ -2852,10 +3026,15 @@
 			return WS_Form_Common::parse_variables_process($return_message, $form_object, false, 'text/html');
 		}
 
-		public function get_all($published = false, $order_by = 'label', $order = 'ASC', $select_sql = 'id,label') {
+		public function get_all($published = false, $order_by = 'label', $order = 'ASC', $select_sql = 'id,label', $folder_id = null) {
 
 			// Build WHERE SQL
 			$where_sql = $published ? 'status="publish"' : 'NOT status="trash"';
+
+			if($folder_id !== null) {
+
+				$where_sql .= sprintf(' AND folder_id=%u', absint($folder_id));
+			}
 
 			// Check SELECT
 			$allowed_fields = explode(',', self::DB_SELECT);
@@ -4094,7 +4273,10 @@
 				foreach($forms as $form) {
 
 					$ws_form_meta->parent_id = $form->id;
-					$ws_form_meta->db_update_from_array($meta, false, $bypass_user_capability_check);
+
+					// A locked form still needs a valid style. This is a repair, not an edit.
+					$bypass = $bypass_user_capability_check || self::db_is_locked_id($form->id);
+					$ws_form_meta->db_update_from_array($meta, false, $bypass);
 				}
 			}
 		}

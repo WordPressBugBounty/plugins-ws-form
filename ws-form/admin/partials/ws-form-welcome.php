@@ -82,10 +82,6 @@
 
 			wsf_obj.init_partial();
 
-			// Highlight menu
-			$('#toplevel_page_ws-form').removeClass('wp-not-current-submenu').addClass('wp-has-current-submenu current').addClass('selected');
-			$('[href="admin.php?page=ws-form-welcome"]', $('#toplevel_page_ws-form-welcome')).closest('li').addClass('wp-menu-open current');
-
 			// Welcome video - swap the placeholder for the Vimeo player on click (autoplay allowed as it is user initiated)
 			$('.wsf-video-container').on('click', function() {
 

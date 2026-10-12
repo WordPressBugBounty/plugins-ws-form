@@ -2,6 +2,28 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.12.15 - 10/10/2026 =
+* Added: Form folders for organizing the forms list https://wsform.com/knowledgebase/form-folders/
+* Added: Lock forms so they cannot be edited or moved to the trash until unlocked https://wsform.com/knowledgebase/form-locking/
+* Added: Lock styles so they cannot be edited or moved to the trash until unlocked https://wsform.com/knowledgebase/style-locking/
+
+= 1.12.14 - 10/09/2026 =
+* Added: Create from AI maximum token setting
+* Added: Attempts to repair malformed JSON from Gemini in AI calls
+
+= 1.12.13 - 10/07/2026 =
+* Added: FileBird, HappyFiles and Premio Folders folder selection for files saved to the Media Library
+* Changed: Success and information messages use the ARIA status role
+
+= 1.12.12 - 09/23/2026 =
+* Changed: reCAPTCHA, hCaptcha and Turnstile use the site language
+* Removed: Language setting from reCAPTCHA and hCaptcha
+* Bug Fix: Multiple AJAX select fields in the action sidebar not showing saved values
+* Bug Fix: Text Editor field content not translating
+
+= 1.12.11 - 09/09/2026 =
+* Bug Fix: Localized date fields with full month names failing validation
+
 = 1.12.10 - 09/08/2026 =
 * Bug Fix: JavaScript errors related to the color picker in the WordPress 7.1 block editor
 

@@ -44,6 +44,11 @@
 				'shortcode'			=> __('Shortcode', 'ws-form')
 			));
 
+			if($current !== 'trash') {
+
+				$columns['locked'] = __('Lock', 'ws-form');
+			}
+
 			return $columns;
 		}
 
@@ -56,7 +61,8 @@
 				'title'				=> array('label', true),		// Used 'title' as opposed to 'label' because WordPress considers that a special keyword and excludes it from the screen options column checkboxes
 				'id'				=> array('id', true),
 				'count_submit'		=> array('count_submit', true),
-				'shortcode'			=> array('id', true)
+				'shortcode'			=> array('id', true),
+				'locked'			=> array('locked', true)
 			);
 		}
 
@@ -94,7 +100,7 @@
 
 			if(WS_Form_Common::can_user('edit_form')) {
 
-				$title .= sprintf('<a href="%s">%s</a>', esc_url($url_edit), esc_html($item['label']));
+				$title .= sprintf('<span class="wsf-form-drag"><a href="%s" draggable="false">%s</a></span>', esc_url($url_edit), esc_html($item['label']));
 
 			} else {
 
@@ -142,7 +148,7 @@
 
 					if(WS_Form_Common::can_user('delete_form')) {
 
-						$actions['trash'] = sprintf('<a href="#" data-action="wsf-delete" data-id="%u">%s</a>', $id, __('Trash', 'ws-form'));
+						$actions[empty($item['locked']) ? 'trash' : 'trash hidden'] = sprintf('<a href="#" data-action="wsf-delete" data-id="%u">%s</a>', $id, __('Trash', 'ws-form'));
 					}
 
 					$actions['preview'] = sprintf('<a href="%s" target="_blank">%s</a>', esc_url(WS_Form_Common::get_preview_url($id)), __('Preview', 'ws-form'));
@@ -163,7 +169,7 @@
 					}
 			}
 
-			return $title . $this->row_actions($actions);
+			return $title . self::column_title_folder_path($item) . $this->row_actions($actions);
 		}
 
 		// Column - Status
@@ -200,16 +206,27 @@
 			// User capability check
 			if(!WS_Form_Common::can_user('publish_form')) { $toggle_enabled = false; }
 
+			$locked = !empty($item['locked']);
+
 			if($toggle_enabled) {
 
 				$toggle_id = 'wsf-status-' . $item['id'];
-				$status_html = '<input type="checkbox" id="' . $toggle_id . '" class="wsf-field wsf-switch' . (self::is_publish_pending($item) ? ' wsf-switch-warning' : '') . '" data-id="' . $item['id'] . '" data-action-ajax="wsf-form-status"' . ($toggle_checked ? ' checked': '') . ' /><label id="' . $toggle_id . '-label" for="' . $toggle_id . '" class="wsf-label" title="' . $status_name . '">&nbsp;</label>';
+				$toggle_title = ($locked ? __('Locked. Unlock to change status', 'ws-form') : $status_name);
+				$status_html = '<span class="wsf-form-status-switch"><input type="checkbox" id="' . $toggle_id . '" class="wsf-field wsf-switch' . (self::is_publish_pending($item) ? ' wsf-switch-warning' : '') . '" data-id="' . $item['id'] . '" data-action-ajax="wsf-form-status" data-title-locked="' . esc_attr__('Locked. Unlock to change status', 'ws-form') . '"' . ($toggle_checked ? ' checked': '') . ($locked ? ' disabled' : '') . ' /><label id="' . $toggle_id . '-label" for="' . $toggle_id . '" class="wsf-label" title="' . esc_attr($toggle_title) . '">&nbsp;</label></span>';
 			} else {
 
 				$status_html = $status_name;
 			}
 
-			return '<th scope="row" class="manage-column column-is_active">' . $status_html . '</th>';
+			return '<th scope="row" class="manage-column column-is_active"><span class="wsf-form-status">' . $status_html . '</span></th>';
+		}
+
+		// Column - Lock
+		function column_locked($item) {
+
+			if($item['status'] === 'trash') { return ''; }
+
+			return WS_Form_Common::get_lock_control_html('form', $item['id'], !empty($item['locked']));
 		}
 
 		// Column - Submit Count
@@ -287,13 +304,14 @@
 
 			// Get data from API
 			$ws_form_form = new WS_Form_Form();
+			$folder_id = self::current_folder_id();
 
 			$views = array();
 			$current = WS_Form_Common::get_query_var('ws-form-status', 'all');
 			$all_url = remove_query_arg(array('ws-form-status', 'paged'));
 
 			// All link
-			$count_all = $ws_form_form->db_get_count_by_status();
+			$count_all = $ws_form_form->db_get_count_by_status('', $folder_id);
 			if($count_all) {
 
 				$views['all'] = sprintf(
@@ -307,7 +325,7 @@
 			}
 
 			// Draft link
-			$count_draft = $ws_form_form->db_get_count_by_status('draft');
+			$count_draft = $ws_form_form->db_get_count_by_status('draft', $folder_id);
 			if($count_draft) {
 
 				$views['draft'] = sprintf(
@@ -321,7 +339,7 @@
 			}
 
 			// Published link
-			$count_publish = $ws_form_form->db_get_count_by_status('publish');
+			$count_publish = $ws_form_form->db_get_count_by_status('publish', $folder_id);
 			if($count_publish) {
 
 				$views['publish'] = sprintf(
@@ -335,7 +353,7 @@
 			}
 
 			// Trashed link
-			$count_trash = $ws_form_form->db_get_count_by_status('trash');
+			$count_trash = $ws_form_form->db_get_count_by_status('trash', $folder_id);
 			if($count_trash) {
 
 				$views['trash'] = sprintf(
@@ -371,6 +389,12 @@
 
 				// Show everything but trash (All)
 				$where_array[] = "NOT(status = 'trash')";
+			}
+
+			$folder_id = self::current_folder_id();
+			if($folder_id !== null) {
+
+				$where_array[] = sprintf('folder_id = %u', $folder_id);
 			}
 
 			// Check for search
@@ -464,11 +488,23 @@
 
 				default:
 
+					if(WS_Form_Common::can_user('lock_form')) {
+
+						$actions['wsf-bulk-lock'] = __('Lock', 'ws-form');
+					}
+
+					if(WS_Form_Common::can_user('unlock_form')) {
+
+						$actions['wsf-bulk-unlock'] = __('Unlock', 'ws-form');
+					}
+
 					if(WS_Form_Common::can_user('delete_form')) {
 
 						$actions['wsf-bulk-delete'] = __('Move to Trash', 'ws-form');
 					}
 			}
+
+			self::bulk_actions_folders($actions);
 
 			return $actions;
 		}
@@ -514,7 +550,7 @@
 				$current = WS_Form_Common::get_query_var('ws-form-status', 'all');
 				if($current === 'all') { $current = ''; }
 
-				return $ws_form_form->db_get_count_by_status($current);
+				return $ws_form_form->db_get_count_by_status($current, self::current_folder_id());
 
 			} else {
 
@@ -526,5 +562,135 @@
 		public function no_items() {
 
 			esc_html_e('No forms available.', 'ws-form');
+		}
+
+		// Remember the open folder. Forms menu (no folder in the URL) returns to it.
+		public static function remember_folder() {
+
+			if(WS_Form_Common::get_request_method() !== 'GET') { return; }
+
+			$user_id = get_current_user_id();
+			if($user_id < 1) { return; }
+
+			$meta_key = 'ws_form_last_form_folder';
+			$folder = WS_Form_Common::get_query_var('ws-form-folder', false);
+
+			if($folder !== false) {
+
+				if(($folder === '') || ($folder === 'all')) {
+
+					update_user_meta($user_id, $meta_key, 'all');
+					return;
+				}
+
+				if($folder === 'unfiled') {
+
+					update_user_meta($user_id, $meta_key, 'unfiled');
+					return;
+				}
+
+				$folder_id = absint($folder);
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+
+				if(($folder_id > 0) && $ws_form_form_folder->db_get($folder_id)) {
+
+					update_user_meta($user_id, $meta_key, (string) $folder_id);
+
+				} else {
+
+					delete_user_meta($user_id, $meta_key);
+				}
+
+				return;
+			}
+
+			$saved = get_user_meta($user_id, $meta_key, true);
+			$saved_folder = '';
+
+			if($saved === 'unfiled') {
+
+				$saved_folder = 'unfiled';
+
+			} else {
+
+				$saved_id = absint($saved);
+				if($saved_id < 1) { return; }
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				if(!$ws_form_form_folder->db_get($saved_id)) {
+
+					delete_user_meta($user_id, $meta_key);
+					return;
+				}
+
+				$saved_folder = (string) $saved_id;
+			}
+
+			$query = array('ws-form-folder' => $saved_folder);
+
+			foreach(array('ws-form-status', 's', 'paged', 'orderby', 'order') as $key) {
+
+				$value = WS_Form_Common::get_query_var($key, false);
+				if(($value === false) || ($value === '')) { continue; }
+				$query[$key] = $value;
+			}
+
+			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Admin URL built above
+			wp_safe_redirect(WS_Form_Common::get_admin_url('ws-form', false, http_build_query($query)));
+			exit;
+		}
+
+		// Selected folder. null is All Forms. 0 is Unfiled. Unknown ids fall back to All Forms.
+		public static function current_folder_id() {
+
+			$folder = WS_Form_Common::get_query_var('ws-form-folder', 'all');
+			if(($folder === '') || ($folder === 'all')) { return null; }
+			if($folder === 'unfiled') { return 0; }
+
+			$folder_id = absint($folder);
+			if($folder_id < 1) { return null; }
+
+			$ws_form_form_folder = new WS_Form_Form_Folder();
+			if(!$ws_form_form_folder->db_get($folder_id)) { return null; }
+
+			return $folder_id;
+		}
+
+		// Path under the name on All Forms
+		public static function column_title_folder_path($item) {
+
+			if(self::current_folder_id() !== null) { return ''; }
+
+			$folder_id = isset($item['folder_id']) ? absint($item['folder_id']) : 0;
+			if($folder_id < 1) { return ''; }
+
+			$paths = self::folder_paths();
+			if(!isset($paths[$folder_id])) { return ''; }
+
+			return '<div class="wsf-form-folder-path">' . esc_html($paths[$folder_id]) . '</div>';
+		}
+
+		public static function folder_paths() {
+
+			static $paths = null;
+
+			if($paths === null) {
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$paths = $ws_form_form_folder->paths();
+			}
+
+			return $paths;
+		}
+
+		// One bulk action. The folder is chosen in a modal.
+		public static function bulk_actions_folders(&$actions) {
+
+			if(!WS_Form_Common::can_user('edit_form')) { return; }
+
+			$ws_form_form_folder = new WS_Form_Form_Folder();
+			if(!count($ws_form_form_folder->tree_rows())) { return; }
+
+			$actions['wsf-bulk-folder'] = __('Move to Folder', 'ws-form');
 		}
 	}

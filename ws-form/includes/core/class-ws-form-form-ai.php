@@ -163,6 +163,8 @@
 				throw new Exception(esc_html__('Form ID not set.', 'ws-form'));
 			}
 
+			$json_modified = self::json_input_to_string($json_modified);
+
 			// Get original JSON
 			$json_original = self::form_get_json();
 
@@ -274,8 +276,174 @@
 			return self::form_get_json();
 		}
 
+		// Normalize form JSON (object or string) to a JSON string
+		public function json_input_to_string($json) {
+
+			if(is_array($json) || ($json instanceof stdClass)) {
+
+				$json = wp_json_encode($json);
+			}
+
+			if(!is_string($json) || ($json === '')) {
+
+				throw new Exception(esc_html__('Invalid form JSON.', 'ws-form'));
+			}
+
+			$json = trim($json);
+
+			if(substr($json, 0, 3) === "\xEF\xBB\xBF") {
+
+				$json = substr($json, 3);
+			}
+
+			if(preg_match('/^```(?:json)?\s*(.*)\s*```$/is', $json, $matches)) {
+
+				$json = trim($matches[1]);
+			}
+
+			$json_decoded = json_decode($json);
+
+			if(
+				(json_last_error() !== JSON_ERROR_NONE) ||
+				!is_object($json_decoded)
+			) {
+
+				$json = self::json_string_repair($json);
+				$json_decoded = json_decode($json);
+			}
+
+			if(
+				(json_last_error() !== JSON_ERROR_NONE) ||
+				!is_object($json_decoded)
+			) {
+				throw new Exception(esc_html__('Invalid form JSON.', 'ws-form'));
+			}
+
+			$json = wp_json_encode($json_decoded);
+
+			if(!is_string($json) || ($json === '')) {
+
+				throw new Exception(esc_html__('Invalid form JSON.', 'ws-form'));
+			}
+
+			return $json;
+		}
+
+		// Drop extra closers and trailing commas from model JSON
+		public function json_string_repair($json) {
+
+			$len = strlen($json);
+			$out = '';
+			$stack = array();
+			$in_string = false;
+			$escape = false;
+
+			for($i = 0; $i < $len; $i++) {
+
+				$c = $json[$i];
+
+				if($in_string) {
+
+					$out .= $c;
+
+					if($escape) {
+
+						$escape = false;
+						continue;
+					}
+
+					if($c === '\\') {
+
+						$escape = true;
+						continue;
+					}
+
+					if($c === '"') {
+
+						$in_string = false;
+					}
+
+					continue;
+				}
+
+				if($c === '"') {
+
+					$in_string = true;
+					$out .= $c;
+					continue;
+				}
+
+				if($c === ',') {
+
+					$next = $i + 1;
+
+					while(($next < $len) && ctype_space($json[$next])) {
+
+						$next++;
+					}
+
+					if(($next < $len) && (($json[$next] === '}') || ($json[$next] === ']'))) {
+
+						continue;
+					}
+
+					$out .= $c;
+					continue;
+				}
+
+				if(($c === '{') || ($c === '[')) {
+
+					$stack[] = $c;
+					$out .= $c;
+					continue;
+				}
+
+				if(($c === '}') || ($c === ']')) {
+
+					if(empty($stack)) {
+
+						continue;
+					}
+
+					$open = $stack[count($stack) - 1];
+					$match = (($c === '}') && ($open === '{')) || (($c === ']') && ($open === '['));
+
+					if(!$match) {
+
+						continue;
+					}
+
+					// Do not close the root while more JSON follows (e.g. ,"actions")
+					if(count($stack) === 1) {
+
+						$rest = $i + 1;
+
+						while(($rest < $len) && ctype_space($json[$rest])) {
+
+							$rest++;
+						}
+
+						if($rest < $len) {
+
+							continue;
+						}
+					}
+
+					array_pop($stack);
+					$out .= $c;
+					continue;
+				}
+
+				$out .= $c;
+			}
+
+			return $out;
+		}
+
 		// Create form from JSON
 		public function form_create_json($json) {
+
+			$json = self::json_input_to_string($json);
 
 			// Attempt to decode output
 			$json_decoded = json_decode($json);
@@ -1666,7 +1834,9 @@
 		// Get AI prompt for creating a new form by JSON
 		public function get_form_create_json_prompt() {
 
-			return "When creating a form, the following rules must be followed when providing the JSON.
+			return "The json property accepts a JSON object or a JSON string.
+
+When creating a form, the following rules must be followed when providing the JSON.
 
 = Example JSON =
 An example format of the JSON object to create is:
@@ -1717,18 +1887,21 @@ The form JSON must adhere to these strict rules:
 5. The only allowed width_factor value is 0.5.
 6. If there are two fields that are related to one another (e.g. from and to) set the width_factor to 0.5. Only do this if you can place two fields side-by-side.
 7. When specifying options for select, checkbox or radio field types, provide a comprehensive and full list of options rather than just a sample.
-8. Do not wrap the JSON string in anything else, return only the JSON string.
+8. Do not wrap the JSON in markdown, code fences, or any other text. Return only the JSON string.
 9. A field that controls showing or hiding a section must not be inside that section.
 10. When a section has label_render set to \"on\", do not repeat that section's name in its field labels.
 11. Keep sections and fields in logical completion order. Controlling fields come before the sections they show or hide.
+12. Close each fields array with ] before closing its section with }. Every { must have a matching } and every [ a matching ].
 
-Very strict rule: Only include the minified JSON object in the output.";
+Very strict rule: Only include the minified JSON object in the output. Do not use ``` fences.";
 		}
 
 		// Get AI prompt for building JSON suitable for updating a form by JSON
 		public function get_form_update_json_prompt() {
 
-			return "When updating a form, the following rules must be followed when providing updated JSON.
+			return "The json property accepts a JSON object or a JSON string.
+
+When updating a form, the following rules must be followed when providing updated JSON.
 
 = Field Types =
 Only these field types can be updated.
@@ -1747,9 +1920,9 @@ The form JSON must adhere to these strict rules:
 
 1. Do not change the structure of the groups, sections or fields. ALL ORIGINAL FIELDS RETRIEVED FROM form-get-json MUST BE INCLUDED.
 2. Do not format the JSON with new lines, indentation or tabulation. Minify the JSON.
-3. Do not wrap the JSON string in anything else, return only the JSON string.
+3. Do not wrap the JSON in markdown, code fences, or any other text. Return only the JSON string.
 
-Very strict rule: Only include the minified JSON object.
+Very strict rule: Only include the minified JSON object. Do not use ``` fences.
 ";
 		}
 

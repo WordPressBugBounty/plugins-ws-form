@@ -25,7 +25,7 @@
 				WS_FORM_ABILITY_API_NAMESPACE . 'forms' => [
 
 					'label' => __('List forms', 'ws-form'),
-					'description' => __('Returns a list of all of the forms in WS Form.', 'ws-form'),
+					'description' => __('Returns a list of forms in WS Form. Each form includes folder_id. 0 means the form is not in a folder. Pass folder_id to list only the forms assigned to that folder. Omit folder_id to list every form. A parent folder does not include forms in its subfolders.', 'ws-form'),
 					'category' => 'ws-form',
 					'permission_callback' => function() use ( $ws_form_ability ) {
 
@@ -58,6 +58,12 @@
 								'description' => 'Optionally how to order the forms. Valid values are ASC or DESC. Defaults to label.',
 								'enum' => ['ASC', 'DESC'],
 								'default' => 'ASC'
+							],
+
+							'folder_id' => [
+
+								'type' => 'number',
+								'description' => 'Optionally limit the list to forms assigned to this folder. 0 returns forms that are not in a folder. Omit to return every form. A parent folder does not include forms in its subfolders. Each form is only in one folder.'
 							]
 						]
 					],
@@ -91,6 +97,12 @@
 
 											'type' => 'string',
 											'description' => 'The form label.'
+										],
+
+										'folder_id' => [
+
+											'type' => 'number',
+											'description' => 'The folder ID. 0 means the form is not in a folder.'
 										]
 									]
 								]
@@ -107,6 +119,383 @@
 							'readOnlyHint' => true,
 							'destructiveHint' => false,
 							'idempotentHint' => false,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Form folders - List
+				WS_FORM_ABILITY_API_NAMESPACE . 'form-folders' => [
+
+					'label' => __('List form folders', 'ws-form'),
+					'description' => __('Returns the form folders. Forms that are not in a folder use folder id 0 and are not in this list. form_count is the number of forms assigned to that folder only, not forms in subfolders. A form can only be in one folder.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'read_form' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => []
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'folders' => [
+
+								'type' => 'array',
+
+								'description' => 'The folders.',
+
+								'items' => [
+
+									'type' => 'object',
+
+									'properties' => [
+
+										'id' => [
+
+											'type' => 'number',
+											'description' => 'The folder ID.'
+										],
+
+										'label' => [
+
+											'type' => 'string',
+											'description' => 'The folder name.'
+										],
+
+										'parent_id' => [
+
+											'type' => 'number',
+											'description' => 'The parent folder ID. 0 is a root folder.'
+										],
+
+										'form_count' => [
+
+											'type' => 'number',
+											'description' => 'Forms assigned to this folder only. Does not include subfolders.'
+										]
+									]
+								]
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->form_folders( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 1.0,
+							'readOnlyHint' => true,
+							'destructiveHint' => false,
+							'idempotentHint' => true,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Form folder - Create
+				WS_FORM_ABILITY_API_NAMESPACE . 'form-folder-create' => [
+
+					'label' => __('Create form folder', 'ws-form'),
+					'description' => __('Creates a form folder. parent_id 0 creates a root folder. Sibling names must be unique.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'edit_form' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'label' => [
+
+								'type' => 'string',
+								'description' => 'The folder name.',
+								'required' => true
+							],
+
+							'parent_id' => [
+
+								'type' => 'number',
+								'description' => sprintf(
+
+									/* translators: %d: Maximum folder depth. 0 is a top-level folder. */
+									__('The parent folder ID. 0 creates a root folder. Folders cannot be nested deeper than depth %d.', 'ws-form'),
+									WS_FORM_FORM_FOLDERS_DEPTH_MAX
+								),
+								'default' => 0
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The folder ID.'
+							],
+
+							'label' => [
+
+								'type' => 'string',
+								'description' => 'The folder name.'
+							],
+
+							'parent_id' => [
+
+								'type' => 'number',
+								'description' => 'The parent folder ID. 0 is a root folder.'
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->form_folder_create( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 1.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => false,
+							'idempotentHint' => false,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Form folder - Rename
+				WS_FORM_ABILITY_API_NAMESPACE . 'form-folder-rename' => [
+
+					'label' => __('Rename form folder', 'ws-form'),
+					'description' => __('Renames a form folder. Sibling names must be unique.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'edit_form' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The folder ID.',
+								'required' => true
+							],
+
+							'label' => [
+
+								'type' => 'string',
+								'description' => 'The new folder name.',
+								'required' => true
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The folder ID.'
+							],
+
+							'label' => [
+
+								'type' => 'string',
+								'description' => 'The folder name.'
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->form_folder_rename( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 1.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => false,
+							'idempotentHint' => true,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Form folder - Delete
+				WS_FORM_ABILITY_API_NAMESPACE . 'form-folder-delete' => [
+
+					'label' => __('Delete form folder', 'ws-form'),
+					'description' => __('Deletes a form folder and its subfolders. Forms are not deleted. Forms in the deleted folders are no longer assigned to a folder.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'edit_form' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The folder ID.',
+								'required' => true
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The folder ID.'
+							],
+
+							'parent_id' => [
+
+								'type' => 'number',
+								'description' => 'The parent of the deleted folder. 0 means it was a top-level folder. Forms are not moved there.'
+							],
+
+							'message' => [
+
+								'type' => 'string',
+								'description' => 'Where the forms went.'
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->form_folder_delete( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 1.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => true,
+							'idempotentHint' => true,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Form folder - Assign
+				WS_FORM_ABILITY_API_NAMESPACE . 'form-folder-assign' => [
+
+					'label' => __('Assign forms to a folder', 'ws-form'),
+					'description' => __('Moves forms into one folder. Each form can only be in one folder, so this replaces any previous folder. folder_id 0 removes the forms from their folder.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'edit_form' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'form_ids' => [
+
+								'type' => 'array',
+								'description' => 'The form IDs to move.',
+								'required' => true,
+
+								'items' => [
+
+									'type' => 'number'
+								]
+							],
+
+							'folder_id' => [
+
+								'type' => 'number',
+								'description' => 'The folder ID. 0 removes the forms from their folder.',
+								'required' => true
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'folder_id' => [
+
+								'type' => 'number',
+								'description' => 'The folder ID. 0 means the forms are not in a folder.'
+							],
+
+							'form_ids' => [
+
+								'type' => 'array',
+								'description' => 'The form IDs that were moved.',
+
+								'items' => [
+
+									'type' => 'number'
+								]
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->form_folder_assign( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 1.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => false,
+							'idempotentHint' => true,
 							'openWorldHint' => false
 						],
 						'mcp' => [
@@ -134,7 +523,8 @@
 
 							'json' => [
 
-								'type' => 'string',
+								'type' => array('object', 'string'),
+								'additionalProperties' => true,
 								'description' => $ws_form_form_ai->get_form_create_json_prompt()
 							]
 						]
@@ -298,7 +688,8 @@
 
 							'json' => [
 
-								'type' => 'string',
+								'type' => array('object', 'string'),
+								'additionalProperties' => true,
 								'description' => $ws_form_form_ai->get_form_update_json_prompt()
 							]
 						]
@@ -449,6 +840,128 @@
 					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
 
 						return $ws_form_ability->form_draft( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 2.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => false,
+							'idempotentHint' => true,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Form - Lock
+				WS_FORM_ABILITY_API_NAMESPACE . 'form-lock' => [
+
+					'label' => __('Lock form', 'ws-form'),
+					'description' => __('Lock a form by ID so it cannot be edited. Unlock is a separate action.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'lock_form' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The form ID.'
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The form ID.'
+							],
+
+							'locked' => [
+
+								'type' => 'number',
+								'description' => '1 if the form is locked.'
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->form_lock( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 2.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => false,
+							'idempotentHint' => true,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
+				// Form - Unlock
+				WS_FORM_ABILITY_API_NAMESPACE . 'form-unlock' => [
+
+					'label' => __('Unlock form', 'ws-form'),
+					'description' => __('Unlock a form by ID so it can be edited again.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'unlock_form' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The form ID.'
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The form ID.'
+							],
+
+							'locked' => [
+
+								'type' => 'number',
+								'description' => '0 if the form is unlocked.'
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->form_unlock( $input );
 					},
 					'meta' => [
 						'annotations' => [
@@ -2297,7 +2810,7 @@
 						'category' => 'ws-form',
 						'permission_callback' => function() use ( $ws_form_ability ) {
 
-							return $ws_form_ability->permission_callback( 'create_form_style' );
+							return $ws_form_ability->permission_callback( [ 'create_form_style', 'edit_form_style' ] );
 						},
 						'input_schema'  => [
 
@@ -2596,6 +3109,128 @@
 						]
 					],
 
+					// Style - Lock
+					WS_FORM_ABILITY_API_NAMESPACE . 'style-lock' => [
+
+						'label' => __('Lock style', 'ws-form'),
+						'description' => __('Lock a style by ID so it cannot be edited. Unlock is a separate action.', 'ws-form'),
+						'category' => 'ws-form',
+						'permission_callback' => function() use ( $ws_form_ability ) {
+
+							return $ws_form_ability->permission_callback( 'lock_form_style' );
+						},
+						'input_schema'  => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								]
+							]
+						],
+						'output_schema' => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								],
+
+								'locked' => [
+
+									'type' => 'number',
+									'description' => '1 if the style is locked.'
+								]
+							]
+						],
+						'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+							return $ws_form_ability->style_lock( $input );
+						},
+						'meta' => [
+							'annotations' => [
+								'priority' => 2.0,
+								'readOnlyHint' => false,
+								'destructiveHint' => false,
+								'idempotentHint' => true,
+								'openWorldHint' => false
+							],
+							'mcp' => [
+								'public' => false,
+								'type'   => 'tool',
+							]
+						]
+					],
+
+					// Style - Unlock
+					WS_FORM_ABILITY_API_NAMESPACE . 'style-unlock' => [
+
+						'label' => __('Unlock style', 'ws-form'),
+						'description' => __('Unlock a style by ID so it can be edited again.', 'ws-form'),
+						'category' => 'ws-form',
+						'permission_callback' => function() use ( $ws_form_ability ) {
+
+							return $ws_form_ability->permission_callback( 'unlock_form_style' );
+						},
+						'input_schema'  => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								]
+							]
+						],
+						'output_schema' => [
+
+							'type' => 'object',
+
+							'properties' => [
+
+								'id' => [
+
+									'type' => 'number',
+									'description' => 'The style ID.'
+								],
+
+								'locked' => [
+
+									'type' => 'number',
+									'description' => '0 if the style is unlocked.'
+								]
+							]
+						],
+						'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+							return $ws_form_ability->style_unlock( $input );
+						},
+						'meta' => [
+							'annotations' => [
+								'priority' => 2.0,
+								'readOnlyHint' => false,
+								'destructiveHint' => false,
+								'idempotentHint' => true,
+								'openWorldHint' => false
+							],
+							'mcp' => [
+								'public' => false,
+								'type'   => 'tool',
+							]
+						]
+					],
+
 					// Style - Delete
 					WS_FORM_ABILITY_API_NAMESPACE . 'style-delete' => [
 
@@ -2606,7 +3241,7 @@
 
 							return (
 
-								WS_Form_Common::option_get( 'abilities_api_delete_style', false ) &&
+								WS_Form_Common::option_get( 'abilities_api_delete_form', false ) &&
 								$ws_form_ability->permission_callback( 'delete_form_style' )
 							);
 						},

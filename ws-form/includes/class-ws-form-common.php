@@ -50,7 +50,7 @@
 		}
 
 		// Admin messages - Render
-		public static function admin_messages_render() {
+		public static function admin_messages_render($class = '', $plain = false) {
 
 			// Server side notices
 			foreach(self::$admin_messages as $admin_message) {
@@ -60,16 +60,48 @@
 				$dismissible = isset($admin_message['dismissible']) ? $admin_message['dismissible'] : true;
 				$nag_notice = isset($admin_message['nag_notice']) ? $admin_message['nag_notice'] : false;
 
-				self::admin_message_render($message, $type, $dismissible, $nag_notice);
+				self::admin_message_render($message, $type, $dismissible, $nag_notice, $class, $plain);
 			}
 		}
 
 		// Admin messages - Render single
-		public static function admin_message_render($message, $type = 'notice-success', $dismissible = true, $nag_notice = false, $class = '') {
+		// $plain: settings page. Skip WP notice classes so admin-notice collectors leave it on the page.
+		public static function admin_message_render($message, $type = 'notice-success', $dismissible = true, $nag_notice = false, $class = '', $plain = false) {
 
 			if(!(defined('DISABLE_NAG_NOTICES') && DISABLE_NAG_NOTICES && $nag_notice)) {
 
 				$message = str_replace("\n", "<br />\n", $message);
+
+				if($plain) {
+
+					$tone = 'ok';
+
+					if(($type === 'notice-error') || ($type === 'error')) {
+						$tone = 'bad';
+					} elseif(($type === 'notice-warning') || ($type === 'warning')) {
+						$tone = 'warn';
+					} elseif(($type === 'notice-info') || ($type === 'info')) {
+						$tone = 'note';
+					}
+
+					$dismiss_html = '';
+
+					if($dismissible) {
+
+						$dismiss_html = '<button type="button" class="wsf-settings-message-dismiss"><span class="screen-reader-text">' . esc_html__('Dismiss this notice.') . '</span></button>';
+					}
+
+					self::echo_html(sprintf(
+
+						'<div class="wsf-settings-message wsf-settings-message-%1$s%2$s">%4$s<p>%3$s</p></div>',
+						esc_attr($tone),
+						$dismissible ? ' wsf-settings-message-closable' : '',
+						$message,
+						$dismiss_html
+					));
+
+					return;
+				}
 
 				self::echo_html(sprintf(
 
@@ -921,6 +953,41 @@
 			self::echo_esc_svg(WS_Form_Config::get_icon_16_svg($id));
 		}
 
+		// Lock control for form and style lists
+		public static function get_lock_control_html($object, $id, $locked) {
+
+			$locked = !empty($locked);
+			$can_lock = self::can_user(($object === 'style') ? 'lock_form_style' : 'lock_form');
+			$can_unlock = self::can_user(($object === 'style') ? 'unlock_form_style' : 'unlock_form');
+
+			$lock_svg = '<span class="wsf-icon-lock">' . WS_Form_Config::get_icon_16_svg('lock') . '</span>';
+			$unlock_svg = '<span class="wsf-icon-unlock">' . WS_Form_Config::get_icon_16_svg('unlock') . '</span>';
+
+			if($locked && !$can_unlock) {
+
+				return '<span class="wsf-form-lock wsf-form-lock-on" title="' . esc_attr__('Locked', 'ws-form') . '">' . $lock_svg . '</span>';
+			}
+
+			if(!$locked && !$can_lock) { return ''; }
+
+			$title = $locked ? __('Locked. Click to unlock', 'ws-form') : __('Click to lock', 'ws-form');
+
+			return sprintf(
+
+				'<button type="button" class="wsf-form-lock%s" title="%s" data-action-ajax="wsf-form-lock" data-id="%u" data-object="%s" data-can-lock="%d" data-can-unlock="%d" data-title-lock="%s" data-title-unlock="%s">%s%s</button>',
+				$locked ? ' wsf-form-lock-on' : '',
+				esc_attr($title),
+				absint($id),
+				esc_attr($object),
+				$can_lock ? 1 : 0,
+				$can_unlock ? 1 : 0,
+				esc_attr__('Click to lock', 'ws-form'),
+				esc_attr__('Locked. Click to unlock', 'ws-form'),
+				$unlock_svg,
+				$lock_svg
+			);
+		}
+
 		// SVG Render (24px — header toolbar)
 		public static function render_icon_24_svg($id, $title = '') {
 
@@ -949,7 +1016,8 @@
 				'id',
 				'count_submit',
 				'count_stat_view',
-				'conversion'
+				'conversion',
+				'locked'
 
 			), true) ? $order_by : '';
 		}
@@ -983,7 +1051,8 @@
 			return in_array($order_by, array(
 
 				'label',
-				'id'
+				'id',
+				'locked'
 
 			), true) ? $order_by : '';
 		}
@@ -5015,7 +5084,7 @@
 			$system_report_html  = '<div class="wsf-system-report">';
 
 			// Actions
-			$label_copy = __('Copy report', 'ws-form');
+			$label_copy = __('Copy Report', 'ws-form');
 			$label_copied = __('Copied!', 'ws-form');
 			$system_report_html .= '<div class="wsf-system-report-actions">';
 			$system_report_html .= sprintf(
@@ -5026,7 +5095,7 @@
 			);
 			$system_report_html .= sprintf(
 				'<button type="button" class="button button-primary wsf-system-report-download" data-action="wsf-system-report-download">%s</button>',
-				esc_html(__('Download report', 'ws-form'))
+				esc_html(__('Download Report', 'ws-form'))
 			);
 			$system_report_html .= '</div>';
 
@@ -5141,14 +5210,19 @@
 
 					if($row['type'] === 'plugins') {
 
-						$plugin_parts = array();
+						if(count($row['plugins']) === 0) {
 
-						foreach($row['plugins'] as $plugin) {
+							$lines[] = $row['label'] . ': -';
 
-							$plugin_parts[] = $plugin['name'] . ' (' . $plugin['version'] . ')';
+						} else {
+
+							$lines[] = $row['label'] . ':';
+
+							foreach($row['plugins'] as $plugin) {
+
+								$lines[] = '  ' . $plugin['name'] . ' (' . $plugin['version'] . ')';
+							}
 						}
-
-						$lines[] = $row['label'] . ': ' . implode(', ', $plugin_parts);
 
 					} else {
 
@@ -6678,7 +6752,8 @@
 			if($file === false) { self::throw_error(esc_html__('No files found', 'ws-form')); }
 
 			// Read file data
-			$file_name = sanitize_file_name($file['name']);
+			$file_name_raw = isset($file['name']) ? $file['name'] : '';
+			$file_name = sanitize_file_name($file_name_raw);
 			$file_type = sanitize_mime_type($file['type']);
 			$file_tmp_name = wp_normalize_path($file['tmp_name']);
 			$file_error = absint($file['error']);
@@ -6688,8 +6763,8 @@
 			if($file_error != 0) { self::throw_error(esc_html__('File upload error', 'ws-form') . ': ' . $file_error); }
 			if($file_size == 0) { self::throw_error(esc_html__('File empty', 'ws-form')); }
 
-			// Check file extension
-			$ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+			// Extension from the original name, before any other import work
+			$ext = strtolower(pathinfo($file_name_raw, PATHINFO_EXTENSION));
 			if($ext !== 'json') { self::throw_error(sprintf(
 
 				/* translators: %s: Extension */
@@ -7228,13 +7303,13 @@
 					// If multiple lookup values exist, process each
 					foreach($lookup_value as $lookup_value_single) {
 
-						$date_string = preg_replace('/\b' . strtolower($lookup_value_single) . '\b/u', $replacements[$index], $date_string);
+						$date_string = self::field_date_translate_replace_token($date_string, $lookup_value_single, $replacements[$index]);
 					}
 
 				} else {
 
 					// Straight string swap
-					$date_string = preg_replace('/\b' . strtolower($lookup_value) . '\b/u', $replacements[$index], $date_string);
+					$date_string = self::field_date_translate_replace_token($date_string, $lookup_value, $replacements[$index]);
 				}
 
 				// There should only be one replacements in a date string, so return if a change occurs
@@ -7242,6 +7317,16 @@
 			}
 
 			return $date_string;
+		}
+
+		// Whole-token swap so "pt" does not match inside "September"
+		public static function field_date_translate_replace_token($date_string, $lookup, $replacement) {
+
+			if(!is_string($lookup) || ($lookup === '')) { return $date_string; }
+
+			$lookup = preg_quote(strtolower($lookup), '/');
+
+			return preg_replace('/(?<![\p{L}\p{N}_])' . $lookup . '(?![\p{L}\p{N}_])/u', $replacement, $date_string, 1);
 		}
 
 		// Get translations

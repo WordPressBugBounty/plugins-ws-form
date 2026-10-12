@@ -24,6 +24,53 @@
 		}
 	}
 
+	// Visible sections for one settings tab
+	if(!function_exists('ws_form_settings_tab_sections')) {
+
+		function ws_form_settings_tab_sections($ws_form_tab) {
+
+			$ws_form_sections = array();
+
+			if(isset($ws_form_tab['groups'])) {
+
+				$ws_form_tab_fields = (
+					!empty($ws_form_tab['fields']) &&
+					is_array($ws_form_tab['fields'])
+				) ? $ws_form_tab['fields'] : false;
+
+				foreach($ws_form_tab['groups'] as $ws_form_section_key => $ws_form_group) {
+
+					if(!ws_form_settings_group_visible($ws_form_group)) { continue; }
+
+					$ws_form_sections[$ws_form_section_key] = array(
+
+						'label' => isset($ws_form_group['heading']) ? $ws_form_group['heading'] : $ws_form_section_key,
+						'group' => $ws_form_group,
+						'learn_more' => !empty($ws_form_group['learn_more']) ? $ws_form_group['learn_more'] : (isset($ws_form_tab['learn_more']) ? $ws_form_tab['learn_more'] : false),
+					);
+
+					// Tab-level fields (e.g. license/enable above nested groups)
+					if($ws_form_tab_fields !== false) {
+
+						$ws_form_sections[$ws_form_section_key]['fields'] = $ws_form_tab_fields;
+						$ws_form_tab_fields = false;
+					}
+				}
+
+			} elseif(isset($ws_form_tab['fields'])) {
+
+				$ws_form_sections['general'] = array(
+
+					'label' => __('General', 'ws-form'),
+					'fields' => $ws_form_tab['fields'],
+					'learn_more' => isset($ws_form_tab['learn_more']) ? $ws_form_tab['learn_more'] : false,
+				);
+			}
+
+			return $ws_form_sections;
+		}
+	}
+
 	// Get options
 	$ws_form_options = WS_Form_Config::get_options();
 
@@ -82,45 +129,15 @@
 		exit;
 	}
 
-	// Build visible sections for current tab
-	$ws_form_sections = array();
+	// Visible sections for every tab
+	$ws_form_tab_sections = array();
 
-	if(isset($ws_form_options[$ws_form_tab_current]['groups'])) {
+	foreach($ws_form_options as $ws_form_tab_key => $ws_form_tab) {
 
-		$ws_form_tab_fields = (
-			!empty($ws_form_options[$ws_form_tab_current]['fields']) &&
-			is_array($ws_form_options[$ws_form_tab_current]['fields'])
-		) ? $ws_form_options[$ws_form_tab_current]['fields'] : false;
-
-		foreach($ws_form_options[$ws_form_tab_current]['groups'] as $ws_form_section_key => $ws_form_group) {
-
-			if(!ws_form_settings_group_visible($ws_form_group)) { continue; }
-
-			$ws_form_sections[$ws_form_section_key] = array(
-
-				'label' => isset($ws_form_group['heading']) ? $ws_form_group['heading'] : $ws_form_section_key,
-				'group' => $ws_form_group,
-				'learn_more' => !empty($ws_form_group['learn_more']) ? $ws_form_group['learn_more'] : (isset($ws_form_options[$ws_form_tab_current]['learn_more']) ? $ws_form_options[$ws_form_tab_current]['learn_more'] : false),
-			);
-
-			// Tab-level fields (e.g. license/enable above nested groups)
-			if($ws_form_tab_fields !== false) {
-
-				$ws_form_sections[$ws_form_section_key]['fields'] = $ws_form_tab_fields;
-				$ws_form_tab_fields = false;
-			}
-		}
-
-	} elseif(isset($ws_form_options[$ws_form_tab_current]['fields'])) {
-
-		$ws_form_sections['general'] = array(
-
-			'label' => __('General', 'ws-form'),
-			'fields' => $ws_form_options[$ws_form_tab_current]['fields'],
-			'learn_more' => isset($ws_form_options[$ws_form_tab_current]['learn_more']) ? $ws_form_options[$ws_form_tab_current]['learn_more'] : false,
-		);
+		$ws_form_tab_sections[$ws_form_tab_key] = ws_form_settings_tab_sections($ws_form_tab);
 	}
 
+	$ws_form_sections = isset($ws_form_tab_sections[$ws_form_tab_current]) ? $ws_form_tab_sections[$ws_form_tab_current] : array();
 	$ws_form_section_keys = array_keys($ws_form_sections);
 	if(
 		($ws_form_section_current === '') ||
@@ -160,20 +177,32 @@
 	// Review nag
 	WS_Form_Common::review();
 	
-	// SSL Warning
-	if(($ws_form_tab_current == 'data') && !is_ssl()) {
+	// SSL Warning (shown while the Data tab is open)
+	if(!is_ssl()) {
+?>
+<div class="wsf-settings-ssl-warning"<?php if($ws_form_tab_current !== 'data') { ?> hidden<?php } ?>>
+<?php
 
-		WS_Form_Common::admin_message_render(__('Your website is not configured to use a secure certificate. We recommend enabling SSL to ensure your submission data is securely transmitted.', 'ws-form'), 'notice-warning', false, false);
+		WS_Form_Common::admin_message_render(__('Your website is not configured to use a secure certificate. We recommend enabling SSL to ensure your submission data is securely transmitted.', 'ws-form'), 'notice-warning', false, false, '', true);
+?>
+</div>
+<?php
+
 	}
 ?>
 <div class="wsf-admin-panel">
+<?php
+
+	// Plain markup: notice collectors (for example PublishPress Capabilities) remove .notice-success
+	WS_Form_Common::admin_messages_render('', true);
+?>
 <nav class="wsf-settings-nav" aria-label="<?php esc_attr_e('Settings', 'ws-form'); ?>">
 <?php
 
 	// Render primary tabs
 	foreach($ws_form_options as $tab => $ws_form_tab) {
 ?>
-<a href="<?php WS_Form_Common::echo_esc_url($ws_form_settings_url($tab)); ?>" class="wsf-settings-nav-item<?php if($ws_form_tab_current == $tab) { ?> wsf-settings-nav-item-active<?php } ?>"><?php WS_Form_Common::echo_esc_html($ws_form_tab['label']); ?></a>
+<a href="<?php WS_Form_Common::echo_esc_url($ws_form_settings_url($tab)); ?>" data-tab="<?php WS_Form_Common::echo_esc_attr($tab); ?>" class="wsf-settings-nav-item<?php if($ws_form_tab_current == $tab) { ?> wsf-settings-nav-item-active<?php } ?>"><?php WS_Form_Common::echo_esc_html($ws_form_tab['label']); ?></a>
 <?php
 
 	}
@@ -181,24 +210,27 @@
 </nav>
 <?php
 
-	// Secondary section links
-	if(count($ws_form_sections) > 1) {
+	// Secondary section links (one row per tab)
+	foreach($ws_form_tab_sections as $tab => $ws_form_tab_section_list) {
+
+		if(count($ws_form_tab_section_list) < 2) { continue; }
 ?>
-<nav class="wsf-settings-sections" aria-label="<?php esc_attr_e('Settings sections', 'ws-form'); ?>">
+<nav class="wsf-settings-sections" data-tab="<?php WS_Form_Common::echo_esc_attr($tab); ?>" aria-label="<?php esc_attr_e('Settings sections', 'ws-form'); ?>"<?php if($ws_form_tab_current !== $tab) { ?> hidden<?php } ?>>
 <?php
 
-		foreach($ws_form_sections as $ws_form_section_key => $ws_form_section) {
+		foreach($ws_form_tab_section_list as $ws_form_section_key => $ws_form_section) {
 
-			// Variable names (e.g. #email_logo) keep original casing — not uppercase
+			// Variable names (e.g. #email_logo) keep original casing
 			$ws_form_section_item_code = (isset($ws_form_section['label'][0]) && ($ws_form_section['label'][0] === '#'));
 ?>
-<a href="<?php WS_Form_Common::echo_esc_url($ws_form_settings_url($ws_form_tab_current, $ws_form_section_key)); ?>" class="wsf-settings-section-item<?php if($ws_form_section_item_code) { ?> wsf-settings-section-item-code<?php } ?><?php if($ws_form_section_current == $ws_form_section_key) { ?> wsf-settings-section-item-active<?php } ?>"><?php WS_Form_Common::echo_esc_html($ws_form_section['label']); ?></a>
+<a href="<?php WS_Form_Common::echo_esc_url($ws_form_settings_url($tab, $ws_form_section_key)); ?>" data-tab="<?php WS_Form_Common::echo_esc_attr($tab); ?>" data-section="<?php WS_Form_Common::echo_esc_attr($ws_form_section_key); ?>" class="wsf-settings-section-item<?php if($ws_form_section_item_code) { ?> wsf-settings-section-item-code<?php } ?><?php if(($ws_form_tab_current === $tab) && ($ws_form_section_current == $ws_form_section_key)) { ?> wsf-settings-section-item-active<?php } ?>"><?php WS_Form_Common::echo_esc_html($ws_form_section['label']); ?></a>
 <?php
 
 		}
 ?>
 </nav>
 <?php
+
 	}
 
 	$ws_form_form_action = $ws_form_settings_url($ws_form_tab_current, $ws_form_section_current);
@@ -211,97 +243,51 @@
 <input type="hidden" name="action_mode" id="wsf_action_mode" value="" />
 <input type="hidden" name="action_license_action_id" id="wsf_action_license_action_id" value="" />
 <input type="hidden" name="page" value="ws-form-settings" />
+<input type="hidden" name="data" id="wsf_settings_data" value="" disabled="disabled" />
 <?php
 
 	$ws_form_js_on_change = '';
 	$ws_form_save_button = false;
-	$ws_form_learn_more = false;
+	$ws_form_learn_more_url = '';
 
-	if(($ws_form_section_current !== '') && isset($ws_form_sections[$ws_form_section_current])) {
+	foreach($ws_form_tab_sections as $tab => $ws_form_tab_section_list) {
 
-		$ws_form_section = $ws_form_sections[$ws_form_section_current];
-		$ws_form_section_label = isset($ws_form_section['label']) ? $ws_form_section['label'] : '';
-		$ws_form_tab_label = isset($ws_form_options[$ws_form_tab_current]['label']) ? $ws_form_options[$ws_form_tab_current]['label'] : '';
-		$ws_form_learn_more = !empty($ws_form_section['learn_more']) ? $ws_form_section['learn_more'] : false;
+		$ws_form_tab_label = isset($ws_form_options[$tab]['label']) ? $ws_form_options[$tab]['label'] : '';
 
-		// Omit content headings that only repeat the selected tab / section nav label
-		$ws_form_heading_for_content = function($heading) use ($ws_form_section_label, $ws_form_tab_label) {
+		foreach($ws_form_tab_section_list as $ws_form_section_key => $ws_form_section) {
 
-			if($heading === false) { return false; }
+			$ws_form_panel_current = (($tab === $ws_form_tab_current) && ($ws_form_section_key === $ws_form_section_current));
+			$ws_form_section_html = '';
+			$ws_form_section_save = false;
 
-			if(
-				(($ws_form_section_label !== '') && ($heading === $ws_form_section_label)) ||
-				(($ws_form_tab_label !== '') && ($heading === $ws_form_tab_label))
-			) {
+			ob_start();
+			$ws_form_section_save = ws_form_settings_render_section($this, $ws_form_section, $ws_form_tab_label, $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change);
+			$ws_form_section_html = ob_get_clean();
 
-				return false;
+			$ws_form_section_learn_more_url = !empty($ws_form_section['learn_more']) ? WS_Form_Common::get_plugin_website_url($ws_form_section['learn_more']) : '';
+
+			if($ws_form_panel_current) {
+
+				$ws_form_save_button = $ws_form_section_save;
+				$ws_form_learn_more_url = $ws_form_section_learn_more_url;
 			}
+?>
+<fieldset class="wsf-settings-panel" data-tab="<?php WS_Form_Common::echo_esc_attr($tab); ?>" data-section="<?php WS_Form_Common::echo_esc_attr($ws_form_section_key); ?>" data-save="<?php echo $ws_form_section_save ? '1' : '0'; ?>"<?php if($ws_form_section_learn_more_url !== '') { ?> data-learn-more="<?php WS_Form_Common::echo_esc_attr($ws_form_section_learn_more_url); ?>"<?php } ?><?php if(!$ws_form_panel_current) { ?> hidden disabled<?php } ?>>
+<?php
 
-			return $heading;
-		};
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Field markup is escaped in ws_form_render_fields
+			echo $ws_form_section_html;
+?>
+</fieldset>
+<?php
 
-		// Flat fields section (e.g. System / License)
-		if(isset($ws_form_section['fields'])) {
-
-			$ws_form_save_button = $ws_form_save_button || ws_form_render_fields($this, $ws_form_section['fields'], $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change);
-		}
-
-		// Group section
-		if(isset($ws_form_section['group'])) {
-
-			$ws_form_group = $ws_form_section['group'];
-
-			// Section fields first (e.g. license/enable above nested groups)
-			if(!empty($ws_form_group['fields'])) {
-
-				$ws_form_heading = $ws_form_heading_for_content(isset($ws_form_group['heading']) ? $ws_form_group['heading'] : false);
-				$ws_form_description = isset($ws_form_group['description']) ? $ws_form_group['description'] : false;
-				$ws_form_html_message = isset($ws_form_group['message']) ? $ws_form_group['message'] : false;
-
-				$ws_form_save_button_return = ws_form_render_fields($this, $ws_form_group['fields'], $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change, $ws_form_heading, $ws_form_description, $ws_form_html_message);
-				$ws_form_save_button = $ws_form_save_button || $ws_form_save_button_return;
-			}
-
-			// Nested groups (integration tabs folded into a section)
-			if(isset($ws_form_group['groups']) && is_array($ws_form_group['groups'])) {
-
-				foreach($ws_form_group['groups'] as $ws_form_nested_group) {
-
-					if(!ws_form_settings_group_visible($ws_form_nested_group)) { continue; }
-
-					$ws_form_heading = $ws_form_heading_for_content(isset($ws_form_nested_group['heading']) ? $ws_form_nested_group['heading'] : false);
-					$ws_form_description = isset($ws_form_nested_group['description']) ? $ws_form_nested_group['description'] : false;
-					$ws_form_fields = isset($ws_form_nested_group['fields']) ? $ws_form_nested_group['fields'] : array();
-					$ws_form_html_message = isset($ws_form_nested_group['message']) ? $ws_form_nested_group['message'] : false;
-
-					$ws_form_save_button_return = ws_form_render_fields($this, $ws_form_fields, $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change, $ws_form_heading, $ws_form_description, $ws_form_html_message);
-					$ws_form_save_button = $ws_form_save_button || $ws_form_save_button_return;
-				}
-			}
 		}
 	}
-
-	if($ws_form_save_button || $ws_form_learn_more) {
 ?>
 <p class="wsf-settings-actions">
-<?php
-
-		if($ws_form_save_button) {
-?>
-<input type="submit" name="wsf_submit" id="wsf_submit" class="button button-primary" value="<?php esc_attr_e('Save Changes', 'ws-form'); ?>">
-<?php
-		}
-
-		if($ws_form_learn_more) {
-?>
-<a href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_plugin_website_url($ws_form_learn_more)); ?>" class="button" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Learn More', 'ws-form'); ?></a>
-<?php
-		}
-?>
+<input type="submit" name="wsf_submit" id="wsf_submit" class="button button-primary" value="<?php esc_attr_e('Save Changes', 'ws-form'); ?>"<?php if(!$ws_form_save_button) { ?> hidden<?php } ?>>
+<a id="wsf_settings_learn_more" href="<?php WS_Form_Common::echo_esc_url($ws_form_learn_more_url !== '' ? $ws_form_learn_more_url : '#'); ?>" class="button" target="_blank" rel="noopener noreferrer"<?php if($ws_form_learn_more_url === '') { ?> hidden<?php } ?>><?php esc_html_e('Learn More', 'ws-form'); ?></a>
 </p>
-<?php
-	}
-?>
 </form>
 </div>
 
@@ -313,6 +299,12 @@
 
 			// On load
 		$(function() {
+
+			$('.wsf-admin-panel').on('click', '.wsf-settings-message-dismiss', function(e) {
+
+				e.preventDefault();
+				$(this).closest('.wsf-settings-message').remove();
+			});
 
 			var wsf_obj = new $.WS_Form();
 
@@ -335,44 +327,290 @@
 			$.WS_Form.settings_form.language['dual_list_group_toggle'] = '<?php esc_html_e('Select all in this group (double-click to move)', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['dual_list_item_toggle'] = '<?php esc_html_e('Double-click to move', 'ws-form'); ?>';
 			$.WS_Form.settings_form.language['dual_list_drag'] = '<?php esc_html_e('Drag to reorder', 'ws-form'); ?>';
-			$.WS_Form.settings_form.language['dual_list_item_in_group'] = '<?php echo esc_html(
-				/* translators: %1$s: option label, %2$s: group label */
-				__('%1$s (%2$s)', 'ws-form')
-			); ?>';
 
 			// Partial initialization
 			wsf_obj.init_partial();
 
 			var file_frame;
+			var image_for_id = '';
+			var settings_form = $('#wsf-settings');
+			var settings_current_tab = <?php echo wp_json_encode($ws_form_tab_current); ?>;
+			var settings_current_section = <?php echo wp_json_encode($ws_form_section_current); ?>;
+			var settings_last = {};
+			var settings_packed = false;
+			var settings_silent = false;
 
-			// AbuseIPDB country blocklist — Select2 multi-select
-			var abuseipdb_countries_obj = $('#wsf_abuseipdb_countries');
-			if(abuseipdb_countries_obj.length && (typeof abuseipdb_countries_obj.select2 === 'function')) {
+			settings_last[settings_current_tab] = settings_current_section;
 
-				var locale = (typeof ws_form_settings !== 'undefined' && ws_form_settings.locale_user) ? ws_form_settings.locale_user : 'en';
-				var language = locale.substring(0, 2);
+			function settings_match(tab, section) {
 
-				abuseipdb_countries_obj.select2({
+				return function() {
 
-					allowClear: true,
-					width: '320px',
-					language: language,
-					selectionCssClass: 'wsf-select2-selection',
-					dropdownCssClass: 'wsf-select2-dropdown',
-					dropdownParent: abuseipdb_countries_obj.parent()
-				});
+					if(this.getAttribute('data-tab') !== tab) { return false; }
+					if(section === null) { return true; }
+
+					return this.getAttribute('data-section') === section;
+				};
 			}
 
-			$('#wsf-settings').on('submit', function() {
+			function settings_panel(tab, section) {
 
-				// mod_security fix
-				$('input[type="text"]').each(function() {
+				return $('.wsf-settings-panel', settings_form).filter(settings_match(tab, section)).first();
+			}
 
-					var input_string = $(this).val();
-					var output_string = wsf_obj.mod_security_fix(input_string);
-					$(this).val(output_string);
+			function settings_first_section(tab) {
+
+				var section_item = $('.wsf-settings-section-item').filter(settings_match(tab, null)).first();
+				if(section_item.length) { return section_item.attr('data-section'); }
+
+				var panel = settings_panel(tab, null);
+				return panel.length ? panel.attr('data-section') : '';
+			}
+
+			function settings_href(tab, section) {
+
+				var section_item = $('.wsf-settings-section-item').filter(settings_match(tab, section)).first();
+				if(section_item.length) { return section_item.attr('href'); }
+
+				var tab_item = $('.wsf-settings-nav-item').filter(settings_match(tab, null)).first();
+				return tab_item.length ? tab_item.attr('href') : window.location.href;
+			}
+
+			function settings_save_button_update() {
+
+				var panel = settings_panel(settings_current_tab, settings_current_section);
+				var save = panel.length && (panel.attr('data-save') === '1');
+				var dirty = $('.wsf-settings-panel[data-dirty="1"]', settings_form).length > 0;
+				var submit = $('#wsf_submit');
+
+				if(save || dirty) {
+
+					submit.removeAttr('hidden');
+
+				} else {
+
+					submit.attr('hidden', 'hidden');
+				}
+			}
+
+			function settings_init_panel(panel) {
+
+				if(!panel || !panel.length || (panel.attr('data-wsf-panel-init') === '1')) { return; }
+
+				panel.attr('data-wsf-panel-init', '1');
+				settings_silent = true;
+
+				var abuseipdb_countries_obj = $('#wsf_abuseipdb_countries', panel);
+
+				if(abuseipdb_countries_obj.length && (typeof abuseipdb_countries_obj.select2 === 'function') && !abuseipdb_countries_obj.hasClass('select2-hidden-accessible')) {
+
+					var locale = (typeof ws_form_settings !== 'undefined' && ws_form_settings.locale_user) ? ws_form_settings.locale_user : 'en';
+					var language = locale.substring(0, 2);
+
+					abuseipdb_countries_obj.select2({
+
+						allowClear: true,
+						width: '320px',
+						language: language,
+						selectionCssClass: 'wsf-select2-selection',
+						dropdownCssClass: 'wsf-select2-dropdown',
+						dropdownParent: abuseipdb_countries_obj.parent()
+					});
+				}
+
+				wsf_obj.clipboard(panel);
+				wsf_obj.system_report_init(panel);
+				wsf_obj.settings_dual_list_init(panel);
+				settings_silent = false;
+			}
+
+			function settings_show(tab, section, push) {
+
+				if(!section) { section = settings_last[tab] || settings_first_section(tab); }
+
+				var panel = settings_panel(tab, section);
+				if(!panel.length) { return; }
+
+				$('.wsf-settings-nav-item').removeClass('wsf-settings-nav-item-active');
+				$('.wsf-settings-nav-item').filter(settings_match(tab, null)).addClass('wsf-settings-nav-item-active');
+
+				$('.wsf-settings-sections').attr('hidden', 'hidden');
+
+				var sections = $('.wsf-settings-sections').filter(settings_match(tab, null));
+
+				if(sections.length) {
+
+					sections.removeAttr('hidden');
+					$('.wsf-settings-section-item', sections).removeClass('wsf-settings-section-item-active');
+					$('.wsf-settings-section-item', sections).filter(settings_match(tab, section)).addClass('wsf-settings-section-item-active');
+				}
+
+				$('.wsf-settings-panel', settings_form).each(function() {
+
+					var panel_obj = $(this);
+					var on = (panel_obj.attr('data-tab') === tab) && (panel_obj.attr('data-section') === section);
+
+					if(on) {
+
+						panel_obj.prop('disabled', false).removeAttr('disabled').removeAttr('hidden');
+
+					} else {
+
+						panel_obj.attr('hidden', 'hidden').attr('disabled', 'disabled').prop('disabled', true);
+					}
 				});
+
+				$('input[name="tab"]', settings_form).val(tab);
+				$('input[name="section"]', settings_form).val(section);
+
+				var href = settings_href(tab, section);
+				settings_form.attr('action', href);
+
+				var ssl = $('.wsf-settings-ssl-warning');
+
+				if(tab === 'data') {
+
+					ssl.removeAttr('hidden');
+
+				} else {
+
+					ssl.attr('hidden', 'hidden');
+				}
+
+				var learn = panel.attr('data-learn-more') || '';
+				var learn_obj = $('#wsf_settings_learn_more');
+
+				if(learn) {
+
+					learn_obj.attr('href', learn).removeAttr('hidden');
+
+				} else {
+
+					learn_obj.attr('hidden', 'hidden');
+				}
+
+				settings_current_tab = tab;
+				settings_current_section = section;
+				settings_last[tab] = section;
+				settings_save_button_update();
+
+				if(push && window.history && window.history.pushState && (window.location.href !== href)) {
+
+					history.pushState({wsfSettings: true, tab: tab, section: section}, '', href);
+				}
+
+				settings_init_panel(panel);
+			}
+
+			// One POST field, same approach as the layout editor (max_input_vars)
+			function settings_pack() {
+
+				var data = {wsf_settings_panels: []};
+
+				$('.wsf-settings-panel', settings_form).each(function() {
+
+					var panel = $(this);
+					var include = ((panel.attr('data-tab') === settings_current_tab) && (panel.attr('data-section') === settings_current_section)) || (panel.attr('data-dirty') === '1');
+
+					if(!include) {
+
+						panel.prop('disabled', true);
+						return;
+					}
+
+					data.wsf_settings_panels.push(panel.attr('data-tab') + '|' + panel.attr('data-section'));
+					panel.prop('disabled', false);
+
+					$('input, select, textarea', panel).each(function() {
+
+						var field = this;
+
+						if(!field.name || (field.type === 'button') || (field.type === 'submit') || (field.type === 'reset') || (field.type === 'file')) { return; }
+
+						var name = field.name.replace(/\[\]$/, '');
+
+						if((field.type === 'checkbox') || (field.type === 'radio')) {
+
+							if(field.checked) { data[name] = field.value; }
+							return;
+						}
+
+						if((field.tagName === 'SELECT') && field.multiple) {
+
+							var selected = $(field).val();
+							data[name] = selected ? selected : [];
+							return;
+						}
+
+						var value = $(field).val();
+						data[name] = (value === null) ? '' : value;
+					});
+
+					$('input, select, textarea', panel).each(function() {
+
+						if(this.type !== 'file') { $(this).prop('disabled', true); }
+					});
+				});
+
+				// Encode the payload only. Leave the fields on screen unchanged.
+				$('#wsf_settings_data').prop('disabled', false).val(wsf_obj.mod_security_fix(JSON.stringify(data)));
+			}
+
+			settings_form.on('input change', 'input, select, textarea', function() {
+
+				if(settings_silent) { return; }
+
+				var panel = $(this).closest('.wsf-settings-panel');
+				if(!panel.length) { return; }
+
+				panel.attr('data-dirty', '1');
+				settings_save_button_update();
 			});
+
+			settings_form.on('change', '[data-wsf-settings-reload]', function() {
+
+				settings_form.trigger('submit');
+			});
+
+			settings_form.on('submit', function() {
+
+				if(settings_packed) { return; }
+
+				settings_packed = true;
+				settings_pack();
+			});
+
+			$('.wsf-settings-nav').on('click', '.wsf-settings-nav-item', function(e) {
+
+				if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || (e.which === 2)) { return; }
+
+				e.preventDefault();
+
+				var tab = $(this).attr('data-tab');
+				settings_show(tab, settings_last[tab] || settings_first_section(tab), true);
+			});
+
+			$('.wsf-settings-sections').on('click', '.wsf-settings-section-item', function(e) {
+
+				if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || (e.which === 2)) { return; }
+
+				e.preventDefault();
+				settings_show($(this).attr('data-tab'), $(this).attr('data-section'), true);
+			});
+
+			$(window).on('popstate', function(e) {
+
+				if(!e.originalEvent || !e.originalEvent.state || !e.originalEvent.state.wsfSettings) { return; }
+
+				settings_show(e.originalEvent.state.tab, e.originalEvent.state.section, false);
+			});
+
+			if(window.history && window.history.replaceState) {
+
+				history.replaceState({wsfSettings: true, tab: settings_current_tab, section: settings_current_section}, '', window.location.href);
+			}
+
+			settings_init_panel(settings_panel(settings_current_tab, settings_current_section));
 
 			// Set mode and submit
 			$('[data-action="wsf-mode-submit"]').on('click', function() {
@@ -395,6 +633,8 @@
 
 						// Set framework to that detected
 						$(for_id).val(framework.type);
+						$(for_id).closest('.wsf-settings-panel').attr('data-dirty', '1');
+						settings_save_button_update();
 
 					} else {
 
@@ -409,6 +649,8 @@
 
 					// Set framework to default
 					$(for_id).val('<?php WS_Form_Common::echo_esc_html(WS_FORM_DEFAULT_FRAMEWORK); ?>');
+					$(for_id).closest('.wsf-settings-panel').attr('data-dirty', '1');
+					settings_save_button_update();
 
 					// Show info message
 					wsf_obj.message('<?php WS_Form_Common::echo_esc_html(sprintf(
@@ -428,20 +670,21 @@
 			$('[data-action="wsf-max-upload-size"]').on('click', function() {
 
 				var for_id = $(this).attr('data-for');
-				$('#' + for_id).val(<?php WS_Form_Common::echo_esc_html($ws_form_max_upload_size); ?>);
+				$('#' + for_id).val(<?php WS_Form_Common::echo_esc_html($ws_form_max_upload_size); ?>).trigger('change');
 			});
 
 			// Max uploads
 			$('[data-action="wsf-max-uploads"]').on('click', function() {
 
 				var for_id = $(this).attr('data-for');
-				$('#' + for_id).val(<?php WS_Form_Common::echo_esc_html($ws_form_max_uploads); ?>);
+				$('#' + for_id).val(<?php WS_Form_Common::echo_esc_html($ws_form_max_uploads); ?>).trigger('change');
 			});
 
 			// Image selector
 			$('[data-action="wsf-image"]').on('click', function(e) {
 
-				var for_id = $(this).attr('data-for');
+				image_for_id = $(this).attr('data-for');
+				var for_id = image_for_id;
 
 				// If the media frame already exists, reopen it.
 				if(file_frame) {
@@ -467,13 +710,15 @@
 				// When an image is selected, run a callback.
 				file_frame.on('select', function() {
 
+					var for_id = image_for_id;
+
 					// We set multiple to false so only get one image from the uploader
 					var attachment = file_frame.state().get('selection').first().toJSON();
 
 					// Sets the image ID
 					var image_id = attachment.id;
 					var image_id_obj = $('#' + for_id);
-					image_id_obj.val(image_id);
+					image_id_obj.val(image_id).trigger('change');
 
 					// Get thumbnail size
 					if(typeof(attachment.sizes.<?php WS_Form_Common::echo_esc_html(WS_FORM_SETTINGS_IMAGE_PREVIEW_SIZE); ?>) !== 'undefined') {
@@ -496,7 +741,7 @@
 
 								var for_id = $(this).attr('data-for');
 								var image_id_obj = $('#' + for_id);
-								image_id_obj.val('');
+								image_id_obj.val('').trigger('change');
 								$('#' + for_id + '_preview').remove();
 							});
 
@@ -518,7 +763,7 @@
 
 				var for_id = $(this).attr('data-for');
 				var image_id_obj = $('#' + for_id);
-				image_id_obj.val('');
+				image_id_obj.val('').trigger('change');
 				$('#' + for_id + '_preview').remove();
 			});
 
@@ -547,13 +792,7 @@
 
 				label_obj.html(label);
 			});
-<?php
 
-	if($ws_form_js_on_change != '') {
-
-		WS_Form_Common::echo_json($ws_form_js_on_change);
-	}
-?>
 		});
 
 	})(jQuery);
@@ -562,6 +801,66 @@
 
 </div>
 <?php
+
+	function ws_form_settings_render_section($wsform, $ws_form_section, $ws_form_tab_label, $ws_form_max_uploads, $ws_form_max_upload_size, &$ws_form_js_on_change) {
+
+		$ws_form_save_button = false;
+		$ws_form_section_label = isset($ws_form_section['label']) ? $ws_form_section['label'] : '';
+
+		// Omit content headings that only repeat the selected tab / section nav label
+		$ws_form_heading_for_content = function($heading) use ($ws_form_section_label, $ws_form_tab_label) {
+
+			if($heading === false) { return false; }
+
+			if(
+				(($ws_form_section_label !== '') && ($heading === $ws_form_section_label)) ||
+				(($ws_form_tab_label !== '') && ($heading === $ws_form_tab_label))
+			) {
+
+				return false;
+			}
+
+			return $heading;
+		};
+
+		if(isset($ws_form_section['fields'])) {
+
+			$ws_form_save_button = $ws_form_save_button || ws_form_render_fields($wsform, $ws_form_section['fields'], $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change);
+		}
+
+		if(isset($ws_form_section['group'])) {
+
+			$ws_form_group = $ws_form_section['group'];
+
+			if(!empty($ws_form_group['fields'])) {
+
+				$ws_form_heading = $ws_form_heading_for_content(isset($ws_form_group['heading']) ? $ws_form_group['heading'] : false);
+				$ws_form_description = isset($ws_form_group['description']) ? $ws_form_group['description'] : false;
+				$ws_form_html_message = isset($ws_form_group['message']) ? $ws_form_group['message'] : false;
+
+				$ws_form_save_button_return = ws_form_render_fields($wsform, $ws_form_group['fields'], $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change, $ws_form_heading, $ws_form_description, $ws_form_html_message);
+				$ws_form_save_button = $ws_form_save_button || $ws_form_save_button_return;
+			}
+
+			if(isset($ws_form_group['groups']) && is_array($ws_form_group['groups'])) {
+
+				foreach($ws_form_group['groups'] as $ws_form_nested_group) {
+
+					if(!ws_form_settings_group_visible($ws_form_nested_group)) { continue; }
+
+					$ws_form_heading = $ws_form_heading_for_content(isset($ws_form_nested_group['heading']) ? $ws_form_nested_group['heading'] : false);
+					$ws_form_description = isset($ws_form_nested_group['description']) ? $ws_form_nested_group['description'] : false;
+					$ws_form_fields = isset($ws_form_nested_group['fields']) ? $ws_form_nested_group['fields'] : array();
+					$ws_form_html_message = isset($ws_form_nested_group['message']) ? $ws_form_nested_group['message'] : false;
+
+					$ws_form_save_button_return = ws_form_render_fields($wsform, $ws_form_fields, $ws_form_max_uploads, $ws_form_max_upload_size, $ws_form_js_on_change, $ws_form_heading, $ws_form_description, $ws_form_html_message);
+					$ws_form_save_button = $ws_form_save_button || $ws_form_save_button_return;
+				}
+			}
+		}
+
+		return $ws_form_save_button;
+	}
 
 	function ws_form_render_fields($wsform, $ws_form_fields, $ws_form_max_uploads, $ws_form_max_upload_size, &$ws_form_js_on_change, $ws_form_heading = false, $ws_form_description = false, $ws_form_html_message = false) {
 
@@ -777,6 +1076,12 @@
 			if($disabled) {
 
 				$attributes['disabled'] = '';
+			}
+
+			// Reload the settings page after this field changes (conditions are server-side)
+			if(isset($ws_form_config['data_change']) && ($ws_form_config['data_change'] == 'reload')) {
+
+				$attributes['data-wsf-settings-reload'] = '1';
 			}
 
 			// Output by type
@@ -1232,10 +1537,6 @@
 				echo $ws_form_button_html;
 			}
 
-			if(isset($ws_form_config['data_change']) && $ws_form_config['data_change'] == 'reload') {
-
-				$ws_form_js_on_change .= "\n			$('#wsf_$ws_form_field').on('change', function() { $('#wsf-settings').trigger('submit'); });";
-			}
 ?></td>
 </tr>
 <?php

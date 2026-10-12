@@ -285,6 +285,11 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form', $bypass_user_capability_check);
 
+			if(!$bypass_user_capability_check) {
+
+				self::db_guard_parent_unlocked();
+			}
+
 			if(absint($this->parent_id) === 0) { parent::db_throw_error(__('Parent ID not set', 'ws-form')); }
 			if(!is_array($meta_data_array)) { return true; }	// Empty data
 			if(count($meta_data_array) === 0) { return true; }	// Empty data
@@ -347,5 +352,36 @@
 			}
 
 			return true;
+		}
+
+		public function db_guard_parent_unlocked() {
+
+			switch($this->object) {
+
+				case 'form' :
+
+					WS_Form_Form::db_throw_if_locked($this->parent_id);
+					break;
+
+				case 'style' :
+
+					WS_Form_Style::db_throw_if_locked($this->parent_id);
+					break;
+
+				case 'group' :
+
+					WS_Form_Form::db_throw_if_locked(WS_Form_Form::db_form_id_from_group($this->parent_id));
+					break;
+
+				case 'section' :
+
+					WS_Form_Form::db_throw_if_locked(WS_Form_Form::db_form_id_from_section($this->parent_id));
+					break;
+
+				case 'field' :
+
+					WS_Form_Form::db_throw_if_locked(WS_Form_Form::db_form_id_from_field($this->parent_id));
+					break;
+			}
 		}
 	}

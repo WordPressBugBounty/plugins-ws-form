@@ -7,9 +7,108 @@
 
 	// Get ID of form (0 = New)
 	$ws_form_form_id = absint(WS_Form_Common::get_query_var('id', 0));
+	$ws_form_form_locked = ($ws_form_form_id && WS_Form_Form::db_is_locked_id($ws_form_form_id));
 
 	// Loader icon
 	WS_Form_Common::loader();
+
+	if($ws_form_form_locked) {
+
+		ob_start();
+?>
+<a class="button" href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_preview_url($ws_form_form_id)); ?>" target="wsf-preview-<?php WS_Form_Common::echo_esc_attr($ws_form_form_id); ?>" title="<?php esc_attr_e('Preview', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('visible'); ?> <span class="wsf-admin-header-action-label"><?php esc_html_e('Preview', 'ws-form'); ?></span></a>
+<?php
+		if(WS_Form_Common::can_user('read_submission')) {
+?>
+<a class="button" href="<?php WS_Form_Common::echo_esc_url(admin_url('admin.php?page=ws-form-submit&id=' . $ws_form_form_id)); ?>" title="<?php esc_attr_e('Submissions', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('table'); ?> <span class="wsf-admin-header-action-label"><?php esc_html_e('Submissions', 'ws-form'); ?></span></a>
+<?php
+		}
+
+		WS_Form_Common::admin_header(__('Edit Form', 'ws-form'), ob_get_clean());
+		WS_Form_Common::review();
+
+		$ws_form_lock_icon = str_replace(
+
+			'<svg height="16" width="16"',
+			'<svg class="wsf-submissions-empty-icon-doc" height="64" width="64"',
+			WS_Form_Config::get_icon_16_svg('lock')
+		);
+?>
+<div id="wsf-form-locked" class="wsf-submissions-empty">
+	<div class="wsf-submissions-empty-inner">
+		<div class="wsf-submissions-empty-icon" aria-hidden="true"><?php
+
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG from the icon config
+			echo $ws_form_lock_icon;
+
+		?></div>
+		<h2 class="wsf-submissions-empty-title"><?php esc_html_e('This Form is Locked', 'ws-form'); ?></h2>
+		<p class="wsf-submissions-empty-copy"><?php
+
+			if(WS_Form_Common::can_user('unlock_form')) {
+
+				esc_html_e('Unlock it to make changes.', 'ws-form');
+
+			} else {
+
+				esc_html_e('You do not have permission to unlock this form.', 'ws-form');
+			}
+
+		?> <a href="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_plugin_website_url('/knowledgebase/form-locking/')); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Learn more', 'ws-form'); ?></a></p>
+<?php
+		if(WS_Form_Common::can_user('unlock_form')) {
+?>
+		<form id="wsf-form-unlock" method="post" action="<?php WS_Form_Common::echo_esc_url(WS_Form_Common::get_admin_url('ws-form-edit', $ws_form_form_id)); ?>">
+<?php
+			wp_nonce_field(WS_FORM_POST_NONCE_ACTION_NAME, WS_FORM_POST_NONCE_FIELD_NAME);
+?>
+			<input type="hidden" name="page" value="ws-form-edit" />
+			<input type="hidden" name="id" value="<?php WS_Form_Common::echo_esc_attr($ws_form_form_id); ?>" />
+			<input type="hidden" name="action" value="wsf-form-unlock" />
+			<button type="submit" class="button button-primary wsf-submissions-empty-action"><?php esc_html_e('Unlock', 'ws-form'); ?></button>
+		</form>
+<script>
+(function($) {
+
+	'use strict';
+
+	$(function() {
+
+		var form = document.getElementById('wsf-form-unlock');
+		if(!form) { return; }
+
+		var wsf_obj = new $.WS_Form();
+
+		wsf_obj.get_configuration(function() {
+
+			$(form).on('submit', function(e) {
+
+				e.preventDefault();
+
+				wsf_obj.confirm_modal(
+
+					wsf_obj.language('form_unlock_confirm', false, false),
+					function() { form.submit(); },
+					{
+						title: wsf_obj.language('form_unlock'),
+						confirm_label: wsf_obj.language('form_unlock')
+					}
+				);
+			});
+
+		}, false, true);
+	});
+
+})(jQuery);
+</script>
+<?php
+		}
+?>
+	</div>
+</div>
+<?php
+		return;
+	}
 ?>
 <!-- Layout Editor -->
 <div id="wsf-layout-editor">
@@ -153,7 +252,7 @@
 
 ?></h2></div>
 
-<div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"></div>
+<div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('delete'); ?></div>
 
 </div>
 <!-- /Variable Helper - Header -->
@@ -235,9 +334,6 @@
 
 			// Initialize WS Form
 			var wsf_obj = new $.WS_Form();
-
-			// Highlight menu item
-			wsf_obj.menu_highlight();
 
 			// Render form
 			wsf_obj.render({

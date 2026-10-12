@@ -411,7 +411,7 @@
 			WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		?><h2><?php esc_html_e('Export CSV', 'ws-form'); ?></h2></div>
-		<div class="wsf-modal-close" data-action="wsf-submit-export-columns-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"></div>
+		<div class="wsf-modal-close" data-action="wsf-submit-export-columns-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('delete'); ?></div>
 		<div class="wsf-modal-content">
 			<p><?php esc_html_e('Choose which columns to include in the CSV export.', 'ws-form'); ?></p>
 			<div id="wsf-submit-export-columns-error" class="notice notice-error inline" style="display: none;"><p></p></div>

@@ -198,6 +198,8 @@
 
 			try {
 
+				$ws_form_group->db_guard_form_unlocked();
+
 				// Store tab index
 				$ws_form_group->db_tab_index_save($parameters);
 

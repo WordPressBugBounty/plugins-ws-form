@@ -1642,7 +1642,7 @@
 							'kb_url'						=>	'/knowledgebase/recaptcha/',
 							'label_default'					=>	'reCAPTCHA',
 							'mask_field'					=>	'#pre_help<div id="#id" name="#name" style="border: none; padding: 0" required data-recaptcha#attributes></div>#invalid_feedback#post_help',
-							'mask_field_attributes'			=>	array('class', 'recaptcha_site_key', 'recaptcha_recaptcha_type', 'recaptcha_badge', 'recaptcha_type', 'recaptcha_theme', 'recaptcha_size', 'recaptcha_language', 'recaptcha_action'),
+							'mask_field_attributes'			=>	array('class', 'recaptcha_site_key', 'recaptcha_recaptcha_type', 'recaptcha_badge', 'recaptcha_type', 'recaptcha_theme', 'recaptcha_size', 'recaptcha_action'),
 							'submit_save'					=>	false,
 							'submit_edit'					=>	false,
 							'calc_in'						=>	false,
@@ -1699,11 +1699,6 @@
 										),										
 
 										array(
-											'label'		=>	__('Localization', 'ws-form'),
-											'meta_keys'	=>	array('recaptcha_language')
-										),
-
-										array(
 											'label'		=>	__('Validation', 'ws-form'),
 											'kb_url'	=>	'/knowledgebase/form-validation/',
 											'meta_keys'	=>	array('invalid_feedback_render', 'validate_inline', 'invalid_feedback')
@@ -1727,7 +1722,7 @@
 							'kb_url'						=>	'/knowledgebase/hcaptcha/',
 							'label_default'					=>	'hCaptcha',
 							'mask_field'					=>	'#pre_help<div id="#id" name="#name" style="border: none; padding: 0" required data-hcaptcha#attributes></div>#invalid_feedback#post_help',
-							'mask_field_attributes'			=>	array('class', 'hcaptcha_site_key', 'hcaptcha_type', 'hcaptcha_theme', 'hcaptcha_size', 'hcaptcha_language'),
+							'mask_field_attributes'			=>	array('class', 'hcaptcha_site_key', 'hcaptcha_type', 'hcaptcha_theme', 'hcaptcha_size'),
 							'submit_save'					=>	false,
 							'submit_edit'					=>	false,
 							'calc_in'						=>	false,
@@ -1782,11 +1777,6 @@
 											'label'			=>	__('Restrictions', 'ws-form'),
 											'meta_keys'	=> array('field_user_status', 'field_user_roles', 'field_user_capabilities')
 										),										
-
-										array(
-											'label'		=>	__('Localization', 'ws-form'),
-											'meta_keys'	=>	array('hcaptcha_language')
-										),
 
 										array(
 											'label'		=>	__('Validation', 'ws-form'),
@@ -4426,29 +4416,6 @@
 					)
 				),
 
-				// reCAPTCHA - Language (Language Culture Name)
-				'recaptcha_language' => array(
-
-					'label'						=>	__('Language', 'ws-form'),
-					'mask'						=>	'data-language="#value"',
-					'mask_disregard_on_empty'	=>	true,
-					'type'						=>	'select',
-					'help'						=>	__('Force the reCAPTCHA to render in a specific language?', 'ws-form'),
-					'options'					=>	self::get_options_language(),
-					'default'					=>	'',
-					'condition'					=>	array(
-
-						array(
-
-							'logic'			=>	'!=',
-							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-							'meta_key'		=>	'recaptcha_recaptcha_type',
-							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
-							'meta_value'	=>	'v3_default'
-						)
-					)
-				),
-
 				// reCAPTCHA - Action
 				'recaptcha_action' => array(
 
@@ -4585,29 +4552,6 @@
 							'meta_key'		=>	'hcaptcha_type',
 							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'	=>	'default'
-						)
-					)
-				),
-
-				// hCaptcha - Language (Language Culture Name)
-				'hcaptcha_language' => array(
-
-					'label'						=>	__('Language', 'ws-form'),
-					'mask'						=>	'data-language="#value"',
-					'mask_disregard_on_empty'	=>	true,
-					'type'						=>	'select',
-					'help'						=>	__('Force the hCaptcha to render in a specific language?', 'ws-form'),
-					'options'					=>	self::get_options_language(),
-					'default'					=>	'',
-					'condition'					=>	array(
-
-						array(
-
-							'logic'			=>	'!=',
-							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-							'meta_key'		=>	'hcaptcha_type',
-							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
-							'meta_value'	=>	'v3_default'
 						)
 					)
 				),
@@ -12121,82 +12065,4 @@
 			return $countries_alpha_2;
 		}
 
-
-		public static function get_options_language() {
-
-			return array(
-
-				array('value' => '', 'text' => 'Auto Detect'),
-				array('value' => 'ar', 'text' => 'Arabic'),
-				array('value' => 'af', 'text' => 'Afrikaans'),
-				array('value' => 'am', 'text' => 'Amharic'),
-				array('value' => 'hy', 'text' => 'Armenian'),
-				array('value' => 'az', 'text' => 'Azerbaijani'),
-				array('value' => 'eu', 'text' => 'Basque'),
-				array('value' => 'bn', 'text' => 'Bengali'),
-				array('value' => 'bg', 'text' => 'Bulgarian'),
-				array('value' => 'ca', 'text' => 'Catalan'),
-				array('value' => 'zh-HK', 'text' => 'Chinese (Hong Kong)'),
-				array('value' => 'zh-CN', 'text' => 'Chinese (Simplified)'),
-				array('value' => 'zh-TW', 'text' => 'Chinese (Traditional)'),
-				array('value' => 'hr', 'text' => 'Croatian'),
-				array('value' => 'cs', 'text' => 'Czech'),
-				array('value' => 'da', 'text' => 'Danish'),
-				array('value' => 'nl', 'text' => 'Dutch'),
-				array('value' => 'en-GB', 'text' => 'English (UK)'),
-				array('value' => 'en', 'text' => 'English (US)'),
-				array('value' => 'et', 'text' => 'Estonian'),
-				array('value' => 'fil', 'text' => 'Filipino'),
-				array('value' => 'fi', 'text' => 'Finnish'),
-				array('value' => 'fr', 'text' => 'French'),
-				array('value' => 'fr-CA', 'text' => 'French (Canadian)'),
-				array('value' => 'gl', 'text' => 'Galician'),
-				array('value' => 'ka', 'text' => 'Georgian'),
-				array('value' => 'de', 'text' => 'German'),
-				array('value' => 'de-AT', 'text' => 'German (Austria)'),
-				array('value' => 'de-CH', 'text' => 'German (Switzerland)'),
-				array('value' => 'el', 'text' => 'Greek'),
-				array('value' => 'gu', 'text' => 'Gujarati'),
-				array('value' => 'iw', 'text' => 'Hebrew'),
-				array('value' => 'hi', 'text' => 'Hindi'),
-				array('value' => 'hu', 'text' => 'Hungarian'),
-				array('value' => 'is', 'text' => 'Icelandic'),
-				array('value' => 'id', 'text' => 'Indonesian'),
-				array('value' => 'it', 'text' => 'Italian'),
-				array('value' => 'ja', 'text' => 'Japanese'),
-				array('value' => 'kn', 'text' => 'Kannada'),
-				array('value' => 'ko', 'text' => 'Korean'),
-				array('value' => 'lo', 'text' => 'Laothian'),
-				array('value' => 'lv', 'text' => 'Latvian'),
-				array('value' => 'lt', 'text' => 'Lithuanian'),
-				array('value' => 'ms', 'text' => 'Malay'),
-				array('value' => 'ml', 'text' => 'Malayalam'),
-				array('value' => 'mr', 'text' => 'Marathi'),
-				array('value' => 'mn', 'text' => 'Mongolian'),
-				array('value' => 'no', 'text' => 'Norwegian'),
-				array('value' => 'fa', 'text' => 'Persian'),
-				array('value' => 'pl', 'text' => 'Polish'),
-				array('value' => 'pt', 'text' => 'Portuguese'),
-				array('value' => 'pt-BR', 'text' => 'Portuguese (Brazil)'),
-				array('value' => 'pt-PT', 'text' => 'Portuguese (Portugal)'),
-				array('value' => 'ro', 'text' => 'Romanian'),
-				array('value' => 'ru', 'text' => 'Russian'),
-				array('value' => 'sr', 'text' => 'Serbian'),
-				array('value' => 'si', 'text' => 'Sinhalese'),
-				array('value' => 'sk', 'text' => 'Slovak'),
-				array('value' => 'sl', 'text' => 'Slovenian'),
-				array('value' => 'es', 'text' => 'Spanish'),
-				array('value' => 'es-419', 'text' => 'Spanish (Latin America)'),
-				array('value' => 'sw', 'text' => 'Swahili'),
-				array('value' => 'sv', 'text' => 'Swedish'),
-				array('value' => 'ta', 'text' => 'Tamil'),
-				array('value' => 'te', 'text' => 'Telugu'),
-				array('value' => 'th', 'text' => 'Thai'),
-				array('value' => 'tr', 'text' => 'Turkish'),
-				array('value' => 'uk', 'text' => 'Ukrainian'),
-				array('value' => 'ur', 'text' => 'Urdu'),
-				array('value' => 'vi', 'text' => 'Vietnamese'),
-				array('value' => 'zu', 'text' => 'Zul')
-			);
-		}
 	}

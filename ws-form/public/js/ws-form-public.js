@@ -3804,6 +3804,8 @@
 		var mask_wrapper = this.get_framework_config_value('message', 'mask_wrapper');
 		var types = this.get_framework_config_value('message', 'types');
 
+		// Keep the type key; type is replaced with the framework config below
+		var message_type = type;
 		var type = (typeof types[type] !== 'undefined') ? types[type] : false;
 		var mask_wrapper_class = (typeof type.mask_wrapper_class !== 'undefined') ? type.mask_wrapper_class : '';
 
@@ -3852,7 +3854,9 @@
 		}
 
 		var message_div = $('<div/>', { html: this.mask_parse(mask_wrapper, mask_wrapper_values) });
-		message_div.attr('role', 'alert');
+		var message_role = ((message_type === 'warning') || (message_type === 'danger')) ? 'alert' : 'status';
+		message_div.attr('role', message_role);
+		if(message_role === 'status') { message_div.attr('aria-atomic', 'true'); }
 		message_div.attr('data-wsf-message', '');
 		message_div.attr('data-wsf-instance-id', this.form_instance_id);
 

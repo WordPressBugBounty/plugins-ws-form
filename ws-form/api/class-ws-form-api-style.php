@@ -177,6 +177,42 @@
 			return true;
 		}
 
+		// API - PUT - Lock
+		public function api_put_lock($parameters) {
+
+			$ws_form_style = new WS_Form_Style();
+			$ws_form_style->id = self::api_get_id($parameters);
+
+			try {
+
+				$ws_form_style->db_set_locked(true);
+
+			} catch (Exception $e) {
+
+				parent::api_throw_error($e->getMessage());
+			}
+
+			parent::api_json_response(array('locked' => 1), false, false, false);
+		}
+
+		// API - PUT - Unlock
+		public function api_put_unlock($parameters) {
+
+			$ws_form_style = new WS_Form_Style();
+			$ws_form_style->id = self::api_get_id($parameters);
+
+			try {
+
+				$ws_form_style->db_set_locked(false);
+
+			} catch (Exception $e) {
+
+				parent::api_throw_error($e->getMessage());
+			}
+
+			parent::api_json_response(array('locked' => 0), false, false, false);
+		}
+
 		// API - PUT - Label
 		public function api_put_label($parameters) {
 
@@ -213,27 +249,22 @@
 			$style_id = absint(self::api_get_id($parameters));
 
 			$ws_form_style = new WS_Form_Style();
-
-			if(empty($style_id)) {
-
-				try {
-
-					$ws_form_style->db_create();				
-
-				} catch (Exception $e) {
-
-					parent::api_throw_error($e->getMessage());
-				}
-
-			} else {
-
-				$ws_form_style->id = $style_id;
-			}
+			$style_created = false;
 
 			try {
 
-				// Get style object from file
+				// Validate the file before creating a style
 				$style_object = WS_Form_Common::get_object_from_post_file('style');
+
+				if(empty($style_id)) {
+
+					$ws_form_style->db_create();
+					$style_created = true;
+
+				} else {
+
+					$ws_form_style->id = $style_id;
+				}
 
 				// Reset style
 				$ws_form_style->db_import_reset();
@@ -251,6 +282,17 @@
 				}
 
 			} catch (Exception $e) {
+
+				// Drop a style created for this import (trash, then permanent delete)
+				if($style_created) {
+
+					try {
+
+						$ws_form_style->db_delete();
+						$ws_form_style->db_delete();
+
+					} catch (Exception $delete_exception) {}
+				}
 
 				parent::api_throw_error($e->getMessage());
 			}

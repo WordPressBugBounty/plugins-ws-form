@@ -251,6 +251,8 @@
 
 			try {
 
+				$ws_form_section->db_guard_form_unlocked();
+
 				// Process sort index
 				$ws_form_section->db_object_sort_index($ws_form_section->table_name, 'group_id', $ws_form_section->group_id, $next_sibling_id, $ws_form_section->id);
 

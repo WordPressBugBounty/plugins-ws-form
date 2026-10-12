@@ -18,6 +18,7 @@
 		public $default_conv;
 		public $checksum;
 		public $published_checksum;
+		public $locked;
 		public $meta;
 
 		public $publish_auto = true;
@@ -30,7 +31,7 @@
 
 		const DB_INSERT = 'label,user_id,date_added,date_updated,version,`default`,default_conv';
 		const DB_UPDATE = 'label,date_updated';
-		const DB_SELECT = 'label,status,`default`,default_conv,checksum,published_checksum,id';
+		const DB_SELECT = 'label,status,`default`,default_conv,checksum,published_checksum,locked,id';
 
 		public function __construct() {
 
@@ -436,7 +437,7 @@
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
 			$style_array = $wpdb->get_row($wpdb->prepare(
 
-				"SELECT label,status,`default`,default_conv,checksum,published_checksum,id FROM {$wpdb->prefix}wsf_style WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
+				"SELECT label,status,`default`,default_conv,checksum,published_checksum,locked,id FROM {$wpdb->prefix}wsf_style WHERE id = %d AND NOT (status = 'trash') LIMIT 1;",
 				$this->id
 			), 'ARRAY_A');
 			if(is_null($style_array)) { parent::db_wpdb_handle_error(__('Unable to read style', 'ws-form')); }
@@ -446,6 +447,9 @@
 
 				$this->{$key} = $value;
 			}
+
+			$style_array['locked'] = empty($style_array['locked']) ? 0 : 1;
+			$this->locked = $style_array['locked'];
 
 			// Process meta data
 			if($get_meta) {
@@ -499,6 +503,11 @@
 
 			// User capability check
 			WS_Form_Common::user_must('publish_form_style', $bypass_user_capability_check);
+
+			if(!$bypass_user_capability_check) {
+
+				self::db_throw_if_locked($this->id);
+			}
 
 			global $wpdb;
 
@@ -565,6 +574,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form_style');
 
+			self::db_throw_if_locked($this->id);
+
 			self::db_check_id();
 
 			global $wpdb;
@@ -594,6 +605,15 @@
 
 			// User capability check
 			WS_Form_Common::user_must('edit_form_style');
+
+			self::db_throw_if_locked($this->id);
+
+			$style_id_default = self::get_style_id_default();
+
+			if($style_id_default && ($style_id_default != $this->id)) {
+
+				self::db_throw_if_locked($style_id_default);
+			}
 
 			self::db_check_id();
 
@@ -650,6 +670,15 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form_style');
 
+			self::db_throw_if_locked($this->id);
+
+			$style_id_conv_default = self::get_style_id_conv_default();
+
+			if($style_id_conv_default && ($style_id_conv_default != $this->id)) {
+
+				self::db_throw_if_locked($style_id_conv_default);
+			}
+
 			self::db_check_id();
 
 			global $wpdb;
@@ -704,6 +733,8 @@
 
 			// User capability check
 			WS_Form_Common::user_must('edit_form_style');
+
+			self::db_throw_if_locked($this->id);
 
 			self::db_check_id();
 
@@ -760,6 +791,8 @@
 			// User capability check
 			WS_Form_Common::user_must('publish_form_style');
 
+			self::db_throw_if_locked($this->id);
+
 			self::db_check_id();
 
 			global $wpdb;
@@ -797,6 +830,8 @@
 
 			// User capability check
 			WS_Form_Common::user_must('import_form_style');
+
+			self::db_throw_if_locked($this->id);
 
 			self::db_check_id();
 
@@ -890,6 +925,12 @@
 				$this->id
 			));
 			if(is_null($status)) { return false; }
+
+			// Locked styles stay out of trash
+			if($status != 'trash') {
+
+				self::db_throw_if_locked($this->id);
+			}
 
 			// If status is trashed, do a permanent delete of the data
 			if($status == 'trash') {
@@ -1123,6 +1164,7 @@
 			// Remove any variables that change each time checksum calculated or don't affect the public style
 			unset($style_object->checksum);
 			unset($style_object->published_checksum);
+			unset($style_object->locked);
 
 			// Serialize
 			$style_serialized = serialize($style_object);
@@ -1179,6 +1221,58 @@
 		}
 
 		// Push style array
+		public static function db_is_locked_id($style_id) {
+
+			global $wpdb;
+
+			$style_id = absint($style_id);
+
+			if($style_id === 0) { return false; }
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$locked = $wpdb->get_var($wpdb->prepare(
+
+				"SELECT locked FROM {$wpdb->prefix}wsf_style WHERE id = %d LIMIT 1;",
+				$style_id
+			));
+
+			return !empty($locked);
+		}
+
+		public static function db_throw_if_locked($style_id) {
+
+			if(!self::db_is_locked_id($style_id)) { return; }
+
+			$ws_form_style = new self();
+			$ws_form_style->db_throw_error(__('This style is locked.', 'ws-form'));
+		}
+
+		public function db_set_locked($locked, $ids = false) {
+
+			$locked = $locked ? 1 : 0;
+
+			WS_Form_Common::user_must($locked ? 'lock_form_style' : 'unlock_form_style');
+
+			if($ids === false) {
+
+				self::db_check_id();
+				$ids = array($this->id);
+			}
+
+			$ids = array_values(array_filter(array_map('absint', (array) $ids)));
+
+			if(count($ids) === 0) { return; }
+
+			global $wpdb;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$wpdb->query($wpdb->prepare(
+
+				"UPDATE {$wpdb->prefix}wsf_style SET locked = %d WHERE id IN (" . esc_sql(implode(',', $ids)) . ")",
+				$locked
+			));
+		}
+
 		public function db_update_from_object($style_object, $new = false, $replace_meta = false) {
 
 			// User capability check
@@ -1191,6 +1285,8 @@
 			if(isset($style_object->id) && !$new) { $this->id = absint($style_object->id); }
 
 			if(!$new) { self::db_check_id(); }
+
+			if(!$new) { self::db_throw_if_locked($this->id); }
 
 			// Update / Insert
 			$this->id = parent::db_update_insert($this->table_name, self::DB_UPDATE, self::DB_INSERT, $style_object, 'style', $this->id, false);
@@ -1270,6 +1366,7 @@
 			// Clean style
 			unset($style_object->checksum);
 			unset($style_object->published_checksum);
+			if(isset($style_object->locked)) { unset($style_object->locked); }
 
 			// Stamp style data
 			$style_object->identifier = WS_FORM_IDENTIFIER;

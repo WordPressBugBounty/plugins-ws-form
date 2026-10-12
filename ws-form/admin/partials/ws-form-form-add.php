@@ -255,7 +255,7 @@
 	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 ?><h2></h2></div>
-<div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"></div>
+<div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('delete'); ?></div>
 <!-- /WS Form - Modal - Header -->
 
 <!-- WS Form - Modal - Content -->

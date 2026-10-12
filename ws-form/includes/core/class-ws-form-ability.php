@@ -66,6 +66,9 @@
 
 			try {
 
+				// 0 is a real filter. An omitted folder_id means every form.
+				$folder_id = self::input_folder_id($input);
+
 				// Init
 				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'forms');
 
@@ -82,7 +85,7 @@
 				$order = self::input_get('order');
 
 				// Get forms
-				$forms = $ws_form_form->get_all($published, $order_by, $order);
+				$forms = $ws_form_form->get_all($published, $order_by, $order, 'id,label,folder_id', $folder_id);
 				if(!is_array($forms)) { $forms = array(); }
 
 				// Cast IDs to integers ($wpdb returns numeric columns as strings)
@@ -92,6 +95,8 @@
 
 						$forms[$key]['id'] = (int) $form['id'];
 					}
+
+					$forms[$key]['folder_id'] = isset($form['folder_id']) ? (int) $form['folder_id'] : 0;
 				}
 
 				// Return data
@@ -105,6 +110,173 @@
 				/* translators: %s: Error message */
 				return self::error($e, __('Error retrieving forms: %s', 'ws-form'));
 			}
+		}
+
+		// Form folders
+		public function form_folders($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'form-folders');
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$folders = array();
+
+				foreach($ws_form_form_folder->tree_rows() as $row) {
+
+					$folders[] = array(
+
+						'id' => (int) $row['id'],
+						'label' => $row['label'],
+						'parent_id' => (int) $row['parent_id'],
+						'form_count' => (int) $row['form_count']
+					);
+				}
+
+				return array(
+
+					'folders' => $folders
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::form_folder_error($e, __('Error retrieving folders: %s', 'ws-form'));
+			}
+		}
+
+		// Form folder - Create
+		public function form_folder_create($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'form-folder-create');
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$id = $ws_form_form_folder->db_create(self::input_get('label'), self::input_get('parent_id'));
+				$row = $ws_form_form_folder->db_get($id);
+
+				return array(
+
+					'id' => (int) $row['id'],
+					'label' => $row['label'],
+					'parent_id' => (int) $row['parent_id']
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::form_folder_error($e, __('Error creating folder: %s', 'ws-form'));
+			}
+		}
+
+		// Form folder - Rename
+		public function form_folder_rename($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'form-folder-rename');
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$id = $ws_form_form_folder->db_rename(self::input_get('id'), self::input_get('label'));
+				$row = $ws_form_form_folder->db_get($id);
+
+				return array(
+
+					'id' => (int) $row['id'],
+					'label' => $row['label']
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::form_folder_error($e, __('Error renaming folder: %s', 'ws-form'));
+			}
+		}
+
+		// Form folder - Delete
+		public function form_folder_delete($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'form-folder-delete');
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$id = absint(self::input_get('id'));
+				$row = $ws_form_form_folder->db_get($id);
+				$parent_id = is_array($row) ? (int) $row['parent_id'] : 0;
+
+				$result = $ws_form_form_folder->db_delete($id);
+				$parent_id = isset($result['parent_id']) ? (int) $result['parent_id'] : $parent_id;
+				$deleted_count = (isset($result['deleted_ids']) && is_array($result['deleted_ids'])) ? count($result['deleted_ids']) : 1;
+
+				if($deleted_count > 1) {
+
+					$message = __('The folder and its subfolders were deleted. Forms are no longer assigned to a folder.', 'ws-form');
+
+				} else {
+
+					$message = __('Forms are no longer assigned to a folder.', 'ws-form');
+				}
+
+				return array(
+
+					'id' => (int) $result['id'],
+					'parent_id' => $parent_id,
+					'message' => $message
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::form_folder_error($e, __('Error deleting folder: %s', 'ws-form'));
+			}
+		}
+
+		// Form folder - Assign
+		public function form_folder_assign($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'form-folder-assign');
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$result = $ws_form_form_folder->db_assign(self::input_get('form_ids'), self::input_get('folder_id'));
+
+				return array(
+
+					'folder_id' => (int) $result['folder_id'],
+					'form_ids' => array_map('intval', $result['form_ids'])
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::form_folder_error($e, __('Error assigning forms: %s', 'ws-form'));
+			}
+		}
+
+		// folder_id was sent. null means it was omitted.
+		public function input_folder_id($input) {
+
+			if(is_a($input, 'WP_REST_Request')) {
+
+				$json = $input->get_json_params();
+				$input = is_array($json) ? $json : $input->get_body_params();
+			}
+
+			if(!is_array($input) || !array_key_exists('folder_id', $input)) { return null; }
+			if(($input['folder_id'] === '') || is_null($input['folder_id'])) { return null; }
+
+			return absint($input['folder_id']);
+		}
+
+		// Folder error codes to a readable message
+		public function form_folder_error($e, $message) {
+
+			$ws_form_form_folder = new WS_Form_Form_Folder();
+
+			return self::error(new Exception($ws_form_form_folder->message($e->getMessage())), $message);
 		}
 
 		// Form - Create - JSON
@@ -302,6 +474,50 @@
 
 				/* translators: %s: Error message */
 				return self::error($e, __('Error drafting form: %s', 'ws-form'));
+			}
+		}
+
+		// Form - Lock
+		public function form_lock($input) {
+
+			return self::form_set_locked($input, true);
+		}
+
+		// Form - Unlock
+		public function form_unlock($input) {
+
+			return self::form_set_locked($input, false);
+		}
+
+		public function form_set_locked($input, $locked) {
+
+			$ability = $locked ? 'form-lock' : 'form-unlock';
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . $ability);
+
+				$form_id = self::input_get('id');
+
+				if($form_id === 0) {
+
+					throw new Exception(esc_html__('Invalid form ID.', 'ws-form'));
+				}
+
+				$ws_form_form = new WS_Form_Form();
+				$ws_form_form->id = $form_id;
+				$ws_form_form->db_set_locked($locked);
+
+				return array(
+
+					'id' => $form_id,
+					'locked' => $locked ? 1 : 0
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, $locked ? __('Error locking form: %s', 'ws-form') : __('Error unlocking form: %s', 'ws-form'));
 			}
 		}
 
@@ -1295,12 +1511,6 @@
 
 				$permanent = self::input_get('permanent');
 
-				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-				if($permanent && !apply_filters('wsf_ability_style_delete_permanent', false)) {
-
-					throw new Exception(esc_html__('Permanent style deletion is not enabled.', 'ws-form'));
-				}
-
 				$ws_form_style = new WS_Form_Style();
 				$ws_form_style->id = $style_id;
 
@@ -1318,13 +1528,62 @@
 					throw new Exception(esc_html__('Invalid style ID.', 'ws-form'));
 				}
 
-				if($permanent && ($status !== 'trash')) {
+				// Trash delete is permanent in core — require explicit permanent + filter
+				if($status === 'trash') {
+
+					if(!$permanent) {
+
+						throw new Exception(esc_html__('Style is already in trash. Set permanent to true to permanently delete it.', 'ws-form'));
+					}
+
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+					if(!apply_filters('wsf_ability_style_delete_permanent', false)) {
+
+						throw new Exception(esc_html__('Permanent style deletion is not enabled.', 'ws-form'));
+					}
+
+					$delete_result = $ws_form_style->db_delete();
+					if($delete_result === false) {
+
+						throw new Exception(esc_html__('Unable to delete style. Default styles cannot be deleted.', 'ws-form'));
+					}
+
+					return array(
+
+						'id' => $style_id,
+						'permanent' => true,
+						'message' => esc_html__('Style permanently deleted', 'ws-form'),
+						'url' => WS_Form_Common::get_admin_url('ws-form-style')
+					);
+				}
+
+				if($permanent) {
+
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+					if(!apply_filters('wsf_ability_style_delete_permanent', false)) {
+
+						throw new Exception(esc_html__('Permanent style deletion is not enabled.', 'ws-form'));
+					}
 
 					$trash_result = $ws_form_style->db_delete();
 					if($trash_result === false) {
 
 						throw new Exception(esc_html__('Unable to delete style. Default styles cannot be deleted.', 'ws-form'));
 					}
+
+					$delete_result = $ws_form_style->db_delete();
+					if($delete_result === false) {
+
+						throw new Exception(esc_html__('Unable to delete style. Default styles cannot be deleted.', 'ws-form'));
+					}
+
+					return array(
+
+						'id' => $style_id,
+						'permanent' => true,
+						'message' => esc_html__('Style permanently deleted', 'ws-form'),
+						'url' => WS_Form_Common::get_admin_url('ws-form-style')
+					);
 				}
 
 				$delete_result = $ws_form_style->db_delete();
@@ -1336,21 +1595,59 @@
 				return array(
 
 					'id' => $style_id,
-					'permanent' => $permanent || ($status === 'trash'),
-					'message' => esc_html(
-						($permanent || ($status === 'trash'))
-							? __('Style permanently deleted', 'ws-form')
-							: __('Style trashed', 'ws-form')
-					),
-					'url' => ($permanent || ($status === 'trash'))
-						? WS_Form_Common::get_admin_url('ws-form-style')
-						: WS_Form_Common::get_admin_url('ws-form-style', false, 'ws-form-status=trash')
+					'permanent' => false,
+					'message' => esc_html__('Style trashed', 'ws-form'),
+					'url' => WS_Form_Common::get_admin_url('ws-form-style', false, 'ws-form-status=trash')
 				);
 
 			} catch(Exception $e) {
 
 				/* translators: %s: Error message */
 				return self::error($e, __('Error deleting style: %s', 'ws-form'));
+			}
+		}
+
+		// Style - Lock
+		public function style_lock($input) {
+
+			return self::style_set_locked($input, true);
+		}
+
+		// Style - Unlock
+		public function style_unlock($input) {
+
+			return self::style_set_locked($input, false);
+		}
+
+		public function style_set_locked($input, $locked) {
+
+			$ability = $locked ? 'style-lock' : 'style-unlock';
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . $ability);
+
+				$style_id = self::input_get('id');
+
+				if($style_id === 0) {
+
+					throw new Exception(esc_html__('Invalid style ID.', 'ws-form'));
+				}
+
+				$ws_form_style = new WS_Form_Style();
+				$ws_form_style->id = $style_id;
+				$ws_form_style->db_set_locked($locked);
+
+				return array(
+
+					'id' => $style_id,
+					'locked' => $locked ? 1 : 0
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::error($e, $locked ? __('Error locking style: %s', 'ws-form') : __('Error unlocking style: %s', 'ws-form'));
 			}
 		}
 
@@ -1900,6 +2197,8 @@
 				throw new Exception(esc_html__('You do not have permission to assign a style to a form.', 'ws-form'));
 			}
 
+			WS_Form_Form::db_throw_if_locked($form_id);
+
 			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $form_id;
 
@@ -2088,36 +2387,46 @@
 					);
 				}
 
-				// Get property type
-				$type = isset($property['type']) ? strtolower($property['type']) : 'string';
+				// Get property types (JSON Schema may use a single type or an array)
+				$types = self::property_types($property);
 
-				// Check property type (Required)
-				if(
-					!in_array($type, array(
+				$allowed_types = array(
 
-						// MCP
-						'number',
-						'boolean',
-						'string',
-						'array',
-						'object',
-						'null',
+					// MCP
+					'number',
+					'boolean',
+					'string',
+					'array',
+					'object',
+					'null',
 
-						// WordPress abilities API
-						'integer'
-					))
-				) {
-					throw new Exception(
+					// WordPress abilities API
+					'integer'
+				);
 
-						sprintf(
+				foreach($types as $type) {
 
-							/* translators: %1$s: Ability name, %2$s: Property name */
-							esc_html__('Invalid input schema property type for ability %1$s (Property: %2$s).', 'ws-form'),
-							esc_html($ability_name),
-							esc_html($property_name)
-						)
-					);
+					if(!in_array($type, $allowed_types, true)) {
+
+						throw new Exception(
+
+							sprintf(
+
+								/* translators: %1$s: Ability name, %2$s: Property name */
+								esc_html__('Invalid input schema property type for ability %1$s (Property: %2$s).', 'ws-form'),
+								esc_html($ability_name),
+								esc_html($property_name)
+							)
+						);
+					}
 				}
+
+				$type = $types[0];
+				$is_json_value = (
+
+					in_array('object', $types, true) &&
+					in_array('string', $types, true)
+				);
 
 				// Get input value
 				$input_value = isset($input[$property_name]) ? $input[$property_name] : '';
@@ -2136,6 +2445,7 @@
 						) ||
 						(
 							($type === 'string') &&
+							!$is_json_value &&
 							($input[$property_name] === '')
 						)
 					) {
@@ -2152,40 +2462,48 @@
 					}
 				}
 
-				// Process according to type
-				// Attempt to convert to correct type in case AI provides a different type
-				switch($type) {
+				if($is_json_value) {
 
-					case 'number' :
-					case 'integer' :
+					$ws_form_form_ai = new WS_Form_Form_AI();
+					$input_value = $ws_form_form_ai->json_input_to_string($input_value);
 
-						$input_value = intval($input_value);
-						break;
+				} else {
 
-					case 'boolean' :
+					// Process according to type
+					// Attempt to convert to correct type in case AI provides a different type
+					switch($type) {
 
-						$input_value = WS_Form_Common::is_true($input_value);
-						break;
+						case 'number' :
+						case 'integer' :
 
-					case 'string' :
+							$input_value = intval($input_value);
+							break;
 
-						$input_value = sanitize_text_field($input_value);
-						break;
+						case 'boolean' :
 
-					case 'array' :
+							$input_value = WS_Form_Common::is_true($input_value);
+							break;
 
-						$input_value = WS_Form_Common::to_array($input_value);
-						break;
+						case 'string' :
 
-					case 'object' :
+							$input_value = sanitize_text_field($input_value);
+							break;
 
-						$input_value = WS_Form_Common::to_object($input_value);
-						break;
+						case 'array' :
 
-					case 'null' :
+							$input_value = WS_Form_Common::to_array($input_value);
+							break;
 
-						$input_value = null;
-						break;
+						case 'object' :
+
+							$input_value = WS_Form_Common::to_object($input_value);
+							break;
+
+						case 'null' :
+
+							$input_value = null;
+							break;
+					}
 				}
 
 				// If no value passed and string then set to default value
@@ -2234,6 +2552,36 @@
 			}
 
 			return $this->input;
+		}
+
+		// Schema property types
+		public function property_types($property) {
+
+			$types = isset($property['type']) ? $property['type'] : 'string';
+
+			if(!is_array($types)) {
+
+				$types = array($types);
+			}
+
+			$types_normalized = array();
+
+			foreach($types as $type) {
+
+				if(!is_string($type) || ($type === '')) {
+
+					continue;
+				}
+
+				$types_normalized[] = strtolower($type);
+			}
+
+			if(empty($types_normalized)) {
+
+				$types_normalized[] = 'string';
+			}
+
+			return $types_normalized;
 		}
 
 		// Get input

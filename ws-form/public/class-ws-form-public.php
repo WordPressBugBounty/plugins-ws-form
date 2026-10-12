@@ -1781,7 +1781,7 @@
 				'gmt_offset'			=> get_option('gmt_offset'),
 
 				// Locale
-				'locale'				=> get_locale(),
+				'locale'				=> determine_locale(),
 
 				// Stat
 				'stat'					=> ($ws_form_form_stat->form_stat_check() && (WS_Form_Common::option_get('add_view_method', '') != 'server')),
@@ -1806,6 +1806,18 @@
 
 				$return_array['post_id'] = $post->ID;
 			}
+
+			$style_id = absint(WS_Form_Common::get_query_var('wsf_preview_style_id'));
+			$return_array['style_locked'] = ($style_id && WS_Form_Style::db_is_locked_id($style_id)) ? 1 : 0;
+			$return_array['can_unlock_style'] = WS_Form_Common::can_user('unlock_form_style') ? 1 : 0;
+			$return_array['icon_lock'] = WS_Form_Config::get_icon_16_svg('lock');
+			$return_array['label_unlock'] = __('Unlock', 'ws-form');
+			$return_array['style_locked_title'] = __('This Style is Locked', 'ws-form');
+			$return_array['style_locked_copy'] = __('Unlock it to make changes.', 'ws-form');
+			$return_array['style_locked_no_permission'] = __('You do not have permission to unlock this style.', 'ws-form');
+			$return_array['style_locked_learn_more'] = __('Learn more', 'ws-form');
+			$return_array['style_locked_learn_more_url'] = WS_Form_Common::get_plugin_website_url('/knowledgebase/style-locking/');
+			$return_array['style_unlock_confirm'] = __('Are you sure you want to unlock this style? It can be edited again, and it can be moved to the trash.', 'ws-form');
 
 			return $return_array;
 		}

@@ -47,10 +47,4 @@
 		wsf_admin_wp_count_submit_unread_render(count_submit_unread_total);
 	}
 
-	// Initial wsf_admin_wp_count_submit_unread_render
-	$(function() {
-
-		window.wsf_admin_wp_count_submit_unread_render(ws_form_admin_count_submit_read_settings.count_submit_unread_total);
-	});
-
 })(jQuery);

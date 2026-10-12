@@ -26,6 +26,10 @@
   );
 }
 
+:root {
+  --wsf-color-default-lighter: #ceced2;
+}
+
 .wsf-sidebar-resize.wsf-sidebar-resize-active {
   background-color: #002E5D !important;
   border-color: #002E5D !important;

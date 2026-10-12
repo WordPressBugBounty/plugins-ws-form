@@ -49,6 +49,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			self::db_guard_form_unlocked();
+
 			// Check section ID
 			self::db_check_section_id();
 
@@ -380,6 +382,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			if($repair) { self::db_guard_form_unlocked(); }
+
 			self::db_check_id();
 
 			global $wpdb;
@@ -518,6 +522,8 @@
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
 
+			self::db_guard_form_unlocked();
+
 			global $wpdb;
 
 			// Clone field
@@ -574,6 +580,8 @@
 
 			// User capability check
 			WS_Form_Common::user_must('edit_form');
+
+			if(!$new) { self::db_guard_form_unlocked(); }
 
 			// Check field type is licensed
 			if(!isset($field_object->type)) { return false; }
@@ -806,6 +814,32 @@
 			$ws_form_meta->parent_id = $this->id;
 			$ws_form_meta->object = 'field';
 			$ws_form_meta->db_update_from_array($meta_array, false, true);
+		}
+
+		public function db_guard_form_unlocked() {
+
+			$form_ids = array();
+
+			// Row's form, not the form ID sent with the request
+			if($this->id) {
+
+				$form_ids[] = WS_Form_Form::db_form_id_from_field($this->id);
+			}
+
+			// Form that owns the destination section
+			if($this->section_id) {
+
+				$form_ids[] = WS_Form_Form::db_form_id_from_section($this->section_id);
+			}
+
+			// Destination form on create and sort
+			$form_id = absint($this->form_id);
+			if($form_id) { $form_ids[] = $form_id; }
+
+			foreach(array_unique($form_ids) as $form_id) {
+
+				WS_Form_Form::db_throw_if_locked($form_id);
+			}
 		}
 
 		// Is valid

@@ -21,13 +21,18 @@
 
 			// Context: layout editor (edit) vs submissions (submit)
 			$sidebar_context = sanitize_key(WS_Form_Common::get_query_var_nonce('sidebar_context', 'edit', $parameters));
-			if($sidebar_context !== 'submit') { $sidebar_context = 'edit'; }
 
 			if($sidebar_context === 'submit') {
 
 				$sidebar_width_min = WS_FORM_SIDEBAR_WIDTH_MIN_SUBMIT;
 				$sidebar_width_max = WS_FORM_SIDEBAR_WIDTH_MAX_SUBMIT;
 				$sidebar_option = 'sidebar_width_submit';
+
+			} elseif($sidebar_context === 'form_list') {
+
+				$sidebar_width_min = WS_FORM_FORM_FOLDERS_WIDTH_MIN;
+				$sidebar_width_max = WS_FORM_FORM_FOLDERS_WIDTH_MAX;
+				$sidebar_option = 'sidebar_width_form_list';
 
 			} else {
 

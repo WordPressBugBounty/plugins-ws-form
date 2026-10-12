@@ -31,6 +31,9 @@
 		// Deregister scripts
 		private $deregister_scripts = array();
 
+		// Unread submission total for the admin menu badge
+		private $count_submit_unread_total = null;
+
 		// Hooks
 		private $hook_suffix_form = false;
 		private $hook_suffix_form_add = false;
@@ -370,6 +373,17 @@
 				// WS Form - Edit Form
 				case $this->hook_suffix_form_edit :
 
+					// Locked forms show a static notice. Scripts are only needed for the unlock confirm modal.
+					if($this->form_id && WS_Form_Form::db_is_locked_id($this->form_id)) {
+
+						wp_enqueue_script($this->plugin_name . '-form-common');
+						wp_localize_script($this->plugin_name . '-form-common', 'ws_form_settings', $ws_form_settings);
+						wp_enqueue_script($this->plugin_name);
+						self::admin_footer_config_script();
+
+						break;
+					}
+
 					// jQuery UI
 					wp_enqueue_script('jquery-ui-core');
 					wp_enqueue_script('jquery-ui-draggable');
@@ -590,8 +604,13 @@
 
 				wp_register_script($this->plugin_name . '-admin-count-submit-unread', sprintf('%sadmin/js/ws-form-admin-count-submit-unread%s.js', WS_FORM_PLUGIN_DIR_URL, $min), array('jquery'), $this->version, false);
 
-				$ws_form_form = new WS_Form_Form();
-				$count_submit_unread_total = $ws_form_form->db_get_count_submit_unread_total();
+				if($this->count_submit_unread_total === null) {
+
+					$ws_form_form = new WS_Form_Form();
+					$this->count_submit_unread_total = $ws_form_form->db_get_count_submit_unread_total();
+				}
+
+				$count_submit_unread_total = absint($this->count_submit_unread_total);
 
 				$ws_form_admin_count_submit_read_settings = array(
 
@@ -823,7 +842,7 @@
 	WS_Form_Common::echo_get_admin_icon('#002e5f', false);	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 ?><h2><?php esc_html_e('Feedback', 'ws-form'); ?></h2></div>
-<div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"></div>
+<div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('delete'); ?></div>
 <!-- /WS Form - Modal - Feedback - Header -->
 
 <!-- WS Form - Modal - Feedback - Content -->
@@ -1080,7 +1099,7 @@
 	));
 
 ?></h2></div>
-<div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"></div>
+<div class="wsf-modal-close" data-action="wsf-close" title="<?php esc_attr_e('Close', 'ws-form'); ?>"><?php WS_Form_Common::render_icon_16_svg('delete'); ?></div>
 <!-- /WS Form - Modal - Add Form - Header -->
 
 <!-- WS Form - Modal - Add Form - Content -->
@@ -1150,24 +1169,70 @@
 <?php
 		}
 
+		// Unread submission badge for the admin menu
+		public function get_count_submit_unread_total_html() {
+
+			$disable_count_submit_unread = WS_Form_Common::option_get('disable_count_submit_unread', false);
+			if($disable_count_submit_unread) {
+
+				$this->count_submit_unread_total = 0;
+				return '';
+			}
+
+			if($this->count_submit_unread_total === null) {
+
+				$ws_form_form = new WS_Form_Form();
+				$this->count_submit_unread_total = $ws_form_form->db_get_count_submit_unread_total();
+			}
+
+			$count_submit_unread_total = absint($this->count_submit_unread_total);
+
+			$count_submit_unread_total_html = '';
+			if($count_submit_unread_total > 0) {
+
+				$count_submit_unread_total_html = sprintf(
+					' <span class="count-%1$u" title="%2$s"><span class="update-count">%1$u</span></span>',
+					$count_submit_unread_total,
+					esc_attr(sprintf('%u new submission%s', $count_submit_unread_total, ($count_submit_unread_total === 1) ? '' : 's'))
+				);
+			}
+
+			return '<span class="wsf-submit-unread-total wsf-submit-unread">' . $count_submit_unread_total_html . '</span>';
+		}
+
 		// Add admin menu pages (visible and hidden)
 		public function admin_menu() {
 
-			// Unread submission span
-			$disable_count_submit_unread = WS_Form_Common::option_get('disable_count_submit_unread', false);
-			$count_submit_unread_total_html = $disable_count_submit_unread ? '' : '<span class="wsf-submit-unread-total wsf-submit-unread"></span>';
+			// Unread submission badge
+			$count_submit_unread_total_html = $this->get_count_submit_unread_total_html();
 
 			// Forms - List
+			// Plain title so sanitize_title() stays ws-form; badge HTML is applied after
 			$this->hook_suffix_form = add_menu_page(
 
 				WS_FORM_NAME_GENERIC,
-				WS_FORM_NAME_GENERIC . $count_submit_unread_total_html,
+				WS_FORM_NAME_GENERIC,
 				'read_form',
 				$this->plugin_name,
 				false,
 				WS_Form_Common::get_admin_icon(),
 				35
 			);
+
+			if($count_submit_unread_total_html !== '') {
+
+				global $menu;
+
+				foreach($menu as $position => $item) {
+
+					if(isset($item[2]) && ($item[2] === $this->plugin_name)) {
+
+						$menu[$position][0] .= $count_submit_unread_total_html;
+						break;
+					}
+				}
+			}
+
 			add_action('load-' . $this->hook_suffix_form, array($this, 'ws_form_wp_list_table_form_options'));
 
 			// Welcome (Hidden)
@@ -1318,8 +1383,41 @@
 			// Open external WS Form submenu links in a new tab
 			add_action('admin_footer', array($this, 'admin_footer_external_menu_links'));
 
+			// Hidden pages (edit, welcome) are registered under options.php
+			add_filter('parent_file', array($this, 'admin_menu_parent_file'));
+
 			add_filter('default_hidden_columns', array($this, 'ws_form_default_hidden_columns'), 10, 2); 
 			add_filter('screen_settings', array($this, 'screen_settings_submit'), 10, 2);
+		}
+
+		// Keep hidden pages under the WS Form menu
+		public function admin_menu_parent_file($parent_file) {
+
+			global $submenu;
+
+			$page = WS_Form_Common::get_query_var('page');
+
+			if(
+				($page === $this->plugin_name . '-edit') ||
+				($page === $this->plugin_name . '-welcome')
+			) {
+
+				// get_admin_page_parent() runs after this and would reset parent_file to options.php
+				if(isset($submenu['options.php']) && is_array($submenu['options.php'])) {
+
+					foreach($submenu['options.php'] as $index => $item) {
+
+						if(isset($item[2]) && ($item[2] === $page)) {
+
+							unset($submenu['options.php'][$index]);
+						}
+					}
+				}
+
+				return $this->plugin_name;
+			}
+
+			return $parent_file;
 		}
 
 		// Open wsform.com submenu links in a new tab
@@ -1396,6 +1494,8 @@
 
 		// Form screen options
 		public function ws_form_wp_list_table_form_options() {
+
+			WS_Form_WP_List_Table_Form::remember_folder();
 
 			add_screen_option('per_page', array(
 
@@ -1632,6 +1732,32 @@
 			// Do on specific WS Form pages
 			switch($page) {
 
+				// Layout editor
+				case 'ws-form-edit' :
+
+					$action = WS_Form_Common::get_query_var_nonce('action', '', false, false, true, 'POST');
+
+					if($action === 'wsf-form-unlock') {
+
+						$form_id = absint(WS_Form_Common::get_query_var('id', 0));
+
+						if($form_id) {
+
+							$ws_form_form = new WS_Form_Form();
+							$ws_form_form->id = $form_id;
+
+							try {
+
+								$ws_form_form->db_set_locked(false);
+
+							} catch(Exception $e) {}
+						}
+
+						self::redirect('ws-form-edit', $form_id);
+					}
+
+					break;
+
 				// Forms
 				case 'ws-form' :
 
@@ -1655,6 +1781,12 @@
 						case 'wsf-restore' : 		self::form_restore($this->form_id); self::redirect('ws-form', false); break;
 						case 'wsf-bulk-delete' : 	self::form_bulk('delete'); break;
 						case 'wsf-bulk-restore' : 	self::form_bulk('restore'); break;
+						case 'wsf-bulk-lock' : 		self::form_bulk('lock'); break;
+						case 'wsf-bulk-unlock' : 	self::form_bulk('unlock'); break;
+						case 'wsf-bulk-folder' : 	self::form_bulk_folder(); break;
+						case 'wsf-folder-add' : 	self::form_folder_add(); break;
+						case 'wsf-folder-rename' : 	self::form_folder_rename(); break;
+						case 'wsf-folder-delete' : 	self::form_folder_delete(); break;
 						case '-1':
 
 							// Check for delete_all
@@ -1772,6 +1904,8 @@
 						case 'wsf-reset' :                  self::form_style_reset($style_id); self::redirect('ws-form-style', false); break;
 						case 'wsf-bulk-delete' :            self::form_style_bulk('delete'); break;
 						case 'wsf-bulk-restore' :           self::form_style_bulk('restore'); break;
+						case 'wsf-bulk-lock' :              self::form_style_bulk('lock'); break;
+						case 'wsf-bulk-unlock' :            self::form_style_bulk('unlock'); break;
 						case '-1':
 
 							// Check for delete_all
@@ -1787,6 +1921,9 @@
 
 				// Settings
 				case 'ws-form-settings' :
+
+					// Render queued messages in the settings template (under the header)
+					remove_action('admin_notices', array('WS_Form_Common', 'admin_messages_render'));
 
 					if(!WS_Form_Common::can_user('manage_options_wsform')) { break; }
 
@@ -1850,85 +1987,42 @@
 							$max_upload_size = $upload_checks['max_upload_size'];
 							$max_uploads = $upload_checks['max_uploads'];
 
-							$fields = [];
+							// Open section, or every section packed into `data` (max_input_vars)
+							$panels = WS_Form_Common::get_query_var_nonce('wsf_settings_panels', array());
 
-							// Build field list for active section only
-							if(isset($options[$tabCurrent]['groups'])) {
+							if(!is_array($panels) || (count($panels) === 0)) {
 
-								$groups = $options[$tabCurrent]['groups'];
-
-								// Default to first group when section missing
-								if(($sectionCurrent === '') || !isset($groups[$sectionCurrent])) {
-
-									$group_keys = array_keys($groups);
-									$sectionCurrent = !empty($group_keys) ? $group_keys[0] : '';
-								}
-
-								if(($sectionCurrent !== '') && isset($groups[$sectionCurrent])) {
-
-									$group = $groups[$sectionCurrent];
-
-									// Tab-level fields on first visible section (hybrid fields+groups tabs)
-									if(
-										!empty($options[$tabCurrent]['fields']) &&
-										is_array($options[$tabCurrent]['fields'])
-									) {
-
-										$tab_fields_section = '';
-
-										foreach($groups as $group_key => $group_check) {
-
-											if(isset($group_check['condition'])) {
-
-												$group_visible = true;
-
-												foreach($group_check['condition'] as $condition_field => $condition_value) {
-
-													if(WS_Form_Common::option_get($condition_field) != $condition_value) {
-
-														$group_visible = false;
-														break;
-													}
-												}
-
-												if(!$group_visible) { continue; }
-											}
-
-											$tab_fields_section = $group_key;
-											break;
-										}
-
-										if($sectionCurrent === $tab_fields_section) {
-
-											$fields = $fields + $options[$tabCurrent]['fields'];
-										}
-									}
-
-									if(isset($group['fields']) && is_array($group['fields'])) {
-
-										$fields = $fields + $group['fields'];
-									}
-
-									// Nested groups (integration sections)
-									if(isset($group['groups']) && is_array($group['groups'])) {
-
-										foreach($group['groups'] as $nested_group) {
-
-											if(isset($nested_group['fields']) && is_array($nested_group['fields'])) {
-
-												$fields = $fields + $nested_group['fields'];
-											}
-										}
-									}
-								}
-
-							} elseif(isset($options[$tabCurrent]['fields'])) {
-
-								$fields = $fields + $options[$tabCurrent]['fields'];
+								$panels = array($tabCurrent . '|' . $sectionCurrent);
 							}
 
-							// Update fields
-							self::settings_update_fields($fields, $max_uploads, $max_upload_size);
+							$panels_seen = array();
+
+							foreach($panels as $panel) {
+
+								if(!is_string($panel) && !is_numeric($panel)) { continue; }
+
+								$panel = sanitize_text_field((string) $panel);
+
+								if(($panel === '') || isset($panels_seen[$panel])) { continue; }
+
+								$panels_seen[$panel] = true;
+
+								$panel_parts = explode('|', $panel, 2);
+								$panel_tab = $panel_parts[0];
+								$panel_section = isset($panel_parts[1]) ? $panel_parts[1] : '';
+								$panel_resolved = WS_Form_Config_Option::settings_tab_section_resolve($panel_tab, $panel_section, $options);
+
+								if(!isset($options[$panel_resolved['tab']])) { continue; }
+
+								$panel_fields = self::settings_section_fields($options, $panel_resolved['tab'], $panel_resolved['section']);
+
+								self::settings_update_fields($panel_fields, $max_uploads, $max_upload_size);
+							}
+
+							if(WS_Form_Common::get_admin_message_count() == 0) {
+
+								WS_Form_Common::admin_message_push('Successfully saved settings!', 'notice-success', true, false);
+							}
 
 							// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 							do_action('wsf_settings_update');
@@ -2000,7 +2094,7 @@
 		public function get_filter_query() {
 
 			$submit_filter_query_array = array();
-			$submit_filter_query_lookups = array('date_from', 'date_to', 'paged', 'ws-form-status');
+			$submit_filter_query_lookups = array('date_from', 'date_to', 'paged', 'ws-form-status', 'ws-form-folder');
 
 			foreach($submit_filter_query_lookups as $submit_filter_query_lookup) {
 
@@ -2019,6 +2113,8 @@
 			$ws_form_form->db_create();
 
 			if($ws_form_form->id > 0) {
+
+				$ws_form_form->db_create_blank_submit();
 
 				// Redirect
 				self::redirect('ws-form-edit', $ws_form_form->id);
@@ -2114,7 +2210,19 @@
 
 			$ws_form_form = new WS_Form_Form();
 			$ws_form_form->id = $id;
-			$ws_form_form->db_delete();
+
+			try {
+
+				$ws_form_form->db_delete();
+
+			} catch (Exception $e) {
+
+				// A locked form cannot be trashed. Keep going for bulk actions.
+				if(strpos($e->getMessage(), 'locked') === false) {
+
+					throw $e;
+				}
+			}
 
 			// No redirect here in case it is called by bulk loop
 		}
@@ -2159,7 +2267,137 @@
 					foreach ($ids as $id) { self::form_restore($id); }
 					self::redirect('ws-form', false);
 					break;
+
+				case 'lock' :
+				case 'unlock' :
+
+					$ws_form_form = new WS_Form_Form();
+					$ws_form_form->db_set_locked(($method === 'lock'), $ids);
+					self::redirect('ws-form', false, self::get_filter_query());
+					break;
 			}
+		}
+
+		// Form - Bulk move to a folder
+		public function form_bulk_folder() {
+
+			if(!WS_Form_Common::can_user('edit_form')) { return false; }
+
+			$ids = WS_Form_Common::get_query_var_nonce('bulk-ids');
+			if(!$ids || (count($ids) == 0)) { return false; }
+
+			$folder_id = absint(WS_Form_Common::get_query_var_nonce('folder_id', 0, false, false, true, 'POST'));
+
+			try {
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$ws_form_form_folder->db_assign($ids, $folder_id);
+
+			} catch(Exception $e) {
+
+				self::form_folder_redirect($e->getMessage());
+			}
+
+			self::redirect('ws-form', false, self::get_filter_query());
+		}
+
+		// Form folder - Add
+		public function form_folder_add() {
+
+			if(!WS_Form_Common::can_user('edit_form')) { return false; }
+
+			$label = WS_Form_Common::get_query_var_nonce('folder_label', '', false, false, true, 'POST');
+			$parent_id = absint(WS_Form_Common::get_query_var_nonce('folder_parent_id', 0, false, false, true, 'POST'));
+
+			try {
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$ws_form_form_folder->db_create($label, $parent_id);
+
+			} catch(Exception $e) {
+
+				self::form_folder_redirect($e->getMessage());
+			}
+
+			self::redirect('ws-form', false, self::get_filter_query());
+		}
+
+		// Form folder - Rename
+		public function form_folder_rename() {
+
+			if(!WS_Form_Common::can_user('edit_form')) { return false; }
+
+			$id = absint(WS_Form_Common::get_query_var_nonce('id', '', false, false, true, 'POST'));
+			$label = WS_Form_Common::get_query_var_nonce('folder_label', '', false, false, true, 'POST');
+
+			try {
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$ws_form_form_folder->db_rename($id, $label);
+
+			} catch(Exception $e) {
+
+				self::form_folder_redirect($e->getMessage());
+			}
+
+			self::redirect('ws-form', false, self::get_filter_query());
+		}
+
+		// Form folder - Delete
+		public function form_folder_delete() {
+
+			if(!WS_Form_Common::can_user('edit_form')) { return false; }
+
+			$id = absint(WS_Form_Common::get_query_var_nonce('id', '', false, false, true, 'POST'));
+
+			try {
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$result = $ws_form_form_folder->db_delete($id);
+
+			} catch(Exception $e) {
+
+				self::form_folder_redirect($e->getMessage());
+			}
+
+			$deleted_ids = array($id => $id);
+			if(isset($result['deleted_ids']) && is_array($result['deleted_ids'])) {
+
+				foreach($result['deleted_ids'] as $deleted_id) {
+
+					$deleted_id = absint($deleted_id);
+					if($deleted_id > 0) { $deleted_ids[$deleted_id] = $deleted_id; }
+				}
+			}
+
+			$current_folder_id = absint(WS_Form_Common::get_query_var('ws-form-folder'));
+			if(isset($deleted_ids[$current_folder_id])) {
+
+				$parent_id = isset($result['parent_id']) ? absint($result['parent_id']) : 0;
+				$query = self::get_filter_query();
+				$query = preg_replace('/(^|&)ws-form-folder=[^&]*/', '', $query);
+				$query = ltrim($query, '&');
+				if($parent_id > 0) {
+
+					$query = 'ws-form-folder=' . $parent_id . ($query !== '' ? '&' . $query : '');
+				}
+
+				self::redirect('ws-form', false, $query);
+			}
+
+			self::redirect('ws-form', false, self::get_filter_query());
+		}
+
+		// Redirect back to the forms list with a folder error code
+		public function form_folder_redirect($code) {
+
+			$allowed = array('duplicate', 'children', 'not_found', 'label', 'depth');
+			if(!in_array($code, $allowed, true)) { $code = 'not_found'; }
+
+			$query = self::get_filter_query();
+			$query .= ($query !== '' ? '&' : '') . 'wsf_folder_error=' . rawurlencode($code);
+
+			self::redirect('ws-form', false, $query);
 		}
 
 		// Form - Empty trash
@@ -2389,7 +2627,19 @@
 
 			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
-			$ws_form_style->db_delete();
+
+			try {
+
+				$ws_form_style->db_delete();
+
+			} catch (Exception $e) {
+
+				// A locked style cannot be trashed. Keep going for bulk actions.
+				if(strpos($e->getMessage(), 'locked') === false) {
+
+					throw $e;
+				}
+			}
 
 			// No redirect here in case it is called by bulk loop
 		}
@@ -2419,7 +2669,18 @@
 
 			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
-			$ws_form_style->db_default();
+
+			try {
+
+				$ws_form_style->db_default();
+
+			} catch (Exception $e) {
+
+				if(strpos($e->getMessage(), 'locked') === false) {
+
+					throw $e;
+				}
+			}
 
 			if($ws_form_style->id > 0) { self::redirect('ws-form-style', false, self::get_filter_query()); }
 		}
@@ -2429,7 +2690,18 @@
 
 			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
-			$ws_form_style->db_default_conv();
+
+			try {
+
+				$ws_form_style->db_default_conv();
+
+			} catch (Exception $e) {
+
+				if(strpos($e->getMessage(), 'locked') === false) {
+
+					throw $e;
+				}
+			}
 
 			if($ws_form_style->id > 0) { self::redirect('ws-form-style', false, self::get_filter_query()); }
 		}
@@ -2439,7 +2711,18 @@
 
 			$ws_form_style = new WS_Form_Style();
 			$ws_form_style->id = $id;
-			$ws_form_style->db_reset();
+
+			try {
+
+				$ws_form_style->db_reset();
+
+			} catch (Exception $e) {
+
+				if(strpos($e->getMessage(), 'locked') === false) {
+
+					throw $e;
+				}
+			}
 
 			// No redirect here in case it is called by bulk loop
 		}
@@ -2464,6 +2747,14 @@
 					foreach ($ids as $id) { self::form_style_estore($id); }
 					self::redirect('ws-form-style', false);
 					break;
+
+				case 'lock' :
+				case 'unlock' :
+
+					$ws_form_style = new WS_Form_Style();
+					$ws_form_style->db_set_locked(($method === 'lock'), $ids);
+					self::redirect('ws-form-style', false, self::get_filter_query());
+					break;
 			}
 		}
 
@@ -2475,6 +2766,89 @@
 
 			// Redirect
 			self::redirect('ws-form-style', false, self::get_filter_query());
+		}
+
+		public function settings_section_fields($options, $tab, $section) {
+
+			$fields = array();
+
+			if(!isset($options[$tab]) || !is_array($options[$tab])) { return $fields; }
+
+			if(isset($options[$tab]['groups'])) {
+
+				$groups = $options[$tab]['groups'];
+
+				// Default to first group when section missing
+				if(($section === '') || !isset($groups[$section])) {
+
+					$group_keys = array_keys($groups);
+					$section = !empty($group_keys) ? $group_keys[0] : '';
+				}
+
+				if(($section !== '') && isset($groups[$section])) {
+
+					$group = $groups[$section];
+
+					// Tab-level fields on first visible section (hybrid fields+groups tabs)
+					if(
+						!empty($options[$tab]['fields']) &&
+						is_array($options[$tab]['fields'])
+					) {
+
+						$tab_fields_section = '';
+
+						foreach($groups as $group_key => $group_check) {
+
+							if(isset($group_check['condition'])) {
+
+								$group_visible = true;
+
+								foreach($group_check['condition'] as $condition_field => $condition_value) {
+
+									if(WS_Form_Common::option_get($condition_field) != $condition_value) {
+
+										$group_visible = false;
+										break;
+									}
+								}
+
+								if(!$group_visible) { continue; }
+							}
+
+							$tab_fields_section = $group_key;
+							break;
+						}
+
+						if($section === $tab_fields_section) {
+
+							$fields = $fields + $options[$tab]['fields'];
+						}
+					}
+
+					if(isset($group['fields']) && is_array($group['fields'])) {
+
+						$fields = $fields + $group['fields'];
+					}
+
+					// Nested groups (integration sections)
+					if(isset($group['groups']) && is_array($group['groups'])) {
+
+						foreach($group['groups'] as $nested_group) {
+
+							if(isset($nested_group['fields']) && is_array($nested_group['fields'])) {
+
+								$fields = $fields + $nested_group['fields'];
+							}
+						}
+					}
+				}
+
+			} elseif(isset($options[$tab]['fields'])) {
+
+				$fields = $fields + $options[$tab]['fields'];
+			}
+
+			return $fields;
 		}
 
 		public function settings_update_fields($fields, $max_uploads, $max_upload_size) {
@@ -2653,12 +3027,6 @@
 						WS_Form_Common::option_set($field, $value);
 				}
 			}
-
-			// Add admin message
-			if(WS_Form_Common::get_admin_message_count() == 0) {
-
-				WS_Form_Common::admin_message_push('Successfully saved settings!');
-			}
 		}
 
 		// Redirect
@@ -2753,7 +3121,7 @@
 				array(
 	
 					'id'    => WS_FORM_NAME . '-node',
-					'title' => sprintf('<span class="ab-icon">%s</span><span class="ab-label">WS Form</span>', WS_Form_Common::get_admin_icon('#a0a5aa', false)),
+					'title' => sprintf('<span class="ab-icon">%s</span><span class="ab-label">WS Form</span>', WS_Form_Common::get_admin_icon('currentColor', false)),
 					'href'  => esc_url(WS_Form_Common::get_admin_url('ws-form'))
 				)
 			);
