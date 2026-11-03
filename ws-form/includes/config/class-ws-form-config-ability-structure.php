@@ -389,7 +389,7 @@
 							'meta' => array(
 
 								'type' => 'object',
-								'description' => 'Optional section meta. Supported: label_render (boolean or on/off) to show or hide the section label.'
+								'description' => 'Optional section meta. label_render (boolean or on/off) shows or hides the section label. widths: ' . $ws_form_form_ai->breakpoint_widths_description()
 							)
 						)
 					),
@@ -423,7 +423,7 @@
 				WS_FORM_ABILITY_API_NAMESPACE . 'section-update' => array(
 
 					'label' => __('Update section', 'ws-form'),
-					'description' => __('Update a section label and/or meta (label_render). Use the sections tool to get section IDs.', 'ws-form'),
+					'description' => __('Update a section label and/or meta (label_render, widths). Use the sections tool to get section IDs.', 'ws-form'),
 					'category' => 'ws-form',
 					'permission_callback' => $edit_permission,
 					'input_schema' => array(
@@ -446,7 +446,7 @@
 							'meta' => array(
 
 								'type' => 'object',
-								'description' => 'Optional. Supported: label_render (boolean or on/off).'
+								'description' => 'Optional. label_render (boolean or on/off) shows or hides the section label. widths: ' . $ws_form_form_ai->breakpoint_widths_description()
 							)
 						)
 					),

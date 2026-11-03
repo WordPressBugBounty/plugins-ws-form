@@ -1074,11 +1074,11 @@
 
 						'select' => array (
 
-							'label'				=>	__('Select', 'ws-form'),
+							'label'				=>	_x('Select', 'Select field', 'ws-form'),
 							'description'		=>	__('A dropdown field for selecting one or more options from a list.', 'ws-form'),
 							'pro_required'		=>	!WS_Form_Common::is_edition('basic'),
 							'kb_url'			=>	'/knowledgebase/select/',
-							'label_default'		=>	__('Select', 'ws-form'),
+							'label_default'		=>	_x('Select', 'Select field', 'ws-form'),
 							'data_source'		=>	array('type' => 'data_grid', 'id' => 'data_grid_select'),
 							'submit_save'		=>	true,
 							'submit_edit'		=>	true,
@@ -1544,7 +1544,7 @@
 
 				'advanced' => array(
 
-					'label'	=> __('Advanced', 'ws-form'),
+					'label'	=> _x('Advanced', 'Field type group', 'ws-form'),
 					'types' => array(
 
 						'hidden' => array (
@@ -3489,6 +3489,15 @@
 							'meta_key'			=>	'ip_limit',
 							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 							'meta_value'		=>	'on'
+						),
+
+						array(
+
+							'logic'				=>	'!=',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+							'meta_key'			=>	'tracking_remote_ip',
+							// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+							'meta_value'		=>	'on'
 						)
 					)
 				),
@@ -3821,6 +3830,15 @@
 					'type'						=>	'checkbox',
 					'default'					=>	'',
 					'help'						=>	__('Adds a hidden field to fool spammers.', 'ws-form'),
+				),
+
+				// Spam Protection - Random text
+				'random_text' => array(
+
+					'label'						=>	__('Enable', 'ws-form'),
+					'type'						=>	'checkbox',
+					'default'					=>	'',
+					'help'						=>	__('Detects suspicious text patterns associated with spam.', 'ws-form'),
 				),
 
 				// Spam Protection - Threshold
@@ -5796,10 +5814,10 @@
 
 				'text_password_strength_good' => array(
 
-					'label'						=>	__('Medium', 'ws-form'),
+					'label'						=>	_x('Medium', 'Password strength', 'ws-form'),
 					'type'						=>	'text',
 					'default'					=>	'',
-					'placeholder'				=>	__('Medium', 'ws-form'),
+					'placeholder'				=>	_x('Medium', 'Password strength', 'ws-form'),
 					'translate'					=>	true,
 					'translate_empty_key'		=>	'placeholder'
 				),
@@ -6180,7 +6198,7 @@
 					'options'					=>	array(
 
 						array('value' => '4', 'text' => __('Strong', 'ws-form')),
-						array('value' => '3', 'text' => __('Medium', 'ws-form')),
+						array('value' => '3', 'text' => _x('Medium', 'Password strength', 'ws-form')),
 						array('value' => '2', 'text' => __('Weak', 'ws-form')),
 						array('value' => '1', 'text' => __('Very Weak', 'ws-form')),
 						array('value' => '0', 'text' => __('None', 'ws-form'))
@@ -10788,7 +10806,7 @@
 				// Select option text
 				'select' 	=> array(
 
-					'label'		=> __('Select', 'ws-form'),
+					'label'		=> _x('Select', 'Select field', 'ws-form'),
 
 					'variables'	=> array(
 

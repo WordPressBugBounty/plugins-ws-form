@@ -136,7 +136,7 @@
 <?php
 		if($ws_form_folders_visible) {
 ?>
-<div id="wsf-form-folders" data-width-min="<?php echo absint(WS_FORM_FORM_FOLDERS_WIDTH_MIN); ?>" data-width-max="<?php echo absint(WS_FORM_FORM_FOLDERS_WIDTH_MAX); ?>"<?php echo $ws_form_can_edit_folder ? ' data-can-edit="1"' : ''; ?>>
+<div id="wsf-form-folders" data-width-min="<?php echo absint(WS_FORM_FORM_FOLDERS_WIDTH_MIN); ?>" data-width-max="<?php echo absint(WS_FORM_FORM_FOLDERS_WIDTH_MAX); ?>" data-depth-max="<?php echo absint(WS_FORM_FORM_FOLDERS_DEPTH_MAX); ?>" data-indent-base="14" data-indent-step="16"<?php echo $ws_form_can_edit_folder ? ' data-can-edit="1"' : ''; ?>>
 <div class="wsf-sidebar-resize"></div>
 <div class="wsf-form-folders-header">
 <span class="wsf-form-folders-heading"><?php esc_html_e('Folders', 'ws-form'); ?></span>
@@ -153,13 +153,21 @@
 <span class="wsf-form-folder-count"><?php echo absint($ws_form_folder_unfiled_count); ?></span>
 </a>
 <div class="wsf-form-folders-rule" role="separator"></div>
+<div class="wsf-form-folders-sortable">
 <?php
 			foreach($ws_form_folder_tree as $ws_form_folder_row) {
 
 				$ws_form_folder_pad = 14 + ($ws_form_folder_row['depth'] * 16);
 				$ws_form_folder_is_current = ($ws_form_folder_current === $ws_form_folder_row['id']);
 ?>
-<div class="wsf-form-folder-row<?php echo $ws_form_folder_is_current ? ' wsf-form-folder-current' : ''; ?>" style="padding-inline-start: <?php echo absint($ws_form_folder_pad); ?>px;" data-folder-id="<?php echo absint($ws_form_folder_row['id']); ?>">
+<div class="wsf-form-folder-row<?php echo $ws_form_folder_is_current ? ' wsf-form-folder-current' : ''; ?>" style="padding-inline-start: <?php echo absint($ws_form_folder_pad); ?>px;" data-folder-id="<?php echo absint($ws_form_folder_row['id']); ?>" data-parent-id="<?php echo absint($ws_form_folder_row['parent_id']); ?>" data-depth="<?php echo absint($ws_form_folder_row['depth']); ?>">
+<?php
+				if($ws_form_can_edit_folder) {
+?>
+<span class="wsf-form-folder-handle" role="button" tabindex="0"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Drag to move', 'ws-form'), 'top-left'); ?>><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="6" cy="3.5" r="1.15" fill="currentColor"/><circle cx="10" cy="3.5" r="1.15" fill="currentColor"/><circle cx="6" cy="8" r="1.15" fill="currentColor"/><circle cx="10" cy="8" r="1.15" fill="currentColor"/><circle cx="6" cy="12.5" r="1.15" fill="currentColor"/><circle cx="10" cy="12.5" r="1.15" fill="currentColor"/></svg></span>
+<?php
+				}
+?>
 <a class="wsf-form-folder" href="<?php echo esc_url(add_query_arg('ws-form-folder', $ws_form_folder_row['id'], $ws_form_folder_base)); ?>" data-folder-id="<?php echo absint($ws_form_folder_row['id']); ?>">
 <span class="wsf-form-folder-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></span>
 <span class="wsf-form-folder-label"><?php echo esc_html($ws_form_folder_row['label']); ?></span>
@@ -176,13 +184,7 @@
 ?>
 <span class="wsf-form-folder-actions">
 <button type="button" data-action="wsf-folder-rename" data-id="<?php echo absint($ws_form_folder_row['id']); ?>" data-label="<?php echo esc_attr($ws_form_folder_row['label']); ?>"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Rename', 'ws-form'), 'top-right'); ?>><?php WS_Form_Common::render_icon_16_svg('edit'); ?></button>
-<?php
-					if($ws_form_folder_row['depth'] < WS_FORM_FORM_FOLDERS_DEPTH_MAX) {
-?>
-<button type="button" data-action="wsf-folder-add" data-parent-id="<?php echo absint($ws_form_folder_row['id']); ?>"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Add subfolder', 'ws-form'), 'top-right'); ?>><?php WS_Form_Common::render_icon_16_svg('plus'); ?></button>
-<?php
-					}
-?>
+<button type="button" data-action="wsf-folder-add" data-parent-id="<?php echo absint($ws_form_folder_row['id']); ?>"<?php echo ($ws_form_folder_row['depth'] >= WS_FORM_FORM_FOLDERS_DEPTH_MAX) ? ' class="wsf-form-folder-add-hidden"' : ''; ?><?php WS_Form_Common::echo_esc_attr_tooltip(__('Add subfolder', 'ws-form'), 'top-right'); ?>><?php WS_Form_Common::render_icon_16_svg('plus'); ?></button>
 <button type="button" data-action="wsf-folder-delete" data-id="<?php echo absint($ws_form_folder_row['id']); ?>" data-parent-id="<?php echo absint($ws_form_folder_row['parent_id']); ?>" data-parent-label="<?php echo esc_attr($ws_form_folder_parent_label); ?>" data-has-children="<?php echo $ws_form_folder_row['has_children'] ? '1' : '0'; ?>"<?php WS_Form_Common::echo_esc_attr_tooltip(__('Delete', 'ws-form'), 'top-right'); ?>><?php WS_Form_Common::render_icon_16_svg('delete'); ?></button>
 </span>
 <?php
@@ -192,6 +194,7 @@
 <?php
 			}
 ?>
+</div>
 </nav>
 </div>
 <?php

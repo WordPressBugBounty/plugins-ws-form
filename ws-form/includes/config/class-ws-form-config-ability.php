@@ -505,6 +505,93 @@
 					]
 				],
 
+				// Form folder - Move
+				WS_FORM_ABILITY_API_NAMESPACE . 'form-folder-move' => [
+
+					'label' => __('Move form folder', 'ws-form'),
+					'description' => __('Moves a form folder. parent_id 0 is the top level. next_sibling_id 0 puts it last among its new siblings. Subfolders move with it. Sibling names must be unique.', 'ws-form'),
+					'category' => 'ws-form',
+					'permission_callback' => function() use ( $ws_form_ability ) {
+
+						return $ws_form_ability->permission_callback( 'edit_form' );
+					},
+					'input_schema'  => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The folder ID.',
+								'required' => true
+							],
+
+							'parent_id' => [
+
+								'type' => 'number',
+								'description' => sprintf(
+
+									/* translators: %d: Maximum folder depth. 0 is a top-level folder. */
+									__('The new parent folder ID. 0 is the top level. Folders cannot be nested deeper than depth %d.', 'ws-form'),
+									WS_FORM_FORM_FOLDERS_DEPTH_MAX
+								),
+								'required' => true
+							],
+
+							'next_sibling_id' => [
+
+								'type' => 'number',
+								'description' => 'The folder that should come after this one, under the same parent. 0 puts it last.',
+								'default' => 0
+							]
+						]
+					],
+					'output_schema' => [
+
+						'type' => 'object',
+
+						'properties' => [
+
+							'id' => [
+
+								'type' => 'number',
+								'description' => 'The folder ID.'
+							],
+
+							'parent_id' => [
+
+								'type' => 'number',
+								'description' => 'The parent folder ID. 0 is the top level.'
+							],
+
+							'next_sibling_id' => [
+
+								'type' => 'number',
+								'description' => 'The folder that comes after this one. 0 means it is last.'
+							]
+						]
+					],
+					'execute_callback' => function( $input ) use ( $ws_form_ability ) {
+
+						return $ws_form_ability->form_folder_move( $input );
+					},
+					'meta' => [
+						'annotations' => [
+							'priority' => 1.0,
+							'readOnlyHint' => false,
+							'destructiveHint' => false,
+							'idempotentHint' => true,
+							'openWorldHint' => false
+						],
+						'mcp' => [
+							'public' => false,
+							'type'   => 'tool',
+						]
+					]
+				],
+
 				// Form - Create - JSON
 				WS_FORM_ABILITY_API_NAMESPACE . 'form-create-json' => [
 
@@ -2409,7 +2496,7 @@
 				WS_FORM_ABILITY_API_NAMESPACE . 'field-update' => [
 
 					'label' => __('Update field', 'ws-form'),
-					'description' => __('Use this tool to update an existing field label and/or meta (required, placeholder, help, options, etc.). Prefer this over form-update-json for single-field changes. Field type cannot be changed. Use the fields tool to find field IDs, or form-get-json for full field meta.', 'ws-form'),
+					'description' => __('Use this tool to update an existing field label and/or meta (required, placeholder, help, options, widths, etc.). Prefer this over form-update-json for single-field changes. Field type cannot be changed. Use the fields tool to find field IDs, or form-get-json for full field meta.', 'ws-form'),
 					'category' => 'ws-form',
 					'permission_callback' => function() use ( $ws_form_ability ) {
 

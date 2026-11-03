@@ -1,24 +1,19 @@
+# Copyright (C) 2026 WS Form
+# This file is distributed under the GPL-3.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WS Form PRO\n"
-"POT-Creation-Date: 2026-10-12 10:49-0400\n"
-"PO-Revision-Date: 2026-10-12 10:50-0400\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: WS Form\n"
+"Report-Msgid-Bugs-To: https://wsform.com/support\n"
+"POT-Creation-Date: 2026-10-13T03:43:56+00:00\n"
+"PO-Revision-Date: 2026-10-30T17:13:28-04:00\n"
+"Last-Translator: WS Form\n"
+"Language-Team: WS Form\n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.9\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: ws-form.php\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: "
-"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Domain: ws-form\n"
 
 #: admin/class-ws-form-admin.php:273 api/class-ws-form-api-group.php:43
 #: includes/class-ws-form-config.php:7480
@@ -308,7 +303,7 @@ msgstr "Vänligen ange..."
 
 #: admin/class-ws-form-admin.php:978
 msgid "Skip &amp; Deactivate"
-msgstr "Hoppa över och inaktivera"
+msgstr "Hoppa över &amp; inaktivera"
 
 #: admin/class-ws-form-admin.php:982
 msgid "Submit &amp; Deactivate"
@@ -575,12 +570,12 @@ msgstr "Det gick inte att skapa formuläret. Försök igen."
 #, php-format
 msgid "%u Form"
 msgid_plural "%u Forms"
-msgstr[0] "%u Form"
-msgstr[1] "%u Former"
+msgstr[0] "%u formulär"
+msgstr[1] "%u formulär"
 
 #: admin/class-ws-form-admin.php:3200
 msgid "No form statistics data available."
-msgstr "Inga uppgifter om formstatistik finns tillgängliga."
+msgstr "Ingen formulärstatistik finns tillgänglig."
 
 #: admin/class-ws-form-admin.php:3207 admin/partials/ws-form-form.php:104
 #: admin/partials/ws-form-form.php:115 admin/partials/ws-form-form.php:147
@@ -812,7 +807,7 @@ msgstr "Visningar"
 #: includes/core/class-ws-form-form-stat.php:622
 #: includes/core/class-ws-form-form-stat.php:786
 msgid "Saves"
-msgstr "Sparar"
+msgstr "Sparningar"
 
 #. translators: Statistics date from
 #: admin/class-ws-form-wp-list-table-form.php:119
@@ -1119,11 +1114,11 @@ msgstr "Spam"
 
 #: admin/class-ws-form-wp-list-table-submit.php:831
 msgid "Mark as Not Spam"
-msgstr "Markera inte som skräppost"
+msgstr "Markera som ej skräppost"
 
 #: admin/class-ws-form-wp-list-table-submit.php:849
 msgid "Mark as Starred"
-msgstr "Markera som Starred"
+msgstr "Markera som stjärnmärkt"
 
 #: admin/class-ws-form-wp-list-table-submit.php:850
 msgid "Mark as Not Starred"
@@ -1151,7 +1146,7 @@ msgstr "Välj formulär..."
 #, php-format
 msgid "%u record"
 msgid_plural "%u records"
-msgstr[0] "%u rekord"
+msgstr[0] "%u post"
 msgstr[1] "%u poster"
 
 #: admin/class-ws-form-wp-list-table-submit.php:1030
@@ -1179,7 +1174,7 @@ msgstr "Välj ett formulär."
 
 #: admin/class-ws-form-wp-list-table-submit.php:1086
 msgid "No submissions available."
-msgstr "Inga bidrag är tillgängliga."
+msgstr "Inga inlämningar är tillgängliga."
 
 #: admin/partials/ws-form-form-add.php:75
 #: admin/partials/ws-form-form-style-add.php:21
@@ -1359,7 +1354,7 @@ msgstr "Välj plugin..."
 #: admin/partials/ws-form-form-migrate.php:155
 #, php-format
 msgid "%s Form:"
-msgstr "%s Form:"
+msgstr "%s Formulär:"
 
 #: admin/partials/ws-form-form-migrate.php:186
 msgid "Data To Import:"
@@ -1391,7 +1386,7 @@ msgstr "Duplikat:"
 #: includes/class-ws-form-config.php:19316
 #: includes/core/class-ws-form-action.php:861
 msgid "Field Mapping"
-msgstr "Kopiera fältvärden"
+msgstr "Fältmappning"
 
 #: admin/partials/ws-form-form-migrate.php:330
 #: includes/config/class-ws-form-config-admin.php:972
@@ -1410,7 +1405,7 @@ msgstr "Vänligen vänta..."
 
 #: admin/partials/ws-form-form-migrate.php:356
 msgid "Importing submissions..."
-msgstr "Importera bidrag..."
+msgstr "Importerar inlämningar..."
 
 #: admin/partials/ws-form-form-migrate.php:358
 msgid "Total records processed"
@@ -1434,7 +1429,7 @@ msgstr "%s skapad."
 #: admin/partials/ws-form-form-migrate.php:392
 #, php-format
 msgid "%s updated."
-msgstr "%s  uppdaterad."
+msgstr "%s uppdaterad."
 
 #. translators: %s: Submission records
 #: admin/partials/ws-form-form-migrate.php:397
@@ -1444,11 +1439,11 @@ msgstr "%s ignoreras."
 
 #: admin/partials/ws-form-form-migrate.php:399
 msgid "View Submissions"
-msgstr "Visa bidrag"
+msgstr "Visa inlämningar"
 
 #: admin/partials/ws-form-form-migrate.php:401
 msgid "Import Submissions"
-msgstr "Importera bidrag"
+msgstr "Importera inlämningar"
 
 #: admin/partials/ws-form-form-migrate.php:402
 msgid "An error occurred during the import."
@@ -1471,7 +1466,7 @@ msgid "Are you sure you want to start the import?"
 msgstr "Är du säker på att du vill starta importen?"
 
 #: admin/partials/ws-form-form-migrate.php:741
-#: admin/partials/ws-form-form.php:186
+#: admin/partials/ws-form-form.php:188
 #: includes/config/class-ws-form-config-admin.php:795
 #: includes/config/class-ws-form-config-admin.php:986
 #: includes/config/class-ws-form-config-admin.php:1360
@@ -1549,7 +1544,7 @@ msgid "Create your first form to get started."
 msgstr "Skapa ditt första formulär för att komma igång."
 
 #: admin/partials/ws-form-form.php:109 admin/partials/ws-form-form.php:152
-#: admin/partials/ws-form-form.php:230
+#: admin/partials/ws-form-form.php:233
 msgid "Unfiled"
 msgstr "Osorterad"
 
@@ -1557,15 +1552,19 @@ msgstr "Osorterad"
 msgid "Folders"
 msgstr "Mappar"
 
-#: admin/partials/ws-form-form.php:178
+#: admin/partials/ws-form-form.php:167
+msgid "Drag to move"
+msgstr "Dra för att flytta"
+
+#: admin/partials/ws-form-form.php:186
 msgid "Rename"
 msgstr "Byt namn"
 
-#: admin/partials/ws-form-form.php:182
+#: admin/partials/ws-form-form.php:187
 msgid "Add subfolder"
 msgstr "Lägg till undermapp"
 
-#: admin/partials/ws-form-form.php:221
+#: admin/partials/ws-form-form.php:224
 msgid "This folder is empty."
 msgstr "Den här mappen är tom."
 
@@ -1866,7 +1865,7 @@ msgstr "Felaktig fälttyp"
 
 #: api/class-ws-form-api-field.php:718 api/class-ws-form-api-field.php:938
 msgid "Invalid data grid."
-msgstr "Felaktigt datagaller är ogiltigt."
+msgstr "Ogiltigt datarutnät."
 
 #: api/class-ws-form-api-field.php:721 api/class-ws-form-api-field.php:942
 msgid "No columns found in data grid."
@@ -2092,7 +2091,7 @@ msgstr "Mallfilen har inte hittats: %s"
 msgid "Invalid template type"
 msgstr "Ogiltig malltyp"
 
-#: api/class-ws-form-api.php:492 api/class-ws-form-api.php:493
+#: api/class-ws-form-api.php:494 api/class-ws-form-api.php:495
 msgid "WS Form MCP Server"
 msgstr "WS Form MCP-server"
 
@@ -2319,7 +2318,7 @@ msgstr ""
 #: includes/actions/class-ws-form-action-conversion.php:807
 #: includes/actions/class-ws-form-action-conversion.php:901
 msgid "Event Name"
-msgstr "Evenemang Namn"
+msgstr "Händelsenamn"
 
 #: includes/actions/class-ws-form-action-conversion.php:631
 msgid "The Fathom event name."
@@ -2357,9 +2356,14 @@ msgid "Update Fields"
 msgstr "Uppdatera fält"
 
 #: includes/actions/class-ws-form-action-conversion.php:698
-#: includes/config/class-ws-form-config-styler.php:3943
+msgctxt "Conversion tracking action"
 msgid "Track"
 msgstr "Spåra"
+
+#: includes/config/class-ws-form-config-styler.php:3943
+msgctxt "Range slider track (styler)"
+msgid "Track"
+msgstr "Spår"
 
 #: includes/actions/class-ws-form-action-conversion.php:699
 msgid "Tag"
@@ -2650,10 +2654,6 @@ msgstr ""
 "URL till ändpunkten som data ska skickas till. Variabler kan endast ändra "
 "sökvägen eller frågesträngen, inte värden."
 
-#: includes/actions/class-ws-form-action-custom-api.php:839
-msgid "Request Method"
-msgstr "Metod för begäran"
-
 #: includes/actions/class-ws-form-action-custom-api.php:841
 msgid "Select the HTTP request method to use."
 msgstr "Välj den HTTP-förfrågningsmetod som ska användas."
@@ -2677,7 +2677,7 @@ msgstr "Mappa WS Form-fält till slutpunktens nycklar."
 
 #: includes/actions/class-ws-form-action-custom-api.php:884
 msgid "Custom Mapping"
-msgstr "Anpassad kartläggning"
+msgstr "Anpassad mappning"
 
 #: includes/actions/class-ws-form-action-custom-api.php:886
 msgid "Map custom values to endpoint keys."
@@ -2701,7 +2701,7 @@ msgstr "Heltal"
 
 #: includes/actions/class-ws-form-action-custom-api.php:920
 msgid "Float"
-msgstr "Flytande"
+msgstr "Flyttal"
 
 #: includes/actions/class-ws-form-action-custom-api.php:921
 msgid "Boolean"
@@ -2870,7 +2870,7 @@ msgstr "Kod"
 
 #: includes/actions/class-ws-form-action-custom-api.php:1077
 msgid "Handler"
-msgstr "Handläggare"
+msgstr "Hanterare"
 
 #: includes/actions/class-ws-form-action-custom-api.php:1081
 msgid "Ignore"
@@ -2903,18 +2903,6 @@ msgstr "SSL-verifiera"
 #: includes/actions/class-ws-form-action-custom-api.php:1119
 msgid "Whether to verify SSL for the request."
 msgstr "Om SSL ska verifieras för begäran."
-
-#: includes/actions/class-ws-form-action-custom-api.php:1126
-msgid "Use URLs for File Fields"
-msgstr "Använd webbadresser för filfält"
-
-#: includes/actions/class-ws-form-action-custom-api.php:1128
-msgid ""
-"If checked, file and signature fields will be converted to URLs instead of "
-"file objects. Multiple files are comma separated."
-msgstr ""
-"Om du kryssar för detta kommer fil- och signaturfält att konverteras till "
-"webbadresser i stället för filobjekt. Flera filer separeras med kommatecken."
 
 #: includes/actions/class-ws-form-action-custom-api.php:1135
 msgid "Ignore Empty Values"
@@ -3222,7 +3210,7 @@ msgstr "Visningsnamn för Från"
 
 #: includes/actions/class-ws-form-action-email.php:887
 msgid "Display name email sent from."
-msgstr "Visar namnet som e-postmeddelandet skickades från."
+msgstr "Visningsnamn som e-postmeddelandet skickas från."
 
 #: includes/actions/class-ws-form-action-email.php:895
 msgid "To"
@@ -3254,7 +3242,7 @@ msgstr "BCC"
 
 #: includes/actions/class-ws-form-action-email.php:950
 msgid "Email address(es) to blind carbon copy email to."
-msgstr "E-postadress(er) att skicka en kopia till."
+msgstr "E-postadress(er) att skicka en hemlig kopia till."
 
 #: includes/actions/class-ws-form-action-email.php:957
 msgid "Reply To"
@@ -3275,7 +3263,7 @@ msgstr "Ämne för e-post."
 
 #: includes/actions/class-ws-form-action-email.php:978
 msgid "Message Editor"
-msgstr "Redaktör för meddelanden"
+msgstr "Meddelanderedigerare"
 
 #: includes/actions/class-ws-form-action-email.php:982
 msgid "Visual / Text"
@@ -3347,7 +3335,7 @@ msgstr "Teckenuppsättning för e-post"
 
 #: includes/actions/class-ws-form-action-email.php:1127
 msgid "Field Attachments"
-msgstr "Fälttillbehör"
+msgstr "Fältbilagor"
 
 #: includes/actions/class-ws-form-action-email.php:1137
 msgid ""
@@ -3367,7 +3355,7 @@ msgstr "Lägg till filer från mediebiblioteket som e-postbilagor."
 
 #: includes/actions/class-ws-form-action-email.php:1155
 msgid "Media Attachment"
-msgstr "Medietillbehör"
+msgstr "Mediebilaga"
 
 #: includes/actions/class-ws-form-action-email.php:1162
 #: includes/class-ws-form-config.php:19479
@@ -3404,7 +3392,7 @@ msgstr "Auto"
 
 #: includes/actions/class-ws-form-action-email.php:1185
 msgid "Headers"
-msgstr "Sidhuvud"
+msgstr "E-posthuvuden"
 
 #: includes/actions/class-ws-form-action-email.php:1192
 msgid "Additional email headers."
@@ -3420,7 +3408,7 @@ msgstr "Rubrikvärde"
 
 #: includes/actions/class-ws-form-action-hook.php:40
 msgid "Run Hook"
-msgstr "Kör krok"
+msgstr "Kör hook"
 
 #: includes/actions/class-ws-form-action-hook.php:43
 msgid "Run WordPress Hook"
@@ -3451,7 +3439,7 @@ msgstr "Åtgärd - do_action($hook_tag, $form, $submit)"
 
 #: includes/actions/class-ws-form-action-hook.php:210
 msgid "Hook Tag"
-msgstr "Krok Tag"
+msgstr "Hook-tagg"
 
 #: includes/actions/class-ws-form-action-hook.php:212
 msgid "Tag name of the hook."
@@ -4603,7 +4591,7 @@ msgstr "Information om geografisk plats var inte tillgänglig"
 
 #: includes/class-ws-form-common.php:4766
 msgid "The request to get user geo location timed out"
-msgstr "Förfrågan om att få fram användarens geografiska position tog tid"
+msgstr "Förfrågan om användarens geografiska position överskred tidsgränsen"
 
 #. translators: %s: Capability
 #: includes/class-ws-form-common.php:5614
@@ -5088,6 +5076,11 @@ msgstr "Dolt beteende"
 msgid "Advanced"
 msgstr "Avancerat"
 
+#: includes/class-ws-form-config.php:2708
+msgctxt "Field type group"
+msgid "Advanced"
+msgstr "Avancerat"
+
 #: includes/class-ws-form-config.php:337 includes/class-ws-form-config.php:513
 #: includes/class-ws-form-config.php:658 includes/class-ws-form-config.php:813
 #: includes/class-ws-form-config.php:967 includes/class-ws-form-config.php:1127
@@ -5412,7 +5405,7 @@ msgstr "Mappning av kolumner"
 
 #: includes/class-ws-form-config.php:396 includes/class-ws-form-config.php:400
 msgid "Text Area"
-msgstr "Text område"
+msgstr "Textområde"
 
 #: includes/class-ws-form-config.php:397
 msgid "A multi-line input field for capturing longer text entries."
@@ -5443,7 +5436,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:578
 msgid "digit"
-msgstr "tecken"
+msgstr "siffra"
 
 #: includes/class-ws-form-config.php:712 includes/class-ws-form-config.php:716
 msgid "Phone"
@@ -5497,9 +5490,14 @@ msgstr "Val"
 #: includes/class-ws-form-config.php:1188
 #: includes/class-ws-form-config.php:1192
 #: includes/class-ws-form-config.php:22919
+#: includes/config/class-ws-form-config-styler.php:4056
+msgctxt "Select field"
+msgid "Select"
+msgstr "Rullgardinslista"
+
 #: includes/config/class-ws-form-config-admin.php:1037
 #: includes/config/class-ws-form-config-admin.php:1038
-#: includes/config/class-ws-form-config-styler.php:4056
+msgctxt "Select media button"
 msgid "Select"
 msgstr "Välj"
 
@@ -5516,7 +5514,7 @@ msgstr "dropdown"
 #: includes/class-ws-form-config.php:6195
 #: includes/config/class-ws-form-config-styler.php:4104
 msgid "Select2"
-msgstr "Välj2"
+msgstr "Select2"
 
 #: includes/class-ws-form-config.php:1262
 msgid "Select2 Custom Messages"
@@ -5538,7 +5536,7 @@ msgstr "Val"
 #: includes/class-ws-form-config.php:6451
 #: includes/class-ws-form-config.php:6619
 msgid "Cascading"
-msgstr "Flera"
+msgstr "Kaskad"
 
 #: includes/class-ws-form-config.php:1365
 #: includes/class-ws-form-config.php:1369
@@ -5600,7 +5598,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:20398
 #: includes/class-ws-form-config.php:20447
 msgid "Radios"
-msgstr "Radios"
+msgstr "Radioknappar"
 
 #: includes/class-ws-form-config.php:1696
 #: includes/class-ws-form-config.php:1701
@@ -5634,7 +5632,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:1971
 #: includes/class-ws-form-config.php:6755
 msgid "Tick Marks"
-msgstr "Kryssmarkeringar"
+msgstr "Skalstreck"
 
 #: includes/class-ws-form-config.php:1988
 #: includes/class-ws-form-config.php:1993
@@ -5685,7 +5683,7 @@ msgstr "Ett inmatningsfält för att välja en färg med hjälp av en färgvälj
 
 #: includes/class-ws-form-config.php:2043
 msgid "Modal"
-msgstr "Modul"
+msgstr "Modal"
 
 #: includes/class-ws-form-config.php:2139
 #: includes/class-ws-form-config.php:2144
@@ -5855,7 +5853,7 @@ msgstr "villkor villkor integritetspolicy"
 
 #: includes/class-ws-form-config.php:3322
 msgid "SSN"
-msgstr "Personnummer"
+msgstr "SSN"
 
 #: includes/class-ws-form-config.php:3326
 #: includes/class-ws-form-config.php:16231
@@ -5864,7 +5862,7 @@ msgstr "Personnummer"
 
 #: includes/class-ws-form-config.php:3434
 msgid "Mapping"
-msgstr "Kartläggning"
+msgstr "Kartor"
 
 #: includes/class-ws-form-config.php:3439
 #: includes/class-ws-form-config.php:3443
@@ -5980,7 +5978,7 @@ msgstr "Avdelare"
 
 #: includes/class-ws-form-config.php:4389
 msgid "hr"
-msgstr "tim"
+msgstr "hr"
 
 #: includes/class-ws-form-config.php:4457
 #: includes/class-ws-form-config.php:4460
@@ -6360,11 +6358,11 @@ msgstr "Okänt fel"
 #: includes/config/class-ws-form-config-admin.php:218
 #: includes/config/class-ws-form-config-admin.php:770
 msgid "Tabs"
-msgstr "Flikar (sidor med flikar)"
+msgstr "Flikar"
 
 #: includes/class-ws-form-config.php:7479
 msgid "Tabs Content"
-msgstr "Flikinnehål"
+msgstr "Flikinnehåll"
 
 #: includes/class-ws-form-config.php:7481
 #: includes/class-ws-form-config.php:13127
@@ -6520,7 +6518,7 @@ msgstr "Ta bort uppladdning"
 
 #: includes/class-ws-form-config.php:7568
 msgid "Condition [if] not found"
-msgstr "Villkor [om] ej funnet"
+msgstr "Villkor [if] ej funnet"
 
 #: includes/class-ws-form-config.php:7569
 msgid "Condition [then] not found"
@@ -6536,7 +6534,7 @@ msgstr "Villkorliga inställningar har inte hittats"
 
 #: includes/class-ws-form-config.php:7572
 msgid "Condition field data not found"
-msgstr "Uppgifter om tillståndsfältet har inte hittats"
+msgstr "Uppgifter om villkorsfältet har inte hittats"
 
 #: includes/class-ws-form-config.php:7573
 msgid "Condition object not found"
@@ -6544,13 +6542,13 @@ msgstr "Villkoret objekt inte hittat"
 
 #: includes/class-ws-form-config.php:7574
 msgid "Condition object ID not found"
-msgstr "ID för tillståndsobjektet har inte hittats"
+msgstr "ID för villkorsobjektet har inte hittats"
 
 #. translators: %s: Error message
 #: includes/class-ws-form-config.php:7576
 #, php-format
 msgid "Condition logic not found: %s"
-msgstr "Tillståndslogiken har inte hittats: %s"
+msgstr "Villkorslogiken har inte hittats: %s"
 
 #. translators: %s: Error message
 #: includes/class-ws-form-config.php:7578
@@ -6678,7 +6676,7 @@ msgstr "Färgprov (cirklar)"
 #: includes/config/class-ws-form-config-styler.php:3866
 #: includes/config/class-ws-form-config-styler.php:3902
 msgid "Switch"
-msgstr "Omkoppla"
+msgstr "Växel"
 
 #: includes/class-ws-form-config.php:7919
 msgid "Remember Last Tab Clicked"
@@ -6738,7 +6736,7 @@ msgstr "Anpassad nödvändig HTML"
 
 #: includes/class-ws-form-config.php:7976
 msgid "Example: &apos; &lt;small&gt;Required&lt;/small&gt;&apos;."
-msgstr "Exempel: \" &lt;small&gt;Required&lt;/small&gt;\"."
+msgstr "Exempel: &apos; &lt;small&gt;Required&lt;/small&gt;&apos;."
 
 #: includes/class-ws-form-config.php:7979
 #: includes/class-ws-form-config.php:16798
@@ -6958,7 +6956,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:8464
 msgid "Lock Save &amp; Submit Buttons"
-msgstr "Lås knapparna Spara och skicka"
+msgstr "Lås knapparna Spara &amp; skicka"
 
 #: includes/class-ws-form-config.php:8467
 msgid ""
@@ -6970,7 +6968,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:8473
 msgid "Unlock Save &amp; Submit Buttons"
-msgstr "Lås upp Save &amp; Submit-knapparna"
+msgstr "Lås upp knapparna Spara &amp; skicka"
 
 #: includes/class-ws-form-config.php:8476
 msgid "Unlock save and submit buttons after form is saved or submitted."
@@ -7080,7 +7078,7 @@ msgstr "Användarens operativsystem."
 #: includes/class-ws-form-config.php:8751
 #: includes/class-ws-form-config.php:20815
 msgid "Agent"
-msgstr "Mäklare"
+msgstr "Användaragent"
 
 #: includes/class-ws-form-config.php:8754
 msgid "Users web browser type."
@@ -7376,11 +7374,11 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:9184
 msgid "Rotating - 25% Gap"
-msgstr "Roterande – 25% Gmellanrum"
+msgstr "Roterande – 25% mellanrum"
 
 #: includes/class-ws-form-config.php:9185
 msgid "Rotating - 25% Accent"
-msgstr "Roterande – 25% Aaccent"
+msgstr "Roterande – 25% accent"
 
 #: includes/class-ws-form-config.php:9186
 msgid "Rotating - Growing"
@@ -7511,7 +7509,7 @@ msgstr "Ärv"
 
 #: includes/class-ws-form-config.php:9751
 msgid "Initial"
-msgstr "Initialer"
+msgstr "initial (Initial)"
 
 #: includes/class-ws-form-config.php:9752
 msgid "Not Allowed"
@@ -7567,7 +7565,7 @@ msgstr "Planera ett startdatum/tid för formuläret."
 
 #: includes/class-ws-form-config.php:10165
 msgid "Start Date/Time"
-msgstr "Starttid/sluttid"
+msgstr "Startdatum/tid"
 
 #: includes/class-ws-form-config.php:10168
 msgid "Date/time form is scheduled to start."
@@ -7667,7 +7665,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:10370
 msgid "Enable Form Submit On Enter"
-msgstr "Aktivera formuläret när du går in"
+msgstr "Aktivera skickning av formuläret med Enter"
 
 #: includes/class-ws-form-config.php:10373
 msgid ""
@@ -8174,7 +8172,7 @@ msgstr "Datumformat"
 #: includes/class-ws-form-config.php:11398
 #, php-format
 msgid "Default (%s)"
-msgstr "Standard ( %s)"
+msgstr "Standard (%s)"
 
 #: includes/class-ws-form-config.php:11362
 msgid "Format used for selected date."
@@ -8290,7 +8288,7 @@ msgstr "Ingen källa"
 
 #: includes/class-ws-form-config.php:11548
 msgid "Form Progress"
-msgstr "Formuläret Progress"
+msgstr "Formulärförlopp"
 
 #: includes/class-ws-form-config.php:11549
 msgid "Tab Progress"
@@ -8298,7 +8296,7 @@ msgstr "Fliken Framsteg"
 
 #: includes/class-ws-form-config.php:11550
 msgid "Upload Progress"
-msgstr "Ladda upp framsteg"
+msgstr "Förlopp för uppladdning"
 
 #: includes/class-ws-form-config.php:11557
 msgid "Remove Width"
@@ -8312,7 +8310,7 @@ msgstr "Fyllning nedre spår"
 #: includes/class-ws-form-config.php:11621
 #, php-format
 msgid "%s skin only."
-msgstr "%s endast hud."
+msgstr "Endast %s-tema."
 
 #: includes/class-ws-form-config.php:11629
 #: includes/class-ws-form-config.php:11637
@@ -8758,7 +8756,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:12427
 msgid "Form Wrapper"
-msgstr "Form Wrapper"
+msgstr "Formulär-wrapper"
 
 #: includes/class-ws-form-config.php:12432
 #: includes/class-ws-form-config.php:12442
@@ -8833,7 +8831,7 @@ msgstr "Rekommenderad"
 
 #: includes/class-ws-form-config.php:12538
 msgid "Inquiry"
-msgstr "Offertförfrågan"
+msgstr "Förfrågan"
 
 #. translators: %s: WS Form
 #: includes/class-ws-form-config.php:12554
@@ -8991,6 +8989,10 @@ msgstr "Svagt"
 #: includes/class-ws-form-config.php:12793
 #: includes/class-ws-form-config.php:13861
 #: includes/config/class-ws-form-config-public.php:246
+msgctxt "Password strength"
+msgid "Medium"
+msgstr "Medium"
+
 #: includes/frameworks/class-ws-form-framework-bootstrap3.php:54
 #: includes/frameworks/class-ws-form-framework-bootstrap4.php:58
 #: includes/frameworks/class-ws-form-framework-bootstrap41.php:58
@@ -8999,6 +9001,7 @@ msgstr "Svagt"
 #: includes/frameworks/class-ws-form-framework-foundation6.php:93
 #: includes/frameworks/class-ws-form-framework-foundation64.php:93
 #: includes/frameworks/class-ws-form-framework-ws-form.php:50
+msgctxt "Breakpoint size"
 msgid "Medium"
 msgstr "Medium"
 
@@ -9428,7 +9431,7 @@ msgstr "Återställ ikon HTML"
 
 #: includes/class-ws-form-config.php:13579
 msgid "Clear Icon HTML"
-msgstr "Tydlig ikon HTML"
+msgstr "Rensa ikon HTML"
 
 #: includes/class-ws-form-config.php:13598
 #: includes/config/class-ws-form-config-conditional.php:629
@@ -9472,7 +9475,7 @@ msgstr "Centrera"
 
 #: includes/class-ws-form-config.php:13669
 msgid "Space Around"
-msgstr "Rymden runtomkring"
+msgstr "Utrymme runt"
 
 #: includes/class-ws-form-config.php:13670
 msgid "Space Between"
@@ -9852,7 +9855,7 @@ msgstr "Standardvärdet är 2050"
 
 #: includes/class-ws-form-config.php:14438
 msgid "Disabled Week Days"
-msgstr "Handikappade veckodagar"
+msgstr "Inaktiverade veckodagar"
 
 #: includes/class-ws-form-config.php:14440
 msgid "Choose which days to disable."
@@ -9864,7 +9867,7 @@ msgstr "Dag"
 
 #: includes/class-ws-form-config.php:14491
 msgid "Disabled Dates"
-msgstr "Datum för funktionshindrade"
+msgstr "Inaktiverade datum"
 
 #: includes/class-ws-form-config.php:14493
 msgid "Choose which dates to disable."
@@ -10012,34 +10015,24 @@ msgid "Input Too Short"
 msgstr "Inmatningen är för kort"
 
 #: includes/class-ws-form-config.php:14866
-msgid "Please enter #char_remaining or more character#char_plural"
-msgstr "Ange #char_remaining eller fler tecken#char_plural"
+msgid "Please enter #char_remaining or more #char_word"
+msgstr "Ange #char_remaining eller fler #char_word"
 
 #: includes/class-ws-form-config.php:14867
-msgid ""
-"Variables:<br />#char_remaining - Number of characters remaining.<br /"
-">#char_plural - Inserts 's' if characters remaining is not 1.<br />#term - "
-"The search term."
-msgstr ""
-"Variabler:<br />#char_remaining - Antal återstående tecken.<br /"
-">#char_plural - Infogar \"s\" om antalet återstående tecken inte är 1.<br /"
-">#term - Söktermen."
+msgid "Variables:<br />#char_remaining - Number of characters remaining.<br />#char_word - The word character or characters.<br />#term - The search term."
+msgstr "Variabler:<br />#char_remaining - Antal återstående tecken.<br />#char_word - Ordet tecken.<br />#term - Söktermen."
 
 #: includes/class-ws-form-config.php:14903
 msgid "Input Too Long"
 msgstr "Inmatningen är för lång"
 
 #: includes/class-ws-form-config.php:14905
-msgid "Please delete #char_over character#char_plural"
-msgstr "Ta bort #char_over tecken#char_plural"
+msgid "Please delete #char_over #char_word"
+msgstr "Ta bort #char_over #char_word"
 
 #: includes/class-ws-form-config.php:14906
-msgid ""
-"Variables:<br />#char_over - Number of characters over.<br />#char_plural - "
-"Inserts 's' if characters over is not 1."
-msgstr ""
-"Variabler:<br />#char_over - Antal tecken över.<br />#char_plural - Infogar "
-"\"s\" om antalet tecken över inte är 1."
+msgid "Variables:<br />#char_over - Number of characters over.<br />#char_word - The word character or characters."
+msgstr "Variabler:<br />#char_over - Antal tecken över.<br />#char_word - Ordet tecken."
 
 #: includes/class-ws-form-config.php:14947
 msgid "If checked, multiple files can be selected in the file picker."
@@ -10393,7 +10386,7 @@ msgstr "Välj önskat inspelningsmedium (om det stöds)."
 
 #: includes/class-ws-form-config.php:15540
 msgid "User facing camera"
-msgstr "Användarvänlig kamera"
+msgstr "Kamera mot användaren"
 
 #: includes/class-ws-form-config.php:15541
 msgid "Environment facing camera"
@@ -10748,7 +10741,7 @@ msgstr "Etikett för återuppta-knappen."
 
 #: includes/class-ws-form-config.php:16097
 msgid "Retake"
-msgstr "Gå om"
+msgstr "Ta om"
 
 #: includes/class-ws-form-config.php:16100
 #: includes/config/class-ws-form-config-public.php:227
@@ -11024,11 +11017,11 @@ msgstr "Datum: yyyy-mm-dd"
 
 #: includes/class-ws-form-config.php:16496
 msgid "Date: mm/dd/yyyy"
-msgstr "Datum: mm/dd/åååå"
+msgstr "Datum: mm/dd/yyyy"
 
 #: includes/class-ws-form-config.php:16497
 msgid "Date: dd/mm/yyyy"
-msgstr "Datum: dd/mm/åååå"
+msgstr "Datum: dd/mm/yyyy"
 
 #: includes/class-ws-form-config.php:16499
 msgid "IP: Version 4"
@@ -11053,7 +11046,7 @@ msgstr "MD5 Hash"
 #: includes/class-ws-form-config.php:16504
 #: includes/data-sources/class-ws-form-data-source-post.php:1271
 msgid "Numeric"
-msgstr "﻿Numerisk"
+msgstr "Numerisk"
 
 #: includes/class-ws-form-config.php:16505
 msgid "Password: Numeric, lower, upper"
@@ -11146,19 +11139,19 @@ msgstr "mm.dd.yyyy"
 
 #: includes/class-ws-form-config.php:16552
 msgid "dd.mm.yyyy"
-msgstr "dd.mm.åååå"
+msgstr "dd.mm.yyyy"
 
 #: includes/class-ws-form-config.php:16553
 msgid "mm/dd/yyyy"
-msgstr "mm/dd/åååå"
+msgstr "mm/dd/yyyy"
 
 #: includes/class-ws-form-config.php:16554
 msgid "dd/mm/yyyy"
-msgstr "dd/mm/åååå"
+msgstr "dd/mm/yyyy"
 
 #: includes/class-ws-form-config.php:16555
 msgid "yyyy-mm-dd"
-msgstr "åååå-mm-dd"
+msgstr "yyyy-mm-dd"
 
 #: includes/class-ws-form-config.php:16556
 msgid "hh:mm:ss"
@@ -11254,7 +11247,7 @@ msgstr "Visa ett alternativ \"Välj alla\" ovanför den första raden."
 
 #: includes/class-ws-form-config.php:16986
 msgid "Select All Label"
-msgstr "Välj alla etiketter"
+msgstr "Etikett för Välj alla"
 
 #: includes/class-ws-form-config.php:16990
 msgid "Enter custom label for 'Select All' row."
@@ -11570,11 +11563,11 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:17677
 msgid "Minimum Checked"
-msgstr "Minsta kontrollerade värde"
+msgstr "Minsta antal markerade"
 
 #: includes/class-ws-form-config.php:17685
 msgid "Maximum Checked"
-msgstr "Högsta kontrollerade värde"
+msgstr "Högsta antal markerade"
 
 #. translators: %s: WS Form
 #: includes/class-ws-form-config.php:17760
@@ -11608,7 +11601,7 @@ msgid ""
 "column, all radios will be shown."
 msgstr ""
 "Om den är markerad och filtervärdet inte matchar någon data i filterkolumnen "
-"visas alla radioapparater."
+"visas alla radioknappar."
 
 #: includes/class-ws-form-config.php:17936
 msgid "Randomize Rows"
@@ -11745,7 +11738,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:18580
 msgid "Maximum Rating"
-msgstr "Maximum Rating"
+msgstr "Högsta betyg"
 
 #: includes/class-ws-form-config.php:18593
 msgid "Check"
@@ -11864,9 +11857,7 @@ msgstr "Välj vilken typ av karta som ska visas."
 msgid ""
 "Enter the height of the map. You can enter a percentage (e.g. 56.25% for "
 "16:9 or 100% for square) or pixels (e.g. 400px)."
-msgstr ""
-"Ange kartans höjd. Du kan ange en procentsats (t.ex. 56.25% feller 16:9 "
-"eller 100% feller fyrkantig) eller pixlar (t.ex. 400px)."
+msgstr "Ange kartans höjd. Du kan ange en procentsats (t.ex. 56.25% för 16:9 eller 100% för kvadratisk) eller pixlar (t.ex. 400px)."
 
 #: includes/class-ws-form-config.php:18782
 msgid "Search Field"
@@ -12038,7 +12029,7 @@ msgstr "Ort (stad) - Kort"
 
 #: includes/class-ws-form-config.php:19068
 msgid "Locality (City) - Long"
-msgstr "Ort (stad) - Long"
+msgstr "Ort (stad) - Lång"
 
 #: includes/class-ws-form-config.php:19069
 msgid "Neighborhood - Short"
@@ -12290,7 +12281,7 @@ msgstr "Bilkörning"
 
 #: includes/class-ws-form-config.php:19269
 msgid "Transit"
-msgstr "Överföring"
+msgstr "Kollektivtrafik"
 
 #: includes/class-ws-form-config.php:19270
 msgid "Walking"
@@ -12600,7 +12591,7 @@ msgstr "Realtid"
 #: includes/class-ws-form-config.php:20023
 #: includes/class-ws-form-config.php:20256
 msgid "Wrap In Optgroup"
-msgstr "Inslag i Optgroup"
+msgstr "Omslut i optgroup"
 
 #: includes/class-ws-form-config.php:20064
 msgid "Choice 1"
@@ -12619,7 +12610,7 @@ msgstr "Val 3"
 #: includes/class-ws-form-config.php:20334
 #: includes/class-ws-form-config.php:20414
 msgid "Wrap In Fieldset"
-msgstr "Inplacering i fältet"
+msgstr "Omslut i fieldset"
 
 #: includes/class-ws-form-config.php:20143
 msgid "Checkbox 1"
@@ -12961,7 +12952,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:21269
 msgid "Client"
-msgstr "Kund"
+msgstr "Klient"
 
 #: includes/class-ws-form-config.php:21276
 msgid "Language (Browser)"
@@ -13296,19 +13287,19 @@ msgstr "Typsnitt - Vikt"
 #: includes/config/class-ws-form-config-styler.php:1253
 #: includes/config/class-ws-form-config-styler.php:5023
 msgid "Line Height"
-msgstr "行高"
+msgstr "Radhöjd"
 
 #: includes/class-ws-form-config.php:21715
 msgid "Border - Width"
-msgstr "Gräns - Bredd"
+msgstr "Ram - Bredd"
 
 #: includes/class-ws-form-config.php:21723
 msgid "Border - Style"
-msgstr "Gräns - Stil"
+msgstr "Ram - Stil"
 
 #: includes/class-ws-form-config.php:21731
 msgid "Border - Radius"
-msgstr "Gräns - radie"
+msgstr "Ram - Radie"
 
 #: includes/class-ws-form-config.php:21740
 msgid "Box Shadow - Width"
@@ -13324,11 +13315,11 @@ msgstr "Returnerar förloppet som ett tal från 0 till 100."
 
 #: includes/class-ws-form-config.php:21765
 msgid "Percent (0% to 100%)"
-msgstr "Procent (0% to 100%)"
+msgstr "Procent (0% till 100%)"
 
 #: includes/class-ws-form-config.php:21766
 msgid "Returns the progress as a percentage from 0% to 100%."
-msgstr "Returnerar förloppet som en procentandel från 0% to 100%."
+msgstr "Returnerar förloppet som en procentandel från 0% till 100%."
 
 #: includes/class-ws-form-config.php:21773
 msgid "Number Remaining (100 to 0)"
@@ -13340,11 +13331,11 @@ msgstr "Returnerar återstående förlopp som ett tal från 0 till 100."
 
 #: includes/class-ws-form-config.php:21781
 msgid "Percent Remaining (100% to 0%)"
-msgstr "Återstående procent (100% to 0%)"
+msgstr "Återstående procent (100% till 0%)"
 
 #: includes/class-ws-form-config.php:21782
 msgid "Returns the remaining progress as a percentage from 0% to 100%."
-msgstr "Returnerar återstående förlopp som en procentandel från 0% to 100%."
+msgstr "Returnerar återstående förlopp som en procentandel från 0% till 100%."
 
 #: includes/class-ws-form-config.php:21798
 msgid "Currency Symbol"
@@ -13366,7 +13357,7 @@ msgid ""
 "to your E-Commerce settings. An example output might be: $123.00"
 msgstr ""
 "Använd den här variabeln för att infoga värdet för ett prisfält i "
-"formuläret. Till exempel: exempel: <code>#field(123)</code> där \"123\" är "
+"formuläret. Till exempel: <code>#field(123)</code> där \"123\" är "
 "det fält-ID som visas i layoutredigeraren. Den här variabeln kommer att "
 "formatera ett valutavärde på ett snyggt sätt enligt dina inställningar för e-"
 "handel. Ett exempel kan vara: 123,00 dollar"
@@ -13568,7 +13559,7 @@ msgstr "Returnerar värdet för en nyckel i sessionslagring."
 
 #: includes/class-ws-form-config.php:22080
 msgid "Local Storage"
-msgstr "Lokalt filsystem"
+msgstr "Lokal lagring"
 
 #: includes/class-ws-form-config.php:22086
 msgid "Get local storage key value"
@@ -13667,7 +13658,7 @@ msgstr "Återger E till potensen av ett tal."
 
 #: includes/class-ws-form-config.php:22269
 msgid "Floor"
-msgstr "Våning"
+msgstr "Avrunda nedåt"
 
 #: includes/class-ws-form-config.php:22274
 msgid ""
@@ -13685,7 +13676,7 @@ msgstr "Återger den naturliga logaritmen för ett tal."
 
 #: includes/class-ws-form-config.php:22293
 msgid "Round"
-msgstr "Runda"
+msgstr "Avrunda"
 
 #: includes/class-ws-form-config.php:22299
 msgid "Returns the rounded value of a number."
@@ -13783,7 +13774,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:22476
 msgid "Returns the lowercase version of the input string."
-msgstr "Återger den småskaliga versionen av den inmatade strängen."
+msgstr "Returnerar den inmatade strängen i gemener."
 
 #: includes/class-ws-form-config.php:22488
 msgid "Returns the uppercase version of the input string."
@@ -13807,7 +13798,7 @@ msgstr "Återger den första bokstaven i versalform av den inmatade strängen."
 
 #: includes/class-ws-form-config.php:22519
 msgid "Capitalize a string"
-msgstr "Skapa en sträng med versaler"
+msgstr "Versalisera en sträng"
 
 #: includes/class-ws-form-config.php:22524
 msgid "Returns the capitalized version of an input string."
@@ -13815,7 +13806,7 @@ msgstr "Återger den versala versionen av en inmatad sträng."
 
 #: includes/class-ws-form-config.php:22531
 msgid "Sentence case a string"
-msgstr "Fall av mening en sträng"
+msgstr "Meningsversal för en sträng"
 
 #: includes/class-ws-form-config.php:22536
 msgid "Returns the sentence cased version of an input string."
@@ -14099,7 +14090,7 @@ msgid ""
 "of column can be the column label or index (starting with 0)."
 msgstr ""
 "Använd den här variabeln för att infoga värdet för ett fält i formuläret. "
-"Till exempel: exempel: <code>#field(123)</code> där \"123\" är fältets ID "
+"Till exempel: <code>#field(123)</code> där \"123\" är fältets ID "
 "som visas i layoutredigeraren. Om avgränsare anges kommer fält med flera "
 "värden (t.ex. kryssrutor) att separeras med den angivna avgränsaren. Om "
 "kolumn anges returneras det värde som finns i den kolumnen i datagallret. "
@@ -14217,7 +14208,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:22951
 msgid "Select Option Text"
-msgstr "Välj alternativtext"
+msgstr "Text för valt alternativ"
 
 #: includes/class-ws-form-config.php:22957
 msgid ""
@@ -14226,7 +14217,7 @@ msgid ""
 "the field ID shown in the layout editor."
 msgstr ""
 "Använd den här variabeln för att infoga texten för det valda alternativet i "
-"ett valfritt fält i formuläret. Till exempel: exempel: "
+"ett rullgardinsfält i formuläret. Till exempel: "
 "<code>#select_option_text(123)</code> där \"123\" är det fält-ID som visas i "
 "layoutredigeraren."
 
@@ -14279,7 +14270,7 @@ msgid ""
 "in the layout editor."
 msgstr ""
 "Använd den här variabeln för att infoga etiketten för ett kryssrutefält i "
-"formuläret. Till exempel: exempel: <code>#checkbox_label(123)</code> där "
+"formuläret. Till exempel: <code>#checkbox_label(123)</code> där "
 "\"123\" är fältets ID som visas i layoutredigeraren."
 
 #: includes/class-ws-form-config.php:23025
@@ -14293,7 +14284,7 @@ msgid ""
 "the layout editor."
 msgstr ""
 "Använd den här variabeln för att infoga etiketten för ett radiofält i "
-"formuläret. Till exempel: exempel: <code>#radio_label(123)</code> där "
+"formuläret. Till exempel: <code>#radio_label(123)</code> där "
 "\"123\" är fältets ID som visas i layoutredigeraren."
 
 #: includes/class-ws-form-config.php:23048
@@ -14318,7 +14309,7 @@ msgstr "Returnerar e-postens teckenuppsättning."
 
 #: includes/class-ws-form-config.php:23074
 msgid "Submitted Fields"
-msgstr "Inlämnade områden"
+msgstr "Inskickade fält"
 
 #: includes/class-ws-form-config.php:23075
 msgid ""
@@ -14512,7 +14503,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:23281
 msgid "Word"
-msgstr "Word"
+msgstr "Ord"
 
 #: includes/class-ws-form-config.php:23288
 msgid "Returns the total word count."
@@ -14545,7 +14536,7 @@ msgstr "Returnerar den maximala ordlängden som du har angett för ett fält."
 
 #: includes/class-ws-form-config.php:23344
 msgid "Returns 'word' or 'words' depending on the maximum word length."
-msgstr "Returnerar ”word” eller ”words” beroende på den maximala ordlängden."
+msgstr "Returnerar \"ord\" eller \"ord\" beroende på den maximala ordlängden."
 
 #: includes/class-ws-form-config.php:23359
 msgid "Post"
@@ -14799,7 +14790,7 @@ msgstr "Returnerar användar-ID om inloggad."
 
 #: includes/class-ws-form-config.php:23765
 msgid "Nice Name"
-msgstr "Smeknamn"
+msgstr "Nicename"
 
 #: includes/class-ws-form-config.php:23766
 msgid "Returns the user nicename if logged in."
@@ -15247,14 +15238,6 @@ msgstr ""
 msgid "Update section"
 msgstr "Uppdatera sektion"
 
-#: includes/config/class-ws-form-config-ability-structure.php:426
-msgid ""
-"Update a section label and/or meta (label_render). Use the sections tool to "
-"get section IDs."
-msgstr ""
-"Uppdatera en sektions etikett och/eller meta (label_render). Använd "
-"verktyget Sektioner för att hämta sektions-ID:n."
-
 #: includes/config/class-ws-form-config-ability-structure.php:482
 msgid "Delete section"
 msgstr "Ta bort sektion"
@@ -15462,10 +15445,34 @@ msgstr ""
 "deras mapp."
 
 #: includes/config/class-ws-form-config-ability.php:511
+msgid "Move form folder"
+msgstr "Flytta formulärmapp"
+
+#: includes/config/class-ws-form-config-ability.php:512
+msgid ""
+"Moves a form folder. parent_id 0 is the top level. next_sibling_id 0 puts it "
+"last among its new siblings. Subfolders move with it. Sibling names must be "
+"unique."
+msgstr ""
+"Flyttar en formulärmapp. parent_id 0 är toppnivån. next_sibling_id 0 "
+"placerar den sist bland dess nya syskon. Undermappar flyttas med den. "
+"Syskonnamn måste vara unika."
+
+#. translators: %d: Maximum folder depth. 0 is a top-level folder.
+#: includes/config/class-ws-form-config-ability.php:537
+#, php-format
+msgid ""
+"The new parent folder ID. 0 is the top level. Folders cannot be nested "
+"deeper than depth %d."
+msgstr ""
+"Det nya överordnade mapp-ID:t. 0 är toppnivån. Mappar kan inte kapslas "
+"djupare än nivå %d."
+
+#: includes/config/class-ws-form-config-ability.php:598
 msgid "Create form from a description"
 msgstr "Skapa formulär från en beskrivning"
 
-#: includes/config/class-ws-form-config-ability.php:512
+#: includes/config/class-ws-form-config-ability.php:599
 msgid ""
 "Use this tool to create a new form from a description provided by the user. "
 "The tool generates the form using a JSON definition that must follow the "
@@ -15485,11 +15492,11 @@ msgstr ""
 "gör det, skapa först formuläret och anropa sedan style-create med form_id "
 "och rotpalettens färger."
 
-#: includes/config/class-ws-form-config-ability.php:605
+#: includes/config/class-ws-form-config-ability.php:692
 msgid "Get form in JSON format"
 msgstr "Hämta formulär i JSON-format"
 
-#: includes/config/class-ws-form-config-ability.php:606
+#: includes/config/class-ws-form-config-ability.php:693
 msgid ""
 "Returns the form in JSON format by ID, including fields, actions, and "
 "conditionals. Form email notifications are Send Email actions in the actions "
@@ -15500,11 +15507,11 @@ msgstr ""
 "åtgärdsarrayen (inte formulärinställningar). Använd tillsammans med form-"
 "update-json för att redigera notiser."
 
-#: includes/config/class-ws-form-config-ability.php:666
+#: includes/config/class-ws-form-config-ability.php:753
 msgid "Update a form from a JSON string"
 msgstr "Uppdatera ett formulär från en JSON-sträng"
 
-#: includes/config/class-ws-form-config-ability.php:667
+#: includes/config/class-ws-form-config-ability.php:754
 msgid ""
 "Use this tool to modify an existing form using JSON from form-get-json. "
 "Prefer field-update for single-field label or meta changes. Use this tool to "
@@ -15526,11 +15533,11 @@ msgstr ""
 "sektioner/fält. När actions eller conditionals inkluderas ersätter de "
 "formulärets actions eller conditionals."
 
-#: includes/config/class-ws-form-config-ability.php:752
+#: includes/config/class-ws-form-config-ability.php:839
 msgid "Publish form"
 msgstr "Publicera formulär"
 
-#: includes/config/class-ws-form-config-ability.php:753
+#: includes/config/class-ws-form-config-ability.php:840
 msgid ""
 "When a form is created in WS Form it initially has a status of draft. Use "
 "this to publish a form by ID so that it can be used on a live web page."
@@ -15539,11 +15546,11 @@ msgstr ""
 "detta för att publicera ett formulär via ID så att det kan användas på en "
 "live-webbsida."
 
-#: includes/config/class-ws-form-config-ability.php:807
+#: includes/config/class-ws-form-config-ability.php:894
 msgid "Draft form"
 msgstr "Utkast till formulär"
 
-#: includes/config/class-ws-form-config-ability.php:808
+#: includes/config/class-ws-form-config-ability.php:895
 msgid ""
 "Set a published form back to draft by ID. Draft forms cannot be used on live "
 "web pages until they are published again."
@@ -15551,29 +15558,29 @@ msgstr ""
 "Ställ tillbaka ett publicerat formulär till utkast efter ID. Utkastformulär "
 "kan inte användas på aktiva webbsidor förrän de publiceras igen."
 
-#: includes/config/class-ws-form-config-ability.php:862
+#: includes/config/class-ws-form-config-ability.php:949
 msgid "Lock form"
 msgstr "Lås formulär"
 
-#: includes/config/class-ws-form-config-ability.php:863
+#: includes/config/class-ws-form-config-ability.php:950
 msgid "Lock a form by ID so it cannot be edited. Unlock is a separate action."
 msgstr ""
 "Lås ett formulär efter ID så att det inte kan redigeras. Upplåsning är en "
 "separat åtgärd."
 
-#: includes/config/class-ws-form-config-ability.php:923
+#: includes/config/class-ws-form-config-ability.php:1010
 msgid "Unlock form"
 msgstr "Lås upp formulär"
 
-#: includes/config/class-ws-form-config-ability.php:924
+#: includes/config/class-ws-form-config-ability.php:1011
 msgid "Unlock a form by ID so it can be edited again."
 msgstr "Lås upp ett formulär efter ID så att det kan redigeras igen."
 
-#: includes/config/class-ws-form-config-ability.php:984
+#: includes/config/class-ws-form-config-ability.php:1071
 msgid "Clone form"
 msgstr "Klona formulär"
 
-#: includes/config/class-ws-form-config-ability.php:985
+#: includes/config/class-ws-form-config-ability.php:1072
 msgid ""
 "Use this tool to clone/copy/duplicate a form. The cloned form will be in a "
 "draft state."
@@ -15581,11 +15588,11 @@ msgstr ""
 "Använd det här verktyget för att klona/kopiera/duplicera ett formulär. Det "
 "klonade formuläret kommer att vara i utkastläge."
 
-#: includes/config/class-ws-form-config-ability.php:1071
+#: includes/config/class-ws-form-config-ability.php:1158
 msgid "Get form shortcode"
 msgstr "Hämta formulärets kortkod"
 
-#: includes/config/class-ws-form-config-ability.php:1072
+#: includes/config/class-ws-form-config-ability.php:1159
 msgid ""
 "Gets a shortcode for a form in the WS Form form plugin for WordPress by form "
 "ID."
@@ -15593,11 +15600,11 @@ msgstr ""
 "Hämtar en kortkod för ett formulär i formulärtillägget WS Form för WordPress "
 "efter formulär-ID."
 
-#: includes/config/class-ws-form-config-ability.php:1126
+#: includes/config/class-ws-form-config-ability.php:1213
 msgid "Get form block markup"
 msgstr "Hämta formulärets block-markup"
 
-#: includes/config/class-ws-form-config-ability.php:1127
+#: includes/config/class-ws-form-config-ability.php:1214
 msgid ""
 "Gets the block markup for a form in WS Form by form ID. This should only be "
 "used for pages edited by the block editor (Gutenberg)."
@@ -15605,11 +15612,11 @@ msgstr ""
 "Hämtar blockmarkeringen för ett formulär i WS Form efter formulär-ID. Detta "
 "bör endast användas för sidor som redigeras med blockredigeraren (Gutenberg)."
 
-#: includes/config/class-ws-form-config-ability.php:1181
+#: includes/config/class-ws-form-config-ability.php:1268
 msgid "Get statistical data about a form by ID"
 msgstr "Hämta statistiska data om ett formulär efter ID"
 
-#: includes/config/class-ws-form-config-ability.php:1182
+#: includes/config/class-ws-form-config-ability.php:1269
 msgid ""
 "Returns statistical data about a form by ID including total views, saves, "
 "submissions, daily figures, as well as the total number of submission "
@@ -15619,11 +15626,11 @@ msgstr ""
 "visningar, sparningar, inskick, dagliga siffror, samt det totala antalet "
 "inskicksposter och hur många av dessa som är olästa."
 
-#: includes/config/class-ws-form-config-ability.php:1330
+#: includes/config/class-ws-form-config-ability.php:1417
 msgid "List submissions"
 msgstr "Lista inskickade formulär"
 
-#: includes/config/class-ws-form-config-ability.php:1331
+#: includes/config/class-ws-form-config-ability.php:1418
 msgid ""
 "Returns a list of submissions for a form by ID. Supports optional date "
 "range, status, keyword search, pagination, and ordering."
@@ -15631,27 +15638,27 @@ msgstr ""
 "Returnerar en lista över inskick för ett formulär efter ID. Stöder valfritt "
 "datumintervall, status, nyckelordssökning, sidindelning och sortering."
 
-#: includes/config/class-ws-form-config-ability.php:1542
+#: includes/config/class-ws-form-config-ability.php:1629
 msgid "Get submission"
 msgstr "Hämta inskickat formulär"
 
-#: includes/config/class-ws-form-config-ability.php:1543
+#: includes/config/class-ws-form-config-ability.php:1630
 msgid "Returns a single submission by ID including its field values."
 msgstr "Returnerar en enskild inskickning efter ID, inklusive dess fältvärden."
 
-#: includes/config/class-ws-form-config-ability.php:1676
+#: includes/config/class-ws-form-config-ability.php:1763
 msgid "List submission notes"
 msgstr "Lista anteckningar för inskick"
 
-#: includes/config/class-ws-form-config-ability.php:1677
+#: includes/config/class-ws-form-config-ability.php:1764
 msgid "Returns notes for a submission by ID."
 msgstr "Returnerar anteckningar för ett inskick efter ID."
 
-#: includes/config/class-ws-form-config-ability.php:1794
+#: includes/config/class-ws-form-config-ability.php:1881
 msgid "Create submission note"
 msgstr "Skapa anteckning för inskick"
 
-#: includes/config/class-ws-form-config-ability.php:1795
+#: includes/config/class-ws-form-config-ability.php:1882
 msgid ""
 "Creates a note on a submission. Keep content as short note text only. Put "
 "structured label/value rows in meta.values and action links in meta.buttons. "
@@ -15663,11 +15670,11 @@ msgstr ""
 "åtgärdslänkar i meta.buttons. För en system-/tredjepartsanteckning, ange "
 "user_name (t.ex. Conversion Bridge) och valfritt locked true."
 
-#: includes/config/class-ws-form-config-ability.php:1936
+#: includes/config/class-ws-form-config-ability.php:2023
 msgid "Update submission note"
 msgstr "Uppdatera anteckning för inskick"
 
-#: includes/config/class-ws-form-config-ability.php:1937
+#: includes/config/class-ws-form-config-ability.php:2024
 msgid ""
 "Updates a submission note by ID. Keep content as short note text only. Put "
 "structured label/value rows in meta.values and action links in meta.buttons."
@@ -15676,35 +15683,35 @@ msgstr ""
 "som kort anteckningstext. Lägg strukturerade etikett-/värderader i "
 "meta.values och åtgärdslänkar i meta.buttons."
 
-#: includes/config/class-ws-form-config-ability.php:2068
+#: includes/config/class-ws-form-config-ability.php:2155
 msgid "Delete submission note"
 msgstr "Ta bort anteckning för inskick"
 
-#: includes/config/class-ws-form-config-ability.php:2069
+#: includes/config/class-ws-form-config-ability.php:2156
 msgid "Deletes a submission note by ID."
 msgstr "Tar bort en anteckning för en inskickning efter ID."
 
-#: includes/config/class-ws-form-config-ability.php:2129
+#: includes/config/class-ws-form-config-ability.php:2216
 msgid "Delete form"
 msgstr "Ta bort formulär"
 
-#: includes/config/class-ws-form-config-ability.php:2130
+#: includes/config/class-ws-form-config-ability.php:2217
 msgid "Trash or permanently delete a form by ID."
 msgstr "Släng eller radera ett formulär permanent efter ID."
 
-#: includes/config/class-ws-form-config-ability.php:2213
+#: includes/config/class-ws-form-config-ability.php:2300
 msgid "Restore form"
 msgstr "Återställ formulär"
 
-#: includes/config/class-ws-form-config-ability.php:2214
+#: includes/config/class-ws-form-config-ability.php:2301
 msgid "Restore a form from the trash by ID."
 msgstr "Återställ ett formulär från papperskorgen efter ID."
 
-#: includes/config/class-ws-form-config-ability.php:2282
+#: includes/config/class-ws-form-config-ability.php:2369
 msgid "Add field"
 msgstr "Lägg till fält"
 
-#: includes/config/class-ws-form-config-ability.php:2283
+#: includes/config/class-ws-form-config-ability.php:2370
 msgid ""
 "Use this tool to add or insert a new field into a form. Use the sections or "
 "fields tools (or form-get-json) to get section_id, and optionally "
@@ -15715,44 +15722,31 @@ msgstr ""
 "för att hämta section_id och, valfritt, field_id_before för att infoga före "
 "ett annat fält."
 
-#: includes/config/class-ws-form-config-ability.php:2411
+#: includes/config/class-ws-form-config-ability.php:2498
 msgid "Update field"
 msgstr "Uppdatera fält"
 
-#: includes/config/class-ws-form-config-ability.php:2412
-msgid ""
-"Use this tool to update an existing field label and/or meta (required, "
-"placeholder, help, options, etc.). Prefer this over form-update-json for "
-"single-field changes. Field type cannot be changed. Use the fields tool to "
-"find field IDs, or form-get-json for full field meta."
-msgstr ""
-"Använd det här verktyget för att uppdatera en befintlig fältetikett och/"
-"eller meta (obligatoriskt, platshållare, hjälp, alternativ osv.). Föredra "
-"detta framför form-update-json för ändringar av enstaka fält. Fälttypen kan "
-"inte ändras. Använd fältverktyget för att hitta fält-ID:n, eller form-get-"
-"json för fullständig fältmeta."
-
-#: includes/config/class-ws-form-config-ability.php:2526
+#: includes/config/class-ws-form-config-ability.php:2613
 msgid "Delete field"
 msgstr "Ta bort fält"
 
-#: includes/config/class-ws-form-config-ability.php:2527
+#: includes/config/class-ws-form-config-ability.php:2614
 msgid "Use this tool to delete a field from a form."
 msgstr "Använd det här verktyget för att radera ett fält från ett formulär."
 
-#: includes/config/class-ws-form-config-ability.php:2611
+#: includes/config/class-ws-form-config-ability.php:2698
 msgid "List styles"
-msgstr "Liststilar"
+msgstr "Lista stilar"
 
-#: includes/config/class-ws-form-config-ability.php:2612
+#: includes/config/class-ws-form-config-ability.php:2699
 msgid "Returns a list of form styles in WS Form."
 msgstr "Returnerar en lista över formulärstilar i WS Form."
 
-#: includes/config/class-ws-form-config-ability.php:2720
+#: includes/config/class-ws-form-config-ability.php:2807
 msgid "Get style"
 msgstr "Hämta stil"
 
-#: includes/config/class-ws-form-config-ability.php:2721
+#: includes/config/class-ws-form-config-ability.php:2808
 msgid ""
 "Returns a style by ID, including its root palette values (form colors, "
 "fonts, border radius, and grid gap)."
@@ -15760,11 +15754,11 @@ msgstr ""
 "Returnerar en stil efter ID, inklusive dess rotpalettvärden (formulärfärger, "
 "typsnitt, hörnradie och rutnätsmellanrum)."
 
-#: includes/config/class-ws-form-config-ability.php:2808
+#: includes/config/class-ws-form-config-ability.php:2895
 msgid "Create style"
 msgstr "Skapa stil"
 
-#: includes/config/class-ws-form-config-ability.php:2809
+#: includes/config/class-ws-form-config-ability.php:2896
 msgid ""
 "Create a form style only when the user specifically asks for a color theme, "
 "branding, or visual appearance (for example a red theme). Do not create a "
@@ -15784,11 +15778,11 @@ msgstr ""
 "tilldelar till ett nytt formulär, skapa först formuläret och skicka sedan "
 "dess form_id."
 
-#: includes/config/class-ws-form-config-ability.php:2960
+#: includes/config/class-ws-form-config-ability.php:3047
 msgid "Update style"
 msgstr "Uppdatera stil"
 
-#: includes/config/class-ws-form-config-ability.php:2961
+#: includes/config/class-ws-form-config-ability.php:3048
 msgid ""
 "Update a style label and/or root palette values. Optionally assign it to a "
 "form (form_id) or set it as the site default (default) or conversational "
@@ -15804,29 +15798,29 @@ msgstr ""
 "(formulärfärger, typsnitt, hörnradie och rutnätsmellanrum), inklusive "
 "motsvarande _alt-nycklar."
 
-#: includes/config/class-ws-form-config-ability.php:3115
+#: includes/config/class-ws-form-config-ability.php:3202
 msgid "Lock style"
 msgstr "Lås stil"
 
-#: includes/config/class-ws-form-config-ability.php:3116
+#: includes/config/class-ws-form-config-ability.php:3203
 msgid "Lock a style by ID so it cannot be edited. Unlock is a separate action."
 msgstr ""
 "Lås en stil efter ID så att den inte kan redigeras. Upplåsning är en separat "
 "åtgärd."
 
-#: includes/config/class-ws-form-config-ability.php:3176
+#: includes/config/class-ws-form-config-ability.php:3263
 msgid "Unlock style"
 msgstr "Lås upp stil"
 
-#: includes/config/class-ws-form-config-ability.php:3177
+#: includes/config/class-ws-form-config-ability.php:3264
 msgid "Unlock a style by ID so it can be edited again."
 msgstr "Lås upp en stil efter ID så att den kan redigeras igen."
 
-#: includes/config/class-ws-form-config-ability.php:3237
+#: includes/config/class-ws-form-config-ability.php:3324
 msgid "Delete style"
 msgstr "Ta bort stil"
 
-#: includes/config/class-ws-form-config-ability.php:3238
+#: includes/config/class-ws-form-config-ability.php:3325
 msgid ""
 "Trash or permanently delete a style by ID. Default styles cannot be deleted."
 msgstr ""
@@ -15959,7 +15953,7 @@ msgstr "Tid"
 
 #: includes/config/class-ws-form-config-admin.php:406
 msgid "Events"
-msgstr "Evenemang"
+msgstr "Händelser"
 
 #: includes/config/class-ws-form-config-admin.php:428
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:250
@@ -15977,7 +15971,7 @@ msgstr "Navigering"
 
 #: includes/config/class-ws-form-config-admin.php:515
 msgid "Repeatable"
-msgstr "Upprepning"
+msgstr "Upprepbar"
 
 #: includes/config/class-ws-form-config-admin.php:520
 msgid "Remove Row Behavior"
@@ -16032,12 +16026,12 @@ msgstr "Duplicera sektion"
 #: includes/config/class-ws-form-config-admin.php:621
 #: includes/config/class-ws-form-config-admin.php:934
 msgid "Export Section"
-msgstr "Avsnittet om export"
+msgstr "Exportera sektion"
 
 #: includes/config/class-ws-form-config-admin.php:622
 #: includes/config/class-ws-form-config-admin.php:932
 msgid "Import Section"
-msgstr "Avsnittet om import"
+msgstr "Importera sektion"
 
 #: includes/config/class-ws-form-config-admin.php:631
 msgid "Field Settings"
@@ -16265,11 +16259,11 @@ msgstr "Beräkna"
 
 #: includes/config/class-ws-form-config-admin.php:834
 msgid "Auto Map"
-msgstr "Karta för bilar"
+msgstr "Automatisk mappning"
 
 #: includes/config/class-ws-form-config-admin.php:839
 msgid "Required Setting"
-msgstr "Krävande inställning"
+msgstr "Obligatorisk inställning"
 
 #: includes/config/class-ws-form-config-admin.php:843
 msgid "Saving"
@@ -16391,7 +16385,7 @@ msgstr "Är du säker på att du vill ta bort det här avsnittet?"
 
 #: includes/config/class-ws-form-config-admin.php:901
 msgid "Are you sure you want to delete this field?"
-msgstr "﻿Är du säker på att du vill radera detta fält?"
+msgstr "Är du säker på att du vill radera detta fält?"
 
 #: includes/config/class-ws-form-config-admin.php:902
 msgid "Are you sure you want to delete this condition?"
@@ -16415,7 +16409,7 @@ msgstr "Är du säker på att du vill återställa bredden?"
 
 #: includes/config/class-ws-form-config-admin.php:907
 msgid "Are you sure you want to trash this submission?"
-msgstr "Är du säker på att du vill förstöra denna inlämning?"
+msgstr "Är du säker på att du vill flytta denna inlämning till papperskorgen?"
 
 #: includes/config/class-ws-form-config-admin.php:908
 msgid "Are you sure you want to delete this group?"
@@ -16487,7 +16481,7 @@ msgstr "Fel vid hämtning av datakälla<br />%s"
 #: includes/config/class-ws-form-config-admin.php:944
 #, php-format
 msgid "Field: %s"
-msgstr "Område: %s"
+msgstr "Fält: %s"
 
 #. translators: %s: Field ID
 #: includes/config/class-ws-form-config-admin.php:946
@@ -16520,7 +16514,7 @@ msgstr "Lägg till grupp"
 
 #: includes/config/class-ws-form-config-admin.php:960
 msgid "Auto Group By"
-msgstr "Auto Group By"
+msgstr "Gruppera automatiskt efter"
 
 #: includes/config/class-ws-form-config-admin.php:963
 msgid "Group These Values"
@@ -16582,11 +16576,11 @@ msgstr "Ställ in Inte standard"
 
 #: includes/config/class-ws-form-config-admin.php:989
 msgid "Set Required"
-msgstr "Uppsättning krävs"
+msgstr "Ange som obligatorisk"
 
 #: includes/config/class-ws-form-config-admin.php:990
 msgid "Set Not Required"
-msgstr "Uppsättning krävs inte"
+msgstr "Ange som ej obligatorisk"
 
 #: includes/config/class-ws-form-config-admin.php:991
 msgid "Set Disabled"
@@ -16747,7 +16741,7 @@ msgstr "Expandera"
 #: includes/config/class-ws-form-config-admin.php:1107
 #: includes/config/class-ws-form-config-admin.php:1228
 msgid "Contract"
-msgstr "Kontrakt"
+msgstr "Fäll ihop"
 
 #: includes/config/class-ws-form-config-admin.php:1110
 msgid "New Action"
@@ -16755,7 +16749,7 @@ msgstr "Ny åtgärd"
 
 #: includes/config/class-ws-form-config-admin.php:1115
 msgid "New Condition"
-msgstr "Nytt skick"
+msgstr "Nytt villkor"
 
 #: includes/config/class-ws-form-config-admin.php:1117
 msgid "If"
@@ -16767,11 +16761,11 @@ msgstr "Sedan"
 
 #: includes/config/class-ws-form-config-admin.php:1119
 msgid "Else"
-msgstr "Annat"
+msgstr "Annars"
 
 #: includes/config/class-ws-form-config-admin.php:1121
 msgid "Case Sensitive"
-msgstr "Känslig för fall"
+msgstr "Skiftlägeskänslig"
 
 #: includes/config/class-ws-form-config-admin.php:1123
 msgid "Hold ⌘ (Mac) or CTRL (PC) for multiple."
@@ -16807,7 +16801,7 @@ msgstr "Ta bort \"THEN\"-åtgärden"
 
 #: includes/config/class-ws-form-config-admin.php:1144
 msgid "Sort 'THEN' Action"
-msgstr "Sortera \"DÅ\"-åtgärd"
+msgstr "Sortera \"THEN\"-åtgärd"
 
 #: includes/config/class-ws-form-config-admin.php:1146
 msgid "Add 'ELSE' Action"
@@ -16872,7 +16866,7 @@ msgstr ""
 #: includes/config/class-ws-form-config-admin.php:1200
 #: includes/config/class-ws-form-config-public.php:439
 msgid "An unknown error occurred whilst retrieving geo location."
-msgstr "Ett okänt fel inträffade under hämtningen av geostationen."
+msgstr "Ett okänt fel inträffade under hämtningen av geografisk plats."
 
 #: includes/config/class-ws-form-config-admin.php:1201
 msgid "Notes"
@@ -16912,7 +16906,7 @@ msgstr "Fel"
 
 #: includes/config/class-ws-form-config-admin.php:1213
 msgid "Run Again"
-msgstr "Spring igen"
+msgstr "Kör igen"
 
 #: includes/config/class-ws-form-config-admin.php:1215
 msgid "Logs"
@@ -17069,18 +17063,9 @@ msgstr ""
 msgid "Insert Field"
 msgstr "Infoga fält"
 
-#: includes/config/class-ws-form-config-admin.php:1360
-msgid "del"
-msgstr "del"
-
-#. translators: AC = All Clear button on calculator
-#: includes/config/class-ws-form-config-admin.php:1364
-msgid "AC"
-msgstr "AC"
-
 #: includes/config/class-ws-form-config-admin.php:1366
 msgid "All Clear"
-msgstr "Allt är klart"
+msgstr "AC"
 
 #: includes/config/class-ws-form-config-admin.php:1374
 msgid "Opening Parentheses"
@@ -17176,7 +17161,7 @@ msgstr "Debugg"
 
 #: includes/config/class-ws-form-config-admin.php:1603
 msgid "Locale"
-msgstr "Plats"
+msgstr "Språkvariant"
 
 #: includes/config/class-ws-form-config-admin.php:1604
 msgid "Max Upload Size"
@@ -17185,7 +17170,7 @@ msgstr "Max uppladdningsstorlek"
 #: includes/config/class-ws-form-config-admin.php:1605
 #: includes/config/class-ws-form-config-admin.php:1619
 msgid "Memory Limit"
-msgstr "WP Minnesbegränsning"
+msgstr "Minnesgräns"
 
 #: includes/config/class-ws-form-config-admin.php:1612
 msgid "PHP"
@@ -17287,7 +17272,7 @@ msgstr "Ej validerad"
 
 #: includes/config/class-ws-form-config-conditional.php:33
 msgid "Rendered"
-msgstr "Redigerad"
+msgstr "Renderad"
 
 #: includes/config/class-ws-form-config-conditional.php:36
 msgid "Submit - Complete"
@@ -17364,25 +17349,25 @@ msgstr "Mus ut"
 #: includes/config/class-ws-form-config-conditional.php:100
 #: includes/config/class-ws-form-config-conditional.php:363
 msgid "Touch start"
-msgstr "Tryck på start"
+msgstr "Beröring start"
 
 #: includes/config/class-ws-form-config-conditional.php:58
 #: includes/config/class-ws-form-config-conditional.php:101
 #: includes/config/class-ws-form-config-conditional.php:364
 msgid "Touch end"
-msgstr "Beröringsändan"
+msgstr "Beröring slut"
 
 #: includes/config/class-ws-form-config-conditional.php:59
 #: includes/config/class-ws-form-config-conditional.php:102
 #: includes/config/class-ws-form-config-conditional.php:365
 msgid "Touch move"
-msgstr "Rör dig för att röra dig"
+msgstr "Beröring flytt"
 
 #: includes/config/class-ws-form-config-conditional.php:60
 #: includes/config/class-ws-form-config-conditional.php:103
 #: includes/config/class-ws-form-config-conditional.php:366
 msgid "Touch cancel"
-msgstr "Tryck på avbryta"
+msgstr "Beröring avbruten"
 
 #: includes/config/class-ws-form-config-conditional.php:65
 msgid "Save if validated"
@@ -17522,7 +17507,7 @@ msgstr "Rad/rader som inte valts ut"
 
 #: includes/config/class-ws-form-config-conditional.php:198
 msgid "Any row selected"
-msgstr "Alla rader som valts"
+msgstr "Någon rad vald"
 
 #: includes/config/class-ws-form-config-conditional.php:199
 msgid "No row selected"
@@ -17562,19 +17547,19 @@ msgstr "Antal markerade mindre än"
 
 #: includes/config/class-ws-form-config-conditional.php:210
 msgid "Row(s) checked"
-msgstr "Raden/raderna kontrolleras"
+msgstr "Rad(er) ikryssade"
 
 #: includes/config/class-ws-form-config-conditional.php:211
 msgid "Row(s) not checked"
-msgstr "Raden/raderna som inte är kontrollerad(a)"
+msgstr "Rad(er) inte ikryssade"
 
 #: includes/config/class-ws-form-config-conditional.php:212
 msgid "Any row checked"
-msgstr "Alla rader som kontrolleras"
+msgstr "Någon rad ikryssad"
 
 #: includes/config/class-ws-form-config-conditional.php:213
 msgid "No row checked"
-msgstr "Ingen rad har kontrollerats"
+msgstr "Ingen rad ikryssad"
 
 #: includes/config/class-ws-form-config-conditional.php:214
 msgid "All rows checked"
@@ -17586,27 +17571,27 @@ msgstr "Inte alla rader ikryssade"
 
 #: includes/config/class-ws-form-config-conditional.php:216
 msgid "Checked count equals"
-msgstr "Kontrollerat antal är lika med"
+msgstr "Antal ikryssade är lika med"
 
 #: includes/config/class-ws-form-config-conditional.php:217
 msgid "Checked count does not equal"
-msgstr "Det kontrollerade antalet är inte lika med"
+msgstr "Antal ikryssade är inte lika med"
 
 #: includes/config/class-ws-form-config-conditional.php:218
 msgid "Checked count greater than"
-msgstr "Kontrollerat antal större än"
+msgstr "Antal ikryssade större än"
 
 #: includes/config/class-ws-form-config-conditional.php:219
 msgid "Checked count less than"
-msgstr "Kontrollerat antal mindre än"
+msgstr "Antal ikryssade mindre än"
 
 #: includes/config/class-ws-form-config-conditional.php:220
 msgid "Checked value equals"
-msgstr "Det kontrollerade värdet är lika med"
+msgstr "Ikryssat värde är lika med"
 
 #: includes/config/class-ws-form-config-conditional.php:221
 msgid "Checked value does not equal"
-msgstr "Det kontrollerade värdet är inte lika med"
+msgstr "Ikryssat värde är inte lika med"
 
 #: includes/config/class-ws-form-config-conditional.php:224
 msgid "Is valid email address"
@@ -17650,11 +17635,11 @@ msgstr "Mättnad mindre än"
 
 #: includes/config/class-ws-form-config-conditional.php:250
 msgid "Lightness greater than"
-msgstr "Lätthet större än"
+msgstr "Ljushet större än"
 
 #: includes/config/class-ws-form-config-conditional.php:251
 msgid "Lightness less than"
-msgstr "Lätthet mindre än"
+msgstr "Ljushet mindre än"
 
 #: includes/config/class-ws-form-config-conditional.php:252
 msgid "Alpha greater than"
@@ -17782,11 +17767,11 @@ msgstr "Status: Inga resultat"
 
 #: includes/config/class-ws-form-config-conditional.php:368
 msgid "On focus"
-msgstr "Om fokus"
+msgstr "Vid fokus"
 
 #: includes/config/class-ws-form-config-conditional.php:369
 msgid "On blur"
-msgstr "Om oskärpa"
+msgstr "Vid blur (fokus lämnas)"
 
 #: includes/config/class-ws-form-config-conditional.php:370
 msgid "On change"
@@ -17802,16 +17787,16 @@ msgstr "Vid ändring eller inmatning"
 
 #: includes/config/class-ws-form-config-conditional.php:373
 msgid "On key up"
-msgstr "Vid upptagning av nyckeln"
+msgstr "Vid tangent upp"
 
 #: includes/config/class-ws-form-config-conditional.php:374
 msgid "On key down"
-msgstr "Vid nedåtriktad tangent"
+msgstr "Vid tangent ned"
 
 #: includes/config/class-ws-form-config-conditional.php:387
 #: includes/config/class-ws-form-config-conditional.php:515
 msgid "Set required"
-msgstr "Uppsättning som krävs"
+msgstr "Ange som obligatorisk"
 
 #: includes/config/class-ws-form-config-conditional.php:389
 #: includes/config/class-ws-form-config-conditional.php:517
@@ -17820,6 +17805,10 @@ msgid "Not required"
 msgstr "Krävs inte"
 
 #: includes/config/class-ws-form-config-conditional.php:394
+msgctxt "Conditional action"
+msgid "Focus"
+msgstr "Fokusera"
+
 #: includes/config/class-ws-form-config-styler.php:874
 #: includes/config/class-ws-form-config-styler.php:922
 #: includes/config/class-ws-form-config-styler.php:1179
@@ -17847,12 +17836,13 @@ msgstr "Krävs inte"
 #: includes/config/class-ws-form-config-styler.php:2809
 #: includes/config/class-ws-form-config-styler.php:2841
 #: includes/config/class-ws-form-config-styler.php:3116
+msgctxt "Styler state"
 msgid "Focus"
 msgstr "Fokus"
 
 #: includes/config/class-ws-form-config-conditional.php:395
 msgid "Blur"
-msgstr "Suddighet"
+msgstr "Lämna fokus (blur)"
 
 #: includes/config/class-ws-form-config-conditional.php:396
 #: includes/config/class-ws-form-config-conditional.php:413
@@ -17922,7 +17912,7 @@ msgstr "Avmarkera alla rader"
 
 #: includes/config/class-ws-form-config-conditional.php:442
 msgid "Check row"
-msgstr "Kontrollera raden"
+msgstr "Kryssa i rad"
 
 #: includes/config/class-ws-form-config-conditional.php:443
 msgid "Uncheck row"
@@ -17930,7 +17920,7 @@ msgstr "Avmarkera raden"
 
 #: includes/config/class-ws-form-config-conditional.php:445
 msgid "Check row with value"
-msgstr "Kontrollera rad med värde"
+msgstr "Kryssa i rad med värde"
 
 #: includes/config/class-ws-form-config-conditional.php:446
 msgid "Uncheck row with value"
@@ -18031,11 +18021,11 @@ msgstr "Ställ in det högsta valda värdet"
 
 #: includes/config/class-ws-form-config-conditional.php:486
 msgid "Set minimum checked"
-msgstr "Ange lägsta kontrollerade värde"
+msgstr "Ange minsta antal ikryssade"
 
 #: includes/config/class-ws-form-config-conditional.php:487
 msgid "Set maximum checked"
-msgstr "Ställ in högsta kontrollerade värde"
+msgstr "Ange högsta antal ikryssade"
 
 #: includes/config/class-ws-form-config-conditional.php:489
 msgid "Focus row"
@@ -18132,11 +18122,11 @@ msgstr "OCH"
 #: includes/config/class-ws-form-config-conditional.php:627
 #: includes/config/class-ws-form-config-option.php:1762
 msgid "AJAX"
-msgstr "AJAX Anpassad JS"
+msgstr "AJAX"
 
 #: includes/config/class-ws-form-config-conditional.php:628
 msgid "Event"
-msgstr "Evenemang"
+msgstr "Händelse"
 
 #. translators: %s: WS Form
 #: includes/config/class-ws-form-config-customize.php:78
@@ -18166,7 +18156,7 @@ msgstr "Platshållare och inaktiverade fältvärden."
 
 #: includes/config/class-ws-form-config-customize.php:191
 msgid "Lighter"
-msgstr "Lättare"
+msgstr "Ljusare"
 
 #: includes/config/class-ws-form-config-customize.php:193
 msgid "Field borders and buttons."
@@ -18174,7 +18164,7 @@ msgstr "Fältgränser och knappar."
 
 #: includes/config/class-ws-form-config-customize.php:198
 msgid "Lightest"
-msgstr "Lättaste"
+msgstr "Ljusast"
 
 #: includes/config/class-ws-form-config-customize.php:200
 msgid ""
@@ -18186,9 +18176,7 @@ msgstr ""
 
 #: includes/config/class-ws-form-config-customize.php:207
 msgid "Checkboxes, radios, range sliders, progress bars, and submit buttons."
-msgstr ""
-"Kryssrutor, radioapparater, intervallslidare, progressionsfält och knappar "
-"för inlämning."
+msgstr "Kryssrutor, radioknappar, skjutreglage, förloppsindikatorer och skicka-knappar."
 
 #: includes/config/class-ws-form-config-customize.php:214
 msgid "Secondary elements such as a reset button."
@@ -18326,7 +18314,7 @@ msgstr "Dubbel"
 
 #: includes/config/class-ws-form-config-customize.php:349
 msgid "Groove"
-msgstr "Räfflad"
+msgstr "groove (Räfflad)"
 
 #: includes/config/class-ws-form-config-customize.php:350
 msgid "Inset"
@@ -18338,7 +18326,7 @@ msgstr "Outset"
 
 #: includes/config/class-ws-form-config-customize.php:352
 msgid "Ridge"
-msgstr "Upphöjning"
+msgstr "ridge (Upphöjning)"
 
 #: includes/config/class-ws-form-config-customize.php:353
 msgid "Solid"
@@ -18420,19 +18408,19 @@ msgstr "Timing-funktion"
 
 #: includes/config/class-ws-form-config-customize.php:423
 msgid "Ease"
-msgstr "Försiktigt"
+msgstr "ease (Mjuk)"
 
 #: includes/config/class-ws-form-config-customize.php:424
 msgid "Ease In"
-msgstr "Lätt att komma in"
+msgstr "ease-in (Mjuk start)"
 
 #: includes/config/class-ws-form-config-customize.php:425
 msgid "Ease In Out"
-msgstr "Lätt att komma in och ut"
+msgstr "ease-in-out (Mjuk start och slut)"
 
 #: includes/config/class-ws-form-config-customize.php:426
 msgid "Ease Out"
-msgstr "Lättare att ta sig ut"
+msgstr "ease-out (Mjukt slut)"
 
 #: includes/config/class-ws-form-config-customize.php:427
 msgid "Linear"
@@ -18440,11 +18428,11 @@ msgstr "Linjär"
 
 #: includes/config/class-ws-form-config-customize.php:428
 msgid "Step End"
-msgstr "Steg Slut"
+msgstr "step-end (Steg slut)"
 
 #: includes/config/class-ws-form-config-customize.php:429
 msgid "Step Start"
-msgstr "Steg Start"
+msgstr "step-start (Steg start)"
 
 #: includes/config/class-ws-form-config-customize.php:431
 #: includes/config/class-ws-form-config-styler.php:286
@@ -18453,7 +18441,7 @@ msgstr "Hastighetskurva för övergångseffekten."
 
 #: includes/config/class-ws-form-config-customize.php:444
 msgid "Grid Gutter"
-msgstr "Galler med galler"
+msgstr "Rutnätsmellanrum"
 
 #: includes/config/class-ws-form-config-customize.php:446
 msgid "Sets the distance between form elements."
@@ -18533,7 +18521,7 @@ msgstr "Bakgrundsfärg för navigering"
 
 #: includes/config/class-ws-form-config-customize.php:522
 msgid "Navigation Foreground Color"
-msgstr "Färg för bakgrundsfärg för navigering"
+msgstr "Förgrundsfärg för navigering"
 
 #: includes/config/class-ws-form-config-customize.php:529
 #: includes/config/class-ws-form-config-styler.php:4874
@@ -18710,7 +18698,7 @@ msgstr "Om markerad kommer skript att köras efter att dokumentet har tolkats."
 
 #: includes/config/class-ws-form-config-option.php:272
 msgid "Enqueue in Footer"
-msgstr "Inställning i sidfot"
+msgstr "Köa i sidfot"
 
 #: includes/config/class-ws-form-config-option.php:274
 msgid "If checked, scripts will be enqueued in the footer."
@@ -18744,7 +18732,7 @@ msgstr "Alltid (rekommenderas)"
 #: includes/config/class-ws-form-config-option.php:302
 #: includes/config/class-ws-form-config-option.php:317
 msgid "If native not available"
-msgstr "Om det inte finns någon inföding"
+msgstr "Om inbyggd inte finns"
 
 #: includes/config/class-ws-form-config-option.php:303
 #: includes/config/class-ws-form-config-option.php:318
@@ -18943,7 +18931,7 @@ msgstr "URL-mask - IP-uppslagning"
 
 #: includes/config/class-ws-form-config-option.php:537
 msgid "#value will be replaced with the tracking IP address."
-msgstr "#värde ersätts med IP-adressen för spårning."
+msgstr "#value ersätts med IP-adressen för spårning."
 
 #: includes/config/class-ws-form-config-option.php:542
 msgid "URL Mask - Lat/Lon Lookup"
@@ -18951,7 +18939,7 @@ msgstr "URL-mask – Lat/Lon-uppslag"
 
 #: includes/config/class-ws-form-config-option.php:546
 msgid "#value will be replaced with latitude,longitude."
-msgstr "#värde kommer att ersättas med latitud, longitud."
+msgstr "#value kommer att ersättas med latitud, longitud."
 
 #: includes/config/class-ws-form-config-option.php:560
 msgid "Enable Edit in Preview"
@@ -18991,7 +18979,7 @@ msgstr "Stil-CSS"
 
 #: includes/config/class-ws-form-config-option.php:607
 msgid "Skin CSS"
-msgstr "Hud CSS"
+msgstr "Tema-CSS"
 
 #: includes/config/class-ws-form-config-option.php:612
 msgid "Should the style CSS be rendered?"
@@ -19299,7 +19287,7 @@ msgstr "Vänster med mellanrum"
 
 #: includes/config/class-ws-form-config-option.php:1211
 msgid "Right with space"
-msgstr "Höger med melanslag"
+msgstr "Höger med mellanslag"
 
 #: includes/config/class-ws-form-config-option.php:1219
 msgid "Thousand Separator"
@@ -19749,7 +19737,7 @@ msgstr "Ingen ogiltig återkopplingsmask definierad"
 #: includes/config/class-ws-form-config-public.php:88
 #, php-format
 msgid "Form - %s"
-msgstr "Form - %s"
+msgstr "Formulär - %s"
 
 #: includes/config/class-ws-form-config-public.php:89
 msgid "Timeout waiting for Data Layer to load"
@@ -19958,11 +19946,11 @@ msgstr "Skapa alternativ färg"
 
 #: includes/config/class-ws-form-config-public.php:360
 msgid "Form rendered"
-msgstr "Form som återges"
+msgstr "Formulär återgivet"
 
 #: includes/config/class-ws-form-config-public.php:362
 msgid "Minimize"
-msgstr "Sidospalt"
+msgstr "Minimera"
 
 #: includes/config/class-ws-form-config-public.php:365
 msgid ""
@@ -20033,7 +20021,7 @@ msgstr "Tid för rendering"
 
 #: includes/config/class-ws-form-config-public.php:394
 msgid "Submit Count"
-msgstr "Skicka in räkningen"
+msgstr "Antal inskick"
 
 #: includes/config/class-ws-form-config-public.php:395
 msgid "Submit Duration (User)"
@@ -20041,7 +20029,7 @@ msgstr "Längd för inlämning (användare)"
 
 #: includes/config/class-ws-form-config-public.php:396
 msgid "Submit Duration (Client)"
-msgstr "Längd för inlämning (kund)"
+msgstr "Längd för inlämning (klient)"
 
 #: includes/config/class-ws-form-config-public.php:397
 msgid "Submit Duration (Server)"
@@ -20092,11 +20080,11 @@ msgstr "Omarkerad"
 
 #: includes/config/class-ws-form-config-public.php:420
 msgid "Checked by value"
-msgstr "Kontrollerad med värde"
+msgstr "Ikryssad med värde"
 
 #: includes/config/class-ws-form-config-public.php:421
 msgid "Unchecked by value"
-msgstr "Ej kontrollerad av värdet"
+msgstr "Urkryssad med värde"
 
 #: includes/config/class-ws-form-config-public.php:425
 msgid "Not Disabled"
@@ -20140,25 +20128,25 @@ msgstr "Token har tagits emot: %s"
 #: includes/config/class-ws-form-config-public.php:449
 #, php-format
 msgid "IF returned TRUE: %s"
-msgstr "OM returnerade SANT: %s"
+msgstr "IF returnerade TRUE: %s"
 
 #. translators: %s: Condition
 #: includes/config/class-ws-form-config-public.php:451
 #, php-format
 msgid "IF returned FALSE: %s"
-msgstr "OM returnerade FALSKT: %s"
+msgstr "IF returnerade FALSE: %s"
 
 #. translators: %s: Condition
 #: includes/config/class-ws-form-config-public.php:453
 #, php-format
 msgid "THEN: %s"
-msgstr "SEDAN: %s"
+msgstr "THEN: %s"
 
 #. translators: %s: Condition
 #: includes/config/class-ws-form-config-public.php:455
 #, php-format
 msgid "ELSE: %s"
-msgstr "ANNARS: %s"
+msgstr "ELSE: %s"
 
 #. translators: %s: Condition
 #: includes/config/class-ws-form-config-public.php:457
@@ -20328,7 +20316,7 @@ msgstr "Utlöses av: %s"
 #: includes/config/class-ws-form-config-public.php:514
 #, php-format
 msgid "Calculation fired: %s"
-msgstr "Beräkning avbränd: %s"
+msgstr "Beräkning utlöst: %s"
 
 #: includes/config/class-ws-form-config-public.php:517
 msgid "Initial calculation"
@@ -20556,7 +20544,7 @@ msgstr ""
 
 #: includes/config/class-ws-form-config-styler.php:792
 msgid "Legend"
-msgstr "Historia"
+msgstr "Förklaring (legend)"
 
 #: includes/config/class-ws-form-config-styler.php:801
 msgid "Repeater Icons"
@@ -20800,7 +20788,7 @@ msgstr "Förgrundsfärg"
 
 #: includes/config/class-ws-form-config-styler.php:3039
 msgid "Record Color"
-msgstr "Postfärg"
+msgstr "Inspelningsfärg"
 
 #: includes/config/class-ws-form-config-styler.php:3048
 msgid "Level Color"
@@ -20904,7 +20892,7 @@ msgstr "Färg – övre"
 
 #: includes/config/class-ws-form-config-styler.php:3991
 msgid "Thumb"
-msgstr "Miniatyr"
+msgstr "Reglage"
 
 #: includes/config/class-ws-form-config-styler.php:4015
 msgid "Tickmark"
@@ -20912,7 +20900,7 @@ msgstr "Skalstreck"
 
 #: includes/config/class-ws-form-config-styler.php:4047
 msgid "Tickmark Labels"
-msgstr "Etiketter för bockmarkering"
+msgstr "Etiketter för skalstreck"
 
 #: includes/config/class-ws-form-config-styler.php:4064
 msgid "Down Arrow"
@@ -20997,11 +20985,11 @@ msgstr "WS Form-logotyp"
 #: includes/third-party/bricks/elements/class-bricks-ws-form-form.php:28
 #: includes/third-party/oxygen/elements/class-oxyel-ws-form-form.php:35
 msgid "WS Form"
-msgstr "WS-formulär"
+msgstr "WS Form"
 
 #: includes/core/class-ws-form-ability.php:26
 msgid "Abilities that relate to the plugin WS Form."
-msgstr "Behörigheter som rör tillägget WS Form."
+msgstr "Förmågor som rör tillägget WS Form."
 
 #. translators: %s: Error message
 #: includes/core/class-ws-form-ability.php:111
@@ -21052,491 +21040,497 @@ msgid "Error assigning forms: %s"
 msgstr "Fel vid tilldelning av formulär: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:313
+#: includes/core/class-ws-form-ability.php:279
+#, php-format
+msgid "Error moving folder: %s"
+msgstr "Fel vid flytt av mapp: %s"
+
+#. translators: %s: Error message
+#: includes/core/class-ws-form-ability.php:337
 #, php-format
 msgid "Error creating form from JSON: %s"
 msgstr "Fel vid skapande av formulär från JSON: %s"
 
-#: includes/core/class-ws-form-ability.php:331
-#: includes/core/class-ws-form-ability.php:371
-#: includes/core/class-ws-form-ability.php:416
-#: includes/core/class-ws-form-ability.php:455
-#: includes/core/class-ws-form-ability.php:504
-#: includes/core/class-ws-form-ability.php:538
-#: includes/core/class-ws-form-ability.php:588
-#: includes/core/class-ws-form-ability.php:618
-#: includes/core/class-ws-form-ability.php:648
-#: includes/core/class-ws-form-ability.php:740
-#: includes/core/class-ws-form-ability.php:1154
-#: includes/core/class-ws-form-ability.php:1205
-#: includes/core/class-ws-form-ability.php:1668
-#: includes/core/class-ws-form-ability.php:1730
-#: includes/core/class-ws-form-ability.php:1790
-#: includes/core/class-ws-form-ability.php:1836
-#: includes/core/class-ws-form-ability.php:1857
-#: includes/core/class-ws-form-ability.php:1878
-#: includes/core/class-ws-form-ability.php:1899
-#: includes/core/class-ws-form-ability.php:1925
-#: includes/core/class-ws-form-ability.php:1952
-#: includes/core/class-ws-form-ability.php:1979
-#: includes/core/class-ws-form-ability.php:2011
-#: includes/core/class-ws-form-ability.php:2043
-#: includes/core/class-ws-form-ability.php:2071
-#: includes/core/class-ws-form-ability.php:2092
-#: includes/core/class-ws-form-ability.php:2129
-#: includes/core/class-ws-form-ability.php:2168
-#: includes/core/class-ws-form-ability.php:2206
-#: includes/core/class-ws-form-ability.php:2227
-#: includes/core/class-ws-form-ability.php:2259
-#: includes/core/class-ws-form-ability.php:2297
-#: includes/core/class-ws-form-ability.php:2472
+#: includes/core/class-ws-form-ability.php:355
+#: includes/core/class-ws-form-ability.php:395
+#: includes/core/class-ws-form-ability.php:440
+#: includes/core/class-ws-form-ability.php:479
+#: includes/core/class-ws-form-ability.php:528
+#: includes/core/class-ws-form-ability.php:562
+#: includes/core/class-ws-form-ability.php:612
+#: includes/core/class-ws-form-ability.php:642
+#: includes/core/class-ws-form-ability.php:672
+#: includes/core/class-ws-form-ability.php:764
+#: includes/core/class-ws-form-ability.php:1178
+#: includes/core/class-ws-form-ability.php:1229
+#: includes/core/class-ws-form-ability.php:1692
+#: includes/core/class-ws-form-ability.php:1754
+#: includes/core/class-ws-form-ability.php:1814
+#: includes/core/class-ws-form-ability.php:1860
+#: includes/core/class-ws-form-ability.php:1881
+#: includes/core/class-ws-form-ability.php:1902
+#: includes/core/class-ws-form-ability.php:1923
+#: includes/core/class-ws-form-ability.php:1949
+#: includes/core/class-ws-form-ability.php:1976
+#: includes/core/class-ws-form-ability.php:2003
+#: includes/core/class-ws-form-ability.php:2035
+#: includes/core/class-ws-form-ability.php:2067
+#: includes/core/class-ws-form-ability.php:2095
+#: includes/core/class-ws-form-ability.php:2116
+#: includes/core/class-ws-form-ability.php:2153
+#: includes/core/class-ws-form-ability.php:2192
+#: includes/core/class-ws-form-ability.php:2230
+#: includes/core/class-ws-form-ability.php:2251
+#: includes/core/class-ws-form-ability.php:2283
+#: includes/core/class-ws-form-ability.php:2321
+#: includes/core/class-ws-form-ability.php:2496
 msgid "Invalid form ID."
 msgstr "Ogiltigt formulär-ID."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:353
+#: includes/core/class-ws-form-ability.php:377
 #, php-format
 msgid "Error retrieving form as JSON: %s"
 msgstr "Fel vid hämtning av formulär som JSON: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:398
+#: includes/core/class-ws-form-ability.php:422
 #, php-format
 msgid "Error updating form from JSON: %s"
 msgstr "Fel vid uppdatering av formulär från JSON: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:437
+#: includes/core/class-ws-form-ability.php:461
 #, php-format
 msgid "Error publishing form: %s"
 msgstr "Fel vid publicering av formulär: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:476
+#: includes/core/class-ws-form-ability.php:500
 #, php-format
 msgid "Error drafting form: %s"
 msgstr "Fel vid skapande av formulärutkast: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:520
+#: includes/core/class-ws-form-ability.php:544
 #, php-format
 msgid "Error locking form: %s"
 msgstr "Fel vid låsning av formulär: %s"
 
-#: includes/core/class-ws-form-ability.php:520
+#: includes/core/class-ws-form-ability.php:544
 #, php-format
 msgid "Error unlocking form: %s"
 msgstr "Fel vid upplåsning av formulär: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:570
+#: includes/core/class-ws-form-ability.php:594
 #, php-format
 msgid "Error cloning form: %s"
 msgstr "Fel vid kloning av formulär: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:600
+#: includes/core/class-ws-form-ability.php:624
 #, php-format
 msgid "Error generating shortcode: %s"
 msgstr "Fel vid generering av kortkod: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:630
+#: includes/core/class-ws-form-ability.php:654
 #, php-format
 msgid "Error generating block: %s"
 msgstr "Fel vid generering av block: %s"
 
-#: includes/core/class-ws-form-ability.php:655
-#: includes/core/class-ws-form-ability.php:752
+#: includes/core/class-ws-form-ability.php:679
+#: includes/core/class-ws-form-ability.php:776
 msgid "Invalid from date / time."
 msgstr "Ogiltigt från-datum/-tid."
 
-#: includes/core/class-ws-form-ability.php:663
-#: includes/core/class-ws-form-ability.php:769
+#: includes/core/class-ws-form-ability.php:687
+#: includes/core/class-ws-form-ability.php:793
 msgid "Invalid to date / time."
 msgstr "Ogiltigt till-datum/-tid."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:722
+#: includes/core/class-ws-form-ability.php:746
 #, php-format
 msgid "Error retrieving form statistics: %s"
 msgstr "Fel vid hämtning av formulärstatistik: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:834
+#: includes/core/class-ws-form-ability.php:858
 #, php-format
 msgid "Error retrieving submissions: %s"
 msgstr "Fel vid hämtning av inskickningar: %s"
 
-#: includes/core/class-ws-form-ability.php:852
-#: includes/core/class-ws-form-ability.php:902
-#: includes/core/class-ws-form-ability.php:934
+#: includes/core/class-ws-form-ability.php:876
+#: includes/core/class-ws-form-ability.php:926
+#: includes/core/class-ws-form-ability.php:958
 msgid "Invalid submission ID."
 msgstr "Ogiltigt inskicknings-ID."
 
-#: includes/core/class-ws-form-ability.php:871
+#: includes/core/class-ws-form-ability.php:895
 #: includes/core/class-ws-form-submit.php:226
 msgid "Unable to read submission."
 msgstr "Det går inte att läsa inlagan."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:884
+#: includes/core/class-ws-form-ability.php:908
 #, php-format
 msgid "Error retrieving submission: %s"
 msgstr "Fel vid hämtning av inskickning: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:916
+#: includes/core/class-ws-form-ability.php:940
 #, php-format
 msgid "Error retrieving submission notes: %s"
 msgstr "Fel vid hämtning av inskicksanteckningar: %s"
 
-#: includes/core/class-ws-form-ability.php:967
+#: includes/core/class-ws-form-ability.php:991
 msgid "Submission note created."
 msgstr "Inskicksanteckning skapad."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:973
+#: includes/core/class-ws-form-ability.php:997
 #, php-format
 msgid "Error creating submission note: %s"
 msgstr "Fel vid skapande av inskicksanteckning: %s"
 
-#: includes/core/class-ws-form-ability.php:991
-#: includes/core/class-ws-form-ability.php:1042
+#: includes/core/class-ws-form-ability.php:1015
+#: includes/core/class-ws-form-ability.php:1066
 msgid "Invalid note ID."
 msgstr "Ogiltigt antecknings-ID."
 
-#: includes/core/class-ws-form-ability.php:1018
+#: includes/core/class-ws-form-ability.php:1042
 msgid "Submission note updated."
 msgstr "Inskicksanteckning uppdaterad."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1024
+#: includes/core/class-ws-form-ability.php:1048
 #, php-format
 msgid "Error updating submission note: %s"
 msgstr "Fel vid uppdatering av inskicksanteckning: %s"
 
-#: includes/core/class-ws-form-ability.php:1053
+#: includes/core/class-ws-form-ability.php:1077
 msgid "Submission note deleted."
 msgstr "Inskicksanteckning borttagen."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1059
+#: includes/core/class-ws-form-ability.php:1083
 #, php-format
 msgid "Error deleting submission note: %s"
 msgstr "Fel vid borttagning av inskicksanteckning: %s"
 
-#: includes/core/class-ws-form-ability.php:1163
+#: includes/core/class-ws-form-ability.php:1187
 msgid "Permanent form deletion is not enabled."
 msgstr "Permanent radering av formulär är inte aktiverad."
 
-#: includes/core/class-ws-form-ability.php:1180
+#: includes/core/class-ws-form-ability.php:1204
 msgid "Form permanently deleted"
 msgstr "Formuläret har raderats permanent"
 
-#: includes/core/class-ws-form-ability.php:1180
+#: includes/core/class-ws-form-ability.php:1204
 msgid "Form trashed"
 msgstr "Formuläret har lagts i papperskorgen"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1187
+#: includes/core/class-ws-form-ability.php:1211
 #, php-format
 msgid "Error deleting form: %s"
 msgstr "Fel vid radering av formulär: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1228
+#: includes/core/class-ws-form-ability.php:1252
 #, php-format
 msgid "Error restoring form: %s"
 msgstr "Fel vid återställning av formulär: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1269
+#: includes/core/class-ws-form-ability.php:1293
 #, php-format
 msgid "Error retrieving styles: %s"
 msgstr "Fel vid hämtning av stilar: %s"
 
-#: includes/core/class-ws-form-ability.php:1283
-#: includes/core/class-ws-form-ability.php:1416
-#: includes/core/class-ws-form-ability.php:1509
-#: includes/core/class-ws-form-ability.php:1528
-#: includes/core/class-ws-form-ability.php:1634
+#: includes/core/class-ws-form-ability.php:1307
+#: includes/core/class-ws-form-ability.php:1440
+#: includes/core/class-ws-form-ability.php:1533
+#: includes/core/class-ws-form-ability.php:1552
+#: includes/core/class-ws-form-ability.php:1658
 msgid "Invalid style ID."
 msgstr "Ogiltigt stil-ID."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1304
+#: includes/core/class-ws-form-ability.php:1328
 #, php-format
 msgid "Error retrieving style: %s"
 msgstr "Fel vid hämtning av stil: %s"
 
-#: includes/core/class-ws-form-ability.php:1345
+#: includes/core/class-ws-form-ability.php:1369
 msgid "Error creating style."
 msgstr "Fel vid skapande av stil."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1402
+#: includes/core/class-ws-form-ability.php:1426
 #, php-format
 msgid "Error creating style: %s"
 msgstr "Fel vid skapande av stil: %s"
 
-#: includes/core/class-ws-form-ability.php:1434
+#: includes/core/class-ws-form-ability.php:1458
 msgid "Provide a label, meta, default flag, and/or form ID to update."
 msgstr ""
 "Ange en etikett, metadata, standardflagga och/eller formulär-ID att "
 "uppdatera."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1495
+#: includes/core/class-ws-form-ability.php:1519
 #, php-format
 msgid "Error updating style: %s"
 msgstr "Fel vid uppdatering av stil: %s"
 
-#: includes/core/class-ws-form-ability.php:1536
+#: includes/core/class-ws-form-ability.php:1560
 msgid ""
 "Style is already in trash. Set permanent to true to permanently delete it."
 msgstr ""
 "Stilen ligger redan i papperskorgen. Ange permanent till true för att ta "
 "bort den permanent."
 
-#: includes/core/class-ws-form-ability.php:1542
-#: includes/core/class-ws-form-ability.php:1565
+#: includes/core/class-ws-form-ability.php:1566
+#: includes/core/class-ws-form-ability.php:1589
 msgid "Permanent style deletion is not enabled."
 msgstr "Permanent radering av stil är inte aktiverad."
 
-#: includes/core/class-ws-form-ability.php:1548
-#: includes/core/class-ws-form-ability.php:1571
-#: includes/core/class-ws-form-ability.php:1577
-#: includes/core/class-ws-form-ability.php:1592
+#: includes/core/class-ws-form-ability.php:1572
+#: includes/core/class-ws-form-ability.php:1595
+#: includes/core/class-ws-form-ability.php:1601
+#: includes/core/class-ws-form-ability.php:1616
 msgid "Unable to delete style. Default styles cannot be deleted."
 msgstr "Det gick inte att ta bort stilen. Standardstilar kan inte tas bort."
 
-#: includes/core/class-ws-form-ability.php:1555
-#: includes/core/class-ws-form-ability.php:1584
+#: includes/core/class-ws-form-ability.php:1579
+#: includes/core/class-ws-form-ability.php:1608
 msgid "Style permanently deleted"
 msgstr "Stil raderad permanent"
 
-#: includes/core/class-ws-form-ability.php:1599
+#: includes/core/class-ws-form-ability.php:1623
 msgid "Style trashed"
 msgstr "Stil flyttad till papperskorgen"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1606
+#: includes/core/class-ws-form-ability.php:1630
 #, php-format
 msgid "Error deleting style: %s"
 msgstr "Fel vid borttagning av stil: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1650
+#: includes/core/class-ws-form-ability.php:1674
 #, php-format
 msgid "Error locking style: %s"
 msgstr "Fel vid låsning av stil: %s"
 
-#: includes/core/class-ws-form-ability.php:1650
+#: includes/core/class-ws-form-ability.php:1674
 #, php-format
 msgid "Error unlocking style: %s"
 msgstr "Fel vid upplåsning av stil: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1712
+#: includes/core/class-ws-form-ability.php:1736
 #, php-format
 msgid "Error adding field: %s"
 msgstr "Fel vid tillägg av fält: %s"
 
-#: includes/core/class-ws-form-ability.php:1739
-#: includes/core/class-ws-form-ability.php:1799
+#: includes/core/class-ws-form-ability.php:1763
+#: includes/core/class-ws-form-ability.php:1823
 #: includes/core/class-ws-form-form-ai.php:865
 #: includes/core/class-ws-form-form-ai.php:897
 msgid "Invalid field ID."
 msgstr "Ogiltigt fält-ID."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1772
+#: includes/core/class-ws-form-ability.php:1796
 #, php-format
 msgid "Error updating field: %s"
 msgstr "Fel vid uppdatering av fält: %s"
 
-#: includes/core/class-ws-form-ability.php:1819
+#: includes/core/class-ws-form-ability.php:1843
 msgid "Field permanently deleted"
 msgstr "Fältet har raderats permanent"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1825
+#: includes/core/class-ws-form-ability.php:1849
 #, php-format
 msgid "Error deleting field: %s"
 msgstr "Fel vid borttagning av fält: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1846
+#: includes/core/class-ws-form-ability.php:1870
 #, php-format
 msgid "Error listing tabs: %s"
 msgstr "Fel vid listning av flikar: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1867
+#: includes/core/class-ws-form-ability.php:1891
 #, php-format
 msgid "Error listing sections: %s"
 msgstr "Fel vid listning av sektioner: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1888
+#: includes/core/class-ws-form-ability.php:1912
 #, php-format
 msgid "Error listing fields: %s"
 msgstr "Fel vid listning av fält: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1914
+#: includes/core/class-ws-form-ability.php:1938
 #, php-format
 msgid "Error adding tab: %s"
 msgstr "Fel vid tillägg av flik: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1940
+#: includes/core/class-ws-form-ability.php:1964
 #, php-format
 msgid "Error updating tab: %s"
 msgstr "Fel vid uppdatering av flik: %s"
 
-#: includes/core/class-ws-form-ability.php:1962
+#: includes/core/class-ws-form-ability.php:1986
 msgid "Tab permanently deleted"
 msgstr "Fliken har raderats permanent"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1968
+#: includes/core/class-ws-form-ability.php:1992
 #, php-format
 msgid "Error deleting tab: %s"
 msgstr "Fel vid borttagning av flik: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2000
+#: includes/core/class-ws-form-ability.php:2024
 #, php-format
 msgid "Error adding section: %s"
 msgstr "Fel vid tillägg av sektion: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2031
+#: includes/core/class-ws-form-ability.php:2055
 #, php-format
 msgid "Error updating section: %s"
 msgstr "Fel vid uppdatering av sektion: %s"
 
-#: includes/core/class-ws-form-ability.php:2053
+#: includes/core/class-ws-form-ability.php:2077
 msgid "Section permanently deleted"
 msgstr "Sektionen har raderats permanent"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2059
+#: includes/core/class-ws-form-ability.php:2083
 #, php-format
 msgid "Error deleting section: %s"
 msgstr "Fel vid radering av sektion: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2081
+#: includes/core/class-ws-form-ability.php:2105
 #, php-format
 msgid "Error listing actions: %s"
 msgstr "Fel vid listning av åtgärder: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2118
+#: includes/core/class-ws-form-ability.php:2142
 #, php-format
 msgid "Error adding action: %s"
 msgstr "Fel vid tillägg av åtgärd: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2157
+#: includes/core/class-ws-form-ability.php:2181
 #, php-format
 msgid "Error updating action: %s"
 msgstr "Fel vid uppdatering av åtgärd: %s"
 
-#: includes/core/class-ws-form-ability.php:2184
+#: includes/core/class-ws-form-ability.php:2208
 msgid "Action deleted"
 msgstr "Åtgärd raderad"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2195
+#: includes/core/class-ws-form-ability.php:2219
 #, php-format
 msgid "Error deleting action: %s"
 msgstr "Fel vid radering av åtgärd: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2216
+#: includes/core/class-ws-form-ability.php:2240
 #, php-format
 msgid "Error listing conditionals: %s"
 msgstr "Fel vid listning av villkor: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2248
+#: includes/core/class-ws-form-ability.php:2272
 #, php-format
 msgid "Error adding conditional: %s"
 msgstr "Fel vid tillägg av villkor: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2286
+#: includes/core/class-ws-form-ability.php:2310
 #, php-format
 msgid "Error updating conditional: %s"
 msgstr "Fel vid uppdatering av villkor: %s"
 
-#: includes/core/class-ws-form-ability.php:2313
+#: includes/core/class-ws-form-ability.php:2337
 msgid "Conditional deleted"
 msgstr "Villkor raderat"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2324
+#: includes/core/class-ws-form-ability.php:2348
 #, php-format
 msgid "Error deleting conditional: %s"
 msgstr "Fel vid radering av villkor: %s"
 
 #. translators: %s: Meta key
-#: includes/core/class-ws-form-ability.php:2391
+#: includes/core/class-ws-form-ability.php:2415
 #, php-format
 msgid "Invalid style meta value for %s."
 msgstr "Ogiltigt metavärde för stil för %s."
 
 #. translators: %s: Comma-separated meta keys
-#: includes/core/class-ws-form-ability.php:2407
+#: includes/core/class-ws-form-ability.php:2431
 #, php-format
 msgid "Unsupported style meta key(s): %s"
 msgstr "Meta-nyckel/-nycklar för stil som inte stöds: %s"
 
-#: includes/core/class-ws-form-ability.php:2462
+#: includes/core/class-ws-form-ability.php:2486
 msgid "You do not have permission to assign a style to a form."
 msgstr "Du har inte behörighet att tilldela en stil till ett formulär."
 
-#: includes/core/class-ws-form-ability.php:2507
+#: includes/core/class-ws-form-ability.php:2531
 msgid "Style updates are not enabled."
 msgstr "Stiluppdateringar är inte aktiverade."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2594
+#: includes/core/class-ws-form-ability.php:2618
 #, php-format
 msgid "Input schema for ability %s not found."
 msgstr "Indataschema för förmågan %s hittades inte."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2616
+#: includes/core/class-ws-form-ability.php:2640
 #, php-format
 msgid "Invalid input schema type for ability %s. Expects object."
 msgstr "Ogiltig indataschematyp för förmågan %s. Förväntar objekt."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2632
+#: includes/core/class-ws-form-ability.php:2656
 #, php-format
 msgid "No input schema properties for ability %s."
 msgstr "Inga egenskaper i indataschemat för förmågan %s."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2649
+#: includes/core/class-ws-form-ability.php:2673
 #, php-format
 msgid "Invalid input schema property name for ability %s."
 msgstr "Ogiltigt egenskapsnamn i indataschemat för förmågan %s."
 
 #. translators: %1$s: Ability name, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:2681
+#: includes/core/class-ws-form-ability.php:2705
 #, php-format
 msgid "Invalid input schema property type for ability %1$s (Property: %2$s)."
 msgstr ""
 "Ogiltig egenskapstyp i indataschemat för förmågan %1$s (Egenskap: %2$s)."
 
 #. translators: %1$s: Ability ID, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:2722
+#: includes/core/class-ws-form-ability.php:2746
 #, php-format
 msgid ""
 "Required input schema property for ability %1$s missing (Property: %2$s)."
@@ -21545,7 +21539,7 @@ msgstr ""
 "%2$s)."
 
 #. translators: %1$s: Property name, %2$s: Ability ID
-#: includes/core/class-ws-form-ability.php:2793
+#: includes/core/class-ws-form-ability.php:2817
 #, php-format
 msgid ""
 "Input schema property %1$s has invalid enum for ability %2$s. Expected array."
@@ -21554,17 +21548,17 @@ msgstr ""
 "Förväntade en array."
 
 #. translators: %1$s: Ability name, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:2807
+#: includes/core/class-ws-form-ability.php:2831
 #, php-format
 msgid "Invalid enumerated input value for ability %1$s (Property: %2$s)."
 msgstr "Ogiltigt uppräknat indatavärde för förmågan %1$s (Egenskap: %2$s)."
 
-#: includes/core/class-ws-form-ability.php:2858
+#: includes/core/class-ws-form-ability.php:2882
 msgid "Inputs not parsed."
 msgstr "Indata kunde inte tolkas."
 
 #. translators: %s: Property name
-#: includes/core/class-ws-form-ability.php:2868
+#: includes/core/class-ws-form-ability.php:2892
 #, php-format
 msgid "Property %s does not exist in input schema."
 msgstr "Egenskapen %s finns inte i indataschemat."
@@ -21688,7 +21682,7 @@ msgstr "Fel i att hämta objektbeteckning"
 
 #: includes/core/class-ws-form-css.php:413
 msgid "Invalid skin ID"
-msgstr "Ogiltigt hud-ID"
+msgstr "Ogiltigt tema-ID"
 
 #: includes/core/class-ws-form-data-grid.php:29
 msgid "Invalid field object"
@@ -21909,9 +21903,7 @@ msgstr "Inga ändringar hittades i JSON."
 msgid ""
 "Invalid form changes detected. To insert or add a field, use the field-add "
 "tool."
-msgstr ""
-"Ogiltiga formulärändringar upptäcktes. För att infoga eller lägga till ett "
-"fält, använd verktyget för att lägga till fält."
+msgstr "Ogiltiga formulärändringar upptäcktes. För att infoga eller lägga till ett fält, använd verktyget field-add."
 
 #: includes/core/class-ws-form-form-ai.php:198
 #: includes/core/class-ws-form-form-ai.php:314
@@ -22058,36 +22050,40 @@ msgstr "Etiketten hittades inte."
 msgid "Provide row_id, index, or a unique label."
 msgstr "Ange row_id, index eller en unik etikett."
 
-#: includes/core/class-ws-form-form-folder.php:32
+#: includes/core/class-ws-form-form-folder.php:35
 msgid "A folder with that name already exists here."
 msgstr "En mapp med det namnet finns redan här."
 
-#: includes/core/class-ws-form-form-folder.php:36
+#: includes/core/class-ws-form-form-folder.php:39
 msgid "This folder could not be deleted."
 msgstr "Den här mappen kunde inte tas bort."
 
-#: includes/core/class-ws-form-form-folder.php:40
+#: includes/core/class-ws-form-form-folder.php:43
 msgid "Folder not found."
 msgstr "Mappen hittades inte."
 
-#: includes/core/class-ws-form-form-folder.php:44
+#: includes/core/class-ws-form-form-folder.php:47
 msgid "Enter a folder name."
 msgstr "Ange ett mappnamn."
 
-#: includes/core/class-ws-form-form-folder.php:48
+#: includes/core/class-ws-form-form-folder.php:51
 msgid "Folders cannot be nested any deeper."
 msgstr "Mappar kan inte nästlas djupare."
 
-#: includes/core/class-ws-form-form-folder.php:248
+#: includes/core/class-ws-form-form-folder.php:55
+msgid "A folder cannot be moved into itself."
+msgstr "En mapp kan inte flyttas in i sig själv."
+
+#: includes/core/class-ws-form-form-folder.php:255
 msgid "Error adding folder"
 msgstr "Fel vid tillägg av mapp"
 
-#: includes/core/class-ws-form-form-folder.php:292
+#: includes/core/class-ws-form-form-folder.php:299
 msgid "Error renaming folder"
 msgstr "Fel vid namnbyte på mapp"
 
-#: includes/core/class-ws-form-form-folder.php:326
-#: includes/core/class-ws-form-form-folder.php:334
+#: includes/core/class-ws-form-form-folder.php:333
+#: includes/core/class-ws-form-form-folder.php:341
 msgid "Error deleting folder"
 msgstr "Fel vid borttagning av mapp"
 
@@ -22291,7 +22287,7 @@ msgstr "Fel vid inställning av formulärets status"
 
 #: includes/core/class-ws-form-form.php:1644
 msgid "Error updating counts"
-msgstr "Fel vid uppdatering av räkningar"
+msgstr "Fel vid uppdatering av antal"
 
 #: includes/core/class-ws-form-form.php:1683
 msgid "Error resetting counts"
@@ -22400,7 +22396,7 @@ msgstr "Fel i att lägga till avsnittet"
 
 #: includes/core/class-ws-form-section.php:135
 msgid "No group found in existing form"
-msgstr "Ingen grupp finns i befintlig form"
+msgstr "Ingen grupp finns i befintligt formulär"
 
 #: includes/core/class-ws-form-section.php:147
 msgid "No sections found in form object"
@@ -22580,7 +22576,7 @@ msgstr "Ogiltigt stil-ID"
 #. translators: Short for "Contrast"
 #: includes/core/class-ws-form-style.php:2147
 msgid "Cont"
-msgstr "Konv"
+msgstr "Kontr"
 
 #. translators: Short for "Accent"
 #: includes/core/class-ws-form-style.php:2153
@@ -22761,11 +22757,11 @@ msgstr "Fel vid uppdatering av inlämningsdatumet uppdaterat."
 
 #: includes/core/class-ws-form-submit.php:778
 msgid "Error updating submit user ID,"
-msgstr "Fel vid uppdatering av användarnamn,"
+msgstr "Fel vid uppdatering av inlämningens användar-ID,"
 
 #: includes/core/class-ws-form-submit.php:808
 msgid "Error deleting submit."
-msgstr "Fel vid radering av submit."
+msgstr "Fel vid radering av inlämning."
 
 #: includes/core/class-ws-form-submit.php:946
 msgid "Form Submissions"
@@ -22856,7 +22852,7 @@ msgstr "Det går inte att läsa formulärdata. Är du fortfarande inloggad?"
 
 #: includes/core/class-ws-form-submit.php:3762
 msgid "No published form data."
-msgstr "Inga publicerade formdata."
+msgstr "Inga publicerade formulärdata."
 
 #. translators: %u: Maximum files
 #: includes/core/class-ws-form-submit.php:3830
@@ -22898,7 +22894,7 @@ msgstr "Kunde ej spara till disk."
 
 #: includes/core/class-ws-form-submit.php:3900
 msgid "File upload stopped by extension."
-msgstr "Filuppladdning stoppad av filändelse."
+msgstr "Filuppladdning stoppad av PHP-tillägg."
 
 #: includes/core/class-ws-form-submit.php:3905
 msgid "Unknown file upload error."
@@ -23024,7 +23020,7 @@ msgstr "Rad"
 
 #: includes/core/class-ws-form-submit.php:4952
 msgid "Trace"
-msgstr "Spåra"
+msgstr "Spårning (trace)"
 
 #: includes/core/class-ws-form-submit.php:4984
 msgid "Form Submission Error"
@@ -23208,7 +23204,7 @@ msgstr ""
 #: includes/core/class-ws-form-wp-ai-client.php:210
 #, php-format
 msgid "%s ability unavailable"
-msgstr "%s-behörighet är inte tillgänglig"
+msgstr "%s-förmågan är inte tillgänglig"
 
 #. translators: %s: Breakpoint outer ID
 #: includes/core/css/class-ws-form-css-admin.php:64
@@ -23254,7 +23250,7 @@ msgstr "Postnummer"
 
 #: includes/core/migrate/formidable.php:13
 msgid "Formidable"
-msgstr "Formidabel"
+msgstr "Formidable"
 
 #: includes/core/migrate/gravity_forms.php:13
 msgid "Gravity Forms"
@@ -23262,7 +23258,7 @@ msgstr "Gravity Forms"
 
 #: includes/core/migrate/vfb.php:13
 msgid "Visual Form Builder"
-msgstr "Visuell formulärbyggare"
+msgstr "Visual Form Builder"
 
 #: includes/core/migrate/vfb_pro.php:13
 msgid "Visual Form Builder Pro"
@@ -23404,7 +23400,7 @@ msgstr "Hämtar JetEngine-fältalternativ..."
 #: includes/data-sources/class-ws-form-data-source-user.php:149
 #: includes/data-sources/class-ws-form-data-source-user.php:624
 msgid "Nicename"
-msgstr "Smeknamn"
+msgstr "Nicename"
 
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:327
 msgid "Parent"
@@ -23416,7 +23412,7 @@ msgstr "JetEngine-fält"
 
 #: includes/data-sources/class-ws-form-data-source-meta-box.php:36
 msgid "Meta Box Field Options"
-msgstr "Fältalternativ för metaboxen"
+msgstr "Fältalternativ för Meta Box"
 
 #: includes/data-sources/class-ws-form-data-source-meta-box.php:39
 msgid "Retrieving Meta Box field options..."
@@ -23438,16 +23434,16 @@ msgstr "Pods fältalternativ"
 
 #: includes/data-sources/class-ws-form-data-source-pods.php:39
 msgid "Retrieving Pods field options..."
-msgstr "Fältalternativ för höljen för hämtning..."
+msgstr "Hämtar fältalternativ för Pods..."
 
 #: includes/data-sources/class-ws-form-data-source-pods.php:247
 #: includes/data-sources/class-ws-form-data-source-post.php:1470
 msgid "Pods Field"
-msgstr "Pods Field"
+msgstr "Pods-fält"
 
 #: includes/data-sources/class-ws-form-data-source-post-status.php:36
 msgid "Post Statuses"
-msgstr "Bokför status"
+msgstr "Inläggsstatusar"
 
 #: includes/data-sources/class-ws-form-data-source-post-status.php:203
 msgid "Built In"
@@ -23477,13 +23473,13 @@ msgstr "Hämta inlägg..."
 #: includes/data-sources/class-ws-form-data-source-term.php:124
 #: includes/data-sources/class-ws-form-data-source-user.php:107
 msgid "Invalid order method"
-msgstr "Ogiltig beställningsmetod"
+msgstr "Ogiltig sorteringsordning"
 
 #: includes/data-sources/class-ws-form-data-source-post.php:226
 #: includes/data-sources/class-ws-form-data-source-term.php:135
 #: includes/data-sources/class-ws-form-data-source-user.php:121
 msgid "Invalid order by method"
-msgstr "Ogiltig beställningsmetod"
+msgstr "Ogiltig sortering efter-metod"
 
 #: includes/data-sources/class-ws-form-data-source-post.php:254
 msgid "Invalid meta type"
@@ -23509,7 +23505,7 @@ msgstr "Författar ID"
 #: includes/data-sources/class-ws-form-data-source-post.php:1363
 #: includes/data-sources/class-ws-form-data-source-term.php:42
 msgid "Terms"
-msgstr "Villkor"
+msgstr "Termer"
 
 #: includes/data-sources/class-ws-form-data-source-post.php:1086
 msgid "Filter by Post Type"
@@ -23624,7 +23620,7 @@ msgstr "Binär"
 #: includes/data-sources/class-ws-form-data-source-term.php:708
 #: includes/data-sources/class-ws-form-data-source-user.php:565
 msgid "Order"
-msgstr "Order"
+msgstr "Ordning"
 
 #: includes/data-sources/class-ws-form-data-source-post.php:1307
 msgid "Group by Post Type"
@@ -23681,7 +23677,7 @@ msgstr "Välj vilka Toolset-fält som ska inkluderas i den returnerade datan."
 #: includes/data-sources/class-ws-form-data-source-post.php:1499
 #: includes/data-sources/class-ws-form-data-source-toolset.php:268
 msgid "Toolset Field"
-msgstr "Fält för verktygslådan"
+msgstr "Toolset-fält"
 
 #: includes/data-sources/class-ws-form-data-source-preset.php:36
 #: includes/data-sources/class-ws-form-data-source-preset.php:294
@@ -23727,7 +23723,7 @@ msgstr "Förälderns namn"
 #: includes/data-sources/class-ws-form-data-source-term.php:166
 #: includes/data-sources/class-ws-form-data-source-term.php:815
 msgid "Parent Slug"
-msgstr "Föräldrasnigel"
+msgstr "Överordnad slug"
 
 #: includes/data-sources/class-ws-form-data-source-term.php:609
 msgid "Filter by Taxonomy"
@@ -23755,7 +23751,7 @@ msgstr "Visa som hierarki"
 
 #: includes/data-sources/class-ws-form-data-source-term.php:758
 msgid "Hide Child Terms"
-msgstr "Dölja villkor för barn"
+msgstr "Dölj underordnade termer"
 
 #: includes/data-sources/class-ws-form-data-source-term.php:761
 msgid "Whether to hide any child terms in a hierarchy."
@@ -23771,7 +23767,7 @@ msgstr "Om du vill dölja termer som inte har tilldelats några inlägg."
 
 #: includes/data-sources/class-ws-form-data-source-toolset.php:39
 msgid "Toolset Field Options"
-msgstr "Fältalternativ för verktygslådan"
+msgstr "Fältalternativ för Toolset"
 
 #: includes/data-sources/class-ws-form-data-source-toolset.php:42
 msgid "Retrieving Toolset field options..."
@@ -23779,7 +23775,7 @@ msgstr "Hämta fältalternativ för Toolset..."
 
 #: includes/data-sources/class-ws-form-data-source-toolset.php:96
 msgid "Toolset field slug not found"
-msgstr "Fältets slug för verktygssetetet hittas inte"
+msgstr "Toolset-fältets slug hittades inte"
 
 #: includes/data-sources/class-ws-form-data-source-user.php:42
 msgid "Users"
@@ -24345,7 +24341,7 @@ msgstr "Ort för fakturering"
 
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:95
 msgid "Billing State"
-msgstr "Län"
+msgstr "Faktureringslän"
 
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:96
 msgid "Billing Postal/Zip Code"
@@ -24361,7 +24357,7 @@ msgstr "Faktureringstelefonnummer"
 
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:99
 msgid "Billing Email Address"
-msgstr "Faktureringsadress"
+msgstr "E-postadress för fakturering"
 
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:109
 msgid "Shipping First Name"
@@ -24381,7 +24377,7 @@ msgstr "Leveransadress 1"
 
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:113
 msgid "Shipping Address 2"
-msgstr "Adress 2"
+msgstr "Leveransadress 2"
 
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:114
 msgid "Shipping City"
@@ -24498,7 +24494,7 @@ msgstr "Förhandsgranskar %s"
 
 #: public/class-ws-form-public.php:2563
 msgid "Unpublished form"
-msgstr "Opublicerad form"
+msgstr "Opublicerat formulär"
 
 #: public/class-ws-form-public.php:2564 public/class-ws-form-public.php:2565
 msgid "Invalid form data"
@@ -26128,3 +26124,80 @@ msgstr "Smart. Snabbt. Formulär."
 #~ msgstr ""
 #~ "Om den är markerad kommer adressfältet att geolokaliseras när du klickar "
 #~ "på kartan."
+
+#: includes/actions/class-ws-form-action-custom-api.php:231
+msgid "Unknown file"
+msgstr "Okänd fil"
+
+#: includes/actions/class-ws-form-action-custom-api.php:236
+msgid "Unable to read file for webhook Base64 encoding (%s)."
+msgstr "Det gick inte att läsa filen för Base64-kodning i webhooken (%s)."
+
+#: includes/actions/class-ws-form-action-custom-api.php:1268
+msgid "How file fields are sent. Multiple URLs are comma separated. Multiple Base64 files are an array."
+msgstr "Hur filfält skickas. Flera URL:er avgränsas med kommatecken. Flera Base64-filer är en array."
+
+#: includes/actions/class-ws-form-action-custom-api.php:1271
+msgid "Base64"
+msgstr "Base64"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1272
+msgid "File Objects"
+msgstr "Filobjekt"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1273
+msgid "URLs"
+msgstr "URL:er"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1671
+msgid "Request"
+msgstr "Begäran"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1712
+msgid "Response"
+msgstr "Svar"
+
+#: includes/core/class-ws-form-form-ai.php:2157
+msgid "Invalid widths. Provide an object of breakpoint id to width factor."
+msgstr "Ogiltiga bredder. Ange ett objekt som kopplar ett brytpunkts-id till en breddfaktor."
+
+#: includes/core/class-ws-form-form-ai.php:2186
+#: includes/core/class-ws-form-form-ai.php:2208
+msgid "Invalid breakpoint %s."
+msgstr "Ogiltig brytpunkt %s."
+
+#: includes/core/class-ws-form-form-ai.php:2225
+#: includes/core/class-ws-form-form-ai.php:2238
+#: includes/core/class-ws-form-form-ai.php:2250
+msgid "Invalid width for breakpoint %s. Use a factor greater than 0 and at most 1, or null to clear it."
+msgstr "Ogiltig bredd för brytpunkt %s. Använd en faktor större än 0 och högst 1, eller null för att ta bort den."
+
+#: includes/config/class-ws-form-config-ability-structure.php:426
+msgid "Update a section label and/or meta (label_render, widths). Use the sections tool to get section IDs."
+msgstr "Uppdatera etiketten och/eller meta för en sektion (label_render, widths). Använd sektionsverktyget för att hämta sektions-ID:n."
+
+#: includes/config/class-ws-form-config-ability.php:2499
+msgid "Use this tool to update an existing field label and/or meta (required, placeholder, help, options, widths, etc.). Prefer this over form-update-json for single-field changes. Field type cannot be changed. Use the fields tool to find field IDs, or form-get-json for full field meta."
+msgstr "Använd det här verktyget för att uppdatera etiketten och/eller meta för ett befintligt fält (required, placeholder, help, options, widths osv.). Föredra det framför form-update-json när du ändrar ett enstaka fält. Fälttypen kan inte ändras. Använd fältverktyget för att hitta fält-ID:n, eller form-get-json för all fältmeta."
+
+#: includes/config/class-ws-form-config-option.php:1179
+#: includes/config/class-ws-form-config-option.php:1184
+msgid "Auto Delete Spam"
+msgstr "Radera spam automatiskt"
+
+#: includes/config/class-ws-form-config-option.php:1192
+msgid "Automatically trash or permanently delete submissions marked as spam after a set number of days."
+msgstr "Flytta automatiskt inskickade formulär som markerats som spam till papperskorgen eller radera dem permanent efter ett angivet antal dagar."
+
+#: includes/config/class-ws-form-config-option.php:1203
+msgid "Number of days until submissions marked as spam are moved to trash or permanently deleted."
+msgstr "Antal dagar tills inskickade formulär som markerats som spam flyttas till papperskorgen eller raderas permanent."
+
+#: includes/config/class-ws-form-config-admin.php:313
+#: includes/core/class-ws-form-submit.php:2766
+msgid "Random Text Detection"
+msgstr "Identifiering av slumpmässig text"
+
+#: includes/class-ws-form-config.php:8456
+msgid "Detects suspicious text patterns associated with spam."
+msgstr "Upptäcker misstänkta textmönster som hör till spam."

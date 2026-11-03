@@ -862,7 +862,7 @@
 
 								'field_color_background_focus' => array(
 
-									'label' => __('Focus', 'ws-form'),
+									'label' => _x('Focus', 'Styler state', 'ws-form'),
 									'var' => '--wsf-field-color-background-focus',
 									'type' => 'color',
 									'default' => 'var(--wsf-field-color-background)',
@@ -910,7 +910,7 @@
 
 								'field_border_color_focus' => array(
 
-									'label' => __('Focus', 'ws-form'),
+									'label' => _x('Focus', 'Styler state', 'ws-form'),
 									'var' => '--wsf-field-border-color-focus',
 									'type' => 'color',
 									'default' => 'var(--wsf-form-color-primary)'
@@ -1167,7 +1167,7 @@
 
 								'field_color_focus' => array(
 
-									'label' => __('Focus', 'ws-form'),
+									'label' => _x('Focus', 'Styler state', 'ws-form'),
 									'var' => '--wsf-field-color-focus',
 									'type' => 'color',
 									'default' => 'var(--wsf-form-color-base)',
@@ -1339,7 +1339,7 @@
 
 												'field_button_color_background_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-color-background-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-neutral-light-40)',
@@ -1375,7 +1375,7 @@
 
 												'field_button_primary_color_background_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-primary-color-background-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-primary-dark-40)',
@@ -1411,7 +1411,7 @@
 
 												'field_button_secondary_color_background_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-secondary-color-background-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-secondary-dark-40)',
@@ -1447,7 +1447,7 @@
 
 												'field_button_success_color_background_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-success-color-background-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-success-dark-40)',
@@ -1483,7 +1483,7 @@
 
 												'field_button_information_color_background_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-info-color-background-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-info-dark-40)',
@@ -1519,7 +1519,7 @@
 
 												'field_button_warning_color_background_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-warning-color-background-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-warning-dark-40)',
@@ -1555,7 +1555,7 @@
 
 												'field_button_danger_color_background_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-danger-color-background-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-danger-dark-40)',
@@ -1599,7 +1599,7 @@
 
 												'field_button_border_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-border-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-neutral-light-40)',
@@ -1635,7 +1635,7 @@
 
 												'field_button_primary_border_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-primary-border-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-primary-dark-40)',
@@ -1671,7 +1671,7 @@
 
 												'field_button_secondary_border_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-secondary-border-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-secondary-dark-40)',
@@ -1707,7 +1707,7 @@
 
 												'field_button_success_border_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-success-border-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-success-dark-40)',
@@ -1743,7 +1743,7 @@
 
 												'field_button_information_border_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-info-border-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-info-dark-40)',
@@ -1779,7 +1779,7 @@
 
 												'field_button_warning_border_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-warning-border-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-warning-dark-40)',
@@ -1815,7 +1815,7 @@
 
 												'field_button_danger_border_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-danger-border-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-danger-dark-40)',
@@ -1916,7 +1916,7 @@
 
 												'field_button_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-base)',
@@ -1952,7 +1952,7 @@
 
 												'field_button_primary_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-primary-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-field-button-primary-color)',
@@ -1988,7 +1988,7 @@
 
 												'field_button_secondary_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-secondary-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-field-button-secondary-color)',
@@ -2024,7 +2024,7 @@
 
 												'field_button_success_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-success-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-field-button-success-color)',
@@ -2060,7 +2060,7 @@
 
 												'field_button_information_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-info-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-base-contrast)',
@@ -2096,7 +2096,7 @@
 
 												'field_button_warning_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-warning-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-form-color-base)',
@@ -2132,7 +2132,7 @@
 
 												'field_button_danger_color_focus' => array(
 
-													'label' => __('Focus', 'ws-form'),
+													'label' => _x('Focus', 'Styler state', 'ws-form'),
 													'var' => '--wsf-field-button-danger-color-focus',
 													'type' => 'color',
 													'default' => 'var(--wsf-field-button-danger-color)',
@@ -3029,7 +3029,7 @@
 
 						'select' => array(
 
-							'label' => __('Select', 'ws-form'),
+							'label' => _x('Select', 'Select field', 'ws-form'),
 
 							'group_focus_selector' => '.wsf-field-wrapper[data-type=select]',
 

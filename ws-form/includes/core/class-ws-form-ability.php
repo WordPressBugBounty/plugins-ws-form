@@ -256,6 +256,30 @@
 			}
 		}
 
+		// Form folder - Move
+		public function form_folder_move($input) {
+
+			try {
+
+				self::init($input, WS_FORM_ABILITY_API_NAMESPACE . 'form-folder-move');
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$result = $ws_form_form_folder->db_move(self::input_get('id'), self::input_get('parent_id'), self::input_get('next_sibling_id'));
+
+				return array(
+
+					'id' => (int) $result['id'],
+					'parent_id' => (int) $result['parent_id'],
+					'next_sibling_id' => (int) $result['next_sibling_id']
+				);
+
+			} catch(Exception $e) {
+
+				/* translators: %s: Error message */
+				return self::form_folder_error($e, __('Error moving folder: %s', 'ws-form'));
+			}
+		}
+
 		// folder_id was sent. null means it was omitted.
 		public function input_folder_id($input) {
 

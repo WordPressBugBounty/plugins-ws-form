@@ -100,6 +100,16 @@
 
 				// Process sections
 				$group['sections'][$section_index] = self::form_get_fields($group['sections'][$section_index], $section->fields);
+
+				$section_widths = self::breakpoint_widths_from_meta(isset($section->meta) ? $section->meta : null);
+
+				if(count($section_widths) > 0) {
+
+					$group['sections'][$section_index]['meta'] = array(
+
+						'widths' => $section_widths
+					);
+				}
 			}
 
 			return $group;
@@ -126,6 +136,11 @@
 
 					foreach($field_meta_keys_editable as $field_meta_key) {
 
+						if($field_meta_key === 'widths') {
+
+							continue;
+						}
+
 						if(isset($field_object->meta->{$field_meta_key})) {
 
 							if(!isset($section['fields'][$field_index]['meta'])) {
@@ -148,6 +163,18 @@
 
 							$section['fields'][$field_index]['meta']['options'] = $options;
 						}
+					}
+
+					if(!isset($section['fields'][$field_index]['meta'])) {
+
+						$section['fields'][$field_index]['meta'] = array();
+					}
+
+					self::breakpoint_widths_add_to_meta_array($section['fields'][$field_index]['meta'], $field_object->meta);
+
+					if(count($section['fields'][$field_index]['meta']) === 0) {
+
+						unset($section['fields'][$field_index]['meta']);
 					}
 				}
 			}
@@ -223,6 +250,8 @@
 						throw new Exception(esc_html__('Invalid section data. Please try again.', 'ws-form'));
 					}
 
+					self::breakpoint_widths_apply_object_tree($section);
+
 					foreach($section->fields as $field_index => $field_object_new) {
 
 						// Check field
@@ -256,6 +285,8 @@
 								unset($field_object_new->meta->options);
 							}
 						}
+
+						self::breakpoint_widths_apply_object_tree($field_object_new);
 					}
 				}
 			}
@@ -308,6 +339,16 @@
 				!is_object($json_decoded)
 			) {
 
+				// Escape quotes inside #var("...") so they do not end the JSON string
+				$json = self::json_escape_variable_quotes($json);
+				$json_decoded = json_decode($json);
+			}
+
+			if(
+				(json_last_error() !== JSON_ERROR_NONE) ||
+				!is_object($json_decoded)
+			) {
+
 				$json = self::json_string_repair($json);
 				$json_decoded = json_decode($json);
 			}
@@ -327,6 +368,108 @@
 			}
 
 			return $json;
+		}
+
+		// Escape double quotes that belong to a WS Form variable argument
+		public static function json_escape_variable_quotes($json) {
+
+			if(!is_string($json) || ($json === '') || (strpos($json, '#') === false)) {
+
+				return $json;
+			}
+
+			$len = strlen($json);
+			$out = '';
+			$in_string = false;
+			$escape = false;
+			$var_depth = 0;
+			$var_quote = false;
+
+			for($i = 0; $i < $len; $i++) {
+
+				$c = $json[$i];
+
+				if(!$in_string) {
+
+					$out .= $c;
+
+					if($c === '"') {
+
+						$in_string = true;
+						$escape = false;
+						$var_depth = 0;
+						$var_quote = false;
+					}
+
+					continue;
+				}
+
+				if($escape) {
+
+					$out .= $c;
+					$escape = false;
+					continue;
+				}
+
+				if($c === '\\') {
+
+					$out .= $c;
+					$escape = true;
+					continue;
+				}
+
+				if($c === '"') {
+
+					if($var_depth > 0) {
+
+						$out .= '\\"';
+						$var_quote = !$var_quote;
+						continue;
+					}
+
+					$in_string = false;
+					$var_depth = 0;
+					$var_quote = false;
+					$out .= $c;
+					continue;
+				}
+
+				if(($c === '#') && ($var_depth === 0)) {
+
+					$name_end = $i + 1;
+
+					while(
+						($name_end < $len) &&
+						(strpos('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_', $json[$name_end]) !== false)
+					) {
+
+						$name_end++;
+					}
+
+					if(
+						($name_end > ($i + 1)) &&
+						($name_end < $len) &&
+						($json[$name_end] === '(')
+					) {
+
+						$out .= substr($json, $i, ($name_end - $i) + 1);
+						$i = $name_end;
+						$var_depth = 1;
+						$var_quote = false;
+						continue;
+					}
+				}
+
+				if(($var_depth > 0) && !$var_quote) {
+
+					if($c === '(') { $var_depth++; }
+					elseif($c === ')') { $var_depth--; }
+				}
+
+				$out .= $c;
+			}
+
+			return $out;
 		}
 
 		// Drop extra closers and trailing commas from model JSON
@@ -550,6 +693,20 @@
 						$section_meta['label_render'] = WS_Form_Common::is_true($label_render) ? 'on' : '';
 					}
 
+					$section_width_factor = self::breakpoint_width_factor_from($section);
+
+					if($section_width_factor !== null) {
+
+						$section_meta['width_factor'] = $section_width_factor;
+					}
+
+					$section_widths = self::breakpoint_widths_parse($section);
+
+					if(is_array($section_widths)) {
+
+						$section_meta = array_merge($section_meta, self::breakpoint_widths_to_meta($section_widths));
+					}
+
 					$list_fields_meta_data['section_meta_data']['group_' . $group_index]['section_' . $section_index] = $section_meta;
 
 					foreach($section->fields as $field_index => $field) {
@@ -636,7 +793,7 @@
 							'input_mask' =>		false,
 							'help' => 			$field_help, 
 							'visible' =>		true,
-							'meta' =>			self::get_meta($field),
+							'meta' =>			self::breakpoint_widths_prepare_field_meta($field),
 							'width_factor' =>	$field_width_factor,
 							'group_index' =>	$group_index,
 							'section_index' =>	$section_index,
@@ -756,8 +913,10 @@
 				throw new Exception(esc_html__('Invalid field type.', 'ws-form'));
 			}
 
-			// Build sanitized field meta
+			// Build sanitized field meta. widths is converted to breakpoint_size_* before save.
+			$field_widths = self::breakpoint_widths_parse($field_meta);
 			$field_meta_sanitized = self::field_meta_sanitize($field_meta);
+			self::breakpoint_widths_apply_array($field_meta_sanitized, $field_widths, true);
 
 			// Initiate instance of Field class
 			$ws_form_field = new WS_Form_Field();
@@ -798,7 +957,9 @@
 			}
 
 			$has_label = is_string($field_label) && ($field_label !== '');
+			$field_widths = self::breakpoint_widths_parse($field_meta);
 			$field_meta_sanitized = self::field_meta_sanitize($field_meta, true);
+			self::breakpoint_widths_apply_array($field_meta_sanitized, $field_widths, false);
 			$has_meta = (count($field_meta_sanitized) > 0);
 
 			if(!$has_label && !$has_meta) {
@@ -995,6 +1156,11 @@
 
 			foreach(array_keys(self::get_field_meta_keys_editable()) as $field_meta_key) {
 
+				if($field_meta_key === 'widths') {
+
+					continue;
+				}
+
 				if(isset($meta_obj->{$field_meta_key})) {
 
 					$return['meta'][$field_meta_key] = $meta_obj->{$field_meta_key};
@@ -1011,6 +1177,8 @@
 					$return['meta']['options'] = $options;
 				}
 			}
+
+			self::breakpoint_widths_add_to_meta_array($return['meta'], $meta_obj);
 
 			return $return;
 		}
@@ -1029,6 +1197,8 @@
 
 				$meta['label_render'] = $section_meta['label_render'];
 			}
+
+			self::breakpoint_widths_add_to_meta_array($meta, $section_meta);
 
 			return array(
 
@@ -1242,6 +1412,7 @@
 			}
 
 			$meta = self::ability_meta_to_array($meta);
+			$section_widths = self::breakpoint_widths_parse($meta);
 			$meta_sanitized = array();
 			if(isset($meta['label_render'])) {
 
@@ -1254,6 +1425,16 @@
 			$ws_form_section->label = $label;
 			$ws_form_section->meta = $meta_sanitized;
 			$ws_form_section->db_set_breakpoint_size_meta();
+
+			$section_meta = is_array($ws_form_section->meta) ? $ws_form_section->meta : (array) $ws_form_section->meta;
+
+			if(array_key_exists('width_factor', $meta)) {
+
+				$section_meta['width_factor'] = $meta['width_factor'];
+			}
+
+			self::breakpoint_widths_apply_array($section_meta, $section_widths, true);
+			$ws_form_section->meta = $section_meta;
 			$ws_form_section->db_create(absint($section_id_before));
 			$ws_form_section->db_checksum();
 
@@ -1271,7 +1452,9 @@
 
 			$has_label = is_string($label) && ($label !== '');
 			$meta_array = self::ability_meta_to_array($meta);
-			$has_meta = isset($meta_array['label_render']);
+			$section_widths = self::breakpoint_widths_parse($meta_array);
+			$has_widths = is_array($section_widths) || array_key_exists('width_factor', $meta_array);
+			$has_meta = isset($meta_array['label_render']) || $has_widths;
 
 			if(!$has_label && !$has_meta) {
 
@@ -1298,7 +1481,32 @@
 					$section_object->meta = new stdClass();
 				}
 
-				$section_object->meta->label_render = WS_Form_Common::is_true($meta_array['label_render']) ? 'on' : '';
+				if(isset($meta_array['label_render'])) {
+
+					$section_object->meta->label_render = WS_Form_Common::is_true($meta_array['label_render']) ? 'on' : '';
+				}
+
+				if($has_widths) {
+
+					$width_meta = array();
+
+					if(array_key_exists('width_factor', $meta_array)) {
+
+						$width_meta['width_factor'] = $meta_array['width_factor'];
+					}
+
+					self::breakpoint_widths_apply_array($width_meta, $section_widths, true);
+
+					foreach($width_meta as $meta_key => $meta_value) {
+
+						if(strpos($meta_key, 'breakpoint_size_') !== 0) {
+
+							continue;
+						}
+
+						$section_object->meta->{$meta_key} = $meta_value;
+					}
+				}
 			}
 
 			$ws_form_section->db_update_from_object($section_object, false, false, false);
@@ -1600,6 +1808,585 @@
 			return $meta_keys_editable;
 		}
 
+		// Active framework breakpoints and column count
+		public function breakpoint_framework() {
+
+			$framework_id = WS_Form_Common::option_get('framework');
+			$frameworks = WS_Form_Config::get_frameworks();
+			$breakpoints = array();
+
+			if(
+				isset($frameworks['types'][$framework_id]['breakpoints']) &&
+				is_array($frameworks['types'][$framework_id]['breakpoints'])
+			) {
+
+				$breakpoints = $frameworks['types'][$framework_id]['breakpoints'];
+			}
+
+			$column_count = absint(WS_Form_Common::option_get('framework_column_count'));
+
+			if($column_count < 1) {
+
+				$column_count = 12;
+			}
+
+			$first_id = null;
+
+			if(count($breakpoints) > 0) {
+
+				reset($breakpoints);
+				$first_id = key($breakpoints);
+			}
+
+			return array(
+
+				'breakpoints' => $breakpoints,
+				'column_count' => $column_count,
+				'first_id' => $first_id
+			);
+		}
+
+		// Prompt lines: breakpoint id, name, class, and pixel range
+		public function breakpoint_widths_legend() {
+
+			$config = self::breakpoint_framework();
+			$breakpoints = $config['breakpoints'];
+
+			if(count($breakpoints) === 0) {
+
+				return 'No breakpoints are configured.';
+			}
+
+			$ids = array_keys($breakpoints);
+			$last_index = count($ids) - 1;
+			$lines = array();
+
+			foreach($ids as $index => $breakpoint_id) {
+
+				$breakpoint = $breakpoints[$breakpoint_id];
+				$name = isset($breakpoint['name']) ? $breakpoint['name'] : '';
+				$class_id = isset($breakpoint['id']) ? $breakpoint['id'] : '';
+				$min_width = isset($breakpoint['min_width']) ? absint($breakpoint['min_width']) : 0;
+				$admin_max_width = isset($breakpoint['admin_max_width']) ? absint($breakpoint['admin_max_width']) : 0;
+
+				if($index === 0) {
+
+					if($admin_max_width > 0) {
+
+						$range = sprintf('up to %dpx. Default. A width set here applies at every larger size until another breakpoint overrides it.', $admin_max_width);
+
+					} else {
+
+						$range = 'Default. A width set here applies at every larger size until another breakpoint overrides it.';
+					}
+
+				} elseif(($index === $last_index) && ($admin_max_width === 0)) {
+
+					$range = sprintf('%dpx and up', $min_width);
+
+				} elseif(($min_width > 0) && ($admin_max_width > 0)) {
+
+					$range = sprintf('%dpx to %dpx', $min_width, $admin_max_width);
+
+				} elseif($min_width > 0) {
+
+					$range = sprintf('%dpx and up', $min_width);
+
+				} else {
+
+					$range = '';
+				}
+
+				$lines[] = trim(sprintf('%s %s (%s): %s', $breakpoint_id, $name, $class_id, $range));
+			}
+
+			return implode("\n", $lines);
+		}
+
+		// Example widths object from the active framework, or null when only one breakpoint exists
+		public function breakpoint_widths_example() {
+
+			$config = self::breakpoint_framework();
+			$breakpoints = $config['breakpoints'];
+			$ids = array_keys($breakpoints);
+
+			if(count($ids) < 2) {
+
+				return null;
+			}
+
+			$desktop_id = $ids[count($ids) - 1];
+
+			foreach($ids as $breakpoint_id) {
+
+				$min_width = isset($breakpoints[$breakpoint_id]['min_width']) ? absint($breakpoints[$breakpoint_id]['min_width']) : 0;
+
+				if($min_width >= 992) {
+
+					$desktop_id = $breakpoint_id;
+					break;
+				}
+			}
+
+			return array(
+
+				(string) $ids[0] => 1,
+				(string) $desktop_id => 0.5
+			);
+		}
+
+		// One sentence describing the worked example for this framework
+		public function breakpoint_widths_example_text() {
+
+			$example = self::breakpoint_widths_example();
+
+			if($example === null) {
+
+				return 'Only one breakpoint is configured. A width set on that breakpoint applies at every screen size.';
+			}
+
+			$config = self::breakpoint_framework();
+			$example_ids = array_keys($example);
+			$desktop_id = $example_ids[count($example_ids) - 1];
+			$desktop = isset($config['breakpoints'][$desktop_id]) ? $config['breakpoints'][$desktop_id] : array();
+			$min_width = isset($desktop['min_width']) ? absint($desktop['min_width']) : 0;
+			$name = isset($desktop['name']) ? $desktop['name'] : $desktop_id;
+			$json = wp_json_encode($example);
+
+			if($min_width > 0) {
+
+				return sprintf('Example: %s is full width below %dpx and half width from %dpx up (%s).', $json, $min_width, $min_width, $name);
+			}
+
+			return sprintf('Example: %s is full width on the smallest breakpoint and half width from %s up.', $json, $name);
+		}
+
+		// widths meta description, including the breakpoint legend
+		public function breakpoint_widths_description() {
+
+			$lines = array(
+
+				'Column width per breakpoint. Each value is a fraction of the row: greater than 0 and at most 1. 1 is full width. 0.5 is half width. Omit a breakpoint to leave it unchanged on update, or to inherit the previous breakpoint on create. Set a breakpoint to null or an empty string to clear it so it inherits again.',
+				'Breakpoints:',
+				self::breakpoint_widths_legend(),
+				self::breakpoint_widths_example_text(),
+				'A single width_factor, for example 0.5, sets only the smallest breakpoint, so that width applies at every screen size. Use widths when the layout should change by screen size.'
+			);
+
+			return implode("\n", $lines);
+		}
+
+		// Read a property from an array or object. $found is false when the key is absent.
+		public function breakpoint_widths_key($source, $key, &$found) {
+
+			$found = false;
+
+			if(is_array($source) && array_key_exists($key, $source)) {
+
+				$found = true;
+				return $source[$key];
+			}
+
+			if(is_object($source) && property_exists($source, $key)) {
+
+				$found = true;
+				return $source->{$key};
+			}
+
+			return null;
+		}
+
+		// True when the array is a JSON list rather than a breakpoint map
+		public function breakpoint_widths_is_list($array) {
+
+			if($array === array()) {
+
+				return false;
+			}
+
+			return array_keys($array) === range(0, count($array) - 1);
+		}
+
+		// widths or breakpoint_sizes map from an object, array, or its meta. Null when neither key is set.
+		public function breakpoint_widths_map_from($source, $allow_meta = true) {
+
+			$widths_found = false;
+			$alias_found = false;
+			$widths = self::breakpoint_widths_key($source, 'widths', $widths_found);
+			$alias = self::breakpoint_widths_key($source, 'breakpoint_sizes', $alias_found);
+
+			if(!$widths_found && !$alias_found) {
+
+				if($allow_meta) {
+
+					$meta_found = false;
+					$meta = self::breakpoint_widths_key($source, 'meta', $meta_found);
+
+					if($meta_found && (is_array($meta) || is_object($meta))) {
+
+						return self::breakpoint_widths_map_from($meta, false);
+					}
+				}
+
+				return null;
+			}
+
+			$map = $widths_found ? $widths : $alias;
+
+			if(is_object($map)) {
+
+				$map = (array) $map;
+			}
+
+			if(!is_array($map) || self::breakpoint_widths_is_list($map)) {
+
+				throw new Exception(esc_html__('Invalid widths. Provide an object of breakpoint id to width factor.', 'ws-form') . "\n" . esc_html(self::breakpoint_widths_legend()));
+			}
+
+			return $map;
+		}
+
+		// Validate a widths map. Returns breakpoint id => factor, or null to clear. Null when widths was not provided.
+		public function breakpoint_widths_parse($source) {
+
+			$map = self::breakpoint_widths_map_from($source, true);
+
+			if($map === null) {
+
+				return null;
+			}
+
+			$config = self::breakpoint_framework();
+			$breakpoints = $config['breakpoints'];
+			$parsed = array();
+
+			foreach($map as $key => $value) {
+
+				$id_string = (string) $key;
+
+				if(!preg_match('/^[0-9]+$/', $id_string)) {
+
+					throw new Exception(esc_html(sprintf(
+
+						/* translators: %s: breakpoint id */
+						__('Invalid breakpoint %s.', 'ws-form'),
+						$id_string
+
+					)) . "\n" . esc_html(self::breakpoint_widths_legend()));
+				}
+
+				$canonical = null;
+
+				foreach($breakpoints as $breakpoint_id => $breakpoint) {
+
+					if((string) $breakpoint_id === (string) absint($id_string)) {
+
+						$canonical = $breakpoint_id;
+						break;
+					}
+				}
+
+				if($canonical === null) {
+
+					throw new Exception(esc_html(sprintf(
+
+						/* translators: %s: breakpoint id */
+						__('Invalid breakpoint %s.', 'ws-form'),
+						$id_string
+
+					)) . "\n" . esc_html(self::breakpoint_widths_legend()));
+				}
+
+				if(($value === null) || ($value === '')) {
+
+					$parsed[$canonical] = null;
+					continue;
+				}
+
+				if(is_bool($value) || is_array($value) || is_object($value) || !is_numeric($value)) {
+
+					throw new Exception(esc_html(sprintf(
+
+						/* translators: %s: breakpoint id */
+						__('Invalid width for breakpoint %s. Use a factor greater than 0 and at most 1, or null to clear it.', 'ws-form'),
+						(string) $canonical
+
+					)) . "\n" . esc_html(self::breakpoint_widths_legend()));
+				}
+
+				$factor = floatval($value);
+
+				if(($factor <= 0) || ($factor > 1)) {
+
+					throw new Exception(esc_html(sprintf(
+
+						/* translators: %s: breakpoint id */
+						__('Invalid width for breakpoint %s. Use a factor greater than 0 and at most 1, or null to clear it.', 'ws-form'),
+						(string) $canonical
+
+					)) . "\n" . esc_html(self::breakpoint_widths_legend()));
+				}
+
+				// A factor that rounds to 0 columns is ignored by the renderer
+				if(round($config['column_count'] * $factor) < 1) {
+
+					throw new Exception(esc_html(sprintf(
+
+						/* translators: %s: breakpoint id */
+						__('Invalid width for breakpoint %s. Use a factor greater than 0 and at most 1, or null to clear it.', 'ws-form'),
+						(string) $canonical
+
+					)) . "\n" . esc_html(self::breakpoint_widths_legend()));
+				}
+
+				$parsed[$canonical] = $factor;
+			}
+
+			return $parsed;
+		}
+
+		// width_factor on an object or its meta. Invalid values clamp to 1. Null when omitted.
+		public function breakpoint_width_factor_from($source) {
+
+			$found = false;
+			$value = self::breakpoint_widths_key($source, 'width_factor', $found);
+
+			if(!$found) {
+
+				$meta_found = false;
+				$meta = self::breakpoint_widths_key($source, 'meta', $meta_found);
+
+				if($meta_found) {
+
+					$value = self::breakpoint_widths_key($meta, 'width_factor', $found);
+				}
+			}
+
+			if(!$found || ($value === null) || ($value === '')) {
+
+				return null;
+			}
+
+			$factor = floatval($value);
+
+			if(($factor <= 0) || ($factor > 1)) {
+
+				$factor = 1;
+			}
+
+			return $factor;
+		}
+
+		// breakpoint_size_* values for a parsed widths map
+		public function breakpoint_widths_to_meta($parsed) {
+
+			$meta = array();
+
+			if(!is_array($parsed)) {
+
+				return $meta;
+			}
+
+			$column_count = self::breakpoint_framework()['column_count'];
+
+			foreach($parsed as $id => $factor) {
+
+				$meta_key = 'breakpoint_size_' . $id;
+
+				if($factor === null) {
+
+					$meta[$meta_key] = '';
+
+				} else {
+
+					$meta[$meta_key] = round($column_count * $factor);
+				}
+			}
+
+			return $meta;
+		}
+
+		// Write parsed widths onto a meta array. Optionally consume width_factor as the smallest breakpoint.
+		public function breakpoint_widths_apply_array(&$meta, $parsed, $apply_width_factor = false) {
+
+			if(!is_array($meta)) {
+
+				$meta = array();
+			}
+
+			$config = self::breakpoint_framework();
+
+			if($apply_width_factor && array_key_exists('width_factor', $meta) && ($config['first_id'] !== null)) {
+
+				$factor = floatval($meta['width_factor']);
+
+				if(($factor <= 0) || ($factor > 1)) {
+
+					$factor = 1;
+				}
+
+				$meta['breakpoint_size_' . $config['first_id']] = round($config['column_count'] * $factor);
+			}
+
+			unset($meta['width_factor']);
+
+			if(is_array($parsed)) {
+
+				foreach(self::breakpoint_widths_to_meta($parsed) as $meta_key => $meta_value) {
+
+					$meta[$meta_key] = $meta_value;
+				}
+			}
+
+			unset($meta['widths']);
+			unset($meta['breakpoint_sizes']);
+		}
+
+		// Write parsed widths onto a meta object and drop the friendly keys
+		public function breakpoint_widths_write_object($meta, $parsed) {
+
+			if(!is_object($meta) || !is_array($parsed)) {
+
+				return;
+			}
+
+			foreach(self::breakpoint_widths_to_meta($parsed) as $meta_key => $meta_value) {
+
+				$meta->{$meta_key} = $meta_value;
+			}
+
+			unset($meta->widths);
+			unset($meta->breakpoint_sizes);
+		}
+
+		// Apply widths / breakpoint_sizes found on an object or its meta
+		public function breakpoint_widths_apply_object_tree($object) {
+
+			if(!is_object($object)) {
+
+				return;
+			}
+
+			$parsed = self::breakpoint_widths_parse($object);
+
+			if($parsed === null) {
+
+				return;
+			}
+
+			if(!isset($object->meta) || !is_object($object->meta)) {
+
+				if(isset($object->meta) && is_array($object->meta)) {
+
+					$object->meta = (object) $object->meta;
+
+				} else {
+
+					$object->meta = new stdClass();
+				}
+			}
+
+			self::breakpoint_widths_write_object($object->meta, $parsed);
+			unset($object->widths);
+			unset($object->breakpoint_sizes);
+		}
+
+		// Field meta for form-create, with widths converted to breakpoint_size_* keys
+		public function breakpoint_widths_prepare_field_meta($field) {
+
+			$field_meta = self::get_meta($field);
+
+			if(is_object($field_meta)) {
+
+				$field_meta = (array) $field_meta;
+			}
+
+			if(!is_array($field_meta)) {
+
+				$field_meta = array();
+			}
+
+			self::breakpoint_widths_apply_array($field_meta, self::breakpoint_widths_parse($field), false);
+
+			if(count($field_meta) === 0) {
+
+				return false;
+			}
+
+			return $field_meta;
+		}
+
+		// Width factors currently stored on an object, keyed by breakpoint id
+		public function breakpoint_widths_from_meta($meta) {
+
+			if(is_object($meta)) {
+
+				$meta = (array) $meta;
+			}
+
+			if(!is_array($meta)) {
+
+				return array();
+			}
+
+			$config = self::breakpoint_framework();
+			$column_count = $config['column_count'];
+
+			if($column_count < 1) {
+
+				return array();
+			}
+
+			$widths = array();
+
+			foreach($config['breakpoints'] as $breakpoint_id => $breakpoint) {
+
+				$meta_key = 'breakpoint_size_' . $breakpoint_id;
+
+				if(!array_key_exists($meta_key, $meta) || ($meta[$meta_key] === '') || ($meta[$meta_key] === null)) {
+
+					continue;
+				}
+
+				$columns = floatval($meta[$meta_key]);
+
+				if($columns <= 0) {
+
+					continue;
+				}
+
+				$factor = $columns / $column_count;
+				$factor = floatval(rtrim(rtrim(sprintf('%.6F', $factor), '0'), '.'));
+
+				if($factor <= 0) {
+
+					continue;
+				}
+
+				if($factor > 1) {
+
+					$factor = 1;
+				}
+
+				$widths[(string) $breakpoint_id] = $factor;
+			}
+
+			return $widths;
+		}
+
+		// Add widths to a meta array when any breakpoint is set
+		public function breakpoint_widths_add_to_meta_array(&$meta, $source) {
+
+			$widths = self::breakpoint_widths_from_meta($source);
+
+			if(count($widths) === 0) {
+
+				return;
+			}
+
+			$meta['widths'] = $widths;
+		}
+
 		// Get field meta keys
 		public function get_field_meta_keys() {
 
@@ -1661,10 +2448,17 @@
 					'editable' => true
 				),
 
+				'widths' => array(
+
+					'type' => 'object',
+					'description' => self::breakpoint_widths_description(),
+					'editable' => true
+				),
+
 				'width_factor' => array(
 
 					'type' => 'float',
-					'description' => 'How wide the field should be on the form. Valid values are 0.5 for 1/2 width. Omit if full width.',
+					'description' => 'How wide the field should be. Use 0.5 for half width. Omit for full width. This sets only the smallest breakpoint, so the width applies at every screen size. Use widths to set a different width per breakpoint.',
 					'editable' => false,
 					'create_only' => true
 				),
@@ -1863,6 +2657,9 @@ Section properties:
 - id (number)
 - label (string)
 - label_render (string) = \"on\" to show the section label on the form, or \"\" to hide it. Default is \"\". Set to \"on\" when the section label helps the person completing the form.
+- widths (object) = column width of the section at each breakpoint. Same values as field meta widths. Set it here or in meta.
+" . self::breakpoint_widths_legend() . "
+" . self::breakpoint_widths_example_text() . "
 - fields (array)
 
 When label_render is \"on\", put the section context only in the section label. Field labels must stay short and generic (e.g. First Name, Address Line 1). Do not repeat the section name in field labels (do not use prefixes or suffixes like Billing, Shipping, or similar in parentheses).
@@ -1884,8 +2681,8 @@ The form JSON must adhere to these strict rules:
 2. Do not format the JSON with new lines, indentation or tabulation. Minify the JSON.
 3. Do not include an opt-in or submit button in the field array.
 4. Do not add 'Full Name' or 'Your Name' fields. Always have separate first and last name fields.
-5. The only allowed width_factor value is 0.5.
-6. If there are two fields that are related to one another (e.g. from and to) set the width_factor to 0.5. Only do this if you can place two fields side-by-side.
+5. width_factor may only be 0.5. It sets only the smallest breakpoint, so that width applies at every screen size. Omit width_factor for full width.
+6. If two fields are related (for example from and to) and should sit side by side on larger screens but stack on smaller screens, set widths instead of width_factor. " . self::breakpoint_widths_example_text() . "
 7. When specifying options for select, checkbox or radio field types, provide a comprehensive and full list of options rather than just a sample.
 8. Do not wrap the JSON in markdown, code fences, or any other text. Return only the JSON string.
 9. A field that controls showing or hiding a section must not be inside that section.
@@ -1915,6 +2712,11 @@ Only these field properties can be updated. Do not include any properties not li
 " . self::get_field_properties_full_prompt(false) . "
 
 
+= Section widths =
+A section may include meta.widths, using the same breakpoint keys as field meta widths.
+" . self::breakpoint_widths_legend() . "
+" . self::breakpoint_widths_example_text() . "
+
 = JSON rules =
 The form JSON must adhere to these strict rules:
 
@@ -1942,7 +2744,7 @@ Use only the field type, e.g. text, in this input property.
 
 			return "The following field meta can be specified:
 
-" . self::get_field_meta_keys_prompt() . "
+" . self::get_field_meta_keys_prompt(true) . "
 ";
 		}
 
@@ -1977,6 +2779,8 @@ meta (object) = {
 If #field(id) is used within #text(), for example #text(#field(123)), it will dynamically update that value. So in this example, if field ID 123 is changed by the user, the field containing #text(#field(123)) would dynamically update with the value of field ID 123.
 
 If #field(id) is used within #calc(), for example #calc(#field(123)), it will ALWAYS return a numeric value, NOT a string. Instead of checking against strings like 'wood' or 'aluminum', #field() should return 0, 1, 2, 3, etc., and the conditions should check against those numbers. The value returned by #field() could also just be the literal number required in the value column.
+
+If the description includes a WS Form variable with double quotes, copy that variable exactly into default_value. Do not remove the double quotes and do not change them to single quotes. Example: #query_var(\"utm_source\"). In the JSON string, escape those quotes.
 ";
 		}
 

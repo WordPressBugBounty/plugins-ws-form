@@ -1005,6 +1005,133 @@
 			return $rows_affected;
 		}
 
+		// Auto delete spam submissions older than the duration setting
+		public function db_delete_spam($count_update_all = true, $bypass_user_capability_check = false) {
+
+			$method = WS_Form_Common::option_get('submit_spam_purge', '');
+
+			if(($method !== 'on') && ($method !== 'delete')) { return 0; }
+
+			WS_Form_Common::user_must('delete_submission', $bypass_user_capability_check);
+
+			$days = absint(WS_Form_Common::option_get('submit_spam_purge_duration', 30));
+
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			$days = absint(apply_filters('wsf_submit_spam_purge_duration', $days));
+
+			if($days < 1) { return 0; }
+
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+			$limit = absint(apply_filters('wsf_submit_spam_purge_limit', 100));
+
+			if($limit < 1) { $limit = 100; }
+
+			$cutoff = WS_Form_Common::get_mysql_date('-' . $days . ' days');
+
+			if($cutoff === false) { return 0; }
+
+			global $wpdb;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$submit_ids = $wpdb->get_col($wpdb->prepare(
+
+				"SELECT id FROM {$wpdb->prefix}wsf_submit WHERE status = %s AND date_added > '0000-00-00 00:00:00' AND date_added < %s ORDER BY date_added ASC LIMIT %d", // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQueryUse -- Needed for complex WHERE
+				'spam',
+				$cutoff,
+				$limit
+			));
+
+			if(empty($submit_ids)) { return 0; }
+
+			$rows_affected = 0;
+
+			// Move to trash. db_delete() permanently removes spam, so trash uses a status update.
+			if($method === 'on') {
+
+				$trash_ids = array();
+
+				foreach($submit_ids as $submit_id) {
+
+					$submit_id = absint($submit_id);
+
+					if($submit_id === 0) { continue; }
+
+					$trash_ids[] = $submit_id;
+				}
+
+				if(!empty($trash_ids)) {
+
+					$id_list = implode(',', wp_parse_id_list($trash_ids));
+
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+					$rows_affected += (int) $wpdb->query(
+						"UPDATE {$wpdb->prefix}wsf_submit SET status = 'trash', date_expire = NULL WHERE status = 'spam' AND id IN ($id_list)" // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- IDs sanitized with wp_parse_id_list
+					);
+				}
+
+			} else {
+
+				foreach($submit_ids as $submit_id) {
+
+					$submit_id = absint($submit_id);
+
+					if($submit_id === 0) { continue; }
+
+					try {
+
+						$this->id = $submit_id;
+						self::db_read(true, false, $bypass_user_capability_check);
+
+						if($this->status !== 'spam') { continue; }
+
+						// Status is part of the WHERE so a row that is no longer spam is not deleted
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+						$delete_result = $wpdb->delete(
+							"{$wpdb->prefix}wsf_submit",
+							array(
+								'id' => $submit_id,
+								'status' => 'spam',
+							),
+							array('%d', '%s')
+						);
+
+						if($delete_result === false) {
+
+							parent::db_wpdb_handle_error(__('Error deleting submit.', 'ws-form'));
+						}
+
+						if((int) $delete_result < 1) { continue; }
+
+						$ws_form_meta = new WS_Form_Submit_Meta();
+						$ws_form_meta->parent_id = $submit_id;
+						$ws_form_meta->db_delete_by_submit($bypass_user_capability_check);
+
+						$ws_form_submit_note = new WS_Form_Submit_Note();
+						$ws_form_submit_note->submit_id = $submit_id;
+						$ws_form_submit_note->db_delete_by_submit($bypass_user_capability_check);
+
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+						do_action('wsf_submit_delete_permanent', $this);
+
+						$rows_affected++;
+
+					} catch (Throwable $e) {
+
+						// Leave row for next run
+						continue;
+					}
+				}
+			}
+
+			if($count_update_all && ($rows_affected > 0)) {
+
+				$ws_form_form = new WS_Form_Form();
+				$ws_form_form->db_count_update_all($bypass_user_capability_check);
+			}
+
+			return $rows_affected;
+		}
+
 		// Get Save Submission auto delete method for a form (on = trash, delete = permanent)
 		public function db_get_form_auto_delete_method($form_id, $bypass_user_capability_check = false) {
 
@@ -2438,6 +2565,10 @@
 
 				self::return_forbidden();
 			}
+			// Random text spam check (submit only)
+			$random_text_enabled = $form_submit && (WS_Form_Common::get_object_meta_value($this->form_object, 'random_text', '') === 'on');
+			$random_text_matched = false;
+
 			// Build section_repeatable
 			$section_repeatable = array();
 			$wsf_form_section_repeatable_index_json = WS_Form_Common::get_query_var_nonce('wsf_form_section_repeatable_index', false);
@@ -2482,12 +2613,12 @@
 
 					foreach($section_repeatable_indexes as $section_repeatable_index) {
 
-						self::setup_from_post_section($section, $form_submit, $process_file_fields, $process_non_file_fields, $keyword_blocklist, $section_id, $section_repeatable_index, $section_repeatable);
+						self::setup_from_post_section($section, $form_submit, $process_file_fields, $process_non_file_fields, $keyword_blocklist, $section_id, $section_repeatable_index, $section_repeatable, $random_text_enabled, $random_text_matched);
 					}
 
 				} else {
 
-					self::setup_from_post_section($section, $form_submit, $process_file_fields, $process_non_file_fields, $keyword_blocklist);
+					self::setup_from_post_section($section, $form_submit, $process_file_fields, $process_non_file_fields, $keyword_blocklist, false, false, $section_repeatable, $random_text_enabled, $random_text_matched);
 				}
 			}
 
@@ -2505,6 +2636,42 @@
 				in_array($this->post_mode, array('submit', 'save'), true) &&
 				(count($this->error_validation_actions) === 0)
 			) {
+
+				// Random text: blatant spam score before other checks keep the higher value
+				if($random_text_matched) {
+
+					if(is_null($this->spam_level) || ($this->spam_level < WS_FORM_SPAM_LEVEL_MAX)) {
+
+						$this->spam_level = WS_FORM_SPAM_LEVEL_MAX;
+					}
+
+					WS_Form_Submit_Note::add_to_submit(
+
+						$this,
+
+						sprintf(
+
+							/* translators: %u: Spam score */
+							__('Flagged submission as random text (score: %u).', 'ws-form'),
+
+							WS_FORM_SPAM_LEVEL_MAX
+						),
+
+						array(
+
+							'values' => array(
+
+								__('Spam Score', 'ws-form') => (string) WS_FORM_SPAM_LEVEL_MAX
+							)
+						),
+
+						0,
+
+						true,
+
+						__('Random Text Detection', 'ws-form')
+					);
+				}
 
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
 				$this->spam_level = apply_filters('wsf_submit_spam_check', $this->spam_level, $this->form_object, $this);
@@ -2531,7 +2698,7 @@
 			exit;
 		}
 
-		public function setup_from_post_section($section, $form_submit, $process_file_fields = true, $process_non_file_fields = true, $keyword_blocklist = array(), $section_id = false, $section_repeatable_index = false, &$section_repeatable = array()) {
+		public function setup_from_post_section($section, $form_submit, $process_file_fields = true, $process_non_file_fields = true, $keyword_blocklist = array(), $section_id = false, $section_repeatable_index = false, &$section_repeatable = array(), $random_text_enabled = false, &$random_text_matched = false) {
 
 			// Delimiters
 			if($section_repeatable_index !== false) {
@@ -3053,8 +3220,91 @@
 							break;
 						}
 					}
+
+					// Random text
+					if(
+						$random_text_enabled &&
+						is_string($field_value) &&
+						in_array($field_type, array('text', 'textarea', 'email'), true)
+					) {
+
+						$random_text_match = self::random_text_match($field_value, $field_type);
+
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+						$random_text_match = apply_filters('wsf_submit_block_random_text', $random_text_match, $field_value, $field, $this->form_object, $this);
+
+						if($random_text_match) {
+
+							$random_text_matched = true;
+						}
+					}
 				}
 			}
+		}
+
+		// Random mixed-case text, or a Gmail address with many dots
+		public function random_text_match($value, $field_type) {
+
+			$value = trim($value);
+
+			if($value === '') { return false; }
+
+			if(in_array($field_type, array('text', 'textarea'), true) && self::random_text_token($value)) {
+
+				return true;
+			}
+
+			if(in_array($field_type, array('text', 'textarea', 'email'), true) && self::random_text_email($value)) {
+
+				return true;
+			}
+
+			return false;
+		}
+
+		// Single mixed-case letter token
+		public function random_text_token($value) {
+
+			if(!preg_match('/^[A-Za-z]{15,}$/', $value)) { return false; }
+
+			$length = strlen($value);
+			$upper = 0;
+			$lower = 0;
+			$transitions = 0;
+			$previous_upper = null;
+
+			for($index = 0; $index < $length; $index++) {
+
+				$is_upper = (($value[$index] >= 'A') && ($value[$index] <= 'Z'));
+
+				if($is_upper) {
+
+					$upper++;
+
+				} else {
+
+					$lower++;
+				}
+
+				if(!is_null($previous_upper) && ($previous_upper !== $is_upper)) {
+
+					$transitions++;
+				}
+
+				$previous_upper = $is_upper;
+			}
+
+			if(($upper < 4) || ($lower < 4) || ($transitions < 5)) { return false; }
+
+			return (($transitions / ($length - 1)) >= 0.3);
+		}
+
+		// Gmail or Googlemail local part with 4 or more dots
+		public function random_text_email($value) {
+
+			if(!preg_match('/^([^@\s]+)@(gmail\.com|googlemail\.com)$/i', $value, $matches)) { return false; }
+
+			return (substr_count($matches[1], '.') >= 4);
 		}
 
 		// Blocked keyword matching

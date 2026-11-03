@@ -535,14 +535,14 @@ body.admin_page_ws-form-edit #wsf-sidebars.wsf-sidebars-rail.wsf-sidebars-expand
   left: 1px;
   right: auto;
 }
+#wsf-sidebars .wsf-sidebar [data-insert-image] input[type=text].wsf-field {
+  padding-left: 17px;
+  padding-right: 0;
+}
 #wsf-sidebars .wsf-sidebar [data-insert-image] [data-action=wsf-insert-image] {
   left: 0;
   padding: 4px 0 0 3px;
   right: auto;
-}
-#wsf-sidebars .wsf-sidebar [data-insert-image]:hover input[type=text].wsf-field {
-  padding-left: 17px;
-  padding-right: 3px;
 }
 #wsf-sidebars .wsf-sidebar .wsf-data-grid-table-inner > table > tbody > tr.ui-sortable-helper {
   left: auto;

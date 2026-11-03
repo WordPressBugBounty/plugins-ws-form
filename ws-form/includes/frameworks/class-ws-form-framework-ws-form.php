@@ -47,7 +47,7 @@
 					// Up to 991px
 					75	=>	array(
 						'id'				=>	'medium',
-						'name'				=>	__('Medium', 'ws-form'),
+						'name'				=>	_x('Medium', 'Breakpoint size', 'ws-form'),
 						'min_width'			=>	768,
 						'admin_max_width'	=>	991
 					),

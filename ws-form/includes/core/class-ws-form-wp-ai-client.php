@@ -64,9 +64,9 @@
 				// Set model preferences
 				$prompt->using_model_preference(
 
-					array('openai', 'gpt-4.1'),
-					array('anthropic', 'claude-sonnet-4-5'),
-					array('google', 'gemini-2.5-flash')
+					array('openai', 'gpt-6-luna'),
+					array('anthropic', 'claude-sonnet-5-5'),
+					array('google', 'gemini-3.8-flash')
 				);
 
 				// Set temperature

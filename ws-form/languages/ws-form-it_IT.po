@@ -1,24 +1,19 @@
+# Copyright (C) 2026 WS Form
+# This file is distributed under the GPL-3.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WS Form PRO\n"
-"POT-Creation-Date: 2026-10-12 10:50-0400\n"
-"PO-Revision-Date: 2026-10-12 10:51-0400\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: WS Form\n"
+"Report-Msgid-Bugs-To: https://wsform.com/support\n"
+"POT-Creation-Date: 2026-10-13T03:43:56+00:00\n"
+"PO-Revision-Date: 2026-10-30T17:13:28-04:00\n"
+"Last-Translator: WS Form\n"
+"Language-Team: WS Form\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.9\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: ws-form.php\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: "
-"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Domain: ws-form\n"
 
 #: admin/class-ws-form-admin.php:273 api/class-ws-form-api-group.php:43
 #: includes/class-ws-form-config.php:7480
@@ -308,7 +303,7 @@ msgstr "Specifica..."
 
 #: admin/class-ws-form-admin.php:978
 msgid "Skip &amp; Deactivate"
-msgstr "Salta e disattiva"
+msgstr "Salta &amp; disattiva"
 
 #: admin/class-ws-form-admin.php:982
 msgid "Submit &amp; Deactivate"
@@ -556,7 +551,7 @@ msgstr "Modulo"
 #: admin/class-ws-form-admin.php:1664
 #: includes/third-party/oxygen/elements/class-oxyel-ws-form-form.php:93
 msgid "ID (Optional)"
-msgstr "CAMBIA ID / numero di invio"
+msgstr "ID (facoltativo)"
 
 #: admin/class-ws-form-admin.php:1666 admin/class-ws-form-admin.php:3357
 #: admin/class-ws-form-admin.php:3361 admin/partials/ws-form-form-style.php:21
@@ -1055,11 +1050,11 @@ msgstr "Nessuno stile disponibile."
 #: includes/config/class-ws-form-config-conditional.php:551
 #: includes/core/class-ws-form-submit-export.php:135
 msgid "Submission"
-msgstr "Sottoscrizione"
+msgstr "Invio"
 
 #: admin/class-ws-form-wp-list-table-submit.php:155
 msgid "Date Updated"
-msgstr "Data aggiornata"
+msgstr "Data di aggiornamento"
 
 #: admin/class-ws-form-wp-list-table-submit.php:156
 #: includes/class-ws-form-config.php:21481
@@ -1069,7 +1064,7 @@ msgstr "Data aggiunta"
 #: admin/class-ws-form-wp-list-table-submit.php:187
 #: includes/config/class-ws-form-config-admin.php:1246
 msgid "Starred"
-msgstr "Stellato"
+msgstr "Preferito"
 
 #: admin/class-ws-form-wp-list-table-submit.php:575
 msgid "Edit in Preview"
@@ -1079,7 +1074,7 @@ msgstr "Modifica nell’anteprima"
 #: admin/class-ws-form-wp-list-table-submit.php:848
 #: includes/config/class-ws-form-config-admin.php:1250
 msgid "Mark as Unread"
-msgstr "Segna come già letto"
+msgstr "Segna come non letto"
 
 #: admin/class-ws-form-wp-list-table-submit.php:582
 #: admin/class-ws-form-wp-list-table-submit.php:847
@@ -1158,7 +1153,7 @@ msgstr[1] "%u record"
 
 #: admin/class-ws-form-wp-list-table-submit.php:1030
 msgid "Date from"
-msgstr "Arrivo"
+msgstr "Dal"
 
 #: admin/class-ws-form-wp-list-table-submit.php:1032
 msgid "Date to"
@@ -1182,7 +1177,7 @@ msgstr "Selezionare un modulo."
 # GPT: “Submission” could be translated as “invio” or “inserimento”; I chose “submission” to match common WS Form/WordPress admin terminology and avoid confusion with generic sending.
 #: admin/class-ws-form-wp-list-table-submit.php:1086
 msgid "No submissions available."
-msgstr "Nessuna submission disponibile."
+msgstr "Nessun invio disponibile."
 
 #: admin/partials/ws-form-form-add.php:75
 #: admin/partials/ws-form-form-style-add.php:21
@@ -1474,7 +1469,7 @@ msgid "Are you sure you want to start the import?"
 msgstr "Sei sicuro di voler avviare l'importazione?"
 
 #: admin/partials/ws-form-form-migrate.php:741
-#: admin/partials/ws-form-form.php:186
+#: admin/partials/ws-form-form.php:188
 #: includes/config/class-ws-form-config-admin.php:795
 #: includes/config/class-ws-form-config-admin.php:986
 #: includes/config/class-ws-form-config-admin.php:1360
@@ -1552,7 +1547,7 @@ msgid "Create your first form to get started."
 msgstr "Crea il tuo primo modulo per iniziare."
 
 #: admin/partials/ws-form-form.php:109 admin/partials/ws-form-form.php:152
-#: admin/partials/ws-form-form.php:230
+#: admin/partials/ws-form-form.php:233
 msgid "Unfiled"
 msgstr "Non archiviato"
 
@@ -1560,15 +1555,19 @@ msgstr "Non archiviato"
 msgid "Folders"
 msgstr "Cartelle"
 
-#: admin/partials/ws-form-form.php:178
+#: admin/partials/ws-form-form.php:167
+msgid "Drag to move"
+msgstr "Trascina per spostare"
+
+#: admin/partials/ws-form-form.php:186
 msgid "Rename"
 msgstr "Rinomina"
 
-#: admin/partials/ws-form-form.php:182
+#: admin/partials/ws-form-form.php:187
 msgid "Add subfolder"
 msgstr "Aggiungi sottocartella"
 
-#: admin/partials/ws-form-form.php:221
+#: admin/partials/ws-form-form.php:224
 msgid "This folder is empty."
 msgstr "Questa cartella è vuota."
 
@@ -1581,10 +1580,7 @@ msgstr "Generale"
 msgid ""
 "Your website is not configured to use a secure certificate. We recommend "
 "enabling SSL to ensure your submission data is securely transmitted."
-msgstr ""
-"Il tuo sito web non è configurato per utilizzare un certificato sicuro. Ti "
-"consigliamo di abilitare SSL per garantire che i dati delle tue submission "
-"vengano trasmessi in modo sicuro."
+msgstr "Il tuo sito web non è configurato per utilizzare un certificato sicuro. Ti consigliamo di abilitare SSL per garantire che i dati dei tuoi invii vengano trasmessi in modo sicuro."
 
 #: admin/partials/ws-form-settings.php:218
 msgid "Settings sections"
@@ -1706,10 +1702,7 @@ msgstr "Email di errore di invio del modulo inviata correttamente!"
 msgid ""
 "An error occurred while sending the form submission error email. Confirm the "
 "recipient email address is correct."
-msgstr ""
-"Si è verificato un errore durante l'invio dell'email di errore della "
-"submission del modulo. Verifica che l'indirizzo email del destinatario sia "
-"corretto."
+msgstr "Si è verificato un errore durante l'invio dell'email di errore dell'invio del modulo. Verifica che l'indirizzo email del destinatario sia corretto."
 
 #: admin/partials/ws-form-settings.php:1227
 #: includes/config/class-ws-form-config-conditional.php:529
@@ -2050,7 +2043,7 @@ msgstr "Nota di invio non trovata"
 
 #: api/class-ws-form-api-submit.php:232
 msgid "No actions found"
-msgstr "Nessun codice promozionale trovato"
+msgstr "Nessuna azione trovata"
 
 #: api/class-ws-form-api-submit.php:235
 msgid "Action index not found"
@@ -2097,7 +2090,7 @@ msgstr "File del modello non trovato: %s"
 msgid "Invalid template type"
 msgstr "Tipo di modello non valido"
 
-#: api/class-ws-form-api.php:492 api/class-ws-form-api.php:493
+#: api/class-ws-form-api.php:494 api/class-ws-form-api.php:495
 msgid "WS Form MCP Server"
 msgstr "Server MCP di WS Form"
 
@@ -2190,7 +2183,7 @@ msgstr "Fathom Analytics"
 #: includes/actions/class-ws-form-action-conversion.php:455
 #: includes/class-ws-form-config.php:20673
 msgid "Bento"
-msgstr "Max"
+msgstr "Bento"
 
 #: includes/actions/class-ws-form-action-conversion.php:456
 #: includes/class-ws-form-config.php:20688
@@ -2362,9 +2355,14 @@ msgid "Update Fields"
 msgstr "Aggiorna campi"
 
 #: includes/actions/class-ws-form-action-conversion.php:698
-#: includes/config/class-ws-form-config-styler.php:3943
+msgctxt "Conversion tracking action"
 msgid "Track"
 msgstr "Traccia"
+
+#: includes/config/class-ws-form-config-styler.php:3943
+msgctxt "Range slider track (styler)"
+msgid "Track"
+msgstr "Binario"
 
 #: includes/actions/class-ws-form-action-conversion.php:699
 msgid "Tag"
@@ -2400,7 +2398,7 @@ msgstr "Aggiungi alla lista dei desideri"
 
 #: includes/actions/class-ws-form-action-conversion.php:814
 msgid "Complete Registration"
-msgstr "Registazione Completata"
+msgstr "Registrazione completata"
 
 #: includes/actions/class-ws-form-action-conversion.php:815
 #: includes/config/class-ws-form-config-admin.php:177
@@ -2425,7 +2423,7 @@ msgstr "Avvia checkout"
 
 #: includes/actions/class-ws-form-action-conversion.php:820
 msgid "Lead"
-msgstr "Guida"
+msgstr "Lead"
 
 #: includes/actions/class-ws-form-action-conversion.php:821
 msgid "Page View"
@@ -2489,7 +2487,7 @@ msgstr "Payload richiesta: <pre>%s</pre>"
 #: includes/actions/class-ws-form-action-custom-api.php:466
 #, php-format
 msgid "Request authentication: %s"
-msgstr "Autenticazione richiesta: %s"
+msgstr "Autenticazione della richiesta: %s"
 
 #. translators: %s: HTTP headers
 #: includes/actions/class-ws-form-action-custom-api.php:495
@@ -2534,7 +2532,7 @@ msgstr "Pass-through cookie stesso hostname"
 #: includes/actions/class-ws-form-action-custom-api.php:573
 #, php-format
 msgid "Request SSL verify: %s"
-msgstr "Verifica SSL richiesta: %s"
+msgstr "Verifica SSL della richiesta: %s"
 
 #: includes/actions/class-ws-form-action-custom-api.php:574
 #: includes/class-ws-form-config.php:17016
@@ -2659,10 +2657,6 @@ msgstr ""
 "URL dell'endpoint a cui inviare i dati. Le variabili possono modificare solo "
 "il percorso o la stringa di query, non l'host."
 
-#: includes/actions/class-ws-form-action-custom-api.php:839
-msgid "Request Method"
-msgstr "Metodo di richiesta"
-
 #: includes/actions/class-ws-form-action-custom-api.php:841
 msgid "Select the HTTP request method to use."
 msgstr "Seleziona il metodo di richiesta HTTP da utilizzare."
@@ -2706,11 +2700,11 @@ msgstr "Stringa"
 
 #: includes/actions/class-ws-form-action-custom-api.php:919
 msgid "Integer"
-msgstr "Valore integer"
+msgstr "Intero"
 
 #: includes/actions/class-ws-form-action-custom-api.php:920
 msgid "Float"
-msgstr "Mobile"
+msgstr "Float (virgola mobile)"
 
 #: includes/actions/class-ws-form-action-custom-api.php:921
 msgid "Boolean"
@@ -2914,18 +2908,6 @@ msgstr "Verifica SSL"
 #: includes/actions/class-ws-form-action-custom-api.php:1119
 msgid "Whether to verify SSL for the request."
 msgstr "Se verificare SSL per la richiesta."
-
-#: includes/actions/class-ws-form-action-custom-api.php:1126
-msgid "Use URLs for File Fields"
-msgstr "Usa URL per i campi file"
-
-#: includes/actions/class-ws-form-action-custom-api.php:1128
-msgid ""
-"If checked, file and signature fields will be converted to URLs instead of "
-"file objects. Multiple files are comma separated."
-msgstr ""
-"Se selezionato, i campi file e firma verranno convertiti in URL anziché in "
-"oggetti file. I file multipli sono separati da virgole."
 
 #: includes/actions/class-ws-form-action-custom-api.php:1135
 msgid "Ignore Empty Values"
@@ -3208,7 +3190,7 @@ msgstr "Indirizzo email non valido o nome visualizzato troppo lungo: %s"
 
 #: includes/actions/class-ws-form-action-email.php:865
 msgid "Plain text"
-msgstr "Puro testo"
+msgstr "Testo semplice"
 
 #: includes/actions/class-ws-form-action-email.php:866
 #: includes/actions/class-ws-form-action-email.php:983
@@ -3402,7 +3384,7 @@ msgstr "Nome visualizzato"
 
 #: includes/actions/class-ws-form-action-email.php:1176
 msgid "Round Robin %"
-msgstr "% Round Robin"
+msgstr "Round Robin %"
 
 #: includes/actions/class-ws-form-action-email.php:1178
 #: includes/class-ws-form-config.php:9748
@@ -3448,7 +3430,7 @@ msgstr "Esegui hook di WordPress"
 #: includes/actions/class-ws-form-action-hook.php:121
 #, php-format
 msgid "Hook successfully called: %s"
-msgstr "Gancio chiamato con successo: %s"
+msgstr "Hook chiamato con successo: %s"
 
 #: includes/actions/class-ws-form-action-hook.php:130
 msgid "No type in action configuration"
@@ -4242,11 +4224,11 @@ msgstr ""
 
 #: includes/actions/class-ws-form-action-wp-ai-client.php:963
 msgid "Trim Output"
-msgstr "Tronca output"
+msgstr "Rimuovi spazi dall'output"
 
 #: includes/actions/class-ws-form-action-wp-ai-client.php:966
 msgid "If checked, the output will be trimmed."
-msgstr "Se selezionato, l’output verrà troncato."
+msgstr "Se selezionato, gli spazi iniziali e finali verranno rimossi dall’output."
 
 #: includes/actions/class-ws-form-action-wp-ai-client.php:983
 msgid "Apply WPAutoP to Output"
@@ -4321,7 +4303,7 @@ msgstr "ID elemento personalizzato facoltativo per il modulo"
 
 #: includes/blocks/form-add/form-add.php:55
 msgid "Select Form"
-msgstr "Seleziona Form"
+msgstr "Seleziona modulo"
 
 #: includes/blocks/form-add/form-add.php:56
 msgid "Form Element ID (optional)"
@@ -4772,7 +4754,7 @@ msgstr "Crittografia dei metadati dell'invio in corso."
 
 #: includes/class-ws-form-common.php:6294
 msgid "Submission meta data is not being encrypted."
-msgstr "I metadati della submission non vengono crittografati."
+msgstr "I metadati dell'invio non vengono crittografati."
 
 #: includes/class-ws-form-common.php:6357
 msgid "Unlicensed"
@@ -5113,6 +5095,11 @@ msgstr "Comportamento nascosto"
 msgid "Advanced"
 msgstr "Avanzate"
 
+#: includes/class-ws-form-config.php:2708
+msgctxt "Field type group"
+msgid "Advanced"
+msgstr "Avanzati"
+
 #: includes/class-ws-form-config.php:337 includes/class-ws-form-config.php:513
 #: includes/class-ws-form-config.php:658 includes/class-ws-form-config.php:813
 #: includes/class-ws-form-config.php:967 includes/class-ws-form-config.php:1127
@@ -5400,7 +5387,7 @@ msgstr "Attributi Personalizzati"
 #: includes/class-ws-form-config.php:7283
 #: includes/config/class-ws-form-config-admin.php:580
 msgid "Breakpoints"
-msgstr "Breakpoint"
+msgstr "Punti di interruzione"
 
 #: includes/class-ws-form-config.php:380 includes/class-ws-form-config.php:696
 #: includes/class-ws-form-config.php:856 includes/class-ws-form-config.php:1015
@@ -5437,7 +5424,7 @@ msgstr "Mappatura colonna"
 
 #: includes/class-ws-form-config.php:396 includes/class-ws-form-config.php:400
 msgid "Text Area"
-msgstr "Area di Testo"
+msgstr "Area di testo"
 
 #: includes/class-ws-form-config.php:397
 msgid "A multi-line input field for capturing longer text entries."
@@ -5522,9 +5509,14 @@ msgstr "Scelta"
 #: includes/class-ws-form-config.php:1188
 #: includes/class-ws-form-config.php:1192
 #: includes/class-ws-form-config.php:22919
+#: includes/config/class-ws-form-config-styler.php:4056
+msgctxt "Select field"
+msgid "Select"
+msgstr "Menu a tendina"
+
 #: includes/config/class-ws-form-config-admin.php:1037
 #: includes/config/class-ws-form-config-admin.php:1038
-#: includes/config/class-ws-form-config-styler.php:4056
+msgctxt "Select media button"
 msgid "Select"
 msgstr "Seleziona"
 
@@ -5540,7 +5532,7 @@ msgstr "menu a tendina"
 #: includes/class-ws-form-config.php:6195
 #: includes/config/class-ws-form-config-styler.php:4104
 msgid "Select2"
-msgstr "Seleziona2"
+msgstr "Select2"
 
 #: includes/class-ws-form-config.php:1262
 msgid "Select2 Custom Messages"
@@ -5646,7 +5638,7 @@ msgstr "settimana mese"
 #: includes/class-ws-form-config.php:1850
 #: includes/config/class-ws-form-config-styler.php:3935
 msgid "Range Slider"
-msgstr "Ampiezza cursore"
+msgstr "Cursore di intervallo"
 
 #: includes/class-ws-form-config.php:1846
 msgid ""
@@ -5863,7 +5855,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:2880
 #: includes/config/class-ws-form-config-styler.php:3405
 msgid "Meter"
-msgstr "Metri"
+msgstr "Indicatore"
 
 #: includes/class-ws-form-config.php:3008
 #: includes/class-ws-form-config.php:3367
@@ -5881,7 +5873,7 @@ msgstr "termini condizioni informativa sulla privacy"
 
 #: includes/class-ws-form-config.php:3322
 msgid "SSN"
-msgstr "Codice Fiscale"
+msgstr "SSN"
 
 #: includes/class-ws-form-config.php:3326
 #: includes/class-ws-form-config.php:16231
@@ -5919,7 +5911,7 @@ msgstr "Segnaposto"
 #: includes/class-ws-form-config.php:3502
 #: includes/class-ws-form-config.php:3723
 msgid "Routing"
-msgstr "Smistamento"
+msgstr "Percorsi"
 
 #: includes/class-ws-form-config.php:3577
 msgid "Google Address"
@@ -5937,7 +5929,7 @@ msgstr "posizione luogo indirizzo"
 
 #: includes/class-ws-form-config.php:3633
 msgid "Address Fields"
-msgstr "Campo indirizzo"
+msgstr "Campi indirizzo"
 
 #: includes/class-ws-form-config.php:3643
 #: includes/class-ws-form-config.php:9823
@@ -6006,7 +5998,7 @@ msgstr "Divisore"
 
 #: includes/class-ws-form-config.php:4389
 msgid "hr"
-msgstr "ore"
+msgstr "hr"
 
 #: includes/class-ws-form-config.php:4457
 #: includes/class-ws-form-config.php:4460
@@ -6031,10 +6023,7 @@ msgstr "Nota"
 msgid ""
 "A static field for displaying non-editable text, comments, or instructions "
 "in the WS Form layout editor in the WordPress admin only."
-msgstr ""
-"Un campo statico per visualizzare testo non modificabile, commenti o "
-"istruzioni nell'editor di layout di WS Form nell'amministrazione di "
-"WordPress בלבד."
+msgstr "Un campo statico per visualizzare testo non modificabile, commenti o istruzioni nell'editor di layout di WS Form nell'amministrazione di WordPress soltanto."
 
 #: includes/class-ws-form-config.php:4642
 msgid "comment help"
@@ -6288,7 +6277,7 @@ msgstr "Prezzo (radio)"
 #: includes/class-ws-form-config.php:6631
 #: includes/class-ws-form-config.php:6640
 msgid "Price Range"
-msgstr "﻿Fascia di prezzo €"
+msgstr "Fascia di prezzo"
 
 #: includes/class-ws-form-config.php:6650
 msgid "slider money currency ecommerce"
@@ -6709,7 +6698,7 @@ msgstr "Campione (Cerchi)"
 #: includes/config/class-ws-form-config-styler.php:3866
 #: includes/config/class-ws-form-config-styler.php:3902
 msgid "Switch"
-msgstr "Scambia"
+msgstr "Interruttore"
 
 #: includes/class-ws-form-config.php:7919
 msgid "Remember Last Tab Clicked"
@@ -6791,10 +6780,7 @@ msgid ""
 "Hiding this field excludes it from submissions. To include it, check "
 "<strong>Always Include in Actions</strong> below or use a <strong>Hidden</"
 "strong> field type."
-msgstr ""
-"Nascondere questo campo lo esclude dalle invii. Per includerlo, seleziona "
-"<strong>Includi sempre nelle azioni</strong> qui sotto oppure usa un tipo di "
-"campo <strong>Nascosto</strong>."
+msgstr "Nascondere questo campo lo esclude dagli invii. Per includerlo, seleziona <strong>Includi sempre nelle azioni</strong> qui sotto oppure usa un tipo di campo <strong>Nascosto</strong>."
 
 #: includes/class-ws-form-config.php:8070
 msgid "Breakpoint Sizes"
@@ -7072,7 +7058,7 @@ msgstr "Abilita gli eventi di Google Tag Manager e Google Analytics."
 
 #: includes/class-ws-form-config.php:8706
 msgid "Add tracking data to submissions."
-msgstr "Aggiungi dati di tracciamento alle invii."
+msgstr "Aggiungi dati di tracciamento agli invii."
 
 #: includes/class-ws-form-config.php:8715
 #: includes/class-ws-form-config.php:20760
@@ -7494,7 +7480,7 @@ msgstr "Spessore bordo (pixel)"
 
 #: includes/class-ws-form-config.php:9520
 msgid "Always Visible"
-msgstr "Calendario sempre visibile"
+msgstr "Sempre visibile"
 
 #: includes/class-ws-form-config.php:9523
 msgid ""
@@ -7615,7 +7601,7 @@ msgstr "Data/ora di inizio pianificata del modulo."
 
 #: includes/class-ws-form-config.php:10184
 msgid "Before Message"
-msgstr "Prima del messaggio"
+msgstr "Messaggio prima dell'inizio"
 
 #: includes/class-ws-form-config.php:10187
 msgid ""
@@ -7626,7 +7612,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:10205
 msgid "Before Message Style"
-msgstr "Stile del messaggio precedente"
+msgstr "Stile del messaggio prima dell'inizio"
 
 #: includes/class-ws-form-config.php:10231
 msgid "Schedule End"
@@ -7646,7 +7632,7 @@ msgstr "Data/ora in cui è pianificata la fine del modulo."
 
 #: includes/class-ws-form-config.php:10258
 msgid "After Message"
-msgstr "Messaggio successivo"
+msgstr "Messaggio dopo la fine"
 
 #: includes/class-ws-form-config.php:10261
 msgid "Message shown after the form end date/time. Leave blank to hide form."
@@ -7656,7 +7642,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:10279
 msgid "After Message Style"
-msgstr "Stile del messaggio successivo"
+msgstr "Stile del messaggio dopo la fine"
 
 #: includes/class-ws-form-config.php:10306
 #: includes/class-ws-form-config.php:16258
@@ -8805,7 +8791,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:12427
 msgid "Form Wrapper"
-msgstr "Involucro di moduli"
+msgstr "Contenitore del modulo"
 
 #: includes/class-ws-form-config.php:12432
 #: includes/class-ws-form-config.php:12442
@@ -9041,6 +9027,10 @@ msgstr "Debole"
 #: includes/class-ws-form-config.php:12793
 #: includes/class-ws-form-config.php:13861
 #: includes/config/class-ws-form-config-public.php:246
+msgctxt "Password strength"
+msgid "Medium"
+msgstr "Medio"
+
 #: includes/frameworks/class-ws-form-framework-bootstrap3.php:54
 #: includes/frameworks/class-ws-form-framework-bootstrap4.php:58
 #: includes/frameworks/class-ws-form-framework-bootstrap41.php:58
@@ -9049,6 +9039,7 @@ msgstr "Debole"
 #: includes/frameworks/class-ws-form-framework-foundation6.php:93
 #: includes/frameworks/class-ws-form-framework-foundation64.php:93
 #: includes/frameworks/class-ws-form-framework-ws-form.php:50
+msgctxt "Breakpoint size"
 msgid "Medium"
 msgstr "Medio"
 
@@ -9537,7 +9528,7 @@ msgstr "Spazio intorno"
 
 #: includes/class-ws-form-config.php:13670
 msgid "Space Between"
-msgstr "Spazio tra le diapositive"
+msgstr "Spazio tra"
 
 #: includes/class-ws-form-config.php:13671
 msgid "Space Evenly"
@@ -9914,7 +9905,7 @@ msgstr "Predefinito: 2050"
 
 #: includes/class-ws-form-config.php:14438
 msgid "Disabled Week Days"
-msgstr "Giorni della settimana per disabili"
+msgstr "Giorni della settimana disabilitati"
 
 #: includes/class-ws-form-config.php:14440
 msgid "Choose which days to disable."
@@ -10076,34 +10067,24 @@ msgid "Input Too Short"
 msgstr "Input troppo corto"
 
 #: includes/class-ws-form-config.php:14866
-msgid "Please enter #char_remaining or more character#char_plural"
-msgstr "Inserisci #char_remaining o più carattere#char_plural"
+msgid "Please enter #char_remaining or more #char_word"
+msgstr "Inserisci #char_remaining o più #char_word"
 
 #: includes/class-ws-form-config.php:14867
-msgid ""
-"Variables:<br />#char_remaining - Number of characters remaining.<br /"
-">#char_plural - Inserts 's' if characters remaining is not 1.<br />#term - "
-"The search term."
-msgstr ""
-"Variabili:<br />#char_remaining - Numero di caratteri rimanenti.<br /"
-">#char_plural - Inserisce 's' se i caratteri rimanenti non sono 1.<br /"
-">#term - Il termine di ricerca."
+msgid "Variables:<br />#char_remaining - Number of characters remaining.<br />#char_word - The word character or characters.<br />#term - The search term."
+msgstr "Variabili:<br />#char_remaining - Numero di caratteri rimanenti.<br />#char_word - La parola «carattere» o «caratteri».<br />#term - Il termine di ricerca."
 
 #: includes/class-ws-form-config.php:14903
 msgid "Input Too Long"
 msgstr "Input troppo lungo"
 
 #: includes/class-ws-form-config.php:14905
-msgid "Please delete #char_over character#char_plural"
-msgstr "Elimina #char_over carattere#char_plural"
+msgid "Please delete #char_over #char_word"
+msgstr "Elimina #char_over #char_word"
 
 #: includes/class-ws-form-config.php:14906
-msgid ""
-"Variables:<br />#char_over - Number of characters over.<br />#char_plural - "
-"Inserts 's' if characters over is not 1."
-msgstr ""
-"Variabili:<br />#char_over - Numero di caratteri in eccesso.<br /"
-">#char_plural - Inserisce 's' se i caratteri in eccesso non sono 1."
+msgid "Variables:<br />#char_over - Number of characters over.<br />#char_word - The word character or characters."
+msgstr "Variabili:<br />#char_over - Numero di caratteri in eccesso.<br />#char_word - La parola «carattere» o «caratteri»."
 
 #: includes/class-ws-form-config.php:14947
 msgid "If checked, multiple files can be selected in the file picker."
@@ -10168,7 +10149,7 @@ msgstr "Caricamento annullato"
 
 #: includes/class-ws-form-config.php:15119
 msgid "Remove File"
-msgstr "Rimuovi"
+msgstr "Rimuovi file"
 
 #: includes/class-ws-form-config.php:15140
 msgid "Remove File Confirmation"
@@ -10775,7 +10756,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:16030
 #: includes/config/class-ws-form-config-public.php:220
 msgid "Flip Camera"
-msgstr "Capovolgi fotocamera"
+msgstr "Cambia fotocamera"
 
 #: includes/class-ws-form-config.php:16031
 msgid "Label for the flip camera button."
@@ -10836,7 +10817,7 @@ msgstr "Etichetta per il pulsante di ripresa."
 
 #: includes/class-ws-form-config.php:16097
 msgid "Retake"
-msgstr "Rifai la verifica"
+msgstr "Ripeti"
 
 #: includes/class-ws-form-config.php:16100
 #: includes/config/class-ws-form-config-public.php:227
@@ -11117,7 +11098,7 @@ msgstr "Data: mm/dd/yyyy"
 
 #: includes/class-ws-form-config.php:16497
 msgid "Date: dd/mm/yyyy"
-msgstr "Data: gg/mm/aaaa"
+msgstr "Data: dd/mm/yyyy"
 
 #: includes/class-ws-form-config.php:16499
 msgid "IP: Version 4"
@@ -11231,23 +11212,23 @@ msgstr "Telefono - USA: Flessibile"
 
 #: includes/class-ws-form-config.php:16551
 msgid "mm.dd.yyyy"
-msgstr "mm.gg.aaaa"
+msgstr "mm.dd.yyyy"
 
 #: includes/class-ws-form-config.php:16552
 msgid "dd.mm.yyyy"
-msgstr "gg.mm.aaaa"
+msgstr "dd.mm.yyyy"
 
 #: includes/class-ws-form-config.php:16553
 msgid "mm/dd/yyyy"
-msgstr "mm/gg/aaaa"
+msgstr "mm/dd/yyyy"
 
 #: includes/class-ws-form-config.php:16554
 msgid "dd/mm/yyyy"
-msgstr "gg/mm/aaaa"
+msgstr "dd/mm/yyyy"
 
 #: includes/class-ws-form-config.php:16555
 msgid "yyyy-mm-dd"
-msgstr "aaaa-mm-gg"
+msgstr "yyyy-mm-dd"
 
 #: includes/class-ws-form-config.php:16556
 msgid "hh:mm:ss"
@@ -11255,7 +11236,7 @@ msgstr "hh:mm:ss"
 
 #: includes/class-ws-form-config.php:16557
 msgid "yyyy-mm-ddThh:mm:ssZ"
-msgstr "aaaa-mm-ggThh:mm:ssZ"
+msgstr "yyyy-mm-ddThh:mm:ssZ"
 
 #: includes/class-ws-form-config.php:16571
 msgid "Email (Must have TLD. e.g. .com)"
@@ -11962,9 +11943,7 @@ msgstr "Scegli il tipo di mappa da mostrare."
 msgid ""
 "Enter the height of the map. You can enter a percentage (e.g. 56.25% for "
 "16:9 or 100% for square) or pixels (e.g. 400px)."
-msgstr ""
-"Inserisci l'altezza della mappa. Puoi inserire una percentuale (ad es. "
-"56.25% fo 16:9 o 100% fo quadrato) o pixel (ad es. 400px)."
+msgstr "Inserisci l'altezza della mappa. Puoi inserire una percentuale (ad es. 56.25% per 16:9 o 100% per un quadrato) o pixel (ad es. 400px)."
 
 #: includes/class-ws-form-config.php:18782
 msgid "Search Field"
@@ -11992,7 +11971,7 @@ msgstr "Titolo icona"
 
 #: includes/class-ws-form-config.php:18830
 msgid "Selected location"
-msgstr "Selected location"
+msgstr "Posizione selezionata"
 
 #: includes/class-ws-form-config.php:18831
 msgid "Enter the title of the marker."
@@ -12068,7 +12047,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:18948
 msgid "On Load"
-msgstr "Carica altro"
+msgstr "Al caricamento"
 
 #: includes/class-ws-form-config.php:18951
 msgid ""
@@ -12613,10 +12592,7 @@ msgstr "Nessun duplicato di invio"
 msgid ""
 "If checked, %s will check for duplicates in existing submissions. This "
 "feature is not available if you are encrypting submission data."
-msgstr ""
-"Se selezionato, %s verificherà la presenza di duplicati nelle invii "
-"esistenti. Questa funzionalità non è disponibile se stai crittografando i "
-"dati degli invii."
+msgstr "Se selezionato, %s verificherà la presenza di duplicati negli invii esistenti. Questa funzionalità non è disponibile se stai crittografando i dati degli invii."
 
 #: includes/class-ws-form-config.php:19540
 msgid "Within"
@@ -13027,7 +13003,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:21304
 #: includes/class-ws-form-config.php:21343
 msgid "Current Time"
-msgstr "Data attuale"
+msgstr "Ora attuale"
 
 #: includes/class-ws-form-config.php:21233
 msgid ""
@@ -13068,7 +13044,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:21269
 msgid "Client"
-msgstr "Cliente"
+msgstr "Lato client"
 
 #: includes/class-ws-form-config.php:21276
 msgid "Language (Browser)"
@@ -13223,7 +13199,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:21426
 #: includes/config/class-ws-form-config-public.php:391
 msgid "Checksum"
-msgstr "Controllo"
+msgstr "Checksum"
 
 #: includes/class-ws-form-config.php:21427
 msgid "Returns the form checksum."
@@ -13437,11 +13413,11 @@ msgstr "Restituisce l'avanzamento come numero da 0 a 100."
 
 #: includes/class-ws-form-config.php:21765
 msgid "Percent (0% to 100%)"
-msgstr "Percentuale (0% to 100%)"
+msgstr "Percentuale (da 0% a 100%)"
 
 #: includes/class-ws-form-config.php:21766
 msgid "Returns the progress as a percentage from 0% to 100%."
-msgstr "Restituisce l'avanzamento come percentuale da 0% to 100%."
+msgstr "Restituisce l'avanzamento come percentuale da 0% a 100%."
 
 #: includes/class-ws-form-config.php:21773
 msgid "Number Remaining (100 to 0)"
@@ -13453,11 +13429,11 @@ msgstr "Restituisce l'avanzamento rimanente come numero da 0 a 100."
 
 #: includes/class-ws-form-config.php:21781
 msgid "Percent Remaining (100% to 0%)"
-msgstr "Percentuale rimanente (100% to 0%)"
+msgstr "Percentuale rimanente (da 100% a 0%)"
 
 #: includes/class-ws-form-config.php:21782
 msgid "Returns the remaining progress as a percentage from 0% to 100%."
-msgstr "Restituisce l'avanzamento rimanente come percentuale da 0% to 100%."
+msgstr "Restituisce l'avanzamento rimanente come percentuale da 0% a 100%."
 
 #: includes/class-ws-form-config.php:21798
 msgid "Currency Symbol"
@@ -13639,7 +13615,7 @@ msgstr "Secondi in un anno"
 
 #: includes/class-ws-form-config.php:22000
 msgid "Returns the number of seconds in a common year."
-msgstr "Restituisce il numero di secondi in un anno comune."
+msgstr "Restituisce il numero di secondi in un anno non bisestile."
 
 #: includes/class-ws-form-config.php:22010
 #: includes/config/class-ws-form-config-option.php:367
@@ -13759,7 +13735,7 @@ msgstr "Restituisce l'arcotangente di un numero in radianti."
 
 #: includes/class-ws-form-config.php:22233
 msgid "Ceiling"
-msgstr "Ceiling"
+msgstr "Arrotondamento per eccesso"
 
 #: includes/class-ws-form-config.php:22238
 msgid "Rounds a number up to the next largest whole number."
@@ -13801,7 +13777,7 @@ msgstr "Restituisce il logaritmo naturale di un numero."
 
 #: includes/class-ws-form-config.php:22293
 msgid "Round"
-msgstr "Tondo"
+msgstr "Arrotonda"
 
 #: includes/class-ws-form-config.php:22299
 msgid "Returns the rounded value of a number."
@@ -13903,12 +13879,11 @@ msgstr "Restituisce la versione maiuscola della stringa di input."
 
 #: includes/class-ws-form-config.php:22495
 msgid "Uppercase words"
-msgstr "Parole in maiuscolo"
+msgstr "Iniziali maiuscole"
 
 #: includes/class-ws-form-config.php:22500
 msgid "Returns the uppercase words version of the input string."
-msgstr ""
-"Restituisce la versione con parole in maiuscolo della stringa di input."
+msgstr "Restituisce la stringa di input con l'iniziale di ogni parola in maiuscolo."
 
 #: includes/class-ws-form-config.php:22507
 msgid "Uppercase first letter"
@@ -14470,7 +14445,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:23100
 msgid "Tracking data"
-msgstr "Dati del tracciato"
+msgstr "Dati di tracciamento"
 
 #: includes/class-ws-form-config.php:23101
 msgid ""
@@ -14563,7 +14538,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:23208
 #: includes/data-sources/class-ws-form-data-source-post.php:1267
 msgid "Character"
-msgstr "Lettera"
+msgstr "Carattere"
 
 #: includes/class-ws-form-config.php:23215
 msgid "Returns the total character count."
@@ -14645,7 +14620,7 @@ msgstr "Restituisce il conteggio totale delle parole."
 
 #: includes/class-ws-form-config.php:23296
 msgid "Returns 'word' or 'words' depending on the word count."
-msgstr "Restituisce 'word' o 'words' a seconda del conteggio delle parole."
+msgstr "Restituisce \"parola\" o \"parole\" a seconda del conteggio delle parole."
 
 #: includes/class-ws-form-config.php:23304
 #: includes/class-ws-form-config.php:23312
@@ -14663,8 +14638,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:23328
 msgid "Returns 'word' or 'words' depending on the minimum word length."
-msgstr ""
-"Restituisce 'word' o 'words' a seconda della lunghezza minima della parola."
+msgstr "Restituisce \"parola\" o \"parole\" a seconda della lunghezza minima delle parole."
 
 #: includes/class-ws-form-config.php:23336
 msgid "Returns the maximum word length that you set for a field."
@@ -14724,7 +14698,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:23407
 msgid "Time Created"
-msgstr "Data di Creazione"
+msgstr "Ora di creazione"
 
 #: includes/class-ws-form-config.php:23408
 msgid ""
@@ -14810,7 +14784,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:23493
 #: includes/class-ws-form-config.php:23906
 msgid "Meta Value"
-msgstr "Valore predefinito"
+msgstr "Valore meta"
 
 #: includes/class-ws-form-config.php:23498
 msgid "Returns the post meta value for the key specified."
@@ -14934,7 +14908,7 @@ msgstr "Restituisce l’ID utente se ha effettuato l’accesso."
 
 #: includes/class-ws-form-config.php:23765
 msgid "Nice Name"
-msgstr "Nome carino"
+msgstr "Nicename"
 
 #: includes/class-ws-form-config.php:23766
 msgid "Returns the user nicename if logged in."
@@ -15389,14 +15363,6 @@ msgstr ""
 msgid "Update section"
 msgstr "Aggiorna sezione"
 
-#: includes/config/class-ws-form-config-ability-structure.php:426
-msgid ""
-"Update a section label and/or meta (label_render). Use the sections tool to "
-"get section IDs."
-msgstr ""
-"Aggiorna l'etichetta di una sezione e/o i meta (label_render). Usa lo "
-"strumento sezioni per ottenere gli ID delle sezioni."
-
 #: includes/config/class-ws-form-config-ability-structure.php:482
 msgid "Delete section"
 msgstr "Elimina sezione"
@@ -15607,10 +15573,35 @@ msgstr ""
 "precedente. folder_id 0 rimuove i moduli dalla loro cartella."
 
 #: includes/config/class-ws-form-config-ability.php:511
+msgid "Move form folder"
+msgstr "Sposta cartella del modulo"
+
+#: includes/config/class-ws-form-config-ability.php:512
+msgid ""
+"Moves a form folder. parent_id 0 is the top level. next_sibling_id 0 puts it "
+"last among its new siblings. Subfolders move with it. Sibling names must be "
+"unique."
+msgstr ""
+"Sposta una cartella del modulo. parent_id 0 è il livello superiore. "
+"next_sibling_id 0 la posiziona per ultima tra i suoi nuovi elementi allo "
+"stesso livello. Le sottocartelle vengono spostate con essa. I nomi degli "
+"elementi allo stesso livello devono essere univoci."
+
+#. translators: %d: Maximum folder depth. 0 is a top-level folder.
+#: includes/config/class-ws-form-config-ability.php:537
+#, php-format
+msgid ""
+"The new parent folder ID. 0 is the top level. Folders cannot be nested "
+"deeper than depth %d."
+msgstr ""
+"Il nuovo ID della cartella padre. 0 è il livello superiore. Le cartelle non "
+"possono essere annidate oltre la profondità %d."
+
+#: includes/config/class-ws-form-config-ability.php:598
 msgid "Create form from a description"
 msgstr "Crea un modulo da una descrizione"
 
-#: includes/config/class-ws-form-config-ability.php:512
+#: includes/config/class-ws-form-config-ability.php:599
 msgid ""
 "Use this tool to create a new form from a description provided by the user. "
 "The tool generates the form using a JSON definition that must follow the "
@@ -15629,11 +15620,11 @@ msgstr ""
 "o l'aspetto visivo. In tal caso, crea prima il modulo, poi chiama style-"
 "create con form_id e i colori della palette radice."
 
-#: includes/config/class-ws-form-config-ability.php:605
+#: includes/config/class-ws-form-config-ability.php:692
 msgid "Get form in JSON format"
 msgstr "Ottieni il modulo in formato JSON"
 
-#: includes/config/class-ws-form-config-ability.php:606
+#: includes/config/class-ws-form-config-ability.php:693
 msgid ""
 "Returns the form in JSON format by ID, including fields, actions, and "
 "conditionals. Form email notifications are Send Email actions in the actions "
@@ -15644,11 +15635,11 @@ msgstr ""
 "delle azioni (non nelle impostazioni del modulo). Usa con form-update-json "
 "per modificare le notifiche."
 
-#: includes/config/class-ws-form-config-ability.php:666
+#: includes/config/class-ws-form-config-ability.php:753
 msgid "Update a form from a JSON string"
 msgstr "Aggiorna un modulo da una stringa JSON"
 
-#: includes/config/class-ws-form-config-ability.php:667
+#: includes/config/class-ws-form-config-ability.php:754
 msgid ""
 "Use this tool to modify an existing form using JSON from form-get-json. "
 "Prefer field-update for single-field label or meta changes. Use this tool to "
@@ -15670,11 +15661,11 @@ msgstr ""
 "azioni o condizionali sono incluse, sostituiscono le azioni o le "
 "condizionali del modulo."
 
-#: includes/config/class-ws-form-config-ability.php:752
+#: includes/config/class-ws-form-config-ability.php:839
 msgid "Publish form"
 msgstr "Pubblicare il modulo"
 
-#: includes/config/class-ws-form-config-ability.php:753
+#: includes/config/class-ws-form-config-ability.php:840
 msgid ""
 "When a form is created in WS Form it initially has a status of draft. Use "
 "this to publish a form by ID so that it can be used on a live web page."
@@ -15683,11 +15674,11 @@ msgstr ""
 "Usa questa opzione per pubblicare un modulo tramite ID in modo che possa "
 "essere utilizzato su una pagina web pubblica."
 
-#: includes/config/class-ws-form-config-ability.php:807
+#: includes/config/class-ws-form-config-ability.php:894
 msgid "Draft form"
 msgstr "Modulo bozza"
 
-#: includes/config/class-ws-form-config-ability.php:808
+#: includes/config/class-ws-form-config-ability.php:895
 msgid ""
 "Set a published form back to draft by ID. Draft forms cannot be used on live "
 "web pages until they are published again."
@@ -15696,30 +15687,30 @@ msgstr ""
 "bozza non possono essere utilizzati su pagine web live finché non vengono "
 "pubblicati di nuovo."
 
-#: includes/config/class-ws-form-config-ability.php:862
+#: includes/config/class-ws-form-config-ability.php:949
 msgid "Lock form"
 msgstr "Blocca modulo"
 
-#: includes/config/class-ws-form-config-ability.php:863
+#: includes/config/class-ws-form-config-ability.php:950
 msgid "Lock a form by ID so it cannot be edited. Unlock is a separate action."
 msgstr ""
 "Blocca un modulo tramite ID in modo che non possa essere modificato. Lo "
 "sblocco è un'azione separata."
 
-#: includes/config/class-ws-form-config-ability.php:923
+#: includes/config/class-ws-form-config-ability.php:1010
 msgid "Unlock form"
 msgstr "Sblocca modulo"
 
-#: includes/config/class-ws-form-config-ability.php:924
+#: includes/config/class-ws-form-config-ability.php:1011
 msgid "Unlock a form by ID so it can be edited again."
 msgstr ""
 "Sblocca un modulo tramite ID in modo che possa essere modificato di nuovo."
 
-#: includes/config/class-ws-form-config-ability.php:984
+#: includes/config/class-ws-form-config-ability.php:1071
 msgid "Clone form"
-msgstr "Clona la Form"
+msgstr "Clona modulo"
 
-#: includes/config/class-ws-form-config-ability.php:985
+#: includes/config/class-ws-form-config-ability.php:1072
 msgid ""
 "Use this tool to clone/copy/duplicate a form. The cloned form will be in a "
 "draft state."
@@ -15727,11 +15718,11 @@ msgstr ""
 "Usa questo strumento per clonare/copiare/duplicare un modulo. Il modulo "
 "clonato sarà in stato di bozza."
 
-#: includes/config/class-ws-form-config-ability.php:1071
+#: includes/config/class-ws-form-config-ability.php:1158
 msgid "Get form shortcode"
 msgstr "Ottieni lo shortcode del modulo"
 
-#: includes/config/class-ws-form-config-ability.php:1072
+#: includes/config/class-ws-form-config-ability.php:1159
 msgid ""
 "Gets a shortcode for a form in the WS Form form plugin for WordPress by form "
 "ID."
@@ -15739,11 +15730,11 @@ msgstr ""
 "Ottiene uno shortcode per un modulo nel plugin per WordPress WS Form tramite "
 "ID modulo."
 
-#: includes/config/class-ws-form-config-ability.php:1126
+#: includes/config/class-ws-form-config-ability.php:1213
 msgid "Get form block markup"
 msgstr "Ottieni il markup del blocco del modulo"
 
-#: includes/config/class-ws-form-config-ability.php:1127
+#: includes/config/class-ws-form-config-ability.php:1214
 msgid ""
 "Gets the block markup for a form in WS Form by form ID. This should only be "
 "used for pages edited by the block editor (Gutenberg)."
@@ -15752,11 +15743,11 @@ msgstr ""
 "Questo dovrebbe essere utilizzato solo per le pagine modificate con l'editor "
 "a blocchi (Gutenberg)."
 
-#: includes/config/class-ws-form-config-ability.php:1181
+#: includes/config/class-ws-form-config-ability.php:1268
 msgid "Get statistical data about a form by ID"
 msgstr "Ottieni dati statistici su un modulo tramite ID"
 
-#: includes/config/class-ws-form-config-ability.php:1182
+#: includes/config/class-ws-form-config-ability.php:1269
 msgid ""
 "Returns statistical data about a form by ID including total views, saves, "
 "submissions, daily figures, as well as the total number of submission "
@@ -15766,11 +15757,11 @@ msgstr ""
 "visualizzazioni totali, salvataggi, invii, valori giornalieri, nonché il "
 "numero totale di record di invio e quanti di questi non sono letti."
 
-#: includes/config/class-ws-form-config-ability.php:1330
+#: includes/config/class-ws-form-config-ability.php:1417
 msgid "List submissions"
 msgstr "Elenca invii"
 
-#: includes/config/class-ws-form-config-ability.php:1331
+#: includes/config/class-ws-form-config-ability.php:1418
 msgid ""
 "Returns a list of submissions for a form by ID. Supports optional date "
 "range, status, keyword search, pagination, and ordering."
@@ -15779,28 +15770,28 @@ msgstr ""
 "facoltativamente intervallo di date, stato, ricerca per parola chiave, "
 "paginazione e ordinamento."
 
-#: includes/config/class-ws-form-config-ability.php:1542
+#: includes/config/class-ws-form-config-ability.php:1629
 msgid "Get submission"
 msgstr "Ottieni invio"
 
-#: includes/config/class-ws-form-config-ability.php:1543
+#: includes/config/class-ws-form-config-ability.php:1630
 msgid "Returns a single submission by ID including its field values."
 msgstr ""
 "Restituisce un singolo invio in base all'ID, inclusi i valori dei suoi campi."
 
-#: includes/config/class-ws-form-config-ability.php:1676
+#: includes/config/class-ws-form-config-ability.php:1763
 msgid "List submission notes"
 msgstr "Elenca le note dell'invio"
 
-#: includes/config/class-ws-form-config-ability.php:1677
+#: includes/config/class-ws-form-config-ability.php:1764
 msgid "Returns notes for a submission by ID."
-msgstr "Restituisce le note per una submission in base all'ID."
+msgstr "Restituisce le note per un invio in base all'ID."
 
-#: includes/config/class-ws-form-config-ability.php:1794
+#: includes/config/class-ws-form-config-ability.php:1881
 msgid "Create submission note"
-msgstr "Crea nota della submission"
+msgstr "Crea nota dell'invio"
 
-#: includes/config/class-ws-form-config-ability.php:1795
+#: includes/config/class-ws-form-config-ability.php:1882
 msgid ""
 "Creates a note on a submission. Keep content as short note text only. Put "
 "structured label/value rows in meta.values and action links in meta.buttons. "
@@ -15813,11 +15804,11 @@ msgstr ""
 "imposta user_name (ad es. Conversion Bridge) e, facoltativamente, locked su "
 "true."
 
-#: includes/config/class-ws-form-config-ability.php:1936
+#: includes/config/class-ws-form-config-ability.php:2023
 msgid "Update submission note"
-msgstr "Aggiorna nota della submission"
+msgstr "Aggiorna nota dell'invio"
 
-#: includes/config/class-ws-form-config-ability.php:1937
+#: includes/config/class-ws-form-config-ability.php:2024
 msgid ""
 "Updates a submission note by ID. Keep content as short note text only. Put "
 "structured label/value rows in meta.values and action links in meta.buttons."
@@ -15826,35 +15817,35 @@ msgstr ""
 "breve della nota. Inserisci le righe strutturate etichetta/valore in "
 "meta.values e i link alle azioni in meta.buttons."
 
-#: includes/config/class-ws-form-config-ability.php:2068
+#: includes/config/class-ws-form-config-ability.php:2155
 msgid "Delete submission note"
-msgstr "Elimina nota della submission"
+msgstr "Elimina nota dell'invio"
 
-#: includes/config/class-ws-form-config-ability.php:2069
+#: includes/config/class-ws-form-config-ability.php:2156
 msgid "Deletes a submission note by ID."
 msgstr "Elimina una nota di invio tramite ID."
 
-#: includes/config/class-ws-form-config-ability.php:2129
+#: includes/config/class-ws-form-config-ability.php:2216
 msgid "Delete form"
 msgstr "Cancella modulo"
 
-#: includes/config/class-ws-form-config-ability.php:2130
+#: includes/config/class-ws-form-config-ability.php:2217
 msgid "Trash or permanently delete a form by ID."
 msgstr "Sposta nel cestino o elimina definitivamente un modulo tramite ID."
 
-#: includes/config/class-ws-form-config-ability.php:2213
+#: includes/config/class-ws-form-config-ability.php:2300
 msgid "Restore form"
 msgstr "Ripristina modulo"
 
-#: includes/config/class-ws-form-config-ability.php:2214
+#: includes/config/class-ws-form-config-ability.php:2301
 msgid "Restore a form from the trash by ID."
 msgstr "Ripristina un modulo dal cestino tramite ID."
 
-#: includes/config/class-ws-form-config-ability.php:2282
+#: includes/config/class-ws-form-config-ability.php:2369
 msgid "Add field"
 msgstr "Aggiungi campo"
 
-#: includes/config/class-ws-form-config-ability.php:2283
+#: includes/config/class-ws-form-config-ability.php:2370
 msgid ""
 "Use this tool to add or insert a new field into a form. Use the sections or "
 "fields tools (or form-get-json) to get section_id, and optionally "
@@ -15864,44 +15855,31 @@ msgstr ""
 "Usa gli strumenti sezioni o campi (o form-get-json) per ottenere section_id "
 "e, facoltativamente, field_id_before per inserire prima di un altro campo."
 
-#: includes/config/class-ws-form-config-ability.php:2411
+#: includes/config/class-ws-form-config-ability.php:2498
 msgid "Update field"
 msgstr "Aggiorna campo"
 
-#: includes/config/class-ws-form-config-ability.php:2412
-msgid ""
-"Use this tool to update an existing field label and/or meta (required, "
-"placeholder, help, options, etc.). Prefer this over form-update-json for "
-"single-field changes. Field type cannot be changed. Use the fields tool to "
-"find field IDs, or form-get-json for full field meta."
-msgstr ""
-"Usa questo strumento per aggiornare l’etichetta di un campo esistente e/o i "
-"metadati (obbligatorio, segnaposto, guida, opzioni, ecc.). Preferiscilo a "
-"form-update-json per modifiche a un singolo campo. Il tipo di campo non può "
-"essere modificato. Usa lo strumento campi per trovare gli ID dei campi, "
-"oppure form-get-json per i metadati completi del campo."
-
-#: includes/config/class-ws-form-config-ability.php:2526
+#: includes/config/class-ws-form-config-ability.php:2613
 msgid "Delete field"
 msgstr "Elimina il campo"
 
-#: includes/config/class-ws-form-config-ability.php:2527
+#: includes/config/class-ws-form-config-ability.php:2614
 msgid "Use this tool to delete a field from a form."
 msgstr "Usa questo strumento per eliminare un campo da un modulo."
 
-#: includes/config/class-ws-form-config-ability.php:2611
+#: includes/config/class-ws-form-config-ability.php:2698
 msgid "List styles"
-msgstr "Stili elenco"
+msgstr "Elenca stili"
 
-#: includes/config/class-ws-form-config-ability.php:2612
+#: includes/config/class-ws-form-config-ability.php:2699
 msgid "Returns a list of form styles in WS Form."
 msgstr "Restituisce un elenco di stili del modulo in WS Form."
 
-#: includes/config/class-ws-form-config-ability.php:2720
+#: includes/config/class-ws-form-config-ability.php:2807
 msgid "Get style"
 msgstr "Ottieni stile"
 
-#: includes/config/class-ws-form-config-ability.php:2721
+#: includes/config/class-ws-form-config-ability.php:2808
 msgid ""
 "Returns a style by ID, including its root palette values (form colors, "
 "fonts, border radius, and grid gap)."
@@ -15909,11 +15887,11 @@ msgstr ""
 "Restituisce uno stile in base all'ID, inclusi i valori della palette radice "
 "(colori del modulo, font, raggio del bordo e spaziatura della griglia)."
 
-#: includes/config/class-ws-form-config-ability.php:2808
+#: includes/config/class-ws-form-config-ability.php:2895
 msgid "Create style"
 msgstr "Crea stile"
 
-#: includes/config/class-ws-form-config-ability.php:2809
+#: includes/config/class-ws-form-config-ability.php:2896
 msgid ""
 "Create a form style only when the user specifically asks for a color theme, "
 "branding, or visual appearance (for example a red theme). Do not create a "
@@ -15933,11 +15911,11 @@ msgstr ""
 "stile predefinito. Se lo assegni a un nuovo modulo, crea prima il modulo, "
 "poi passa il suo form_id."
 
-#: includes/config/class-ws-form-config-ability.php:2960
+#: includes/config/class-ws-form-config-ability.php:3047
 msgid "Update style"
 msgstr "Aggiorna stile"
 
-#: includes/config/class-ws-form-config-ability.php:2961
+#: includes/config/class-ws-form-config-ability.php:3048
 msgid ""
 "Update a style label and/or root palette values. Optionally assign it to a "
 "form (form_id) or set it as the site default (default) or conversational "
@@ -15953,30 +15931,30 @@ msgstr ""
 "palette radice (colori del modulo, font, raggio del bordo e spaziatura della "
 "griglia), incluse le chiavi _alt corrispondenti."
 
-#: includes/config/class-ws-form-config-ability.php:3115
+#: includes/config/class-ws-form-config-ability.php:3202
 msgid "Lock style"
 msgstr "Blocca stile"
 
-#: includes/config/class-ws-form-config-ability.php:3116
+#: includes/config/class-ws-form-config-ability.php:3203
 msgid "Lock a style by ID so it cannot be edited. Unlock is a separate action."
 msgstr ""
 "Blocca uno stile tramite ID in modo che non possa essere modificato. Lo "
 "sblocco è un'azione separata."
 
-#: includes/config/class-ws-form-config-ability.php:3176
+#: includes/config/class-ws-form-config-ability.php:3263
 msgid "Unlock style"
 msgstr "Sblocca stile"
 
-#: includes/config/class-ws-form-config-ability.php:3177
+#: includes/config/class-ws-form-config-ability.php:3264
 msgid "Unlock a style by ID so it can be edited again."
 msgstr ""
 "Sblocca uno stile tramite ID in modo che possa essere modificato di nuovo."
 
-#: includes/config/class-ws-form-config-ability.php:3237
+#: includes/config/class-ws-form-config-ability.php:3324
 msgid "Delete style"
 msgstr "Elimina stile"
 
-#: includes/config/class-ws-form-config-ability.php:3238
+#: includes/config/class-ws-form-config-ability.php:3325
 msgid ""
 "Trash or permanently delete a style by ID. Default styles cannot be deleted."
 msgstr ""
@@ -16040,7 +16018,7 @@ msgstr "Stile"
 
 #: includes/config/class-ws-form-config-admin.php:248
 msgid "Required Fields"
-msgstr "Campo Richiesto"
+msgstr "Campi obbligatori"
 
 #: includes/config/class-ws-form-config-admin.php:259
 msgid "Heading HTML Masks"
@@ -16131,7 +16109,7 @@ msgstr "Ripetibile"
 
 #: includes/config/class-ws-form-config-admin.php:520
 msgid "Remove Row Behavior"
-msgstr "Rimuovi comportamento riga"
+msgstr "Comportamento di rimozione riga"
 
 #: includes/config/class-ws-form-config-admin.php:564
 msgid "Bounds"
@@ -16199,7 +16177,7 @@ msgstr "Elimina Campo"
 
 #: includes/config/class-ws-form-config-admin.php:633
 msgid "Clone Field"
-msgstr "Campo Clone"
+msgstr "Clona campo"
 
 #: includes/config/class-ws-form-config-admin.php:661
 msgid "Initial form"
@@ -16207,7 +16185,7 @@ msgstr "Modulo iniziale"
 
 #: includes/config/class-ws-form-config-admin.php:666
 msgid "Read"
-msgstr "Leggi"
+msgstr "Letto"
 
 #: includes/config/class-ws-form-config-admin.php:667
 #: includes/config/class-ws-form-config-admin.php:1193
@@ -16565,7 +16543,7 @@ msgstr "Sei sicuro di voler reimpostare le larghezze?"
 
 #: includes/config/class-ws-form-config-admin.php:907
 msgid "Are you sure you want to trash this submission?"
-msgstr "Sei sicuro di voler cestinare questa presentazione?"
+msgstr "Sei sicuro di voler cestinare questo invio?"
 
 #: includes/config/class-ws-form-config-admin.php:908
 msgid "Are you sure you want to delete this group?"
@@ -16698,7 +16676,7 @@ msgstr "Elimina colonna"
 #: includes/config/class-ws-form-config-admin.php:973
 #: includes/config/class-ws-form-config-admin.php:1025
 msgid "Sort Row"
-msgstr "Ordina riga"
+msgstr "Riordina riga"
 
 #: includes/config/class-ws-form-config-admin.php:974
 #: includes/config/class-ws-form-config-admin.php:1027
@@ -16789,7 +16767,7 @@ msgstr "Predefinito in base all'impostazione globale"
 
 #: includes/config/class-ws-form-config-admin.php:1042
 msgid "Field search..."
-msgstr "Cerca campo..."
+msgstr "Cerca un tipo di campo..."
 
 #: includes/config/class-ws-form-config-admin.php:1043
 msgid "Section search..."
@@ -16898,7 +16876,7 @@ msgstr "Espandi"
 #: includes/config/class-ws-form-config-admin.php:1107
 #: includes/config/class-ws-form-config-admin.php:1228
 msgid "Contract"
-msgstr "Contratto"
+msgstr "Comprimi"
 
 #: includes/config/class-ws-form-config-admin.php:1110
 msgid "New Action"
@@ -16914,11 +16892,11 @@ msgstr "Se"
 
 #: includes/config/class-ws-form-config-admin.php:1118
 msgid "Then"
-msgstr "Poi"
+msgstr "Allora"
 
 #: includes/config/class-ws-form-config-admin.php:1119
 msgid "Else"
-msgstr "Altro"
+msgstr "Altrimenti"
 
 #: includes/config/class-ws-form-config-admin.php:1121
 msgid "Case Sensitive"
@@ -16934,7 +16912,7 @@ msgstr "Inserisci un valore per riga"
 
 #: includes/config/class-ws-form-config-admin.php:1128
 msgid "Sort Group"
-msgstr "Ordina gruppo"
+msgstr "Riordina gruppo"
 
 #: includes/config/class-ws-form-config-admin.php:1130
 msgid "Add Condition"
@@ -16946,7 +16924,7 @@ msgstr "Elimina condizione"
 
 #: includes/config/class-ws-form-config-admin.php:1137
 msgid "Sort Condition"
-msgstr "Ordina condizione"
+msgstr "Riordina condizione"
 
 #: includes/config/class-ws-form-config-admin.php:1139
 msgid "Add 'THEN' Action"
@@ -16958,7 +16936,7 @@ msgstr "Elimina azione \"THEN\""
 
 #: includes/config/class-ws-form-config-admin.php:1144
 msgid "Sort 'THEN' Action"
-msgstr "Ordina azione \"THEN\""
+msgstr "Riordina azione \"THEN\""
 
 #: includes/config/class-ws-form-config-admin.php:1146
 msgid "Add 'ELSE' Action"
@@ -16970,7 +16948,7 @@ msgstr "Elimina azione \"ELSE\""
 
 #: includes/config/class-ws-form-config-admin.php:1151
 msgid "Sort 'ELSE' Action"
-msgstr "Ordina azione \"ELSE\""
+msgstr "Riordina azione \"ELSE\""
 
 #: includes/config/class-ws-form-config-admin.php:1156
 msgid "Width - Columns"
@@ -17220,18 +17198,9 @@ msgstr "Sei sicuro di voler ripristinare lo stile predefinito di WS Form?"
 msgid "Insert Field"
 msgstr "Inserire il campo"
 
-#: includes/config/class-ws-form-config-admin.php:1360
-msgid "del"
-msgstr "cancella"
-
-#. translators: AC = All Clear button on calculator
-#: includes/config/class-ws-form-config-admin.php:1364
-msgid "AC"
-msgstr "AC"
-
 #: includes/config/class-ws-form-config-admin.php:1366
 msgid "All Clear"
-msgstr "Tutto a posto"
+msgstr "Cancella tutto"
 
 #: includes/config/class-ws-form-config-admin.php:1374
 msgid "Opening Parentheses"
@@ -17302,7 +17271,7 @@ msgstr "Debug"
 
 #: includes/config/class-ws-form-config-admin.php:1591
 msgid "WordPress"
-msgstr "Wordpress"
+msgstr "WordPress"
 
 #: includes/config/class-ws-form-config-admin.php:1595
 msgid "Multisite Enabled"
@@ -17327,11 +17296,11 @@ msgstr "Debug"
 
 #: includes/config/class-ws-form-config-admin.php:1603
 msgid "Locale"
-msgstr "Località"
+msgstr "Impostazioni locali"
 
 #: includes/config/class-ws-form-config-admin.php:1604
 msgid "Max Upload Size"
-msgstr "Dimensione massima del file"
+msgstr "Dimensione massima caricamento"
 
 #: includes/config/class-ws-form-config-admin.php:1605
 #: includes/config/class-ws-form-config-admin.php:1619
@@ -17973,6 +17942,10 @@ msgid "Not required"
 msgstr "Non richiesta"
 
 #: includes/config/class-ws-form-config-conditional.php:394
+msgctxt "Conditional action"
+msgid "Focus"
+msgstr "Focus"
+
 #: includes/config/class-ws-form-config-styler.php:874
 #: includes/config/class-ws-form-config-styler.php:922
 #: includes/config/class-ws-form-config-styler.php:1179
@@ -18000,6 +17973,7 @@ msgstr "Non richiesta"
 #: includes/config/class-ws-form-config-styler.php:2809
 #: includes/config/class-ws-form-config-styler.php:2841
 #: includes/config/class-ws-form-config-styler.php:3116
+msgctxt "Styler state"
 msgid "Focus"
 msgstr "Focus"
 
@@ -18017,7 +17991,7 @@ msgstr "Sfocatura"
 #: includes/config/class-ws-form-config-conditional.php:420
 #: includes/config/class-ws-form-config-conditional.php:421
 msgid "Set value"
-msgstr "Valore impostato"
+msgstr "Imposta valore"
 
 #: includes/config/class-ws-form-config-conditional.php:405
 msgid "Set read only"
@@ -18319,7 +18293,7 @@ msgstr "Segnaposto e valori dei campi disabilitati."
 
 #: includes/config/class-ws-form-config-customize.php:191
 msgid "Lighter"
-msgstr "Sottile"
+msgstr "Più chiaro"
 
 #: includes/config/class-ws-form-config-customize.php:193
 msgid "Field borders and buttons."
@@ -18480,7 +18454,7 @@ msgstr "Doppio"
 
 #: includes/config/class-ws-form-config-customize.php:349
 msgid "Groove"
-msgstr "Scanalatura"
+msgstr "groove (scanalatura)"
 
 #: includes/config/class-ws-form-config-customize.php:350
 msgid "Inset"
@@ -18492,7 +18466,7 @@ msgstr "Esterno"
 
 #: includes/config/class-ws-form-config-customize.php:352
 msgid "Ridge"
-msgstr "Spigolo"
+msgstr "ridge (spigolo)"
 
 #: includes/config/class-ws-form-config-customize.php:353
 msgid "Solid"
@@ -18574,7 +18548,7 @@ msgstr "Funzione di temporizzazione"
 
 #: includes/config/class-ws-form-config-customize.php:423
 msgid "Ease"
-msgstr "Facilità"
+msgstr "ease"
 
 #: includes/config/class-ws-form-config-customize.php:424
 msgid "Ease In"
@@ -18594,11 +18568,11 @@ msgstr "Lineare"
 
 #: includes/config/class-ws-form-config-customize.php:428
 msgid "Step End"
-msgstr "Fine passo"
+msgstr "step-end"
 
 #: includes/config/class-ws-form-config-customize.php:429
 msgid "Step Start"
-msgstr "Passo Inizio"
+msgstr "step-start"
 
 #: includes/config/class-ws-form-config-customize.php:431
 #: includes/config/class-ws-form-config-styler.php:286
@@ -19125,12 +19099,7 @@ msgid ""
 "submissions to be edited in form preview mode.<br /><strong>Important:</"
 "strong> Actions will run again if the form is resubmitted, resaved or "
 "reprocessed with conditional logic."
-msgstr ""
-"Se selezionato, \"Modifica in anteprima\" sarà abilitato nelle submission. "
-"Questo consente di modificare le submission in modalità anteprima del modulo."
-"<br /><strong>Importante:</strong> Le azioni verranno eseguite di nuovo se "
-"il modulo viene inviato nuovamente, salvato nuovamente o rielaborato con la "
-"logica condizionale."
+msgstr "Se selezionato, \"Modifica in anteprima\" sarà abilitato negli invii. Questo consente di modificare gli invii in modalità anteprima del modulo.<br /><strong>Importante:</strong> Le azioni verranno eseguite di nuovo se il modulo viene inviato nuovamente, salvato nuovamente o rielaborato con la logica condizionale."
 
 #: includes/config/class-ws-form-config-option.php:579
 msgid "Markup"
@@ -19296,13 +19265,11 @@ msgstr ""
 
 #: includes/config/class-ws-form-config-option.php:826
 msgid "Abilities API"
-msgstr "API Abilities"
+msgstr "Abilities API"
 
 #: includes/config/class-ws-form-config-option.php:829
 msgid "Registers WS Form abilities with the WordPress Abilities API."
-msgstr ""
-"Registra le funzionalità di WS Form con l'API delle funzionalità di "
-"WordPress."
+msgstr "Registra le funzionalità di WS Form con l'Abilities API di WordPress."
 
 #: includes/config/class-ws-form-config-option.php:839
 msgid "MCP Adapter"
@@ -19391,11 +19358,7 @@ msgid ""
 "Optional. If set (0–100), submissions at or above this AbuseIPDB score are "
 "treated as spam on every form. If left blank, each form’s Spam Threshold "
 "setting is used instead."
-msgstr ""
-"Facoltativo. Se impostato (0–100), le submission con un punteggio AbuseIPDB "
-"pari o superiore a questo valore vengono trattate come spam in ogni modulo. "
-"Se lasciato vuoto, viene invece utilizzata l'impostazione Soglia spam di "
-"ciascun modulo."
+msgstr "Facoltativo. Se impostato (0–100), gli invii con un punteggio AbuseIPDB pari o superiore a questo valore vengono trattati come spam in ogni modulo. Se lasciato vuoto, viene invece utilizzata l'impostazione Soglia spam di ciascun modulo."
 
 #: includes/config/class-ws-form-config-option.php:1118
 msgid "Report Window (Days)"
@@ -19413,7 +19376,7 @@ msgstr "Blocklist paesi"
 
 #: includes/config/class-ws-form-config-option.php:1133
 msgid "Block submissions from these countries regardless of score."
-msgstr "Blocca le submission da questi paesi indipendentemente dal punteggio."
+msgstr "Blocca gli invii da questi paesi indipendentemente dal punteggio."
 
 #: includes/config/class-ws-form-config-option.php:1139
 msgid "Domain Blocklist"
@@ -19423,9 +19386,7 @@ msgstr "Blocklist domini"
 msgid ""
 "Block submissions from IPs tied to these domains regardless of score. "
 "Separate with commas or new lines (e.g. example.com)."
-msgstr ""
-"Blocca le submission dagli IP associati a questi domini indipendentemente "
-"dal punteggio. Separare con virgole o nuove righe (ad es. example.com)."
+msgstr "Blocca gli invii dagli IP associati a questi domini indipendentemente dal punteggio. Separare con virgole o nuove righe (ad es. example.com)."
 
 #: includes/config/class-ws-form-config-option.php:1147
 msgid "Report Spam To AbuseIPDB"
@@ -19435,9 +19396,7 @@ msgstr "Segnala spam ad AbuseIPDB"
 msgid ""
 "If checked, when a submission is marked as spam in WS Form the IP address is "
 "reported to AbuseIPDB as web spam."
-msgstr ""
-"Se selezionato, quando una submission viene contrassegnata come spam in WS "
-"Form l'indirizzo IP viene segnalato ad AbuseIPDB come web spam."
+msgstr "Se selezionato, quando un invio viene contrassegnato come spam in WS Form l'indirizzo IP viene segnalato ad AbuseIPDB come web spam."
 
 #: includes/config/class-ws-form-config-option.php:1157
 msgid "NONCE"
@@ -19496,10 +19455,7 @@ msgstr "Consenti modifiche al campo Prezzo"
 msgid ""
 "If checked, prices can be edited in submissions. Note that changes to prices "
 "will not recalculate values in the rest of the submission."
-msgstr ""
-"Se selezionato, i prezzi possono essere modificati nelle submission. Nota "
-"che le modifiche ai prezzi non ricalcoleranno i valori nel resto della "
-"submission."
+msgstr "Se selezionato, i prezzi possono essere modificati negli invii. Nota che le modifiche ai prezzi non ricalcoleranno i valori nel resto dell'invio."
 
 #: includes/config/class-ws-form-config-option.php:1268
 msgid "System"
@@ -19601,7 +19557,7 @@ msgstr ""
 #: includes/config/class-ws-form-config-option.php:1463
 #: includes/config/class-ws-form-config-option.php:1512
 msgid "Email To"
-msgstr "E-mail"
+msgstr "Invia email a"
 
 #: includes/config/class-ws-form-config-option.php:1467
 #: includes/config/class-ws-form-config-option.php:1516
@@ -19627,9 +19583,7 @@ msgstr "Email errore invio modulo"
 msgid ""
 "If enabled, WS Form will send an email if an error occurs when processing a "
 "form submission."
-msgstr ""
-"Se abilitato, WS Form invierà un'email se si verifica un errore durante "
-"l'elaborazione di una submission del modulo."
+msgstr "Se abilitato, WS Form invierà un'email se si verifica un errore durante l'elaborazione di un invio del modulo."
 
 #: includes/config/class-ws-form-config-option.php:1501
 msgid "Real-time"
@@ -20022,7 +19976,7 @@ msgstr ""
 #: includes/config/class-ws-form-config-public.php:192
 #: includes/config/class-ws-form-config-public.php:193
 msgid "feet"
-msgstr "feet"
+msgstr "piedi"
 
 #: includes/config/class-ws-form-config-public.php:194
 msgid "mile"
@@ -20104,7 +20058,7 @@ msgstr "Errore CaptchaFox invisibile"
 
 #: includes/config/class-ws-form-config-public.php:317
 msgid "Setting search..."
-msgstr "Impostazione della ricerca..."
+msgstr "Cerca impostazione..."
 
 #: includes/config/class-ws-form-config-public.php:319
 msgid "Are you sure you want to undo the changes made to this style?"
@@ -20322,19 +20276,19 @@ msgstr "IF ha restituito TRUE: %s"
 #: includes/config/class-ws-form-config-public.php:451
 #, php-format
 msgid "IF returned FALSE: %s"
-msgstr "SE restituito FALSE: %s"
+msgstr "IF ha restituito FALSE: %s"
 
 #. translators: %s: Condition
 #: includes/config/class-ws-form-config-public.php:453
 #, php-format
 msgid "THEN: %s"
-msgstr "ALLORA: %s"
+msgstr "THEN: %s"
 
 #. translators: %s: Condition
 #: includes/config/class-ws-form-config-public.php:455
 #, php-format
 msgid "ELSE: %s"
-msgstr "ALTRIMENTI: %s"
+msgstr "ELSE: %s"
 
 #. translators: %s: Condition
 #: includes/config/class-ws-form-config-public.php:457
@@ -20855,7 +20809,7 @@ msgstr "Altezza campo"
 
 #: includes/config/class-ws-form-config-styler.php:1306
 msgid "Field Types"
-msgstr "Field Types"
+msgstr "Tipi di campo"
 
 #: includes/config/class-ws-form-config-styler.php:2197
 msgid "Checkmark"
@@ -20901,7 +20855,7 @@ msgstr "Larghezza interruttore"
 
 #: includes/config/class-ws-form-config-styler.php:2385
 msgid "Switch Size"
-msgstr "Cambia Dimensione"
+msgstr "Dimensione interruttore"
 
 #: includes/config/class-ws-form-config-styler.php:2403
 #: includes/config/class-ws-form-config-styler.php:2428
@@ -20962,7 +20916,7 @@ msgstr "Barra"
 #: includes/config/class-ws-form-config-styler.php:2967
 #: includes/config/class-ws-form-config-styler.php:3949
 msgid "Border Radius"
-msgstr "Bordo Radius"
+msgstr "Raggio bordo"
 
 #: includes/config/class-ws-form-config-styler.php:3010
 msgid "Control - Focus"
@@ -21022,7 +20976,7 @@ msgstr "Colore ancora meno buono"
 
 #: includes/config/class-ws-form-config-styler.php:3479
 msgid "Strength Meter"
-msgstr "Indicatore di intensità"
+msgstr "Indicatore di robustezza"
 
 #: includes/config/class-ws-form-config-styler.php:3485
 msgid "Disc Gap"
@@ -21078,11 +21032,11 @@ msgstr "Colore - Superiore"
 
 #: includes/config/class-ws-form-config-styler.php:3991
 msgid "Thumb"
-msgstr "Miniatura"
+msgstr "Maniglia"
 
 #: includes/config/class-ws-form-config-styler.php:4015
 msgid "Tickmark"
-msgstr "Segno di spunta"
+msgstr "Tacca"
 
 #: includes/config/class-ws-form-config-styler.php:4047
 msgid "Tickmark Labels"
@@ -21226,468 +21180,474 @@ msgid "Error assigning forms: %s"
 msgstr "Errore durante l'assegnazione dei moduli: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:313
+#: includes/core/class-ws-form-ability.php:279
+#, php-format
+msgid "Error moving folder: %s"
+msgstr "Errore durante lo spostamento della cartella: %s"
+
+#. translators: %s: Error message
+#: includes/core/class-ws-form-ability.php:337
 #, php-format
 msgid "Error creating form from JSON: %s"
 msgstr "Errore durante la creazione del modulo da JSON: %s"
 
-#: includes/core/class-ws-form-ability.php:331
-#: includes/core/class-ws-form-ability.php:371
-#: includes/core/class-ws-form-ability.php:416
-#: includes/core/class-ws-form-ability.php:455
-#: includes/core/class-ws-form-ability.php:504
-#: includes/core/class-ws-form-ability.php:538
-#: includes/core/class-ws-form-ability.php:588
-#: includes/core/class-ws-form-ability.php:618
-#: includes/core/class-ws-form-ability.php:648
-#: includes/core/class-ws-form-ability.php:740
-#: includes/core/class-ws-form-ability.php:1154
-#: includes/core/class-ws-form-ability.php:1205
-#: includes/core/class-ws-form-ability.php:1668
-#: includes/core/class-ws-form-ability.php:1730
-#: includes/core/class-ws-form-ability.php:1790
-#: includes/core/class-ws-form-ability.php:1836
-#: includes/core/class-ws-form-ability.php:1857
-#: includes/core/class-ws-form-ability.php:1878
-#: includes/core/class-ws-form-ability.php:1899
-#: includes/core/class-ws-form-ability.php:1925
-#: includes/core/class-ws-form-ability.php:1952
-#: includes/core/class-ws-form-ability.php:1979
-#: includes/core/class-ws-form-ability.php:2011
-#: includes/core/class-ws-form-ability.php:2043
-#: includes/core/class-ws-form-ability.php:2071
-#: includes/core/class-ws-form-ability.php:2092
-#: includes/core/class-ws-form-ability.php:2129
-#: includes/core/class-ws-form-ability.php:2168
-#: includes/core/class-ws-form-ability.php:2206
-#: includes/core/class-ws-form-ability.php:2227
-#: includes/core/class-ws-form-ability.php:2259
-#: includes/core/class-ws-form-ability.php:2297
-#: includes/core/class-ws-form-ability.php:2472
+#: includes/core/class-ws-form-ability.php:355
+#: includes/core/class-ws-form-ability.php:395
+#: includes/core/class-ws-form-ability.php:440
+#: includes/core/class-ws-form-ability.php:479
+#: includes/core/class-ws-form-ability.php:528
+#: includes/core/class-ws-form-ability.php:562
+#: includes/core/class-ws-form-ability.php:612
+#: includes/core/class-ws-form-ability.php:642
+#: includes/core/class-ws-form-ability.php:672
+#: includes/core/class-ws-form-ability.php:764
+#: includes/core/class-ws-form-ability.php:1178
+#: includes/core/class-ws-form-ability.php:1229
+#: includes/core/class-ws-form-ability.php:1692
+#: includes/core/class-ws-form-ability.php:1754
+#: includes/core/class-ws-form-ability.php:1814
+#: includes/core/class-ws-form-ability.php:1860
+#: includes/core/class-ws-form-ability.php:1881
+#: includes/core/class-ws-form-ability.php:1902
+#: includes/core/class-ws-form-ability.php:1923
+#: includes/core/class-ws-form-ability.php:1949
+#: includes/core/class-ws-form-ability.php:1976
+#: includes/core/class-ws-form-ability.php:2003
+#: includes/core/class-ws-form-ability.php:2035
+#: includes/core/class-ws-form-ability.php:2067
+#: includes/core/class-ws-form-ability.php:2095
+#: includes/core/class-ws-form-ability.php:2116
+#: includes/core/class-ws-form-ability.php:2153
+#: includes/core/class-ws-form-ability.php:2192
+#: includes/core/class-ws-form-ability.php:2230
+#: includes/core/class-ws-form-ability.php:2251
+#: includes/core/class-ws-form-ability.php:2283
+#: includes/core/class-ws-form-ability.php:2321
+#: includes/core/class-ws-form-ability.php:2496
 msgid "Invalid form ID."
 msgstr "ID modulo non valido."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:353
+#: includes/core/class-ws-form-ability.php:377
 #, php-format
 msgid "Error retrieving form as JSON: %s"
 msgstr "Errore durante il recupero del modulo come JSON: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:398
+#: includes/core/class-ws-form-ability.php:422
 #, php-format
 msgid "Error updating form from JSON: %s"
 msgstr "Errore durante l'aggiornamento del modulo da JSON: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:437
+#: includes/core/class-ws-form-ability.php:461
 #, php-format
 msgid "Error publishing form: %s"
 msgstr "Errore durante la pubblicazione del modulo: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:476
+#: includes/core/class-ws-form-ability.php:500
 #, php-format
 msgid "Error drafting form: %s"
 msgstr "Errore durante la creazione della bozza del modulo: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:520
+#: includes/core/class-ws-form-ability.php:544
 #, php-format
 msgid "Error locking form: %s"
 msgstr "Errore durante il blocco del modulo: %s"
 
-#: includes/core/class-ws-form-ability.php:520
+#: includes/core/class-ws-form-ability.php:544
 #, php-format
 msgid "Error unlocking form: %s"
 msgstr "Errore durante lo sblocco del modulo: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:570
+#: includes/core/class-ws-form-ability.php:594
 #, php-format
 msgid "Error cloning form: %s"
 msgstr "Errore durante la clonazione del modulo: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:600
+#: includes/core/class-ws-form-ability.php:624
 #, php-format
 msgid "Error generating shortcode: %s"
 msgstr "Errore durante la generazione dello shortcode: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:630
+#: includes/core/class-ws-form-ability.php:654
 #, php-format
 msgid "Error generating block: %s"
 msgstr "Errore durante la generazione del blocco: %s"
 
-#: includes/core/class-ws-form-ability.php:655
-#: includes/core/class-ws-form-ability.php:752
+#: includes/core/class-ws-form-ability.php:679
+#: includes/core/class-ws-form-ability.php:776
 msgid "Invalid from date / time."
 msgstr "Data/ora di inizio non valida."
 
-#: includes/core/class-ws-form-ability.php:663
-#: includes/core/class-ws-form-ability.php:769
+#: includes/core/class-ws-form-ability.php:687
+#: includes/core/class-ws-form-ability.php:793
 msgid "Invalid to date / time."
 msgstr "Data/ora di fine non valida."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:722
+#: includes/core/class-ws-form-ability.php:746
 #, php-format
 msgid "Error retrieving form statistics: %s"
 msgstr "Errore durante il recupero delle statistiche del modulo: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:834
+#: includes/core/class-ws-form-ability.php:858
 #, php-format
 msgid "Error retrieving submissions: %s"
 msgstr "Errore durante il recupero degli invii: %s"
 
-#: includes/core/class-ws-form-ability.php:852
-#: includes/core/class-ws-form-ability.php:902
-#: includes/core/class-ws-form-ability.php:934
+#: includes/core/class-ws-form-ability.php:876
+#: includes/core/class-ws-form-ability.php:926
+#: includes/core/class-ws-form-ability.php:958
 msgid "Invalid submission ID."
 msgstr "ID invio non valido."
 
-#: includes/core/class-ws-form-ability.php:871
+#: includes/core/class-ws-form-ability.php:895
 #: includes/core/class-ws-form-submit.php:226
 msgid "Unable to read submission."
 msgstr "Impossibile leggere l'invio."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:884
+#: includes/core/class-ws-form-ability.php:908
 #, php-format
 msgid "Error retrieving submission: %s"
 msgstr "Errore durante il recupero dell'invio: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:916
+#: includes/core/class-ws-form-ability.php:940
 #, php-format
 msgid "Error retrieving submission notes: %s"
-msgstr "Errore durante il recupero delle note della submission: %s"
-
-#: includes/core/class-ws-form-ability.php:967
-msgid "Submission note created."
-msgstr "Nota della submission creata."
-
-#. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:973
-#, php-format
-msgid "Error creating submission note: %s"
-msgstr "Errore durante la creazione della nota della submission: %s"
+msgstr "Errore durante il recupero delle note dell'invio: %s"
 
 #: includes/core/class-ws-form-ability.php:991
-#: includes/core/class-ws-form-ability.php:1042
+msgid "Submission note created."
+msgstr "Nota dell'invio creata."
+
+#. translators: %s: Error message
+#: includes/core/class-ws-form-ability.php:997
+#, php-format
+msgid "Error creating submission note: %s"
+msgstr "Errore durante la creazione della nota dell'invio: %s"
+
+#: includes/core/class-ws-form-ability.php:1015
+#: includes/core/class-ws-form-ability.php:1066
 msgid "Invalid note ID."
 msgstr "ID nota non valido."
 
-#: includes/core/class-ws-form-ability.php:1018
+#: includes/core/class-ws-form-ability.php:1042
 msgid "Submission note updated."
-msgstr "Nota della submission aggiornata."
+msgstr "Nota dell'invio aggiornata."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1024
+#: includes/core/class-ws-form-ability.php:1048
 #, php-format
 msgid "Error updating submission note: %s"
-msgstr "Errore durante l’aggiornamento della nota della submission: %s"
+msgstr "Errore durante l’aggiornamento della nota dell'invio: %s"
 
-#: includes/core/class-ws-form-ability.php:1053
+#: includes/core/class-ws-form-ability.php:1077
 msgid "Submission note deleted."
-msgstr "Nota della submission eliminata."
+msgstr "Nota dell'invio eliminata."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1059
+#: includes/core/class-ws-form-ability.php:1083
 #, php-format
 msgid "Error deleting submission note: %s"
-msgstr "Errore durante l’eliminazione della nota della submission: %s"
+msgstr "Errore durante l’eliminazione della nota dell'invio: %s"
 
-#: includes/core/class-ws-form-ability.php:1163
+#: includes/core/class-ws-form-ability.php:1187
 msgid "Permanent form deletion is not enabled."
 msgstr "L'eliminazione definitiva del modulo non è abilitata."
 
-#: includes/core/class-ws-form-ability.php:1180
+#: includes/core/class-ws-form-ability.php:1204
 msgid "Form permanently deleted"
 msgstr "Modulo eliminato definitivamente"
 
-#: includes/core/class-ws-form-ability.php:1180
+#: includes/core/class-ws-form-ability.php:1204
 msgid "Form trashed"
 msgstr "Modulo cestinato"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1187
+#: includes/core/class-ws-form-ability.php:1211
 #, php-format
 msgid "Error deleting form: %s"
 msgstr "Errore durante l'eliminazione del modulo: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1228
+#: includes/core/class-ws-form-ability.php:1252
 #, php-format
 msgid "Error restoring form: %s"
 msgstr "Errore durante il ripristino del modulo: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1269
+#: includes/core/class-ws-form-ability.php:1293
 #, php-format
 msgid "Error retrieving styles: %s"
 msgstr "Errore durante il recupero degli stili: %s"
 
-#: includes/core/class-ws-form-ability.php:1283
-#: includes/core/class-ws-form-ability.php:1416
-#: includes/core/class-ws-form-ability.php:1509
-#: includes/core/class-ws-form-ability.php:1528
-#: includes/core/class-ws-form-ability.php:1634
+#: includes/core/class-ws-form-ability.php:1307
+#: includes/core/class-ws-form-ability.php:1440
+#: includes/core/class-ws-form-ability.php:1533
+#: includes/core/class-ws-form-ability.php:1552
+#: includes/core/class-ws-form-ability.php:1658
 msgid "Invalid style ID."
 msgstr "ID stile non valido."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1304
+#: includes/core/class-ws-form-ability.php:1328
 #, php-format
 msgid "Error retrieving style: %s"
 msgstr "Errore durante il recupero dello stile: %s"
 
-#: includes/core/class-ws-form-ability.php:1345
+#: includes/core/class-ws-form-ability.php:1369
 msgid "Error creating style."
 msgstr "Errore durante la creazione dello stile."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1402
+#: includes/core/class-ws-form-ability.php:1426
 #, php-format
 msgid "Error creating style: %s"
 msgstr "Errore durante la creazione dello stile: %s"
 
-#: includes/core/class-ws-form-ability.php:1434
+#: includes/core/class-ws-form-ability.php:1458
 msgid "Provide a label, meta, default flag, and/or form ID to update."
 msgstr ""
 "Fornisci un'etichetta, metadati, un flag predefinito e/o l'ID del modulo da "
 "aggiornare."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1495
+#: includes/core/class-ws-form-ability.php:1519
 #, php-format
 msgid "Error updating style: %s"
 msgstr "Errore durante l'aggiornamento dello stile: %s"
 
-#: includes/core/class-ws-form-ability.php:1536
+#: includes/core/class-ws-form-ability.php:1560
 msgid ""
 "Style is already in trash. Set permanent to true to permanently delete it."
 msgstr ""
 "Lo stile è già nel cestino. Imposta permanente su true per eliminarlo "
 "definitivamente."
 
-#: includes/core/class-ws-form-ability.php:1542
-#: includes/core/class-ws-form-ability.php:1565
+#: includes/core/class-ws-form-ability.php:1566
+#: includes/core/class-ws-form-ability.php:1589
 msgid "Permanent style deletion is not enabled."
 msgstr "L'eliminazione definitiva dello stile non è abilitata."
 
-#: includes/core/class-ws-form-ability.php:1548
-#: includes/core/class-ws-form-ability.php:1571
-#: includes/core/class-ws-form-ability.php:1577
-#: includes/core/class-ws-form-ability.php:1592
+#: includes/core/class-ws-form-ability.php:1572
+#: includes/core/class-ws-form-ability.php:1595
+#: includes/core/class-ws-form-ability.php:1601
+#: includes/core/class-ws-form-ability.php:1616
 msgid "Unable to delete style. Default styles cannot be deleted."
 msgstr ""
 "Impossibile eliminare lo stile. Gli stili predefiniti non possono essere "
 "eliminati."
 
-#: includes/core/class-ws-form-ability.php:1555
-#: includes/core/class-ws-form-ability.php:1584
+#: includes/core/class-ws-form-ability.php:1579
+#: includes/core/class-ws-form-ability.php:1608
 msgid "Style permanently deleted"
 msgstr "Stile eliminato definitivamente"
 
-#: includes/core/class-ws-form-ability.php:1599
+#: includes/core/class-ws-form-ability.php:1623
 msgid "Style trashed"
 msgstr "Stile spostato nel cestino"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1606
+#: includes/core/class-ws-form-ability.php:1630
 #, php-format
 msgid "Error deleting style: %s"
 msgstr "Errore durante l'eliminazione dello stile: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1650
+#: includes/core/class-ws-form-ability.php:1674
 #, php-format
 msgid "Error locking style: %s"
 msgstr "Errore durante il blocco dello stile: %s"
 
-#: includes/core/class-ws-form-ability.php:1650
+#: includes/core/class-ws-form-ability.php:1674
 #, php-format
 msgid "Error unlocking style: %s"
 msgstr "Errore durante lo sblocco dello stile: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1712
+#: includes/core/class-ws-form-ability.php:1736
 #, php-format
 msgid "Error adding field: %s"
 msgstr "Errore durante l'aggiunta del campo: %s"
 
-#: includes/core/class-ws-form-ability.php:1739
-#: includes/core/class-ws-form-ability.php:1799
+#: includes/core/class-ws-form-ability.php:1763
+#: includes/core/class-ws-form-ability.php:1823
 #: includes/core/class-ws-form-form-ai.php:865
 #: includes/core/class-ws-form-form-ai.php:897
 msgid "Invalid field ID."
 msgstr "ID campo non valido."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1772
+#: includes/core/class-ws-form-ability.php:1796
 #, php-format
 msgid "Error updating field: %s"
 msgstr "Errore durante l’aggiornamento del campo: %s"
 
-#: includes/core/class-ws-form-ability.php:1819
+#: includes/core/class-ws-form-ability.php:1843
 msgid "Field permanently deleted"
 msgstr "Campo eliminato definitivamente"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1825
+#: includes/core/class-ws-form-ability.php:1849
 #, php-format
 msgid "Error deleting field: %s"
 msgstr "Errore durante l'eliminazione del campo: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1846
+#: includes/core/class-ws-form-ability.php:1870
 #, php-format
 msgid "Error listing tabs: %s"
 msgstr "Errore durante l'elenco delle schede: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1867
+#: includes/core/class-ws-form-ability.php:1891
 #, php-format
 msgid "Error listing sections: %s"
 msgstr "Errore durante l'elenco delle sezioni: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1888
+#: includes/core/class-ws-form-ability.php:1912
 #, php-format
 msgid "Error listing fields: %s"
 msgstr "Errore durante l'elenco dei campi: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1914
+#: includes/core/class-ws-form-ability.php:1938
 #, php-format
 msgid "Error adding tab: %s"
 msgstr "Errore durante l'aggiunta della scheda: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1940
+#: includes/core/class-ws-form-ability.php:1964
 #, php-format
 msgid "Error updating tab: %s"
 msgstr "Errore durante l'aggiornamento della scheda: %s"
 
-#: includes/core/class-ws-form-ability.php:1962
+#: includes/core/class-ws-form-ability.php:1986
 msgid "Tab permanently deleted"
 msgstr "Scheda eliminata definitivamente"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1968
+#: includes/core/class-ws-form-ability.php:1992
 #, php-format
 msgid "Error deleting tab: %s"
 msgstr "Errore durante l'eliminazione della scheda: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2000
+#: includes/core/class-ws-form-ability.php:2024
 #, php-format
 msgid "Error adding section: %s"
 msgstr "Errore durante l'aggiunta della sezione: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2031
+#: includes/core/class-ws-form-ability.php:2055
 #, php-format
 msgid "Error updating section: %s"
 msgstr "Errore durante l'aggiornamento della sezione: %s"
 
-#: includes/core/class-ws-form-ability.php:2053
+#: includes/core/class-ws-form-ability.php:2077
 msgid "Section permanently deleted"
 msgstr "Sezione eliminata definitivamente"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2059
+#: includes/core/class-ws-form-ability.php:2083
 #, php-format
 msgid "Error deleting section: %s"
 msgstr "Errore durante l'eliminazione della sezione: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2081
+#: includes/core/class-ws-form-ability.php:2105
 #, php-format
 msgid "Error listing actions: %s"
 msgstr "Errore durante l'elenco delle azioni: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2118
+#: includes/core/class-ws-form-ability.php:2142
 #, php-format
 msgid "Error adding action: %s"
 msgstr "Errore durante l'aggiunta dell'azione: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2157
+#: includes/core/class-ws-form-ability.php:2181
 #, php-format
 msgid "Error updating action: %s"
 msgstr "Errore durante l'aggiornamento dell'azione: %s"
 
-#: includes/core/class-ws-form-ability.php:2184
+#: includes/core/class-ws-form-ability.php:2208
 msgid "Action deleted"
 msgstr "Azione eliminata"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2195
+#: includes/core/class-ws-form-ability.php:2219
 #, php-format
 msgid "Error deleting action: %s"
 msgstr "Errore durante l'eliminazione dell'azione: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2216
+#: includes/core/class-ws-form-ability.php:2240
 #, php-format
 msgid "Error listing conditionals: %s"
 msgstr "Errore durante l'elenco delle condizionali: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2248
+#: includes/core/class-ws-form-ability.php:2272
 #, php-format
 msgid "Error adding conditional: %s"
 msgstr "Errore durante l'aggiunta della condizionale: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2286
+#: includes/core/class-ws-form-ability.php:2310
 #, php-format
 msgid "Error updating conditional: %s"
 msgstr "Errore durante l'aggiornamento della condizionale: %s"
 
-#: includes/core/class-ws-form-ability.php:2313
+#: includes/core/class-ws-form-ability.php:2337
 msgid "Conditional deleted"
 msgstr "Condizionale eliminata"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2324
+#: includes/core/class-ws-form-ability.php:2348
 #, php-format
 msgid "Error deleting conditional: %s"
 msgstr "Errore durante l'eliminazione della condizionale: %s"
 
 #. translators: %s: Meta key
-#: includes/core/class-ws-form-ability.php:2391
+#: includes/core/class-ws-form-ability.php:2415
 #, php-format
 msgid "Invalid style meta value for %s."
 msgstr "Valore meta dello stile non valido per %s."
 
 #. translators: %s: Comma-separated meta keys
-#: includes/core/class-ws-form-ability.php:2407
+#: includes/core/class-ws-form-ability.php:2431
 #, php-format
 msgid "Unsupported style meta key(s): %s"
 msgstr "Chiave/i meta dello stile non supportata/e: %s"
 
-#: includes/core/class-ws-form-ability.php:2462
+#: includes/core/class-ws-form-ability.php:2486
 msgid "You do not have permission to assign a style to a form."
 msgstr "Non hai i permessi per assegnare uno stile a un modulo."
 
-#: includes/core/class-ws-form-ability.php:2507
+#: includes/core/class-ws-form-ability.php:2531
 msgid "Style updates are not enabled."
 msgstr "Gli aggiornamenti dello stile non sono abilitati."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2594
+#: includes/core/class-ws-form-ability.php:2618
 #, php-format
 msgid "Input schema for ability %s not found."
 msgstr "Schema di input per la funzionalità %s non trovato."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2616
+#: includes/core/class-ws-form-ability.php:2640
 #, php-format
 msgid "Invalid input schema type for ability %s. Expects object."
 msgstr ""
@@ -21695,20 +21655,20 @@ msgstr ""
 "oggetto."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2632
+#: includes/core/class-ws-form-ability.php:2656
 #, php-format
 msgid "No input schema properties for ability %s."
 msgstr "Nessuna proprietà dello schema di input per la funzionalità %s."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2649
+#: includes/core/class-ws-form-ability.php:2673
 #, php-format
 msgid "Invalid input schema property name for ability %s."
 msgstr ""
 "Nome della proprietà dello schema di input non valido per la funzionalità %s."
 
 #. translators: %1$s: Ability name, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:2681
+#: includes/core/class-ws-form-ability.php:2705
 #, php-format
 msgid "Invalid input schema property type for ability %1$s (Property: %2$s)."
 msgstr ""
@@ -21716,7 +21676,7 @@ msgstr ""
 "(Proprietà: %2$s)."
 
 #. translators: %1$s: Ability ID, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:2722
+#: includes/core/class-ws-form-ability.php:2746
 #, php-format
 msgid ""
 "Required input schema property for ability %1$s missing (Property: %2$s)."
@@ -21725,7 +21685,7 @@ msgstr ""
 "(Proprietà: %2$s)."
 
 #. translators: %1$s: Property name, %2$s: Ability ID
-#: includes/core/class-ws-form-ability.php:2793
+#: includes/core/class-ws-form-ability.php:2817
 #, php-format
 msgid ""
 "Input schema property %1$s has invalid enum for ability %2$s. Expected array."
@@ -21734,18 +21694,18 @@ msgstr ""
 "%2$s. Previsto un array."
 
 #. translators: %1$s: Ability name, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:2807
+#: includes/core/class-ws-form-ability.php:2831
 #, php-format
 msgid "Invalid enumerated input value for ability %1$s (Property: %2$s)."
 msgstr ""
 "Valore di input enumerato non valido per l'abilità %1$s (Proprietà: %2$s)."
 
-#: includes/core/class-ws-form-ability.php:2858
+#: includes/core/class-ws-form-ability.php:2882
 msgid "Inputs not parsed."
 msgstr "Input non analizzati."
 
 #. translators: %s: Property name
-#: includes/core/class-ws-form-ability.php:2868
+#: includes/core/class-ws-form-ability.php:2892
 #, php-format
 msgid "Property %s does not exist in input schema."
 msgstr "La proprietà %s non esiste nello schema di input."
@@ -22093,9 +22053,7 @@ msgstr "Nessuna modifica trovata nel JSON."
 msgid ""
 "Invalid form changes detected. To insert or add a field, use the field-add "
 "tool."
-msgstr ""
-"Rilevate modifiche al modulo non valide. Per inserire o aggiungere un campo, "
-"usa lo strumento di aggiunta campo."
+msgstr "Rilevate modifiche al modulo non valide. Per inserire o aggiungere un campo, usa lo strumento field-add."
 
 #: includes/core/class-ws-form-form-ai.php:198
 #: includes/core/class-ws-form-form-ai.php:314
@@ -22121,7 +22079,7 @@ msgstr "Dati del campo non validi. Riprova."
 
 #: includes/core/class-ws-form-form-ai.php:485
 msgid "Invalid form data. Please try again."
-msgstr "Ooops! I dati inseriti non sono validi. Per piacere prova di nuovo."
+msgstr "Dati del modulo non validi. Riprova."
 
 #: includes/core/class-ws-form-form-ai.php:679
 msgid "Too many fields returned. Please try again."
@@ -22242,36 +22200,40 @@ msgstr "Etichetta non trovata."
 msgid "Provide row_id, index, or a unique label."
 msgstr "Fornisci row_id, index o un'etichetta univoca."
 
-#: includes/core/class-ws-form-form-folder.php:32
+#: includes/core/class-ws-form-form-folder.php:35
 msgid "A folder with that name already exists here."
 msgstr "Esiste già una cartella con questo nome qui."
 
-#: includes/core/class-ws-form-form-folder.php:36
+#: includes/core/class-ws-form-form-folder.php:39
 msgid "This folder could not be deleted."
 msgstr "Impossibile eliminare questa cartella."
 
-#: includes/core/class-ws-form-form-folder.php:40
+#: includes/core/class-ws-form-form-folder.php:43
 msgid "Folder not found."
 msgstr "Cartella non trovata."
 
-#: includes/core/class-ws-form-form-folder.php:44
+#: includes/core/class-ws-form-form-folder.php:47
 msgid "Enter a folder name."
 msgstr "Inserisci un nome per la cartella."
 
-#: includes/core/class-ws-form-form-folder.php:48
+#: includes/core/class-ws-form-form-folder.php:51
 msgid "Folders cannot be nested any deeper."
 msgstr "Le cartelle non possono essere annidate più in profondità."
 
-#: includes/core/class-ws-form-form-folder.php:248
+#: includes/core/class-ws-form-form-folder.php:55
+msgid "A folder cannot be moved into itself."
+msgstr "Una cartella non può essere spostata al suo interno."
+
+#: includes/core/class-ws-form-form-folder.php:255
 msgid "Error adding folder"
 msgstr "Errore durante l'aggiunta della cartella"
 
-#: includes/core/class-ws-form-form-folder.php:292
+#: includes/core/class-ws-form-form-folder.php:299
 msgid "Error renaming folder"
 msgstr "Errore durante la rinomina della cartella"
 
-#: includes/core/class-ws-form-form-folder.php:326
-#: includes/core/class-ws-form-form-folder.php:334
+#: includes/core/class-ws-form-form-folder.php:333
+#: includes/core/class-ws-form-form-folder.php:341
 msgid "Error deleting folder"
 msgstr "Errore durante l'eliminazione della cartella"
 
@@ -22345,7 +22307,7 @@ msgstr "Non ci sono moduli disponibili per elaborare le statistiche."
 
 #: includes/core/class-ws-form-form-stat.php:787
 msgid "Submits"
-msgstr "Invia"
+msgstr "Invii"
 
 #: includes/core/class-ws-form-form-stat.php:788
 msgid "Conv."
@@ -23425,7 +23387,7 @@ msgstr "Consenso GDPR"
 #: includes/core/migrate/fluent_forms.php:782
 #: includes/core/migrate/wpforms.php:854
 msgid "Middle Name"
-msgstr "Cognome"
+msgstr "Secondo nome"
 
 #: includes/core/migrate/fluent_forms.php:905
 msgid "Address"
@@ -23464,7 +23426,7 @@ msgstr "Visual Form Builder Pro"
 
 #: includes/core/migrate/wpforms.php:13
 msgid "WPForms"
-msgstr "Contatti"
+msgstr "WPForms"
 
 #: includes/core/migrate/wpforms.php:519
 msgid "State / Province / Region"
@@ -23882,7 +23844,7 @@ msgstr "Campo Toolset"
 #: includes/data-sources/class-ws-form-data-source-preset.php:36
 #: includes/data-sources/class-ws-form-data-source-preset.php:294
 msgid "Preset"
-msgstr "Preselezionato"
+msgstr "Preimpostazione"
 
 #: includes/data-sources/class-ws-form-data-source-preset.php:39
 msgid "Retrieving Preset..."
@@ -24229,7 +24191,7 @@ msgstr "Abilitato su tutti i moduli in <a href=\"%s\">Impostazioni</a>."
 #: includes/third-party/acpt/class-ws-form-acpt-v2.php:296
 #: includes/third-party/jetengine/class-ws-form-jetengine.php:447
 msgid "(no label)"
-msgstr "Nessuna etichetta"
+msgstr "(Nessuna etichetta)"
 
 #. translators: %s: Field label
 #: includes/third-party/acf/class-ws-form-acf.php:1680
@@ -24487,7 +24449,7 @@ msgstr "Prezzo normale"
 
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:62
 msgid "Sale Price"
-msgstr "Prezzo di vendita"
+msgstr "Prezzo in offerta"
 
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:63
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:264
@@ -24549,7 +24511,7 @@ msgstr "Stato di fatturazione"
 
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:96
 msgid "Billing Postal/Zip Code"
-msgstr "Codice postale"
+msgstr "Codice postale di fatturazione"
 
 #: includes/third-party/woocommerce/class-ws-form-woocommerce.php:97
 msgid "Billing Country / Region"
@@ -26374,3 +26336,80 @@ msgstr "Intelligente. Veloce. Moduli."
 #~ msgstr ""
 #~ "Se selezionata, il campo dell'indirizzo verrà geolocalizzato quando si "
 #~ "clicca sulla mappa."
+
+#: includes/actions/class-ws-form-action-custom-api.php:231
+msgid "Unknown file"
+msgstr "File sconosciuto"
+
+#: includes/actions/class-ws-form-action-custom-api.php:236
+msgid "Unable to read file for webhook Base64 encoding (%s)."
+msgstr "Impossibile leggere il file per la codifica Base64 del webhook (%s)."
+
+#: includes/actions/class-ws-form-action-custom-api.php:1268
+msgid "How file fields are sent. Multiple URLs are comma separated. Multiple Base64 files are an array."
+msgstr "Come vengono inviati i campi file. Più URL sono separati da virgole. Più file Base64 formano un array."
+
+#: includes/actions/class-ws-form-action-custom-api.php:1271
+msgid "Base64"
+msgstr "Base64"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1272
+msgid "File Objects"
+msgstr "Oggetti file"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1273
+msgid "URLs"
+msgstr "URL"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1671
+msgid "Request"
+msgstr "Richiesta"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1712
+msgid "Response"
+msgstr "Risposta"
+
+#: includes/core/class-ws-form-form-ai.php:2157
+msgid "Invalid widths. Provide an object of breakpoint id to width factor."
+msgstr "Larghezze non valide. Fornisci un oggetto che associa l’ID del breakpoint a un fattore di larghezza."
+
+#: includes/core/class-ws-form-form-ai.php:2186
+#: includes/core/class-ws-form-form-ai.php:2208
+msgid "Invalid breakpoint %s."
+msgstr "Breakpoint non valido %s."
+
+#: includes/core/class-ws-form-form-ai.php:2225
+#: includes/core/class-ws-form-form-ai.php:2238
+#: includes/core/class-ws-form-form-ai.php:2250
+msgid "Invalid width for breakpoint %s. Use a factor greater than 0 and at most 1, or null to clear it."
+msgstr "Larghezza non valida per il breakpoint %s. Usa un fattore maggiore di 0 e al massimo 1, oppure null per cancellarla."
+
+#: includes/config/class-ws-form-config-ability-structure.php:426
+msgid "Update a section label and/or meta (label_render, widths). Use the sections tool to get section IDs."
+msgstr "Aggiorna l’etichetta e/o i meta di una sezione (label_render, widths). Usa lo strumento sezioni per ottenere gli ID delle sezioni."
+
+#: includes/config/class-ws-form-config-ability.php:2499
+msgid "Use this tool to update an existing field label and/or meta (required, placeholder, help, options, widths, etc.). Prefer this over form-update-json for single-field changes. Field type cannot be changed. Use the fields tool to find field IDs, or form-get-json for full field meta."
+msgstr "Usa questo strumento per aggiornare l’etichetta e/o i meta di un campo esistente (required, placeholder, help, options, widths, ecc.). Preferiscilo a form-update-json per le modifiche a un singolo campo. Il tipo di campo non può essere modificato. Usa lo strumento campi per trovare gli ID dei campi, oppure form-get-json per tutti i meta del campo."
+
+#: includes/config/class-ws-form-config-option.php:1179
+#: includes/config/class-ws-form-config-option.php:1184
+msgid "Auto Delete Spam"
+msgstr "Eliminazione automatica dello spam"
+
+#: includes/config/class-ws-form-config-option.php:1192
+msgid "Automatically trash or permanently delete submissions marked as spam after a set number of days."
+msgstr "Sposta automaticamente nel cestino o elimina definitivamente gli invii contrassegnati come spam dopo un numero di giorni impostato."
+
+#: includes/config/class-ws-form-config-option.php:1203
+msgid "Number of days until submissions marked as spam are moved to trash or permanently deleted."
+msgstr "Numero di giorni prima che gli invii contrassegnati come spam vengano spostati nel cestino o eliminati definitivamente."
+
+#: includes/config/class-ws-form-config-admin.php:313
+#: includes/core/class-ws-form-submit.php:2766
+msgid "Random Text Detection"
+msgstr "Rilevamento testo casuale"
+
+#: includes/class-ws-form-config.php:8456
+msgid "Detects suspicious text patterns associated with spam."
+msgstr "Rileva schemi di testo sospetti associati allo spam."

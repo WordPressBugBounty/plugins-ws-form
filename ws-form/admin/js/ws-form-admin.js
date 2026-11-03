@@ -17050,11 +17050,15 @@
 			// Remove old pass through fields
 			$('#ws-form-action-do [data-form-add-modal-pass-through]').remove();
 
-			// Pass through modal fields
+			// Pass through modal fields. Set values in the DOM so quotes are kept.
 			var form_fields = $('input, select, textarea', '#wsf-template-add-modal-form');
 			form_fields.each(function() {
 
-				$('#ws-form-action-do').append('<input type="hidden" data-form-add-modal-pass-through name="' + $(this).attr('name') + '" value="' + $(this).val() + '" />');
+				var pass_through = $('<input type="hidden" data-form-add-modal-pass-through />');
+				pass_through.attr('name', $(this).attr('name'));
+				pass_through.val($(this).val());
+
+				$('#ws-form-action-do').append(pass_through);
 			});
 
 			// Submit
@@ -17710,6 +17714,20 @@
 			object: null,
 			success_callback: function() {
 
+				// Imported forms are unfiled. All Forms shows them when folders exist.
+				if($('#wsf-form-folders').length) {
+
+					var url = new URL(window.location.href);
+
+					if(url.searchParams.get('ws-form-folder') !== 'all') {
+
+						url.searchParams.set('ws-form-folder', 'all');
+						url.searchParams.delete('paged');
+						window.location.href = url.toString();
+						return;
+					}
+				}
+
 				location.reload();
 			}
 		});
@@ -17983,7 +18001,7 @@
 		// Row is the hit target. The link inside it does not receive the pointer.
 		var folder_row_open = function(row, e) {
 
-			if($(e.target).closest('.wsf-form-folder-actions, a.wsf-form-folder').length) { return; }
+			if($(e.target).closest('.wsf-form-folder-actions, .wsf-form-folder-handle, a.wsf-form-folder').length) { return; }
 
 			var link = $('a.wsf-form-folder', row).get(0);
 			if(!link || !link.href) { return; }
@@ -18179,6 +18197,439 @@
 			$.WS_Form.form_folder_drag = false;
 			clear_drop();
 		});
+
+		// Reorder folders. Subfolders move with the row. Indent sets the parent.
+		var sortable = $('.wsf-form-folders-sortable', folders_obj);
+
+		if(sortable.length) {
+
+			var indent_base = parseInt(folders_obj.attr('data-indent-base'), 10);
+			var indent_step = parseInt(folders_obj.attr('data-indent-step'), 10);
+			var depth_max = parseInt(folders_obj.attr('data-depth-max'), 10);
+			if(isNaN(indent_base)) { indent_base = 14; }
+			if(isNaN(indent_step) || (indent_step < 1)) { indent_step = 16; }
+			if(isNaN(depth_max)) { depth_max = 5; }
+
+			var row_prev = function(el) {
+
+				var prev = el.prev();
+
+				while(prev.length) {
+
+					if(prev.hasClass('wsf-form-folder-row') && prev.is(':visible')) { return prev; }
+					prev = prev.prev();
+				}
+
+				return $();
+			};
+
+			var next_sibling_id = function(row) {
+
+				var depth = parseInt(row.attr('data-depth'), 10) || 0;
+				var next = row.next();
+
+				while(next.length) {
+
+					if(!next.hasClass('wsf-form-folder-row') || !next.is(':visible')) {
+
+						next = next.next();
+						continue;
+					}
+
+					var next_depth = parseInt(next.attr('data-depth'), 10) || 0;
+					if(next_depth < depth) { return 0; }
+					if(next_depth === depth) { return parseInt(next.attr('data-folder-id'), 10) || 0; }
+					next = next.next();
+				}
+
+				return 0;
+			};
+
+			var row_depth = function(row) {
+
+				return parseInt(row.attr('data-depth'), 10) || 0;
+			};
+
+			var apply_depth = function(row, depth) {
+
+				row.attr('data-depth', depth);
+				row.css('padding-inline-start', (indent_base + (depth * indent_step)) + 'px');
+
+				var add = $('[data-action="wsf-folder-add"]', row);
+				if(depth >= depth_max) {
+
+					add.addClass('wsf-form-folder-add-hidden');
+
+				} else {
+
+					add.removeClass('wsf-form-folder-add-hidden');
+				}
+			};
+
+			var folder_path = function(row) {
+
+				var labels = [];
+				var guard = 0;
+				var current = row;
+
+				while(current.length && (guard < 20)) {
+
+					labels.unshift($.trim($('.wsf-form-folder-label', current).first().text()));
+
+					var parent_id = parseInt(current.attr('data-parent-id'), 10) || 0;
+					if(!parent_id) { break; }
+
+					current = sortable.children('.wsf-form-folder-row[data-folder-id="' + parent_id + '"]');
+					guard++;
+				}
+
+				return labels.join(' / ');
+			};
+
+			var sync_after_move = function() {
+
+				var current = sortable.children('.wsf-form-folder-row.wsf-form-folder-current');
+
+				if(current.length) {
+
+					$('.wsf-form-folder-breadcrumb strong').text(folder_path(current));
+				}
+
+				var source = $('#wsf-bulk-folder-source');
+				if(!source.length) { return; }
+
+				source.children('option[value!="0"]').remove();
+
+				sortable.children('.wsf-form-folder-row').each(function() {
+
+					var row = $(this);
+					var depth = parseInt(row.attr('data-depth'), 10) || 0;
+					var label = $.trim($('.wsf-form-folder-label', row).first().text());
+					var prefix = '';
+					var i;
+
+					for(i = 0; i < depth; i++) { prefix += '- '; }
+
+					source.append($('<option></option>').val(row.attr('data-folder-id')).text(prefix + label));
+				});
+			};
+
+			var folder_move_pending = false;
+
+			var restore_folders = function(snapshot) {
+
+				if(typeof snapshot !== 'string') { return; }
+
+				sortable.html(snapshot);
+				sortable.removeClass('wsf-form-folders-sorting');
+			};
+
+			var move_block_before = function(block, anchor) {
+
+				if(!anchor.length) { return false; }
+				if(block[block.length - 1][0].nextElementSibling === anchor[0]) { return false; }
+
+				var i;
+
+				for(i = 0; i < block.length; i++) {
+
+					anchor.before(block[i]);
+				}
+
+				return true;
+			};
+
+			var move_block_after = function(block, anchor) {
+
+				if(!anchor.length) { return false; }
+				if(anchor[0].nextElementSibling === block[0][0]) { return false; }
+
+				var point = anchor;
+				var i;
+
+				for(i = 0; i < block.length; i++) {
+
+					point.after(block[i]);
+					point = block[i];
+				}
+
+				return true;
+			};
+
+			// Last row of this folder, including subfolders that follow it
+			var subtree_end = function(row, block) {
+
+				var depth = row_depth(row);
+				var last = row;
+				var next = row.next('.wsf-form-folder-row');
+
+				while(next.length) {
+
+					if(block && (next[0] === block[0][0])) { break; }
+					if(row_depth(next) <= depth) { break; }
+
+					last = next;
+					next = next.next('.wsf-form-folder-row');
+				}
+
+				return last;
+			};
+
+			var set_block_depth = function(block, depth_start, depth) {
+
+				var delta = depth - depth_start;
+
+				$.each(block, function() {
+
+					var item = $(this);
+					var next_depth = item.data('wsf-depth-orig') + delta;
+					if(next_depth < 0) { next_depth = 0; }
+					apply_depth(item, next_depth);
+				});
+			};
+
+			sortable.on('pointerdown', '.wsf-form-folder-handle', function(e) {
+
+				if(folder_move_pending) { return; }
+				if((e.pointerType === 'mouse') && (e.button !== 0)) { return; }
+				if($.WS_Form.form_folder_drag) { return; }
+
+				e.preventDefault();
+
+				var handle_el = this;
+				var row = $(handle_el).closest('.wsf-form-folder-row');
+				var depth_start = row_depth(row);
+				var block = [row];
+				var extra = 0;
+				var next = row.next('.wsf-form-folder-row');
+
+				while(next.length) {
+
+					var next_depth = row_depth(next);
+					if(next_depth <= depth_start) { break; }
+
+					var rel = next_depth - depth_start;
+					if(rel > extra) { extra = rel; }
+
+					block.push(next);
+					next = next.next('.wsf-form-folder-row');
+				}
+
+				$.each(block, function() {
+
+					var item = $(this);
+					item.data('wsf-depth-orig', row_depth(item));
+				});
+
+				var snapshot = sortable.html();
+				var origin = {
+
+					parent_id: row.attr('data-parent-id'),
+					next_sibling_id: String(next_sibling_id(row))
+				};
+
+				var start_x = e.clientX;
+				var start_y = e.clientY;
+				var last_y = e.clientY;
+				var depth_origin_x = e.clientX;
+				var dragging = false;
+				var rtl = (typeof ws_form_settings !== 'undefined') && ws_form_settings.rtl;
+
+				if(handle_el.setPointerCapture) {
+
+					try { handle_el.setPointerCapture(e.pointerId); } catch(err) {}
+				}
+
+				var finish = function(event) {
+
+					$(document).off('pointermove.folderSort pointerup.folderSort pointercancel.folderSort');
+
+					if(!dragging) { return; }
+
+					sortable.removeClass('wsf-form-folders-sorting');
+					$.each(block, function() { $(this).removeClass('wsf-form-folder-dragging'); });
+
+					var item = block[0];
+					var depth = row_depth(item);
+					var parent_id = 0;
+					var parent_found = (depth === 0);
+
+					if(depth > 0) {
+
+						var prev = row_prev(item);
+
+						while(prev.length) {
+
+							if(row_depth(prev) === (depth - 1)) {
+
+								parent_id = parseInt(prev.attr('data-folder-id'), 10) || 0;
+								parent_found = (parent_id > 0);
+								break;
+							}
+
+							if(row_depth(prev) < (depth - 1)) { break; }
+							prev = row_prev(prev);
+						}
+					}
+
+					// Indent has no parent. Put the list back.
+					if(!parent_found) {
+
+						restore_folders(snapshot);
+						return;
+					}
+
+					item.attr('data-parent-id', parent_id);
+					$('[data-action="wsf-folder-delete"]', item).attr('data-parent-id', parent_id);
+
+					var next_id = next_sibling_id(item);
+
+					if((String(origin.parent_id) === String(parent_id)) && (String(origin.next_sibling_id) === String(next_id))) { return; }
+
+					folder_move_pending = true;
+
+					// Loader on
+					ws_this.loader_on();
+
+					ws_this.api_call('form/folder/move/', 'POST', {
+
+						id: parseInt(item.attr('data-folder-id'), 10) || 0,
+						parent_id: parent_id,
+						next_sibling_id: next_id
+
+					}, function() {
+
+						folder_move_pending = false;
+
+						// Loader off
+						ws_this.loader_off();
+						sync_after_move();
+
+					}, function() {
+
+						folder_move_pending = false;
+						restore_folders(snapshot);
+
+					}, false);
+				};
+
+				$(document).on('pointermove.folderSort', function(event) {
+
+					var dy = event.clientY - last_y;
+
+					if(!dragging) {
+
+						if((Math.abs(event.clientY - start_y) < 4) && (Math.abs(event.clientX - start_x) < 4)) { return; }
+
+						dragging = true;
+						folder_row_suppress_click = true;
+						sortable.addClass('wsf-form-folders-sorting');
+						$.each(block, function() { $(this).addClass('wsf-form-folder-dragging'); });
+					}
+
+					last_y = event.clientY;
+
+					var guard = 0;
+
+					while(guard++ < 30) {
+
+						var first = block[0];
+						var last = block[block.length - 1];
+						var prev = first.prev('.wsf-form-folder-row');
+						var next_row = last.next('.wsf-form-folder-row');
+						var moved = false;
+						var our_depth = row_depth(first);
+
+						if((dy < 0) && prev.length) {
+
+							var target = prev;
+
+							if(our_depth < row_depth(prev)) {
+
+								var walk = prev;
+
+								while(walk.length) {
+
+									if(row_depth(walk) <= our_depth) {
+
+										target = walk;
+										break;
+									}
+
+									walk = walk.prev('.wsf-form-folder-row');
+								}
+							}
+
+							var prev_rect = target[0].getBoundingClientRect();
+
+							if(event.clientY < (prev_rect.top + (prev_rect.height / 2))) {
+
+								moved = move_block_before(block, target);
+							}
+
+						} else if((dy > 0) && next_row.length) {
+
+							var boundary = (our_depth > row_depth(next_row)) ? next_row : subtree_end(next_row, block);
+							var next_rect = next_row[0].getBoundingClientRect();
+
+							if(event.clientY > (next_rect.top + (next_rect.height / 2))) {
+
+								moved = move_block_after(block, boundary);
+							}
+						}
+
+						if(!moved) { break; }
+					}
+
+					var first_row = block[0];
+					var last_row = block[block.length - 1];
+					var prev_row = first_row.prev('.wsf-form-folder-row');
+					var after_row = last_row.next('.wsf-form-folder-row');
+					var prev_depth = prev_row.length ? row_depth(prev_row) : -1;
+					var max_depth = prev_depth + 1;
+					var cap = depth_max - extra;
+					var min_depth = 0;
+					var depth = row_depth(first_row);
+					var dx;
+
+					if(cap < 0) { cap = 0; }
+					if(max_depth > cap) { max_depth = cap; }
+					if(max_depth < 0) { max_depth = 0; }
+
+					if(after_row.length && (row_depth(after_row) > depth)) {
+
+						min_depth = row_depth(after_row);
+					}
+
+					if(min_depth > max_depth) { min_depth = max_depth; }
+
+					dx = rtl ? (depth_origin_x - event.clientX) : (event.clientX - depth_origin_x);
+
+					if((dx >= indent_step) && (depth < max_depth)) {
+
+						depth += 1;
+						depth_origin_x = event.clientX;
+
+					} else if((dx <= -indent_step) && (depth > min_depth)) {
+
+						depth -= 1;
+						depth_origin_x = event.clientX;
+					}
+
+					if(depth < min_depth) { depth = min_depth; }
+					if(depth > max_depth) { depth = max_depth; }
+
+					if(depth !== row_depth(first_row)) {
+
+						set_block_depth(block, depth_start, depth);
+						depth_origin_x = event.clientX;
+					}
+
+				});
+
+				$(document).on('pointerup.folderSort pointercancel.folderSort', finish);
+			});
+		}
 
 		}
 
@@ -20408,7 +20859,6 @@
 
 		var submit_action_id = submit_action.id;
 
-		// Actions have a single level fieldset configuration
 		var action_meta_key_cache = this.get_action_meta_key_cache(action, submit_action_id);
 
 		// Run through submit_action meta
@@ -20531,25 +20981,40 @@
 	// Submit - Action meta HTML
 	$.WS_Form.prototype.get_action_meta_key_cache = function(action, action_id) {
 
-		var action_meta_key_cache = [];
-
 		if(typeof action.fieldsets === 'undefined') { return []; }
 		if(typeof action.fieldsets[action_id] === 'undefined') { return []; }
-		if(typeof action.fieldsets[action_id].meta_keys === 'undefined') { return []; }
 
-		for(var meta_key_index in action.fieldsets[action_id].meta_keys) {
+		return this.action_meta_key_cache_fieldset(action.fieldsets[action_id], []);
+	}
 
-			if(!action.fieldsets[action_id].meta_keys.hasOwnProperty(meta_key_index)) { continue; }
+	// Walk a fieldset and its children for action meta labels
+	$.WS_Form.prototype.action_meta_key_cache_fieldset = function(fieldset, action_meta_key_cache) {
 
-			var meta_key = action.fieldsets[action_id].meta_keys[meta_key_index];
+		if(typeof fieldset.meta_keys !== 'undefined') {
 
-			if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { continue; }
-			var meta_key_config = $.WS_Form.meta_keys[meta_key];
+			for(var meta_key_index in fieldset.meta_keys) {
 
-			if(typeof meta_key_config.label === 'undefined') { continue; }
+				if(!fieldset.meta_keys.hasOwnProperty(meta_key_index)) { continue; }
 
-			// Add to action_meta_key_cache
-			action_meta_key_cache[meta_key] = {'label': $.WS_Form.meta_keys[meta_key].label};
+				var meta_key = fieldset.meta_keys[meta_key_index];
+
+				if(typeof $.WS_Form.meta_keys[meta_key] === 'undefined') { continue; }
+				var meta_key_config = $.WS_Form.meta_keys[meta_key];
+
+				if(typeof meta_key_config.label === 'undefined') { continue; }
+
+				action_meta_key_cache[meta_key] = {'label': meta_key_config.label};
+			}
+		}
+
+		if(typeof fieldset.fieldsets !== 'undefined') {
+
+			for(var fieldset_key in fieldset.fieldsets) {
+
+				if(!fieldset.fieldsets.hasOwnProperty(fieldset_key)) { continue; }
+
+				this.action_meta_key_cache_fieldset(fieldset.fieldsets[fieldset_key], action_meta_key_cache);
+			}
 		}
 
 		return action_meta_key_cache;

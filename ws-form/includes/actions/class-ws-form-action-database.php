@@ -335,6 +335,9 @@
 			// Auto delete expired submissions (trash or permanent)
 			$ws_form_submit = new WS_Form_Submit();
 			$ws_form_submit->db_delete_expired(true, true);
+
+			// Auto delete old spam submissions (trash or permanent)
+			$ws_form_submit->db_delete_spam(true, true);
 		}
 
 		// Deactivate

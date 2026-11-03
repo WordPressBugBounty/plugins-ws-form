@@ -469,4 +469,30 @@
 
 			parent::api_json_response(array('folder_id' => $folder_id), false, false, false);
 		}
+
+		// API - POST - Move a folder
+		public function api_folder_move($parameters) {
+
+			$id = absint(WS_Form_Common::get_query_var_nonce('id', 0, $parameters));
+			$parent_id = absint(WS_Form_Common::get_query_var_nonce('parent_id', 0, $parameters));
+			$next_sibling_id = absint(WS_Form_Common::get_query_var_nonce('next_sibling_id', 0, $parameters));
+
+			try {
+
+				$ws_form_form_folder = new WS_Form_Form_Folder();
+				$result = $ws_form_form_folder->db_move($id, $parent_id, $next_sibling_id);
+
+			} catch (Exception $e) {
+
+				parent::api_throw_error($ws_form_form_folder->message($e->getMessage()));
+			}
+
+			parent::api_json_response(array(
+
+				'id' => $result['id'],
+				'parent_id' => $result['parent_id'],
+				'next_sibling_id' => $result['next_sibling_id']
+
+			), false, false, false);
+		}
 	}

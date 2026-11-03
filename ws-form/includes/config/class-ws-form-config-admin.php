@@ -270,8 +270,14 @@
 										),
 
 										array(
+											'label'			=>	__('Random Text Detection', 'ws-form'),
+											'kb_url'		=>	'/knowledgebase/random-text-detection/',
+											'meta_keys'	=> array('random_text')
+										),
+
+										array(
 											'label'			=>	__('Honeypot', 'ws-form'),
-											'kb_url'		=>	'/knowledgebase/form-settings/#spam',
+											'kb_url'		=>	'/knowledgebase/honeypot/',
 											'meta_keys'	=> array('honeypot')
 										),
 
@@ -812,8 +818,8 @@
 					'sidebar_title_group'					=>	__('Tab', 'ws-form'),
 					'sidebar_title_section'					=>	__('Section', 'ws-form'),
 					'sidebar_title_history'					=>	__('History', 'ws-form'),
-					'sidebar_button_image'					=>	__('Select', 'ws-form'),
-					'sidebar_button_media'					=>	__('Select', 'ws-form'),
+					'sidebar_button_image'					=>	_x('Select', 'Select media button', 'ws-form'),
+					'sidebar_button_media'					=>	_x('Select', 'Select media button', 'ws-form'),
 					'sidebar_placeholder_global_setting'	=>	__('Defaults to global setting', 'ws-form'),
 
 					// Search
@@ -1089,15 +1095,8 @@
 				array(
 
 					array('type' => 'select', 'source' => 'field', 'colspan' => 2, 'label' => __('Insert Field', 'ws-form'), 'action' => 'insert-select'),
-					array('type' => 'button', 'label' => __('del', 'ws-form'), 'class' => 'wsf-button-danger', 'title' => __('Delete', 'ws-form'), 'action' => 'delete'),
-					array(
-						'type' => 'button',
-						/* translators: AC = All Clear button on calculator */
-						'label' => __('AC', 'ws-form'),
-						'class' => 'wsf-button-danger',
-						'title' => __('All Clear', 'ws-form'),
-						'action' => 'clear'
-					),
+					array('type' => 'button', 'label' => 'del', 'class' => 'wsf-button-danger', 'title' => __('Delete', 'ws-form'), 'action' => 'delete'),
+					array('type' => 'button', 'label' => 'AC', 'class' => 'wsf-button-danger', 'title' => __('All Clear', 'ws-form'), 'action' => 'clear'),
 				),
 
 				// Row 2

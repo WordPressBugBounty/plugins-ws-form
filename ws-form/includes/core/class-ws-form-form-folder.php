@@ -9,11 +9,14 @@
 
 		public $table_name;
 
+		public $id = 0;
+
 		const ERROR_DUPLICATE = 'duplicate';
 		const ERROR_CHILDREN = 'children';
 		const ERROR_NOT_FOUND = 'not_found';
 		const ERROR_LABEL = 'label';
 		const ERROR_DEPTH = 'depth';
+		const ERROR_CYCLE = 'cycle';
 
 		public function __construct() {
 
@@ -46,6 +49,10 @@
 				case self::ERROR_DEPTH :
 
 					return __('Folders cannot be nested any deeper.', 'ws-form');
+
+				case self::ERROR_CYCLE :
+
+					return __('A folder cannot be moved into itself.', 'ws-form');
 
 				default :
 
@@ -427,6 +434,115 @@
 				'folder_id' => $folder_id,
 				'form_ids' => array_values($ids)
 			);
+		}
+
+		// Move. parent_id 0 is the top level. next_sibling_id 0 appends.
+		public function db_move($id, $parent_id, $next_sibling_id = 0) {
+
+			WS_Form_Common::user_must('edit_form');
+
+			$id = absint($id);
+			$parent_id = absint($parent_id);
+			$next_sibling_id = absint($next_sibling_id);
+
+			$row = self::db_get($id);
+
+			if(!$row) {
+
+				parent::db_throw_error(self::ERROR_NOT_FOUND);
+			}
+
+			if($parent_id > 0 && !self::db_get($parent_id)) {
+
+				parent::db_throw_error(self::ERROR_NOT_FOUND);
+			}
+
+			$descendants = self::folder_ids_with_descendants($id);
+
+			if(in_array($parent_id, $descendants, true)) {
+
+				parent::db_throw_error(self::ERROR_CYCLE);
+			}
+
+			$new_depth = ($parent_id === 0) ? 0 : (self::depth($parent_id) + 1);
+
+			if(($new_depth + self::subtree_extra_depth($id)) > WS_FORM_FORM_FOLDERS_DEPTH_MAX) {
+
+				parent::db_throw_error(self::ERROR_DEPTH);
+			}
+
+			self::require_unique_label($row['label'], $parent_id, $id);
+
+			if($next_sibling_id > 0) {
+
+				$sibling = self::db_get($next_sibling_id);
+
+				if(!$sibling || (absint($sibling['parent_id']) !== $parent_id) || ($next_sibling_id === $id)) {
+
+					parent::db_throw_error(self::ERROR_NOT_FOUND);
+				}
+			}
+
+			// db_object_sort_index writes $this->id, not the $id argument
+			$this->id = $id;
+			self::db_object_sort_index($this->table_name, 'parent_id', $parent_id, $next_sibling_id, $id);
+
+			return array(
+
+				'id' => $id,
+				'parent_id' => $parent_id,
+				'next_sibling_id' => $next_sibling_id
+			);
+		}
+
+		// Levels below this folder. 0 if it has no subfolders.
+		private function subtree_extra_depth($id) {
+
+			global $wpdb;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom database table
+			$rows = $wpdb->get_results("SELECT id, parent_id FROM " . esc_sql($this->table_name), ARRAY_A);
+			$by_parent = array();
+
+			if(is_array($rows)) {
+
+				foreach($rows as $row) {
+
+					$parent_id = absint($row['parent_id']);
+					if(!isset($by_parent[$parent_id])) { $by_parent[$parent_id] = array(); }
+					$by_parent[$parent_id][] = absint($row['id']);
+				}
+			}
+
+			$max_extra = 0;
+			$seen = array();
+
+			$walk = function($folder_id, $extra) use (&$walk, &$max_extra, &$seen, $by_parent) {
+
+				$folder_id = absint($folder_id);
+				if(isset($seen[$folder_id])) { return; }
+				$seen[$folder_id] = true;
+
+				if($extra > $max_extra) { $max_extra = $extra; }
+				if(empty($by_parent[$folder_id])) { return; }
+
+				foreach($by_parent[$folder_id] as $child_id) {
+
+					$walk($child_id, $extra + 1);
+				}
+			};
+
+			$id = absint($id);
+
+			if(!empty($by_parent[$id])) {
+
+				foreach($by_parent[$id] as $child_id) {
+
+					$walk($child_id, 1);
+				}
+			}
+
+			return $max_extra;
 		}
 
 		// Label

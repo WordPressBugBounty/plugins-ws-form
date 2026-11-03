@@ -1,24 +1,19 @@
+# Copyright (C) 2026 WS Form
+# This file is distributed under the GPL-3.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WS Form PRO\n"
-"POT-Creation-Date: 2026-10-12 10:51-0400\n"
-"PO-Revision-Date: 2026-10-12 10:52-0400\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: WS Form\n"
+"Report-Msgid-Bugs-To: https://wsform.com/support\n"
+"POT-Creation-Date: 2026-10-13T03:43:56+00:00\n"
+"PO-Revision-Date: 2026-10-30T17:13:28-04:00\n"
+"Last-Translator: WS Form\n"
+"Language-Team: WS Form\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.9\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: ws-form.php\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: "
-"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Domain: ws-form\n"
 
 #: admin/class-ws-form-admin.php:273 api/class-ws-form-api-group.php:43
 #: includes/class-ws-form-config.php:7480
@@ -312,7 +307,7 @@ msgstr "Παράλειψη &amp; απενεργοποίηση"
 
 #: admin/class-ws-form-admin.php:982
 msgid "Submit &amp; Deactivate"
-msgstr "Υποβολή & amp; Απενεργοποίηση"
+msgstr "Υποβολή &amp; απενεργοποίηση"
 
 #. translators: %s: WS Form
 #: admin/class-ws-form-admin.php:1018 admin/class-ws-form-admin.php:1134
@@ -385,7 +380,7 @@ msgstr "Ακύρωση"
 
 #: admin/class-ws-form-admin.php:1190
 msgid "Insert Form"
-msgstr "Εισαγωγή εντύπου"
+msgstr "Εισαγωγή φόρμας"
 
 #: admin/class-ws-form-admin.php:1194 admin/class-ws-form-admin.php:1310
 #: admin/class-ws-form-admin.php:1311 admin/class-ws-form-admin.php:3550
@@ -402,7 +397,7 @@ msgstr "Καλώς ήρθατε"
 #: admin/class-ws-form-admin.php:1285 admin/class-ws-form-admin.php:3353
 #, php-format
 msgid "Welcome to %s"
-msgstr "Καλως ήλθατε στο %s"
+msgstr "Καλώς ήρθατε στο %s"
 
 #: admin/class-ws-form-admin.php:1299 admin/class-ws-form-admin.php:1300
 #: admin/class-ws-form-admin.php:3534
@@ -473,7 +468,7 @@ msgstr "Ρυθμίσεις"
 #: admin/class-ws-form-admin.php:1407 admin/class-ws-form-admin.php:1408
 #: admin/partials/ws-form-form-migrate.php:83
 msgid "Migrate"
-msgstr "Μεταναστεύω"
+msgstr "Μετεγκατάσταση"
 
 #: admin/class-ws-form-admin.php:1419 admin/class-ws-form-admin.php:1420
 #: admin/class-ws-form-admin.php:3119
@@ -485,7 +480,7 @@ msgstr "Αναβάθμιση σε PRO"
 #: admin/class-ws-form-admin.php:3123 admin/partials/ws-form-form-add.php:135
 #: includes/config/class-ws-form-config-option.php:1861
 msgid "Integrations"
-msgstr "Πρόσθετα"
+msgstr "Ενσωματώσεις"
 
 #: admin/class-ws-form-admin.php:1499
 msgid "Clear hidden fields"
@@ -1059,7 +1054,7 @@ msgstr "Υποβολή"
 
 #: admin/class-ws-form-wp-list-table-submit.php:155
 msgid "Date Updated"
-msgstr "Η ημ/νία ενημερώθηκε"
+msgstr "Ημερομηνία ενημέρωσης"
 
 #: admin/class-ws-form-wp-list-table-submit.php:156
 #: includes/class-ws-form-config.php:21481
@@ -1212,7 +1207,7 @@ msgstr "Ενημέρωση"
 
 #: admin/partials/ws-form-form-add.php:183
 msgid "Integration templates"
-msgstr "Πρότυπα πρόσθετων"
+msgstr "Πρότυπα ενσωματώσεων"
 
 #: admin/partials/ws-form-form-add.php:241
 msgid "Your form is being created..."
@@ -1476,7 +1471,7 @@ msgid "Are you sure you want to start the import?"
 msgstr "Είστε βέβαιοι ότι θέλετε να ξεκινήσετε την εισαγωγή;"
 
 #: admin/partials/ws-form-form-migrate.php:741
-#: admin/partials/ws-form-form.php:186
+#: admin/partials/ws-form-form.php:188
 #: includes/config/class-ws-form-config-admin.php:795
 #: includes/config/class-ws-form-config-admin.php:986
 #: includes/config/class-ws-form-config-admin.php:1360
@@ -1557,7 +1552,7 @@ msgid "Create your first form to get started."
 msgstr "Δημιουργήστε την πρώτη σας φόρμα για να ξεκινήσετε."
 
 #: admin/partials/ws-form-form.php:109 admin/partials/ws-form-form.php:152
-#: admin/partials/ws-form-form.php:230
+#: admin/partials/ws-form-form.php:233
 msgid "Unfiled"
 msgstr "Χωρίς φάκελο"
 
@@ -1565,15 +1560,19 @@ msgstr "Χωρίς φάκελο"
 msgid "Folders"
 msgstr "Φάκελοι"
 
-#: admin/partials/ws-form-form.php:178
+#: admin/partials/ws-form-form.php:167
+msgid "Drag to move"
+msgstr "Σύρετε για μετακίνηση"
+
+#: admin/partials/ws-form-form.php:186
 msgid "Rename"
 msgstr "Μετονομασία"
 
-#: admin/partials/ws-form-form.php:182
+#: admin/partials/ws-form-form.php:187
 msgid "Add subfolder"
 msgstr "Προσθήκη υποφακέλου"
 
-#: admin/partials/ws-form-form.php:221
+#: admin/partials/ws-form-form.php:224
 msgid "This folder is empty."
 msgstr "Αυτός ο φάκελος είναι κενός."
 
@@ -2011,7 +2010,7 @@ msgstr "Δεν καθορίστηκε ID φόρμας προορισμού"
 
 #: api/class-ws-form-api-migrate.php:299
 msgid "Duplicate method not specified"
-msgstr "Δεν καθορίστηκε μέθοδος διπλασιασμού"
+msgstr "Δεν καθορίστηκε μέθοδος αντιγραφής"
 
 #: api/class-ws-form-api-section.php:73
 msgid "Invalid template ID"
@@ -2062,7 +2061,7 @@ msgstr "Δεν βρέθηκε δείκτης ενέργειας"
 #: api/class-ws-form-api-submit.php:547
 #: includes/core/class-ws-form-submit.php:3592
 msgid "An unknown error occurred"
-msgstr "Παρουσιάστηκε σφάλμα"
+msgstr "Παρουσιάστηκε άγνωστο σφάλμα"
 
 #: api/class-ws-form-api-template.php:167
 msgid "Template config data not found"
@@ -2073,7 +2072,7 @@ msgstr "Δεν βρέθηκαν δεδομένα ρύθμισης παραμέτ
 #: includes/core/class-ws-form-template.php:565
 #, php-format
 msgid "Unable to open config.json file: %s"
-msgstr "Δεν είναι δυνατή η ανοίξη του αρχείου config.json: %s"
+msgstr "Δεν είναι δυνατό το άνοιγμα του αρχείου config.json: %s"
 
 #. translators: %s: Config file name
 #: api/class-ws-form-api-template.php:195
@@ -2100,7 +2099,7 @@ msgstr "Το αρχείο προτύπου δεν βρέθηκε: %s"
 msgid "Invalid template type"
 msgstr "Μη έγκυρος τύπος προτύπου"
 
-#: api/class-ws-form-api.php:492 api/class-ws-form-api.php:493
+#: api/class-ws-form-api.php:494 api/class-ws-form-api.php:495
 msgid "WS Form MCP Server"
 msgstr "WS Form MCP Server"
 
@@ -2183,7 +2182,7 @@ msgstr "Google Tag Manager (Επίπεδο δεδομένων)"
 #: includes/actions/class-ws-form-action-conversion.php:453
 #: includes/class-ws-form-config.php:20629
 msgid "Google Analytics"
-msgstr "Ανάλυση Google"
+msgstr "Google Analytics"
 
 #: includes/actions/class-ws-form-action-conversion.php:454
 #: includes/class-ws-form-config.php:20658
@@ -2220,7 +2219,7 @@ msgstr "π.χ. Υποβλήθηκε"
 
 #: includes/actions/class-ws-form-action-conversion.php:486
 msgid "Event Category"
-msgstr "Κατηγορία Εκδήλωσης"
+msgstr "Κατηγορία συμβάντος"
 
 #: includes/actions/class-ws-form-action-conversion.php:488
 msgid "e.g. Form - #form_label"
@@ -2328,7 +2327,7 @@ msgstr ""
 #: includes/actions/class-ws-form-action-conversion.php:807
 #: includes/actions/class-ws-form-action-conversion.php:901
 msgid "Event Name"
-msgstr "Όνομα Εκδήλωσης"
+msgstr "Όνομα συμβάντος"
 
 #: includes/actions/class-ws-form-action-conversion.php:631
 msgid "The Fathom event name."
@@ -2366,9 +2365,14 @@ msgid "Update Fields"
 msgstr "Ενημέρωση πεδίων"
 
 #: includes/actions/class-ws-form-action-conversion.php:698
-#: includes/config/class-ws-form-config-styler.php:3943
+msgctxt "Conversion tracking action"
 msgid "Track"
-msgstr "Εντοπισμός"
+msgstr "Παρακολούθηση"
+
+#: includes/config/class-ws-form-config-styler.php:3943
+msgctxt "Range slider track (styler)"
+msgid "Track"
+msgstr "Διαδρομή"
 
 #: includes/actions/class-ws-form-action-conversion.php:699
 msgid "Tag"
@@ -2380,7 +2384,7 @@ msgstr "Τιμή / Όνομα"
 
 #: includes/actions/class-ws-form-action-conversion.php:747
 msgid "Payload"
-msgstr "Φορτίο επί πληρωμή"
+msgstr "Ωφέλιμο φορτίο"
 
 #: includes/actions/class-ws-form-action-conversion.php:749
 msgid ""
@@ -2665,10 +2669,6 @@ msgstr ""
 "URL του endpoint στο οποίο θα αποσταλούν τα δεδομένα. Οι μεταβλητές μπορούν "
 "να αλλάξουν μόνο τη διαδρομή ή το query string, όχι τον host."
 
-#: includes/actions/class-ws-form-action-custom-api.php:839
-msgid "Request Method"
-msgstr "Αίτηση μεθόδου"
-
 #: includes/actions/class-ws-form-action-custom-api.php:841
 msgid "Select the HTTP request method to use."
 msgstr "Επιλέξτε τη μέθοδο αιτήματος HTTP που θα χρησιμοποιηθεί."
@@ -2922,18 +2922,6 @@ msgstr "SSL Επαλήθευση"
 msgid "Whether to verify SSL for the request."
 msgstr "Αν θα γίνεται επαλήθευση SSL για το αίτημα."
 
-#: includes/actions/class-ws-form-action-custom-api.php:1126
-msgid "Use URLs for File Fields"
-msgstr "Χρήση URL για πεδία αρχείων"
-
-#: includes/actions/class-ws-form-action-custom-api.php:1128
-msgid ""
-"If checked, file and signature fields will be converted to URLs instead of "
-"file objects. Multiple files are comma separated."
-msgstr ""
-"Αν είναι επιλεγμένο, τα πεδία αρχείου και υπογραφής θα μετατρέπονται σε URL "
-"αντί για αντικείμενα αρχείου. Πολλαπλά αρχεία διαχωρίζονται με κόμμα."
-
 #: includes/actions/class-ws-form-action-custom-api.php:1135
 msgid "Ignore Empty Values"
 msgstr "Παράβλεψη κενών τιμών"
@@ -3028,7 +3016,7 @@ msgstr "Δεν ήταν δυνατή η εύρεση του πεδίου email �
 #: includes/actions/class-ws-form-action-data-erasure-request.php:82
 #: includes/actions/class-ws-form-action-data-export-request.php:85
 msgid "Invalid email address"
-msgstr "Μη έγκυρη διέυθυνση ηλεκτρονικού ταχυδρομείου"
+msgstr "Μη έγκυρη διεύθυνση email"
 
 #: includes/actions/class-ws-form-action-data-erasure-request.php:103
 msgid "Error making delete data request"
@@ -3283,7 +3271,7 @@ msgstr "Διεύθυνση(εις) email για κρυφή κοινοποίησ�
 
 #: includes/actions/class-ws-form-action-email.php:957
 msgid "Reply To"
-msgstr "Απάντηση"
+msgstr "Απάντηση σε"
 
 #: includes/actions/class-ws-form-action-email.php:959
 msgid "Email address replies will be sent to."
@@ -3684,7 +3672,7 @@ msgstr "Κύλιση στην κορυφή"
 #: includes/class-ws-form-config.php:10461
 #: includes/class-ws-form-config.php:16753
 msgid "Instant"
-msgstr "Άμεσα άρθρα στο Facebook"
+msgstr "Άμεση"
 
 #: includes/actions/class-ws-form-action-message.php:230
 #: includes/class-ws-form-config.php:10462
@@ -5125,6 +5113,11 @@ msgstr "Συμπεριφορά απόκρυψης"
 msgid "Advanced"
 msgstr "Προχωρημένος"
 
+#: includes/class-ws-form-config.php:2708
+msgctxt "Field type group"
+msgid "Advanced"
+msgstr "Προχωρημένος"
+
 #: includes/class-ws-form-config.php:337 includes/class-ws-form-config.php:513
 #: includes/class-ws-form-config.php:658 includes/class-ws-form-config.php:813
 #: includes/class-ws-form-config.php:967 includes/class-ws-form-config.php:1127
@@ -5183,7 +5176,7 @@ msgstr "Προχωρημένος"
 #: includes/config/class-ws-form-config-admin.php:478
 #: includes/config/class-ws-form-config-admin.php:548
 msgid "Classes"
-msgstr "Τάξεις"
+msgstr "Κλάσεις"
 
 #: includes/class-ws-form-config.php:342 includes/class-ws-form-config.php:518
 #: includes/class-ws-form-config.php:663 includes/class-ws-form-config.php:818
@@ -5536,9 +5529,14 @@ msgstr "Επιλογή"
 #: includes/class-ws-form-config.php:1188
 #: includes/class-ws-form-config.php:1192
 #: includes/class-ws-form-config.php:22919
+#: includes/config/class-ws-form-config-styler.php:4056
+msgctxt "Select field"
+msgid "Select"
+msgstr "Επιλογή"
+
 #: includes/config/class-ws-form-config-admin.php:1037
 #: includes/config/class-ws-form-config-admin.php:1038
-#: includes/config/class-ws-form-config-styler.php:4056
+msgctxt "Select media button"
 msgid "Select"
 msgstr "Επιλέξτε"
 
@@ -5893,11 +5891,11 @@ msgstr "Νομικός"
 
 #: includes/class-ws-form-config.php:3253
 msgid "terms conditions privacy policy"
-msgstr "όροι προϋποθέσεις πολιτική απορρητου"
+msgstr "όροι προϋποθέσεις πολιτική απορρήτου"
 
 #: includes/class-ws-form-config.php:3322
 msgid "SSN"
-msgstr "ΔΟΥ"
+msgstr "SSN"
 
 #: includes/class-ws-form-config.php:3326
 #: includes/class-ws-form-config.php:16231
@@ -6022,12 +6020,12 @@ msgstr "Διαχωριστικό"
 
 #: includes/class-ws-form-config.php:4389
 msgid "hr"
-msgstr "ώρες"
+msgstr "hr"
 
 #: includes/class-ws-form-config.php:4457
 #: includes/class-ws-form-config.php:4460
 msgid "Spacer"
-msgstr "Διαχωριστικό"
+msgstr "Κενό διάστημα"
 
 #: includes/class-ws-form-config.php:4552
 msgid "alert success information warning danger"
@@ -6178,7 +6176,7 @@ msgstr "Κυλιόμενη"
 
 #: includes/class-ws-form-config.php:5323
 msgid "Next Tab"
-msgstr "Επόμενο Tab"
+msgstr "Επόμενη καρτέλα"
 
 #: includes/class-ws-form-config.php:5331
 #: includes/config/class-ws-form-config-admin.php:825
@@ -6661,7 +6659,7 @@ msgstr "π.χ. κα., κ., δεσποινίς, κα. ή δρ."
 
 #: includes/class-ws-form-config.php:7756
 msgid "Surname or last name."
-msgstr "Επώνυμο ή фамилия."
+msgstr "Επώνυμο ή οικογενειακό όνομα."
 
 #: includes/class-ws-form-config.php:7757
 msgid "e.g. Jr., B.Sc. or PhD."
@@ -6699,7 +6697,7 @@ msgstr "Κουμπί (Πλήρες πλάτος)"
 
 #: includes/class-ws-form-config.php:7898
 msgid "Circles"
-msgstr "Κύκλους"
+msgstr "Κύκλοι"
 
 #: includes/class-ws-form-config.php:7900
 msgid "Image (Circles)"
@@ -6717,7 +6715,7 @@ msgstr "Εικόνα (Κύκλοι + Προσαρμοζόμενο)"
 #: includes/config/class-ws-form-config-styler.php:2397
 #: includes/config/class-ws-form-config-styler.php:3841
 msgid "Swatch"
-msgstr "Δείγμα υφάσματος"
+msgstr "Δείγμα"
 
 #: includes/class-ws-form-config.php:7904
 msgid "Swatch (Circles)"
@@ -6912,7 +6910,7 @@ msgstr "Ανά έτος"
 #: includes/class-ws-form-config.php:8172
 #: includes/class-ws-form-config.php:10109
 msgid "Limit Reached Message"
-msgstr "Όριο προσπελάσιμου μηνύματος"
+msgstr "Μήνυμα επίτευξης ορίου"
 
 #: includes/class-ws-form-config.php:8175
 #: includes/class-ws-form-config.php:10112
@@ -6953,7 +6951,7 @@ msgstr "Διεύθυνση IP"
 
 #: includes/class-ws-form-config.php:8284
 msgid "Blocked Message"
-msgstr "Αποκλεισμένο μήνυμα"
+msgstr "Μήνυμα αποκλεισμού"
 
 #: includes/class-ws-form-config.php:8287
 msgid ""
@@ -7120,7 +7118,7 @@ msgstr ""
 #: includes/class-ws-form-config.php:8733
 #: includes/class-ws-form-config.php:20793
 msgid "Referrer"
-msgstr "Αντιπρόσωπος"
+msgstr "Παραπομπή"
 
 #: includes/class-ws-form-config.php:8736
 msgid "Referring page."
@@ -7138,7 +7136,7 @@ msgstr "Λειτουργικό σύστημα του χρήστη."
 #: includes/class-ws-form-config.php:8751
 #: includes/class-ws-form-config.php:20815
 msgid "Agent"
-msgstr "Μεσίτης"
+msgstr "User agent"
 
 #: includes/class-ws-form-config.php:8754
 msgid "Users web browser type."
@@ -7502,7 +7500,7 @@ msgstr "Μέγεθος (Pixels)"
 #: includes/class-ws-form-config.php:9722
 #: includes/config/class-ws-form-config-customize.php:389
 msgid "Opacity"
-msgstr "Διαφάνεια"
+msgstr "Αδιαφάνεια"
 
 #: includes/class-ws-form-config.php:9365
 msgid "Accent Color"
@@ -7572,11 +7570,11 @@ msgstr "Δρομέας"
 #: includes/config/class-ws-form-config-admin.php:1176
 #: includes/config/class-ws-form-config-customize.php:294
 msgid "Inherit"
-msgstr "Κληρονομώ"
+msgstr "Κληρονόμηση"
 
 #: includes/class-ws-form-config.php:9751
 msgid "Initial"
-msgstr "Αρχική"
+msgstr "initial"
 
 #: includes/class-ws-form-config.php:9752
 msgid "Not Allowed"
@@ -8487,7 +8485,7 @@ msgstr "Πολαρόιντ"
 
 #: includes/class-ws-form-config.php:11765
 msgid "Pill"
-msgstr "Χάπι"
+msgstr "Κάψουλα"
 
 #: includes/class-ws-form-config.php:11773
 msgid "Theme Mode"
@@ -9071,6 +9069,10 @@ msgstr "Αδύναμο"
 #: includes/class-ws-form-config.php:12793
 #: includes/class-ws-form-config.php:13861
 #: includes/config/class-ws-form-config-public.php:246
+msgctxt "Password strength"
+msgid "Medium"
+msgstr "Μεσαίο"
+
 #: includes/frameworks/class-ws-form-framework-bootstrap3.php:54
 #: includes/frameworks/class-ws-form-framework-bootstrap4.php:58
 #: includes/frameworks/class-ws-form-framework-bootstrap41.php:58
@@ -9079,6 +9081,7 @@ msgstr "Αδύναμο"
 #: includes/frameworks/class-ws-form-framework-foundation6.php:93
 #: includes/frameworks/class-ws-form-framework-foundation64.php:93
 #: includes/frameworks/class-ws-form-framework-ws-form.php:50
+msgctxt "Breakpoint size"
 msgid "Medium"
 msgstr "Μεσαίο"
 
@@ -9093,7 +9096,7 @@ msgstr "Δυνατό"
 #: includes/class-ws-form-config.php:12813
 #: includes/config/class-ws-form-config-public.php:248
 msgid "Show password"
-msgstr "Δείξε τον κωδικό"
+msgstr "Εμφάνιση κωδικού πρόσβασης"
 
 #: includes/class-ws-form-config.php:12820
 #: includes/class-ws-form-config.php:12823
@@ -9472,7 +9475,7 @@ msgstr "Προσθήκη γραμμής"
 
 #: includes/class-ws-form-config.php:13410
 msgid "Remove row"
-msgstr "Αφαιρέστε τη σειρά"
+msgstr "Αφαίρεση γραμμής"
 
 #: includes/class-ws-form-config.php:13416
 msgid "Move row up"
@@ -9691,7 +9694,7 @@ msgstr "Επιλέξτε την ελάχιστη απαιτούμενη ισχύ
 
 #: includes/class-ws-form-config.php:13881
 msgid "Password Visibility Toggle"
-msgstr "Ορατότητα κωδικού πρόσβασης Εναλλαγή"
+msgstr "Εναλλαγή ορατότητας κωδικού πρόσβασης"
 
 #: includes/class-ws-form-config.php:13883
 msgid "Show the password visibility toggle icon?"
@@ -10107,35 +10110,24 @@ msgid "Input Too Short"
 msgstr "Η εισαγωγή είναι πολύ μικρή"
 
 #: includes/class-ws-form-config.php:14866
-msgid "Please enter #char_remaining or more character#char_plural"
-msgstr ""
-"Παρακαλούμε εισαγάγετε #char_remaining ή περισσότερους χαρακτήρες#char_plural"
+msgid "Please enter #char_remaining or more #char_word"
+msgstr "Παρακαλούμε εισαγάγετε #char_remaining ή περισσότερους #char_word"
 
 #: includes/class-ws-form-config.php:14867
-msgid ""
-"Variables:<br />#char_remaining - Number of characters remaining.<br /"
-">#char_plural - Inserts 's' if characters remaining is not 1.<br />#term - "
-"The search term."
-msgstr ""
-"Μεταβλητές:<br />#char_remaining - Αριθμός χαρακτήρων που απομένουν.<br /"
-">#char_plural - Εισάγει 's' αν οι χαρακτήρες που απομένουν δεν είναι 1.<br /"
-">#term - Ο όρος αναζήτησης."
+msgid "Variables:<br />#char_remaining - Number of characters remaining.<br />#char_word - The word character or characters.<br />#term - The search term."
+msgstr "Μεταβλητές:<br />#char_remaining - Αριθμός χαρακτήρων που απομένουν.<br />#char_word - Η λέξη χαρακτήρας ή χαρακτήρες.<br />#term - Ο όρος αναζήτησης."
 
 #: includes/class-ws-form-config.php:14903
 msgid "Input Too Long"
 msgstr "Η εισαγωγή είναι πολύ μεγάλη"
 
 #: includes/class-ws-form-config.php:14905
-msgid "Please delete #char_over character#char_plural"
-msgstr "Παρακαλούμε διαγράψτε #char_over χαρακτήρα#char_plural"
+msgid "Please delete #char_over #char_word"
+msgstr "Παρακαλούμε διαγράψτε #char_over #char_word"
 
 #: includes/class-ws-form-config.php:14906
-msgid ""
-"Variables:<br />#char_over - Number of characters over.<br />#char_plural - "
-"Inserts 's' if characters over is not 1."
-msgstr ""
-"Μεταβλητές:<br />#char_over - Αριθμός χαρακτήρων πάνω από το όριο.<br /"
-">#char_plural - Εισάγει 's' αν οι χαρακτήρες πάνω από το όριο δεν είναι 1."
+msgid "Variables:<br />#char_over - Number of characters over.<br />#char_word - The word character or characters."
+msgstr "Μεταβλητές:<br />#char_over - Αριθμός χαρακτήρων πάνω από το όριο.<br />#char_word - Η λέξη χαρακτήρας ή χαρακτήρες."
 
 #: includes/class-ws-form-config.php:14947
 msgid "If checked, multiple files can be selected in the file picker."
@@ -10499,7 +10491,7 @@ msgstr "GIF"
 
 #: includes/class-ws-form-config.php:15531
 msgid "Capture"
-msgstr "Σύληψη"
+msgstr "Λήψη"
 
 #: includes/class-ws-form-config.php:15535
 msgid "Select the preferred capture media (where supported)."
@@ -10870,7 +10862,7 @@ msgstr "Ετικέτα για τη γραμμή προόδου (χρησιμοπ
 #: includes/class-ws-form-config.php:16087
 #: includes/class-ws-form-config.php:16090
 msgid "Resume"
-msgstr "Βιογραφικό"
+msgstr "Συνέχιση"
 
 #: includes/class-ws-form-config.php:16091
 msgid "Label for the resume button."
@@ -10878,7 +10870,7 @@ msgstr "Ετικέτα για το κουμπί συνέχισης."
 
 #: includes/class-ws-form-config.php:16097
 msgid "Retake"
-msgstr "Ξαναπάρουν"
+msgstr "Επανάληψη λήψης"
 
 #: includes/class-ws-form-config.php:16100
 #: includes/config/class-ws-form-config-public.php:227
@@ -10974,7 +10966,7 @@ msgstr "Ετικέτα για το κουμπί διακοπής (χρησιμο
 #: includes/class-ws-form-config.php:16200
 #: includes/config/class-ws-form-config-public.php:235
 msgid "Volume"
-msgstr "Όγκος"
+msgstr "Ένταση"
 
 #: includes/class-ws-form-config.php:16201
 msgid "Label for the volume control."
@@ -11136,11 +11128,11 @@ msgstr "Κωδικός χώρας: 3 χαρακτήρες"
 
 #: includes/class-ws-form-config.php:16491
 msgid "Date: mm/dd"
-msgstr "Ημερομηνία: μμ/ηη"
+msgstr "Ημερομηνία: mm/dd"
 
 #: includes/class-ws-form-config.php:16492
 msgid "Date: dd/mm"
-msgstr "Ημερομηνία: ηη/μμ"
+msgstr "Ημερομηνία: dd/mm"
 
 #: includes/class-ws-form-config.php:16493
 msgid "Date: mm.dd.yyyy"
@@ -11274,11 +11266,11 @@ msgstr "Τηλέφωνο - ΗΠΑ: Ευέλικτο"
 
 #: includes/class-ws-form-config.php:16551
 msgid "mm.dd.yyyy"
-msgstr "μμ.ηη.εεεε"
+msgstr "mm.dd.yyyy"
 
 #: includes/class-ws-form-config.php:16552
 msgid "dd.mm.yyyy"
-msgstr "ηη.μμ.εεεε"
+msgstr "dd.mm.yyyy"
 
 #: includes/class-ws-form-config.php:16553
 msgid "mm/dd/yyyy"
@@ -11286,11 +11278,11 @@ msgstr "mm/dd/yyyy"
 
 #: includes/class-ws-form-config.php:16554
 msgid "dd/mm/yyyy"
-msgstr "ηη/μμ/εεεε"
+msgstr "dd/mm/yyyy"
 
 #: includes/class-ws-form-config.php:16555
 msgid "yyyy-mm-dd"
-msgstr "εεεε-μμ-ηη"
+msgstr "yyyy-mm-dd"
 
 #: includes/class-ws-form-config.php:16556
 msgid "hh:mm:ss"
@@ -11484,13 +11476,13 @@ msgstr "WPBakery"
 #: includes/class-ws-form-config.php:17278
 #: includes/config/class-ws-form-config-admin.php:80
 msgid "Conditions"
-msgstr "Προϋποθέσεις"
+msgstr "Συνθήκες"
 
 #: includes/class-ws-form-config.php:17268
 #: includes/core/class-ws-form-form-ai.php:2868
 #: includes/core/class-ws-form-form-ai.php:4600
 msgid "Condition"
-msgstr "Κατάσταση"
+msgstr "Συνθήκη"
 
 #: includes/class-ws-form-config.php:17269
 #: includes/class-ws-form-config.php:17319
@@ -11514,7 +11506,7 @@ msgstr "Πηγή δεδομένων"
 
 #: includes/class-ws-form-config.php:17353
 msgid "Update Frequency"
-msgstr "Ενημέρωση συχνότητας"
+msgstr "Συχνότητα ενημέρωσης"
 
 #: includes/class-ws-form-config.php:17357
 msgid ""
@@ -12010,9 +12002,7 @@ msgstr "Επιλέξτε τον τύπο χάρτη που θα εμφανίζε
 msgid ""
 "Enter the height of the map. You can enter a percentage (e.g. 56.25% for "
 "16:9 or 100% for square) or pixels (e.g. 400px)."
-msgstr ""
-"Εισαγάγετε το ύψος του χάρτη. Μπορείτε να εισαγάγετε ποσοστό (π.χ. 56.25% fή "
-"16:9 ή 100% fή τετράγωνο) ή pixel (π.χ. 400px)."
+msgstr "Εισαγάγετε το ύψος του χάρτη. Μπορείτε να εισαγάγετε ποσοστό (π.χ. 56.25% για 16:9 ή 100% για τετράγωνο) ή pixel (π.χ. 400px)."
 
 #: includes/class-ws-form-config.php:18782
 msgid "Search Field"
@@ -12117,7 +12107,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:18948
 msgid "On Load"
-msgstr "Φόρτωση όλων"
+msgstr "Κατά τη φόρτωση"
 
 #: includes/class-ws-form-config.php:18951
 msgid ""
@@ -12416,7 +12406,7 @@ msgstr "Ενδιάμεση στάση"
 
 #: includes/class-ws-form-config.php:19247
 msgid "Preference"
-msgstr "Προττμήσεις"
+msgstr "Προτίμηση"
 
 #: includes/class-ws-form-config.php:19255
 msgid "Optimize Waypoints"
@@ -12440,7 +12430,7 @@ msgstr "Οδήγηση"
 
 #: includes/class-ws-form-config.php:19269
 msgid "Transit"
-msgstr "Διαμετακόμιση"
+msgstr "Συγκοινωνία"
 
 #: includes/class-ws-form-config.php:19270
 msgid "Walking"
@@ -12452,7 +12442,7 @@ msgstr "Επιλέξτε ποιον τρόπο μεταφοράς θα χρησ�
 
 #: includes/class-ws-form-config.php:19278
 msgid "Unit System"
-msgstr "Μονάδα Συστήματος"
+msgstr "Σύστημα μονάδων"
 
 #: includes/class-ws-form-config.php:19282
 msgid "Metric"
@@ -12643,7 +12633,7 @@ msgstr "Πεζά"
 
 #: includes/class-ws-form-config.php:19518
 msgid "Capitalize"
-msgstr "Πρόταση"
+msgstr "Κεφαλαίο πρώτο γράμμα λέξεων"
 
 #: includes/class-ws-form-config.php:19519
 msgid "Sentence"
@@ -12729,7 +12719,7 @@ msgstr "Επιλέξτε ποιο στυλ θα χρησιμοποιηθεί γ�
 
 #: includes/class-ws-form-config.php:19710
 msgid "Auto Complete"
-msgstr "Αυτόματη Πλήρης"
+msgstr "Αυτόματη συμπλήρωση"
 
 #: includes/class-ws-form-config.php:19717
 msgid "Informs the browsers how to autocomplete this field."
@@ -13274,7 +13264,7 @@ msgstr "Επιστρέφει το αναγνωριστικό της φόρμας
 #: includes/config/class-ws-form-config-option.php:584
 #: includes/config/class-ws-form-config-public.php:393
 msgid "Framework"
-msgstr "Η ομάδα πλαισίου SEO"
+msgstr "Framework"
 
 #: includes/class-ws-form-config.php:21419
 msgid "Returns the current framework being used to render the form."
@@ -13419,7 +13409,7 @@ msgstr "Χρώμα - Προεπιλογή (Πιο ανοιχτό)"
 
 #: includes/class-ws-form-config.php:21609
 msgid "Color - Default (Lightest)"
-msgstr "Χρώμα - Προεπιλογή (Πιο ανοιχτό)"
+msgstr "Χρώμα - Προεπιλογή (Πολύ ανοιχτό)"
 
 #: includes/class-ws-form-config.php:21617
 msgid "Color - Primary"
@@ -13499,11 +13489,11 @@ msgstr "Επιστρέφει την πρόοδο ως αριθμό από 0 έω
 
 #: includes/class-ws-form-config.php:21765
 msgid "Percent (0% to 100%)"
-msgstr "Ποσοστό (0% to 100%)"
+msgstr "Ποσοστό (0% έως 100%)"
 
 #: includes/class-ws-form-config.php:21766
 msgid "Returns the progress as a percentage from 0% to 100%."
-msgstr "Επιστρέφει την πρόοδο ως ποσοστό από 0% to 100%."
+msgstr "Επιστρέφει την πρόοδο ως ποσοστό από 0% έως 100%."
 
 #: includes/class-ws-form-config.php:21773
 msgid "Number Remaining (100 to 0)"
@@ -13515,11 +13505,11 @@ msgstr "Επιστρέφει την υπολειπόμενη πρόοδο ως �
 
 #: includes/class-ws-form-config.php:21781
 msgid "Percent Remaining (100% to 0%)"
-msgstr "Υπολειπόμενο ποσοστό (100% to 0%)"
+msgstr "Υπολειπόμενο ποσοστό (100% έως 0%)"
 
 #: includes/class-ws-form-config.php:21782
 msgid "Returns the remaining progress as a percentage from 0% to 100%."
-msgstr "Επιστρέφει την εναπομένουσα πρόοδο ως ποσοστό από 0% to 100%."
+msgstr "Επιστρέφει την εναπομένουσα πρόοδο ως ποσοστό από 0% έως 100%."
 
 #: includes/class-ws-form-config.php:21798
 msgid "Currency Symbol"
@@ -13851,7 +13841,7 @@ msgstr "Επιστρέφει το E υψωμένο στη δύναμη ενός 
 
 #: includes/class-ws-form-config.php:22269
 msgid "Floor"
-msgstr "Πάτωμα"
+msgstr "Στρογγυλοποίηση προς τα κάτω"
 
 #: includes/class-ws-form-config.php:22274
 msgid ""
@@ -13870,7 +13860,7 @@ msgstr "Επιστρέφει τον φυσικό λογάριθμο ενός α�
 
 #: includes/class-ws-form-config.php:22293
 msgid "Round"
-msgstr "Στρογγυλό"
+msgstr "Στρογγυλοποίηση"
 
 #: includes/class-ws-form-config.php:22299
 msgid "Returns the rounded value of a number."
@@ -13894,7 +13884,7 @@ msgstr "Επιστρέφει την τετραγωνική ρίζα του αρ�
 
 #: includes/class-ws-form-config.php:22330
 msgid "Tangent"
-msgstr "Εφαπτομένος"
+msgstr "Εφαπτομένη"
 
 #: includes/class-ws-form-config.php:22335
 msgid "Returns the tangent of a radian number."
@@ -13903,7 +13893,7 @@ msgstr "Επιστρέφει την εφαπτομένη ενός αριθμού
 #: includes/class-ws-form-config.php:22342
 #: includes/class-ws-form-config.php:22425
 msgid "Average"
-msgstr "Μέτριο"
+msgstr "Μέσος όρος"
 
 #: includes/class-ws-form-config.php:22347
 #: includes/class-ws-form-config.php:22430
@@ -14473,7 +14463,7 @@ msgstr ""
 
 #: includes/class-ws-form-config.php:23002
 msgid "Checkbox Label"
-msgstr "Ετικέτα κουτιού ελέγχου απορρήτου"
+msgstr "Ετικέτα πλαισίου ελέγχου"
 
 #: includes/class-ws-form-config.php:23008
 msgid ""
@@ -14967,12 +14957,12 @@ msgstr "Επιστρέφει το URL εγγραφής."
 #: includes/config/class-ws-form-config-admin.php:1196
 #: includes/core/class-ws-form-submit-export.php:151
 msgid "Tracking"
-msgstr "Παρακολούθηση ID"
+msgstr "Παρακολούθηση"
 
 #: includes/class-ws-form-config.php:23649
 #: includes/class-ws-form-config.php:23687
 msgid "Span"
-msgstr "Εκκρεμεί πληρωμή <span class=\"count\">(%s)</span>"
+msgstr "span"
 
 #: includes/class-ws-form-config.php:23651
 #: includes/class-ws-form-config.php:23666
@@ -15221,7 +15211,7 @@ msgstr "Ακυρώθηκε"
 
 #: includes/class-ws-form-config.php:24569
 msgid "Authorized"
-msgstr "Εξουσιοδοτηµένο"
+msgstr "Εξουσιοδοτημένο"
 
 #: includes/class-ws-form-config.php:24570
 #: includes/config/class-ws-form-config-styler.php:652
@@ -15466,14 +15456,6 @@ msgstr ""
 msgid "Update section"
 msgstr "Ενημέρωση ενότητας"
 
-#: includes/config/class-ws-form-config-ability-structure.php:426
-msgid ""
-"Update a section label and/or meta (label_render). Use the sections tool to "
-"get section IDs."
-msgstr ""
-"Ενημερώστε μια ετικέτα ενότητας και/ή τα meta (label_render). Χρησιμοποιήστε "
-"το εργαλείο ενοτήτων για να λάβετε τα ID ενοτήτων."
-
 #: includes/config/class-ws-form-config-ability-structure.php:482
 msgid "Delete section"
 msgstr "Διαγραφή ενότητας"
@@ -15686,10 +15668,35 @@ msgstr ""
 "folder_id 0 αφαιρεί τις φόρμες από τον φάκελό τους."
 
 #: includes/config/class-ws-form-config-ability.php:511
+msgid "Move form folder"
+msgstr "Μετακίνηση φακέλου φόρμας"
+
+#: includes/config/class-ws-form-config-ability.php:512
+msgid ""
+"Moves a form folder. parent_id 0 is the top level. next_sibling_id 0 puts it "
+"last among its new siblings. Subfolders move with it. Sibling names must be "
+"unique."
+msgstr ""
+"Μετακινεί έναν φάκελο φόρμας. Το parent_id 0 είναι το ανώτερο επίπεδο. Το "
+"next_sibling_id 0 τον τοποθετεί τελευταίο ανάμεσα στα νέα αδελφά στοιχεία "
+"του. Οι υποφάκελοι μετακινούνται μαζί του. Τα ονόματα των αδελφών στοιχείων "
+"πρέπει να είναι μοναδικά."
+
+#. translators: %d: Maximum folder depth. 0 is a top-level folder.
+#: includes/config/class-ws-form-config-ability.php:537
+#, php-format
+msgid ""
+"The new parent folder ID. 0 is the top level. Folders cannot be nested "
+"deeper than depth %d."
+msgstr ""
+"Το νέο αναγνωριστικό γονικού φακέλου. Το 0 είναι το ανώτερο επίπεδο. Οι "
+"φάκελοι δεν μπορούν να εμφωλευτούν σε βάθος μεγαλύτερο από %d."
+
+#: includes/config/class-ws-form-config-ability.php:598
 msgid "Create form from a description"
 msgstr "Δημιουργία φόρμας από περιγραφή"
 
-#: includes/config/class-ws-form-config-ability.php:512
+#: includes/config/class-ws-form-config-ability.php:599
 msgid ""
 "Use this tool to create a new form from a description provided by the user. "
 "The tool generates the form using a JSON definition that must follow the "
@@ -15709,11 +15716,11 @@ msgstr ""
 "πρώτα τη φόρμα και μετά καλέστε το style-create με form_id και χρώματα "
 "ριζικής παλέτας."
 
-#: includes/config/class-ws-form-config-ability.php:605
+#: includes/config/class-ws-form-config-ability.php:692
 msgid "Get form in JSON format"
 msgstr "Λήψη φόρμας σε μορφή JSON"
 
-#: includes/config/class-ws-form-config-ability.php:606
+#: includes/config/class-ws-form-config-ability.php:693
 msgid ""
 "Returns the form in JSON format by ID, including fields, actions, and "
 "conditionals. Form email notifications are Send Email actions in the actions "
@@ -15724,11 +15731,11 @@ msgstr ""
 "Αποστολή email στον πίνακα ενεργειών (όχι ρυθμίσεις φόρμας). Χρησιμοποιήστε "
 "το με το form-update-json για να επεξεργαστείτε τις ειδοποιήσεις."
 
-#: includes/config/class-ws-form-config-ability.php:666
+#: includes/config/class-ws-form-config-ability.php:753
 msgid "Update a form from a JSON string"
 msgstr "Ενημέρωση μιας φόρμας από συμβολοσειρά JSON"
 
-#: includes/config/class-ws-form-config-ability.php:667
+#: includes/config/class-ws-form-config-ability.php:754
 msgid ""
 "Use this tool to modify an existing form using JSON from form-get-json. "
 "Prefer field-update for single-field label or meta changes. Use this tool to "
@@ -15751,11 +15758,11 @@ msgstr ""
 "περιλαμβάνονται actions ή conditionals, αντικαθιστούν τις ενέργειες ή τις "
 "συνθήκες της φόρμας."
 
-#: includes/config/class-ws-form-config-ability.php:752
+#: includes/config/class-ws-form-config-ability.php:839
 msgid "Publish form"
 msgstr "Δημοσίευση φόρμας"
 
-#: includes/config/class-ws-form-config-ability.php:753
+#: includes/config/class-ws-form-config-ability.php:840
 msgid ""
 "When a form is created in WS Form it initially has a status of draft. Use "
 "this to publish a form by ID so that it can be used on a live web page."
@@ -15764,11 +15771,11 @@ msgstr ""
 "Χρησιμοποιήστε αυτό για να δημοσιεύσετε μια φόρμα βάσει ID, ώστε να μπορεί "
 "να χρησιμοποιηθεί σε μια ενεργή ιστοσελίδα."
 
-#: includes/config/class-ws-form-config-ability.php:807
+#: includes/config/class-ws-form-config-ability.php:894
 msgid "Draft form"
 msgstr "Πρόχειρη φόρμα"
 
-#: includes/config/class-ws-form-config-ability.php:808
+#: includes/config/class-ws-form-config-ability.php:895
 msgid ""
 "Set a published form back to draft by ID. Draft forms cannot be used on live "
 "web pages until they are published again."
@@ -15777,30 +15784,30 @@ msgstr ""
 "φόρμες δεν μπορούν να χρησιμοποιηθούν σε ενεργές ιστοσελίδες μέχρι να "
 "δημοσιευτούν ξανά."
 
-#: includes/config/class-ws-form-config-ability.php:862
+#: includes/config/class-ws-form-config-ability.php:949
 msgid "Lock form"
 msgstr "Κλείδωμα φόρμας"
 
-#: includes/config/class-ws-form-config-ability.php:863
+#: includes/config/class-ws-form-config-ability.php:950
 msgid "Lock a form by ID so it cannot be edited. Unlock is a separate action."
 msgstr ""
 "Κλειδώνει μια φόρμα με βάση το ID ώστε να μην μπορεί να επεξεργαστεί. Το "
 "ξεκλείδωμα είναι ξεχωριστή ενέργεια."
 
-#: includes/config/class-ws-form-config-ability.php:923
+#: includes/config/class-ws-form-config-ability.php:1010
 msgid "Unlock form"
 msgstr "Ξεκλείδωμα φόρμας"
 
-#: includes/config/class-ws-form-config-ability.php:924
+#: includes/config/class-ws-form-config-ability.php:1011
 msgid "Unlock a form by ID so it can be edited again."
 msgstr ""
 "Ξεκλειδώνει μια φόρμα με βάση το ID ώστε να μπορεί να επεξεργαστεί ξανά."
 
-#: includes/config/class-ws-form-config-ability.php:984
+#: includes/config/class-ws-form-config-ability.php:1071
 msgid "Clone form"
-msgstr "拷贝自"
+msgstr "Κλωνοποίηση φόρμας"
 
-#: includes/config/class-ws-form-config-ability.php:985
+#: includes/config/class-ws-form-config-ability.php:1072
 msgid ""
 "Use this tool to clone/copy/duplicate a form. The cloned form will be in a "
 "draft state."
@@ -15809,11 +15816,11 @@ msgstr ""
 "διπλοτυπήσετε μια φόρμα. Η κλωνοποιημένη φόρμα θα είναι σε κατάσταση "
 "προσχεδίου."
 
-#: includes/config/class-ws-form-config-ability.php:1071
+#: includes/config/class-ws-form-config-ability.php:1158
 msgid "Get form shortcode"
 msgstr "Λήψη σύντομου κώδικα φόρμας"
 
-#: includes/config/class-ws-form-config-ability.php:1072
+#: includes/config/class-ws-form-config-ability.php:1159
 msgid ""
 "Gets a shortcode for a form in the WS Form form plugin for WordPress by form "
 "ID."
@@ -15821,11 +15828,11 @@ msgstr ""
 "Λαμβάνει έναν σύντομο κωδικό (shortcode) για μια φόρμα στο πρόσθετο φορμών "
 "WS Form για το WordPress βάσει ID φόρμας."
 
-#: includes/config/class-ws-form-config-ability.php:1126
+#: includes/config/class-ws-form-config-ability.php:1213
 msgid "Get form block markup"
 msgstr "Λήψη σήμανσης μπλοκ φόρμας"
 
-#: includes/config/class-ws-form-config-ability.php:1127
+#: includes/config/class-ws-form-config-ability.php:1214
 msgid ""
 "Gets the block markup for a form in WS Form by form ID. This should only be "
 "used for pages edited by the block editor (Gutenberg)."
@@ -15834,11 +15841,11 @@ msgstr ""
 "πρέπει να χρησιμοποιείται μόνο για σελίδες που επεξεργάζονται με τον "
 "επεξεργαστή μπλοκ (Gutenberg)."
 
-#: includes/config/class-ws-form-config-ability.php:1181
+#: includes/config/class-ws-form-config-ability.php:1268
 msgid "Get statistical data about a form by ID"
 msgstr "Λήψη στατιστικών δεδομένων για μια φόρμα βάσει ID"
 
-#: includes/config/class-ws-form-config-ability.php:1182
+#: includes/config/class-ws-form-config-ability.php:1269
 msgid ""
 "Returns statistical data about a form by ID including total views, saves, "
 "submissions, daily figures, as well as the total number of submission "
@@ -15849,11 +15856,11 @@ msgstr ""
 "ημερήσιων στοιχείων, καθώς και του συνολικού αριθμού εγγραφών υποβολής και "
 "πόσες από αυτές είναι μη αναγνωσμένες."
 
-#: includes/config/class-ws-form-config-ability.php:1330
+#: includes/config/class-ws-form-config-ability.php:1417
 msgid "List submissions"
 msgstr "Λίστα υποβολών"
 
-#: includes/config/class-ws-form-config-ability.php:1331
+#: includes/config/class-ws-form-config-ability.php:1418
 msgid ""
 "Returns a list of submissions for a form by ID. Supports optional date "
 "range, status, keyword search, pagination, and ordering."
@@ -15862,29 +15869,29 @@ msgstr ""
 "προαιρετικό εύρος ημερομηνιών, κατάσταση, αναζήτηση λέξης-κλειδιού, "
 "σελιδοποίηση και ταξινόμηση."
 
-#: includes/config/class-ws-form-config-ability.php:1542
+#: includes/config/class-ws-form-config-ability.php:1629
 msgid "Get submission"
 msgstr "Λήψη υποβολής"
 
-#: includes/config/class-ws-form-config-ability.php:1543
+#: includes/config/class-ws-form-config-ability.php:1630
 msgid "Returns a single submission by ID including its field values."
 msgstr ""
 "Επιστρέφει μία μεμονωμένη υποβολή βάσει ID, συμπεριλαμβανομένων των τιμών "
 "των πεδίων της."
 
-#: includes/config/class-ws-form-config-ability.php:1676
+#: includes/config/class-ws-form-config-ability.php:1763
 msgid "List submission notes"
 msgstr "Λίστα σημειώσεων υποβολής"
 
-#: includes/config/class-ws-form-config-ability.php:1677
+#: includes/config/class-ws-form-config-ability.php:1764
 msgid "Returns notes for a submission by ID."
 msgstr "Επιστρέφει σημειώσεις για μια υποβολή βάσει ID."
 
-#: includes/config/class-ws-form-config-ability.php:1794
+#: includes/config/class-ws-form-config-ability.php:1881
 msgid "Create submission note"
 msgstr "Δημιουργία σημείωσης υποβολής"
 
-#: includes/config/class-ws-form-config-ability.php:1795
+#: includes/config/class-ws-form-config-ability.php:1882
 msgid ""
 "Creates a note on a submission. Keep content as short note text only. Put "
 "structured label/value rows in meta.values and action links in meta.buttons. "
@@ -15897,11 +15904,11 @@ msgstr ""
 "συστήματος/τρίτου, ορίστε το user_name (π.χ. Conversion Bridge) και "
 "προαιρετικά το locked σε true."
 
-#: includes/config/class-ws-form-config-ability.php:1936
+#: includes/config/class-ws-form-config-ability.php:2023
 msgid "Update submission note"
 msgstr "Ενημέρωση σημείωσης υποβολής"
 
-#: includes/config/class-ws-form-config-ability.php:1937
+#: includes/config/class-ws-form-config-ability.php:2024
 msgid ""
 "Updates a submission note by ID. Keep content as short note text only. Put "
 "structured label/value rows in meta.values and action links in meta.buttons."
@@ -15910,36 +15917,36 @@ msgstr ""
 "σύντομο κείμενο σημείωσης. Τοποθετήστε δομημένες γραμμές ετικέτας/τιμής στο "
 "meta.values και συνδέσμους ενεργειών στο meta.buttons."
 
-#: includes/config/class-ws-form-config-ability.php:2068
+#: includes/config/class-ws-form-config-ability.php:2155
 msgid "Delete submission note"
 msgstr "Διαγραφή σημείωσης υποβολής"
 
-#: includes/config/class-ws-form-config-ability.php:2069
+#: includes/config/class-ws-form-config-ability.php:2156
 msgid "Deletes a submission note by ID."
 msgstr "Διαγράφει μια σημείωση υποβολής με βάση το ID."
 
-#: includes/config/class-ws-form-config-ability.php:2129
+#: includes/config/class-ws-form-config-ability.php:2216
 msgid "Delete form"
 msgstr "Διαγραφή φόρμας"
 
-#: includes/config/class-ws-form-config-ability.php:2130
+#: includes/config/class-ws-form-config-ability.php:2217
 msgid "Trash or permanently delete a form by ID."
 msgstr ""
 "Μεταφέρετε στον κάδο απορριμμάτων ή διαγράψτε οριστικά μια φόρμα βάσει ID."
 
-#: includes/config/class-ws-form-config-ability.php:2213
+#: includes/config/class-ws-form-config-ability.php:2300
 msgid "Restore form"
 msgstr "Επαναφορά φόρμας"
 
-#: includes/config/class-ws-form-config-ability.php:2214
+#: includes/config/class-ws-form-config-ability.php:2301
 msgid "Restore a form from the trash by ID."
 msgstr "Επαναφέρετε μια φόρμα από τον κάδο απορριμμάτων βάσει ID."
 
-#: includes/config/class-ws-form-config-ability.php:2282
+#: includes/config/class-ws-form-config-ability.php:2369
 msgid "Add field"
 msgstr "Προσθήκη πεδίου"
 
-#: includes/config/class-ws-form-config-ability.php:2283
+#: includes/config/class-ws-form-config-ability.php:2370
 msgid ""
 "Use this tool to add or insert a new field into a form. Use the sections or "
 "fields tools (or form-get-json) to get section_id, and optionally "
@@ -15950,46 +15957,32 @@ msgstr ""
 "get-json) για να λάβετε το section_id και, προαιρετικά, το field_id_before "
 "για εισαγωγή πριν από ένα άλλο πεδίο."
 
-#: includes/config/class-ws-form-config-ability.php:2411
+#: includes/config/class-ws-form-config-ability.php:2498
 msgid "Update field"
 msgstr "Ενημέρωση πεδίου"
 
-#: includes/config/class-ws-form-config-ability.php:2412
-msgid ""
-"Use this tool to update an existing field label and/or meta (required, "
-"placeholder, help, options, etc.). Prefer this over form-update-json for "
-"single-field changes. Field type cannot be changed. Use the fields tool to "
-"find field IDs, or form-get-json for full field meta."
-msgstr ""
-"Χρησιμοποιήστε αυτό το εργαλείο για να ενημερώσετε μια υπάρχουσα ετικέτα "
-"πεδίου και/ή μεταδεδομένα (υποχρεωτικό, placeholder, βοήθεια, επιλογές "
-"κ.λπ.). Προτιμήστε το αντί του form-update-json για αλλαγές σε ένα μόνο "
-"πεδίο. Ο τύπος πεδίου δεν μπορεί να αλλάξει. Χρησιμοποιήστε το εργαλείο "
-"πεδίων για να βρείτε ID πεδίων ή το form-get-json για πλήρη μεταδεδομένα "
-"πεδίου."
-
-#: includes/config/class-ws-form-config-ability.php:2526
+#: includes/config/class-ws-form-config-ability.php:2613
 msgid "Delete field"
 msgstr "Διαγραφή πεδίου"
 
-#: includes/config/class-ws-form-config-ability.php:2527
+#: includes/config/class-ws-form-config-ability.php:2614
 msgid "Use this tool to delete a field from a form."
 msgstr ""
 "Χρησιμοποιήστε αυτό το εργαλείο για να διαγράψετε ένα πεδίο από μια φόρμα."
 
-#: includes/config/class-ws-form-config-ability.php:2611
+#: includes/config/class-ws-form-config-ability.php:2698
 msgid "List styles"
-msgstr "Στυλ λίστας"
+msgstr "Λίστα στυλ"
 
-#: includes/config/class-ws-form-config-ability.php:2612
+#: includes/config/class-ws-form-config-ability.php:2699
 msgid "Returns a list of form styles in WS Form."
 msgstr "Επιστρέφει μια λίστα με στυλ φορμών στο WS Form."
 
-#: includes/config/class-ws-form-config-ability.php:2720
+#: includes/config/class-ws-form-config-ability.php:2807
 msgid "Get style"
 msgstr "Λήψη στυλ"
 
-#: includes/config/class-ws-form-config-ability.php:2721
+#: includes/config/class-ws-form-config-ability.php:2808
 msgid ""
 "Returns a style by ID, including its root palette values (form colors, "
 "fonts, border radius, and grid gap)."
@@ -15998,11 +15991,11 @@ msgstr ""
 "παλέτας του (χρώματα φόρμας, γραμματοσειρές, ακτίνα περιγράμματος και κενό "
 "πλέγματος)."
 
-#: includes/config/class-ws-form-config-ability.php:2808
+#: includes/config/class-ws-form-config-ability.php:2895
 msgid "Create style"
 msgstr "Δημιουργία στυλ"
 
-#: includes/config/class-ws-form-config-ability.php:2809
+#: includes/config/class-ws-form-config-ability.php:2896
 msgid ""
 "Create a form style only when the user specifically asks for a color theme, "
 "branding, or visual appearance (for example a red theme). Do not create a "
@@ -16022,11 +16015,11 @@ msgstr ""
 "χρησιμοποιούν το προεπιλεγμένο στυλ. Αν το αντιστοιχίζετε σε νέα φόρμα, "
 "δημιουργήστε πρώτα τη φόρμα και μετά περάστε το form_id της."
 
-#: includes/config/class-ws-form-config-ability.php:2960
+#: includes/config/class-ws-form-config-ability.php:3047
 msgid "Update style"
 msgstr "Ενημέρωση στυλ"
 
-#: includes/config/class-ws-form-config-ability.php:2961
+#: includes/config/class-ws-form-config-ability.php:3048
 msgid ""
 "Update a style label and/or root palette values. Optionally assign it to a "
 "form (form_id) or set it as the site default (default) or conversational "
@@ -16042,30 +16035,30 @@ msgstr ""
 "παλέτας (χρώματα φόρμας, γραμματοσειρές, ακτίνα περιγράμματος και κενό "
 "πλέγματος), συμπεριλαμβανομένων των αντίστοιχων κλειδιών _alt."
 
-#: includes/config/class-ws-form-config-ability.php:3115
+#: includes/config/class-ws-form-config-ability.php:3202
 msgid "Lock style"
-msgstr "Στυλ κλειδώματος"
+msgstr "Κλείδωμα στυλ"
 
-#: includes/config/class-ws-form-config-ability.php:3116
+#: includes/config/class-ws-form-config-ability.php:3203
 msgid "Lock a style by ID so it cannot be edited. Unlock is a separate action."
 msgstr ""
 "Κλειδώστε ένα στυλ με βάση το ID ώστε να μην μπορεί να επεξεργαστεί. Το "
 "ξεκλείδωμα είναι ξεχωριστή ενέργεια."
 
-#: includes/config/class-ws-form-config-ability.php:3176
+#: includes/config/class-ws-form-config-ability.php:3263
 msgid "Unlock style"
 msgstr "Ξεκλείδωμα στυλ"
 
-#: includes/config/class-ws-form-config-ability.php:3177
+#: includes/config/class-ws-form-config-ability.php:3264
 msgid "Unlock a style by ID so it can be edited again."
 msgstr ""
 "Ξεκλειδώνει ένα στυλ με βάση το ID ώστε να μπορεί να επεξεργαστεί ξανά."
 
-#: includes/config/class-ws-form-config-ability.php:3237
+#: includes/config/class-ws-form-config-ability.php:3324
 msgid "Delete style"
 msgstr "Διαγραφή στυλ"
 
-#: includes/config/class-ws-form-config-ability.php:3238
+#: includes/config/class-ws-form-config-ability.php:3325
 msgid ""
 "Trash or permanently delete a style by ID. Default styles cannot be deleted."
 msgstr ""
@@ -16138,7 +16131,7 @@ msgstr "Μάσκες HTML επικεφαλίδας"
 #: includes/config/class-ws-form-config-admin.php:268
 #: includes/config/class-ws-form-config-public.php:372
 msgid "Populate"
-msgstr "填充"
+msgstr "Συμπλήρωση"
 
 #: includes/config/class-ws-form-config-admin.php:274
 msgid "Populate Using Action"
@@ -16198,7 +16191,7 @@ msgstr "Χρονισμός"
 
 #: includes/config/class-ws-form-config-admin.php:406
 msgid "Events"
-msgstr "Εκδηλώσεις"
+msgstr "Συμβάντα"
 
 #: includes/config/class-ws-form-config-admin.php:428
 #: includes/data-sources/class-ws-form-data-source-jetengine.php:250
@@ -16220,7 +16213,7 @@ msgstr "Επαναλαμβανόμενο"
 
 #: includes/config/class-ws-form-config-admin.php:520
 msgid "Remove Row Behavior"
-msgstr "Κατάργηση συμπεριφοράς γραμμής"
+msgstr "Συμπεριφορά αφαίρεσης γραμμής"
 
 #: includes/config/class-ws-form-config-admin.php:564
 msgid "Bounds"
@@ -16248,7 +16241,7 @@ msgstr "Εξαγωγή καρτέλας"
 
 #: includes/config/class-ws-form-config-admin.php:609
 msgid "Import Tab"
-msgstr "Καρτέλα Εισαγωγής"
+msgstr "Εισαγωγή καρτέλας"
 
 #: includes/config/class-ws-form-config-admin.php:610
 #: includes/config/class-ws-form-config-admin.php:623
@@ -16349,7 +16342,7 @@ msgstr "πεδίο"
 #: includes/frameworks/class-ws-form-framework-ws-form.php:87
 #: includes/frameworks/class-ws-form-framework-ws-form.php:149
 msgid "Conditional Logic"
-msgstr "Conditional Logic"
+msgstr "Λογική υπό όρους"
 
 #: includes/config/class-ws-form-config-admin.php:783
 #: includes/core/class-ws-form-action.php:1226
@@ -16662,7 +16655,7 @@ msgstr "Είστε βέβαιοι ότι θέλετε να διαγράψετε 
 
 #: includes/config/class-ws-form-config-admin.php:909
 msgid "Are you sure you want to delete this column?"
-msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή τη στήλη?"
+msgstr "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτή τη στήλη;"
 
 #: includes/config/class-ws-form-config-admin.php:911
 msgid "Rollback to Publish State"
@@ -16731,7 +16724,7 @@ msgstr "Πεδίο: %s"
 #: includes/config/class-ws-form-config-admin.php:946
 #, php-format
 msgid "ID: %s"
-msgstr "Κωδικός Αγγελίας: %s"
+msgstr "ID: %s"
 
 #. translators: %s: Data source
 #: includes/config/class-ws-form-config-admin.php:948
@@ -16796,7 +16789,7 @@ msgstr "Διαγραφή Γραμμής"
 
 #: includes/config/class-ws-form-config-admin.php:975
 msgid "Are you sure you want to delete this row?"
-msgstr "Είσαι σίγουρος ότι θέλετε να διαγράψετε αυτή την γραμμή;"
+msgstr "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτή τη γραμμή;"
 
 #: includes/config/class-ws-form-config-admin.php:976
 msgid "Bulk Actions"
@@ -16990,7 +16983,7 @@ msgstr "Επέκταση"
 #: includes/config/class-ws-form-config-admin.php:1107
 #: includes/config/class-ws-form-config-admin.php:1228
 msgid "Contract"
-msgstr "Συμβόλαιο"
+msgstr "Σύμπτυξη"
 
 #: includes/config/class-ws-form-config-admin.php:1110
 msgid "New Action"
@@ -16998,7 +16991,7 @@ msgstr "Νέα ενέργεια"
 
 #: includes/config/class-ws-form-config-admin.php:1115
 msgid "New Condition"
-msgstr "Νέος Όρος"
+msgstr "Νέα συνθήκη"
 
 #: includes/config/class-ws-form-config-admin.php:1117
 msgid "If"
@@ -17006,15 +16999,15 @@ msgstr "If"
 
 #: includes/config/class-ws-form-config-admin.php:1118
 msgid "Then"
-msgstr "Τότε"
+msgstr "Then"
 
 #: includes/config/class-ws-form-config-admin.php:1119
 msgid "Else"
-msgstr "Αλλιώς"
+msgstr "Else"
 
 #: includes/config/class-ws-form-config-admin.php:1121
 msgid "Case Sensitive"
-msgstr "Ευαίσθητη υπόθεση"
+msgstr "Διάκριση πεζών-κεφαλαίων"
 
 #: includes/config/class-ws-form-config-admin.php:1123
 msgid "Hold ⌘ (Mac) or CTRL (PC) for multiple."
@@ -17034,7 +17027,7 @@ msgstr "Προσθήκη συνθήκης"
 
 #: includes/config/class-ws-form-config-admin.php:1131
 msgid "Delete Condition"
-msgstr "Συνθήκη διαγραφής"
+msgstr "Διαγραφή συνθήκης"
 
 #: includes/config/class-ws-form-config-admin.php:1137
 msgid "Sort Condition"
@@ -17312,18 +17305,9 @@ msgstr ""
 msgid "Insert Field"
 msgstr "Εισαγωγή πεδίου"
 
-#: includes/config/class-ws-form-config-admin.php:1360
-msgid "del"
-msgstr "del"
-
-#. translators: AC = All Clear button on calculator
-#: includes/config/class-ws-form-config-admin.php:1364
-msgid "AC"
-msgstr "AC"
-
 #: includes/config/class-ws-form-config-admin.php:1366
 msgid "All Clear"
-msgstr "Ολα ΕΝΤΑΞΕΙ"
+msgstr "Καθαρισμός όλων"
 
 #: includes/config/class-ws-form-config-admin.php:1374
 msgid "Opening Parentheses"
@@ -17339,11 +17323,11 @@ msgstr "Κόμμα"
 
 #: includes/config/class-ws-form-config-admin.php:1386
 msgid "Divide"
-msgstr "Διαιρώ"
+msgstr "Διαίρεση"
 
 #: includes/config/class-ws-form-config-admin.php:1395
 msgid "Multiply"
-msgstr "Πολλαπλασιάζω"
+msgstr "Πολλαπλασιασμός"
 
 #: includes/config/class-ws-form-config-admin.php:1404
 msgid "Subtract"
@@ -17444,7 +17428,7 @@ msgstr "Η επέκταση SUHOSIN έχει φορτωθεί"
 
 #: includes/config/class-ws-form-config-admin.php:1618
 msgid "Default Timezone"
-msgstr "Προεπιλεγμένη Ζώνη Ὠρας"
+msgstr "Προεπιλεγμένη ζώνη ώρας"
 
 #: includes/config/class-ws-form-config-admin.php:1620
 msgid "Max Post Size"
@@ -17522,7 +17506,7 @@ msgstr ""
 #: includes/config/class-ws-form-config-conditional.php:91
 #: includes/config/class-ws-form-config-conditional.php:129
 msgid "Validated"
-msgstr "Επικυρωθεί"
+msgstr "Επικυρώθηκε"
 
 #: includes/config/class-ws-form-config-conditional.php:30
 #: includes/config/class-ws-form-config-conditional.php:92
@@ -17678,7 +17662,7 @@ msgstr "Ορισμός ορατότητας"
 #: includes/config/class-ws-form-config-conditional.php:114
 #: includes/config/class-ws-form-config-conditional.php:502
 msgid "Click"
-msgstr "Κλίκ"
+msgstr "Κλικ"
 
 #: includes/config/class-ws-form-config-conditional.php:133
 msgid "Row count equals"
@@ -18065,6 +18049,10 @@ msgid "Not required"
 msgstr "Δεν απαιτείται"
 
 #: includes/config/class-ws-form-config-conditional.php:394
+msgctxt "Conditional action"
+msgid "Focus"
+msgstr "Εστίαση"
+
 #: includes/config/class-ws-form-config-styler.php:874
 #: includes/config/class-ws-form-config-styler.php:922
 #: includes/config/class-ws-form-config-styler.php:1179
@@ -18092,12 +18080,13 @@ msgstr "Δεν απαιτείται"
 #: includes/config/class-ws-form-config-styler.php:2809
 #: includes/config/class-ws-form-config-styler.php:2841
 #: includes/config/class-ws-form-config-styler.php:3116
+msgctxt "Styler state"
 msgid "Focus"
-msgstr "Συγκεντρώνω"
+msgstr "Εστίαση"
 
 #: includes/config/class-ws-form-config-conditional.php:395
 msgid "Blur"
-msgstr "Θολούρα"
+msgstr "Απώλεια εστίασης"
 
 #: includes/config/class-ws-form-config-conditional.php:396
 #: includes/config/class-ws-form-config-conditional.php:413
@@ -18381,7 +18370,7 @@ msgstr "AJAX"
 
 #: includes/config/class-ws-form-config-conditional.php:628
 msgid "Event"
-msgstr "Εκδήλωση"
+msgstr "Συμβάν"
 
 #. translators: %s: WS Form
 #: includes/config/class-ws-form-config-customize.php:78
@@ -18411,7 +18400,7 @@ msgstr "Δεσμευτικά κειμένου και τιμές απενεργο
 
 #: includes/config/class-ws-form-config-customize.php:191
 msgid "Lighter"
-msgstr "Αναπτήρας"
+msgstr "Πιο ανοιχτό"
 
 #: includes/config/class-ws-form-config-customize.php:193
 msgid "Field borders and buttons."
@@ -18419,7 +18408,7 @@ msgstr "Περιγράμματα πεδίων και κουμπιά."
 
 #: includes/config/class-ws-form-config-customize.php:198
 msgid "Lightest"
-msgstr "Πιο ανοιχτό"
+msgstr "Πολύ ανοιχτό"
 
 #: includes/config/class-ws-form-config-customize.php:200
 msgid ""
@@ -18564,7 +18553,7 @@ msgstr "Με παύλες"
 
 #: includes/config/class-ws-form-config-customize.php:347
 msgid "Dotted"
-msgstr "Διακεκομμένη"
+msgstr "Με τελείες"
 
 #: includes/config/class-ws-form-config-customize.php:348
 msgid "Double"
@@ -18572,7 +18561,7 @@ msgstr "Διπλό"
 
 #: includes/config/class-ws-form-config-customize.php:349
 msgid "Groove"
-msgstr "Κυματιστό"
+msgstr "groove"
 
 #: includes/config/class-ws-form-config-customize.php:350
 msgid "Inset"
@@ -18580,11 +18569,11 @@ msgstr "Εσωτερικά"
 
 #: includes/config/class-ws-form-config-customize.php:351
 msgid "Outset"
-msgstr "Eξωτερικά"
+msgstr "Εξωτερικά"
 
 #: includes/config/class-ws-form-config-customize.php:352
 msgid "Ridge"
-msgstr "Ακμές"
+msgstr "ridge"
 
 #: includes/config/class-ws-form-config-customize.php:353
 msgid "Solid"
@@ -18666,7 +18655,7 @@ msgstr "Συνάρτηση χρονισμού"
 
 #: includes/config/class-ws-form-config-customize.php:423
 msgid "Ease"
-msgstr "Ευκολία"
+msgstr "Ease"
 
 #: includes/config/class-ws-form-config-customize.php:424
 msgid "Ease In"
@@ -18678,7 +18667,7 @@ msgstr "Ease In Out"
 
 #: includes/config/class-ws-form-config-customize.php:426
 msgid "Ease Out"
-msgstr "Χαλαρώστε"
+msgstr "Ease Out"
 
 #: includes/config/class-ws-form-config-customize.php:427
 msgid "Linear"
@@ -18686,11 +18675,11 @@ msgstr "Γραμμικό"
 
 #: includes/config/class-ws-form-config-customize.php:428
 msgid "Step End"
-msgstr "Τέλος βήματος"
+msgstr "step-end"
 
 #: includes/config/class-ws-form-config-customize.php:429
 msgid "Step Start"
-msgstr "Βήμα Έναρξη"
+msgstr "step-start"
 
 #: includes/config/class-ws-form-config-customize.php:431
 #: includes/config/class-ws-form-config-styler.php:286
@@ -19401,7 +19390,7 @@ msgstr ""
 
 #: includes/config/class-ws-form-config-option.php:826
 msgid "Abilities API"
-msgstr "API δυνατοτήτων"
+msgstr "Abilities API"
 
 #: includes/config/class-ws-form-config-option.php:829
 msgid "Registers WS Form abilities with the WordPress Abilities API."
@@ -19580,11 +19569,11 @@ msgstr "Αριστερά με χώρο"
 
 #: includes/config/class-ws-form-config-option.php:1211
 msgid "Right with space"
-msgstr "Δικαίωμα με χώρο"
+msgstr "Δεξιά με κενό"
 
 #: includes/config/class-ws-form-config-option.php:1219
 msgid "Thousand Separator"
-msgstr "Διαχωριστής Χιλιοστών"
+msgstr "Διαχωριστικό χιλιάδων"
 
 #: includes/config/class-ws-form-config-option.php:1228
 msgid "Decimal Separator"
@@ -20314,7 +20303,7 @@ msgstr "ID στυλ"
 
 #: includes/config/class-ws-form-config-public.php:389
 msgid "Instance"
-msgstr "Κόμβος"
+msgstr "Στιγμιότυπο"
 
 #: includes/config/class-ws-form-config-public.php:390
 msgid "Session Hash"
@@ -20445,13 +20434,13 @@ msgstr "Το IF επέστρεψε FALSE: %s"
 #: includes/config/class-ws-form-config-public.php:453
 #, php-format
 msgid "THEN: %s"
-msgstr "ΤΟΤΕ: %s"
+msgstr "THEN: %s"
 
 #. translators: %s: Condition
 #: includes/config/class-ws-form-config-public.php:455
 #, php-format
 msgid "ELSE: %s"
-msgstr "ΑΛΛΙΩΣ: %s"
+msgstr "ELSE: %s"
 
 #. translators: %s: Condition
 #: includes/config/class-ws-form-config-public.php:457
@@ -20854,7 +20843,7 @@ msgstr ""
 
 #: includes/config/class-ws-form-config-styler.php:792
 msgid "Legend"
-msgstr "Κατάσταση"
+msgstr "Υπόμνημα"
 
 #: includes/config/class-ws-form-config-styler.php:801
 msgid "Repeater Icons"
@@ -20966,7 +20955,7 @@ msgstr "Περιθώριο"
 
 #: includes/config/class-ws-form-config-styler.php:1205
 msgid "Tooltip"
-msgstr "Σημείωση"
+msgstr "Επεξήγηση εργαλείου"
 
 #: includes/config/class-ws-form-config-styler.php:1219
 msgid "Font Color"
@@ -21201,7 +21190,7 @@ msgstr "Χρώμα - Πάνω"
 
 #: includes/config/class-ws-form-config-styler.php:3991
 msgid "Thumb"
-msgstr "Μικρογραφία εικόνας"
+msgstr "Λαβή"
 
 #: includes/config/class-ws-form-config-styler.php:4015
 msgid "Tickmark"
@@ -21217,11 +21206,11 @@ msgstr "Κάτω βέλος"
 
 #: includes/config/class-ws-form-config-styler.php:4094
 msgid "Padding Right"
-msgstr "Αναπλήρωση δεξιά"
+msgstr "Εσωτερικό περιθώριο δεξιά"
 
 #: includes/config/class-ws-form-config-styler.php:4110
 msgid "Choice (Pill)"
-msgstr "Επιλογή (Χάπι)"
+msgstr "Επιλογή (Κάψουλα)"
 
 #: includes/config/class-ws-form-config-styler.php:4180
 #: includes/third-party/akismet/class-ws-form-akismet.php:226
@@ -21259,7 +21248,7 @@ msgstr "Πίνακας"
 
 #: includes/config/class-ws-form-config-styler.php:4593
 msgid "Head"
-msgstr "Πρόσθιο μέρος κεφαλής"
+msgstr "Κεφαλίδα"
 
 #: includes/config/class-ws-form-config-styler.php:4631
 msgid "Body"
@@ -21349,468 +21338,474 @@ msgid "Error assigning forms: %s"
 msgstr "Σφάλμα κατά την ανάθεση φορμών: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:313
+#: includes/core/class-ws-form-ability.php:279
+#, php-format
+msgid "Error moving folder: %s"
+msgstr "Σφάλμα κατά τη μετακίνηση φακέλου: %s"
+
+#. translators: %s: Error message
+#: includes/core/class-ws-form-ability.php:337
 #, php-format
 msgid "Error creating form from JSON: %s"
 msgstr "Σφάλμα κατά τη δημιουργία φόρμας από JSON: %s"
 
-#: includes/core/class-ws-form-ability.php:331
-#: includes/core/class-ws-form-ability.php:371
-#: includes/core/class-ws-form-ability.php:416
-#: includes/core/class-ws-form-ability.php:455
-#: includes/core/class-ws-form-ability.php:504
-#: includes/core/class-ws-form-ability.php:538
-#: includes/core/class-ws-form-ability.php:588
-#: includes/core/class-ws-form-ability.php:618
-#: includes/core/class-ws-form-ability.php:648
-#: includes/core/class-ws-form-ability.php:740
-#: includes/core/class-ws-form-ability.php:1154
-#: includes/core/class-ws-form-ability.php:1205
-#: includes/core/class-ws-form-ability.php:1668
-#: includes/core/class-ws-form-ability.php:1730
-#: includes/core/class-ws-form-ability.php:1790
-#: includes/core/class-ws-form-ability.php:1836
-#: includes/core/class-ws-form-ability.php:1857
-#: includes/core/class-ws-form-ability.php:1878
-#: includes/core/class-ws-form-ability.php:1899
-#: includes/core/class-ws-form-ability.php:1925
-#: includes/core/class-ws-form-ability.php:1952
-#: includes/core/class-ws-form-ability.php:1979
-#: includes/core/class-ws-form-ability.php:2011
-#: includes/core/class-ws-form-ability.php:2043
-#: includes/core/class-ws-form-ability.php:2071
-#: includes/core/class-ws-form-ability.php:2092
-#: includes/core/class-ws-form-ability.php:2129
-#: includes/core/class-ws-form-ability.php:2168
-#: includes/core/class-ws-form-ability.php:2206
-#: includes/core/class-ws-form-ability.php:2227
-#: includes/core/class-ws-form-ability.php:2259
-#: includes/core/class-ws-form-ability.php:2297
-#: includes/core/class-ws-form-ability.php:2472
+#: includes/core/class-ws-form-ability.php:355
+#: includes/core/class-ws-form-ability.php:395
+#: includes/core/class-ws-form-ability.php:440
+#: includes/core/class-ws-form-ability.php:479
+#: includes/core/class-ws-form-ability.php:528
+#: includes/core/class-ws-form-ability.php:562
+#: includes/core/class-ws-form-ability.php:612
+#: includes/core/class-ws-form-ability.php:642
+#: includes/core/class-ws-form-ability.php:672
+#: includes/core/class-ws-form-ability.php:764
+#: includes/core/class-ws-form-ability.php:1178
+#: includes/core/class-ws-form-ability.php:1229
+#: includes/core/class-ws-form-ability.php:1692
+#: includes/core/class-ws-form-ability.php:1754
+#: includes/core/class-ws-form-ability.php:1814
+#: includes/core/class-ws-form-ability.php:1860
+#: includes/core/class-ws-form-ability.php:1881
+#: includes/core/class-ws-form-ability.php:1902
+#: includes/core/class-ws-form-ability.php:1923
+#: includes/core/class-ws-form-ability.php:1949
+#: includes/core/class-ws-form-ability.php:1976
+#: includes/core/class-ws-form-ability.php:2003
+#: includes/core/class-ws-form-ability.php:2035
+#: includes/core/class-ws-form-ability.php:2067
+#: includes/core/class-ws-form-ability.php:2095
+#: includes/core/class-ws-form-ability.php:2116
+#: includes/core/class-ws-form-ability.php:2153
+#: includes/core/class-ws-form-ability.php:2192
+#: includes/core/class-ws-form-ability.php:2230
+#: includes/core/class-ws-form-ability.php:2251
+#: includes/core/class-ws-form-ability.php:2283
+#: includes/core/class-ws-form-ability.php:2321
+#: includes/core/class-ws-form-ability.php:2496
 msgid "Invalid form ID."
 msgstr "Μη έγκυρο αναγνωριστικό φόρμας."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:353
+#: includes/core/class-ws-form-ability.php:377
 #, php-format
 msgid "Error retrieving form as JSON: %s"
 msgstr "Σφάλμα κατά την ανάκτηση της φόρμας ως JSON: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:398
+#: includes/core/class-ws-form-ability.php:422
 #, php-format
 msgid "Error updating form from JSON: %s"
 msgstr "Σφάλμα κατά την ενημέρωση της φόρμας από JSON: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:437
+#: includes/core/class-ws-form-ability.php:461
 #, php-format
 msgid "Error publishing form: %s"
 msgstr "Σφάλμα κατά τη δημοσίευση της φόρμας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:476
+#: includes/core/class-ws-form-ability.php:500
 #, php-format
 msgid "Error drafting form: %s"
 msgstr "Σφάλμα κατά τη σύνταξη της φόρμας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:520
+#: includes/core/class-ws-form-ability.php:544
 #, php-format
 msgid "Error locking form: %s"
 msgstr "Σφάλμα κλειδώματος φόρμας: %s"
 
-#: includes/core/class-ws-form-ability.php:520
+#: includes/core/class-ws-form-ability.php:544
 #, php-format
 msgid "Error unlocking form: %s"
 msgstr "Σφάλμα κατά το ξεκλείδωμα φόρμας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:570
+#: includes/core/class-ws-form-ability.php:594
 #, php-format
 msgid "Error cloning form: %s"
 msgstr "Σφάλμα κατά την κλωνοποίηση της φόρμας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:600
+#: includes/core/class-ws-form-ability.php:624
 #, php-format
 msgid "Error generating shortcode: %s"
 msgstr "Σφάλμα κατά τη δημιουργία shortcode: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:630
+#: includes/core/class-ws-form-ability.php:654
 #, php-format
 msgid "Error generating block: %s"
 msgstr "Σφάλμα κατά τη δημιουργία μπλοκ: %s"
 
-#: includes/core/class-ws-form-ability.php:655
-#: includes/core/class-ws-form-ability.php:752
+#: includes/core/class-ws-form-ability.php:679
+#: includes/core/class-ws-form-ability.php:776
 msgid "Invalid from date / time."
 msgstr "Μη έγκυρη ημερομηνία / ώρα έναρξης."
 
-#: includes/core/class-ws-form-ability.php:663
-#: includes/core/class-ws-form-ability.php:769
+#: includes/core/class-ws-form-ability.php:687
+#: includes/core/class-ws-form-ability.php:793
 msgid "Invalid to date / time."
 msgstr "Μη έγκυρη ημερομηνία / ώρα λήξης."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:722
+#: includes/core/class-ws-form-ability.php:746
 #, php-format
 msgid "Error retrieving form statistics: %s"
 msgstr "Σφάλμα κατά την ανάκτηση στατιστικών φόρμας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:834
+#: includes/core/class-ws-form-ability.php:858
 #, php-format
 msgid "Error retrieving submissions: %s"
 msgstr "Σφάλμα κατά την ανάκτηση υποβολών: %s"
 
-#: includes/core/class-ws-form-ability.php:852
-#: includes/core/class-ws-form-ability.php:902
-#: includes/core/class-ws-form-ability.php:934
+#: includes/core/class-ws-form-ability.php:876
+#: includes/core/class-ws-form-ability.php:926
+#: includes/core/class-ws-form-ability.php:958
 msgid "Invalid submission ID."
 msgstr "Μη έγκυρο ID υποβολής."
 
-#: includes/core/class-ws-form-ability.php:871
+#: includes/core/class-ws-form-ability.php:895
 #: includes/core/class-ws-form-submit.php:226
 msgid "Unable to read submission."
 msgstr "Δεν είναι δυνατή η ανάγνωση της υποβολής."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:884
+#: includes/core/class-ws-form-ability.php:908
 #, php-format
 msgid "Error retrieving submission: %s"
 msgstr "Σφάλμα κατά την ανάκτηση υποβολής: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:916
+#: includes/core/class-ws-form-ability.php:940
 #, php-format
 msgid "Error retrieving submission notes: %s"
 msgstr "Σφάλμα κατά την ανάκτηση των σημειώσεων υποβολής: %s"
 
-#: includes/core/class-ws-form-ability.php:967
+#: includes/core/class-ws-form-ability.php:991
 msgid "Submission note created."
 msgstr "Η σημείωση υποβολής δημιουργήθηκε."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:973
+#: includes/core/class-ws-form-ability.php:997
 #, php-format
 msgid "Error creating submission note: %s"
 msgstr "Σφάλμα κατά τη δημιουργία σημείωσης υποβολής: %s"
 
-#: includes/core/class-ws-form-ability.php:991
-#: includes/core/class-ws-form-ability.php:1042
+#: includes/core/class-ws-form-ability.php:1015
+#: includes/core/class-ws-form-ability.php:1066
 msgid "Invalid note ID."
 msgstr "Μη έγκυρο ID σημείωσης."
 
-#: includes/core/class-ws-form-ability.php:1018
+#: includes/core/class-ws-form-ability.php:1042
 msgid "Submission note updated."
 msgstr "Η σημείωση υποβολής ενημερώθηκε."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1024
+#: includes/core/class-ws-form-ability.php:1048
 #, php-format
 msgid "Error updating submission note: %s"
 msgstr "Σφάλμα κατά την ενημέρωση της σημείωσης υποβολής: %s"
 
-#: includes/core/class-ws-form-ability.php:1053
+#: includes/core/class-ws-form-ability.php:1077
 msgid "Submission note deleted."
 msgstr "Η σημείωση υποβολής διαγράφηκε."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1059
+#: includes/core/class-ws-form-ability.php:1083
 #, php-format
 msgid "Error deleting submission note: %s"
 msgstr "Σφάλμα κατά τη διαγραφή της σημείωσης υποβολής: %s"
 
-#: includes/core/class-ws-form-ability.php:1163
+#: includes/core/class-ws-form-ability.php:1187
 msgid "Permanent form deletion is not enabled."
 msgstr "Η μόνιμη διαγραφή φόρμας δεν είναι ενεργοποιημένη."
 
-#: includes/core/class-ws-form-ability.php:1180
+#: includes/core/class-ws-form-ability.php:1204
 msgid "Form permanently deleted"
 msgstr "Η φόρμα διαγράφηκε οριστικά"
 
-#: includes/core/class-ws-form-ability.php:1180
+#: includes/core/class-ws-form-ability.php:1204
 msgid "Form trashed"
 msgstr "Η φόρμα μετακινήθηκε στον κάδο"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1187
+#: includes/core/class-ws-form-ability.php:1211
 #, php-format
 msgid "Error deleting form: %s"
 msgstr "Σφάλμα κατά τη διαγραφή της φόρμας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1228
+#: includes/core/class-ws-form-ability.php:1252
 #, php-format
 msgid "Error restoring form: %s"
 msgstr "Σφάλμα κατά την επαναφορά φόρμας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1269
+#: includes/core/class-ws-form-ability.php:1293
 #, php-format
 msgid "Error retrieving styles: %s"
 msgstr "Σφάλμα κατά την ανάκτηση στυλ: %s"
 
-#: includes/core/class-ws-form-ability.php:1283
-#: includes/core/class-ws-form-ability.php:1416
-#: includes/core/class-ws-form-ability.php:1509
-#: includes/core/class-ws-form-ability.php:1528
-#: includes/core/class-ws-form-ability.php:1634
+#: includes/core/class-ws-form-ability.php:1307
+#: includes/core/class-ws-form-ability.php:1440
+#: includes/core/class-ws-form-ability.php:1533
+#: includes/core/class-ws-form-ability.php:1552
+#: includes/core/class-ws-form-ability.php:1658
 msgid "Invalid style ID."
 msgstr "Μη έγκυρο ID στυλ."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1304
+#: includes/core/class-ws-form-ability.php:1328
 #, php-format
 msgid "Error retrieving style: %s"
 msgstr "Σφάλμα κατά την ανάκτηση στυλ: %s"
 
-#: includes/core/class-ws-form-ability.php:1345
+#: includes/core/class-ws-form-ability.php:1369
 msgid "Error creating style."
 msgstr "Σφάλμα κατά τη δημιουργία στυλ."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1402
+#: includes/core/class-ws-form-ability.php:1426
 #, php-format
 msgid "Error creating style: %s"
 msgstr "Σφάλμα κατά τη δημιουργία στυλ: %s"
 
-#: includes/core/class-ws-form-ability.php:1434
+#: includes/core/class-ws-form-ability.php:1458
 msgid "Provide a label, meta, default flag, and/or form ID to update."
 msgstr ""
 "Παρέχετε μια ετικέτα, μεταδεδομένα, σημαία προεπιλογής και/ή ID φόρμας για "
 "ενημέρωση."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1495
+#: includes/core/class-ws-form-ability.php:1519
 #, php-format
 msgid "Error updating style: %s"
 msgstr "Σφάλμα κατά την ενημέρωση στυλ: %s"
 
-#: includes/core/class-ws-form-ability.php:1536
+#: includes/core/class-ws-form-ability.php:1560
 msgid ""
 "Style is already in trash. Set permanent to true to permanently delete it."
 msgstr ""
 "Το στυλ βρίσκεται ήδη στον κάδο απορριμμάτων. Ορίστε το permanent σε true "
 "για να το διαγράψετε οριστικά."
 
-#: includes/core/class-ws-form-ability.php:1542
-#: includes/core/class-ws-form-ability.php:1565
+#: includes/core/class-ws-form-ability.php:1566
+#: includes/core/class-ws-form-ability.php:1589
 msgid "Permanent style deletion is not enabled."
 msgstr "Η οριστική διαγραφή στυλ δεν είναι ενεργοποιημένη."
 
-#: includes/core/class-ws-form-ability.php:1548
-#: includes/core/class-ws-form-ability.php:1571
-#: includes/core/class-ws-form-ability.php:1577
-#: includes/core/class-ws-form-ability.php:1592
+#: includes/core/class-ws-form-ability.php:1572
+#: includes/core/class-ws-form-ability.php:1595
+#: includes/core/class-ws-form-ability.php:1601
+#: includes/core/class-ws-form-ability.php:1616
 msgid "Unable to delete style. Default styles cannot be deleted."
 msgstr ""
 "Δεν είναι δυνατή η διαγραφή του στυλ. Τα προεπιλεγμένα στυλ δεν μπορούν να "
 "διαγραφούν."
 
-#: includes/core/class-ws-form-ability.php:1555
-#: includes/core/class-ws-form-ability.php:1584
+#: includes/core/class-ws-form-ability.php:1579
+#: includes/core/class-ws-form-ability.php:1608
 msgid "Style permanently deleted"
 msgstr "Το στυλ διαγράφηκε οριστικά"
 
-#: includes/core/class-ws-form-ability.php:1599
+#: includes/core/class-ws-form-ability.php:1623
 msgid "Style trashed"
 msgstr "Το στυλ μεταφέρθηκε στα απορρίμματα"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1606
+#: includes/core/class-ws-form-ability.php:1630
 #, php-format
 msgid "Error deleting style: %s"
 msgstr "Σφάλμα κατά τη διαγραφή του στυλ: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1650
+#: includes/core/class-ws-form-ability.php:1674
 #, php-format
 msgid "Error locking style: %s"
 msgstr "Σφάλμα κατά το κλείδωμα στυλ: %s"
 
-#: includes/core/class-ws-form-ability.php:1650
+#: includes/core/class-ws-form-ability.php:1674
 #, php-format
 msgid "Error unlocking style: %s"
 msgstr "Σφάλμα ξεκλειδώματος στυλ: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1712
+#: includes/core/class-ws-form-ability.php:1736
 #, php-format
 msgid "Error adding field: %s"
 msgstr "Σφάλμα κατά την προσθήκη πεδίου: %s"
 
-#: includes/core/class-ws-form-ability.php:1739
-#: includes/core/class-ws-form-ability.php:1799
+#: includes/core/class-ws-form-ability.php:1763
+#: includes/core/class-ws-form-ability.php:1823
 #: includes/core/class-ws-form-form-ai.php:865
 #: includes/core/class-ws-form-form-ai.php:897
 msgid "Invalid field ID."
 msgstr "Μη έγκυρο ID πεδίου."
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1772
+#: includes/core/class-ws-form-ability.php:1796
 #, php-format
 msgid "Error updating field: %s"
 msgstr "Σφάλμα κατά την ενημέρωση του πεδίου: %s"
 
-#: includes/core/class-ws-form-ability.php:1819
+#: includes/core/class-ws-form-ability.php:1843
 msgid "Field permanently deleted"
 msgstr "Το πεδίο διαγράφηκε οριστικά"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1825
+#: includes/core/class-ws-form-ability.php:1849
 #, php-format
 msgid "Error deleting field: %s"
 msgstr "Σφάλμα κατά τη διαγραφή πεδίου: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1846
+#: includes/core/class-ws-form-ability.php:1870
 #, php-format
 msgid "Error listing tabs: %s"
 msgstr "Σφάλμα κατά την εμφάνιση λίστας καρτελών: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1867
+#: includes/core/class-ws-form-ability.php:1891
 #, php-format
 msgid "Error listing sections: %s"
 msgstr "Σφάλμα κατά την εμφάνιση λίστας ενοτήτων: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1888
+#: includes/core/class-ws-form-ability.php:1912
 #, php-format
 msgid "Error listing fields: %s"
 msgstr "Σφάλμα κατά την εμφάνιση λίστας πεδίων: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1914
+#: includes/core/class-ws-form-ability.php:1938
 #, php-format
 msgid "Error adding tab: %s"
 msgstr "Σφάλμα κατά την προσθήκη καρτέλας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1940
+#: includes/core/class-ws-form-ability.php:1964
 #, php-format
 msgid "Error updating tab: %s"
 msgstr "Σφάλμα κατά την ενημέρωση της καρτέλας: %s"
 
-#: includes/core/class-ws-form-ability.php:1962
+#: includes/core/class-ws-form-ability.php:1986
 msgid "Tab permanently deleted"
 msgstr "Η καρτέλα διαγράφηκε οριστικά"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:1968
+#: includes/core/class-ws-form-ability.php:1992
 #, php-format
 msgid "Error deleting tab: %s"
 msgstr "Σφάλμα κατά τη διαγραφή της καρτέλας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2000
+#: includes/core/class-ws-form-ability.php:2024
 #, php-format
 msgid "Error adding section: %s"
 msgstr "Σφάλμα κατά την προσθήκη ενότητας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2031
+#: includes/core/class-ws-form-ability.php:2055
 #, php-format
 msgid "Error updating section: %s"
 msgstr "Σφάλμα κατά την ενημέρωση ενότητας: %s"
 
-#: includes/core/class-ws-form-ability.php:2053
+#: includes/core/class-ws-form-ability.php:2077
 msgid "Section permanently deleted"
 msgstr "Η ενότητα διαγράφηκε οριστικά"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2059
+#: includes/core/class-ws-form-ability.php:2083
 #, php-format
 msgid "Error deleting section: %s"
 msgstr "Σφάλμα κατά τη διαγραφή ενότητας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2081
+#: includes/core/class-ws-form-ability.php:2105
 #, php-format
 msgid "Error listing actions: %s"
 msgstr "Σφάλμα κατά την εμφάνιση λίστας ενεργειών: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2118
+#: includes/core/class-ws-form-ability.php:2142
 #, php-format
 msgid "Error adding action: %s"
 msgstr "Σφάλμα κατά την προσθήκη ενέργειας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2157
+#: includes/core/class-ws-form-ability.php:2181
 #, php-format
 msgid "Error updating action: %s"
 msgstr "Σφάλμα κατά την ενημέρωση ενέργειας: %s"
 
-#: includes/core/class-ws-form-ability.php:2184
+#: includes/core/class-ws-form-ability.php:2208
 msgid "Action deleted"
 msgstr "Η ενέργεια διαγράφηκε"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2195
+#: includes/core/class-ws-form-ability.php:2219
 #, php-format
 msgid "Error deleting action: %s"
 msgstr "Σφάλμα κατά τη διαγραφή ενέργειας: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2216
+#: includes/core/class-ws-form-ability.php:2240
 #, php-format
 msgid "Error listing conditionals: %s"
 msgstr "Σφάλμα κατά την εμφάνιση λίστας συνθηκών: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2248
+#: includes/core/class-ws-form-ability.php:2272
 #, php-format
 msgid "Error adding conditional: %s"
 msgstr "Σφάλμα κατά την προσθήκη συνθήκης: %s"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2286
+#: includes/core/class-ws-form-ability.php:2310
 #, php-format
 msgid "Error updating conditional: %s"
 msgstr "Σφάλμα κατά την ενημέρωση συνθήκης: %s"
 
-#: includes/core/class-ws-form-ability.php:2313
+#: includes/core/class-ws-form-ability.php:2337
 msgid "Conditional deleted"
 msgstr "Η συνθήκη διαγράφηκε"
 
 #. translators: %s: Error message
-#: includes/core/class-ws-form-ability.php:2324
+#: includes/core/class-ws-form-ability.php:2348
 #, php-format
 msgid "Error deleting conditional: %s"
 msgstr "Σφάλμα κατά τη διαγραφή συνθήκης: %s"
 
 #. translators: %s: Meta key
-#: includes/core/class-ws-form-ability.php:2391
+#: includes/core/class-ws-form-ability.php:2415
 #, php-format
 msgid "Invalid style meta value for %s."
 msgstr "Μη έγκυρη τιμή μεταδεδομένων στυλ για %s."
 
 #. translators: %s: Comma-separated meta keys
-#: includes/core/class-ws-form-ability.php:2407
+#: includes/core/class-ws-form-ability.php:2431
 #, php-format
 msgid "Unsupported style meta key(s): %s"
 msgstr "Μη υποστηριζόμενο(α) κλειδί(ά) μεταδεδομένων στυλ: %s"
 
-#: includes/core/class-ws-form-ability.php:2462
+#: includes/core/class-ws-form-ability.php:2486
 msgid "You do not have permission to assign a style to a form."
 msgstr "Δεν έχετε δικαίωμα να αντιστοιχίσετε ένα στυλ σε μια φόρμα."
 
-#: includes/core/class-ws-form-ability.php:2507
+#: includes/core/class-ws-form-ability.php:2531
 msgid "Style updates are not enabled."
 msgstr "Οι ενημερώσεις στυλ δεν είναι ενεργοποιημένες."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2594
+#: includes/core/class-ws-form-ability.php:2618
 #, php-format
 msgid "Input schema for ability %s not found."
 msgstr "Δεν βρέθηκε σχήμα εισόδου για τη δυνατότητα %s."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2616
+#: includes/core/class-ws-form-ability.php:2640
 #, php-format
 msgid "Invalid input schema type for ability %s. Expects object."
 msgstr ""
@@ -21818,19 +21813,19 @@ msgstr ""
 "αντικείμενο."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2632
+#: includes/core/class-ws-form-ability.php:2656
 #, php-format
 msgid "No input schema properties for ability %s."
 msgstr "Δεν υπάρχουν ιδιότητες σχήματος εισόδου για τη δυνατότητα %s."
 
 #. translators: %s: Ability name
-#: includes/core/class-ws-form-ability.php:2649
+#: includes/core/class-ws-form-ability.php:2673
 #, php-format
 msgid "Invalid input schema property name for ability %s."
 msgstr "Μη έγκυρο όνομα ιδιότητας σχήματος εισόδου για τη δυνατότητα %s."
 
 #. translators: %1$s: Ability name, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:2681
+#: includes/core/class-ws-form-ability.php:2705
 #, php-format
 msgid "Invalid input schema property type for ability %1$s (Property: %2$s)."
 msgstr ""
@@ -21838,7 +21833,7 @@ msgstr ""
 "(Ιδιότητα: %2$s)."
 
 #. translators: %1$s: Ability ID, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:2722
+#: includes/core/class-ws-form-ability.php:2746
 #, php-format
 msgid ""
 "Required input schema property for ability %1$s missing (Property: %2$s)."
@@ -21847,7 +21842,7 @@ msgstr ""
 "(Ιδιότητα: %2$s)."
 
 #. translators: %1$s: Property name, %2$s: Ability ID
-#: includes/core/class-ws-form-ability.php:2793
+#: includes/core/class-ws-form-ability.php:2817
 #, php-format
 msgid ""
 "Input schema property %1$s has invalid enum for ability %2$s. Expected array."
@@ -21856,18 +21851,18 @@ msgstr ""
 "Αναμενόταν πίνακας."
 
 #. translators: %1$s: Ability name, %2$s: Property name
-#: includes/core/class-ws-form-ability.php:2807
+#: includes/core/class-ws-form-ability.php:2831
 #, php-format
 msgid "Invalid enumerated input value for ability %1$s (Property: %2$s)."
 msgstr ""
 "Μη έγκυρη αριθμημένη τιμή εισόδου για τη δυνατότητα %1$s (Ιδιότητα: %2$s)."
 
-#: includes/core/class-ws-form-ability.php:2858
+#: includes/core/class-ws-form-ability.php:2882
 msgid "Inputs not parsed."
 msgstr "Οι είσοδοι δεν αναλύθηκαν."
 
 #. translators: %s: Property name
-#: includes/core/class-ws-form-ability.php:2868
+#: includes/core/class-ws-form-ability.php:2892
 #, php-format
 msgid "Property %s does not exist in input schema."
 msgstr "Η ιδιότητα %s δεν υπάρχει στο σχήμα εισόδου."
@@ -22227,9 +22222,7 @@ msgstr "Δεν βρέθηκαν αλλαγές στο JSON."
 msgid ""
 "Invalid form changes detected. To insert or add a field, use the field-add "
 "tool."
-msgstr ""
-"Εντοπίστηκαν μη έγκυρες αλλαγές στη φόρμα. Για εισαγωγή ή προσθήκη πεδίου, "
-"χρησιμοποιήστε το εργαλείο προσθήκης πεδίου."
+msgstr "Εντοπίστηκαν μη έγκυρες αλλαγές στη φόρμα. Για εισαγωγή ή προσθήκη πεδίου, χρησιμοποιήστε το εργαλείο field-add."
 
 #: includes/core/class-ws-form-form-ai.php:198
 #: includes/core/class-ws-form-form-ai.php:314
@@ -22378,36 +22371,41 @@ msgstr "Δεν βρέθηκε ετικέτα."
 msgid "Provide row_id, index, or a unique label."
 msgstr "Παρέχετε row_id, index ή μια μοναδική ετικέτα."
 
-#: includes/core/class-ws-form-form-folder.php:32
+#: includes/core/class-ws-form-form-folder.php:35
 msgid "A folder with that name already exists here."
 msgstr "Υπάρχει ήδη εδώ ένας φάκελος με αυτό το όνομα."
 
-#: includes/core/class-ws-form-form-folder.php:36
+#: includes/core/class-ws-form-form-folder.php:39
 msgid "This folder could not be deleted."
 msgstr "Δεν ήταν δυνατή η διαγραφή αυτού του φακέλου."
 
-#: includes/core/class-ws-form-form-folder.php:40
+#: includes/core/class-ws-form-form-folder.php:43
 msgid "Folder not found."
 msgstr "Ο φάκελος δεν βρέθηκε."
 
-#: includes/core/class-ws-form-form-folder.php:44
+#: includes/core/class-ws-form-form-folder.php:47
 msgid "Enter a folder name."
 msgstr "Εισαγάγετε ένα όνομα φακέλου."
 
-#: includes/core/class-ws-form-form-folder.php:48
+#: includes/core/class-ws-form-form-folder.php:51
 msgid "Folders cannot be nested any deeper."
 msgstr "Δεν είναι δυνατή η περαιτέρω ένθεση φακέλων."
 
-#: includes/core/class-ws-form-form-folder.php:248
+#: includes/core/class-ws-form-form-folder.php:55
+msgid "A folder cannot be moved into itself."
+msgstr ""
+"Δεν είναι δυνατή η μετακίνηση ενός φακέλου μέσα στον ίδιο του τον εαυτό."
+
+#: includes/core/class-ws-form-form-folder.php:255
 msgid "Error adding folder"
 msgstr "Σφάλμα κατά την προσθήκη φακέλου"
 
-#: includes/core/class-ws-form-form-folder.php:292
+#: includes/core/class-ws-form-form-folder.php:299
 msgid "Error renaming folder"
 msgstr "Σφάλμα κατά τη μετονομασία φακέλου"
 
-#: includes/core/class-ws-form-form-folder.php:326
-#: includes/core/class-ws-form-form-folder.php:334
+#: includes/core/class-ws-form-form-folder.php:333
+#: includes/core/class-ws-form-form-folder.php:341
 msgid "Error deleting folder"
 msgstr "Σφάλμα κατά τη διαγραφή φακέλου"
 
@@ -22513,7 +22511,7 @@ msgstr "Κωδικός HTTP %u"
 
 #: includes/core/class-ws-form-form-stat.php:1149
 msgid "Yesterday"
-msgstr "Χθές"
+msgstr "Χθες"
 
 #: includes/core/class-ws-form-form-stat.php:1158
 msgid "Last 7 Days"
@@ -22521,7 +22519,7 @@ msgstr "Τελευταίες 7 μέρες"
 
 #: includes/core/class-ws-form-form-stat.php:1167
 msgid "Last 30 Days"
-msgstr "30 ημερών"
+msgstr "Τελευταίες 30 ημέρες"
 
 #: includes/core/class-ws-form-form-stat.php:1176
 msgid "Last 60 Days"
@@ -22925,7 +22923,7 @@ msgstr "Προτερ"
 #. translators: Short for "Secondary"
 #: includes/core/class-ws-form-style.php:2171
 msgid "Sec"
-msgstr "Ενότητα"
+msgstr "Δευτ"
 
 #: includes/core/class-ws-form-submit-export.php:21
 msgid "Form ID empty"
@@ -23096,7 +23094,7 @@ msgstr "Σφάλμα κατά τη διαγραφή της υποβολής."
 
 #: includes/core/class-ws-form-submit.php:946
 msgid "Form Submissions"
-msgstr "Υποβολές εντύπων"
+msgstr "Υποβολές φορμών"
 
 #. translators: %s: WS Form
 #: includes/core/class-ws-form-submit.php:1011
@@ -23599,7 +23597,7 @@ msgstr "Gravity Forms"
 
 #: includes/core/migrate/vfb.php:13
 msgid "Visual Form Builder"
-msgstr "Οπτικός δημιουργός φορμών"
+msgstr "Visual Form Builder"
 
 #: includes/core/migrate/vfb_pro.php:13
 msgid "Visual Form Builder Pro"
@@ -23611,7 +23609,7 @@ msgstr "WPForms"
 
 #: includes/core/migrate/wpforms.php:519
 msgid "State / Province / Region"
-msgstr "Πολιτεία / Προάστιο / Περιοχή"
+msgstr "Πολιτεία / Επαρχία / Περιοχή"
 
 #: includes/data-sources/class-ws-form-data-source-acf.php:36
 msgid "ACF Field Options"
@@ -23948,7 +23946,7 @@ msgstr "Ταξινόμηση κατά"
 
 #: includes/data-sources/class-ws-form-data-source-post.php:1233
 msgid "Meta Key"
-msgstr "Μετα  κλειδί"
+msgstr "Μετα-κλειδί"
 
 #: includes/data-sources/class-ws-form-data-source-post.php:1262
 msgid "Meta Type (Cast)"
@@ -23962,7 +23960,7 @@ msgstr "Δυαδικό"
 #: includes/data-sources/class-ws-form-data-source-term.php:708
 #: includes/data-sources/class-ws-form-data-source-user.php:565
 msgid "Order"
-msgstr "Παραγγελία"
+msgstr "Σειρά"
 
 #: includes/data-sources/class-ws-form-data-source-post.php:1307
 msgid "Group by Post Type"
@@ -24029,7 +24027,7 @@ msgstr "Πεδίο Toolset"
 #: includes/data-sources/class-ws-form-data-source-preset.php:36
 #: includes/data-sources/class-ws-form-data-source-preset.php:294
 msgid "Preset"
-msgstr "Πρoεπιλογή"
+msgstr "Προεπιλογή"
 
 #: includes/data-sources/class-ws-form-data-source-preset.php:39
 msgid "Retrieving Preset..."
@@ -24076,7 +24074,7 @@ msgstr "Slug γονέα"
 
 #: includes/data-sources/class-ws-form-data-source-term.php:609
 msgid "Filter by Taxonomy"
-msgstr "Φιλτράρισμα κατά ταξινομηση"
+msgstr "Φιλτράρισμα κατά ταξινομία"
 
 #: includes/data-sources/class-ws-form-data-source-term.php:611
 msgid "Select which taxonomies to include."
@@ -24084,7 +24082,7 @@ msgstr "Επιλέξτε ποιες ταξινομίες θα συμπεριλη
 
 #: includes/data-sources/class-ws-form-data-source-term.php:625
 msgid "Taxonomy"
-msgstr "Ταξινόμηση"
+msgstr "Ταξινομία"
 
 #: includes/data-sources/class-ws-form-data-source-term.php:637
 msgid "Filter the terms by those selected in a post."
@@ -24381,7 +24379,7 @@ msgstr "Ενεργοποιημένο σε όλες τις φόρμες στις 
 #: includes/third-party/acpt/class-ws-form-acpt-v2.php:296
 #: includes/third-party/jetengine/class-ws-form-jetengine.php:447
 msgid "(no label)"
-msgstr "(no label)"
+msgstr "(Χωρίς ετικέτα)"
 
 #. translators: %s: Field label
 #: includes/third-party/acf/class-ws-form-acf.php:1680
@@ -26560,3 +26558,80 @@ msgstr "Έξυπνες. Γρήγορες. Φόρμες."
 #~ msgstr ""
 #~ "Εάν είναι επιλεγμένο, το πεδίο διεύθυνσης θα εντοπίζεται γεωγραφικά όταν "
 #~ "γίνεται κλικ στο χάρτη."
+
+#: includes/actions/class-ws-form-action-custom-api.php:231
+msgid "Unknown file"
+msgstr "Άγνωστο αρχείο"
+
+#: includes/actions/class-ws-form-action-custom-api.php:236
+msgid "Unable to read file for webhook Base64 encoding (%s)."
+msgstr "Δεν ήταν δυνατή η ανάγνωση του αρχείου για την κωδικοποίηση Base64 του webhook (%s)."
+
+#: includes/actions/class-ws-form-action-custom-api.php:1268
+msgid "How file fields are sent. Multiple URLs are comma separated. Multiple Base64 files are an array."
+msgstr "Πώς αποστέλλονται τα πεδία αρχείων. Πολλά URL διαχωρίζονται με κόμμα. Πολλά αρχεία Base64 αποτελούν έναν πίνακα."
+
+#: includes/actions/class-ws-form-action-custom-api.php:1271
+msgid "Base64"
+msgstr "Base64"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1272
+msgid "File Objects"
+msgstr "Αντικείμενα αρχείων"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1273
+msgid "URLs"
+msgstr "URL"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1671
+msgid "Request"
+msgstr "Αίτημα"
+
+#: includes/actions/class-ws-form-action-custom-api.php:1712
+msgid "Response"
+msgstr "Απόκριση"
+
+#: includes/core/class-ws-form-form-ai.php:2157
+msgid "Invalid widths. Provide an object of breakpoint id to width factor."
+msgstr "Μη έγκυρα πλάτη. Δώστε ένα αντικείμενο που αντιστοιχίζει το ID σημείου διακοπής σε συντελεστή πλάτους."
+
+#: includes/core/class-ws-form-form-ai.php:2186
+#: includes/core/class-ws-form-form-ai.php:2208
+msgid "Invalid breakpoint %s."
+msgstr "Μη έγκυρο σημείο διακοπής %s."
+
+#: includes/core/class-ws-form-form-ai.php:2225
+#: includes/core/class-ws-form-form-ai.php:2238
+#: includes/core/class-ws-form-form-ai.php:2250
+msgid "Invalid width for breakpoint %s. Use a factor greater than 0 and at most 1, or null to clear it."
+msgstr "Μη έγκυρο πλάτος για το σημείο διακοπής %s. Χρησιμοποιήστε συντελεστή μεγαλύτερο από 0 και το πολύ 1, ή null για να τον καταργήσετε."
+
+#: includes/config/class-ws-form-config-ability-structure.php:426
+msgid "Update a section label and/or meta (label_render, widths). Use the sections tool to get section IDs."
+msgstr "Ενημερώστε την ετικέτα και/ή τα meta μιας ενότητας (label_render, widths). Χρησιμοποιήστε το εργαλείο ενοτήτων για να λάβετε τα ID των ενοτήτων."
+
+#: includes/config/class-ws-form-config-ability.php:2499
+msgid "Use this tool to update an existing field label and/or meta (required, placeholder, help, options, widths, etc.). Prefer this over form-update-json for single-field changes. Field type cannot be changed. Use the fields tool to find field IDs, or form-get-json for full field meta."
+msgstr "Χρησιμοποιήστε αυτό το εργαλείο για να ενημερώσετε την ετικέτα και/ή τα meta ενός υπάρχοντος πεδίου (required, placeholder, help, options, widths κ.λπ.). Προτιμήστε το από το form-update-json για αλλαγές σε ένα μόνο πεδίο. Ο τύπος πεδίου δεν μπορεί να αλλάξει. Χρησιμοποιήστε το εργαλείο πεδίων για να βρείτε τα ID των πεδίων, ή το form-get-json για όλα τα meta του πεδίου."
+
+#: includes/config/class-ws-form-config-option.php:1179
+#: includes/config/class-ws-form-config-option.php:1184
+msgid "Auto Delete Spam"
+msgstr "Αυτόματη διαγραφή ανεπιθύμητων"
+
+#: includes/config/class-ws-form-config-option.php:1192
+msgid "Automatically trash or permanently delete submissions marked as spam after a set number of days."
+msgstr "Αυτόματη μετακίνηση στον κάδο απορριμμάτων ή οριστική διαγραφή υποβολών που έχουν επισημανθεί ως ανεπιθύμητες μετά από έναν καθορισμένο αριθμό ημερών."
+
+#: includes/config/class-ws-form-config-option.php:1203
+msgid "Number of days until submissions marked as spam are moved to trash or permanently deleted."
+msgstr "Αριθμός ημερών μέχρι οι υποβολές που έχουν επισημανθεί ως ανεπιθύμητες να μετακινηθούν στον κάδο απορριμμάτων ή να διαγραφούν οριστικά."
+
+#: includes/config/class-ws-form-config-admin.php:313
+#: includes/core/class-ws-form-submit.php:2766
+msgid "Random Text Detection"
+msgstr "Ανίχνευση τυχαίου κειμένου"
+
+#: includes/class-ws-form-config.php:8456
+msgid "Detects suspicious text patterns associated with spam."
+msgstr "Εντοπίζει ύποπτα μοτίβα κειμένου που σχετίζονται με ανεπιθύμητη αλληλογραφία."

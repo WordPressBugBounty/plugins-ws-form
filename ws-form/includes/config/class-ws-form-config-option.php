@@ -968,6 +968,37 @@
 									'default'	=>	''
 								)
 							)
+						),
+
+						'spam_submissions'	=>	array(
+
+							'heading'	=>	__('Auto Delete Spam', 'ws-form'),
+							'fields'	=>	array(
+
+								'submit_spam_purge'	=>	array(
+
+									'label'		=>	__('Auto Delete Spam', 'ws-form'),
+									'type'		=>	'select',
+									'options'	=>	array(
+
+										''			=>	array('text' => __('Off', 'ws-form')),
+										'on'		=>	array('text' => __('Move to Trash', 'ws-form')),
+										'delete'	=>	array('text' => __('Permanently Delete', 'ws-form'))
+									),
+									'help'		=>	__('Automatically trash or permanently delete submissions marked as spam after a set number of days.', 'ws-form'),
+									'default'	=>	''
+								),
+
+								'submit_spam_purge_duration'	=>	array(
+
+									'label'		=>	__('Delete After (Days)', 'ws-form'),
+									'type'		=>	'number',
+									'minimum'	=>	1,
+									'maximum'	=>	3650,
+									'default'	=>	30,
+									'help'		=>	__('Number of days until submissions marked as spam are moved to trash or permanently deleted.', 'ws-form')
+								)
+							)
 						)
 					)
 				),

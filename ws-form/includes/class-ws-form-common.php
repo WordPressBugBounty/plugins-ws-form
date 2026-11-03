@@ -88,7 +88,7 @@
 
 					if($dismissible) {
 
-						$dismiss_html = '<button type="button" class="wsf-settings-message-dismiss"><span class="screen-reader-text">' . esc_html__('Dismiss this notice.') . '</span></button>';
+						$dismiss_html = '<button type="button" class="wsf-settings-message-dismiss"><span class="screen-reader-text">' . esc_html__('Dismiss this notice.', 'ws-form') . '</span></button>';
 					}
 
 					self::echo_html(sprintf(

@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
 Tested up to: 7.1
-Stable tag: 1.12.15
+Stable tag: 1.12.17
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -72,6 +72,7 @@ Add forms to your website using your favorite WordPress page builder:
 * [Elementor](https://wsform.com/knowledgebase/elementor-widget/?utm_source=wp_plugins&utm_medium=readme)
 * [Etch](https://wsform.com/knowledgebase/etch/?utm_source=wp_plugins&utm_medium=readme)
 * [Oxygen](https://wsform.com/knowledgebase/oxygen-visual-site-builder-form-element/?utm_source=wp_plugins&utm_medium=readme)
+* [WPBakery](https://wsform.com/knowledgebase/wpbakery-element/?utm_source=wp_plugins&utm_medium=readme)
 
 For other builders simply use the WS Form [shortcode](https://wsform.com/knowledgebase/the-ws-form-shortcode/?utm_source=wp_plugins&utm_medium=readme)!
 
@@ -152,6 +153,7 @@ The PRO edition comes with unrivaled additional features:
 * [dotdigital](https://wsform.com/knowledgebase/dotdigital/?utm_source=wp_plugins&utm_medium=readme)
 * [Drip](https://wsform.com/knowledgebase/drip/?utm_source=wp_plugins&utm_medium=readme)
 * [Dropbox](https://wsform.com/knowledgebase/dropbox/?utm_source=wp_plugins&utm_medium=readme)
+* [FileBird](https://wsform.com/integration/filebird/?utm_source=wp_plugins&utm_medium=readme)
 * [Fluent CRM](https://wsform.com/knowledgebase/fluentcrm/?utm_source=wp_plugins&utm_medium=readme)
 * [Freshdesk](https://wsform.com/knowledgebase/freshdesk/?utm_source=wp_plugins&utm_medium=readme)
 * [GetResponse](https://wsform.com/knowledgebase/getresponse/?utm_source=wp_plugins&utm_medium=readme)
@@ -160,6 +162,7 @@ The PRO edition comes with unrivaled additional features:
 * [Google Map](https://wsform.com/knowledgebase/google-map/?utm_source=wp_plugins&utm_medium=readme)
 * [Google Sheets](https://wsform.com/knowledgebase/google-sheets/?utm_source=wp_plugins&utm_medium=readme)
 * [Groundhogg](https://wsform.com/knowledgebase/groundhogg/?utm_source=wp_plugins&utm_medium=readme)
+* [HappyFiles](https://wsform.com/integration/happyfiles/?utm_source=wp_plugins&utm_medium=readme)
 * [HighLevel](https://wsform.com/knowledgebase/highlevel/?utm_source=wp_plugins&utm_medium=readme)
 * [HubSpot](https://wsform.com/knowledgebase/hubspot/?utm_source=wp_plugins&utm_medium=readme)
 * [iContact](https://wsform.com/knowledgebase/icontact/?utm_source=wp_plugins&utm_medium=readme)
@@ -181,6 +184,7 @@ The PRO edition comes with unrivaled additional features:
 * [PDF](https://wsform.com/knowledgebase/pdf/?utm_source=wp_plugins&utm_medium=readme)
 * [Pipedrive](https://wsform.com/knowledgebase/pipedrive/?utm_source=wp_plugins&utm_medium=readme)
 * [Post Management](https://wsform.com/knowledgebase/post-management/?utm_source=wp_plugins&utm_medium=readme)
+* [Premio Folders](https://wsform.com/integration/folders/?utm_source=wp_plugins&utm_medium=readme)
 * [Salesforce](https://wsform.com/knowledgebase/salesforce/?utm_source=wp_plugins&utm_medium=readme)
 * [Slack](https://wsform.com/knowledgebase/slack/?utm_source=wp_plugins&utm_medium=readme)
 * [Stripe Elements](https://wsform.com/knowledgebase/stripe-elements/?utm_source=wp_plugins&utm_medium=readme)
@@ -195,6 +199,8 @@ The PRO edition comes with unrivaled additional features:
 
 .... or use the [Webhook](https://wsform.com/knowledgebase/webhook/?utm_source=wp_plugins&utm_medium=readme) action to integrate with your own custom APIs or external systems.
 
+See the full list of [integrations](https://wsform.com/integrations/?utm_source=wp_plugins&utm_medium=readme).
+
 = PRO Custom Field Plugin Compatibility =
 
 * [ACF](https://wsform.com/knowledgebase/how-to-build-a-wordpress-form-with-the-advanced-custom-fields-acf-plugin/?utm_source=wp_plugins&utm_medium=readme)
@@ -208,6 +214,7 @@ The PRO edition comes with unrivaled additional features:
 
 WS Form is compatible with all WordPress themes, and also outputs native HTML for the following front-end frameworks:
 
+* [ACSS](https://automaticcss.com/)
 * [Bootstrap 5+](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
 * [Bootstrap 4.1-4.5.x](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
 * [Bootstrap 4.0](https://wsform.com/knowledgebase/building-wordpress-forms-for-bootstrap/?utm_source=wp_plugins&utm_medium=readme)
@@ -376,17 +383,26 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
-= 1.12.15 - 10/10/2026 =
+= 1.12.17 - 11/02/2026 =
+* Added: Random Text Detection for mixed-case text and dotted Gmail addresses https://wsform.com/knowledgebase/random-text-detection/
+* Added: Base64 file format in the Webhook action https://wsform.com/knowledgebase/webhook/
+* Added: Support for WS Form variables with double quotes in Create from AI
+* Added: Translations updated throughout
+* Changed: DropzoneJS file fields only accept the file that was uploaded
+* Bug Fix: Submission printing layout and page breaks
+* Bug Fix: Data grid columns shifting when hovering a cell
+
+= 1.12.16 - 10/12/2026 =
+* Added: Drag form folders to reorder or nest them
+* Changed: Updated the models used for Create from AI
+
+= 1.12.15 - 10/12/2026 =
 * Added: Form folders for organizing the forms list https://wsform.com/knowledgebase/form-folders/
 * Added: Lock forms so they cannot be edited or moved to the trash until unlocked https://wsform.com/knowledgebase/form-locking/
 * Added: Lock styles so they cannot be edited or moved to the trash until unlocked https://wsform.com/knowledgebase/style-locking/
-
-= 1.12.14 - 10/09/2026 =
-* Added: Create from AI maximum token setting
-* Added: Attempts to repair malformed JSON from Gemini in AI calls
-
-= 1.12.13 - 10/07/2026 =
-* Added: FileBird, HappyFiles and Premio Folders folder selection for files saved to the Media Library
-* Changed: Success and information messages use the ARIA status role
+* Changed: Settings tabs switch without reloading the page
+* Changed: A new blank form includes a submit button
+* Changed: Admin headers stay fixed while the page scrolls
+* Bug Fix: Submission printing no longer includes the notes form or sidebar resizer
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

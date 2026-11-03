@@ -8,11 +8,14 @@
 	// Fired during plugin activation
 	class WS_Form_Activator {
 
+		// Same-request re-entry guard. Version is saved only after the schema upgrade.
+		private static $activating = false;
+
 		public static function activate() {
 
 			// These are set here to avoid problems if someone has both plugins installed and migrates from basic to PRO without de-activating the basic edition first. This ensures the PRO options are set up.
 			$ws_form_edition = 'basic';
-			$ws_form_version = '1.12.15';
+			$ws_form_version = '1.12.17';
 
 			$run_version_check = true;
 
@@ -55,30 +58,41 @@
 				return true;
 			}
 
-			// Set version
-			WS_Form_Common::option_set('version', $ws_form_version);
+			// Avoid a second run while the schema upgrade is in progress
+			if(self::$activating) { return; }
 
-			// Set options initialization
-			WS_Form_Common::option_set('options_init', true);
+			self::$activating = true;
 
-			// Set styler initialization
-			WS_Form_Common::option_set('styler_init', $fresh_install ? 'fresh_install' : 'existing_install');
+			try {
 
-			// Set CSS initialization
-			WS_Form_Common::option_set('css_init', true);
+				// Schema and setup before version so a failed upgrade retries
+				self::database_init();
 
-			// Flush cache
-			wp_cache_flush();
+				self::upgrade_init($version_old);
 
-			// Initialize database
-			self::database_init();
+				// Set options initialization
+				WS_Form_Common::option_set('options_init', true);
 
-			// Upgrade
-			self::upgrade_init($version_old);
+				// Set styler initialization
+				WS_Form_Common::option_set('styler_init', $fresh_install ? 'fresh_install' : 'existing_install');
 
-			// Run action
-			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
-			do_action('wsf_activate');
+				// Set CSS initialization
+				WS_Form_Common::option_set('css_init', true);
+
+				// Flush cache
+				wp_cache_flush();
+
+				// Set version last
+				WS_Form_Common::option_set('version', $ws_form_version);
+
+				// Run action
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- All hooks prefixed with wsf_
+				do_action('wsf_activate');
+
+			} finally {
+
+				self::$activating = false;
+			}
 		}
 
 		private static function database_init() {
@@ -298,7 +312,8 @@
 				KEY  status (status),
 				KEY  token (token),
 				KEY  form_id_status (form_id, status),
-				KEY  form_id_viewed_status (form_id, viewed, status)
+				KEY  form_id_viewed_status (form_id, viewed, status),
+				KEY  status_date_added (status, date_added)
 			) $charset_collate;";
 			dbDelta($table_sql);
 

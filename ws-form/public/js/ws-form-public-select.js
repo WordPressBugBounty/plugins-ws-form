@@ -317,6 +317,8 @@
 
 					var remaining_chars = args.minimum - args.input.length;
 					mask_lookups['char_remaining'] = remaining_chars;
+					mask_lookups['char_word'] = (remaining_chars === 1) ? ws_this.language('character_singular') : ws_this.language('character_plural');
+					// Old messages still use #char_plural
 					mask_lookups['char_plural'] = (remaining_chars !== 1) ? 's' : '';
 					break;
 
@@ -326,6 +328,8 @@
 
 					var over_chars = args.input.length - args.maximum;
 					mask_lookups['char_over'] = over_chars;
+					mask_lookups['char_word'] = (over_chars === 1) ? ws_this.language('character_singular') : ws_this.language('character_plural');
+					// Old messages still use #char_plural
 					mask_lookups['char_plural'] = (over_chars !== 1) ? 's' : '';
 					break;
 			}

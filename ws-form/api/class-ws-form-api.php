@@ -235,6 +235,8 @@
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/folder/assign/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_folder_assign'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form'); }));
 
+			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/folder/move/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_folder_move'), 'permission_callback' => function () { return WS_Form_Common::can_user('edit_form'); }));
+
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/upload/json/', array('methods' => 'POST', 'callback' => array($plugin_api_form, 'api_post_upload_json'), 'permission_callback' => function () { return WS_Form_Common::can_user('import_form'); }));
 
 			register_rest_route(WS_FORM_RESTFUL_NAMESPACE, '/form/(?P<form_id>[\d]+)/full/', array('methods' => 'GET', 'callback' => array($plugin_api_form, 'api_get_full'), 'permission_callback' => function () { return WS_Form_Common::can_user('read_form'); }));

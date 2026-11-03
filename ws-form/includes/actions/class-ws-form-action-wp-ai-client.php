@@ -474,9 +474,9 @@
 
 							foreach($attachment_ids as $attachment_id) {
 
+								WS_Form_File_Handler::dropzonejs_stamp_ownership($attachment_id, $form_id, $field_id);
+
 								$file_objects[] = WS_Form_File_Handler::get_file_object_from_attachment_id($attachment_id);
-								update_post_meta($attachment_id, '_wsf_attachment', true);
-								update_post_meta($attachment_id, '_wsf_attachment_scratch', true);
 							}
 
 							// Process result
