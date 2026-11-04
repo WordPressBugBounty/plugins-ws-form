@@ -15,7 +15,7 @@
 
 			// These are set here to avoid problems if someone has both plugins installed and migrates from basic to PRO without de-activating the basic edition first. This ensures the PRO options are set up.
 			$ws_form_edition = 'basic';
-			$ws_form_version = '1.12.17';
+			$ws_form_version = '1.12.18';
 
 			$run_version_check = true;
 
@@ -346,6 +346,7 @@
 				date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 				content longtext NOT NULL,
 				meta longtext NOT NULL,
+				locked tinyint(1) DEFAULT 0 NOT NULL,
 				PRIMARY KEY  (id),
 				KEY  submit_id (submit_id),
 				KEY  date_added (date_added)

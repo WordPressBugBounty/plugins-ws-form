@@ -2,6 +2,11 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.12.18 - 11/04/2026 =
+* Bug Fix: DropzoneJS fields containing an existing Media Library file can be submitted again
+* Bug Fix: Database error when loading submission notes
+* Bug Fix: Query string variables in a field default value showing encoded characters
+
 = 1.12.17 - 11/02/2026 =
 * Added: Random Text Detection for mixed-case text and dotted Gmail addresses https://wsform.com/knowledgebase/random-text-detection/
 * Added: Base64 file format in the Webhook action https://wsform.com/knowledgebase/webhook/

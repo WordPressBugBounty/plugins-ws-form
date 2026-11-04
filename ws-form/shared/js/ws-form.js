@@ -1998,7 +1998,7 @@
 	}
 
 	// Parse WS Form variables
-	$.WS_Form.prototype.parse_variables_process = function(parse_string, section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, parse_string_original, field_to_original) {
+	$.WS_Form.prototype.parse_variables_process = function(parse_string, section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, parse_string_original, field_to_original, esc_html_output) {
 
 		var ws_this = this;
 
@@ -2033,6 +2033,9 @@
 
 		// Check for original field (used for calc)
 		if(typeof field_to_original === 'undefined') { field_to_original = field_to; }
+
+		// Encode by default. Field default values pass false and are encoded once when written into the field.
+		if(typeof esc_html_output === 'undefined') { esc_html_output = true; }
 
 		// Initialize variables
 		var variables = {};
@@ -2148,7 +2151,18 @@
 						continue;
 					}
 
-					if(parse_variable_value !== false) { variables[parse_variable] = parse_variable_value; continue; }
+					if(parse_variable_value !== false) {
+
+						// WordPress escapes #search_query. Decode when the field builder will encode.
+						if(!esc_html_output && (parse_variable === 'search_query') && (typeof parse_variable_value === 'string')) {
+
+							var search_query_value = this.esc_html_undo(parse_variable_value);
+							if(search_query_value !== null) { parse_variable_value = search_query_value; }
+						}
+
+						variables[parse_variable] = parse_variable_value;
+						continue;
+					}
 				}
 
 				// Get number of attributes required
@@ -2492,10 +2506,10 @@
 							case 'date_format' :
 
 								// Parse date
-								var date_input = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth).output;
+								var date_input = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output).output;
 
 								// Parse date format
-								var date_format = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth).output;
+								var date_format = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output).output;
 
 								// Get date
 								var parsed_variable_date = new Date(date_input);
@@ -2596,7 +2610,7 @@
 										}
 									}
 
-									var parse_variables_process_return = this.parse_variables_process(value, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original);
+									var parse_variables_process_return = this.parse_variables_process(value, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original, esc_html_output);
 									variable_dependencies_merge(parse_variables_process_return);
 									parsed_variable = [parse_variables_process_return.output];
 
@@ -2687,7 +2701,7 @@
 
 											// Get default value from field
 											var default_value = this.get_object_meta_value(field_from, 'default_value', '');
-											var parse_variables_process_return = this.parse_variables_process(default_value, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original);
+											var parse_variables_process_return = this.parse_variables_process(default_value, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original, esc_html_output);
 											variable_dependencies_merge(parse_variables_process_return);
 											parsed_variable = [parse_variables_process_return.output];
 									}
@@ -2793,13 +2807,16 @@
 
 								} else {
 
-									// HTML encode each parsed_variable array element
-									parsed_variable = $.map(parsed_variable, function(value) { return ws_this.esc_html(value); });
+									// HTML encode each value. Field defaults encode once later.
+									if(esc_html_output) {
+
+										parsed_variable = $.map(parsed_variable, function(value) { return ws_this.esc_html(value); });
+									}
 
 									// Join with delimiter
 									parsed_variable = parsed_variable.join(delimiter);
 
-									// Already HTML encoded the field values, so disable further HTML encoding
+									// Skip the parser encode below
 									esc_html = false;
 								}
 
@@ -2910,7 +2927,7 @@
 										}
 
 										// Parse date
-										var date_input = this.parse_variables_process(parsed_variable, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth).output;
+										var date_input = this.parse_variables_process(parsed_variable, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output).output;
 
 										// Get input date format
 										var format_date_input = this.get_object_meta_value(field_from, 'format_date', ws_form_settings.date_format)
@@ -2967,7 +2984,7 @@
 										}
 
 										// Parse date
-										var date_input = this.parse_variables_process(parsed_variable, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth).output;
+										var date_input = this.parse_variables_process(parsed_variable, section_repeatable_index, calc_type, field_from, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output).output;
 
 										// Get input date format
 										var format_date_input = this.get_object_meta_value(field_from, 'format_date', ws_form_settings.date_format)
@@ -2996,7 +3013,7 @@
 										) {
 
 											// Check for offset
-											var seconds_offset = parseInt(this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth).output, 10);
+											var seconds_offset = parseInt(this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output).output, 10);
 
 											if(seconds_offset) {
 
@@ -3043,7 +3060,7 @@
 
 							case 'ecommerce_price' :
 
-								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 								variable_dependencies_merge(parse_variables_process_return);
 								var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 
@@ -3054,7 +3071,7 @@
 							case 'number_format' :
 
 								// Get num
-								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 								variable_dependencies_merge(parse_variables_process_return);
 								var num = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 
@@ -3212,7 +3229,7 @@
 
 								if(typeof variable_attribute_array[1] !== 'undefined') {
 
-									var seconds_offset = parseInt(this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth).output, 10);
+									var seconds_offset = parseInt(this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output).output, 10);
 
 									if(seconds_offset) {
 
@@ -3230,7 +3247,7 @@
 
 								if(typeof variable_attribute_array[1] !== 'undefined') {
 
-									var seconds_offset = parseInt(this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth).output, 10);
+									var seconds_offset = parseInt(this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output).output, 10);
 
 									if(seconds_offset) {
 
@@ -3273,7 +3290,7 @@
 							case 'sqrt' :
 							case 'tan' :
 
-								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 								variable_dependencies_merge(parse_variables_process_return);
 								var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 
@@ -3365,7 +3382,7 @@
 
 								if(typeof variable_attribute_array[0] === 'string') {
 
-									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 									variable_dependencies_merge(parse_variables_process_return);
 									parsed_variable = parse_variables_process_return.output;
 
@@ -3434,12 +3451,12 @@
 							case 'pow' :
 
 								// Base
-								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 								variable_dependencies_merge(parse_variables_process_return);
 								var base = this.calc_string(parse_variables_process_return.output, parse_string_original, decimals, field_to_original, field_part);
 
 								// Exponent
-								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 								variable_dependencies_merge(parse_variables_process_return);
 								var exponent = this.calc_string(parse_variables_process_return.output, parse_string_original, decimals, field_to_original, field_part);
 
@@ -3449,9 +3466,9 @@
 
 							case 'round' :
 
-								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[1], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 								var decimals = this.get_number(parse_variables_process_return.output);
-								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+								var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 								variable_dependencies_merge(parse_variables_process_return);
 								parsed_variable = this.calc_string(parse_variables_process_return.output, parse_string_original, decimals, field_to_original, field_part);
 
@@ -3465,7 +3482,7 @@
 								// If we can only find one parameter, try splitting that up by comma
 								if(variable_attribute_array.length === 1) {
 
-									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 									variable_dependencies_merge(parse_variables_process_return);
 									variable_attribute_array = this.string_to_attributes(parse_variables_process_return.output);
 								}
@@ -3474,7 +3491,7 @@
 
 									if(!variable_attribute_array.hasOwnProperty(variable_attribute_array_index)) { continue; }
 
-									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[variable_attribute_array_index], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[variable_attribute_array_index], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 									variable_dependencies_merge(parse_variables_process_return);
 									var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 									values.push(number_input);
@@ -3491,7 +3508,7 @@
 								// If we can only find one parameter, try splitting that up by comma
 								if(variable_attribute_array.length === 1) {
 
-									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[0], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 									variable_dependencies_merge(parse_variables_process_return);
 									variable_attribute_array = this.string_to_attributes(parse_variables_process_return.output);
 								}
@@ -3501,7 +3518,7 @@
 
 									if(!variable_attribute_array.hasOwnProperty(variable_attribute_array_index)) { continue; }
 
-									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[variable_attribute_array_index], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth);
+									var parse_variables_process_return = this.parse_variables_process(variable_attribute_array[variable_attribute_array_index], section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth, undefined, undefined, esc_html_output);
 									variable_dependencies_merge(parse_variables_process_return);
 									var number_input = this.calc_string(parse_variables_process_return.output, parse_string_original, false, field_to_original, field_part);
 									parsed_variable_total += number_input;
@@ -3543,8 +3560,8 @@
 						// Assign value
 						if(parsed_variable !== false) {
 
-							// HTML encode?
-							if(esc_html) {
+							// HTML encode. Field default values are encoded by the field builder.
+							if(esc_html && esc_html_output) {
 
 								parsed_variable = this.esc_html(parsed_variable);
 							}
@@ -3657,7 +3674,7 @@
 			(parse_string !== parse_string_before) &&
 			(parse_string.indexOf('#') !== -1)
 		) {
-			var parse_variables_process_return = this.parse_variables_process(parse_string, section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original);
+			var parse_variables_process_return = this.parse_variables_process(parse_string, section_repeatable_index, calc_type, field_to, field_part, calc_register, section_id, depth + 1, parse_string_original, field_to_original, esc_html_output);
 			parse_string = parse_variables_process_return.output;
 
 			variable_dependencies_merge(parse_variables_process_return);
@@ -5581,7 +5598,8 @@
 		}
 
 		// Get values
-		var default_value = this.get_object_meta_value(field, 'default_value', '', false, true);
+		var default_value_raw = this.get_object_meta_value(field, 'default_value', '', false, false);
+		var default_value = this.parse_variables_process(default_value_raw, section_repeatable_index, false, field, 'field_value', calc_register, false, 1, undefined, undefined, false).output;
 		var text_editor = this.get_object_meta_value(field, 'text_editor', '', false, true);
 		var html_editor = this.get_object_meta_value(field, 'html_editor', '', false, true);
 		var dedupe_value_scope = this.get_object_meta_value(field, 'dedupe_value_scope', '', false, true);

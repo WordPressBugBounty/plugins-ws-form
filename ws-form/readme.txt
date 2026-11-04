@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
 Tested up to: 7.1
-Stable tag: 1.12.17
+Stable tag: 1.12.18
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -383,6 +383,11 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.12.18 - 11/04/2026 =
+* Bug Fix: DropzoneJS fields containing an existing Media Library file can be submitted again
+* Bug Fix: Database error when loading submission notes
+* Bug Fix: Query string variables in a field default value showing encoded characters
+
 = 1.12.17 - 11/02/2026 =
 * Added: Random Text Detection for mixed-case text and dotted Gmail addresses https://wsform.com/knowledgebase/random-text-detection/
 * Added: Base64 file format in the Webhook action https://wsform.com/knowledgebase/webhook/
@@ -395,14 +400,5 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 = 1.12.16 - 10/12/2026 =
 * Added: Drag form folders to reorder or nest them
 * Changed: Updated the models used for Create from AI
-
-= 1.12.15 - 10/12/2026 =
-* Added: Form folders for organizing the forms list https://wsform.com/knowledgebase/form-folders/
-* Added: Lock forms so they cannot be edited or moved to the trash until unlocked https://wsform.com/knowledgebase/form-locking/
-* Added: Lock styles so they cannot be edited or moved to the trash until unlocked https://wsform.com/knowledgebase/style-locking/
-* Changed: Settings tabs switch without reloading the page
-* Changed: A new blank form includes a submit button
-* Changed: Admin headers stay fixed while the page scrolls
-* Bug Fix: Submission printing no longer includes the notes form or sidebar resizer
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)
