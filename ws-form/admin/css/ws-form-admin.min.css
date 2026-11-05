@@ -7980,15 +7980,25 @@ input[type=file].wsf-file-upload {
   position: relative;
 }
 .wsf-fieldset.wsf-fieldset-repeatable > legend {
+  box-sizing: border-box;
   color: #666666;
   display: block;
+  float: none;
   font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-size: 12px;
   font-weight: normal;
-  line-height: 1;
-  margin-bottom: -2px;
+  line-height: 1.4;
+  margin: 0;
   padding: 0;
-  text-align: right;
-  width: 100%;
+  position: absolute;
+  inset-block-start: 12px;
+  inset-inline-end: 12px;
+  text-align: end;
+  white-space: nowrap;
+  width: auto;
+}
+.wsf-fieldset.wsf-fieldset-repeatable > legend + .wsf-field-wrapper:not(.wsf-field-hidden) {
+  padding-top: 12px;
 }
 .wsf-fieldset.wsf-fieldset-repeatable + .wsf-fieldset-repeatable {
   border-top: none;

@@ -1285,10 +1285,21 @@
 			case 'price_checkbox' :
 			case 'price_radio' :
 
-				// indexOf does a === check so convert object values to strings
-				return Array.isArray(value) ? value.map(function(value) { return value ? value.toString() : ''; }) : value;
+				// indexOf does a === check so convert values to strings. Nested values are not option values.
+				var value_to_string = function(value) {
+
+					if(typeof value === 'string' || typeof value === 'number') { return value.toString(); }
+
+					return '';
+				};
+
+				return Array.isArray(value) ? value.map(value_to_string) : value_to_string(value);
 
 			case 'quantity' :
+
+				if(typeof value !== 'string' && typeof value !== 'number') { return ''; }
+
+				value = value.toString();
 
 				// Get decimal separator
 				var decimal_separator = $.WS_Form.settings_plugin.price_decimal_separator;
@@ -1303,7 +1314,7 @@
 					value = this.get_number(value);
 				}
 
-				return value;
+				return this.esc_html(value);
 
 			default :
 
@@ -1574,37 +1585,30 @@
 		}
 	}
 
-	// HTML encode string
-	$.WS_Form.prototype.esc_html = function(value, encode_new_lines) {
-
-		if(typeof value !== 'string') { return value; }
+	// HTML encode string. Arrays and objects are walked so a nested value cannot skip encoding.
+	$.WS_Form.prototype.esc_html = function(value, encode_new_lines, depth) {
 
 		if(typeof encode_new_lines === 'undefined') { encode_new_lines = false; }
+		if(typeof depth === 'undefined') { depth = 0; }
 
-		// Process by value type
-		switch(typeof value) {
+		if(value === null || typeof value === 'undefined') { return ''; }
 
-			// String
-			case 'string' :
+		if(typeof value === 'number' || typeof value === 'boolean') { return value; }
 
-				value = this.esc_html_do(value, encode_new_lines);
-				break;
+		if(typeof value === 'string') { return this.esc_html_do(value, encode_new_lines); }
 
-			// Arrays / objects
-			case 'object' :
+		if(typeof value !== 'object' || (depth > 20)) { return ''; }
 
-				for(var value_index in value) {
+		var value_escaped = Array.isArray(value) ? [] : {};
 
-					if(!value.hasOwnProperty(value_index)) { continue; }
+		for(var value_index in value) {
 
-					if(typeof value[value_index] === 'string') {
+			if(!value.hasOwnProperty(value_index)) { continue; }
 
-						value[value_index] = this.esc_html_do(value[value_index], encode_new_lines);
-					}
-				}
+			value_escaped[value_index] = this.esc_html(value[value_index], encode_new_lines, depth + 1);
 		}
 
-		return value;
+		return value_escaped;
 	}
 
 	$.WS_Form.prototype.esc_html_do = function(value, encode_new_lines) {

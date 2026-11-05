@@ -2,6 +2,10 @@
 
 Some changes only applicable to WS Form PRO.
 
+= 1.12.19 - 11/04/2026 =
+* Added: Improved repeater row number layout in the submission sidebar
+* Added: Strengthened how submitted field values are handled
+
 = 1.12.18 - 11/04/2026 =
 * Bug Fix: DropzoneJS fields containing an existing Media Library file can be submitted again
 * Bug Fix: Database error when loading submission notes

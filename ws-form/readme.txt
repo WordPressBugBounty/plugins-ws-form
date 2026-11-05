@@ -3,7 +3,7 @@ Contributors: westguard
 Tags: contact-form, form-builder, forms, custom-form, gdpr
 Requires at least: 5.5
 Tested up to: 7.1
-Stable tag: 1.12.18
+Stable tag: 1.12.19
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -383,6 +383,10 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 
 == Changelog ==
 
+= 1.12.19 - 11/04/2026 =
+* Added: Improved repeater row number layout in the submission sidebar
+* Added: Strengthened how submitted field values are handled
+
 = 1.12.18 - 11/04/2026 =
 * Bug Fix: DropzoneJS fields containing an existing Media Library file can be submitted again
 * Bug Fix: Database error when loading submission notes
@@ -396,9 +400,5 @@ For support, please visit the WS Form LITE [support forum](https://wordpress.org
 * Changed: DropzoneJS file fields only accept the file that was uploaded
 * Bug Fix: Submission printing layout and page breaks
 * Bug Fix: Data grid columns shifting when hovering a cell
-
-= 1.12.16 - 10/12/2026 =
-* Added: Drag form folders to reorder or nest them
-* Changed: Updated the models used for Create from AI
 
 [View full changelog](https://wsform.com/changelog/?utm_source=wp_plugins&utm_medium=readme)

@@ -2561,7 +2561,7 @@
 			$form_submit = ($this->post_mode == 'submit');
 
 			// Ensure post mode is valid
-			if(!in_array($this->post_mode, array('submit', 'save', 'action'))) {
+			if($this->post_mode != 'submit') {
 
 				self::return_forbidden();
 			}
@@ -2698,6 +2698,46 @@
 			exit;
 		}
 
+		// Single-value fields only store a string
+		public function field_value_string($field_value) {
+
+			if(is_string($field_value)) { return $field_value; }
+
+			if(is_int($field_value) || is_float($field_value)) { return (string) $field_value; }
+
+			return '';
+		}
+
+		// Choice fields only store a flat list of strings. Nested arrays are dropped.
+		public function field_value_string_list($field_value) {
+
+			if(!is_array($field_value)) { return self::field_value_string($field_value); }
+
+			$field_value_list = array();
+
+			foreach($field_value as $field_value_item) {
+
+				if(is_array($field_value_item) || is_object($field_value_item)) { continue; }
+
+				if(is_string($field_value_item)) {
+
+					$field_value_list[] = $field_value_item;
+
+					continue;
+				}
+
+				if(is_int($field_value_item) || is_float($field_value_item)) {
+
+					$field_value_list[] = (string) $field_value_item;
+				}
+			}
+
+			// No usable values. Keep the same empty value as a field that was not posted.
+			if(count($field_value_list) === 0) { return ''; }
+
+			return $field_value_list;
+		}
+
 		public function setup_from_post_section($section, $form_submit, $process_file_fields = true, $process_non_file_fields = true, $keyword_blocklist = array(), $section_id = false, $section_repeatable_index = false, &$section_repeatable = array(), $random_text_enabled = false, &$random_text_matched = false) {
 
 			// Delimiters
@@ -2779,6 +2819,19 @@
 
 				// Filter serialized strings
 				if(is_serialized($field_value)) { $field_value = ''; }
+
+				// File handlers read the raw value. Every other field must be a string, or a flat list for choices.
+				if(!in_array($field_type, $field_type_files, true)) {
+
+					if($field_submit_array) {
+
+						$field_value = self::field_value_string_list($field_value);
+
+					} else {
+
+						$field_value = self::field_value_string($field_value);
+					}
+				}
 
 				// Field bypassed
 				$field_bypassed = in_array($field_name_post, $this->bypass_required_array);

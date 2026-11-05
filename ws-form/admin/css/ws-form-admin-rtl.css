@@ -788,7 +788,7 @@ body.admin_page_ws-form-edit #wsf-sidebars.wsf-sidebars-rail.wsf-sidebars-expand
   float: right;
 }
 .wsf-fieldset.wsf-fieldset-repeatable > legend {
-  text-align: left;
+  text-align: end;
 }
 
 .wsf-section-selector-group-options,
